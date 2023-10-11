@@ -11,6 +11,7 @@
   background-color: #ffffff;
   margin-left: 15px;
   border-radius: 20px;
+  float: left;
 }
 .sidebar-inner {
   height: 100%;
@@ -31,4 +32,9 @@
   z-index: 1039;
   height: 120px;
   padding: 5px 0;
+}
+.body-content{
+  width: 85%;
+  float: right;
+  margin-top: 92px;
 }

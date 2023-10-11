@@ -18,6 +18,7 @@ import { AuthComponent } from './pages/auth/auth.component';
 import { ReceptionistAppointmentListComponent } from './pages/receptionist/receptionist-appointment-list/receptionist-appointment-list.component';
 import { LayoutsComponent } from './shared/layouts/layouts/layouts.component';
 import {ComponentsModule} from "./shared/layouts/components/components.module";
+import {StaffComponent} from "./pages/admin/staff/staff.component";
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,6 +31,7 @@ import {ComponentsModule} from "./shared/layouts/components/components.module";
     AuthComponent,
     ReceptionistAppointmentListComponent,
     LayoutsComponent,
+    StaffComponent,
   ],
   imports: [
     BrowserModule,

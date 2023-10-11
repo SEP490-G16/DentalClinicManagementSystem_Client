@@ -7,7 +7,7 @@
   height: 100px;
   margin-left: 15px;
   border-radius: 20px;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 .btn-facility{
   width: 81px;
@@ -22,13 +22,13 @@
   height: 100px;
   padding: 0 20px;
   text-align: center;
-  width: 20%;
+  width: 15%;
   z-index: 1;
   position: absolute;
 }
 .header-right{
   float: right;
-  width: 80%;
+  width: 85%;
   height: 80px;
 }
 .header-right-right{
@@ -37,7 +37,7 @@
   border-radius: 27px;
   border: 1px solid #f1f0f9;
   height: 100%;
-  width: 38%;
+  width: 40%;
   margin-right: 20px;
 }
 .header-right-left{
@@ -46,7 +46,7 @@
   border-radius: 27px;
   border: 1px solid #f1f0f9;
   height: 100%;
-  width: 60%;
+  width: 58%;
   display: flex;
 }
 .header-content{
