@@ -16,11 +16,11 @@ import { NurseComponent } from './pages/nurse/nurse.component';
 import { PatientComponent } from './pages/patient/patient.component';
 import { AuthComponent } from './pages/auth/auth.component';
 import { ReceptionistAppointmentListComponent } from './pages/receptionist/receptionist-appointment-list/receptionist-appointment-list.component';
+import { LayoutsComponent } from './shared/layouts/layouts/layouts.component';
+import {ComponentsModule} from "./shared/layouts/components/components.module";
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    SidebarComponent,
     PipePipe,
     AdminComponent,
     ReceptionistComponent,
@@ -29,6 +29,7 @@ import { ReceptionistAppointmentListComponent } from './pages/receptionist/recep
     PatientComponent,
     AuthComponent,
     ReceptionistAppointmentListComponent,
+    LayoutsComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,11 +38,12 @@ import { ReceptionistAppointmentListComponent } from './pages/receptionist/recep
     FormsModule,
     ReactiveFormsModule,
     ToastrModule.forRoot({
-      preventDuplicates:true,
+      preventDuplicates: true,
       timeOut: 3000,
       closeButton: true,
       progressBar: true,
-    })
+    }),
+    ComponentsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

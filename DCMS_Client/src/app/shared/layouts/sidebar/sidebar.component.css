@@ -1,0 +1,41 @@
+
+.nav{
+  list-style: none;
+  padding: 0;
+}
+.nav-item{
+  padding: 10px;
+  display: block;
+  width: 100%;
+}
+.nav-link{
+  text-decoration: none;
+  color: #7d89a9;
+  font-family: "Merriweather-Bold", Helvetica, serif;
+  font-size: 15px;
+  font-weight: 700;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  text-align: start;
+  top: 0;
+}
+.nav-link:hover{
+  color: #1e1e1e;
+  cursor: pointer;
+}
+.active{
+  color: #1e1e1e;
+}
+.sidebar-inner {
+  height: 100%;
+  transition: all .2s ease-in-out 0s;
+}
+.sidebar-menu ul {
+  font-size: 14px;
+  list-style-type: none;
+  margin: 0;
+  margin: 0 10px;
+  padding-top: 20px;
+  margin-left: 15px;
+}
