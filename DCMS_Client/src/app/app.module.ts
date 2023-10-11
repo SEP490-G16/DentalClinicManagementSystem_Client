@@ -18,6 +18,7 @@ import { LayoutsComponent } from './shared/layouts/layouts/layouts.component';
 import {ComponentsModule} from "./shared/layouts/components/components.module";
 import {StaffComponent} from "./pages/admin/staff/staff.component";
 import { LaboComponent } from './pages/admin/labo/labo.component';
+import { ReceptionistWaitingRoomComponent } from './pages/receptionist/receptionist-waiting-room/receptionist-waiting-room.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,6 +33,7 @@ import { LaboComponent } from './pages/admin/labo/labo.component';
     LayoutsComponent,
     StaffComponent,
     LaboComponent,
+    ReceptionistWaitingRoomComponent,
   ],
   imports: [
     BrowserModule,
