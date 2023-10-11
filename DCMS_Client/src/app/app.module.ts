@@ -6,8 +6,6 @@ import { AppComponent } from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
-import { HeaderComponent } from './shared/layouts/header/header.component';
-import { SidebarComponent } from './shared/layouts/sidebar/sidebar.component';
 import { PipePipe } from './shared/pipe/pipe.pipe';
 import { AdminComponent } from './pages/admin/admin.component';
 import { ReceptionistComponent } from './pages/receptionist/receptionist.component';
@@ -19,6 +17,7 @@ import { ReceptionistAppointmentListComponent } from './pages/receptionist/recep
 import { LayoutsComponent } from './shared/layouts/layouts/layouts.component';
 import {ComponentsModule} from "./shared/layouts/components/components.module";
 import {StaffComponent} from "./pages/admin/staff/staff.component";
+import { LaboComponent } from './pages/admin/labo/labo.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,6 +31,7 @@ import {StaffComponent} from "./pages/admin/staff/staff.component";
     ReceptionistAppointmentListComponent,
     LayoutsComponent,
     StaffComponent,
+    LaboComponent,
   ],
   imports: [
     BrowserModule,
