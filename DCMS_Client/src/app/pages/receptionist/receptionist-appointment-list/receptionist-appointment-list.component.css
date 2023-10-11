@@ -149,13 +149,6 @@ a:focus {
 	color: #aaa
 }
 
-.page-title {
-	color: #35446f;
-	font-size: 21px;
-	font-weight: 700;
-	margin-bottom: 30px
-}
-
 .page-sub-title {
 	color: #565656;
 	font-size: 18px;
@@ -163,15 +156,6 @@ a:focus {
 	margin-bottom: 20px
 }
 
-.form-control {
-	box-shadow: none;
-	padding: .469rem .75rem;
-	font-size: 14px;
-	min-height: 40px;
-	background: linear-gradient(51.64deg, rgba(255, 255, 255, 0) 34.2%, rgba(255, 255, 255, 0.2) 97.35%, rgba(255, 255, 255, 0) 160.66%), rgba(255, 255, 255, 0.2);
-	border: 2px solid #7B4C50;
-	border-radius: 8px
-}
 
 .form-focus {
 	display: flex;
@@ -591,6 +575,27 @@ table.table td h2 span {
 Layout
 */
 
+.page-wrapper {
+	left: 0;
+	margin-left: 250px;
+	padding-top: 60px;
+	position: relative;
+	-webkit-transition: all .4s ease;
+	-moz-transition: all .4s ease;
+	transition: all .4s ease
+}
+
+.bg-wrapper::before {
+	content: "";
+	display: block;
+	position: absolute;
+	z-index: -1;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0
+}
+
 .page-wrapper>.content {
 	padding: 30px;
 	width: 100%
@@ -600,12 +605,31 @@ Layout
 	padding: 15px;
 	margin-bottom: 30px;
 	background: #fff;
-
 	box-shadow: 0 4px 9px #e1ecff, inset 0 0 15px rgba(255, 255, 255, .35);
 	border-radius: 5px;
 	width: 100%
 }
 
+.page-title {
+	color: #35446f;
+	font-size: 21px;
+	font-weight: 700;
+	margin-bottom: 30px
+}
+
+.form-group {
+	margin-bottom: 20px
+}
+
+.form-control {
+	box-shadow: none;
+	padding: .469rem .75rem;
+	font-size: 14px;
+	min-height: 40px;
+	background: linear-gradient(51.64deg, rgba(255, 255, 255, 0) 34.2%, rgba(255, 255, 255, 0.2) 97.35%, rgba(255, 255, 255, 0) 160.66%), rgba(255, 255, 255, 0.2);
+	border: 2px solid #7B4C50;
+	border-radius: 8px
+}
 
 @media only screen and (max-width:575.98px) {
   .page-wrapper>.content {
