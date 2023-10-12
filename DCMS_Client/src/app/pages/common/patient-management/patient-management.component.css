@@ -9,9 +9,7 @@
 .m-l-9 {
   margin-left: 9px;
 }
-.block {
-  display: block;
-}
+
 .page-wrapper {
 	left: 0;
 	margin-left: 250px;
@@ -110,3 +108,45 @@
 }
 
 
+.color-main {
+  background-color: #7B4C50;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.h-300px {
+  height: 300px;
+}
+
+.btn-save {
+  border-radius: 10px;
+  background-color: #fff;
+  border: 1px solid #7B4C50;
+}
+
+.btn-save:hover{
+  background-color: #7B4C50;
+  color:  #fff;
+}
+
+.btn-cancel {
+  border-radius: 10px;
+  background-color: #666;
+  border: 1px solid #fff;
+}
+
+.image-container {
+  width: 100%;
+  height: 200px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  position: relative;
+}
+
+.image-container img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
