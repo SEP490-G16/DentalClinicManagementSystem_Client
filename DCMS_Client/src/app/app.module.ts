@@ -21,6 +21,7 @@ import { LaboComponent } from './pages/admin/labo/labo.component';
 import { ReceptionistWaitingRoomComponent } from './pages/receptionist/receptionist-waiting-room/receptionist-waiting-room.component';
 import { ReceptionistTimekeepingComponent } from './pages/receptionist/receptionist-timekeeping/receptionist-timekeeping.component';
 import { SpecimensComponent } from './pages/admin/specimens/specimens.component';
+import { PatientManagementComponent } from './pages/common/patient-management/patient-management.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,6 +39,7 @@ import { SpecimensComponent } from './pages/admin/specimens/specimens.component'
     ReceptionistWaitingRoomComponent,
     ReceptionistTimekeepingComponent,
     SpecimensComponent,
+    PatientManagementComponent
   ],
   imports: [
     BrowserModule,

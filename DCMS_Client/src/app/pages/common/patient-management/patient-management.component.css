@@ -9,11 +9,9 @@
 .m-l-9 {
   margin-left: 9px;
 }
-
 .block {
   display: block;
 }
-
 .page-wrapper {
 	left: 0;
 	margin-left: 250px;
@@ -68,22 +66,17 @@
 }
 
 .dropdown-custom {
-  width: 15rem;
+  width: 13rem;
   border-radius: 10px;
   border: 1px solid #7B4C50;
   background-color: #fff;
   color: #676767;
 }
-.dropdown-custom:hover{
-  background-color: #7B4C50;
-  color: #fff;
-}
-
 
 .custom-table thead tr {
-	background-color: #7B4C50;
-  border-radius: 10px;
-  border: 1px solid #7B4C50;
+	background: 0 0;
+	border-top: 0;
+	box-shadow: none
 }
 
 .custom-table thead tr th {
@@ -92,8 +85,9 @@
 }
 
 .custom-table tr {
-	background-color: #7B4C50;
-  border: 1px solid #7B4C50;
+	background: rgba(255, 255, 255, .4);
+	box-shadow: 0 0 3px #e5e5e5;
+	border: 1px solid transparent
 }
 
 .custom-table tr td {
@@ -114,3 +108,5 @@
   border: 1px solid #7B4C50;
   padding: 7px 15px;
 }
+
+
