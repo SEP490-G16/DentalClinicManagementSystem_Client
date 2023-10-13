@@ -23,10 +23,6 @@ import { ReceptionistTimekeepingComponent } from './pages/receptionist/reception
 import { SpecimensComponent } from './pages/admin/specimens/specimens.component';
 import { PatientManagementComponent } from './pages/common/patient-management/patient-management.component';
 import { PendingSpecimensComponent } from './pages/admin/pending-specimens/pending-specimens.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatButtonModule} from "@angular/material/button";
-import {MatIconModule} from "@angular/material/icon";
-import {MatMenuModule} from "@angular/material/menu";
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,10 +56,6 @@ import {MatMenuModule} from "@angular/material/menu";
       progressBar: true,
     }),
     ComponentsModule,
-    BrowserAnimationsModule,
-    MatButtonModule,
-    MatIconModule,
-    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]
