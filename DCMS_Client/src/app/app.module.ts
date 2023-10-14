@@ -24,6 +24,7 @@ import { SpecimensComponent } from './pages/admin/specimens/specimens.component'
 import { PatientManagementComponent } from './pages/common/patient-management/patient-management.component';
 import { PendingSpecimensComponent } from './pages/admin/pending-specimens/pending-specimens.component';
 import { MaterialComponent } from './pages/admin/material/material.component';
+import { PendingMaterialComponent } from './pages/admin/pending-material/pending-material.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,6 +45,7 @@ import { MaterialComponent } from './pages/admin/material/material.component';
     PatientManagementComponent,
     PendingSpecimensComponent,
     MaterialComponent,
+    PendingMaterialComponent,
   ],
   imports: [
     BrowserModule,
