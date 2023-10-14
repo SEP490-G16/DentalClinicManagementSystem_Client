@@ -153,3 +153,8 @@
   max-height: 100%;
   object-fit: contain;
 }
+
+.form-group input.form-control {
+  border: none;
+  border-bottom: 1px solid #ccc;
+}

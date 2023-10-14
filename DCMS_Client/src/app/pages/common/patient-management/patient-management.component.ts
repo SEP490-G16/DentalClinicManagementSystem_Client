@@ -25,5 +25,21 @@ export class PatientManagementComponent implements OnInit {
       reader.readAsDataURL(file);
     }
   }
+
+  maHoSo: string = '12345';
+  dateCreated: string = '14/10/2023';
+  fullName:string = 'Nguyễn Lan Hương';
+  gender:boolean = false;
+  phone:string = '0123456789';
+  email:string = 'hehe@gmail.com';
+  address:string = 'N/A';
+  tsb:string = 'pretty';
+  note: string = '...';
+
+  isEditing: boolean = false;
+
+  toggleEditing() {
+    this.isEditing = !this.isEditing;
+  }
 }
 
