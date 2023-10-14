@@ -23,6 +23,7 @@ import { ReceptionistTimekeepingComponent } from './pages/receptionist/reception
 import { SpecimensComponent } from './pages/admin/specimens/specimens.component';
 import { PatientManagementComponent } from './pages/common/patient-management/patient-management.component';
 import { PendingSpecimensComponent } from './pages/admin/pending-specimens/pending-specimens.component';
+import { MaterialComponent } from './pages/admin/material/material.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,6 +43,7 @@ import { PendingSpecimensComponent } from './pages/admin/pending-specimens/pendi
     SpecimensComponent,
     PatientManagementComponent,
     PendingSpecimensComponent,
+    MaterialComponent,
   ],
   imports: [
     BrowserModule,
