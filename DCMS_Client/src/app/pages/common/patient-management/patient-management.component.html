@@ -263,21 +263,105 @@
                         <input [(ngModel)]="note" [disabled]="!isEditing" class="form-control border-bottom-0">
                       </div>
                     </div>
-
-
                     <div class="col text-center">
                       <button class="btn btn-custom" (click)="toggleEditing()"> {{ isEditing ? 'Lưu' : 'Cập nhật' }}</button>
                     </div>
                   </div>
               </div>
               <div class="tab-pane" id="KvDTtab">
-                Tab content 2
+
               </div>
               <div class="tab-pane" id="LHtab">
-                Tab content 3
+                <div class="row mt-4">
+                  <div class="col-12 text-end mb-3">
+                      <button class="btn btn-custom">Đặt lịch tái khám</button>
+                  </div>
+                  <div class="col">
+                    <div class="table-responsive">
+                      <table class="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th scope="col">Thời gian</th>
+                            <th scope="col">Bác sĩ</th>
+                            <th scope="col">Lý do</th>
+                            <th scope="col">Tình trạng</th>
+                            <th scope="col">Option</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>08:00 AM</td>
+                            <td>Dr. Long</td>
+                            <td>Kiểm tra tổng quát</td>
+                            <td>Đã hoàn thành</td>
+                            <td>
+                              <button class="btn btn-primary">Chỉnh sửa</button>
+                              <button class="btn btn-danger">Xóa</button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div class="tab-pane" id="TTtab">
-                Tab content 3
+                <div class="row mt-3 mb-3">
+                  <div class="col-sm-3">
+                     Ngày điều trị: <h4 style="border-bottom: 1px solid #1E1E1E;">14-10-2023</h4>
+                  </div>
+                </div>
+                <div class="row mb-5">
+                  <div class="col">
+                    <div class="table-responsive">
+                      <table class="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th scope="col">Tình trạng</th>
+                            <th scope="col">Răng số</th>
+                            <th scope="col">Tên thủ thuật</th>
+                            <th scope="col">Nội dung thủ thuật</th>
+                            <th scope="col">Bác sĩ</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Chi phí</th>
+                            <th scope="col">Trả</th>
+                            <th scope="col">Tổng</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Fine</td>
+                            <td>5 và 2</td>
+                            <td>Thay Răng</td>
+                            <td>zcczcz</td>
+                            <td>
+                              Dr.Long
+                            </td>
+                            <td>2</td>
+                            <td>Free</td>
+                            <td>Free</td>
+                            <td>0 VNĐ</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col text-end">
+                      <p>Chi phí theo thủ thuật: ....</p>
+                      <p>Giảm giá: ....</p>
+                      <p>Tổng chi phí: ....</p>
+                      <p>Đã thanh toán: ....</p>
+                      <p>Còn lại: ....</p>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="col text-center">
+                      <button class="btn mr-2">Hủy bỏ</button>
+                      <button class="btn">Thanh toán</button>
+                    </div>
+                </div>
               </div>
             </div>
           </div>
