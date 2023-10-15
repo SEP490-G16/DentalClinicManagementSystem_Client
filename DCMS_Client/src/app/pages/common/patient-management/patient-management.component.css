@@ -158,3 +158,22 @@
   border: none;
   border-bottom: 1px solid #ccc;
 }
+
+
+.KvDTtab-container {
+  border: 1px solid #1E1E1E;
+}
+
+.KvDTtab-content {
+  margin: 42px;
+}
+
+.btn-addNew {
+  border: 1px solid #7B4C50;
+  padding: 7px 15px;
+}
+
+
+.btn-addNew:hover{
+  background-color: #FEDDCC;
+}
