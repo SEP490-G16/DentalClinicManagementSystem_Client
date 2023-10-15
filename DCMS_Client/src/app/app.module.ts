@@ -34,6 +34,7 @@ import {
   WarehouseImportMaterialManagementComponent
 } from "./pages/admin/warehouse-import-material-management/warehouse-import-material-management.component";
 import { ServiceComponent } from './pages/admin/service/service.component';
+import { MedicineComponent } from './pages/admin/medicine/medicine.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,6 +60,7 @@ import { ServiceComponent } from './pages/admin/service/service.component';
     PatientRecordsComponent,
     WarehouseExportMaterialManagementComponent,
     ServiceComponent,
+    MedicineComponent,
   ],
   imports: [
     BrowserModule,
