@@ -37,6 +37,7 @@ import { ServiceComponent } from './pages/admin/service/service.component';
 import { MedicineComponent } from './pages/admin/medicine/medicine.component';
 import { FacilityComponent } from './pages/admin/facility/facility.component';
 import { StaffDetailComponent } from './pages/admin/staff-detail/staff-detail.component';
+import { ProfilePersonalComponent } from './pages/profile-personal/profile-personal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,6 +66,7 @@ import { StaffDetailComponent } from './pages/admin/staff-detail/staff-detail.co
     MedicineComponent,
     FacilityComponent,
     StaffDetailComponent,
+    ProfilePersonalComponent,
   ],
   imports: [
     BrowserModule,
