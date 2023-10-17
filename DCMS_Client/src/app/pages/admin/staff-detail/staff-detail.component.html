@@ -59,27 +59,32 @@
               </div>
             </div>
             <div class="form-group mb-3 row">
-              <label for="sdt" class="col-2 name-title">Số điện thoại:</label>
+              <label class="col-2 name-title">Số điện thoại:</label>
               <div class="col-10">
-                <input [(ngModel)]="sdt" id="sdt" [disabled]="!isEditing" class="form-control value-staff">
+                <p class="value-staff">{{sdt}}</p>
               </div>
             </div>
             <div class="form-group mb-3 row">
-              <label for="email" class="col-2 name-title">Email:</label>
+              <label class="col-2 name-title">Email:</label>
               <div  class="col-10">
-                <input [(ngModel)]="email" id="email" [disabled]="!isEditing" class="form-control value-staff">
+                <p class="value-staff">{{email}}</p>
               </div>
             </div>
             <div class="form-group mb-3 row">
-              <label for="diaChi" class="col-2 name-title">Địa chỉ :</label>
+              <label class="col-2 name-title">Địa chỉ :</label>
               <div class="col-10">
-                <input [(ngModel)]="diaChi" id="diaChi" [disabled]="!isEditing" class="form-control value-staff">
+                <p class="value-staff">{{diaChi}}</p>
               </div>
             </div>
             <div class="form-group mb-3 row">
-              <label class="col-2 name-title">Chức vụ:</label>
+              <label for="role" class="col-2 name-title">Chức vụ:</label>
               <div class="col-10">
-                <p class="value-staff">Bác sĩ</p>
+                <select id="role" class="form-select" [disabled]="!isEditing" aria-label="Default select example">
+                  <option selected>Bác sĩ</option>
+                  <option value="1">Lễ tân</option>
+                  <option value="2">Y tá</option>
+                  <option value="2">Y tá trưởng</option>
+                </select>
               </div>
             </div>
             <div class="form-group mb-3 row">

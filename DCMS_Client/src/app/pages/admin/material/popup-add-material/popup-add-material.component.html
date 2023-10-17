@@ -1,0 +1,94 @@
+<div class="modal" id="myModal">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header color-header">
+        <h4 class="modal-title text-center w-100">Thêm mới vật liệu</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row mt-3">
+                <label for="materialName" class="col-3 name-title">Tên vật liệu:</label>
+                <div class="col-9">
+                  <input type="text" class="form-control" id="materialName" name="materialName">
+                </div>
+              </div>
+              <div class="form-group row mt-3">
+                <label for="description" class="col-3 name-title">Mô tả:</label>
+                <div class="col-9">
+                  <input type="text" class="form-control" id="description" name="description">
+                </div>
+              </div>
+              <div class="form-group row mt-3">
+                <label for="labo" class="col-3 name-title">Labo:</label>
+                <div class="col-9">
+                  <select class="form-select value-staff" id="labo" aria-label="Default select example">
+                    <option selected></option>
+                    <option value="1">Xưởng A</option>
+                    <option value="2">Xưởng B</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row mt-3">
+                <label for="quantity" class="col-3 name-title">Số lượng:</label>
+                <div class="col-9">
+                  <input type="text" class="form-control date-input-custom value-staff" id="quantity" name="quantity">
+                </div>
+
+              </div>
+              <div class="form-group row mt-3">
+                <label for="discount" class="col-3 name-title">Chiết khấu:</label>
+                <div class="col-9 ">
+                  <input type="text" class="form-control date-input-custom value-staff" id="discount" name="discount">
+                </div>
+
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row mt-3">
+                <label for="unitprice" class="col-3 name-title">Đơn giá:</label>
+                <div class="col-9 ">
+                  <input type="text" class="form-control value-staff" id="unitprice" name="unitprice">
+                </div>
+              </div>
+              <div class="form-group row mt-3">
+                <label for="intomoney" class="col-3 name-title">Thành tiền:</label>
+                <div class="col-9 ">
+                  <input type="text" class="form-control value-staff" id="intomoney" name="intomoney">
+                </div>
+              </div>
+              <div class="form-group row mt-3">
+                <label for="orderdate" class="col-3 name-title">Ngày đặt:</label>
+                <div class="col-9 ">
+                  <input type="date" class="form-control date-input-custom value-staff" id="orderdate" name="orderdate">
+                </div>
+
+              </div>
+              <div class="form-group row mt-3">
+                <label for="orderby" class="col-3 name-title">Người đặt:</label>
+                <div class="col-9">
+                  <input type="text" class="form-control value-staff" id="orderby" name="orderby">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
+          <button type="button" class="btn btn-save" data-bs-dismiss="modal">Lưu</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+

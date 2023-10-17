@@ -9,7 +9,7 @@
       <div class="row filter-row m-t-30">
         <div class="col-sm-6 col-md-3">
           <div class="form-group form-group-filter">
-            <button href="add-employee.html" class="btn btn-custom float-right btn-rounded"><i class="fas fa-plus"></i> Thêm mới
+            <button href="#" class="btn btn-custom float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fas fa-plus"></i> Thêm mới
               thuốc</button>
           </div>
         </div>
@@ -28,28 +28,20 @@
               <thead>
               <tr>
                 <th>Tên thuốc</th>
-                <th>Đơn vị cung cấp</th>
                 <th>Mô tả</th>
                 <th>Cách sử dụng</th>
                 <th>Chống chỉ định</th>
-                <th>Hạn sử dụng</th>
-                <th>Số lượng</th>
-                <th>Đơn giá</th>
                 <th class="text-center">Thao tác</th>
               </tr>
               </thead>
               <tbody>
               <tr>
                 <td><h2>Thuốc A</h2></td>
-                <td>Labo A</td>
                 <td>thuốc tê</td>
                 <td>abc</td>
                 <td>abc</td>
-                <td>23/10/2023</td>
-                <td>100</td>
-                <td>500.000</td>
                 <td class="text-center">
-                  <div class="dropdown dropdown-action">
+                 <!-- <div class="dropdown dropdown-action">
                     <a href="#" class="action-icon dropdown-toggle"data-bs-toggle="dropdown" aria-expanded="false"><i
                       class="fas fa-ellipsis-v"></i></a>
                     <div class="dropdown-menu dropdown-menu-right">
@@ -58,95 +50,49 @@
                       <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_employee"><i
                         class="fas fa-trash-alt m-r-5"></i> Delete</a>
                     </div>
-                  </div>
+                  </div>-->
+                  <button href="#" class="btn btn-primary float-right btn-rounded">Câp nhật</button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_medicine">Xoá</button>
                 </td>
               </tr>
               <tr>
                 <td><h2>Thuốc B</h2></td>
-                <td>Labo A</td>
                 <td>thuốc tê</td>
                 <td>abc</td>
                 <td>abc</td>
-                <td>23/10/2023</td>
-                <td>100</td>
-                <td>500.000</td>
                 <td class="text-center">
-                  <div class="dropdown dropdown-action">
-                    <a href="#" class="action-icon dropdown-toggle"data-bs-toggle="dropdown" aria-expanded="false"><i
-                      class="fas fa-ellipsis-v"></i></a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="#"><i class="fas fa-pencil-alt m-r-5"></i>
-                        Edit</a>
-                      <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_employee"><i
-                        class="fas fa-trash-alt m-r-5"></i> Delete</a>
-                    </div>
-                  </div>
+                  <button href="#" class="btn btn-primary float-right btn-rounded">Câp nhật</button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_medicine">Xoá</button>
                 </td>
               </tr>
               <tr>
                 <td><h2>Thuốc C</h2></td>
-                <td>Labo A</td>
                 <td>thuốc tê</td>
                 <td>abc</td>
                 <td>abc</td>
-                <td>23/10/2023</td>
-                <td>100</td>
-                <td>500.000</td>
                 <td class="text-center">
-                  <div class="dropdown dropdown-action">
-                    <a href="#" class="action-icon dropdown-toggle"data-bs-toggle="dropdown" aria-expanded="false"><i
-                      class="fas fa-ellipsis-v"></i></a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="#"><i class="fas fa-pencil-alt m-r-5"></i>
-                        Edit</a>
-                      <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_employee"><i
-                        class="fas fa-trash-alt m-r-5"></i> Delete</a>
-                    </div>
-                  </div>
+                  <button href="#" class="btn btn-primary float-right btn-rounded">Câp nhật</button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_medicine">Xoá</button>
                 </td>
               </tr>
               <tr>
                 <td><h2>Thuốc D</h2></td>
-                <td>Labo A</td>
                 <td>thuốc tê</td>
                 <td>abc</td>
                 <td>abc</td>
-                <td>23/10/2023</td>
-                <td>100</td>
-                <td>500.000</td>
                 <td class="text-center">
-                  <div class="dropdown dropdown-action">
-                    <a href="#" class="action-icon dropdown-toggle"data-bs-toggle="dropdown" aria-expanded="false"><i
-                      class="fas fa-ellipsis-v"></i></a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="#"><i class="fas fa-pencil-alt m-r-5"></i>
-                        Edit</a>
-                      <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_employee"><i
-                        class="fas fa-trash-alt m-r-5"></i> Delete</a>
-                    </div>
-                  </div>
+                  <button href="#" class="btn btn-primary float-right btn-rounded">Câp nhật</button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_medicine">Xoá</button>
                 </td>
               </tr>
               <tr>
                 <td><h2>Thuốc E</h2></td>
-                <td>Labo A</td>
                 <td>thuốc tê</td>
                 <td>abc</td>
                 <td>abc</td>
-                <td>23/10/2023</td>
-                <td>100</td>
-                <td>500.000</td>
                 <td class="text-center">
-                  <div class="dropdown dropdown-action">
-                    <a href="#" class="action-icon dropdown-toggle"data-bs-toggle="dropdown" aria-expanded="false"><i
-                      class="fas fa-ellipsis-v"></i></a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="#"><i class="fas fa-pencil-alt m-r-5"></i>
-                        Edit</a>
-                      <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_employee"><i
-                        class="fas fa-trash-alt m-r-5"></i> Delete</a>
-                    </div>
-                  </div>
+                  <button href="#" class="btn btn-primary float-right btn-rounded">Câp nhật</button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_medicine">Xoá</button>
                 </td>
               </tr>
 
@@ -159,4 +105,5 @@
     </div>
   </div>
 </div>
-
+<app-popup-add-medicine></app-popup-add-medicine>
+<app-popup-delete-medicine></app-popup-delete-medicine>

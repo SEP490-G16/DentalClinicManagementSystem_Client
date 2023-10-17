@@ -12,50 +12,10 @@
           <a href="#" class="page-title dropdown-toggle" data-bs-toggle="dropdown">Quản lý kho</a>
         </div>
       </div>
-      <div class="row filter-row m-t-30">
-
-        <div class="col-md-4">
-          <div class="row row-date">
-            <div class="col-md-4">
-              <label class="focus-label p-2" style="font-weight: bold">Ngày đặt</label>
-            </div>
-            <div class="col-md-8">
-              <input type="date" class="form-control">
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 ">
-          <div class="row row-date">
-            <div class="col-md-4">
-              <label class="focus-label p-2" style="font-weight: bold">Ngày nhận</label>
-            </div>
-            <div class="col-md-8">
-              <input type="date" class="form-control">
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="row row-date">
-            <div class="col-md-4 label">
-              <label class="focus-label p-2" style="font-weight: bold">Ngày lắp</label>
-            </div>
-            <div class="col-md-8">
-              <input type="date" class="form-control">
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2 m-t-20">
-          <select class="form-select" aria-label="Default select example">
-            <option selected>Trạng thái</option>
-            <option value="1">Đã duyệt</option>
-            <option value="2">Chưa duyệt</option>
-          </select>
-        </div>
-      </div>
       <div class="row search-row m-t-30">
         <div class="col-md-3">
           <div class="form-group form-group-filter">
-            <button href="add-employee.html" class="btn btn-custom float-right btn-rounded"><i class="fas fa-plus"></i> Thêm mới
+            <button href="add-employee.html" class="btn btn-custom float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fas fa-plus"></i> Thêm mới
             </button>
           </div>
         </div>
@@ -76,7 +36,7 @@
                 <th style="min-width: 80px">Tên vật liệu</th>
                 <th>Số lượng</th>
                 <th>Đơn giá</th>
-                <th style="min-width: 80px">Đơn vị cung cấp</th>
+                <th style="min-width: 80px">Labo</th>
                 <th style="min-width: 90px">Hạn sử dụng</th>
                 <th style="min-width: 100px">Trạng thái</th>
                 <th style="min-width: 85px">Thao tác</th>
@@ -91,7 +51,8 @@
                 <td style="min-width: 90px">10/02/2023</td>
                 <td style="min-width: 100px">Đã duyệt</td>
                 <td class="text-center">
-
+                  <button href="#" class="btn btn-primary float-right btn-rounded">Câp nhật</button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_material">Xoá</button>
                 </td>
               </tr>
               <tr>
@@ -102,7 +63,8 @@
                 <td style="min-width: 90px">10/02/2023</td>
                 <td style="min-width: 100px">Đã duyệt</td>
                 <td class="text-center">
-
+                  <button href="#" class="btn btn-primary float-right btn-rounded">Câp nhật</button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_material">Xoá</button>
                 </td>
               </tr>
               <tr>
@@ -113,7 +75,8 @@
                 <td style="min-width: 90px">10/02/2023</td>
                 <td style="min-width: 100px">Đã duyệt</td>
                 <td class="text-center">
-
+                  <button href="#" class="btn btn-primary float-right btn-rounded">Câp nhật</button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_material">Xoá</button>
                 </td>
               </tr>
               <tr>
@@ -124,7 +87,8 @@
                 <td style="min-width: 90px">10/02/2023</td>
                 <td style="min-width: 100px">Đã duyệt</td>
                 <td class="text-center">
-
+                  <button href="#" class="btn btn-primary float-right btn-rounded">Câp nhật</button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_material">Xoá</button>
                 </td>
               </tr>
               <tr>
@@ -135,7 +99,8 @@
                 <td style="min-width: 90px">10/02/2023</td>
                 <td style="min-width: 100px">Đã duyệt</td>
                 <td class="text-center">
-
+                  <button href="#" class="btn btn-primary float-right btn-rounded">Câp nhật</button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_material">Xoá</button>
                 </td>
               </tr>
               <tr>
@@ -146,7 +111,8 @@
                 <td style="min-width: 90px">10/02/2023</td>
                 <td style="min-width: 100px">Đã duyệt</td>
                 <td class="text-center">
-
+                  <button href="#" class="btn btn-primary float-right btn-rounded">Câp nhật</button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_material">Xoá</button>
                 </td>
               </tr>
               <tr>
@@ -157,7 +123,8 @@
                 <td style="min-width: 90px">10/02/2023</td>
                 <td style="min-width: 100px">Đã duyệt</td>
                 <td class="text-center">
-
+                  <button href="#" class="btn btn-primary float-right btn-rounded">Câp nhật</button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_material">Xoá</button>
                 </td>
               </tr>
               <tr>
@@ -168,7 +135,8 @@
                 <td style="min-width: 90px">10/02/2023</td>
                 <td style="min-width: 100px">Đã duyệt</td>
                 <td class="text-center">
-
+                  <button href="#" class="btn btn-primary float-right btn-rounded">Câp nhật</button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_material">Xoá</button>
                 </td>
               </tr>
               <tr>
@@ -179,7 +147,8 @@
                 <td style="min-width: 90px">10/02/2023</td>
                 <td style="min-width: 100px">Đã duyệt</td>
                 <td class="text-center">
-
+                  <button href="#" class="btn btn-primary float-right btn-rounded">Câp nhật</button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_material">Xoá</button>
                 </td>
               </tr>
 
@@ -192,4 +161,5 @@
     </div>
   </div>
 </div>
-
+<app-popup-add-material></app-popup-add-material>
+<app-popup-delete-material></app-popup-delete-material>

@@ -12,7 +12,7 @@
       <div class="row filter-row m-t-30">
         <div class="col-sm-6 col-md-3">
           <div class="form-group form-group-filter">
-            <button class="btn btn-custom float-right btn-rounded"><i class="fa fa-plus" aria-hidden="true"></i> Thêm mới
+            <button class="btn btn-custom float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa fa-plus" aria-hidden="true"></i> Thêm mới
             </button>
           </div>
         </div>
@@ -54,6 +54,7 @@
                 <td>Chưa duyệt</td>
                 <td>1000000000</td>
                 <td class="text-center">
+                  <button href="#" class="btn btn-primary float-right btn-rounded">Duyệt</button>
                 </td>
               </tr>
 
@@ -65,4 +66,4 @@
     </div>
   </div>
 </div>
-
+<app-popup-add-approve-specimens></app-popup-add-approve-specimens>

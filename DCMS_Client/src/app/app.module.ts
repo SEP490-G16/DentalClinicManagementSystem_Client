@@ -38,6 +38,21 @@ import { MedicineComponent } from './pages/admin/medicine/medicine.component';
 import { FacilityComponent } from './pages/admin/facility/facility.component';
 import { StaffDetailComponent } from './pages/admin/staff-detail/staff-detail.component';
 import { ProfilePersonalComponent } from './pages/profile-personal/profile-personal.component';
+import { PopupAddStaffComponent } from './pages/admin/staff/popup-add-staff/popup-add-staff.component';
+import { PopupDeleteStaffComponent } from './pages/admin/staff/popup-delete-staff/popup-delete-staff.component';
+import { PopupAddLaboComponent } from './pages/admin/labo/popup-add-labo/popup-add-labo.component';
+import {PopupDeleteLaboComponent} from "./pages/admin/labo/popup-delete-labo/popup-delete-labo.component";
+import { PopupAddSpecimensComponent } from './pages/admin/specimens/popup-add-specimens/popup-add-specimens.component';
+import { PopupDeleteSpecimensComponent } from './pages/admin/specimens/popup-delete-specimens/popup-delete-specimens.component';
+import { PopupAddApproveSpecimensComponent } from './pages/admin/pending-specimens/popup-add-approve-specimens/popup-add-approve-specimens.component';
+import { PopupAddMaterialComponent } from './pages/admin/material/popup-add-material/popup-add-material.component';
+import { PopupDeleteMaterialComponent } from './pages/admin/material/popup-delete-material/popup-delete-material.component';
+import { PopupAddGroupServiceComponent } from './pages/admin/service/popup-add-group-service/popup-add-group-service.component';
+import { PopupDeleteGroupServiceComponent } from './pages/admin/service/popup-delete-group-service/popup-delete-group-service.component';
+import { PopupAddServiceComponent } from './pages/admin/service/popup-add-service/popup-add-service.component';
+import { PopupDeleteServiceComponent } from './pages/admin/service/popup-delete-service/popup-delete-service.component';
+import { PopupAddMedicineComponent } from './pages/admin/medicine/popup-add-medicine/popup-add-medicine.component';
+import { PopupDeleteMedicineComponent } from './pages/admin/medicine/popup-delete-medicine/popup-delete-medicine.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -67,6 +82,21 @@ import { ProfilePersonalComponent } from './pages/profile-personal/profile-perso
     FacilityComponent,
     StaffDetailComponent,
     ProfilePersonalComponent,
+    PopupAddStaffComponent,
+    PopupDeleteStaffComponent,
+    PopupAddLaboComponent,
+    PopupDeleteLaboComponent,
+    PopupAddSpecimensComponent,
+    PopupDeleteSpecimensComponent,
+    PopupAddApproveSpecimensComponent,
+    PopupAddMaterialComponent,
+    PopupDeleteMaterialComponent,
+    PopupAddGroupServiceComponent,
+    PopupDeleteGroupServiceComponent,
+    PopupAddServiceComponent,
+    PopupDeleteServiceComponent,
+    PopupAddMedicineComponent,
+    PopupDeleteMedicineComponent,
   ],
   imports: [
     BrowserModule,
