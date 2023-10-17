@@ -51,6 +51,8 @@ import { PopupAddGroupServiceComponent } from './pages/admin/service/popup-add-g
 import { PopupDeleteGroupServiceComponent } from './pages/admin/service/popup-delete-group-service/popup-delete-group-service.component';
 import { PopupAddServiceComponent } from './pages/admin/service/popup-add-service/popup-add-service.component';
 import { PopupDeleteServiceComponent } from './pages/admin/service/popup-delete-service/popup-delete-service.component';
+import { PopupAddMedicineComponent } from './pages/admin/medicine/popup-add-medicine/popup-add-medicine.component';
+import { PopupDeleteMedicineComponent } from './pages/admin/medicine/popup-delete-medicine/popup-delete-medicine.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -93,6 +95,8 @@ import { PopupDeleteServiceComponent } from './pages/admin/service/popup-delete-
     PopupDeleteGroupServiceComponent,
     PopupAddServiceComponent,
     PopupDeleteServiceComponent,
+    PopupAddMedicineComponent,
+    PopupDeleteMedicineComponent,
   ],
   imports: [
     BrowserModule,

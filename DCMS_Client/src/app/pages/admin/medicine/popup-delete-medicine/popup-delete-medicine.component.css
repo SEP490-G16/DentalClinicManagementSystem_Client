@@ -1,0 +1,9 @@
+.btn-cancel {
+  border-radius: 10px;
+  background-color: #666;
+  border: 1px solid #fff;
+}
+
+.btn-cancel:hover {
+  background-color: #fff;
+}
