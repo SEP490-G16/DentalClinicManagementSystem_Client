@@ -1,0 +1,150 @@
+<div class="modal" id="myModal">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header color-header">
+        <h4 class="modal-title text-center w-100">Thêm nhân viên</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="image-container" (click)="fileInput.click()">
+                <img [src]="imageURL" alt="Ảnh nhân viên">
+                <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput style="display: none;">
+              </div>
+
+            </div>
+
+            <div class="col-md-8">
+              <div class="form-group row">
+                <label for="fullName" class="col-3">Họ và tên:</label>
+                <div class="col-9">
+                  <input type="text" class="form-control" id="fullName" name="fullName">
+                </div>
+
+              </div>
+              <div class="form-group row mt-3">
+                <label for="dob" class="col-3">Ngày sinh:</label>
+                <div class="col-9">
+                  <input type="text" class="form-control date-input-custom" id="dob" name="dob">
+                </div>
+
+              </div>
+              <div class="form-group row mt-3">
+                <label for="address" class="col-3">Địa chỉ:</label>
+                <div class="col-9">
+                  <input type="text" class="form-control" id="address" name="address">
+                </div>
+              </div>
+              <div class="form-group row mt-3">
+                <label for="note" class="col-3">Ghi chú:</label>
+                <div class="col-9">
+                  <textarea type="text" class="form-control" id="note" name="address"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-md-6 mt-3">
+              <div class="form-group row">
+                <div class="col-md-3 name-title">
+                  <label for="email">Email</label>
+                </div>
+                <div class="col-md-9">
+                  <input type="email" class="form-control" id="email" name="email">
+                </div>
+
+              </div>
+            </div>
+            <div class="col-md-6 mt-3">
+              <div class="form-group row">
+                <div class="col-md-3 name-title">
+                  <label for="phone">Số điện thoại</label>
+                </div>
+                <div class="col-md-9">
+                  <input type="tel" class="form-control" id="phone" name="phone">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mt-3">
+              <div class="form-group row">
+                <div class="col-md-3 name-title">
+                  <label for="role">Vai trò</label>
+                </div>
+                <div class="col-md-9">
+                  <select id="role" class="form-select" aria-label="Default select example">
+                    <option selected>Bác sĩ</option>
+                    <option value="1">Lễ tân</option>
+                    <option value="2">Y tá</option>
+                    <option value="2">Y tá trưởng</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mt-3">
+              <div class="form-group row">
+                <div class="col-md-3 name-title">
+                  <label for="phone">Giới tính</label>
+                </div>
+                <div class="col-md-9">
+                  <label for="male">Nam</label>
+                  <input type="radio" class="radio m-2" id="male" name="male">
+                  <label for="female">Nữ</label>
+                  <input type="radio" class="radio m-2" id="female" name="female">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="account-staff mt-5">
+            <div class="header-account">Tài khoản đăng nhập</div>
+            <div class="account-content">
+              <div class="form-group row mt-3">
+                <label for="account" class="col-3 name-title">Tên đăng nhập:</label>
+                <div class="col-6">
+                  <input type="text"  id="account" class="form-control value-staff">
+                </div>
+              </div>
+              <div class="form-group row mt-2">
+                <label for="password" class="col-3 name-title">Mật khẩu:</label>
+                <div class="col-6">
+                  <input type="password" id="password" class="form-control value-staff">
+                  <!--<div class="input-group-append">
+                    <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility()">
+                      <i class="fas" [ngClass]="{'fa-eye': showPassword, 'fa-eye-slash': !showPassword}"></i>
+                    </button>
+                  </div>-->
+                </div>
+
+              </div>
+              <div class="form-group row mt-2">
+                <label for="password-repeat" class="col-3 name-title">Nhập lại mật khẩu:</label>
+                <div class="col-6">
+                  <input type="password" id="password-repeat" class="form-control value-staff">
+                  <!--<div class="input-group-append">
+                    <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility()">
+                      <i class="fas" [ngClass]="{'fa-eye': showPassword, 'fa-eye-slash': !showPassword}"></i>
+                    </button>
+                  </div>-->
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
+          <button type="button" class="btn btn-save" data-bs-dismiss="modal">Lưu</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

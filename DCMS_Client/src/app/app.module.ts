@@ -38,6 +38,8 @@ import { MedicineComponent } from './pages/admin/medicine/medicine.component';
 import { FacilityComponent } from './pages/admin/facility/facility.component';
 import { StaffDetailComponent } from './pages/admin/staff-detail/staff-detail.component';
 import { ProfilePersonalComponent } from './pages/profile-personal/profile-personal.component';
+import { PopupAddStaffComponent } from './pages/admin/staff/popup-add-staff/popup-add-staff.component';
+import { PopupDeleteStaffComponent } from './pages/admin/staff/popup-delete-staff/popup-delete-staff.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -67,6 +69,8 @@ import { ProfilePersonalComponent } from './pages/profile-personal/profile-perso
     FacilityComponent,
     StaffDetailComponent,
     ProfilePersonalComponent,
+    PopupAddStaffComponent,
+    PopupDeleteStaffComponent,
   ],
   imports: [
     BrowserModule,
