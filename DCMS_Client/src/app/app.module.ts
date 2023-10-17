@@ -47,6 +47,8 @@ import { PopupDeleteSpecimensComponent } from './pages/admin/specimens/popup-del
 import { PopupAddApproveSpecimensComponent } from './pages/admin/pending-specimens/popup-add-approve-specimens/popup-add-approve-specimens.component';
 import { PopupAddMaterialComponent } from './pages/admin/material/popup-add-material/popup-add-material.component';
 import { PopupDeleteMaterialComponent } from './pages/admin/material/popup-delete-material/popup-delete-material.component';
+import { PopupAddGroupServiceComponent } from './pages/admin/service/popup-add-group-service/popup-add-group-service.component';
+import { PopupDeleteGroupServiceComponent } from './pages/admin/service/popup-delete-group-service/popup-delete-group-service.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -85,6 +87,8 @@ import { PopupDeleteMaterialComponent } from './pages/admin/material/popup-delet
     PopupAddApproveSpecimensComponent,
     PopupAddMaterialComponent,
     PopupDeleteMaterialComponent,
+    PopupAddGroupServiceComponent,
+    PopupDeleteGroupServiceComponent,
   ],
   imports: [
     BrowserModule,
