@@ -40,6 +40,8 @@ import { StaffDetailComponent } from './pages/admin/staff-detail/staff-detail.co
 import { ProfilePersonalComponent } from './pages/profile-personal/profile-personal.component';
 import { PopupAddStaffComponent } from './pages/admin/staff/popup-add-staff/popup-add-staff.component';
 import { PopupDeleteStaffComponent } from './pages/admin/staff/popup-delete-staff/popup-delete-staff.component';
+import { PopupAddLaboComponent } from './pages/admin/labo/popup-add-labo/popup-add-labo.component';
+import {PopupDeleteLaboComponent} from "./pages/admin/labo/popup-delete-labo/popup-delete-labo.component";
 @NgModule({
   declarations: [
     AppComponent,
@@ -71,6 +73,8 @@ import { PopupDeleteStaffComponent } from './pages/admin/staff/popup-delete-staf
     ProfilePersonalComponent,
     PopupAddStaffComponent,
     PopupDeleteStaffComponent,
+    PopupAddLaboComponent,
+    PopupDeleteLaboComponent,
   ],
   imports: [
     BrowserModule,
