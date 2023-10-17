@@ -59,7 +59,7 @@
       <div class="row search-row m-t-30">
         <div class="col-md-3">
           <div class="form-group form-group-filter">
-            <button href="add-employee.html" class="btn btn-custom float-right btn-rounded"><i class="fas fa-plus"></i> Thêm mới
+            <button href="add-employee.html" class="btn btn-custom float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fas fa-plus"></i> Thêm mới
             </button>
           </div>
         </div>
@@ -116,8 +116,9 @@
                 <td style="min-width: 95px">15/02/2023</td>
                 <td style="min-width: 105px">Nguyễn Văn A</td>
                 <td style="min-width: 90px">10 tháng</td>
-                <td class="text-center">
-
+                <td class="text-center" style="min-width: 100px">
+                  <button href="#" class="btn btn-primary float-right btn-rounded">Câp nhật</button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_specimens">Xoá</button>
                 </td>
               </tr>
               <tr>
@@ -135,8 +136,9 @@
                 <td style="min-width: 95px">15/02/2023</td>
                 <td style="min-width: 105px">Nguyễn Văn A</td>
                 <td style="min-width: 90px">10 tháng</td>
-                <td class="text-center">
-
+                <td class="text-center" style="min-width: 100px">
+                  <button href="#" class="btn btn-primary float-right btn-rounded">Câp nhật</button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_specimens">Xoá</button>
                 </td>
               </tr>
               <tr>
@@ -154,8 +156,9 @@
                 <td style="min-width: 95px">15/02/2023</td>
                 <td style="min-width: 105px">Nguyễn Văn A</td>
                 <td style="min-width: 90px">10 tháng</td>
-                <td class="text-center">
-
+                <td class="text-center" style="min-width: 100px">
+                  <button href="#" class="btn btn-primary float-right btn-rounded">Câp nhật</button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_specimens">Xoá</button>
                 </td>
               </tr>
               <tr>
@@ -173,8 +176,9 @@
                 <td style="min-width: 95px">15/02/2023</td>
                 <td style="min-width: 105px">Nguyễn Văn A</td>
                 <td style="min-width: 90px">10 tháng</td>
-                <td class="text-center">
-
+                <td class="text-center" style="min-width: 100px">
+                  <button href="#" class="btn btn-primary float-right btn-rounded">Câp nhật</button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_specimens">Xoá</button>
                 </td>
               </tr>
               <tr>
@@ -192,8 +196,9 @@
                 <td style="min-width: 95px">15/02/2023</td>
                 <td style="min-width: 105px">Nguyễn Văn A</td>
                 <td style="min-width: 90px">10 tháng</td>
-                <td class="text-center">
-
+                <td class="text-center" style="min-width: 100px">
+                  <button href="#" class="btn btn-primary float-right btn-rounded">Câp nhật</button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_specimens">Xoá</button>
                 </td>
               </tr>
               <tr>
@@ -211,7 +216,10 @@
                 <td style="min-width: 95px">15/02/2023</td>
                 <td style="min-width: 105px">Nguyễn Văn A</td>
                 <td style="min-width: 90px">10 tháng</td>
-                <td></td>
+                <td class="text-center" style="min-width: 100px">
+                  <button href="#" class="btn btn-primary float-right btn-rounded">Câp nhật</button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_specimens">Xoá</button>
+                </td>
               </tr>
               <tr>
                 <td style="min-width: 75px">1</td>
@@ -228,8 +236,9 @@
                 <td style="min-width: 95px">15/02/2023</td>
                 <td style="min-width: 105px">Nguyễn Văn A</td>
                 <td style="min-width: 90px">10 tháng</td>
-                <td class="text-center">
-
+                <td class="text-center" style="min-width: 100px">
+                  <button href="#" class="btn btn-primary float-right btn-rounded">Cập nhật</button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_specimens">Xoá</button>
                 </td>
               </tr>
 
@@ -241,3 +250,5 @@
     </div>
   </div>
 </div>
+<app-popup-add-specimens></app-popup-add-specimens>
+<app-popup-delete-specimens></app-popup-delete-specimens>

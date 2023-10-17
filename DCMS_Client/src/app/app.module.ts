@@ -42,6 +42,8 @@ import { PopupAddStaffComponent } from './pages/admin/staff/popup-add-staff/popu
 import { PopupDeleteStaffComponent } from './pages/admin/staff/popup-delete-staff/popup-delete-staff.component';
 import { PopupAddLaboComponent } from './pages/admin/labo/popup-add-labo/popup-add-labo.component';
 import {PopupDeleteLaboComponent} from "./pages/admin/labo/popup-delete-labo/popup-delete-labo.component";
+import { PopupAddSpecimensComponent } from './pages/admin/specimens/popup-add-specimens/popup-add-specimens.component';
+import { PopupDeleteSpecimensComponent } from './pages/admin/specimens/popup-delete-specimens/popup-delete-specimens.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,6 +77,8 @@ import {PopupDeleteLaboComponent} from "./pages/admin/labo/popup-delete-labo/pop
     PopupDeleteStaffComponent,
     PopupAddLaboComponent,
     PopupDeleteLaboComponent,
+    PopupAddSpecimensComponent,
+    PopupDeleteSpecimensComponent,
   ],
   imports: [
     BrowserModule,
