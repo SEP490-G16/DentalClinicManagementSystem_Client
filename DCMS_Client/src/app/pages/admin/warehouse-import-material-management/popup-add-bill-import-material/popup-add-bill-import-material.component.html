@@ -1,0 +1,132 @@
+<div class="modal" id="myModal">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header color-header">
+        <h4 class="modal-title text-center w-100">Thêm mới mẫu</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="modal-body">
+          <div class="row filter-row m-t-30">
+            <div class="col-sm-6 col-md-4">
+              <div class="row row-date">
+                <div class="col-md-4">
+                  <label class="focus-label p-2" style="font-weight: bold">Ngày lập</label>
+                </div>
+                <div class="col-md-8">
+                  <input type="date" class="form-control">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <select class="form-select" aria-label="Default select example">
+                <option selected>Chọn người nhập</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group row">
+                <label for="total" class="col-3 name-title">Tổng tiền</label>
+                <div class="col-8">
+                  <input type="text" class="form-control value-staff" id="total" name="total">
+                </div>
+              </div>
+              </div>
+            <div class="col-md-3 mt-5">
+              <button href="add-employee.html" class="btn btn-custom float-right btn-rounded" (click)="toggleAdd()"  ><i class="fas fa-plus"></i> {{isAdd ? "Lưu" : "Thêm mới"}}
+              </button>
+            </div>
+            </div>
+          <div class="row mt-5">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="table table-bordered text-center rounded-3 overflow-hidden">
+                  <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Mã vật liệu</th>
+                    <th>Tên vật liệu</th>
+                    <th>Đơn vị</th>
+                    <th>Số lượng</th>
+                    <th>Đơn giá</th>
+                    <th>Thành tiền</th>
+                    <th>Hạn sử dụng</th>
+                    <th>Chiết khấu</th>
+                    <th class="text-center">Thao tác</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <ng-container *ngFor="let record of records; let i = index">
+                    <tr>
+
+                      <td>{{ i + 1 }}</td>
+                      <td>
+                        <input type="text" [(ngModel)]="record.maVatLieu" *ngIf="isAdd" [disabled]="!isAdd" class="form-control value-staff">
+                        <!--<p *ngIf="!isAdd">VTA</p>-->
+                        <p *ngIf="!isAdd">{{ record.maVatLieu }}</p>
+                      </td>
+                      <td>
+                        <input type="text" [(ngModel)]="record.tenVatLieu" *ngIf="isAdd" [disabled]="!isAdd" class="form-control value-staff">
+                        <!--<p *ngIf="!isAdd">Vật liệu A</p>-->
+                        <p *ngIf="!isAdd">{{ record.tenVatLieu }}</p>
+                      </td>
+                      <td>
+                        <input type="text" [(ngModel)]="record.donVi" *ngIf="isAdd" [disabled]="!isAdd" class="form-control value-staff">
+                        <!--<p *ngIf="!isAdd">abc</p>-->
+                        <p *ngIf="!isAdd">{{ record.donVi }}</p>
+                      </td>
+                      <td>
+                        <input type="number" [(ngModel)]="record.soLuong" *ngIf="isAdd" [disabled]="!isAdd" class="form-control value-staff">
+                        <!--<p *ngIf="!isAdd">10</p>-->
+                        <p *ngIf="!isAdd">{{ record.soLuong }}</p>
+                      </td>
+                      <td>
+                        <input type="text" [(ngModel)]="record.donGia" *ngIf="isAdd" [disabled]="!isAdd" class="form-control value-staff">
+                        <!--<p *ngIf="!isAdd">1.000.000</p>-->
+                        <p *ngIf="!isAdd">{{ record.donGia }}</p>
+                      </td>
+                      <td>
+                        <input type="text" [(ngModel)]="record.thanhTien" *ngIf="isAdd" [disabled]="!isAdd" class="form-control value-staff">
+                        <!--<p *ngIf="!isAdd">10.000.000</p>-->
+                        <p *ngIf="!isAdd">{{ record.thanhTien }}</p>
+                      </td>
+                      <td>
+                        <input type="date" [(ngModel)]="record.hanSudung" *ngIf="isAdd" [disabled]="!isAdd" class="form-control value-staff">
+                        <!--<p *ngIf="!isAdd">10/02/2023</p>-->
+                        <p *ngIf="!isAdd">{{ record.hanSudung }}</p>
+                      </td>
+                      <td>
+                        <input type="text" [(ngModel)]="record.chietKhau" *ngIf="isAdd" [disabled]="!isAdd" class="form-control value-staff">
+                        <!--<p *ngIf="!isAdd">10%</p>-->
+                        <p *ngIf="!isAdd">{{ record.chietKhau }}</p>
+                      </td>
+                      <td>
+
+                      </td>
+
+                    </tr>
+                    </ng-container>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          </div>
+
+
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
+          <button type="button" class="btn btn-save" data-bs-dismiss="modal">Lưu</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+

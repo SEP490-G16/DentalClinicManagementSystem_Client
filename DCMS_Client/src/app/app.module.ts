@@ -55,6 +55,7 @@ import { PopupAddMedicineComponent } from './pages/admin/medicine/popup-add-medi
 import { PopupDeleteMedicineComponent } from './pages/admin/medicine/popup-delete-medicine/popup-delete-medicine.component';
 import { PopupAddFacilityComponent } from './pages/admin/facility/popup-add-facility/popup-add-facility.component';
 import { PopupDeleteFacilityComponent } from './pages/admin/facility/popup-delete-facility/popup-delete-facility.component';
+import { PopupAddBillImportMaterialComponent } from './pages/admin/warehouse-import-material-management/popup-add-bill-import-material/popup-add-bill-import-material.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -101,6 +102,7 @@ import { PopupDeleteFacilityComponent } from './pages/admin/facility/popup-delet
     PopupDeleteMedicineComponent,
     PopupAddFacilityComponent,
     PopupDeleteFacilityComponent,
+    PopupAddBillImportMaterialComponent,
   ],
   imports: [
     BrowserModule,
