@@ -12,7 +12,7 @@
       <div class="row filter-row m-t-30">
         <div class="col-sm-6 col-md-3">
           <div class="form-group form-group-filter">
-            <button class="btn btn-custom float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa fa-plus" aria-hidden="true"></i> Thêm mới
+            <button class="btn btn-custom float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#addSpecimensModal"><i class="fa fa-plus" aria-hidden="true"></i> Thêm mới
             </button>
           </div>
         </div>
@@ -30,7 +30,7 @@
             <table class="table table-bordered text-center rounded-3 overflow-hidden">
               <thead>
               <tr>
-                <th>Mã mẫu</th>
+                <th>Răng/Hàm</th>
                 <th>Tên mẫu</th>
                 <th>Tên bệnh nhân</th>
                 <th>Chất liệu</th>
@@ -44,7 +44,7 @@
               </thead>
               <tbody>
               <tr>
-                <td>1</td>
+                <td>Răng sứ</td>
                 <td><h2>Mẫu A</h2></td>
                 <td>Nguyễn Văn A</td>
                 <td>Sứ</td>
@@ -54,7 +54,8 @@
                 <td>Chưa duyệt</td>
                 <td>1000000000</td>
                 <td class="text-center">
-                  <button href="#" class="btn btn-primary float-right btn-rounded">Duyệt</button>
+                  <button href="#" class="btn btn-primary float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#myModal">Duyệt</button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_specimens">Xoá</button>
                 </td>
               </tr>
 
@@ -67,3 +68,5 @@
   </div>
 </div>
 <app-popup-add-approve-specimens></app-popup-add-approve-specimens>
+<app-popup-add-specimens></app-popup-add-specimens>
+<app-popup-delete-specimens></app-popup-delete-specimens>

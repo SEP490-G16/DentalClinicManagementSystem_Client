@@ -335,4 +335,14 @@ table.table td h2 a {
     background: linear-gradient(51.64deg, rgba(255, 255, 255, 0) 34.2%, rgba(255, 255, 255, 0.2) 97.35%, rgba(255, 255, 255, 0) 160.66%), rgba(255, 255, 255, 0.2);
     border-radius: 10px
   }
+  .hidden-card{
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+  }
 }
