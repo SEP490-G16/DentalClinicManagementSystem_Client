@@ -11,14 +11,6 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  maVatLieu:any;
-  tenVatLieu:any;
-  donVi:any;
-  soLuong:any;
-  donGia:any;
-  thanhTien:any;
-  hanSudung:any;
-  chietKhau:any;
   isAdd: boolean = false;
   records: any[] = [];
   toggleAdd() {
@@ -37,5 +29,8 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
       });
     }
 
+  }
+  deleteRecord(index: number) {
+    this.records.splice(index, 1);
   }
 }

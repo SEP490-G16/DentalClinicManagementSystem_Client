@@ -90,3 +90,25 @@ table.table td h2 a {
 .btn.rounded {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .1)
 }
+.delete-button {
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto;
+}
+
+.delete-button:hover {
+  background-color: darkred;
+}
+.delete-cell{
+  text-align: center;
+  vertical-align: middle;
+}
