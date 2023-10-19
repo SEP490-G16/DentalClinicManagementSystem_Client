@@ -59,6 +59,7 @@ import { PopupAddBillImportMaterialComponent } from './pages/admin/warehouse-imp
 import { PopupAddBillExportMaterialComponent } from './pages/admin/warehouse-export-material-management/popup-add-bill-export-material/popup-add-bill-export-material.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PopupDetailBillImportMaterialComponent } from './pages/admin/warehouse-import-material-management/popup-detail-bill-import-material/popup-detail-bill-import-material.component';
+import { PopupDetailBillExportMaterialComponent } from './pages/admin/warehouse-export-material-management/popup-detail-bill-export-material/popup-detail-bill-export-material.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -108,6 +109,7 @@ import { PopupDetailBillImportMaterialComponent } from './pages/admin/warehouse-
     PopupAddBillImportMaterialComponent,
     PopupAddBillExportMaterialComponent,
     PopupDetailBillImportMaterialComponent,
+    PopupDetailBillExportMaterialComponent,
   ],
   imports: [
     BrowserModule,
