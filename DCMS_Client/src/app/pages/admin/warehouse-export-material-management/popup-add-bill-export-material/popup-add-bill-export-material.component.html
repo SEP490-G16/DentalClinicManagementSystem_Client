@@ -103,8 +103,10 @@
                         <!--<p *ngIf="!isAdd">10%</p>-->
                         <p *ngIf="!isAdd">{{ record.chietKhau }}</p>
                       </td>
-                      <td>
-
+                      <td class="delete-cell">
+                        <button *ngIf="!isAdd" class="delete-button" (click)="deleteRecord(i)">
+                          x
+                        </button>
                       </td>
 
                     </tr>

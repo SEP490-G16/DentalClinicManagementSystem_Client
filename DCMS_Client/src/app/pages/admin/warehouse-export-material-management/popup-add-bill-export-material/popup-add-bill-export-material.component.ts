@@ -30,4 +30,7 @@ export class PopupAddBillExportMaterialComponent implements OnInit {
     }
 
   }
+  deleteRecord(index: number) {
+    this.records.splice(index, 1);
+  }
 }
