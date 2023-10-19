@@ -1,0 +1,105 @@
+<div class="modal" id="detailModal">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header color-header">
+        <h4 class="modal-title text-center w-100">Xem chi tiết phiếu nhập ngày 10/10/2023</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="modal-body">
+          <div class="row filter-row m-t-30">
+            <div class="col-sm-6 col-md-4">
+              <div class="row row-date">
+                <div class="col-md-4">
+                  <label class="focus-label p-2" style="font-weight: bold">Ngày lập</label>
+                </div>
+                <div class="col-md-8">
+                  <input type="date" class="form-control">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <select class="form-select" aria-label="Default select example">
+                <option selected>Chọn người nhập</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group row">
+                <label for="total" class="col-3 name-title">Tổng tiền</label>
+                <div class="col-8">
+                  <input type="text" class="form-control value-staff" id="total" name="total">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-5">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="table table-bordered text-center rounded-3 overflow-hidden">
+                  <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Mã vật liệu</th>
+                    <th>Tên vật liệu</th>
+                    <th>Đơn vị</th>
+                    <th>Số lượng</th>
+                    <th>Đơn giá</th>
+                    <th>Thành tiền</th>
+                    <th>Hạn sử dụng</th>
+                    <th>Chiết khấu</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td>
+                        <p>VTA</p>
+                      </td>
+                      <td>
+                        <p>Vật liệu A</p>
+                      </td>
+                      <td>
+                        <p>abc</p>
+                      </td>
+                      <td>
+                        <p>10</p>
+                      </td>
+                      <td>
+                        <p>1.000.000</p>
+                      </td>
+                      <td>
+                        <p>10.000.000</p>
+                      </td>
+                      <td>
+                        <p>10/02/2023</p>
+                      </td>
+                      <td>
+                        <p>10%</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-save" data-bs-dismiss="modal">Lưu</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
