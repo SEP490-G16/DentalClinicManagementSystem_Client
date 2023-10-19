@@ -32,12 +32,13 @@
               <div class="form-group row">
                 <label for="password" class="col-4 name-title">Mật khẩu:</label>
                 <div class="col-8">
-                  <input type="password" [(ngModel)]="matkhau" id="password" [disabled]="!isEditing" class="form-control value-staff">
+                  <input type="password" [(ngModel)]="matkhau" id="password" *ngIf="isEditing"  [disabled]="!isEditing" class="form-control value-staff">
                   <!--<div class="input-group-append">
                     <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility()">
                       <i class="fas" [ngClass]="{'fa-eye': showPassword, 'fa-eye-slash': !showPassword}"></i>
                     </button>
                   </div>-->
+                  <p *ngIf="!isEditing" class="value-staff">{{matkhau}}</p>
                 </div>
               </div>
             </div>
@@ -48,13 +49,15 @@
           <div class="form-group mb-3 row">
             <label class="col-2 name-title">Họ và tên:</label>
             <div class="col-10">
-              <p class="value-staff">Nguyễn Văn A</p>
+              <input [(ngModel)]="hoVaTen" id="fullName" *ngIf="isEditing" [disabled]="!isEditing" class="form-control value-staff">
+              <p *ngIf="!isEditing" class="value-staff">Nguyễn Văn A</p>
             </div>
           </div>
           <div class="form-group mb-3 row">
             <label class="col-2 name-title">Ngày sinh:</label>
             <div class="col-10">
-              <p class="value-staff">20/01/1994</p>
+              <input [(ngModel)]="ngaySinh" id="dob" *ngIf="isEditing" [disabled]="!isEditing" class="form-control value-staff">
+              <p *ngIf="!isEditing" class="value-staff">20/01/1994</p>
             </div>
           </div>
           <div class="form-group mb-3 row">
@@ -66,19 +69,22 @@
           <div class="form-group mb-3 row">
             <label for="sdt" class="col-2 name-title">Số điện thoại:</label>
             <div class="col-10">
-              <input [(ngModel)]="sdt" id="sdt" [disabled]="!isEditing" class="form-control value-staff">
+              <input [(ngModel)]="sdt" id="sdt" *ngIf="isEditing" [disabled]="!isEditing" class="form-control value-staff">
+              <p *ngIf="!isEditing" class="value-staff">{{sdt}}</p>
             </div>
           </div>
           <div class="form-group mb-3 row">
             <label for="email" class="col-2 name-title">Email:</label>
             <div  class="col-10">
-              <input [(ngModel)]="email" id="email" [disabled]="!isEditing" class="form-control value-staff">
+              <input [(ngModel)]="email" id="email" *ngIf="isEditing" [disabled]="!isEditing" class="form-control value-staff">
+              <p *ngIf="!isEditing" class="value-staff">{{email}}</p>
             </div>
           </div>
           <div class="form-group mb-3 row">
             <label for="diaChi" class="col-2 name-title">Địa chỉ :</label>
             <div class="col-10">
-              <input [(ngModel)]="diaChi" id="diaChi" [disabled]="!isEditing" class="form-control value-staff">
+              <input [(ngModel)]="diaChi" id="diaChi" *ngIf="isEditing" [disabled]="!isEditing" class="form-control value-staff">
+              <p *ngIf="!isEditing" class="value-staff">{{diaChi}}</p>
             </div>
           </div>
           <div class="form-group mb-3 row">
@@ -90,7 +96,8 @@
           <div class="form-group mb-3 row">
             <label class="col-2 name-title">Ghi chú:</label>
             <div class="col-10">
-              <p class="value-staff">abc</p>
+              <input [(ngModel)]="ghiChu" id="note" *ngIf="isEditing" [disabled]="!isEditing" class="form-control value-staff">
+              <p *ngIf="!isEditing" class="value-staff">abc</p>
             </div>
           </div>
           <div class="form-group mb-3 row">
