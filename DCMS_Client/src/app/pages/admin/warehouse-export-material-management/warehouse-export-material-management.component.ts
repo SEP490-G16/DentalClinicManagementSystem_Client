@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-warehouse-export-material-management',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./warehouse-export-material-management.component.css']
 })
 export class WarehouseExportMaterialManagementComponent implements OnInit {
-
+  model!:NgbDateStruct;
   constructor() { }
 
   ngOnInit(): void {

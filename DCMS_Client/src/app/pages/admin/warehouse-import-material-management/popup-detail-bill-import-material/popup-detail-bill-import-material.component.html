@@ -13,13 +13,16 @@
         <div class="modal-body">
           <div class="row filter-row m-t-30">
             <div class="col-sm-6 col-md-4">
-              <div class="row row-date">
-                <div class="col-md-4">
-                  <label class="focus-label p-2" style="font-weight: bold">Ngày lập</label>
-                </div>
-                <div class="col-md-8">
-                  <input type="date" class="form-control">
-                </div>
+              <div class="input-group">
+                <input
+                  class="form-control"
+                  placeholder="Ngày lập"
+                  name="dp"
+                  [(ngModel)]="model"
+                  ngbDatepicker
+                  #d="ngbDatepicker"
+                />
+                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
               </div>
             </div>
             <div class="col-md-3">
@@ -92,10 +95,10 @@
       </div>
 
       <!-- Modal footer -->
-      <div class="modal-footer">
+     <!-- <div class="modal-footer">
         <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
         <button type="button" class="btn btn-save" data-bs-dismiss="modal">Lưu</button>
-      </div>
+      </div>-->
 
     </div>
   </div>

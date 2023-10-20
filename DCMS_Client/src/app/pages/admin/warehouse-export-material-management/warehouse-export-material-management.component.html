@@ -12,7 +12,7 @@
       <div class="row filter-row m-t-30">
         <div class="col-md-2">
           <div class="form-group form-group-filter">
-            <button href="add-employee.html" class="btn btn-custom float-right btn-rounded"  data-bs-toggle="modal" data-bs-target="#myModal"><i class="fas fa-plus"></i> Thêm phiếu xuất
+            <button href="add-employee.html" class="btn btn-custom float-right btn-rounded"  data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus-circle"></i> Thêm phiếu xuất
             </button>
           </div>
         </div>
@@ -21,14 +21,17 @@
             <option selected>Chọn người xuất</option>
           </select>
         </div>
-        <div class="col-sm-6 col-md-4">
-          <div class="row row-date">
-            <div class="col-md-4">
-              <label class="focus-label p-2" style="font-weight: bold">Ngày xuất</label>
-            </div>
-            <div class="col-md-8">
-              <input type="date" class="form-control">
-            </div>
+        <div class="col-sm-6 col-md-2">
+          <div class="input-group">
+            <input
+              class="form-control"
+              placeholder="Ngày lập"
+              name="dp"
+              [(ngModel)]="model"
+              ngbDatepicker
+              #d="ngbDatepicker"
+            />
+            <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
           </div>
         </div>
 
@@ -54,8 +57,8 @@
                 <td>abc</td>
                 <td>25.000.000</td>
                 <td class="text-center">
-                  <button href="#" class="btn btn-primary float-right btn-rounded">Câp nhật</button>
-                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_bill_export">Xoá</button>
+                  <button href="#" class="btn btn-primary float-right btn-rounded"><i class="bi bi-pencil-square"></i></button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_bill_export"><i class="bi bi-trash"></i></button>
                 </td>
               </tr>
               </tbody>

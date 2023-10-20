@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-popup-add-bill-import-material',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./popup-add-bill-import-material.component.css']
 })
 export class PopupAddBillImportMaterialComponent implements OnInit {
-
+  model!:NgbDateStruct;
   constructor() { }
 
   ngOnInit(): void {
@@ -29,6 +30,12 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
       });
     }
 
+  }
+  toggleCancel(){
+    this.isAdd = false;
+    if (this.records.length > 0) {
+      this.records.pop();
+    }
   }
   deleteRecord(index: number) {
     this.records.splice(index, 1);

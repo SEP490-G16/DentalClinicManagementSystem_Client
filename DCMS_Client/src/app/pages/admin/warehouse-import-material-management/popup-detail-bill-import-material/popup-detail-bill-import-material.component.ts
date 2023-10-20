@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-popup-detail-bill-import-material',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./popup-detail-bill-import-material.component.css']
 })
 export class PopupDetailBillImportMaterialComponent implements OnInit {
-
+  model!:NgbDateStruct;
   constructor() { }
 
   ngOnInit(): void {

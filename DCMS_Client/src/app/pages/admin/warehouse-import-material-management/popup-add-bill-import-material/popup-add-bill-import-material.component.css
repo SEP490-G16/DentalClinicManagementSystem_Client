@@ -10,24 +10,27 @@
   height: 300px;
 }
 
+.btn-save:active,
 .btn-save {
   border-radius: 10px;
-  background-color: #fff;
+  color: #fff;
   border: 1px solid #7B4C50;
+  background-color: #7B4C50;
+  margin-right: 5px;
 }
 
 .btn-save:hover{
-  background-color: #7B4C50;
-  color:  #fff;
+  background-color: #60393c;
 }
+.btn-cancel:active,
 .btn-cancel {
   border-radius: 10px;
-  background-color: #666;
-  border: 1px solid #fff;
+  background-color: #838282;
+  color: #ffffff;
 }
 
 .btn-cancel:hover {
-  background-color: #fff;
+  background-color: #6e6c6c;
 }
 .name-title{
   padding-top: 6px;
@@ -85,7 +88,7 @@ table.table td h2 a {
   padding: 7px 15px;
 }
 .btn-custom:hover{
-  background-color: #fff;
+  background-color: #f6b796;
 }
 .btn.rounded {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .1)
@@ -111,4 +114,7 @@ table.table td h2 a {
 .delete-cell{
   text-align: center;
   vertical-align: middle;
+}
+.form-select{
+  border: 1px solid #7B4C50;
 }

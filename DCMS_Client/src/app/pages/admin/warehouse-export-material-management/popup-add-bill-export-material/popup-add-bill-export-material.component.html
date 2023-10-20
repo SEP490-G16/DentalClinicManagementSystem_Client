@@ -13,16 +13,19 @@
         <div class="modal-body">
           <div class="row filter-row m-t-30">
             <div class="col-sm-6 col-md-4">
-              <div class="row row-date">
-                <div class="col-md-4">
-                  <label class="focus-label p-2" style="font-weight: bold">Ngày lập</label>
-                </div>
-                <div class="col-md-8">
-                  <input type="date" class="form-control">
-                </div>
+              <div class="input-group">
+                <input
+                  class="form-control"
+                  placeholder="Ngày lập"
+                  name="dp"
+                  [(ngModel)]="model"
+                  ngbDatepicker
+                  #d="ngbDatepicker"
+                />
+                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
               </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
               <select class="form-select" aria-label="Default select example">
                 <option selected>Chọn người nhập</option>
               </select>
@@ -36,8 +39,9 @@
               </div>
             </div>
             <div class="col-md-3 mt-5">
-              <button class="btn btn-custom float-right btn-rounded" (click)="toggleAdd()"  ><i class="fas fa-plus"></i> {{isAdd ? "Lưu" : "Thêm mới"}}
+              <button class="btn" [ngClass]="{'btn-custom':!isAdd, 'btn-save':isAdd}" (click)="toggleAdd()"  ><i class="bi" [ngClass]="{'bi-plus-circle': !isAdd, 'bi-floppy2': isAdd}"></i> {{isAdd ? "Lưu" : "Thêm mới"}}
               </button>
+              <button *ngIf="isAdd" (click)="toggleCancel()" type="button" class="btn btn-cancel">Huỷ</button>
             </div>
           </div>
           <div class="row mt-5">
@@ -55,7 +59,7 @@
                     <th>Thành tiền</th>
                     <th>Hạn sử dụng</th>
                     <th>Chiết khấu</th>
-                    <th class="text-center">Thao tác</th>
+                    <th class="text-center" *ngIf="!isAdd">Thao tác</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -103,7 +107,7 @@
                         <!--<p *ngIf="!isAdd">10%</p>-->
                         <p *ngIf="!isAdd">{{ record.chietKhau }}</p>
                       </td>
-                      <td class="delete-cell">
+                      <td *ngIf="!isAdd" class="delete-cell">
                         <button *ngIf="!isAdd" class="delete-button" (click)="deleteRecord(i)">
                           x
                         </button>
@@ -124,7 +128,7 @@
       <!-- Modal footer -->
       <div class="modal-footer">
         <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-save" data-bs-dismiss="modal">Lưu</button>
+        <button type="button" class="btn btn-save" data-bs-dismiss="modal"><i class="bi bi-floppy2"></i> Lưu</button>
       </div>
 
     </div>
