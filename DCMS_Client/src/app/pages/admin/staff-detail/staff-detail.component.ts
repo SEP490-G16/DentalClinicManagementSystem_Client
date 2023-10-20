@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./staff-detail.component.css']
 })
 export class StaffDetailComponent implements OnInit {
-
+  showPassword: boolean = true;
   constructor() { }
 
   ngOnInit(): void {
@@ -25,5 +25,8 @@ export class StaffDetailComponent implements OnInit {
 
   toggleEditing() {
     this.isEditing = !this.isEditing;
+  }
+  togglePassword() {
+    this.showPassword = !this.showPassword;
   }
 }

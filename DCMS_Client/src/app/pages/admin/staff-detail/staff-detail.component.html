@@ -7,8 +7,9 @@
             <h4 class="page-title">Thông tin nhân viên</h4>
           </div>
           <div class="edit">
-            <button class="btn btn-custom" (click)="toggleEditing()">{{ isEditing ? 'Lưu' : 'Cập nhật'
+            <button class="btn" [ngClass]="{'btn-custom':!isEditing, 'btn-save':isEditing}" (click)="toggleEditing()"><i class="bi" [ngClass]="{'bi-floppy2':isEditing, 'bi-pencil-square':!isEditing}"></i> {{ isEditing ? 'Lưu' : 'Chỉnh sửa'
               }}</button>
+
           </div>
         </div>
 
@@ -31,8 +32,11 @@
                 </div>
                 <div class="form-group row">
                   <label for="password" class="col-4 name-title">Mật khẩu:</label>
-                  <div class="col-8">
-                    <input type="password" [(ngModel)]="matkhau" id="password" disabled class="form-control value-staff">
+                  <div class="col-8" style="position: relative;">
+                    <div style="position: relative;">
+                      <input [type]="showPassword ? 'password' : 'text'" id="password" disabled class="form-control value-staff" [(ngModel)]="matkhau">
+                      <span class="password-toggle-icon" (click)="togglePassword()"><i class="bi" [ngClass]="{'bi-eye-fill': showPassword, 'bi-eye-slash-fill': !showPassword}"></i></span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -79,12 +83,13 @@
             <div class="form-group mb-3 row">
               <label for="role" class="col-2 name-title">Chức vụ:</label>
               <div class="col-10">
-                <select id="role" class="form-select" [disabled]="!isEditing" aria-label="Default select example">
+                <select id="role" *ngIf="isEditing" class="form-select" [disabled]="!isEditing" aria-label="Default select example">
                   <option selected>Bác sĩ</option>
                   <option value="1">Lễ tân</option>
                   <option value="2">Y tá</option>
                   <option value="2">Y tá trưởng</option>
                 </select>
+                <p *ngIf="!isEditing" class="value-staff">Bác sĩ</p>
               </div>
             </div>
             <div class="form-group mb-3 row">
@@ -94,9 +99,10 @@
               </div>
             </div>
             <div class="form-group mb-3 row">
-              <label class="col-2 name-title">Cơ sở:</label>
+              <label for="facility" class="col-2 name-title">Cơ sở:</label>
               <div class="col-10">
-                <p class="value-staff">1</p>
+                <input type="text" id="facility" *ngIf="isEditing" class="form-control value-staff" value="{{coSo}}">
+                <p *ngIf="!isEditing" class="value-staff">1</p>
               </div>
             </div>
           </div>

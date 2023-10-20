@@ -247,7 +247,7 @@ a {
   padding: 7px 15px;
 }
 .btn-custom:hover{
-  background-color: #fff;
+  background-color: #f6b796;
 }
 .btn-white {
   background-color: #fff;
@@ -617,4 +617,24 @@ Layout
 }
 .value-staff{
   padding: 6px 12px;
+}
+.password-toggle-icon {
+  position: absolute;
+  top: 0;
+  transform: translateY(40%);
+  right: 10px;
+}
+.btn-save:active,
+.btn-save {
+  border-radius: 10px;
+  color: #fff;
+  border: 1px solid #7B4C50;
+  background-color: #7B4C50;
+}
+
+.btn-save:hover{
+  background-color: #60393c;
+}
+.bi-floppy2{
+  color: #FFFFFF;
 }
