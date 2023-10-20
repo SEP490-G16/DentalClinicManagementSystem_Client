@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-specimens',
@@ -6,7 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./specimens.component.css']
 })
 export class SpecimensComponent implements OnInit {
-
+  model: NgbDateStruct | undefined;
+  model2: NgbDateStruct | undefined;
+  model3: NgbDateStruct | undefined;
   constructor() { }
 
   ngOnInit(): void {

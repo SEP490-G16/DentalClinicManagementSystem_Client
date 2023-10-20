@@ -11,44 +11,53 @@
       </div>
       <div class="row filter-row m-t-30">
 
-        <div class="col-sm-3 col-md-4">
-          <div class="row row-date">
-            <div class="col-md-4">
-              <label class="focus-label p-2" style="font-weight: bold">Ngày đặt</label>
-            </div>
-            <div class="col-md-8">
-              <input type="date" class="form-control">
-            </div>
-          </div>
+        <div class="col-sm-3 col-md-2">
+              <div class="input-group">
+                <input
+                  class="form-control"
+                  placeholder="Ngày đặt"
+                  name="dp"
+                  [(ngModel)]="model"
+                  ngbDatepicker
+                  #d="ngbDatepicker"
+                />
+                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
+              </div>
         </div>
-        <div class="col-sm-3 col-md-4 ">
-          <div class="row row-date">
-            <div class="col-md-4">
-              <label class="focus-label p-2" style="font-weight: bold">Ngày nhận</label>
-            </div>
-            <div class="col-md-8">
-              <input type="date" class="form-control">
-            </div>
-          </div>
+        <div class="col-sm-3 col-md-2 ">
+              <div class="input-group">
+                <input
+                  class="form-control"
+                  placeholder="Ngày nhận"
+                  name="dp"
+                  [(ngModel)]="model3"
+                  ngbDatepicker
+                  #d1="ngbDatepicker"
+                />
+                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d1.toggle()" type="button"></button>
+              </div>
         </div>
-        <div class="col-sm-3 col-md-4">
-          <div class="row row-date">
-            <div class="col-md-4 label">
-              <label class="focus-label p-2" style="font-weight: bold">Ngày lắp</label>
-            </div>
-            <div class="col-md-8">
-              <input type="date" class="form-control">
-            </div>
-          </div>
+        <div class="col-sm-3 col-md-2">
+              <div class="input-group">
+                <input
+                  class="form-control"
+                  placeholder="Ngày lắp"
+                  name="dp"
+                  [(ngModel)]="model2"
+                  ngbDatepicker
+                  #d2="ngbDatepicker"
+                />
+                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d2.toggle()" type="button"></button>
+              </div>
         </div>
-        <div class="col-sm-3 col-md-2 m-t-20">
+        <div class="col-sm-3 col-md-2">
           <select class="form-select" aria-label="Default select example">
             <option selected>Labo</option>
             <option value="1">Xưởng A</option>
             <option value="2">Xưởng B</option>
           </select>
         </div>
-        <div class="col-sm-3 col-md-2 m-t-20">
+        <div class="col-sm-3 col-md-2">
           <select class="form-select" aria-label="Default select example">
             <option selected>Trạng thái</option>
             <option value="1">Đã nhận</option>
@@ -56,18 +65,9 @@
             <option value="3">Trả lại</option>
           </select>
         </div>
-      </div>
-      <div class="row search-row m-t-30">
-        <div class="col-md-5">
-          <input type="text" class="form-control" placeholder="Tìm kiếm theo tên mẫu">
-        </div>
-        <div class="col-md-2">
-          <button class="btn btn-primary float-right btn-rounded"> Tìm kiếm
-          </button>
-        </div>
-        <div class="col-md-2">
+        <div class="col-sm-3 col-md-2">
           <div class="form-group form-group-filter">
-            <button (click)="showColumnSelector = !showColumnSelector" class="btn btn-custom float-right btn-rounded">Hiển thị
+            <button (click)="showColumnSelector = !showColumnSelector" class="btn btn-custom float-right btn-rounded"> Hiển thị
             </button>
             <div class="hidden-card">
               <ul *ngIf="showColumnSelector" class="list-group">
@@ -79,6 +79,18 @@
               </ul>
             </div>
           </div>
+        </div>
+      </div>
+      <div class="row search-row m-t-30">
+        <div class="col-md-5"  style="position: relative;">
+          <div style="position: relative;">
+            <input type="text" class="form-control" placeholder="Tìm kiếm theo tên mẫu">
+            <span class="search-toggle-icon"><i class="bi bi-search"></i></span>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-primary float-right btn-rounded"> Tìm kiếm
+          </button>
         </div>
       </div>
       <div class="row">
@@ -101,7 +113,7 @@
                 <th style="min-width: 105px">Người nhận</th>
                 <th style="min-width: 90px">Ngày lắp</th>
                 <th style="min-width: 90px">Bảo hành</th>
-                <th style="min-width: 85px">Thao tác</th>
+                <th style="min-width: 101px">Thao tác</th>
               </tr>
               </thead>
               <tbody>
@@ -120,9 +132,9 @@
                 <td style="min-width: 105px">Nguyễn Văn A</td>
                 <td style="min-width: 95px">15/02/2023</td>
                 <td style="min-width: 90px">10 tháng</td>
-                <td class="text-center" style="min-width: 100px">
-                  <button href="#" class="btn btn-primary float-right btn-rounded">Câp nhật</button>
-                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_specimens">Xoá</button>
+                <td class="text-center" style="min-width: 101px">
+                  <button href="#" class="btn btn-primary float-right btn-rounded"><i class="bi bi-pencil-square"></i></button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_specimens"><i class="bi bi-trash"></i></button>
                 </td>
               </tr>
               <tr>
@@ -140,9 +152,9 @@
                 <td style="min-width: 105px">Nguyễn Văn A</td>
                 <td style="min-width: 95px">15/02/2023</td>
                 <td style="min-width: 90px">10 tháng</td>
-                <td class="text-center" style="min-width: 100px">
-                  <button href="#" class="btn btn-primary float-right btn-rounded">Câp nhật</button>
-                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_specimens">Xoá</button>
+                <td class="text-center" style="min-width: 101px">
+                  <button href="#" class="btn btn-primary float-right btn-rounded"><i class="bi bi-pencil-square"></i></button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_specimens"><i class="bi bi-trash"></i></button>
                 </td>
               </tr>
               <tr>
@@ -160,9 +172,9 @@
                 <td style="min-width: 105px">Nguyễn Văn A</td>
                 <td style="min-width: 95px">15/02/2023</td>
                 <td style="min-width: 90px">10 tháng</td>
-                <td class="text-center" style="min-width: 100px">
-                  <button href="#" class="btn btn-primary float-right btn-rounded">Câp nhật</button>
-                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_specimens">Xoá</button>
+                <td class="text-center" style="min-width: 101px">
+                  <button href="#" class="btn btn-primary float-right btn-rounded"><i class="bi bi-pencil-square"></i></button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_specimens"><i class="bi bi-trash"></i></button>
                 </td>
               </tr>
               <tr>
@@ -180,9 +192,9 @@
                 <td style="min-width: 105px">Nguyễn Văn A</td>
                 <td style="min-width: 95px">15/02/2023</td>
                 <td style="min-width: 90px">10 tháng</td>
-                <td class="text-center" style="min-width: 100px">
-                  <button href="#" class="btn btn-primary float-right btn-rounded">Câp nhật</button>
-                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_specimens">Xoá</button>
+                <td class="text-center" style="min-width: 101px">
+                  <button href="#" class="btn btn-primary float-right btn-rounded"><i class="bi bi-pencil-square"></i></button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_specimens"><i class="bi bi-trash"></i></button>
                 </td>
               </tr>
               <tr>
@@ -200,9 +212,9 @@
                 <td style="min-width: 105px">Nguyễn Văn A</td>
                 <td style="min-width: 95px">15/02/2023</td>
                 <td style="min-width: 90px">10 tháng</td>
-                <td class="text-center" style="min-width: 100px">
-                  <button href="#" class="btn btn-primary float-right btn-rounded">Câp nhật</button>
-                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_specimens">Xoá</button>
+                <td class="text-center" style="min-width: 101px">
+                  <button href="#" class="btn btn-primary float-right btn-rounded"><i class="bi bi-pencil-square"></i></button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_specimens"><i class="bi bi-trash"></i></button>
                 </td>
               </tr>
 
