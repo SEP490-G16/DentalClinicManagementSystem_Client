@@ -34,7 +34,18 @@
               <div class="form-group row mt-3">
                 <label for="receiverdate" class="col-3 name-title">Ngày nhận:</label>
                 <div class="col-9">
-                  <input type="date" class="form-control date-input-custom value-staff" id="receiverdate" name="receiverdate">
+                  <div class="input-group">
+                    <input
+                      id="receiverdate"
+                      class="form-control"
+                      placeholder="yyyy-mm-dd"
+                      name="dp"
+                      [(ngModel)]="model2"
+                      ngbDatepicker
+                      #d2="ngbDatepicker"
+                    />
+                    <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d2.toggle()" type="button"></button>
+                  </div>
                 </div>
               </div>
               <div class="form-group row mt-3">
@@ -66,7 +77,18 @@
               <div class="form-group row mt-3">
                 <label for="orderdate" class="col-3 name-title">Ngày đặt:</label>
                 <div class="col-9">
-                  <input type="date" class="form-control date-input-custom value-staff" id="orderdate" name="orderdate">
+                  <div class="input-group">
+                    <input
+                      id="orderdate"
+                      class="form-control"
+                      placeholder="yyyy-mm-dd"
+                      name="dp"
+                      [(ngModel)]="model"
+                      ngbDatepicker
+                      #d="ngbDatepicker"
+                    />
+                    <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
+                  </div>
                 </div>
 
               </div>
@@ -79,7 +101,18 @@
               <div class="form-group row mt-3">
                 <label for="installationdate" class="col-3 name-title">Ngày lắp:</label>
                 <div class="col-9">
-                  <input type="date" class="form-control date-input-custom value-staff" id="installationdate" name="installationdate">
+                  <div class="input-group">
+                    <input
+                      id="installationdate"
+                      class="form-control"
+                      placeholder="yyyy-mm-dd"
+                      name="dp"
+                      [(ngModel)]="model3"
+                      ngbDatepicker
+                      #d3="ngbDatepicker"
+                    />
+                    <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d3.toggle()" type="button"></button>
+                  </div>
                 </div>
 
               </div>
@@ -103,7 +136,7 @@
         <!-- Modal footer -->
         <div class="modal-footer">
           <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
-          <button type="button" class="btn btn-save" data-bs-dismiss="modal">Lưu</button>
+          <button type="button" class="btn btn-save" data-bs-dismiss="modal"><i class="bi bi-floppy2"></i> Lưu</button>
         </div>
 
       </div>
