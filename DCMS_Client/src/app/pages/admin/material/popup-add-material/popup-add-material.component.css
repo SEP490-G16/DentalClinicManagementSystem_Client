@@ -10,24 +10,26 @@
   height: 300px;
 }
 
+.btn-save:active,
 .btn-save {
   border-radius: 10px;
-  background-color: #fff;
+  color: #fff;
   border: 1px solid #7B4C50;
+  background-color: #7B4C50;
 }
 
 .btn-save:hover{
-  background-color: #7B4C50;
-  color:  #fff;
+  background-color: #60393c;
 }
+.btn-cancel:active,
 .btn-cancel {
   border-radius: 10px;
-  background-color: #666;
-  border: 1px solid #fff;
+  background-color: #838282;
+  color: #ffffff;
 }
 
 .btn-cancel:hover {
-  background-color: #fff;
+  background-color: #6e6c6c;
 }
 .name-title{
   padding-top: 6px;
