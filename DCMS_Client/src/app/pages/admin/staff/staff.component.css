@@ -603,3 +603,9 @@ Layout
 .bi-trash{
   color: #ffffff;
 }
+.search-toggle-icon {
+  position: absolute;
+  top: 0;
+  transform: translateY(40%);
+  right: 10px;
+}
