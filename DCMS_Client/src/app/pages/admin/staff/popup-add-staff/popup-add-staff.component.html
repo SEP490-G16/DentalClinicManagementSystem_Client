@@ -112,25 +112,21 @@
               </div>
               <div class="form-group row mt-2">
                 <label for="password" class="col-3 name-title">Mật khẩu:</label>
-                <div class="col-6">
-                  <input type="password" id="password" class="form-control value-staff">
-                  <!--<div class="input-group-append">
-                    <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility()">
-                      <i class="fas" [ngClass]="{'fa-eye': showPassword, 'fa-eye-slash': !showPassword}"></i>
-                    </button>
-                  </div>-->
+                <div class="col-6" style="position: relative;">
+                  <div style="position: relative;">
+                    <input [type]="showPassword ? 'password' : 'text'" id="password" class="form-control value-staff" [(ngModel)]="password">
+                    <span class="password-toggle-icon" (click)="togglePassword()"><i class="bi" [ngClass]="{'bi-eye-fill': showPassword, 'bi-eye-slash-fill': !showPassword}"></i></span>
+                  </div>
                 </div>
 
               </div>
               <div class="form-group row mt-2">
                 <label for="password-repeat" class="col-3 name-title">Nhập lại mật khẩu:</label>
-                <div class="col-6">
-                  <input type="password" id="password-repeat" class="form-control value-staff">
-                  <!--<div class="input-group-append">
-                    <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility()">
-                      <i class="fas" [ngClass]="{'fa-eye': showPassword, 'fa-eye-slash': !showPassword}"></i>
-                    </button>
-                  </div>-->
+                <div class="col-6" style="position: relative;">
+                  <div style="position: relative;">
+                    <input [type]="showPasswordRepeat ? 'password' : 'text'" id="password-repeat" class="form-control value-staff" [(ngModel)]="passwordRepeat">
+                  <span class="password-toggle-icon" (click)="togglePasswordRepeat()"><i class="bi" [ngClass]="{'bi-eye-fill': showPasswordRepeat, 'bi-eye-slash-fill': !showPasswordRepeat}"></i></span>
+                  </div>
                 </div>
               </div>
 
@@ -141,7 +137,7 @@
         <!-- Modal footer -->
         <div class="modal-footer">
           <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
-          <button type="button" class="btn btn-save" data-bs-dismiss="modal">Lưu</button>
+          <button type="button" class="btn btn-save" data-bs-dismiss="modal"><i class="bi bi-floppy2"></i> Lưu</button>
         </div>
 
       </div>

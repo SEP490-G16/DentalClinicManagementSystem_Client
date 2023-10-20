@@ -238,6 +238,8 @@ a {
 .btn-primary {
   background-color: #234ce3;
   border: 1px solid transparent;
+  margin-right: 5px;
+  color: #ffffff;
 }
 
 .btn-custom {
@@ -247,7 +249,7 @@ a {
   padding: 7px 15px;
 }
 .btn-custom:hover{
-  background-color: #fff;
+  background-color: #f6b796;
 }
 .btn-white {
   background-color: #fff;
@@ -259,9 +261,8 @@ a {
 .btn-primary.active,
 .btn-primary:active,
 .open>.dropdown-toggle.btn-primary {
-  background-color: #fe3f51;
-  border: 1px solid #fe3f51;
-  color: #fff
+  background-color: #1c42af;
+  border: 1px solid transparent;
 }
 
 .btn-primary.active.focus,
@@ -392,8 +393,8 @@ a {
 
 .btn-danger:hover,
 .btn-danger:focus {
-  background-color: #e6294b;
-  border: 1px solid #e6294b
+  background-color: #bd1e3b;
+  border: 1px solid #bd1e3b
 }
 
 .btn-link,
@@ -592,4 +593,13 @@ Layout
   .filter-row {
     margin-bottom: 15px
   }
+}
+.bi-journal-richtext{
+  color: #ffffff;
+}
+.bi bi-plus-circle{
+  color: #1E1E1E;
+}
+.bi-trash{
+  color: #ffffff;
 }

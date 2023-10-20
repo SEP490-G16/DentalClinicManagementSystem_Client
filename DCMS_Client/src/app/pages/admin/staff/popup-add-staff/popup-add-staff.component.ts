@@ -7,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PopupAddStaffComponent implements OnInit {
   imageURL: string | ArrayBuffer = '';
+  showPassword: boolean = true;
+  showPasswordRepeat:boolean = true;
+  password: string = '';
+  passwordRepeat:string = '';
   constructor() { }
 
   ngOnInit(): void {
@@ -23,5 +27,11 @@ export class PopupAddStaffComponent implements OnInit {
 
       reader.readAsDataURL(file);
     }
+  }
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
+  togglePasswordRepeat() {
+    this.showPasswordRepeat = !this.showPasswordRepeat;
   }
 }
