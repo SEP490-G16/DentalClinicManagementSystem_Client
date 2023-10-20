@@ -198,8 +198,17 @@ a {
 .btn-primary {
   background-color: #234ce3;
   border: 1px solid transparent;
+  margin-right: 5px;
+  color: #ffffff;
 }
-
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary.active,
+.btn-primary:active,
+.open>.dropdown-toggle.btn-primary {
+  background-color: #1c42af;
+  border: 1px solid transparent;
+}
 .btn-custom {
   background-color: #FEDDCC;
   border: 1px solid #7B4C50;
@@ -207,7 +216,7 @@ a {
   padding: 7px 15px;
 }
 .btn-custom:hover{
-  background-color: #fff;
+  background-color: #f6b796;
 }
 
 .btn-white {
@@ -323,19 +332,24 @@ table.table td h2 a {
   .filter-row {
     margin-bottom: 15px
   }
-  .form-select{
-    background-color: #FEDDCC;
-    border: 2px solid #7B4C50;
-  }
-  .form-group .form-control {
-    box-shadow: none;
-    padding: .469rem .75rem;
-    font-size: 14px;
-    min-height: 40px;
-    background: linear-gradient(51.64deg, rgba(255, 255, 255, 0) 34.2%, rgba(255, 255, 255, 0.2) 97.35%, rgba(255, 255, 255, 0) 160.66%), rgba(255, 255, 255, 0.2);
-    border-radius: 10px
-  }
-  .custom-search{
-    color: #ffffff;
-  }
+}
+.search-toggle-icon {
+  position: absolute;
+  top: 0;
+  transform: translateY(40%);
+  right: 10px;
+}
+.bi-trash{
+  color: #ffffff;
+}
+.form-group .form-control {
+  box-shadow: none;
+  padding: .469rem .75rem;
+  font-size: 14px;
+  min-height: 40px;
+  background: linear-gradient(51.64deg, rgba(255, 255, 255, 0) 34.2%, rgba(255, 255, 255, 0.2) 97.35%, rgba(255, 255, 255, 0) 160.66%), rgba(255, 255, 255, 0.2);
+  border-radius: 10px
+}
+.bi-check-circle{
+  color: #FFFFFF;
 }
