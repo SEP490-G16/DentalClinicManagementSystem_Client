@@ -129,6 +129,7 @@ import { PopupDeleteBillImportMaterialComponent } from './pages/admin/warehouse-
     }),
     ComponentsModule,
     NgbModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]
