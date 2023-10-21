@@ -7,7 +7,7 @@
             <h4 class="page-title">Thông tin nhân viên</h4>
           </div>
           <div class="edit">
-            <button class="btn btn-custom" (click)="toggleEditing()">{{ isEditing ? 'Lưu' : 'Cập nhật'
+            <button class="btn" [ngClass]="{'btn-custom':!isEditing, 'btn-save':isEditing}" (click)="toggleEditing()"><i class="bi" [ngClass]="{'bi-floppy2':isEditing, 'bi-pencil-square':!isEditing}"></i> {{ isEditing ? 'Lưu' : 'Cập nhật'
               }}</button>
           </div>
         </div>
@@ -31,14 +31,11 @@
               </div>
               <div class="form-group row">
                 <label for="password" class="col-4 name-title">Mật khẩu:</label>
-                <div class="col-8">
-                  <input type="password" [(ngModel)]="matkhau" id="password" *ngIf="isEditing"  [disabled]="!isEditing" class="form-control value-staff">
-                  <!--<div class="input-group-append">
-                    <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility()">
-                      <i class="fas" [ngClass]="{'fa-eye': showPassword, 'fa-eye-slash': !showPassword}"></i>
-                    </button>
-                  </div>-->
-                  <p *ngIf="!isEditing" class="value-staff">{{matkhau}}</p>
+                <div class="col-8" style="position: relative;">
+                  <div style="position: relative;">
+                    <input [type]="showPassword ? 'password' : 'text'" id="password" [disabled]="!isEditing" class="form-control value-staff" [(ngModel)]="matkhau">
+                    <span class="password-toggle-icon" (click)="togglePassword()"><i class="bi" [ngClass]="{'bi-eye-fill': showPassword, 'bi-eye-slash-fill': !showPassword}"></i></span>
+                  </div>
                 </div>
               </div>
             </div>

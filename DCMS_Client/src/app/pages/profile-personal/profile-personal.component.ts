@@ -21,14 +21,14 @@ export class ProfilePersonalComponent implements OnInit {
   ghiChu:string='abc';
   coSo:string='1';
   isEditing: boolean = false;
-  matkhau:string='123456';
+  matkhau:string='1234';
 
   toggleEditing() {
     this.isEditing = !this.isEditing;
   }
   showPassword: boolean = false;
 
-  togglePasswordVisibility() {
+  togglePassword() {
     this.showPassword = !this.showPassword;
   }
 }
