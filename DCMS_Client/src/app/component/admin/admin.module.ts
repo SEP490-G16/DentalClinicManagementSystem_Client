@@ -1,0 +1,110 @@
+
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from "@angular/router";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {HttpClientModule} from '@angular/common/http';
+import { ToastrModule } from 'ngx-toastr';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+
+
+import { SharedModule } from '../shared/shared.module';
+import { AdminComponent } from './admin.component';
+import { FacilityComponent } from './facility/facility.component';
+import { LaboComponent } from './labo/labo.component';
+import { MaterialComponent } from './material/material.component';
+import { MedicineComponent } from './medicine/medicine.component';
+import { PendingMaterialComponent } from './pending-material/pending-material.component';
+import { PendingSpecimensComponent } from './pending-specimens/pending-specimens.component';
+import { ServiceComponent } from './service/service.component';
+import { SpecimensComponent } from './specimens/specimens.component';
+import { StaffComponent } from './staff/staff.component';
+import { StaffDetailComponent } from './staff-detail/staff-detail.component';
+import { WarehouseExportMaterialManagementComponent } from './warehouse-export-material-management/warehouse-export-material-management.component';
+import { WarehouseImportMaterialManagementComponent } from './warehouse-import-material-management/warehouse-import-material-management.component';
+import { PopupAddApproveSpecimensComponent } from './pending-specimens/popup-add-approve-specimens/popup-add-approve-specimens.component';
+import { PopupDeleteFacilityComponent } from './facility/popup-delete-facility/popup-delete-facility.component';
+import { PopupAddBillExportMaterialComponent } from './warehouse-export-material-management/popup-add-bill-export-material/popup-add-bill-export-material.component';
+import { PopupAddFacilityComponent } from './facility/popup-add-facility/popup-add-facility.component';
+import { PopupAddBillImportMaterialComponent } from './warehouse-import-material-management/popup-add-bill-import-material/popup-add-bill-import-material.component';
+import { PopupDeleteBillExportMaterialComponent } from './warehouse-export-material-management/popup-delete-bill-export-material/popup-delete-bill-export-material.component';
+import { PopupDeleteBillImportMaterialComponent } from './warehouse-import-material-management/popup-delete-bill-import-material/popup-delete-bill-import-material.component';
+import { PopupDetailBillExportMaterialComponent } from './warehouse-export-material-management/popup-detail-bill-export-material/popup-detail-bill-export-material.component';
+import { PopupDetailBillImportMaterialComponent } from './warehouse-import-material-management/popup-detail-bill-import-material/popup-detail-bill-import-material.component';
+import { PopupAddStaffComponent } from './staff/popup-add-staff/popup-add-staff.component';
+import { PopupDeleteStaffComponent } from './staff/popup-delete-staff/popup-delete-staff.component';
+import { PopupDeleteSpecimensComponent } from './specimens/popup-delete-specimens/popup-delete-specimens.component';
+import { PopupDeleteServiceComponent } from './service/popup-delete-service/popup-delete-service.component';
+import { PopupAddServiceComponent } from './service/popup-add-service/popup-add-service.component';
+import { PopupDeleteGroupServiceComponent } from './service/popup-delete-group-service/popup-delete-group-service.component';
+import { PopupAddGroupServiceComponent } from './service/popup-add-group-service/popup-add-group-service.component';
+import { PopupAddSpecimensComponent } from './specimens/popup-add-specimens/popup-add-specimens.component';
+import { PopupDeleteMedicineComponent } from './medicine/popup-delete-medicine/popup-delete-medicine.component';
+import { PopupAddMedicineComponent } from './medicine/popup-add-medicine/popup-add-medicine.component';
+import { PopupDeleteMaterialComponent } from './material/popup-delete-material/popup-delete-material.component';
+import { PopupAddMaterialComponent } from './material/popup-add-material/popup-add-material.component';
+import { PopupAddLaboComponent } from './labo/popup-add-labo/popup-add-labo.component';
+import { PopupDeleteLaboComponent } from './labo/popup-delete-labo/popup-delete-labo.component';
+import { ProfilePersonalComponent } from '../shared/profile-personal/profile-personal.component';
+
+@NgModule({
+  declarations: [
+      AdminComponent,
+      FacilityComponent,
+      LaboComponent,
+      MaterialComponent,
+      MedicineComponent,
+      PendingMaterialComponent,
+      PendingSpecimensComponent,
+      ServiceComponent,
+      SpecimensComponent,
+      StaffComponent,
+      StaffDetailComponent,
+      WarehouseExportMaterialManagementComponent,
+      WarehouseImportMaterialManagementComponent,
+      PopupAddStaffComponent,
+      PopupDeleteStaffComponent,
+      PopupAddSpecimensComponent,
+      PopupDeleteSpecimensComponent,
+      PopupAddServiceComponent,
+      PopupDeleteServiceComponent,
+      PopupAddGroupServiceComponent,
+      PopupDeleteGroupServiceComponent,
+      PopupDeleteMedicineComponent,
+      PopupAddMedicineComponent,
+
+      PopupAddMaterialComponent,
+      PopupDeleteMaterialComponent,
+
+      PopupAddLaboComponent,
+      PopupDeleteLaboComponent,
+
+      PopupAddBillExportMaterialComponent,
+      PopupAddBillImportMaterialComponent,
+      PopupAddFacilityComponent,
+      PopupAddApproveSpecimensComponent,
+      PopupDetailBillImportMaterialComponent,
+      PopupDetailBillExportMaterialComponent,
+      PopupDeleteBillExportMaterialComponent,
+      PopupDeleteBillImportMaterialComponent,
+      PopupDeleteFacilityComponent
+
+
+  ],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    SharedModule,
+    NgbModule,
+    HttpClientModule,
+    ToastrModule.forRoot({
+      preventDuplicates: true,
+      timeOut: 3000,
+      closeButton: true,
+      progressBar: true,
+    }),
+  ]
+})
+export class AdminModule { }

@@ -1,11 +1,36 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {LayoutsComponent} from "./shared/layouts/layouts/layouts.component";
-import { ReceptionistComponent } from './pages/receptionist/receptionist.component';
 
 const routes: Routes = [
-  {path: "", component: LayoutsComponent},
-  {path: "r", component: ReceptionistComponent}
+  {
+    path: 'auth',
+    loadChildren: () => import('./component/auth/auth.module').then(m => m.AuthModule)
+  },
+
+  {
+    path: 'admin',
+    loadChildren: () => import('./component/admin/admin.module').then(m => m.AdminModule)
+  },
+
+  {
+    path: 'receptionist',
+    loadChildren: () => import('./component/receptionist/receptionist.module').then(m => m.ReceptionistModule)
+  },
+
+  {
+    path: 'doctor',
+    loadChildren: () => import('./component/doctor/doctor.module').then(m => m.DoctorModule)
+  },
+
+  {
+    path: 'patient',
+    loadChildren: () => import('./component/patient/patient.module').then(m => m.PatientModule)
+  },
+
+  {
+    path: 'nurse',
+    loadChildren: () => import('./component/nurse/nurse.module').then(m => m.NurseModule)
+  },
 ];
 
 @NgModule({
