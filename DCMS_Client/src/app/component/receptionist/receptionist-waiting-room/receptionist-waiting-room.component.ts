@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+
 @Component({
   selector: 'app-receptionist-waiting-room',
   templateUrl: './receptionist-waiting-room.component.html',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReceptionistWaitingRoomComponent implements OnInit {
 
+
   constructor() { }
 
   ngOnInit(): void {
+
+  }
+
+  preventNavigation(event: Event) {
+    event.preventDefault();
   }
 
   imageURL: string | ArrayBuffer = '';

@@ -1,6 +1,8 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300);
+
 * {
-  color: #1E1E1E;
-  font-family: source sans pro, sans-serif;
+  font-family: source sans pro, 'Roboto',sans-serif;
+  font-weight: 400;
 }
 .m-t-27 {
   margin-top: 27px;
@@ -23,6 +25,7 @@
 .bg-wrapper::before {
 	content: "";
 	display: block;
+  background: #fff;
 	position: absolute;
 	z-index: -1;
 	width: 100%;
@@ -33,13 +36,12 @@
 
 .page-wrapper>.content {
 	padding: 30px;
-	width: 100%
+	width: 100%;
 }
 
 .buy-form {
 	padding: 50px;
 	margin-bottom: 30px;
-	background: #fff;
 	box-shadow: 0 4px 9px #fff, inset 0 0 15px rgba(255, 255, 255, .35);
 	border-radius: 27px;
 	width: 100%
@@ -63,16 +65,20 @@
   background-color: #fff;
 }
 
-.dropdown-custom {
+select.form-select-custom {
+  border: none;
+  background-color: transparent;
+}
+
+
+.select-custom {
+  max-width: 170px;
   border-radius: 10px;
   border: 1px solid #7B4C50;
   background-color: #fff;
   color: #676767;
 }
-.dropdown-custom:hover{
-  background-color: #7B4C50;
-  color: #fff;
-}
+
 .custom-table thead tr {
 	background: 0 0;
 	border-top: 0;
@@ -148,4 +154,62 @@
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
+}
+
+.pagination-container {
+  margin: 100px auto;
+  text-align: center;
+}
+
+.pagination-custom {
+  position: relative;
+}
+
+.pagination-custom a {
+  position: relative;
+  display: inline-block;
+  color: #2c3e50;
+  text-decoration: none;
+  font-size: 1.2rem;
+  padding: 8px 16px 10px;
+}
+
+.pagination-custom a:before {
+  z-index: -1;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  content: "";
+  top: 0;
+  left: 0;
+  background-color: #2c3e50;
+  border-radius: 24px;
+  transform: scale(0);
+  transition: all 0.2s;
+}
+
+.pagination-custom a:hover,
+.pagination-active {
+  color: #fff;
+}
+
+.pagination-custom a:hover:before,
+.pagination-active:before {
+  transform: scale(1);
+}
+
+.pagination-active {
+  color: #fff;
+}
+
+.pagination-active:before {
+  transform: scale(1);
+}
+
+.pagination-newer {
+  margin-right: 50px;
+}
+
+.pagination-older {
+  margin-left: 50px;
 }
