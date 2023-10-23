@@ -47,6 +47,7 @@ import { PopupAddMaterialComponent } from './material/popup-add-material/popup-a
 import { PopupAddLaboComponent } from './labo/popup-add-labo/popup-add-labo.component';
 import { PopupDeleteLaboComponent } from './labo/popup-delete-labo/popup-delete-labo.component';
 import { ProfilePersonalComponent } from '../shared/profile-personal/profile-personal.component';
+import {AdminRoutingModule} from "./admin-routing.module";
 
 @NgModule({
   declarations: [
@@ -105,6 +106,8 @@ import { ProfilePersonalComponent } from '../shared/profile-personal/profile-per
       closeButton: true,
       progressBar: true,
     }),
+    NgbModule,
+    AdminRoutingModule
   ]
 })
 export class AdminModule { }
