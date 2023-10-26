@@ -1,0 +1,39 @@
+@media (max-width: 767px) {
+  .container {
+    max-width: 100%;
+    margin: 0;
+  }
+  .input-group{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .date-input-custom-change{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  .btn-confirm{
+
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  .cancel{
+    margin-top: 30px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+  h2{
+    text-align: center;
+  }
+  h3{
+    text-align: center;
+  }
+}

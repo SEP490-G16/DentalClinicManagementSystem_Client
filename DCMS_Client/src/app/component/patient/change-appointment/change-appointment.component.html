@@ -1,0 +1,49 @@
+<div class="container">
+  <h2>Xin chào, Nguyễn Văn A</h2>
+  <h3>0123456789</h3>
+  <div class="input-group mt-5">
+    <div>
+      <input
+        class="form-control"
+        placeholder="Đổi lịch"
+        name="dp"
+        [(ngModel)]="model"
+        ngbDatepicker
+        #d="ngbDatepicker"
+      />
+
+    </div>
+    <div>
+      <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
+    </div>
+
+  </div>
+      <div class="form-group row mt-5">
+        <label for="appointmentdate" class="col-3 name-title">Ngày hẹn:</label>
+        <div class="col-9 value-staff">
+          <input type="date" class="form-control date-input-custom-change" id="appointmentdate" name="appointmentdate">
+        </div>
+      </div>
+      <div class="form-group row mt-3">
+        <label for="changedate" class="col-3 name-title">Ngày đổi:</label>
+        <div class="col-9 value-staff">
+          <input type="date" class="form-control date-input-custom-change" id="changedate" name="changedate">
+        </div>
+      </div>
+  <div class="form-group row mt-3">
+    <label for="time" class="col-3 name-title">Giờ:</label>
+    <div class="col-9 value-staff">
+      <input type="time" class="form-control date-input-custom" id="time" name="time">
+    </div>
+  </div>
+  <div class="confirm">
+    <div class="cancel">
+      <button class="btn btn-secondary">Huỷ lịch hẹn</button>
+    </div>
+    <div class="btn-confirm">
+      <button class="btn btn-primary">Xác nhận</button>
+    </div>
+  </div>
+
+
+</div>

@@ -12,12 +12,14 @@ import { PatientManagementComponent } from './patient-management/patient-managem
 import { PatientRecordsComponent } from './patient-records/patient-records.component';
 import { SharedModule } from '../shared/shared.module';
 import { PatientRoutingModule } from './patient-routing.module';
+import { ChangeAppointmentComponent } from './change-appointment/change-appointment.component';
 
 
 @NgModule({
   declarations: [
       PatientManagementComponent,
-      PatientRecordsComponent
+      PatientRecordsComponent,
+      ChangeAppointmentComponent
   ],
   imports: [
     CommonModule,
