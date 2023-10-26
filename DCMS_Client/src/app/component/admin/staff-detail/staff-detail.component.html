@@ -7,8 +7,8 @@
             <h4 class="page-title">Thông tin nhân viên</h4>
           </div>
           <div class="edit">
-            <button class="btn" [ngClass]="{'btn-custom':!isEditing, 'btn-save':isEditing}" (click)="toggleEditing()"><i class="bi" [ngClass]="{'bi-floppy2':isEditing, 'bi-pencil-square':!isEditing}"></i> {{ isEditing ? 'Lưu' : 'Chỉnh sửa'
-              }}</button>
+            <button class="btn btn-secondary" (click)="window.history.go(-1)">Quay lại</button>
+            <button class="btn" [ngClass]="{'btn-custom':!isEditing, 'btn-save':isEditing}" (click)="toggleEditing()"><i class="bi" [ngClass]="{'bi-floppy2':isEditing, 'bi-pencil-square':!isEditing}"></i> {{ isEditing ? 'Lưu' : 'Chỉnh sửa'}}</button>
 
           </div>
         </div>

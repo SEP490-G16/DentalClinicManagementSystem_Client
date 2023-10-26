@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./staff-detail.component.css']
 })
 export class StaffDetailComponent implements OnInit {
+  protected readonly window = window;
   showPassword: boolean = true;
   constructor() { }
 

@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
 import {FacilityComponent} from "./facility/facility.component";
 import {LaboComponent} from "./labo/labo.component";
@@ -12,16 +12,20 @@ import {StaffDetailComponent} from "./staff-detail/staff-detail.component";
 
 
 const adminRoutes: Routes = [
-  {path:'facility', component: FacilityComponent},
-  {path:'labo', component: LaboComponent},
-  {path:'material', component: MaterialComponent},
-  {path:'medicine', component:MedicineComponent},
-  {path:'service', component:ServiceComponent},
-  {path:'specimens', component:SpecimensComponent},
-  {path:'staff', component:StaffComponent, children:[
-      {path:'detail-staff', component:StaffDetailComponent}
-    ]}
+  {path: 'facility', component: FacilityComponent},
+  {path: 'labo', component: LaboComponent},
+  {path: 'material', component: MaterialComponent},
+  {path: 'medicine', component: MedicineComponent},
+  {path: 'service', component: ServiceComponent},
+  {path: 'specimens', component: SpecimensComponent},
+  {
+    path: 'staff',children: [
+      {path: '', component: StaffComponent},
+      {path: 'detail-staff', component: StaffDetailComponent}
+    ]
+  }
 ]
+
 @NgModule({
   imports: [
     CommonModule,
@@ -29,4 +33,5 @@ const adminRoutes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AdminRoutingModule { }
+export class AdminRoutingModule {
+}
