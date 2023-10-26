@@ -3,8 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { ReceptionistWaitingRoomComponent } from './receptionist-waiting-room/receptionist-waiting-room.component';
 import { ReceptionistTimekeepingComponent } from './receptionist-timekeeping/receptionist-timekeeping.component';
 import { ReceptionistAppointmentListComponent } from './receptionist-appointment-list/receptionist-appointment-list.component';
+import { ReceptionistComponent } from './receptionist.component';
 
 const authRoutes: Routes = [
+  {
+    path: '',
+    component: ReceptionistComponent
+  },
+
   {
     path: 'waitingroom',
     component: ReceptionistWaitingRoomComponent

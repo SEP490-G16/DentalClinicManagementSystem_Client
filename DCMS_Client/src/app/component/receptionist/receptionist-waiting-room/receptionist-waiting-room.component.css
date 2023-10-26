@@ -12,46 +12,12 @@
   margin-left: 9px;
 }
 
-.page-wrapper {
-	left: 0;
-	margin-left: 250px;
-	padding-top: 60px;
-	position: relative;
-	-webkit-transition: all .4s ease;
-	-moz-transition: all .4s ease;
-	transition: all .4s ease
-}
-
-.bg-wrapper::before {
-	content: "";
-	display: block;
-  background: #fff;
-	position: absolute;
-	z-index: -1;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0
-}
-
-.page-wrapper>.content {
-	padding: 30px;
-	width: 100%;
-}
-
-.buy-form {
-	padding: 50px;
-	margin-bottom: 30px;
-	box-shadow: 0 4px 9px #fff, inset 0 0 15px rgba(255, 255, 255, .35);
-	border-radius: 27px;
-	width: 100%
-}
-
-.page-title {
-	color: #35446f;
-	font-size: 21px;
-	font-weight: 700;
-	margin-bottom: 30px
+.content {
+  margin-left: 10%;
+  margin-top: 5%;
+  margin-right: 5%;
+  padding: 5%;
+  z-index: -999;
 }
 
 .btn-custom {

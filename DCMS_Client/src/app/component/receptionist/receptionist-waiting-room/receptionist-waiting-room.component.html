@@ -1,94 +1,88 @@
-<div class="page-wrapper bg-wrapper m-t-27">
-  <div class="content">
-    <div class="buy-form">
-      <div class="row">
-        <div class="col-sm-4 col-3">
-          <h4 class="page-title">Phòng chờ</h4>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-6">
-          <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#wrModal"><i
-              class="bi bi-plus-circle"></i>
-            Thêm
-            hàng chờ</button>
-          <button class="btn btn-custom m-l-9" data-bs-toggle="modal" data-bs-target="#myModal"><i
-              class="bi bi-plus-circle"></i> Thêm
-            bệnh nhân</button>
-        </div>
-        <div class="col-6">
-          <select class="form-select select-custom float-end m-2" aria-label="Default select example">
-            <option selected>Phân loại điều trị</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="row m-t-27">
-        <div class="col-md-12">
-          <div class="table-responsive">
-            <table class="table table-hover table-bordered custom-table">
-              <thead>
-                <tr class="text-center">
-                  <th>Số thứ tự</th>
-                  <th>Mã bệnh nhân</th>
-                  <th style="min-width:200px;">Tên bệnh nhân</th>
-                  <th>Lý do khám</th>
-                  <th>Loại điều trị</th>
-                  <th style="min-width: 110px;">Trạng thái</th>
-                </tr>
-              </thead>
-
-              <tbody class="text-center">
-                <tr>
-                  <td>1</td>
-                  <td>
-                    HE153724
-                  </td>
-                  <td>
-                    Albina Simonis
-                  </td>
-                  <td>
-                    Đau răng
-                  </td>
-                  <td>
-                    Niềng Răng
-                  </td>
-                  <td>
-                    <select class="form-select-custom text-center" aria-label="Default select example">
-                      <option selected>Đang khám</option>
-                      <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option>
-                    </select>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="col-12">
-        <nav class="pagination-container">
-          <div class="pagination-custom">
-            <a (click)="preventNavigation($event)" class="pagination-newer" href="#">Trước</a>
-            <span class="pagination-inner">
-              <a (click)="preventNavigation($event)" href="#">1</a>
-              <a (click)="preventNavigation($event)" class="pagination-active" href="#">2</a>
-              <a (click)="preventNavigation($event)" href="#">3</a>
-            </span>
-            <a (click)="preventNavigation($event)" class="pagination-older" href="#">Sau</a>
-          </div>
-        </nav>
-      </div>
-
+<div class="content">
+  <div class="row">
+    <div class="col-sm-4 col-3">
+      <h4 class="page-title">Phòng chờ</h4>
     </div>
   </div>
-</div>
 
+  <div class="row">
+    <div class="col-6">
+      <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#wrModal"><i class="bi bi-plus-circle"></i>
+        Thêm
+        hàng chờ</button>
+      <button class="btn btn-custom m-l-9" data-bs-toggle="modal" data-bs-target="#myModal"><i
+          class="bi bi-plus-circle"></i> Thêm
+        bệnh nhân</button>
+    </div>
+    <div class="col-6">
+      <select class="form-select select-custom float-end m-2" aria-label="Default select example">
+        <option selected>Phân loại điều trị</option>
+        <option value="1">One</option>
+        <option value="2">Two</option>
+        <option value="3">Three</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row m-t-27">
+    <div class="col-md-12">
+      <div class="table-responsive">
+        <table class="table table-hover table-bordered custom-table">
+          <thead>
+            <tr class="text-center">
+              <th>Số thứ tự</th>
+              <th>Mã bệnh nhân</th>
+              <th style="min-width:200px;">Tên bệnh nhân</th>
+              <th>Lý do khám</th>
+              <th>Loại điều trị</th>
+              <th style="min-width: 110px;">Trạng thái</th>
+            </tr>
+          </thead>
+
+          <tbody class="text-center">
+            <tr>
+              <td>1</td>
+              <td>
+                HE153724
+              </td>
+              <td>
+                Albina Simonis
+              </td>
+              <td>
+                Đau răng
+              </td>
+              <td>
+                Niềng Răng
+              </td>
+              <td>
+                <select class="form-select-custom text-center" aria-label="Default select example">
+                  <option selected>Đang khám</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-12">
+    <nav class="pagination-container">
+      <div class="pagination-custom">
+        <a (click)="preventNavigation($event)" class="pagination-newer" href="#">Trước</a>
+        <span class="pagination-inner">
+          <a (click)="preventNavigation($event)" href="#">1</a>
+          <a (click)="preventNavigation($event)" class="pagination-active" href="#">2</a>
+          <a (click)="preventNavigation($event)" href="#">3</a>
+        </span>
+        <a (click)="preventNavigation($event)" class="pagination-older" href="#">Sau</a>
+      </div>
+    </nav>
+  </div>
+
+</div>
 
 <!--Add Patient Modal -->
 <div class="modal" id="myModal">
