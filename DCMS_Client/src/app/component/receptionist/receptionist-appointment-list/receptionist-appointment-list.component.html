@@ -117,7 +117,28 @@
           <div class="export__file">
           </div>
         </section>
-        <h2>Recent Orders</h2>
+
+        <div class="row mt-5 mb-5">
+          <div class="col-6">
+            <button class="btn btn-add-custom" data-bs-toggle="modal" data-bs-target="#wrModal"><i
+                class="bi bi-plus-circle"></i>
+              Thêm
+              lịch hẹn</button>
+            <button class="btn btn-add-custom" data-bs-toggle="modal" data-bs-target="#myModal"><i
+                class="bi bi-plus-circle"></i> Thêm
+              bệnh nhân</button>
+          </div>
+          <div class="col-6">
+            <input type="date" class="date-input-custom" placeholder="Search here">
+            <select class="form-select input-custom float-end" aria-label="Default select example">
+              <option selected>Phân loại điều trị</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+        <h2>Lịch hẹn</h2>
         <table>
           <thead>
             <tr>
