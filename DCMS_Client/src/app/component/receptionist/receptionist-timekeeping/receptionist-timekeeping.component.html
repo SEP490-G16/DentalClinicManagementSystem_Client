@@ -1,24 +1,130 @@
-<div class="page-wrapper bg-wrapper m-t-27">
-  <div class="content">
-      <div class="buy-form">
-        <div class="row">
-          <div class="col-sm-4 col-3">
-            <h4 class="page-title">Chấm công</h4>
+<div class="web-wrapper">
+  <div class="container-custom">
+    <!-- Sidebar Section -->
+    <aside>
+      <div class="toggle">
+        <div class="logo">
+          <img
+            src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
+          <p><span class="danger">Nguyen Tran</span> Clinic</p>
+        </div>
+        <div class="close" id="close-btn">
+          <span class="material-icons-sharp">
+            close
+          </span>
+        </div>
+      </div>
+
+      <div class="sidebar">
+        <a routerLink="/receptionist/appointment">
+          <span class="material-icons-sharp">
+            dashboard
+          </span>
+          <h3>Lịch hẹn</h3>
+        </a>
+        <a routerLink="/receptionist/waitingroom">
+          <span class="material-icons-sharp">
+            person_outline
+          </span>
+          <h3>Phòng chờ</h3>
+        </a>
+        <a routerLink="/patient/list">
+          <span class="material-icons-sharp">
+            receipt_long
+          </span>
+          <h3>Bệnh nhân</h3>
+        </a>
+        <a routerLink="/receptionist/timekeeping" class="active">
+          <span class="material-icons-sharp">
+            insights
+          </span>
+          <h3>Chấm công</h3>
+        </a>
+        <a href="#">
+          <span class="material-icons-sharp">
+            logout
+          </span>
+          <h3>Logout</h3>
+        </a>
+      </div>
+    </aside>
+    <!-- End of Sidebar Section -->
+
+    <!-- Main Content -->
+    <main>
+      <!-- Analyses -->
+      <div class="analyse">
+        <div class="sales">
+          <div class="status">
+            <div class="info">
+              <h3>Lịch hẹn</h3>
+              <h1 class="text-center">02</h1>
+            </div>
+            <div class="progresss">
+              <svg>
+                <circle cx="38" cy="38" r="36"></circle>
+              </svg>
+              <div class="percentage">
+                <p>+81%</p>
+              </div>
+            </div>
           </div>
         </div>
+        <div class="visits">
+          <div class="status">
+            <div class="info">
+              <h3>Phòng chờ</h3>
+              <h1 class="text-center">24</h1>
+            </div>
+            <div class="progresss">
+              <svg>
+                <circle cx="38" cy="38" r="36"></circle>
+              </svg>
+              <div class="percentage">
+                <p>-48%</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="searches">
+          <div class="status">
+            <div class="info">
+              <h3>Bệnh nhân</h3>
+              <h1 class="text-center">23</h1>
+            </div>
+            <div class="progresss">
+              <svg>
+                <circle cx="38" cy="38" r="36"></circle>
+              </svg>
+              <div class="percentage">
+                <p>+21%</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End of Analyses -->
 
-        <div class="row">
-          <div class="col-2">
-              <input type="date" class="form-control date-input-custom" placeholder="Search here">
+      <!-- New Users Section -->
+      <!-- End of New Users Section -->
+
+      <!-- Recent Orders Table -->
+      <div class="recent-orders">
+        <!-- <section class="table__header">
+          <h1></h1>
+          <div class="input-group">
+            <input type="search search-custom" placeholder="Tìm kiếm theo tên, mã bệnh nhân...">
           </div>
-          <div class="col-1 text-center">
-            --
+          <div class="export__file">
           </div>
-          <div class="col-2">
-            <input type="date" class="form-control date-input-custom" placeholder="Search here">
+        </section> -->
+
+        <div class="row mt-5">
+          <div class="col-6">
+
           </div>
-          <div class="col-7 text-end">
-            <select class="form-select dropdown-custom block" aria-label="Default select example">
+          <div class="col-6">
+            <select class="form-select input-custom float-end" aria-label="Default select example">
               <option selected>Tất cả nhân viên</option>
               <option value="1">One</option>
               <option value="2">Two</option>
@@ -27,67 +133,217 @@
           </div>
         </div>
 
-        <div class="row m-t-27">
-          <div class="col-md-12">
-            <div class="table-responsive">
-                <table class="table table-bordered custom-table">
-                  <thead>
-                    <tr class="text-center">
-                      <th>Tên nhân viên</th>
-                      <th colspan="2">Thứ 2</th>
-                      <th colspan="2">Thứ 3</th>
-                      <th colspan="2">Thứ 4</th>
-                      <th colspan="2">Thứ 5</th>
-                      <th colspan="2">Thứ 6</th>
-                      <th colspan="2">Thứ 7</th>
-                      <th colspan="2">Chủ nhật</th>
-                    </tr>
-                  </thead>
-                  <tbody class="text-center">
-                      <tr>
-                        <td></td>
-                        <td>Checkin</td>
-                        <td>Checkout</td>
-                        <td>Checkin</td>
-                        <td>Checkout</td>
-                        <td>Checkin</td>
-                        <td>Checkout</td>
-                        <td>Checkin</td>
-                        <td>Checkout</td>
-                        <td>Checkin</td>
-                        <td>Checkout</td>
-                        <td>Checkin</td>
-                        <td>Checkout</td>
-                        <td>Checkin</td>
-                        <td>Checkout</td>
-                      </tr>
-
-                      <tr>
-                        <td><p style="color: brown;">Phạm Thanh Long</p></td>
-                        <td><input type="checkbox" checked>
-                          <p>9:00 AM</p>
-                        </td>
-                        <td><input type="checkbox" checked>
-                          <p>17:00 PM</p></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                  </tbody>
-                </table>
+        <form class="row row-cols-sm-auto mb-5">
+          <div class="col-5">
+            <div class="dp-hidden position-absolute">
+              <div class="input-group">
+                <input
+                  name="datepicker"
+                  class="form-control"
+                  ngbDatepicker
+                  #datepicker="ngbDatepicker"
+                  [autoClose]="'outside'"
+                  (dateSelect)="onDateSelection($event)"
+                  [displayMonths]="2"
+                  [dayTemplate]="t"
+                  outsideDays="hidden"
+                  [startDate]="fromDate!"
+                  [placement]="placement"
+                  tabindex="-1"
+                />
+                <ng-template #t let-date let-focused="focused">
+                  <span
+                    class="custom-day"
+                    [class.focused]="focused"
+                    [class.range]="isRange(date)"
+                    [class.faded]="isHovered(date) || isInside(date)"
+                    (mouseenter)="hoveredDate = date"
+                    (mouseleave)="hoveredDate = null"
+                  >
+                    {{ date.day }}
+                  </span>
+                </ng-template>
+              </div>
             </div>
+
+            <div class="input-group">
+              <input
+                #dpFromDate
+                class="form-control"
+                placeholder="yyyy-mm-dd"
+                name="dpFromDate"
+                [value]="formatter.format(fromDate)"
+                (input)="fromDate = validateInput(fromDate, dpFromDate.value)"
+
+                style="padding: 10px;"
+              />
+              <button class="btn btn-outline-secondary bi bi-calendar3"  style="padding: 10px;" (click)="datepicker.toggle()" type="button"></button>
+            </div>
+          </div>
+          <div class="col-2">
+
+          </div>
+          <div class="col-5">
+
+            <div class="input-group">
+              <input
+                #dpToDate
+                class="form-control"
+                placeholder="yyyy-mm-dd"
+                name="dpToDate"
+                [value]="formatter.format(toDate)"
+                (input)="toDate = validateInput(toDate, dpToDate.value)"
+                style="padding: 10px;"
+              />
+              <button class="btn btn-outline-secondary bi bi-calendar3"
+              style="padding: 10px;"
+              (click)="datepicker.toggle()" type="button"></button>
+            </div>
+          </div>
+        </form>
+
+        <h2>Phòng chờ</h2>
+        <table class="table table-bordered custom-table">
+          <thead>
+            <tr class="text-center">
+              <th>Tên nhân viên</th>
+              <th colspan="2">Thứ 2</th>
+              <th colspan="2">Thứ 3</th>
+              <th colspan="2">Thứ 4</th>
+              <th colspan="2">Thứ 5</th>
+              <th colspan="2">Thứ 6</th>
+              <th colspan="2">Thứ 7</th>
+              <th colspan="2">Chủ nhật</th>
+            </tr>
+          </thead>
+          <tbody class="text-center">
+              <tr>
+                <td></td>
+                <td>Checkin</td>
+                <td>Checkout</td>
+                <td>Checkin</td>
+                <td>Checkout</td>
+                <td>Checkin</td>
+                <td>Checkout</td>
+                <td>Checkin</td>
+                <td>Checkout</td>
+                <td>Checkin</td>
+                <td>Checkout</td>
+                <td>Checkin</td>
+                <td>Checkout</td>
+                <td>Checkin</td>
+                <td>Checkout</td>
+              </tr>
+
+              <tr>
+                <td style="border-right: 1px solid #7B4C50;"><p style="color: brown;">Phạm Thanh Long</p></td>
+                <td style="border-right: 1px solid #7B4C50;"><input type="checkbox" checked>
+                  <p>9:00 AM</p>
+                </td>
+                <td style="border-right: 1px solid #7B4C50;"><input type="checkbox" checked>
+                  <p>17:00 PM</p></td>
+                <td style="border-right: 1px solid #7B4C50;"></td>
+                <td style="border-right: 1px solid #7B4C50;"></td>
+                <td style="border-right: 1px solid #7B4C50;"></td>
+                <td style="border-right: 1px solid #7B4C50;"></td>
+                <td style="border-right: 1px solid #7B4C50;"></td>
+                <td style="border-right: 1px solid #7B4C50;"></td>
+                <td style="border-right: 1px solid #7B4C50;"></td>
+                <td style="border-right: 1px solid #7B4C50;"></td>
+                <td style="border-right: 1px solid #7B4C50;"></td>
+                <td style="border-right: 1px solid #7B4C50;"></td>
+                <td style="border-right: 1px solid #7B4C50;"></td>
+                <td style="border-right: 1px solid #7B4C50;"></td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- End of Recent Orders -->
+
+    </main>
+    <!-- End of Main Content -->
+
+    <div class="right-section">
+      <div class="nav">
+        <button id="menu-btn">
+          <span class="material-icons-sharp">
+            menu
+          </span>
+        </button>
+        <div class="dark-mode">
+          <span class="material-icons-sharp active">
+            light_mode
+          </span>
+          <span class="material-icons-sharp">
+            dark_mode
+          </span>
+        </div>
+
+        <div class="profile">
+          <div class="info">
+            <p>Xin chào, <b>Linh</b></p>
+            <small class="text-muted">Lễ tân</small>
+          </div>
+          <div class="profile-photo">
+            <img src="../../../../assets/img/person.png">
           </div>
         </div>
 
       </div>
+      <!-- End of Nav -->
+
+      <div class="reminders">
+        <div class="header">
+          <h2>Thông báo</h2>
+          <span class="material-icons-sharp">
+            notifications_none
+          </span>
+        </div>
+
+        <div class="notification">
+          <div class="icon">
+            <span class="material-icons-sharp">
+              volume_up
+            </span>
+          </div>
+          <div class="content">
+            <div class="info">
+              <h3>Workshop</h3>
+              <small class="text_muted">
+                08:00 AM - 12:00 PM
+              </small>
+            </div>
+            <span class="material-icons-sharp">
+              more_vert
+            </span>
+          </div>
+        </div>
+
+        <div class="notification deactive">
+          <div class="icon">
+            <span class="material-icons-sharp">
+              edit
+            </span>
+          </div>
+          <div class="content">
+            <div class="info">
+              <h3>Workshop</h3>
+              <small class="text_muted">
+                08:00 AM - 12:00 PM
+              </small>
+            </div>
+            <span class="material-icons-sharp">
+              more_vert
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+
   </div>
+
 </div>
+

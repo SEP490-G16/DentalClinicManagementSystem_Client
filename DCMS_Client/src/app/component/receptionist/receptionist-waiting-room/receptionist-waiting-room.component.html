@@ -1,45 +1,156 @@
-<div class="content">
-  <div class="row">
-    <div class="col-sm-4 col-3">
-      <h4 class="page-title">Phòng chờ</h4>
-    </div>
-  </div>
+<div class="web-wrapper">
+  <div class="container-custom">
+    <!-- Sidebar Section -->
+    <aside>
+      <div class="toggle">
+        <div class="logo">
+          <img
+            src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
+          <p><span class="danger">Nguyen Tran</span> Clinic</p>
+        </div>
+        <div class="close" id="close-btn">
+          <span class="material-icons-sharp">
+            close
+          </span>
+        </div>
+      </div>
 
-  <div class="row">
-    <div class="col-6">
-      <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#wrModal"><i class="bi bi-plus-circle"></i>
-        Thêm
-        hàng chờ</button>
-      <button class="btn btn-custom m-l-9" data-bs-toggle="modal" data-bs-target="#myModal"><i
-          class="bi bi-plus-circle"></i> Thêm
-        bệnh nhân</button>
-    </div>
-    <div class="col-6">
-      <select class="form-select select-custom float-end m-2" aria-label="Default select example">
-        <option selected>Phân loại điều trị</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-      </select>
-    </div>
-  </div>
+      <div class="sidebar">
+        <a routerLink="/receptionist/appointment">
+          <span class="material-icons-sharp">
+            dashboard
+          </span>
+          <h3>Lịch hẹn</h3>
+        </a>
+        <a routerLink="/receptionist/waitingroom" class="active">
+          <span class="material-icons-sharp">
+            person_outline
+          </span>
+          <h3>Phòng chờ</h3>
+        </a>
+        <a routerLink="/patient/list">
+          <span class="material-icons-sharp">
+            receipt_long
+          </span>
+          <h3>Bệnh nhân</h3>
+        </a>
+        <a routerLink="/receptionist/timekeeping">
+          <span class="material-icons-sharp">
+            insights
+          </span>
+          <h3>Chấm công</h3>
+        </a>
+        <a href="#">
+          <span class="material-icons-sharp">
+            logout
+          </span>
+          <h3>Logout</h3>
+        </a>
+      </div>
+    </aside>
+    <!-- End of Sidebar Section -->
 
-  <div class="row m-t-27">
-    <div class="col-md-12">
-      <div class="table-responsive">
-        <table class="table table-hover table-bordered custom-table">
+    <!-- Main Content -->
+    <main>
+      <!-- Analyses -->
+      <div class="analyse">
+        <div class="sales">
+          <div class="status">
+            <div class="info">
+              <h3>Lịch hẹn</h3>
+              <h1 class="text-center">02</h1>
+            </div>
+            <div class="progresss">
+              <svg>
+                <circle cx="38" cy="38" r="36"></circle>
+              </svg>
+              <div class="percentage">
+                <p>+81%</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visits">
+          <div class="status">
+            <div class="info">
+              <h3>Phòng chờ</h3>
+              <h1 class="text-center">24</h1>
+            </div>
+            <div class="progresss">
+              <svg>
+                <circle cx="38" cy="38" r="36"></circle>
+              </svg>
+              <div class="percentage">
+                <p>-48%</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="searches">
+          <div class="status">
+            <div class="info">
+              <h3>Bệnh nhân</h3>
+              <h1 class="text-center">23</h1>
+            </div>
+            <div class="progresss">
+              <svg>
+                <circle cx="38" cy="38" r="36"></circle>
+              </svg>
+              <div class="percentage">
+                <p>+21%</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End of Analyses -->
+
+      <!-- New Users Section -->
+      <!-- End of New Users Section -->
+
+      <!-- Recent Orders Table -->
+      <div class="recent-orders">
+        <!-- <section class="table__header">
+          <h1></h1>
+          <div class="input-group">
+            <input type="search search-custom" placeholder="Tìm kiếm theo tên, mã bệnh nhân...">
+          </div>
+          <div class="export__file">
+          </div>
+        </section> -->
+
+        <div class="row mt-5 mb-5">
+          <div class="col-6">
+            <button class="btn btn-add-custom" data-bs-toggle="modal" data-bs-target="#wrModal"><i
+                class="bi bi-plus-circle"></i>
+              Thêm hàng chờ</button>
+            <button class="btn btn-add-custom m-l-9" data-bs-toggle="modal" data-bs-target="#myModal"><i
+                class="bi bi-plus-circle"></i> Thêm
+              bệnh nhân</button>
+          </div>
+          <div class="col-6">
+            <select class="form-select input-custom float-end" aria-label="Default select example">
+              <option selected>Phân loại điều trị</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <h2>Phòng chờ</h2>
+        <table>
           <thead>
-            <tr class="text-center">
-              <th>Số thứ tự</th>
+            <tr>
+              <th>STT</th>
               <th>Mã bệnh nhân</th>
-              <th style="min-width:200px;">Tên bệnh nhân</th>
+              <th>Tên bệnh nhân</th>
               <th>Lý do khám</th>
               <th>Loại điều trị</th>
-              <th style="min-width: 110px;">Trạng thái</th>
+              <th>Trạng thái</th>
             </tr>
           </thead>
-
-          <tbody class="text-center">
+          <tbody>
             <tr>
               <td>1</td>
               <td>
@@ -52,37 +163,109 @@
                 Đau răng
               </td>
               <td>
-                Niềng Răng
+                Răng
               </td>
               <td>
-                <select class="form-select-custom text-center" aria-label="Default select example">
-                  <option selected>Đang khám</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
+                <select>
+                  <option>Đang khám</option>
+                  <option>Đang chờ</option>
+                  <option>Đã khám</option>
+                  <option>Khám rồi</option>
                 </select>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-    </div>
-  </div>
-  <div class="col-12">
-    <nav class="pagination-container">
-      <div class="pagination-custom">
-        <a (click)="preventNavigation($event)" class="pagination-newer" href="#">Trước</a>
-        <span class="pagination-inner">
-          <a (click)="preventNavigation($event)" href="#">1</a>
-          <a (click)="preventNavigation($event)" class="pagination-active" href="#">2</a>
-          <a (click)="preventNavigation($event)" href="#">3</a>
-        </span>
-        <a (click)="preventNavigation($event)" class="pagination-older" href="#">Sau</a>
+      <!-- End of Recent Orders -->
+
+    </main>
+    <!-- End of Main Content -->
+
+    <div class="right-section">
+      <div class="nav">
+        <button id="menu-btn">
+          <span class="material-icons-sharp">
+            menu
+          </span>
+        </button>
+        <div class="dark-mode">
+          <span class="material-icons-sharp active">
+            light_mode
+          </span>
+          <span class="material-icons-sharp">
+            dark_mode
+          </span>
+        </div>
+
+        <div class="profile">
+          <div class="info">
+            <p>Xin chào, <b>Linh</b></p>
+            <small class="text-muted">Lễ tân</small>
+          </div>
+          <div class="profile-photo">
+            <img src="../../../../assets/img/person.png">
+          </div>
+        </div>
+
       </div>
-    </nav>
+      <!-- End of Nav -->
+
+      <div class="reminders">
+        <div class="header">
+          <h2>Thông báo</h2>
+          <span class="material-icons-sharp">
+            notifications_none
+          </span>
+        </div>
+
+        <div class="notification">
+          <div class="icon">
+            <span class="material-icons-sharp">
+              volume_up
+            </span>
+          </div>
+          <div class="content">
+            <div class="info">
+              <h3>Workshop</h3>
+              <small class="text_muted">
+                08:00 AM - 12:00 PM
+              </small>
+            </div>
+            <span class="material-icons-sharp">
+              more_vert
+            </span>
+          </div>
+        </div>
+
+        <div class="notification deactive">
+          <div class="icon">
+            <span class="material-icons-sharp">
+              edit
+            </span>
+          </div>
+          <div class="content">
+            <div class="info">
+              <h3>Workshop</h3>
+              <small class="text_muted">
+                08:00 AM - 12:00 PM
+              </small>
+            </div>
+            <span class="material-icons-sharp">
+              more_vert
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+
   </div>
 
 </div>
+
 
 <!--Add Patient Modal -->
 <div class="modal" id="myModal">

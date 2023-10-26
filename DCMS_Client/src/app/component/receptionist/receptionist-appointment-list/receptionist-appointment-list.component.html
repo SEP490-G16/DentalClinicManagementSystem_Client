@@ -15,25 +15,25 @@
       </div>
 
       <div class="sidebar">
-        <a href="#" class="active">
+        <a routerLink="/receptionist/appointment" class="active">
           <span class="material-icons-sharp">
             dashboard
           </span>
           <h3>Lịch hẹn</h3>
         </a>
-        <a href="#">
+        <a routerLink="/receptionist/waitingroom">
           <span class="material-icons-sharp">
             person_outline
           </span>
           <h3>Phòng chờ</h3>
         </a>
-        <a href="#">
+        <a routerLink="/patient/list">
           <span class="material-icons-sharp">
             receipt_long
           </span>
           <h3>Bệnh nhân</h3>
         </a>
-        <a href="#">
+        <a routerLink="/receptionist/timekeeping">
           <span class="material-icons-sharp">
             insights
           </span>
@@ -129,7 +129,8 @@
               bệnh nhân</button>
           </div>
           <div class="col-6">
-            <input type="date" class="date-input-custom" placeholder="Search here">
+            <input type="date" class="date-input-custom" value="2023-10-27">
+
             <select class="form-select input-custom float-end" aria-label="Default select example">
               <option selected>Phân loại điều trị</option>
               <option value="1">One</option>

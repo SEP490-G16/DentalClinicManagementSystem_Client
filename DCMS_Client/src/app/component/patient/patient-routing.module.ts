@@ -9,11 +9,6 @@ const authRoutes: Routes = [
     component: PatientManagementComponent
   },
 
-  {
-    path: 'records',
-    component: PatientRecordsComponent
-  }
-
 ];
 
 @NgModule({
