@@ -1,49 +1,50 @@
-<div class="main-container bg-wrapper">,
-  <div class="account-page">
-    <div class="account-center">
-      <div class="account-logo">
-        <a href=""><img src="../../../assets/img/logo.png" alt="Logo"></a>
-      </div>
-      <div class="account-box">
-        <div class="login-header text-center">
-          <h3>Nha Khoa Nguyên Trần</h3>
-          <p>Đăng nhập</p>
-        </div>
-        <div class="form-body">
-          <div class="social-login">
-            <ul>
-              <li class="google"><a href="#">Google</a></li>
-              <li class="fb"><a href="#">Facebook</a></li>
-            </ul>
-          </div><!-- SOCIAL LOGIN -->
-          <hr class="text-dark"/>
-          <div class="_or">hoặc</div>
+<div class="web-wrapper">
+  <div class="container-custom" id="container">
+    <div class="form-container forgot-pass">
+      <form *ngIf="isEnterEmail && !isForgotPassword">
+        <h1>Nhập email</h1>
+        <input type="email" placeholder="Email" autocomplete="none">
+        <button (click)="isEnterEmail=true; isForgotPassword=true">Gửi code</button>
+      </form>
 
-          <form action="" class="form-signin">
-            <div class="form-group">
-              <input type="text" autofocus="" class="form-control" placeholder="Tài khoản/Email">
-              <span class="profile-views"><img src="../../../../assets/icon/lock-icon-01.svg" alt="" /></span>
-            </div>
-            <div class="form-group">
-              <input type="password" class="form-control" placeholder="Password">
-              <span class="profile-views"><img src="../../../../assets/icon/lock-icon-02.svg" alt="" /></span>
-            </div>
-            <div class="forgotpass">
-              <div class="remember-me">
-                <label class="custom_check me-2 mb-0 d-inline-flex remember-me"> Remember me
-                  <input type="checkbox" name="radio">
-                  <span class="checkmark"></span>
-                </label>
-              </div>
-              <a href="forgot-password.html"><img src="../../../../assets/icon/lock-icon.svg" class="me-1" alt="" />Quên
-                mật khẩu?</a>
-            </div>
-            <div class="form-group text-center">
-              <button type="submit" class="btn account-btn">Đăng nhập <i
-                  class="fas fa-arrow-right ms-1"></i></button>
-            </div>
-          </form>
+      <form action="" *ngIf="isEnterEmail && isForgotPassword">
+        <h1>Nhập mã code và nhập mật khẩu mới</h1>
+        <input type="text" placeholder="Code">
+        <input type="password" placeholder="Mật khẩu mới">
+        <input type="password" placeholder="Nhập lại mật khẩu mới">
+        <button (click)="alertChangePassword('Đổi mật khẩu thành công')">Xác nhận</button>
+        <a href="#" (click)="isForgotPassword=false" class="link-secondary pe-auto" style="cursor: pointer;">Enter Email again</a>
+      </form>
+
+    </div>
+    <div class="form-container sign-in">
+      <form>
+        <h1>Đăng nhập</h1>
+        <div class="social-icons">
+          <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+          <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+        </div>
+        <span>hoặc sử dụng Username/Email</span>
+        <input type="text" placeholder="Username/Email">
+        <input type="password" placeholder="Password">
+        <p style="cursor: pointer;" (click)="toggleView(true); isEnterEmail=true">Quên mật khẩu?</p>
+        <button (click)="toggleView(false)">Đăng nhập</button>
+      </form>
+    </div>
+    <div class="toggle-container">
+      <div class="toggle">
+        <div class="toggle-panel toggle-left">
+          <h1>Nha khoa Nguyên Trần!</h1>
+          <p>Cùng chúng tôi giữ cho nụ cười của bạn luôn tươi tắn</p>
+          <button class="hidden" id="login" (click)="toggleView(false)">Đăng nhập</button>
+        </div>
+        <div class="toggle-panel toggle-right">
+          <h1>Nha khoa Nguyên Trần!</h1>
+          <p>Cùng chúng tôi giữ cho nụ cười của bạn luôn tươi tắn</p>
+          <button class="hidden">Xin chào <i class="fa-solid fa-tooth"></i></button>
         </div>
       </div>
     </div>
   </div>
+
+</div>
