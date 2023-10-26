@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {LayoutsComponent} from "./component/shared/layouts/layouts.component";
+import { LayoutsComponent } from "./component/shared/layouts/layouts.component";
 
 const routes: Routes = [
-  {path:'', component:LayoutsComponent, children:[
+  {
+    path: '', component: LayoutsComponent, children: [
       {
         path: 'auth',
         loadChildren: () => import('./component/auth/auth.module').then(m => m.AuthModule)
@@ -24,13 +25,12 @@ const routes: Routes = [
         loadChildren: () => import('./component/doctor/doctor.module').then(m => m.DoctorModule)
       },
 
-
-
       {
         path: 'nurse',
         loadChildren: () => import('./component/nurse/nurse.module').then(m => m.NurseModule)
       },
-    ]},
+    ]
+  },
   {
     path: 'patient',
     loadChildren: () => import('./component/patient/patient.module').then(m => m.PatientModule)

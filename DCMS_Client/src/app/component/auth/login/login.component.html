@@ -1,18 +1,26 @@
+<div class="background"></div>
+
+<div *ngIf="loading" class="center">
+  <div class="center">
+    <div class="ring"> </div>
+    <span>Loading...</span>
+</div>
+</div>
+
 <div class="web-wrapper">
   <div class="container-custom" id="container">
     <div class="form-container forgot-pass">
       <form *ngIf="isEnterEmail && !isForgotPassword">
         <h1>Nhập email</h1>
-        <input type="email" placeholder="Email" autocomplete="none">
-        <button (click)="isEnterEmail=true; isForgotPassword=true">Gửi code</button>
+        <input type="email" placeholder="Email" name="userCredential" [(ngModel)]="User.userCredential" required autocomplete="off">
+        <button type="submit" (click)="forgotPassword()" [disabled]="loading">Gửi code</button>
       </form>
 
       <form action="" *ngIf="isEnterEmail && isForgotPassword">
         <h1>Nhập mã code và nhập mật khẩu mới</h1>
-        <input type="text" placeholder="Code">
-        <input type="password" placeholder="Mật khẩu mới">
-        <input type="password" placeholder="Nhập lại mật khẩu mới">
-        <button (click)="alertChangePassword('Đổi mật khẩu thành công')">Xác nhận</button>
+        <input type="text" placeholder="Code" name="code" [(ngModel)]="User.code" required autocomplete="off">
+        <input type="password" placeholder="Mật khẩu mới" name="newPassword" [(ngModel)]="newPassword" placeholder="New Password">
+        <button type="submit" (click)="forgotPasswordSubmit()" [disabled]="loading">Confirm</button>
         <a href="#" (click)="isForgotPassword=false" class="link-secondary pe-auto" style="cursor: pointer;">Enter Email again</a>
       </form>
 
@@ -25,10 +33,10 @@
           <a href="#" class="icon"><i class="bi bi-facebook"></i></a>
         </div>
         <span>hoặc sử dụng Username/Email</span>
-        <input type="text" placeholder="Username/Email">
-        <input type="password" placeholder="Password">
+        <input type="text" placeholder="Username/Email" [(ngModel)]="User.userCredential" name="username" required>
+        <input type="password" placeholder="Password" [(ngModel)]="User.password" name="password" required>
         <p style="cursor: pointer;" (click)="toggleView(true); isEnterEmail=true">Quên mật khẩu?</p>
-        <button (click)="toggleView(false)">Đăng nhập</button>
+        <button type="submit" (click)="toggleView(false); login()" [disabled]="loading">Đăng nhập</button>
       </form>
     </div>
     <div class="toggle-container">
@@ -41,7 +49,7 @@
         <div class="toggle-panel toggle-right">
           <h1>Nha khoa Nguyên Trần!</h1>
           <p>Cùng chúng tôi giữ cho nụ cười của bạn luôn tươi tắn</p>
-          <button class="hidden">Xin chào <i class="fa-solid fa-tooth"></i></button>
+          <button class="hidden"><i class="bi bi-at"></i>Xin chào</button>
         </div>
       </div>
     </div>

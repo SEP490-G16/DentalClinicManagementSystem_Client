@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ReceptionistService } from 'src/app/service/receptionist.service';
 
+import { Auth } from 'aws-amplify';
 
 @Component({
   selector: 'app-receptionist-waiting-room',
@@ -7,13 +9,36 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./receptionist-waiting-room.component.css']
 })
 export class ReceptionistWaitingRoomComponent implements OnInit {
+  waitingRoomData: any;
 
-
-  constructor() { }
+  constructor(private receptionistService: ReceptionistService) { }
 
   ngOnInit(): void {
-
+    this.getWaitingRoomData();
   }
+
+  getWaitingRoomData() {
+    //this.receptionistService.getWaitingRooms();
+
+    // .subscribe(
+    //   (data) => {
+    //     this.waitingRoomData = data;
+    //   },
+    //   (error) => {
+    //     console.error('Lỗi khi lấy dữ liệu phòng chờ:', error);
+    //   }
+    // );
+
+    return Auth.currentSession().then((session) => {
+      const idToken = session.getIdToken().getJwtToken();
+      console.log(idToken);
+      //Create Sub
+      // const headers = new HttpHeaders({
+      //   'Authorization': `Bearer ${idToken}`
+      });
+  }
+
+
 
   preventNavigation(event: Event) {
     event.preventDefault();

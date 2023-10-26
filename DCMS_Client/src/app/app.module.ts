@@ -3,6 +3,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
 
 import { ReceptionistModule } from './component/receptionist/receptionist.module';
 import { SharedModule } from "./component/shared/shared.module";
@@ -17,6 +20,7 @@ import { AuthModule } from './component/auth/auth.module';
     AppComponent,
   ],
   imports: [
+    FormsModule,
     AppRoutingModule,
     SharedModule,
     ReceptionistModule,
@@ -26,9 +30,10 @@ import { AuthModule } from './component/auth/auth.module';
     PatientModule,
     AuthModule,
     CommonModule,
-    BrowserModule
+    BrowserModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

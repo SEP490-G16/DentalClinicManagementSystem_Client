@@ -9,6 +9,17 @@ const authRoutes: Routes = [
     path: '',
     component: LoginComponent
   },
+
+  {
+    path: 'receptionist',
+    loadChildren: () => import('../receptionist/receptionist.module').then(m => m.ReceptionistModule)
+  },
+
+  {
+    path: 'patient',
+    loadChildren: () => import('../patient/patient.module').then(m => m.PatientModule)
+  },
+
 ];
 
 @NgModule({

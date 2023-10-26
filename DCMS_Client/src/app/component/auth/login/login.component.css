@@ -7,6 +7,81 @@
     font-family: 'Montserrat', sans-serif;
 }
 
+.center {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.ring {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  animation: ring 2s linear infinite;
+}
+
+@keyframes ring {
+  0% {
+      transform: rotate(0deg);
+      box-shadow: 1px 5px 2px red;
+  }
+
+  50% {
+      transform: rotate(180deg);
+      box-shadow: 1px 5px 2px green;
+  }
+
+  100% {
+      transform: rotate(360deg);
+      box-shadow: 1px 5px 2px  blue;
+  }
+}
+
+.ring:before {
+  position: absolute;
+  content: '';
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(255, 255, 255, .3);
+}
+
+.ring span {
+  color: #737373;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: 200px;
+  animation: text 3s ease-in-out infinite;
+}
+
+@keyframes text {
+  50% {
+      color: black;
+  }
+}
+
+.background {
+  background: url('https://i.pinimg.com/originals/0e/56/94/0e56944376414b9935928fcd7cd4aad4.jpg')
+    rgba(0, 0, 0, 0.66);
+  background-size: contain;
+  background-blend-mode: darken;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  filter: blur(6px);
+  min-height: 800px;
+}
+
+
 .web-wrapper{
     background-color: #c9d6ff;
     background: url('https://bambufit.vn/images/image/nhakhoavietsing3.jpg');
