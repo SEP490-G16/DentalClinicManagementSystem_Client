@@ -12,29 +12,11 @@
       <div class="modal-body">
         <div class="modal-body">
           <div class="row filter-row m-t-30">
-            <div class="col-sm-6 col-md-4">
-              <div class="input-group">
-                <input
-                  class="form-control"
-                  placeholder="Ngày lập"
-                  name="dp"
-                  [(ngModel)]="model"
-                  ngbDatepicker
-                  #d="ngbDatepicker"
-                />
-                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <select class="form-select" aria-label="Default select example">
-                <option selected>Chọn người nhập</option>
-              </select>
-            </div>
             <div class="col-md-4">
               <div class="form-group row">
                 <label for="total" class="col-3 name-title">Tổng tiền</label>
                 <div class="col-8">
-                  <input type="text" class="form-control value-staff" id="total" name="total">
+                  <input type="text" class="form-control value-staff" disabled id="total" name="total">
                 </div>
               </div>
             </div>
@@ -46,7 +28,7 @@
                   <thead>
                   <tr>
                     <th>#</th>
-                    <th>Mã vật liệu</th>
+                    <th>Người xuất</th>
                     <th>Tên vật liệu</th>
                     <th>Đơn vị</th>
                     <th>Số lượng</th>
@@ -59,7 +41,7 @@
                   <tr>
                     <td>1</td>
                     <td>
-                      <p>VTA</p>
+                      <p>Nguyễn Văn A</p>
                     </td>
                     <td>
                       <p>Vật liệu A</p>

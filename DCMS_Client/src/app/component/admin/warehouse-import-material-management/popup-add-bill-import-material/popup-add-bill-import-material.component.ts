@@ -18,7 +18,6 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
     this.isAdd = !this.isAdd;
     if (this.isAdd){
       this.records.push({
-        maVatLieu: null,
         tenVatLieu: null,
         donVi:null,
         soLuong:null,

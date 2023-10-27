@@ -26,19 +26,14 @@
               </div>
             </div>
             <div class="col-md-4">
-              <select class="form-select" aria-label="Default select example">
-                <option selected>Chọn người nhập</option>
-              </select>
-            </div>
-            <div class="col-md-4">
               <div class="form-group row">
                 <label for="total" class="col-3 name-title">Tổng tiền</label>
                 <div class="col-8">
-                  <input type="text" class="form-control value-staff" id="total" name="total">
+                  <input type="text" class="form-control value-staff" disabled id="total" name="total">
                 </div>
               </div>
               </div>
-            <div class="col-md-3 mt-5">
+            <div class="col-md-3">
               <button href="add-employee.html" class="btn" [ngClass]="{'btn-custom':!isAdd, 'btn-save':isAdd}" (click)="toggleAdd()"  ><i class="bi" [ngClass]="{'bi-plus-circle': !isAdd, 'bi-floppy2': isAdd}"></i> {{isAdd ? "Lưu" : "Thêm mới"}}
               </button>
               <button *ngIf="isAdd" (click)="toggleCancel()" type="button" class="btn btn-cancel">Huỷ</button>
@@ -51,7 +46,6 @@
                   <thead>
                   <tr>
                     <th>#</th>
-                    <th>Mã vật liệu</th>
                     <th>Tên vật liệu</th>
                     <th>Đơn vị</th>
                     <th>Số lượng</th>
@@ -67,11 +61,6 @@
                     <tr>
 
                       <td>{{ i + 1 }}</td>
-                      <td>
-                        <input type="text" [(ngModel)]="record.maVatLieu" *ngIf="isAdd" [disabled]="!isAdd" class="form-control value-staff">
-                        <!--<p *ngIf="!isAdd">VTA</p>-->
-                        <p *ngIf="!isAdd">{{ record.maVatLieu }}</p>
-                      </td>
                       <td>
                         <input type="text" [(ngModel)]="record.tenVatLieu" *ngIf="isAdd" [disabled]="!isAdd" class="form-control value-staff">
                         <!--<p *ngIf="!isAdd">Vật liệu A</p>-->
