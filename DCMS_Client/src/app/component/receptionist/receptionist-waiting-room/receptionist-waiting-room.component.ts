@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ReceptionistService } from 'src/app/service/receptionist.service';
 
 import { Auth } from 'aws-amplify';
+import { CognitoService } from 'src/app/service/cognito.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-receptionist-waiting-room',
@@ -11,33 +13,54 @@ import { Auth } from 'aws-amplify';
 export class ReceptionistWaitingRoomComponent implements OnInit {
   waitingRoomData: any;
 
-  constructor(private receptionistService: ReceptionistService) { }
+  constructor(private receptionistService: ReceptionistService, private cognitoService:CognitoService, private router:Router) { }
 
   ngOnInit(): void {
     this.getWaitingRoomData();
   }
 
   getWaitingRoomData() {
-    //this.receptionistService.getWaitingRooms();
-
-    // .subscribe(
-    //   (data) => {
-    //     this.waitingRoomData = data;
-    //   },
-    //   (error) => {
-    //     console.error('Lỗi khi lấy dữ liệu phòng chờ:', error);
-    //   }
-    // );
-
-    return Auth.currentSession().then((session) => {
-      const idToken = session.getIdToken().getJwtToken();
-      console.log(idToken);
-      //Create Sub
-      // const headers = new HttpHeaders({
-      //   'Authorization': `Bearer ${idToken}`
-      });
+    this.receptionistService.getWaitingRooms().subscribe(
+      data => {
+        this.waitingRoomData = data;
+        console.log(this.waitingRoomData);
+      },
+      error => {
+        // if (error.status === 401) {
+        //   this.cognitoService.refreshToken()
+        //     .then(newAccessToken => {
+        //       console.log("New AccessToken: ",newAccessToken);
+        //       this.receptionistService.getWaitingRooms().subscribe(
+        //         newData => {
+        //           this.waitingRoomData = newData;
+        //           console.log(this.waitingRoomData);
+        //         },
+        //         newError => {
+        //           console.log("New Error", newError);
+        //         }
+        //       );
+        //     })
+        //     .catch(refreshError => {
+        //       console.error("Token refresh failed: ", refreshError);
+        //       this.cognitoService.signOut()
+        //         .then(() => {
+        //           this.router.navigate(['/auth']);
+        //         });
+        //     });
+        // } else {
+        //   console.error("API error: ", error);
+        // }
+        console.error("API error: ", error);
+      }
+    );
   }
 
+  signOut() {
+    this.cognitoService.signOut().then(() => {
+        console.log("Logged out!");
+        this.router.navigate(['/auth']);
+    })
+  }
 
 
   preventNavigation(event: Event) {

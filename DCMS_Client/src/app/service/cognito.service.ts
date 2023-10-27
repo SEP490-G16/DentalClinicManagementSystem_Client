@@ -1,3 +1,4 @@
+import { ICognitoUser } from './../model/ICognitoUser';
 import { Injectable } from '@angular/core';
 import { Amplify, Auth } from 'aws-amplify';
 import { CookieService } from 'ngx-cookie-service';
@@ -10,7 +11,10 @@ import { BehaviorSubject } from 'rxjs';
 export class CognitoService {
   private authenticationSubject: BehaviorSubject<any>;
 
+  cognitoUser:ICognitoUser ;
   constructor(private cookieService:CookieService) {
+    this.cognitoUser = {} as ICognitoUser;
+
     const configString = this.cookieService.get('config');
     if (configString) {
       Amplify.configure({
@@ -36,7 +40,16 @@ export class CognitoService {
   }
 
   signIn(User: IUser): Promise<any> {
-    return Auth.signIn(User.userCredential, User.password).then(() => {
+    return Auth.signIn(User.userCredential, User.password).then((userResult) => {
+      console.log(userResult);
+      this.cognitoUser.Username = userResult.username;
+      this.cognitoUser.Email = userResult.attributes.email;
+      this.cognitoUser.ClientId = userResult.pool.clientId;
+      this.cognitoUser.accessToken = userResult.signInUserSession.accessToken.jwtToken;
+      this.cognitoUser.refreshToken = userResult.signInUserSession.refreshToken.token;
+      console.log(this.cognitoUser);
+
+      sessionStorage.setItem('cognitoUserAccessToken', this.cognitoUser.accessToken);
       this.authenticationSubject.next(true);
     });
   }
@@ -46,6 +59,24 @@ export class CognitoService {
       this.authenticationSubject.next(false);
     });;
   }
+
+  refreshToken(): Promise<string> {
+    if(!this.cognitoUser){
+      return Promise.reject('User is not authenticated');
+    }
+
+    return Auth.currentSession()
+      .then((session) => {
+        const accessToken = session.getAccessToken();
+        const newAccessToken = accessToken.getJwtToken();
+        sessionStorage.setItem('cognitoUserAccessToken', newAccessToken);
+        return newAccessToken;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  }
+
 
   public isAuthenticated(): Promise<boolean> {
     if (this.authenticationSubject.value) {

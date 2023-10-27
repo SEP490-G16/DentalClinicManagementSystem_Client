@@ -5,10 +5,6 @@ import { LayoutsComponent } from "./component/shared/layouts/layouts.component";
 const routes: Routes = [
   {
     path: '', component: LayoutsComponent, children: [
-      {
-        path: 'auth',
-        loadChildren: () => import('./component/auth/auth.module').then(m => m.AuthModule)
-      },
 
       {
         path: 'admin',
@@ -34,6 +30,10 @@ const routes: Routes = [
   {
     path: 'patient',
     loadChildren: () => import('./component/patient/patient.module').then(m => m.PatientModule)
+  },
+  {
+    path: 'auth',
+    loadChildren: () => import('./component/auth/auth.module').then(m => m.AuthModule)
   },
 
 ];

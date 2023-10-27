@@ -25,7 +25,7 @@ export class AppComponent {
   getConfigFromCookie() {
     const configString = this.cookieService.get('config');
     const config = configString ? JSON.parse(configString) : null;
-    console.log('Config:', config);
+    // console.log('Config:', config);
   }
 
   ngOnInit(): void {
