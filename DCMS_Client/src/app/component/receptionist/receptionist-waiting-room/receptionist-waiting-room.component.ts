@@ -25,7 +25,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
         this.waitingRoomData = data;
         console.log(this.waitingRoomData);
       },
-      error => {
+      // error => {
         // if (error.status === 401) {
         //   this.cognitoService.refreshToken()
         //     .then(newAccessToken => {
@@ -50,8 +50,8 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
         // } else {
         //   console.error("API error: ", error);
         // }
-        console.error("API error: ", error);
-      }
+      //   console.error("API error: ", error);
+      // }
     );
   }
 

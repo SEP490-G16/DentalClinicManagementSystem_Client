@@ -2,6 +2,6 @@ export interface ICognitoUser {
   Username:string;
   Email: string;
   ClientId: string;
-  accessToken:string;
+  idToken:string;
   refreshToken:string;
 }

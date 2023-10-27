@@ -45,11 +45,11 @@ export class CognitoService {
       this.cognitoUser.Username = userResult.username;
       this.cognitoUser.Email = userResult.attributes.email;
       this.cognitoUser.ClientId = userResult.pool.clientId;
-      this.cognitoUser.accessToken = userResult.signInUserSession.accessToken.jwtToken;
+      this.cognitoUser.idToken = userResult.signInUserSession.idToken.jwtToken;
       this.cognitoUser.refreshToken = userResult.signInUserSession.refreshToken.token;
       console.log(this.cognitoUser);
 
-      sessionStorage.setItem('cognitoUserAccessToken', this.cognitoUser.accessToken);
+      sessionStorage.setItem('id_Token', this.cognitoUser.idToken);
       this.authenticationSubject.next(true);
     });
   }
@@ -69,7 +69,7 @@ export class CognitoService {
       .then((session) => {
         const accessToken = session.getAccessToken();
         const newAccessToken = accessToken.getJwtToken();
-        sessionStorage.setItem('cognitoUserAccessToken', newAccessToken);
+        sessionStorage.setItem('id_Token', newAccessToken);
         return newAccessToken;
       })
       .catch((error) => {

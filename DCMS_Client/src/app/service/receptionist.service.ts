@@ -14,21 +14,22 @@ export class ReceptionistService {
 
 
   getAppointmentList(startTime: string, endTime: string):Observable<any> {
-      let accessToken = sessionStorage.getItem("cognitoUserAccessToken");
+      let idToken = sessionStorage.getItem("id_Token");
 
       const headers = new HttpHeaders({
-        'Authorization': `${accessToken}`
+        'Authorization': `${idToken}`
 
       });
       return this.http.get(`${this.apiUrl}/appointment/${startTime}/${endTime}`, { headers });
   }
 
   getWaitingRooms():Observable<any> {
-    let accessToken = sessionStorage.getItem("cognitoUserAccessToken");
+    let idToken = sessionStorage.getItem("id_Token");
 
-      const headers = new HttpHeaders({
-        'Authorization': `${accessToken}`,
-      });
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      'Content-Type': `application/json`
+    });
       return this.http.get(`${this.apiUrl}/waiting-room`, { headers });
   }
 
