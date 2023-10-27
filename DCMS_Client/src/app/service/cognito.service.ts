@@ -12,6 +12,7 @@ export class CognitoService {
   private authenticationSubject: BehaviorSubject<any>;
 
   cognitoUser:ICognitoUser ;
+
   constructor(private cookieService:CookieService) {
     this.cognitoUser = {} as ICognitoUser;
 

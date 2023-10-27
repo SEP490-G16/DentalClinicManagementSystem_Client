@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ReceptionistService } from 'src/app/service/receptionist.service';
+
 
 import { Auth } from 'aws-amplify';
 import { CognitoService } from 'src/app/service/cognito.service';
 import { Router } from '@angular/router';
+import { ReceptionistWaitingRoomService } from 'src/app/service/ReceptionistService/receptionist-waitingroom.service';
 
 @Component({
   selector: 'app-receptionist-waiting-room',
@@ -13,7 +14,7 @@ import { Router } from '@angular/router';
 export class ReceptionistWaitingRoomComponent implements OnInit {
   waitingRoomData: any;
 
-  constructor(private receptionistService: ReceptionistService, private cognitoService:CognitoService, private router:Router) { }
+  constructor(private receptionistService: ReceptionistWaitingRoomService, private cognitoService:CognitoService, private router:Router) { }
 
   ngOnInit(): void {
     this.getWaitingRoomData();
