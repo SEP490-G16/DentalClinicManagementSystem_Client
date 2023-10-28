@@ -81,16 +81,16 @@ export class PopupAddAppointmentComponent implements OnInit {
 
     console.log(this.AppointmentBody);
     // Gọi API POST
-    // this.APPOINTMENT_SERVICE.postAppointment(this.AppointmentBody).subscribe(
-    //   (response) => {
-    //     console.log('Lịch hẹn đã được tạo:', response);
-    //     alert('Lịch hẹn đã được tạo thành công!');
-    //   },
-    //   (error) => {
-    //     console.error('Lỗi khi tạo lịch hẹn:', error);
-    //     alert('Lỗi khi tạo lịch hẹn!');
-    //   }
-    // );
+    this.APPOINTMENT_SERVICE.postAppointment(this.AppointmentBody).subscribe(
+      (response) => {
+        console.log('Lịch hẹn đã được tạo:', response);
+        alert('Lịch hẹn đã được tạo thành công!');
+      },
+      (error) => {
+        console.error('Lỗi khi tạo lịch hẹn:', error);
+        alert('Lỗi khi tạo lịch hẹn!');
+      }
+    );
   }
 
 
