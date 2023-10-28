@@ -3,9 +3,13 @@ import { CommonModule } from '@angular/common';
 import {RouterModule} from "@angular/router";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+
 import {HttpClientModule} from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbModalModule  } from '@ng-bootstrap/ng-bootstrap';
 
 
 import { PatientManagementComponent } from './patient-management/patient-management.component';
@@ -34,7 +38,13 @@ import { ChangeAppointmentComponent } from './change-appointment/change-appointm
       closeButton: true,
       progressBar: true,
     }),
-    NgbModule
+    NgbModule,
+    NgbModalModule,
+    FlatpickrModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ]
 })
 export class PatientModule { }

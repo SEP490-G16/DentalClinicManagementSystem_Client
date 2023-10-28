@@ -35,7 +35,6 @@
   margin: 0;
   padding: 0;
   outline: 0;
-  appearance: 0;
   border: 0;
   text-decoration: none;
   box-sizing: border-box;
@@ -532,7 +531,7 @@ main .recent-orders a {
   gap: 0.6rem;
 }
 
-@media screen and (max-width: 1200px) {
+/* @media screen and (max-width: 1200px) {
   .container-custom {
     width: 95%;
     grid-template-columns: 7rem auto 23rem;
@@ -586,9 +585,9 @@ main .recent-orders a {
     display: none;
   }
 
-}
+} */
 
-@media screen and (max-width: 768px) {
+/* @media screen and (max-width: 768px) {
   .container-custom {
     width: 100%;
     grid-template-columns: 1fr;
@@ -701,7 +700,7 @@ main .recent-orders a {
   .right-section .nav button span {
     font-size: 2rem;
   }
-}
+} */
 
 .table__header {
   width: 100%;
@@ -770,3 +769,4 @@ main .recent-orders a {
   border: 1px solid #7B4C50;
   border-radius: 10px;
 }
+

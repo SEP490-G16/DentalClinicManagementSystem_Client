@@ -4,6 +4,7 @@ import { Amplify, Auth } from 'aws-amplify';
 import { CookieService } from 'ngx-cookie-service';
 import { IUser } from '../model/IUser';
 import { BehaviorSubject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,26 +12,16 @@ import { BehaviorSubject } from 'rxjs';
 export class CognitoService {
   private authenticationSubject: BehaviorSubject<any>;
 
-  cognitoUser:ICognitoUser ;
+  cognitoUser: ICognitoUser;
 
-  constructor(private cookieService:CookieService) {
+  constructor() {
     this.cognitoUser = {} as ICognitoUser;
 
-    const configString = this.cookieService.get('config');
-    if (configString) {
       Amplify.configure({
-        Auth: JSON.parse(configString)
+        Auth: environment.cognito
       });
-    }
+
     this.authenticationSubject = new BehaviorSubject<boolean>(false);
-  }
-
-  configureCognito(config: any) {
-    this.cookieService.set('cognitoConfig', JSON.stringify(config));
-
-    Amplify.configure({
-      Auth: config
-    });
   }
 
   signup(User: IUser): Promise<any> {
@@ -51,7 +42,6 @@ export class CognitoService {
       console.log(this.cognitoUser);
 
       sessionStorage.setItem('id_Token', this.cognitoUser.idToken);
-      this.authenticationSubject.next(true);
     });
   }
 
@@ -62,7 +52,7 @@ export class CognitoService {
   }
 
   refreshToken(): Promise<string> {
-    if(!this.cognitoUser){
+    if (!this.cognitoUser) {
       return Promise.reject('User is not authenticated');
     }
 
@@ -84,15 +74,15 @@ export class CognitoService {
       return Promise.resolve(true);
     } else {
       return this.getUser()
-      .then((user: any) => {
-        if (user) {
-          return true;
-        } else {
+        .then((user: any) => {
+          if (user) {
+            return true;
+          } else {
+            return false;
+          }
+        }).catch(() => {
           return false;
-        }
-      }).catch(() => {
-        return false;
-      });
+        });
     }
   }
 
@@ -102,16 +92,16 @@ export class CognitoService {
 
   public updateUser(user: IUser): Promise<any> {
     return Auth.currentUserPoolUser()
-    .then((cognitoUser: any) => {
-      return Auth.updateUserAttributes(cognitoUser, user);
-    });
+      .then((cognitoUser: any) => {
+        return Auth.updateUserAttributes(cognitoUser, user);
+      });
   }
 
-  forgotPassword(User:IUser): Promise<any> {
-      return Auth.forgotPassword(User.userCredential);
+  forgotPassword(User: IUser): Promise<any> {
+    return Auth.forgotPassword(User.userCredential);
   }
 
-  forgotPasswordSubmit(User:IUser, new_password:string): Promise<any> {
+  forgotPasswordSubmit(User: IUser, new_password: string): Promise<any> {
     return Auth.forgotPasswordSubmit(User.userCredential, User.code, new_password);
   }
 

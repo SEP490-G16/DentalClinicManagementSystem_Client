@@ -19,3 +19,20 @@ export interface Detail {
   time: number;
   migrated: string;
 }
+
+
+
+
+export interface IAddAppointment {
+  epoch: number
+  appointment: AppointmentObject
+}
+
+export interface AppointmentObject {
+  patient_id: string
+  patient_name: string
+  phone_number: string
+  procedure: number
+  doctor: string
+  time: number
+}
