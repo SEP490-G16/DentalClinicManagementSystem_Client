@@ -112,7 +112,7 @@
         <section class="table__header">
           <h1></h1>
           <div class="input-group">
-            <input type="search search-custom" placeholder="Tìm kiếm theo tên, mã bệnh nhân...">
+            <input type="search search-custom" placeholder="Tìm kiếm theo tên, mã bệnh nhân..." [(ngModel)]="searchText" (input)="searchAppointments()">
           </div>
           <div class="export__file">
           </div>
@@ -129,13 +129,12 @@
               bệnh nhân</button>
           </div>
           <div class="col-6">
-            <input type="date" class="date-input-custom" value="2023-10-27">
+            <input type="date" class="date-input-custom" [value]="startDate">
 
-            <select class="form-select input-custom float-end" aria-label="Default select example">
-              <option selected>Phân loại điều trị</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+            <select class="form-select input-custom float-end" aria-label="Default select example" [(ngModel)]="selectedProcedure" (change)="filterAppointments()">
+              <option selected value="">Phân loại điều trị</option>
+              <option value="1">Niếng răng</option>
+              <option value="2">Nhổ răng</option>
             </select>
           </div>
         </div>
@@ -154,25 +153,29 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+          <ng-container *ngFor="let a of filteredAppointments">
+            <tr *ngFor="let detail of a.details">
               <td>
-                HE153724
+                <!--HE153724-->
+                {{detail.patient_id}}
               </td>
               <td>
-                Albina Simonis
+                {{detail.patient_name}}
               </td>
               <td>
-                0123456789
+                {{detail.phone_number}}
               </td>
               <td>
-                Niềng Răng
+                {{detail.procedure === 1 ? 'Niềng răng' : 'Nhổ răng'}}
               </td>
-              <td>Dr.Kim</td>
-              <td>17h 18/10//2023</td>
+              <td>{{ detail.doctor }}</td>
+              <td> {{ convertTimestampToDateString(detail.time) }}</td>
               <td>
                 <a routerLink="/receptionist/waitingroom" style="width: 100px; color: black;" class="btn btn-redirect">Đến hàng chờ</a>
               </td>
             </tr>
+          </ng-container>
+
           </tbody>
         </table>
       </div>
