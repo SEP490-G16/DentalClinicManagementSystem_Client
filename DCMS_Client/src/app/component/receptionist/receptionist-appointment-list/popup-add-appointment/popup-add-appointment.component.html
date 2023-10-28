@@ -36,7 +36,7 @@
             <div class="col-12 col-md-6">
               <div class="form-group">
                 <label for="treatment">Loại điều trị</label>
-                <select class="form-control" id="treatment" [(ngModel)]="procedure" [disabled]="!isPatientInfoEditable">
+                <select class="form-control" id="treatment" [(ngModel)]="procedure">
                   <option value="1">Cạo vôi răng</option>
                   <option value="2">Nhổ Răng</option>
                   <option value="3">Niềng Răng</option>
@@ -46,9 +46,7 @@
             <div class="col-12 col-md-6">
               <div class="form-group">
                 <label for="appointmentTime" name="userCredential">Giờ hẹn khám</label>
-                <input type="text" class="form-control" id="appointmentTime" [(ngModel)]="appointmentTime">
-                <input type="time" class="form-control date-input-custom" id="time" name="time">
-                <div *ngIf="!isTimeValid" class="text-danger">Giờ không hợp lệ. Vui lòng nhập lại.</div>
+                <input type="time" class="form-control date-input-custom" id="time" name="time" [(ngModel)]="appointmentTime" >
               </div>
 
             </div>
@@ -75,7 +73,9 @@
             <div class="col">
               <div class="float-end">
                 <button type="button" class="btn btn-danger m-3" data-bs-dismiss="modal">Đóng</button>
-                <button type="button" class="btn btn-primary" (click)="onPostAppointment()" [disabled]="!isPatientInfoEditable">Xác nhận</button>
+                <!-- <button type="button" class="btn btn-primary" (click)="onPostAppointment()" [disabled]="!isPatientInfoEditable">Xác nhận</button> -->
+                <button type="button" class="btn btn-primary" (click)="onPostAppointment()">Xác nhận</button>
+
               </div>
             </div>
           </div>

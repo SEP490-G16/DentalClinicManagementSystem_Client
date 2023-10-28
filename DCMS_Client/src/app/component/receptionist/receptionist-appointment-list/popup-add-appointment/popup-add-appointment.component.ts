@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ReceptionistAppointmentService } from 'src/app/service/ReceptionistService/receptionist-appointment.service';
 import { IAddAppointment } from 'src/app/model/IAppointment';
+import { PatientService } from 'src/app/service/PatientService/patient.service';
 
 @Component({
   selector: 'app-popup-add-appointment',
@@ -24,7 +25,7 @@ export class PopupAddAppointmentComponent implements OnInit {
     { name: 'Bác sĩ C. Lê', specialty: 'Nha khoa', image: 'https://img.verym.com/group1/M00/03/3F/wKhnFlvQGeCAZgG3AADVCU1RGpQ414.jpg' },
   ];
 
-  constructor(private appointmentService: ReceptionistAppointmentService) {
+  constructor(private APPOINTMENT_SERVICE: ReceptionistAppointmentService, private PATIENT_SERVICE:PatientService) {
     this.AppointmentBody = {
       epoch: 0,    //x
       appointment: {
@@ -42,7 +43,7 @@ export class PopupAddAppointmentComponent implements OnInit {
   }
 
   onPhoneInput() {
-    this.appointmentService.getPatientByPhone(this.AppointmentBody.appointment.phone_number).subscribe((data) => {
+    this.PATIENT_SERVICE.getPatientByPhone(this.AppointmentBody.appointment.phone_number).subscribe((data) => {
       this.AppointmentBody.appointment.patient_id = data[0].patient_id;
       this.AppointmentBody.appointment.patient_name = data[0].patient_name;
     },
@@ -56,51 +57,41 @@ export class PopupAddAppointmentComponent implements OnInit {
     this.AppointmentBody.appointment.doctor = doctor.name;
   }
 
-  isTimeValid: boolean = true;
   onPostAppointment() {
-    const time = this.convertTimeToTimestamp(this.appointmentTime);
+    // Chuyển đổi ngày cố định sang timestamp
+    const fixedDate = new Date('2023-10-28');
+    const dateTimestamp = fixedDate.getTime() / 1000; // Chuyển đổi sang timestamp (giây)
 
-    if (time === 0) {
-      this.isTimeValid = false;
-    } else {
-      this.isTimeValid = true;
-    }
+    // Lấy giá trị thời gian từ biến appointmentTime và chuyển đổi thành timestamp
+    const timeParts = this.appointmentTime.split(":");
+    const hours = parseInt(timeParts[0], 10);
+    const minutes = parseInt(timeParts[1], 10);
 
-    const myDate = new Date('2023-10-28');
-    const epoch = this.convertDateToTimestamp(myDate);
+    // Khởi tạo một đối tượng Date với ngày cố định
+    const combinedDateTime = new Date(fixedDate);
 
-    this.AppointmentBody.epoch = epoch;
-    this.AppointmentBody.appointment.time = time;
+    // Đặt giờ và phút cho combinedDateTime
+    combinedDateTime.setHours(hours, minutes, 0, 0);
 
+    // Chuyển đổi thành timestamp
+    const combinedTimestamp = combinedDateTime.getTime() / 1000; // Chuyển đổi sang timestamp (giây)
+
+    this.AppointmentBody.epoch = dateTimestamp; // Chứa giá trị ngày (date)
+    this.AppointmentBody.appointment.time = combinedTimestamp; // Chứa giá trị giờ trong ngày
+
+    console.log(this.AppointmentBody);
     // Gọi API POST
-    this.appointmentService.postAppointment(this.AppointmentBody).subscribe(
-      (response) => {
-        console.log('Lịch hẹn đã được tạo:', response);
-        alert('Lịch hẹn đã được tạo thành công!');
-      },
-      (error) => {
-        console.error('Lỗi khi tạo lịch hẹn:', error);
-        alert('Lỗi khi tạo lịch hẹn!');
-      }
-    );
+    // this.APPOINTMENT_SERVICE.postAppointment(this.AppointmentBody).subscribe(
+    //   (response) => {
+    //     console.log('Lịch hẹn đã được tạo:', response);
+    //     alert('Lịch hẹn đã được tạo thành công!');
+    //   },
+    //   (error) => {
+    //     console.error('Lỗi khi tạo lịch hẹn:', error);
+    //     alert('Lỗi khi tạo lịch hẹn!');
+    //   }
+    // );
   }
 
-  convertDateToTimestamp(date: Date): number {
-    const dateWithZeroTime = new Date(date);
-    dateWithZeroTime.setHours(0, 0, 0, 0);
-
-    // Lấy timestamp từ đối tượng Date với giờ, phút và giây mặc định là 0
-    const timestamp = dateWithZeroTime.getTime() / 1000; // Chia cho 1000 để chuyển đổi sang giây
-
-    return timestamp;
-  }
-
-  convertTimeToTimestamp(time: string): number {
-    const timestamp = Date.parse(time);
-    if (!isNaN(timestamp)) {
-      return timestamp;
-    }
-    return 0;
-  }
 
 }
