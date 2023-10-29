@@ -133,8 +133,9 @@
 
             <select class="form-select input-custom float-end" aria-label="Default select example" [(ngModel)]="selectedProcedure" (change)="filterAppointments()">
               <option selected value="">Phân loại điều trị</option>
-              <option value="1">Niếng răng</option>
-              <option value="2">Nhổ răng</option>
+              <option value="1">Cạo vôi răng</option>
+              <option value="2">Nhổ Răng</option>
+              <option value="3">Niềng Răng</option>
             </select>
           </div>
         </div>
@@ -167,10 +168,10 @@
                   {{detail.phone_number}}
                 </td>
                 <td>
-                  {{detail.procedure == 1 ? 'Niềng răng' :'Nhổ răng'}}
+                  {{ (detail.procedure == 1) ? 'Cạo vôi răng' : ((detail.procedure == 2) ? 'Nhổ răng' : 'Niềng Răng') }}
                 </td>
                 <td>{{ detail.doctor }}</td>
-                <td> {{ convertTimestampToDateString(detail.time) }}</td>
+                <td> {{ convertTimestampToDateString(a.date)}} {{convertTimestampToTimesString(detail.time)}}</td>
                 <td>
                   <button class="btn btn-edit-custom" data-bs-toggle="modal" data-bs-target="#editAppointmentModal" (click)="openEditModal(detail, a.date)">
                     <i class="bi bi-edit-circle"></i> Sửa lịch hẹn

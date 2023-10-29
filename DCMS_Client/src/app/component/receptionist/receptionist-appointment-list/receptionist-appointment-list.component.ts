@@ -6,6 +6,8 @@ import { CognitoService } from "../../../service/cognito.service";
 import { Detail, ISelectedAppointment, RootObject } from "../../../model/IAppointment";
 import { Router } from '@angular/router';
 import {ConvertJson} from "../../../service/Lib/ConvertJson";
+
+
 @Component({
   selector: 'app-receptionist-appointment-list',
   templateUrl: './receptionist-appointment-list.component.html',
@@ -50,14 +52,19 @@ export class ReceptionistAppointmentListComponent implements OnInit {
 
     })
   }
-  convertTimestampToDateString(timestamp: any): string {
-    const date = new Date(timestamp * 1000); // Nhân với 1000 để chuyển đổi từ giây sang mili giây
+  convertTimestampToDateString(timestampDate: any): string {
+    const date = new Date(timestampDate * 1000); // Nhân với 1000 để chuyển đổi từ giây sang mili giây
     const day = this.padZero(date.getDate());
     const month = this.padZero(date.getMonth() + 1);
     const year = date.getFullYear();
+    const formattedDate = `${day}/${month}/${year}`;
+    return formattedDate;
+  }
+  convertTimestampToTimesString(timestamp: any): string {
+    const date = new Date(timestamp * 1000); // Nhân với 1000 để chuyển đổi từ giây sang mili giây
     const hours = this.padZero(date.getHours());
     const minutes = this.padZero(date.getMinutes());
-    const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}`;
+    const formattedDate = `${hours}:${minutes}`;
     return formattedDate;
   }
   padZero(value: number): string {
@@ -93,7 +100,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
             ...ap,
             details: ap.details.filter((detail: any) => {
               const patientName = detail.patient_name ? detail.patient_name.toLowerCase() : '';
-              const patientId = detail.patient_id ? detail.patient_id : '';
+              const patientId = detail.patient_id ? detail.patient_id.toLowerCase() : '';
               return patientName.includes(searchText) || patientId.includes(searchText);
             })
           })).filter((ap: any) => ap.details.length > 0)
