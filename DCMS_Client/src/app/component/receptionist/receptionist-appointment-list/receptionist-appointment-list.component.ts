@@ -5,6 +5,7 @@ import { ReceptionistAppointmentService } from "../../../service/ReceptionistSer
 import { CognitoService } from "../../../service/cognito.service";
 import { Detail, ISelectedAppointment, RootObject } from "../../../model/IAppointment";
 import { format } from 'date-fns';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-receptionist-appointment-list',
   templateUrl: './receptionist-appointment-list.component.html',
@@ -14,7 +15,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   model!: NgbDateStruct;
   placement = 'bottom';
   constructor(private appointmentService: ReceptionistAppointmentService,
-    private cognitoService: CognitoService) {
+    private cognitoService: CognitoService, private router:Router) {
 
     this.selectedAppointment = {
       appointment_id: '',
@@ -154,4 +155,10 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     return `${hours}:${minutes}`;
   }
 
+  signOut() {
+    this.cognitoService.signOut().then(() => {
+        console.log("Logged out!");
+        this.router.navigate(['/auth']);
+    })
+  }
 }

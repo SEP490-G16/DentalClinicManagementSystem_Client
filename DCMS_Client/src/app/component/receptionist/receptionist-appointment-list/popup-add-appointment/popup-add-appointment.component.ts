@@ -43,9 +43,10 @@ export class PopupAddAppointmentComponent implements OnInit {
   }
 
   onPhoneInput() {
-    this.PATIENT_SERVICE.getPatientByPhone(this.AppointmentBody.appointment.phone_number).subscribe((data) => {
+    this.PATIENT_SERVICE.getPatientPhoneNumber('0123456789').subscribe((data) => {
       this.AppointmentBody.appointment.patient_id = data[0].patient_id;
       this.AppointmentBody.appointment.patient_name = data[0].patient_name;
+      console.log(data)
     },
     )
   }

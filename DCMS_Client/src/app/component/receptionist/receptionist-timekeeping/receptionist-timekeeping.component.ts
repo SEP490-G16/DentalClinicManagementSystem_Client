@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbDate, NgbCalendar, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { CognitoService } from 'src/app/service/cognito.service';
 @Component({
   selector: 'app-receptionist-timekeeping',
   templateUrl: './receptionist-timekeeping.component.html',
@@ -12,7 +14,7 @@ export class ReceptionistTimekeepingComponent {
 	fromDate: NgbDate | null;
 	toDate: NgbDate | null;
   placement = 'right';
-	constructor(private calendar: NgbCalendar, public formatter: NgbDateParserFormatter) {
+	constructor(private calendar: NgbCalendar, private cognitoService:CognitoService, private router:Router,public formatter: NgbDateParserFormatter) {
 		this.fromDate = calendar.getToday();
 		this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
 	}
@@ -51,5 +53,11 @@ export class ReceptionistTimekeepingComponent {
 		const parsed = this.formatter.parse(input);
 		return parsed && this.calendar.isValid(NgbDate.from(parsed)) ? NgbDate.from(parsed) : currentValue;
 	}
+
+  signOut() {
+      this.cognitoService.signOut().then(() => {
+          this.router.navigate(['auth']);
+      })
+  }
 
 }

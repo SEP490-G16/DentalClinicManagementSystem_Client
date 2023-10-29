@@ -28,7 +28,7 @@
           </span>
           <h3>Phòng chờ</h3>
         </a>
-        <a routerLink="/patient/list">
+        <a routerLink="/patient/records">
           <span class="material-icons-sharp">
             receipt_long
           </span>
@@ -40,7 +40,7 @@
           </span>
           <h3>Chấm công</h3>
         </a>
-        <a href="#">
+        <a (click)="signOut()" style="cursor: pointer;">
           <span class="material-icons-sharp">
             logout
           </span>

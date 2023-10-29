@@ -15,6 +15,8 @@ import { SharedModule } from '../shared/shared.module';
 import { ReceptionistRoutingModule } from './receptionist-routing.module';
 import { PopupAddAppointmentComponent } from 'src/app/component/receptionist/receptionist-appointment-list/popup-add-appointment/popup-add-appointment.component';
 import { PopupEditAppointmentComponent } from 'src/app/component/receptionist/receptionist-appointment-list/popup-edit-appointment/popup-edit-appointment.component';
+import { PatientModule } from '../patient/patient.module';
+import { PopupAddPatientComponent } from '../patient/patient-records/popup-add-patient/popup-add-patient.component';
 
 
 
@@ -32,6 +34,7 @@ import { PopupEditAppointmentComponent } from 'src/app/component/receptionist/re
     RouterModule,
     FormsModule,
     SharedModule,
+    PatientModule,
     ReceptionistRoutingModule,
     NgbModule,
     HttpClientModule,

@@ -8,19 +8,18 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PatientService {
-  private apiUrl = 'https://gf4tlb2kyi.execute-api.ap-southeast-1.amazonaws.com/dev';
-  constructor(private http: HttpClient, private cognitoService: CognitoService) { }
+  private test = 'https://gf4tlb2kyi.execute-api.ap-southeast-1.amazonaws.com/dev';
 
-  getPatientByPhone(phone: string): Observable<any> {
-    let idToken = sessionStorage.getItem("id_Token");
+  constructor(private http: HttpClient) { }
+  getPatientPhoneNumber(sdt:string):Observable<any> {
+      let idToken = sessionStorage.getItem("id_Token");
 
-    const headers = new HttpHeaders({
-      'Authorization': `${idToken}`,
-      "Access-Control-Allow-Headers": "*",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "*"
-    });
-    return this.http.get(`${this.apiUrl}/patient/phone-number/${phone}`, { headers });
-  }
+      const headers = new HttpHeaders({
+        'Authorization': `${idToken}`,
+        'Content-Type':'application/json'
+      });
+
+      return this.http.get(`${this.test}/patient/phone-number/${sdt}`, { headers });
+    }
 
 }

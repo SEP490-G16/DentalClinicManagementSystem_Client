@@ -1,36 +1,248 @@
-<div class="page-wrapper bg-wrapper">
-  <div class="content">
-    <div class="row">
-      <div class="col-sm-12">
-        <h4 class="page-title">Hồ sơ bệnh nhân: Phạm Thanh Long</h4>
+<div class="web-wrapper">
+  <div class="container-custom">
+    <!-- Sidebar Section -->
+    <aside>
+      <div class="toggle">
+        <div class="logo">
+          <img src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
+          <p><span class="danger">Nguyen Tran</span> Clinic</p>
+        </div>
+        <div class="close" id="close-btn">
+          <span class="material-icons-sharp">
+            close
+          </span>
+        </div>
       </div>
-    </div>
-    <div class="row">
-        <div class="card-box">
 
+      <div class="sidebar">
+        <a routerLink="/receptionist/appointment" class="active">
+          <span class="material-icons-sharp">
+            dashboard
+          </span>
+          <h3>Lịch hẹn</h3>
+        </a>
+        <a routerLink="/receptionist/waitingroom">
+          <span class="material-icons-sharp">
+            person_outline
+          </span>
+          <h3>Phòng chờ</h3>
+        </a>
+        <a routerLink="/patient/list">
+          <span class="material-icons-sharp">
+            receipt_long
+          </span>
+          <h3>Bệnh nhân</h3>
+        </a>
+        <a routerLink="/receptionist/timekeeping">
+          <span class="material-icons-sharp">
+            insights
+          </span>
+          <h3>Chấm công</h3>
+        </a>
+        <a href="#">
+          <span class="material-icons-sharp">
+            logout
+          </span>
+          <h3>Logout</h3>
+        </a>
+      </div>
+    </aside>
+    <!-- End of Sidebar Section -->
 
-          <ul class="nav nav-tabs">
-            <li class="nav-item"><a class="nav-link active" href="#TTCtab" data-bs-toggle="tab">Thông tin chung</a></li>
-            <li class="nav-item"><a class="nav-link" href="#KvDTtab" data-bs-toggle="tab">Khám và điều trị</a></li>
-            <li class="nav-item"><a class="nav-link" href="#LHtab" data-bs-toggle="tab">Lịch hẹn</a></li>
-            <li class="nav-item"><a class="nav-link" href="#TTtab" data-bs-toggle="tab">Thanh toán</a></li>
-
-          </ul>
-          <div class="tab-content">
-            <div class="tab-pane show active" id="TTCtab">
-              Tab content 1
+    <!-- Main Content -->
+    <main>
+      <!-- Analyses -->
+      <div class="analyse">
+        <div class="sales">
+          <div class="status">
+            <div class="info">
+              <h3>Lịch hẹn</h3>
+              <h1 class="text-center">02</h1>
             </div>
-            <div class="tab-pane" id="KvDTtab">
-              Tab content 2
-            </div>
-            <div class="tab-pane" id="LHtab">
-              Tab content 3
-            </div>
-            <div class="tab-pane" id="TTtab">
-              Tab content 3
+            <div class="progresss">
+              <svg>
+                <circle cx="38" cy="38" r="36"></circle>
+              </svg>
+              <div class="percentage">
+                <p>+81%</p>
+              </div>
             </div>
           </div>
+        </div>
+        <div class="visits">
+          <div class="status">
+            <div class="info">
+              <h3>Phòng chờ</h3>
+              <h1 class="text-center">24</h1>
+            </div>
+            <div class="progresss">
+              <svg>
+                <circle cx="38" cy="38" r="36"></circle>
+              </svg>
+              <div class="percentage">
+                <p>-48%</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="searches">
+          <div class="status">
+            <div class="info">
+              <h3>Bệnh nhân</h3>
+              <h1 class="text-center">23</h1>
+            </div>
+            <div class="progresss">
+              <svg>
+                <circle cx="38" cy="38" r="36"></circle>
+              </svg>
+              <div class="percentage">
+                <p>+21%</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+      <!-- End of Analyses -->
+
+      <!-- New Users Section -->
+      <!-- End of New Users Section -->
+
+      <!-- Recent Orders Table -->
+      <div class="recent-orders">
+        <section class="table__header">
+          <h1></h1>
+          <div class="input-group">
+            <input type="search search-custom" placeholder="Tìm kiếm theo tên, mã bệnh nhân...">
+          </div>
+          <div class="export__file">
+          </div>
+        </section>
+
+        <div class="row mt-5 mb-5">
+          <div class="col-3">
+            <button class="btn btn-add-custom" data-bs-toggle="modal" data-bs-target="#myBNModal"><i
+                class="bi bi-plus-circle"></i> Thêm
+              bệnh nhân</button>
+          </div>
+        </div>
+        <h2>Danh sách bệnh nhân</h2>
+        <table>
+          <thead>
+            <tr>
+              <th style="max-width: 50px;">Mã bệnh nhân</th>
+              <th>Tên bệnh nhân</th>
+              <th>SĐT</th>
+              <th>Địa chỉ</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <!--HE153724-->
+              </td>
+              <td>
+                  <a routerLink="">hehe</a>
+              </td>
+              <td>
+
+              </td>
+              <td>
+
+              </td>
+              <td></td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+      <!-- End of Recent Orders -->
+
+    </main>
+    <!-- End of Main Content -->
+
+    <div class="right-section">
+      <div class="nav">
+        <button id="menu-btn">
+          <span class="material-icons-sharp">
+            menu
+          </span>
+        </button>
+        <div class="dark-mode">
+          <span class="material-icons-sharp active">
+            light_mode
+          </span>
+          <span class="material-icons-sharp">
+            dark_mode
+          </span>
+        </div>
+
+        <div class="profile">
+          <div class="info">
+            <p>Xin chào, <b>Linh</b></p>
+            <small class="text-muted">Lễ tân</small>
+          </div>
+          <div class="profile-photo">
+            <img src="../../../../assets/img/person.png">
+          </div>
+        </div>
+
+      </div>
+      <!-- End of Nav -->
+
+      <div class="reminders">
+        <div class="header">
+          <h2>Thông báo</h2>
+          <span class="material-icons-sharp">
+            notifications_none
+          </span>
+        </div>
+
+        <div class="notification">
+          <div class="icon">
+            <span class="material-icons-sharp">
+              volume_up
+            </span>
+          </div>
+          <div class="content">
+            <div class="info">
+              <h3>Workshop</h3>
+              <small class="text_muted">
+                08:00 AM - 12:00 PM
+              </small>
+            </div>
+            <span class="material-icons-sharp">
+              more_vert
+            </span>
+          </div>
+        </div>
+
+        <div class="notification deactive">
+          <div class="icon">
+            <span class="material-icons-sharp">
+              edit
+            </span>
+          </div>
+          <div class="content">
+            <div class="info">
+              <h3>Workshop</h3>
+              <small class="text_muted">
+                08:00 AM - 12:00 PM
+              </small>
+            </div>
+            <span class="material-icons-sharp">
+              more_vert
+            </span>
+          </div>
+        </div>
+
+      </div>
+
     </div>
+
+
   </div>
+
 </div>
+
+<app-popup-add-patient></app-popup-add-patient>
