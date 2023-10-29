@@ -1,1 +1,402 @@
-<p>patient-profile-tab works!</p>
+<h2 class="text-center">Hồ sơ bệnh nhân: </h2>
+
+<div class="row">
+  <div class="card-box">
+    <ul class="nav nav-tabs">
+      <li class="nav-item"><a class="nav-link" routerLink="/tab/profile">Thông tin chung</a></li>
+      <li class="nav-item"><a class="nav-link" routerLink="/tab/treatment-course">Khám và điều trị</a></li>
+      <li class="nav-item"><a class="nav-link" routerLink="/tab/appointment">Lịch hẹn</a></li>
+      <li class="nav-item"><a class="nav-link" routerLink="/tab/payment">Thanh toán</a></li>
+    </ul>
+    <div class="tab-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+
+<!-- <h2 class="text-center">Hồ sơ bệnh nhân: </h2>
+
+<div class="row">
+  <div class="card-box">
+    <ul class="nav nav-tabs">
+      <li class="nav-item"><a class="nav-link active" href="#TTCtab" data-bs-toggle="tab">Thông tin
+          chung</a>
+      </li>
+      <li class="nav-item"><a class="nav-link" href="#KvDTtab" data-bs-toggle="tab">Khám và điều trị</a>
+      </li>
+      <li class="nav-item"><a class="nav-link" href="#LHtab" data-bs-toggle="tab">Lịch hẹn</a></li>
+      <li class="nav-item"><a class="nav-link" href="#TTtab" data-bs-toggle="tab">Thanh toán</a></li>
+
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="TTCtab">
+        <div class="row mt-5">
+          <div class="col text-center">
+            <img height="300px"
+              src="https://vnn-imgs-a1.vgcloud.vn/icdn.dantri.com.vn/2021/05/26/ngo-ngang-voi-ve-dep-cua-hot-girl-anh-the-chua-tron-18-docx-1622043349706.jpeg"
+              alt="">
+          </div>
+          <div class="col">
+            <div class="form-group mb-3">
+              <label for="maHoSo">Mã hồ sơ:</label>
+              <input [(ngModel)]="maHoSo" [disabled]="!isEditing" class="form-control border-bottom-0">
+            </div>
+            <div class="form-group mb-3">
+              <label for="dateCreated">Ngày tạo:</label>
+              <input [(ngModel)]="dateCreated" [disabled]="!isEditing" class="form-control border-bottom-0">
+            </div>
+            <div class="form-group mb-3">
+              <label for="fullName">Họ và Tên:</label>
+              <input [(ngModel)]="fullName" [disabled]="!isEditing" class="form-control border-bottom-0">
+            </div>
+            <div class="form-group mb-3">
+              <label for="gender">Giới tính:</label>
+              <input [(ngModel)]="gender" [disabled]="!isEditing" class="form-control border-bottom-0">
+            </div>
+            <div class="form-group mb-3">
+              <label for="phone">SĐT:</label>
+              <input [(ngModel)]="phone" [disabled]="!isEditing" class="form-control border-bottom-0">
+            </div>
+            <div class="form-group mb-3">
+              <label for="email">Email:</label>
+              <input [(ngModel)]="email" [disabled]="!isEditing" class="form-control border-bottom-0">
+            </div>
+            <div class="form-group mb-3">
+              <label for="address">Địa chỉ:</label>
+              <input [(ngModel)]="address" [disabled]="!isEditing" class="form-control border-bottom-0">
+            </div>
+            <div class="form-group mb-3">
+              <label for="tsb">Tiền sử bệnh:</label>
+              <input [(ngModel)]="tsb" [disabled]="!isEditing" class="form-control border-bottom-0">
+            </div>
+            <div class="form-group mb-3">
+              <label for="note">Ghi chú:</label>
+              <input [(ngModel)]="note" [disabled]="!isEditing" class="form-control border-bottom-0">
+            </div>
+          </div>
+          <div class="col text-center">
+            <button class="btn btn-custom" (click)="toggleEditing()"> {{ isEditing ? 'Lưu' : 'Cập nhật'
+              }}</button>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane" id="KvDTtab">
+        <div class="KvDTtab-container mt-5"> -->
+          <!-- <div class="row mt-3 mb-3">
+                <div class="col text-end">
+                  <button class="btn btn-custom">Thêm thông tin khám</button>
+                </div>
+              </div> -->
+          <!-- <div class="row">
+            <div class="col-sm-12">
+              <h2 class="color-main">Ngày khám 11/9/2023</h2>
+            </div>
+          </div>
+
+          <div class="KvDTtab-content">
+            <div class="row">
+              <h2>Khám tổng quát</h2>
+              <div class="col-sm-6">
+                <div class="form-group mb-3">
+                  <label for="">Bác sĩ khám:</label>
+                  <input class="form-control border-bottom-0" value="Dr.Long">
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group mb-3">
+                  <label for="">Bác sĩ điều trị:</label>
+                  <input class="form-control border-bottom-0" value="Dr.Long">
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-3">
+              <h2>Hình ảnh</h2>
+              <div class="col-sm-6">
+                <img width="200px" height="200px"
+                  src="https://nhakhoathuyanh.com/wp-content/uploads/2020/08/chup-x-quang-nho-rang-khon-1-1400x767.jpg"
+                  alt="ảnh nếu có">
+              </div>
+              <div class="col-sm-6">
+                <textarea class="form-control">Nhận xét về ảnh x-quang(nếu có ảnh)</textarea>
+              </div>
+            </div>
+
+            <div class="row mt-3">
+              <div class="col-sm-6">
+                <h2>Khám và điều trị</h2>
+              </div>
+              <div class="col-sm-6">
+                <button class="btn btn-addNew float-end">Thêm mới</button>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-sm-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Răng</th>
+                        <th>Tình trạng răng</th>
+                        <th>Tên thủ thuật</th>
+                        <th>Khách hàng đồng ý</th>
+                        <th>Đơn giá</th>
+                        <th>Thành tiền</th>
+                        <th>Đã trả</th>
+                        <th>Còn lại</th>
+                        <th>Tình trạng</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>R-22</td>
+                        <td>Sâu răng</td>
+                        <td>Hàn R74</td>
+                        <td>X</td>
+                        <td>100.000</td>
+                        <td>100.000</td>
+                        <td>0</td>
+                        <td>100.0000</td>
+                        <td>Đang điều trị</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-3">
+              <div class="col-sm-6">
+                <h2>Đơn thuốc</h2>
+              </div>
+              <div class="col-sm-6">
+                <button class="btn btn-addNew float-end">Thêm mới</button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead class="text-center">
+                      <tr>
+                        <th style="min-width: 100px;">Mã thuốc</th>
+                        <th>Tên thuốc</th>
+                        <th style="min-width: 100px;">Số lượng</th>
+                        <th>Liều dùng</th>
+                        <th>Ghi chú</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>Naphacogyl</td>
+                        <td>2 vỉ</td>
+                        <td>
+                          <ul>
+                            <li>Với người lớn: Liều dùng 4-6viên/ngày, chia ra thành 2 lần uống, dùng trong
+                              bữa
+                              ăn
+                            </li>
+                            <li>Với trẻ nhỏ: Dùng tương tự người lớn, nhưng liều lượng giảm đi 1 nửa, còn 2
+                              viên/ngày</li>
+                          </ul>
+                        </td>
+                        <td>
+                          <p>Lưu ý không được uống thuốc tư thế nằm, không dùng cho người cao tuổi. Các đối
+                            tượng
+                            có bệnh viêm đường ruột, bệnh dạ dày cần tham khảo ý kiến.</p>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-3">
+              <div class="col-sm-6">
+                <h2>Đặt xưởng/vật tư</h2>
+              </div>
+              <div class="col-sm-6">
+                <button class="btn btn-addNew float-end">Thêm mới</button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered text-center">
+                    <thead>
+                      <tr>
+                        <th>Răng</th>
+                        <th>Vật liệu</th>
+                        <th>Đơn vị cung cấp</th>
+                        <th>Số lượng</th>
+                        <th>Đơn giá</th>
+                        <th>Thành tiền</th>
+                        <th>Giảm giá</th>
+                        <th>Ngày đặt</th>
+                        <th>Người đặt</th>
+                        <th>Tình trạng</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>R-27</td>
+                        <td>Sứ</td>
+                        <td>Kim chi Lab</td>
+                        <td>1</td>
+                        <td>1.500.000</td>
+                        <td>1.500.000</td>
+                        <td>0</td>
+                        <td>14/9/2023</td>
+                        <td>Admin</td>
+                        <td>Đã lấy</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row mt-3">
+              <div class="col-sm-6">
+                <h2>Vật liệu sử dụng</h2>
+              </div>
+              <div class="col-sm-6">
+                <button class="btn btn-addNew float-end">Thêm mới</button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered text-center">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Tên vật liệu</th>
+                        <th>Số lượng</th>
+                        <th>Ngày dùng</th>
+                        <th>Người thêm</th>
+                        <th>Thao tác</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>Sứ</td>
+                        <td>Kim chi Lab</td>
+                        <td>1</td>
+                        <td>1.500.000</td>
+                        <td>1.500.000</td>
+                        <td>0</td>
+                        <td>14/9/2023</td>
+                        <td>Admin</td>
+                        <td>Đã lấy</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="tab-pane" id="LHtab">
+        <div class="row mt-4">
+          <div class="col-12 text-end mb-3">
+            <button class="btn btn-custom">Đặt lịch tái khám</button>
+          </div>
+          <div class="col">
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">Thời gian</th>
+                    <th scope="col">Bác sĩ</th>
+                    <th scope="col">Lý do</th>
+                    <th scope="col">Tình trạng</th>
+                    <th scope="col">Option</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>08:00 AM</td>
+                    <td>Dr. Long</td>
+                    <td>Kiểm tra tổng quát</td>
+                    <td>Đã hoàn thành</td>
+                    <td>
+                      <button class="btn btn-primary">Chỉnh sửa</button>
+                      <button class="btn btn-danger">Xóa</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="TTtab">
+        <div class="row mt-3 mb-3">
+          <div class="col-sm-3">
+            Ngày điều trị: <h4 style="border-bottom: 1px solid #1E1E1E;">14-10-2023</h4>
+          </div>
+        </div>
+        <div class="row mb-5">
+          <div class="col">
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">Tình trạng</th>
+                    <th scope="col">Răng số</th>
+                    <th scope="col">Tên thủ thuật</th>
+                    <th scope="col">Nội dung thủ thuật</th>
+                    <th scope="col">Bác sĩ</th>
+                    <th scope="col">Số lượng</th>
+                    <th scope="col">Chi phí</th>
+                    <th scope="col">Trả</th>
+                    <th scope="col">Tổng</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Fine</td>
+                    <td>5 và 2</td>
+                    <td>Thay Răng</td>
+                    <td>zcczcz</td>
+                    <td>
+                      Dr.Long
+                    </td>
+                    <td>2</td>
+                    <td>Free</td>
+                    <td>Free</td>
+                    <td>0 VNĐ</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col text-end">
+            <p>Chi phí theo thủ thuật: ....</p>
+            <p>Giảm giá: ....</p>
+            <p>Tổng chi phí: ....</p>
+            <p>Đã thanh toán: ....</p>
+            <p>Còn lại: ....</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col text-center">
+            <button class="btn mr-2">Hủy bỏ</button>
+            <button class="btn">Thanh toán</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->

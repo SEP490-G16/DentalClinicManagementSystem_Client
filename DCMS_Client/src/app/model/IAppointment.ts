@@ -38,6 +38,7 @@ export interface AppointmentObject {
 export interface ISelectedAppointment {
   appointment_id:string;
   patient_id:string ;
+  doctor:string;
   patient_name:string;
   phone_number:string;
   procedure:string;

@@ -43,7 +43,8 @@ export class PopupAddAppointmentComponent implements OnInit {
   }
 
   onPhoneInput() {
-    this.PATIENT_SERVICE.getPatientPhoneNumber('0123456789').subscribe((data) => {
+    console.log(this.AppointmentBody.appointment.phone_number);
+    this.PATIENT_SERVICE.getPatientPhoneNumber(this.AppointmentBody.appointment.phone_number).subscribe((data) => {
       this.AppointmentBody.appointment.patient_id = data[0].patient_id;
       this.AppointmentBody.appointment.patient_name = data[0].patient_name;
       console.log(data)
@@ -87,6 +88,7 @@ export class PopupAddAppointmentComponent implements OnInit {
       (response) => {
         console.log('Lịch hẹn đã được tạo:', response);
         alert('Lịch hẹn đã được tạo thành công!');
+        this.AppointmentBody = {} as IAddAppointment;
       },
       (error) => {
         console.error('Lỗi khi tạo lịch hẹn:', error);

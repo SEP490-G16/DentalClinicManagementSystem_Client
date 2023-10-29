@@ -15,7 +15,7 @@
       </div>
 
       <div class="sidebar">
-        <a routerLink="/receptionist/appointment" class="active">
+        <a routerLink="/receptionist/appointment">
           <span class="material-icons-sharp">
             dashboard
           </span>
@@ -27,7 +27,7 @@
           </span>
           <h3>Phòng chờ</h3>
         </a>
-        <a routerLink="/patient/list">
+        <a routerLink="/patient/records" class="active">
           <span class="material-icons-sharp">
             receipt_long
           </span>
@@ -142,7 +142,7 @@
                 <!--HE153724-->
               </td>
               <td>
-                  <a routerLink="">hehe</a>
+                  <a routerLink="/patient/tab/profile">hehe</a>
               </td>
               <td>
 
@@ -245,4 +245,4 @@
 
 </div>
 
-<app-popup-add-patient></app-popup-add-patient>
+<app-patient-profile-tab></app-patient-profile-tab>

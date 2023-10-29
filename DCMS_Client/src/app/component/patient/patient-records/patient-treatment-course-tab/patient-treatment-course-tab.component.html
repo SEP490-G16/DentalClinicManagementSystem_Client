@@ -1,1 +1,208 @@
-<p>patient-treatment-course-tab works!</p>
+<div class="KvDTtab-container mt-5">
+  <div class="row">
+    <div class="col-sm-12">
+      <h2 class="color-main">Ngày khám 11/9/2023</h2>
+    </div>
+  </div>
+
+  <div class="KvDTtab-content">
+    <div class="row">
+      <h2>Khám tổng quát</h2>
+      <div class="col-sm-6">
+        <div class="form-group mb-3">
+          <label for="">Bác sĩ khám:</label>
+          <input class="form-control border-bottom-0" value="Dr.Long">
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group mb-3">
+          <label for="">Bác sĩ điều trị:</label>
+          <input class="form-control border-bottom-0" value="Dr.Long">
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <h2>Hình ảnh</h2>
+      <div class="col-sm-6">
+        <img width="200px" height="200px"
+          src="https://nhakhoathuyanh.com/wp-content/uploads/2020/08/chup-x-quang-nho-rang-khon-1-1400x767.jpg"
+          alt="ảnh nếu có">
+      </div>
+      <div class="col-sm-6">
+        <textarea class="form-control">Nhận xét về ảnh x-quang(nếu có ảnh)</textarea>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-sm-6">
+        <h2>Khám và điều trị</h2>
+      </div>
+      <div class="col-sm-6">
+        <button class="btn btn-addNew float-end">Thêm mới</button>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-sm-12">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Răng</th>
+                <th>Tình trạng răng</th>
+                <th>Tên thủ thuật</th>
+                <th>Khách hàng đồng ý</th>
+                <th>Đơn giá</th>
+                <th>Thành tiền</th>
+                <th>Đã trả</th>
+                <th>Còn lại</th>
+                <th>Tình trạng</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>R-22</td>
+                <td>Sâu răng</td>
+                <td>Hàn R74</td>
+                <td>X</td>
+                <td>100.000</td>
+                <td>100.000</td>
+                <td>0</td>
+                <td>100.0000</td>
+                <td>Đang điều trị</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-sm-6">
+        <h2>Đơn thuốc</h2>
+      </div>
+      <div class="col-sm-6">
+        <button class="btn btn-addNew float-end">Thêm mới</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead class="text-center">
+              <tr>
+                <th style="min-width: 100px;">Mã thuốc</th>
+                <th>Tên thuốc</th>
+                <th style="min-width: 100px;">Số lượng</th>
+                <th>Liều dùng</th>
+                <th>Ghi chú</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Naphacogyl</td>
+                <td>2 vỉ</td>
+                <td>
+                  <ul>
+                    <li>Với người lớn: Liều dùng 4-6 viên/ngày, chia ra thành 2 lần uống, dùng trong bữa ăn</li>
+                    <li>Với trẻ nhỏ: Dùng tương tự người lớn, nhưng liều lượng giảm đi 1 nửa, còn 2 viên/ngày</li>
+                  </ul>
+                </td>
+                <td>
+                  <p>Lưu ý không được uống thuốc tư thế nằm, không dùng cho người cao tuổi. Các đối tượng có bệnh viêm đường ruột, bệnh dạ dày cần tham khảo ý kiến.</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-sm-6">
+        <h2>Đặt xưởng/vật tư</h2>
+      </div>
+      <div class="col-sm-6">
+        <button class="btn btn-addNew float-end">Thêm mới</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="table-responsive">
+          <table class="table table-bordered text-center">
+            <thead>
+              <tr>
+                <th>Răng</th>
+                <th>Vật liệu</th>
+                <th>Đơn vị cung cấp</th>
+                <th>Số lượng</th>
+                <th>Đơn giá</th>
+                <th>Thành tiền</th>
+                <th>Giảm giá</th>
+                <th>Ngày đặt</th>
+                <th>Người đặt</th>
+                <th>Tình trạng</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>R-27</td>
+                <td>Sứ</td>
+                <td>Kim chi Lab</td>
+                <td>1</td>
+                <td>1.500.000</td>
+                <td>1.500.000</td>
+                <td>0</td>
+                <td>14/9/2023</td>
+                <td>Admin</td>
+                <td>Đã lấy</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-sm-6">
+        <h2>Vật liệu sử dụng</h2>
+      </div>
+      <div class="col-sm-6">
+        <button class="btn btn-addNew float-end">Thêm mới</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="table-responsive">
+          <table class="table table-bordered text-center">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Tên vật liệu</th>
+                <th>Số lượng</th>
+                <th>Ngày dùng</th>
+                <th>Người thêm</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Sứ</td>
+                <td>Kim chi Lab</td>
+                <td>1</td>
+                <td>1.500.000</td>
+                <td>1.500.000</td>
+                <td>0</td>
+                <td>14/9/2023</td>
+                <td>Admin</td>
+                <td>Đã lấy</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -11,5 +11,4 @@ export class PatientAppointmentTabComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

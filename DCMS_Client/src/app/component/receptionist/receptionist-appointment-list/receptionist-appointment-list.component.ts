@@ -21,6 +21,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
       appointment_id: '',
       patient_id: '',
       patient_name:'',
+      doctor: '',
       procedure: '',
       phone_number: ''
     } as ISelectedAppointment
@@ -107,15 +108,14 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   dateString: any;
   timeString: any;
   openEditModal(appointment: any, dateTimestamp: any) {
-    // console.log(dateTimestamp);
-    // console.log(this.appointmentList.date);
-    const date = new Date(this.appointmentList.date * 1000);
+    //console.log("DateTimestamp", dateTimestamp);
+    const date = new Date(dateTimestamp * 1000);
     this.dateString = this.formatDateToCustomString(date);
-    console.log(this.dateString);
+    console.log("DateString",this.dateString);
 
     //Set Appointment
     this.selectedAppointment = appointment;
-    console.log(this.selectedAppointment.time);
+    //console.log(this.selectedAppointment.time);
     this.timeString = this.convertTimestampToTimeString(this.selectedAppointment.time);
 
     //Convert timestamp to Date in PopupEdit
