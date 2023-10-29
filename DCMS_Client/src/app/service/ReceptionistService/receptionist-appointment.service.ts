@@ -2,7 +2,7 @@ import { CognitoService } from '../cognito.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {IAddAppointment} from "../../model/IAppointment";
+import {IAddAppointment, IEditAppointmentBody} from "../../model/IAppointment";
 
 @Injectable({
   providedIn: 'root'
@@ -32,4 +32,19 @@ export class ReceptionistAppointmentService {
     const requestBody = JSON.stringify(addAppointment);
     return this.http.post(`${this.apiUrl}/appointment`, requestBody, { headers });
   }
+
+  putAppointment(appointment: IEditAppointmentBody, appointmentId:string): Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `${idToken}`,
+    });
+
+    const requestBody = JSON.stringify(appointment);
+
+    return this.http.put(`${this.apiUrl}/appointment/${appointmentId}`, requestBody, { headers });
+  }
+
+
 }

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
-import {ReceptionistAppointmentService} from "../../../service/ReceptionistService/receptionist-appointment.service";
-import {CognitoService} from "../../../service/cognito.service";
-import {Detail, RootObject} from "../../../model/IAppointment";
+import { ReceptionistAppointmentService } from "../../../service/ReceptionistService/receptionist-appointment.service";
+import { CognitoService } from "../../../service/cognito.service";
+import { Detail, ISelectedAppointment, RootObject } from "../../../model/IAppointment";
+import { format } from 'date-fns';
 @Component({
   selector: 'app-receptionist-appointment-list',
   templateUrl: './receptionist-appointment-list.component.html',
@@ -13,18 +14,25 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   model!: NgbDateStruct;
   placement = 'bottom';
   constructor(private appointmentService: ReceptionistAppointmentService,
-              private cognitoService:CognitoService) {
+    private cognitoService: CognitoService) {
 
-   }
+    this.selectedAppointment = {
+      appointment_id: '',
+      patient_id: '',
+      patient_name:'',
+      procedure: '',
+      phone_number: ''
+    } as ISelectedAppointment
+  }
   selectedProcedure: string = '';
-  searchText:string='';
-  filteredAppointments:any;
-  appointmentList:any;
-  startDate:string="1970-01-01 8:00:09";
-  jsonData:any;
-  jsonDataString:string=`
+  searchText: string = '';
+  filteredAppointments: any;
+  appointmentList: any;
+  startDate: string = "1970-01-01 8:00:09";
+  jsonData: any;
+  jsonDataString: string = `
     {
-        "date": 1,
+        "date": 10,
         "appointments": [
             {
                 "procedure": 1,
@@ -50,10 +58,12 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   ngOnInit(): void {
     this.getAppointmentList();
     this.filteredAppointments = this.appointmentList.appointments;
+
+    //Convert timestamp to Date in PopupEdit
   }
-  getAppointmentList(){
+  getAppointmentList() {
     let date = new Date(this.startDate);
-    let startDateTimestamp = date.getTime()/1000;
+    let startDateTimestamp = date.getTime() / 1000;
     console.log(startDateTimestamp);
     /*this.appointmentService.getAppointmentList(startDateTimestamp,startDateTimestamp).subscribe(data=>{
       /!*const jsonData = JSON.parse(data.appointments.details);
@@ -96,18 +106,52 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     const searchText = this.searchText.toLowerCase().trim();
     if (this.searchText) {
       this.filteredAppointments = this.appointmentList.appointments
-        .map((appointment:any) => ({
+        .map((appointment: any) => ({
           ...appointment,
-          details: appointment.details.filter((detail:any) => {
+          details: appointment.details.filter((detail: any) => {
             const patientName = detail.patient_name ? detail.patient_name.toLowerCase() : '';
             const patientId = detail.patient_id ? detail.patient_id : '';
             return patientName.includes(searchText) || patientId.includes(searchText);
           })
         }))
-        .filter((appointment:any) => appointment.details.length > 0);
+        .filter((appointment: any) => appointment.details.length > 0);
     } else {
       this.filteredAppointments = this.appointmentList.appointments;
     }
+  }
+
+  selectedAppointment: ISelectedAppointment;
+  dateString: any;
+  timeString: any;
+  openEditModal(appointment: any, dateTimestamp: any) {
+    // console.log(dateTimestamp);
+    // console.log(this.appointmentList.date);
+    const date = new Date(this.appointmentList.date * 1000);
+    this.dateString = this.formatDateToCustomString(date);
+    console.log(this.dateString);
+
+    //Set Appointment
+    this.selectedAppointment = appointment;
+    console.log(this.selectedAppointment.time);
+    this.timeString = this.convertTimestampToTimeString(this.selectedAppointment.time);
+
+    //Convert timestamp to Date in PopupEdit
+
+  }
+
+  formatDateToCustomString(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Thêm số 0 ở đầu nếu cần
+    const day = date.getDate().toString().padStart(2, '0'); // Thêm số 0 ở đầu nếu cần
+    return `${year}-${month}-${day}`;
+  }
+
+
+  convertTimestampToTimeString(timestamp: number): string {
+    const date = new Date(timestamp * 1000); // Nhân với 1000 để chuyển đổi từ giây sang mili giây
+    const hours = date.getHours().toString().padStart(2, '0'); // Lấy giờ và đảm bảo có 2 chữ số
+    const minutes = date.getMinutes().toString().padStart(2, '0'); // Lấy phút và đảm bảo có 2 chữ số
+    return `${hours}:${minutes}`;
   }
 
 }

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PatientService {
-  private apiUrl = 'https://gg1spfr4gl.execute-api.ap-southeast-1.amazonaws.com/dev';
+  private apiUrl = 'https://gf4tlb2kyi.execute-api.ap-southeast-1.amazonaws.com/dev';
   constructor(private http: HttpClient, private cognitoService: CognitoService) { }
 
   getPatientByPhone(phone: string): Observable<any> {
@@ -16,10 +16,11 @@ export class PatientService {
 
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`,
-
+      "Access-Control-Allow-Headers": "*",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "*"
     });
     return this.http.get(`${this.apiUrl}/patient/phone-number/${phone}`, { headers });
-
   }
 
 }

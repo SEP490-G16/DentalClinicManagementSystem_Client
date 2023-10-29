@@ -148,8 +148,8 @@
               <th>Loại điều trị</th>
               <th>Bác sĩ</th>
               <th style="min-width: 110px;">Thời gian hẹn khám</th>
-              <th>Action</th>
               <th></th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -170,6 +170,11 @@
               </td>
               <td>{{ detail.doctor }}</td>
               <td> {{ convertTimestampToDateString(detail.time) }}</td>
+              <td>
+                <button class="btn btn-edit-custom" data-bs-toggle="modal" data-bs-target="#editAppointmentModal" (click)="openEditModal(detail, a.date)">
+                  <i class="bi bi-edit-circle"></i> Sửa lịch hẹn
+                </button>
+              </td>
               <td>
                 <a routerLink="/receptionist/waitingroom" style="width: 100px; color: black;" class="btn btn-redirect">Đến hàng chờ</a>
               </td>
@@ -269,3 +274,4 @@
 </div>
 
 <app-popup-add-appointment></app-popup-add-appointment>
+<app-popup-edit-appointment [selectedAppointment]="selectedAppointment" [dateString]="dateString" [timeString]="timeString"></app-popup-edit-appointment>

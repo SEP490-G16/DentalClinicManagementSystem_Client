@@ -17,7 +17,7 @@ import { AuthModule } from './component/auth/auth.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     FormsModule,

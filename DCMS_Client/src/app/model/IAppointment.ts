@@ -1,14 +1,13 @@
+//Get Appointments
 export interface RootObject {
   date: number;
   appointments: Appointment[];
 }
-
 export interface Appointment {
   procedure: number;
   count: number;
   details: Detail[];
 }
-
 export interface Detail {
   appointment_id: number;
   patient_id: string;
@@ -20,15 +19,40 @@ export interface Detail {
   migrated: string;
 }
 
-
-
-
+//Add Appointment
 export interface IAddAppointment {
   epoch: number
   appointment: AppointmentObject
 }
-
 export interface AppointmentObject {
+  patient_id: string
+  patient_name: string
+  phone_number: string
+  procedure: number
+  doctor: string
+  time: number
+}
+
+
+//Set to Edit Appointment
+export interface ISelectedAppointment {
+  appointment_id:string;
+  patient_id:string ;
+  patient_name:string;
+  phone_number:string;
+  procedure:string;
+  time:number
+}
+
+
+//Edit Appointemnt
+export interface IEditAppointmentBody {
+  epoch: number
+  new_epoch: number
+  appointment: EditAppointment
+}
+
+export interface EditAppointment {
   patient_id: string
   patient_name: string
   phone_number: string

@@ -57,9 +57,10 @@ export class PopupAddAppointmentComponent implements OnInit {
     this.AppointmentBody.appointment.doctor = doctor.name;
   }
 
+  appointmentDate:string = '';
   onPostAppointment() {
     // Chuyển đổi ngày cố định sang timestamp
-    const fixedDate = new Date('2023-10-28');
+    const fixedDate = new Date(this.appointmentDate);
     const dateTimestamp = fixedDate.getTime() / 1000; // Chuyển đổi sang timestamp (giây)
 
     // Lấy giá trị thời gian từ biến appointmentTime và chuyển đổi thành timestamp

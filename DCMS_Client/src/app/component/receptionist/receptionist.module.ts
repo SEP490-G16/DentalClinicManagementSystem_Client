@@ -14,6 +14,7 @@ import { ReceptionistComponent } from './receptionist.component';
 import { SharedModule } from '../shared/shared.module';
 import { ReceptionistRoutingModule } from './receptionist-routing.module';
 import { PopupAddAppointmentComponent } from 'src/app/component/receptionist/receptionist-appointment-list/popup-add-appointment/popup-add-appointment.component';
+import { PopupEditAppointmentComponent } from 'src/app/component/receptionist/receptionist-appointment-list/popup-edit-appointment/popup-edit-appointment.component';
 
 
 
@@ -23,7 +24,8 @@ import { PopupAddAppointmentComponent } from 'src/app/component/receptionist/rec
    ReceptionistTimekeepingComponent,
    ReceptionistWaitingRoomComponent,
    ReceptionistComponent,
-   PopupAddAppointmentComponent
+   PopupAddAppointmentComponent,
+   PopupEditAppointmentComponent
   ],
   imports: [
     CommonModule,
