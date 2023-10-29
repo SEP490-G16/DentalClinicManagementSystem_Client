@@ -129,7 +129,7 @@
               bệnh nhân</button>
           </div>
           <div class="col-6">
-            <input type="date" class="date-input-custom" [value]="startDate">
+            <input type="datetime-local" class="date-input-custom" [(ngModel)]="startDate" (change)="getAppointmentList()">
 
             <select class="form-select input-custom float-end" aria-label="Default select example" [(ngModel)]="selectedProcedure" (change)="filterAppointments()">
               <option selected value="">Phân loại điều trị</option>
@@ -154,31 +154,34 @@
           </thead>
           <tbody>
           <ng-container *ngFor="let a of filteredAppointments">
-            <tr *ngFor="let detail of a.details">
-              <td>
-                <!--HE153724-->
-                {{detail.patient_id}}
-              </td>
-              <td>
-                {{detail.patient_name}}
-              </td>
-              <td>
-                {{detail.phone_number}}
-              </td>
-              <td>
-                {{detail.procedure === 1 ? 'Niềng răng' : 'Nhổ răng'}}
-              </td>
-              <td>{{ detail.doctor }}</td>
-              <td> {{ convertTimestampToDateString(detail.time) }}</td>
-              <td>
-                <button class="btn btn-edit-custom" data-bs-toggle="modal" data-bs-target="#editAppointmentModal" (click)="openEditModal(detail, a.date)">
-                  <i class="bi bi-edit-circle"></i> Sửa lịch hẹn
-                </button>
-              </td>
-              <td>
-                <a routerLink="/receptionist/waitingroom" style="width: 100px; color: black;" class="btn btn-redirect">Đến hàng chờ</a>
-              </td>
-            </tr>
+            <ng-container *ngFor="let ap of a.appointments">
+              <tr *ngFor="let detail of ap.details">
+                <td>
+                  <!--HE153724-->
+                  {{detail.patient_id}}
+                </td>
+                <td>
+                  {{detail.patient_name}}
+                </td>
+                <td>
+                  {{detail.phone_number}}
+                </td>
+                <td>
+                  {{detail.procedure == 1 ? 'Niềng răng' :'Nhổ răng'}}
+                </td>
+                <td>{{ detail.doctor }}</td>
+                <td> {{ convertTimestampToDateString(detail.time) }}</td>
+                <td>
+                  <button class="btn btn-edit-custom" data-bs-toggle="modal" data-bs-target="#editAppointmentModal" (click)="openEditModal(detail, a.date)">
+                    <i class="bi bi-edit-circle"></i> Sửa lịch hẹn
+                  </button>
+                </td>
+                <td>
+                  <a routerLink="/receptionist/waitingroom" style="width: 100px; color: black;" class="btn btn-redirect">Đến hàng chờ</a>
+                </td>
+              </tr>
+            </ng-container>
+
           </ng-container>
 
           </tbody>

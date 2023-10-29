@@ -19,7 +19,7 @@ export class ReceptionistAppointmentService {
         'Authorization': `${idToken}`
 
       });
-      return this.http.get(`${this.apiUrl}/appointment/${startTime}/${endTime}`, { headers });
+      return this.http.get(`${this.apiUrl}/appointment/${startTime}/${endTime}`, { headers , responseType: 'text' });
   }
   postAppointment(addAppointment: IAddAppointment): Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
