@@ -18,11 +18,9 @@ export class PopupAddPatientComponent implements OnInit {
     dental_medical_History:'',
     dob:''
   }
-
   constructor(private patientService:PatientService,
               private toastr: ToastrService) { }
   patientBody:any={
-    /*patient_id:'',*/
     patient_name:'',
     email:'',
     gender:0,
@@ -48,6 +46,9 @@ export class PopupAddPatientComponent implements OnInit {
     }
     this.patientService.addPatient(this.patientBody).subscribe(data=>{
       this.toastr.success('Thêm mới bệnh nhân thành công!');
+      let ref = document.getElementById('cancel');
+      ref?.click();
+      window.location.reload();
     },error => {
       this.toastr.error('Thêm mới bệnh nhân thất bại!');
     })
