@@ -120,7 +120,9 @@
 
         <div class="row mt-5 mb-5">
           <div class="col-6">
-            <button class="btn btn-add-custom" data-bs-toggle="modal" data-bs-target="#myModal"><i
+            <button class="btn btn-add-custom" data-bs-toggle="modal" data-bs-target="#myModal"
+            (click)="openAddAppointmentModal()"
+            ><i
                 class="bi bi-plus-circle"></i>
               Thêm
               lịch hẹn</button>
@@ -277,6 +279,6 @@
 
 </div>
 
-<app-popup-add-appointment></app-popup-add-appointment>
+<app-popup-add-appointment [datesDisabled]="datesDisabled" [isDatepickerOpened]="isDatepickerOpened"></app-popup-add-appointment>
 
 <app-popup-edit-appointment [selectedAppointment]="selectedAppointment" [dateString]="dateString" [timeString]="timeString"></app-popup-edit-appointment>

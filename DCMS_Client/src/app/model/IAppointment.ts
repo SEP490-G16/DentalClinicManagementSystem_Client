@@ -9,7 +9,7 @@ export interface Appointment {
   details: Detail[];
 }
 export interface Detail {
-  appointment_id: number;
+  appointment_id: string;
   patient_id: string;
   patient_name: string;
   phone_number: number;

@@ -97,3 +97,19 @@
 .form-control.textarea:focus {
   color: #333;
 }
+
+
+.mat-calendar-body-disabled .mat-calendar-body-cell {
+  background-color: #ccc; /* Màu nền cho ngày bị vô hiệu hóa */
+  color: #888; /* Màu chữ cho ngày bị vô hiệu hóa */
+}
+
+.highlight-dates{
+  background: red;
+  border-radius: 100%;
+}
+
+button.example-custom-date-class {
+  background: orange;
+  border-radius: 100%;
+}

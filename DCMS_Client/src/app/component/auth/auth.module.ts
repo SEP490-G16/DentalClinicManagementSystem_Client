@@ -29,8 +29,7 @@ import { ReceptionistModule } from '../receptionist/receptionist.module';
       closeButton: true,
       progressBar: true,
     }),
-    AuthRoutingModule,
-    ReceptionistModule
+    AuthRoutingModule
   ]
 })
 export class AuthModule { }

@@ -14,6 +14,9 @@ import { DoctorModule } from './component/doctor/doctor.module';
 import { NurseModule } from './component/nurse/nurse.module';
 import { PatientModule } from './component/patient/patient.module';
 import { AuthModule } from './component/auth/auth.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
 
 @NgModule({
   declarations: [
@@ -32,7 +35,8 @@ import { AuthModule } from './component/auth/auth.module';
     AuthModule,
     CommonModule,
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

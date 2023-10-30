@@ -34,7 +34,7 @@ const authRoutes: Routes = [
       ]
   },
   {
-    path:'change-appointment', component:ChangeAppointmentComponent
+    path:'change-appointment/:epoch/:appointmentId', component:ChangeAppointmentComponent
   },
 
 

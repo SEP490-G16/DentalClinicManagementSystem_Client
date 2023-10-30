@@ -13,6 +13,7 @@ export class PatientService {
   constructor(private http: HttpClient) { }
   getPatientPhoneNumber(sdt:string):Observable<any> {
       let idToken = sessionStorage.getItem("id_Token");
+      console.log("id token", idToken);
       const headers = new HttpHeaders({
         'Authorization': `${idToken}`,
         'Content-Type':'application/json'

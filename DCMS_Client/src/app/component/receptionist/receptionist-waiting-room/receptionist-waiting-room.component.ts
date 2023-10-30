@@ -59,7 +59,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
   signOut() {
     this.cognitoService.signOut().then(() => {
         console.log("Logged out!");
-        this.router.navigate(['/auth']);
+        this.router.navigate(['login']);
     })
   }
 

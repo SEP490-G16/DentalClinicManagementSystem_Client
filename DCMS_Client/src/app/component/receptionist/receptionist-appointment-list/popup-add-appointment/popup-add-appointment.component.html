@@ -15,19 +15,27 @@
           <div class="row">
             <div class="col-12 col-md-6">
               <div class="form-group">
-                <label for="phone">Số điện thoại</label>
-                <input type="text" class="form-control" id="phone" [(ngModel)]="AppointmentBody.appointment.phone_number" (keydown.enter)="onPhoneInput()">
+                <label for="phone">Nhập số điện thoại</label>
+                <input type="text" class="form-control" id="phone"
+                  [(ngModel)]="AppointmentBody.appointment.phone_number"
+                  (keydown.enter)="onPhoneInput()"
+                  >
               </div>
             </div>
             <div class="col-12 col-md-6">
-              <!-- Cột này hiển thị thông tin tên bệnh nhân và mã bệnh nhân sau khi đã nhận được từ API -->
               <div class="form-group">
                 <label for="patientName">Tên bệnh nhân</label>
-                <input type="text" class="form-control" id="patientName" [(ngModel)]="AppointmentBody.appointment.patient_name" [disabled]="!isPatientInfoEditable">
+                <input type="text" class="form-control" id="patientName"
+                  [(ngModel)]="AppointmentBody.appointment.patient_name"
+                  [disabled]="!isPatientInfoEditable"
+                  [matTooltip]="tooltipText">
               </div>
               <div class="form-group">
                 <label for="patientCode">Mã bệnh nhân</label>
-                <input type="text" class="form-control" id="patientCode" [(ngModel)]="AppointmentBody.appointment.patient_id" [disabled]="!isPatientInfoEditable">
+                <input type="text" class="form-control" id="patientCode"
+                  [(ngModel)]="AppointmentBody.appointment.patient_id"
+                  [disabled]="!isPatientInfoEditable"
+                  [matTooltip]="tooltipText">
               </div>
             </div>
           </div>
@@ -46,7 +54,8 @@
             <div class="col-12 col-md-6">
               <div class="form-group">
                 <label for="appointmentTime" name="userCredential">Giờ hẹn khám</label>
-                <input type="time" class="form-control date-input-custom" id="time" name="time" [(ngModel)]="appointmentTime" >
+                <input type="time" class="form-control date-input-custom" id="time" name="time"
+                  [(ngModel)]="appointmentTime">
               </div>
 
             </div>
@@ -56,8 +65,10 @@
             <div class="col-12 col-md-6">
               <div class="doctors-list">
                 <ul class="list-group">
-                  <li class="list-group-item" *ngFor="let doctor of doctors" [ngClass]="{'selected': doctor === selectedDoctor}" (click)="selectDoctor(doctor)">
-                    <img [src]="doctor.image" style="width: 100px; height: 100px; object-fit: cover;" class="doctor-image" [alt]="doctor.name">
+                  <li class="list-group-item" *ngFor="let doctor of doctors"
+                    [ngClass]="{'selected': doctor === selectedDoctor}" (click)="selectDoctor(doctor)">
+                    <img [src]="doctor.image" style="width: 100px; height: 100px; object-fit: cover;"
+                      class="doctor-image" [alt]="doctor.name">
                     <div class="doctor-info">
                       <h5 class="card-title">{{ doctor.name }}</h5>
                       <p class="card-text">{{ doctor.specialty }}</p>
@@ -67,15 +78,26 @@
               </div>
             </div>
             <div class="col">
-              <label for="">Nhập giờ hẹn khám</label>
-              <input type="date" [(ngModel)]="appointmentDate">
+              <!-- <label for="">Nhập giờ hẹn khám</label> -->
+              <!-- <input type="date" [min]="mindate" [(ngModel)]="appointmentDate" (change)="checkDate()"> -->
+
+              <mat-form-field>
+                <input matInput [matDatepicker]="picker"
+                 [matDatepickerFilter]="myHolidayFilter" placeholder="Chọn ngày hẹn"
+                 [(ngModel)]="appointmentDate"
+                 >
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker [opened]="isDatepickerOpened"></mat-datepicker>
+                <mat-datepicker [dateClass]="dateClass" #picker></mat-datepicker>
+              </mat-form-field>
+
             </div>
           </div>
 
           <div class="row">
             <div class="col">
               <div class="float-end">
-                <button type="button" class="btn btn-danger m-3" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-danger m-3" data-bs-dismiss="modal" (click)="close()">Đóng</button>
                 <!-- <button type="button" class="btn btn-primary" (click)="onPostAppointment()" [disabled]="!isPatientInfoEditable">Xác nhận</button> -->
                 <button type="button" class="btn btn-primary" (click)="onPostAppointment()">Xác nhận</button>
               </div>

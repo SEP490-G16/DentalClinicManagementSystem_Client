@@ -5,7 +5,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 import {HttpClientModule} from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
-import { NgbModule, NgbModalModule  } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbModalModule, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 
 
 import { PatientManagementComponent } from './patient-management/patient-management.component';

@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { ReceptionistAppointmentService } from "../../../service/ReceptionistService/receptionist-appointment.service";
 import { CognitoService } from "../../../service/cognito.service";
 import { Detail, ISelectedAppointment, RootObject } from "../../../model/IAppointment";
 import { Router } from '@angular/router';
-import {ConvertJson} from "../../../service/Lib/ConvertJson";
+import { ConvertJson } from "../../../service/Lib/ConvertJson";
+import { PopupAddAppointmentComponent } from './popup-add-appointment/popup-add-appointment.component';
 
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-receptionist-appointment-list',
@@ -16,44 +18,64 @@ import {ConvertJson} from "../../../service/Lib/ConvertJson";
 export class ReceptionistAppointmentListComponent implements OnInit {
   model!: NgbDateStruct;
   placement = 'bottom';
+
+  @ViewChild(PopupAddAppointmentComponent) addAppointmentComponent!: PopupAddAppointmentComponent;
   constructor(private appointmentService: ReceptionistAppointmentService,
-    private cognitoService: CognitoService, private router:Router) {
+    private cognitoService: CognitoService, private router: Router,
+    private toastr: ToastrService,
+    private renderer: Renderer2
+  ) {
 
     this.selectedAppointment = {
       appointment_id: '',
       patient_id: '',
-      patient_name:'',
+      patient_name: '',
       doctor: '',
       procedure: '',
       phone_number: ''
     } as ISelectedAppointment
   }
   selectedProcedure: string = '';
-  searchText:string='';
-  filteredAppointments:any;
-  appointmentList:any;
-  startDate:any;
-  endDate:string="2023-10-21";
-  defaultDate:string="2023-10-23 00:00:00"
+  searchText: string = '';
+  filteredAppointments: any;
+  appointmentList: any;
+  startDate: any;
+  endDate: string = "2023-10-21";
+  defaultDate: string = "2023-10-23 00:00:00"
   ngOnInit(): void {
     this.startDate = this.defaultDate;
     this.getAppointmentList();
   }
-  getAppointmentList(){
+
+  getAppointmentList() {
     let date = new Date(this.startDate);
     let date1 = new Date(this.endDate);
-    let startDateTimestamp = date.getTime()/1000;
-    let endDateTimestamp = date1.getTime()/1000;
+    let startDateTimestamp = date.getTime() / 1000;
+    let endDateTimestamp = date1.getTime() / 1000;
     console.log(startDateTimestamp);
-    this.appointmentService.getAppointmentList(startDateTimestamp,startDateTimestamp).subscribe(data=>{
+    this.appointmentService.getAppointmentList(startDateTimestamp, startDateTimestamp).subscribe(data => {
       this.appointmentList = ConvertJson.processApiResponse(data);
       this.filteredAppointments = this.appointmentList;
       console.log(this.appointmentList);
 
+      this.appointmentDateInvalid();
+      console.log("Date Disabled: ", this.datesDisabled);
     })
   }
-  convertTimestampToDateString(timestampDate: any): string {
-    const date = new Date(timestampDate * 1000); // Nhân với 1000 để chuyển đổi từ giây sang mili giây
+
+  datesDisabled: any;
+  appointmentDateInvalid() {
+    this.datesDisabled = this.appointmentList
+      .filter((item: any) => {
+        const count = item.appointments.reduce((total: number, appointment: any) => total + appointment.count, 0);
+        return count > 15;
+      })
+      .map((item: any) => item.date);
+  }
+
+
+  convertTimestampToDateString(timestamp: any): string {
+    const date = new Date(timestamp * 1000); // Nhân với 1000 để chuyển đổi từ giây sang mili giây
     const day = this.padZero(date.getDate());
     const month = this.padZero(date.getMonth() + 1);
     const year = date.getFullYear();
@@ -77,13 +99,13 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     if (this.selectedProcedure) {
       // Lọc danh sách appointments dựa trên selectedProcedure
       this.filteredAppointments = this.appointmentList
-        .map((a:any) => {
+        .map((a: any) => {
           const filteredAppointments = a.appointments
-            .filter((appointment:any) => appointment.procedure === parseInt(this.selectedProcedure));
+            .filter((appointment: any) => appointment.procedure === parseInt(this.selectedProcedure));
           // Chỉ giữ lại các "appointment" có "details"
           return { ...a, appointments: filteredAppointments };
         })
-        .filter((a:any) => a.appointments.length > 0);
+        .filter((a: any) => a.appointments.length > 0);
     } else {
       // Nếu không có selectedProcedure, hiển thị toàn bộ danh sách
       this.filteredAppointments = this.appointmentList;
@@ -118,16 +140,21 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     //console.log("DateTimestamp", dateTimestamp);
     const date = new Date(dateTimestamp * 1000);
     this.dateString = this.formatDateToCustomString(date);
-    console.log("DateString",this.dateString);
+    console.log("DateString", this.dateString);
 
     //Set Appointment
     this.selectedAppointment = appointment;
     //console.log(this.selectedAppointment.time);
     this.timeString = this.convertTimestampToTimeString(this.selectedAppointment.time);
 
-    //Convert timestamp to Date in PopupEdit
 
   }
+  isDatepickerOpened: boolean = false;
+  openAddAppointmentModal() {
+    this.datesDisabled = this.datesDisabled;
+    this.isDatepickerOpened = true;
+  }
+
 
   formatDateToCustomString(date: Date): string {
     const year = date.getFullYear();
@@ -146,8 +173,9 @@ export class ReceptionistAppointmentListComponent implements OnInit {
 
   signOut() {
     this.cognitoService.signOut().then(() => {
-        console.log("Logged out!");
-        this.router.navigate(['/auth']);
+      console.log("Logged out!");
+      this.router.navigate(['/login']);
     })
   }
+
 }

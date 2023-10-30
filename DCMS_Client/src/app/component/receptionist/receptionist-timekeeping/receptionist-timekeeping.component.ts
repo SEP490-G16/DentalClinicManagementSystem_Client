@@ -56,7 +56,7 @@ export class ReceptionistTimekeepingComponent {
 
   signOut() {
       this.cognitoService.signOut().then(() => {
-          this.router.navigate(['auth']);
+          this.router.navigate(['login']);
       })
   }
 

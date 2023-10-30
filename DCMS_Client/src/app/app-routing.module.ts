@@ -4,8 +4,8 @@ import { LayoutsComponent } from "./component/shared/layouts/layouts.component";
 
 const routes: Routes = [
   {
-    path: '', component: LayoutsComponent, children: [
 
+    path: '', component: LayoutsComponent, children: [
       {
         path: 'admin',
         loadChildren: () => import('./component/admin/admin.module').then(m => m.AdminModule)
@@ -32,7 +32,7 @@ const routes: Routes = [
     loadChildren: () => import('./component/patient/patient.module').then(m => m.PatientModule)
   },
   {
-    path: 'auth',
+    path: 'login',
     loadChildren: () => import('./component/auth/auth.module').then(m => m.AuthModule)
   },
 

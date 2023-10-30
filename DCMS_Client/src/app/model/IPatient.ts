@@ -1,15 +1,17 @@
 export interface IPatient {
-  Patient:number;
-  Name: string;
-  Dob: string;
-  Gender: boolean;
-  PhoneNumber: string;
-  FullMedicalHistory:string;
-  DentalPatientHistory:string;
-  Email:string;
-  Address:string;
-  Description:string;
-  CreatedDate:string;
+  patient_id:string,
+  patient_name:string,
+  date_of_birth: string,
+  gender: number,
+  phone_number: string,
+  full_medical_history: string,
+  dental_medical_history: string,
+  email: string,
+  address: string,
+  description: string,
+  profile_image: string,
+  active: number,
+  created_date: string
 }
 export class Patient{
 
