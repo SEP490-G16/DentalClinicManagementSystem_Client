@@ -11,3 +11,6 @@ export interface IPatient {
   Description:string;
   CreatedDate:string;
 }
+export class Patient{
+
+}

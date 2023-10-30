@@ -3,10 +3,10 @@
 <div class="row">
   <div class="card-box">
     <ul class="nav nav-tabs">
-      <li class="nav-item"><a class="nav-link" routerLink="/tab/profile">Thông tin chung</a></li>
-      <li class="nav-item"><a class="nav-link" routerLink="/tab/treatment-course">Khám và điều trị</a></li>
-      <li class="nav-item"><a class="nav-link" routerLink="/tab/appointment">Lịch hẹn</a></li>
-      <li class="nav-item"><a class="nav-link" routerLink="/tab/payment">Thanh toán</a></li>
+      <li class="nav-item"><a class="nav-link" routerLink="/patient/records/tab/profile">Thông tin chung</a></li>
+      <li class="nav-item"><a class="nav-link" routerLink="/patient/records/tab/treatment-course">Khám và điều trị</a></li>
+      <li class="nav-item"><a class="nav-link" routerLink="/patient/records/tab/appointment">Lịch hẹn</a></li>
+      <li class="nav-item"><a class="nav-link" routerLink="/patient/records/tab/payment">Thanh toán</a></li>
     </ul>
     <div class="tab-content">
       <router-outlet></router-outlet>
@@ -14,7 +14,58 @@
   </div>
 </div>
 
-
+<div class="tab-pane show active" id="TTCtab">
+  <div class="row mt-5">
+    <div class="col text-center">
+      <img height="300px"
+           src="https://th.bing.com/th/id/R.13156d2168f97d5e7b8880c42d0e2380?rik=I0RORQtJ1OVRLg&riu=http%3a%2f%2fcdn.onlinewebfonts.com%2fsvg%2fimg_320438.png&ehk=eE6Y11wS%2bflUtRgFvBllYtM8ZHabQuUa%2b6y8y3G4gQM%3d&risl=&pid=ImgRaw&r=0"
+           alt="">
+    </div>
+    <div class="col">
+      <div class="form-group mb-3">
+        <label for="maHoSo">Mã hồ sơ:</label>
+        <input  [disabled]="!isEditing" id="maHoSo" class="form-control border-bottom-0">
+      </div>
+      <div class="form-group mb-3">
+        <label for="dateCreated">Ngày tạo:</label>
+        <input type="datetime-local" [(ngModel)]="patient.created_date" [disabled]="!isEditing" class="form-control border-bottom-0">
+      </div>
+      <div class="form-group mb-3">
+        <label for="fullName">Họ và Tên:</label>
+        <input [(ngModel)]="patient.patient_name" [disabled]="!isEditing" class="form-control border-bottom-0">
+      </div>
+      <div class="form-group mb-3">
+        <label for="gender">Giới tính:</label>
+        <input type="radio" [(ngModel)]="patient.gender" [value]="1" [disabled]="!isEditing"> Nam
+        <input type="radio" [(ngModel)]="patient.gender" [value]="0" [disabled]="!isEditing"> Nữ
+      </div>
+      <div class="form-group mb-3">
+        <label for="phone">SĐT:</label>
+        <input [(ngModel)]="patient.phone_number" [disabled]="!isEditing" class="form-control border-bottom-0">
+      </div>
+      <div class="form-group mb-3">
+        <label for="email">Email:</label>
+        <input [(ngModel)]="patient.email" [disabled]="!isEditing" class="form-control border-bottom-0">
+      </div>
+      <div class="form-group mb-3">
+        <label for="address">Địa chỉ:</label>
+        <input [(ngModel)]="patient.address" [disabled]="!isEditing" class="form-control border-bottom-0">
+      </div>
+      <div class="form-group mb-3">
+        <label for="tsb">Tiền sử bệnh:</label>
+        <input [(ngModel)]="patient.dental_medical_history" [disabled]="!isEditing" class="form-control border-bottom-0">
+      </div>
+      <div class="form-group mb-3">
+        <label for="note">Ghi chú:</label>
+        <input [(ngModel)]="patient.description" [disabled]="!isEditing" class="form-control border-bottom-0">
+      </div>
+    </div>
+    <div class="col text-center">
+      <button class="btn btn-custom" (click)="toggleEditing()"> {{ isEditing ? 'Lưu' : 'Cập nhật'
+        }}</button>
+    </div>
+  </div>
+</div>
 <!-- <h2 class="text-center">Hồ sơ bệnh nhân: </h2>
 
 <div class="row">

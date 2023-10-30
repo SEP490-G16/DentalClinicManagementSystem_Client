@@ -1,1 +1,73 @@
-<p>patient-payment-tab works!</p>
+<h2 class="text-center">Hồ sơ bệnh nhân: </h2>
+
+<div class="row">
+  <div class="card-box">
+    <ul class="nav nav-tabs">
+      <li class="nav-item"><a class="nav-link" routerLink="/patient/records/tab/profile">Thông tin chung</a></li>
+      <li class="nav-item"><a class="nav-link" routerLink="/patient/records/tab/treatment-course">Khám và điều trị</a></li>
+      <li class="nav-item"><a class="nav-link" routerLink="/patient/records/tab/appointment">Lịch hẹn</a></li>
+      <li class="nav-item"><a class="nav-link" routerLink="/patient/records/tab/payment">Thanh toán</a></li>
+    </ul>
+    <div class="tab-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+<div class="tab-pane" id="TTtab">
+  <div class="row mt-3 mb-3">
+    <div class="col-sm-3">
+      Ngày điều trị: <h4 style="border-bottom: 1px solid #1E1E1E;">14-10-2023</h4>
+    </div>
+  </div>
+  <div class="row mb-5">
+    <div class="col">
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+          <tr>
+            <th scope="col">Tình trạng</th>
+            <th scope="col">Răng số</th>
+            <th scope="col">Tên thủ thuật</th>
+            <th scope="col">Nội dung thủ thuật</th>
+            <th scope="col">Bác sĩ</th>
+            <th scope="col">Số lượng</th>
+            <th scope="col">Chi phí</th>
+            <th scope="col">Trả</th>
+            <th scope="col">Tổng</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>Fine</td>
+            <td>5 và 2</td>
+            <td>Thay Răng</td>
+            <td>zcczcz</td>
+            <td>
+              Dr.Long
+            </td>
+            <td>2</td>
+            <td>Free</td>
+            <td>Free</td>
+            <td>0 VNĐ</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col text-end">
+      <p>Chi phí theo thủ thuật: ....</p>
+      <p>Giảm giá: ....</p>
+      <p>Tổng chi phí: ....</p>
+      <p>Đã thanh toán: ....</p>
+      <p>Còn lại: ....</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col text-center">
+      <button class="btn mr-2">Hủy bỏ</button>
+      <button class="btn">Thanh toán</button>
+    </div>
+  </div>
+</div>

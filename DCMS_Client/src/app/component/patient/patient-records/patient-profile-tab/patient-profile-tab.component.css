@@ -155,8 +155,8 @@
 }
 
 .form-group input.form-control {
-  border: none;
-  border-bottom: 1px solid #ccc;
+  border: 1px solid #1e1e1e;
+ /* border-bottom: 1px solid #ccc;*/
 }
 
 

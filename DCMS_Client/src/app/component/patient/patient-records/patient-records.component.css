@@ -769,4 +769,9 @@ main .recent-orders a {
   border: 1px solid #7B4C50;
   border-radius: 10px;
 }
-
+.btn-danger{
+  padding:5px 10px;
+}
+main .recent-orders table thead th{
+  padding: 10px;
+}

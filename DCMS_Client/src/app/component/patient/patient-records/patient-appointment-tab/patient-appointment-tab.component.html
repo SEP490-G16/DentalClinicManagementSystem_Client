@@ -1,0 +1,49 @@
+<h2 class="text-center">Hồ sơ bệnh nhân: </h2>
+
+<div class="row">
+  <div class="card-box">
+    <ul class="nav nav-tabs">
+      <li class="nav-item"><a class="nav-link" routerLink="/patient/records/tab/profile">Thông tin chung</a></li>
+      <li class="nav-item"><a class="nav-link" routerLink="/patient/records/tab/treatment-course">Khám và điều trị</a></li>
+      <li class="nav-item"><a class="nav-link" routerLink="/patient/records/tab/appointment">Lịch hẹn</a></li>
+      <li class="nav-item"><a class="nav-link" routerLink="/patient/records/tab/payment">Thanh toán</a></li>
+    </ul>
+    <div class="tab-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+<div class="tab-pane" id="LHtab">
+  <div class="row mt-4">
+    <div class="col-12 text-end mb-3">
+      <button class="btn btn-custom">Đặt lịch tái khám</button>
+    </div>
+    <div class="col">
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+          <tr>
+            <th scope="col">Thời gian</th>
+            <th scope="col">Bác sĩ</th>
+            <th scope="col">Lý do</th>
+            <th scope="col">Tình trạng</th>
+            <th scope="col">Option</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>08:00 AM</td>
+            <td>Dr. Long</td>
+            <td>Kiểm tra tổng quát</td>
+            <td>Đã hoàn thành</td>
+            <td>
+              <button class="btn btn-primary">Chỉnh sửa</button>
+              <button class="btn btn-danger">Xóa</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

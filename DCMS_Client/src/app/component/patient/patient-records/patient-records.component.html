@@ -112,7 +112,7 @@
         <section class="table__header">
           <h1></h1>
           <div class="input-group">
-            <input type="search search-custom" placeholder="Tìm kiếm theo tên, mã bệnh nhân...">
+            <input type="search search-custom" [(ngModel)]="search" (keyup.enter)="searchPatient()" placeholder="Tìm kiếm theo tên, mã bệnh nhân...">
           </div>
           <div class="export__file">
           </div>
@@ -137,20 +137,22 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr *ngFor="let p of searchPatientsList">
               <td>
-                <!--HE153724-->
+                <!--HE153724-->{{p.patient_id}}
               </td>
               <td>
-                  <a routerLink="/patient/tab/profile">hehe</a>
+                  <a  (click)="detail(p.patient_id)" >{{p.patient_name}}</a>
               </td>
               <td>
-
+                {{p.phone_number}}
               </td>
               <td>
-
+                {{p.address}}
               </td>
-              <td></td>
+              <td>
+                <button href="#" class="btn btn-danger float-right btn-rounded" (click)="deletePatient(p.patient_id)"><i class="bi bi-trash"></i></button>
+              </td>
             </tr>
 
           </tbody>
@@ -244,5 +246,4 @@
   </div>
 
 </div>
-
-<app-patient-profile-tab></app-patient-profile-tab>
+<app-popup-add-patient></app-popup-add-patient>
