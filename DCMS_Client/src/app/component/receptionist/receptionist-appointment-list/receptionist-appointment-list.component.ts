@@ -25,7 +25,6 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     private toastr: ToastrService,
     private renderer: Renderer2
   ) {
-
     this.selectedAppointment = {
       appointment_id: '',
       patient_id: '',
@@ -41,8 +40,16 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   appointmentList: any;
   startDate: any;
   endDate: string = "2023-10-21";
-  defaultDate: string = "2023-10-23 00:00:00"
+  defaultDate: string="";
   ngOnInit(): void {
+    const today = new Date(); // Lấy ngày hôm nay
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1; // Lưu ý rằng tháng bắt đầu từ 0
+    const day = today.getDate().toString().padStart(2, '0');
+    const hours = today.getHours().toString().padStart(2, '0');
+    const minutes = today.getMinutes().toString().padStart(2, '0');
+    // Format ngày thành chuỗi "YYYY-MM-DD" (hoặc theo định dạng bạn muốn)
+    this.defaultDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours}:${minutes}`;
     this.startDate = this.defaultDate;
     this.getAppointmentList();
   }

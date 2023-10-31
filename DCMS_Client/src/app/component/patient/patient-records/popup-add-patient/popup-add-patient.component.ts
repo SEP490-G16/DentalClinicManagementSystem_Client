@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {PatientService} from "../../../../service/PatientService/patient.service";
 import {ToastrService} from "ngx-toastr";
 
@@ -8,10 +8,11 @@ import {ToastrService} from "ngx-toastr";
   styleUrls: ['./popup-add-patient.component.css']
 })
 export class PopupAddPatientComponent implements OnInit {
+  @Input() searchPatientsList: any;
   patient1:any={
     patientName:'',
     Email:'',
-    Gender:0,
+    Gender:null,
     phone_Number:'',
     Address:'',
     full_medical_History:'',
@@ -23,7 +24,7 @@ export class PopupAddPatientComponent implements OnInit {
   patientBody:any={
     patient_name:'',
     email:'',
-    gender:0,
+    gender:null,
     phone_number:'',
     address:'',
     full_medical_history:'',
@@ -48,7 +49,16 @@ export class PopupAddPatientComponent implements OnInit {
       this.toastr.success('Thêm mới bệnh nhân thành công!');
       let ref = document.getElementById('cancel');
       ref?.click();
-      window.location.reload();
+      this.searchPatientsList.unshift(this.patientBody);
+      this.patientBody.isNew = true;
+      this.patientBody.isPulsing = true;
+      setTimeout(() => {
+        this.patientBody.isPulsing = false;
+        this.patientBody.isNew = false;
+      }, 2000);
+      console.log(this.searchPatientsList);
+      /*window.location.reload();*/
+
     },error => {
       this.toastr.error('Thêm mới bệnh nhân thất bại!');
     })

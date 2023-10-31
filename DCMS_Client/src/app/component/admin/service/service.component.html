@@ -28,9 +28,9 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td><a href="#" class="title-group-service">Niềng răng A</a></td>
+                  <tr *ngFor="let t of medicalProcedureGroups">
+                    <td>{{t.medical_procedure_group_id}}</td>
+                    <td><a href="#" class="title-group-service">{{t.name}}</a></td>
                     <td class="text-center">
                       <!--<div class="dropdown dropdown-action">
                         <a href="#" class="action-icon dropdown-toggle"data-bs-toggle="dropdown" aria-expanded="false"><i
@@ -42,40 +42,8 @@
                             class="fas fa-trash-alt m-r-5"></i> Delete</a>
                         </div>
                       </div>-->
-                      <button href="#" class="btn btn-primary float-right btn-rounded"><i class="bi bi-pencil-square"></i></button>
-                      <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_groupservice"><i class="bi bi-trash"></i></button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td><a href="#" class="title-group-service">Niềng răng B</a></td>
-                    <td class="text-center">
-                      <button href="#" class="btn btn-primary float-right btn-rounded"><i class="bi bi-pencil-square"></i></button>
-                      <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_groupservice"><i class="bi bi-trash"></i></button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td><a href="#" class="title-group-service">Niềng răng C</a></td>
-                    <td class="text-center">
-                      <button href="#" class="btn btn-primary float-right btn-rounded"><i class="bi bi-pencil-square"></i></button>
-                      <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_groupservice"><i class="bi bi-trash"></i></button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>4</td>
-                    <td><a href="#" class="title-group-service">Niềng răng D</a></td>
-                    <td class="text-center">
-                      <button href="#" class="btn btn-primary float-right btn-rounded"><i class="bi bi-pencil-square"></i></button>
-                      <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_groupservice"><i class="bi bi-trash"></i></button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>5</td>
-                    <td><a href="#" class="title-group-service">Niềng răng E</a></td>
-                    <td class="text-center">
-                      <button href="#" class="btn btn-primary float-right btn-rounded"><i class="bi bi-pencil-square"></i></button>
-                      <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_groupservice"><i class="bi bi-trash"></i></button>
+                      <button href="#" class="btn btn-primary float-right btn-rounded"data-bs-toggle="modal" data-bs-target="#editGroupModal" (click)="openEditGroupService(t.medical_procedure_group_id)"><i class="bi bi-pencil-square"></i></button>
+                      <button href="#" class="btn btn-danger float-right btn-rounded" (click)="deleteMedicalProcedureGroup(t.medical_procedure_group_id)" ><i class="bi bi-trash"></i></button>
                     </td>
                   </tr>
                   </tbody>
@@ -139,50 +107,6 @@
                       <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_service"><i class="bi bi-trash"></i></button>
                     </td>
                   </tr>
-                  <tr>
-                    <td>2</td>
-                    <td><h2>Thủ thuật B</h2></td>
-                    <td>Niềng răng A</td>
-                    <td>10.000.000</td>
-                    <td>abc</td>
-                    <td class="text-center">
-                      <button href="#" class="btn btn-primary float-right btn-rounded"><i class="bi bi-pencil-square"></i></button>
-                      <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_service"><i class="bi bi-trash"></i></button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td><h2>Thủ thuật C</h2></td>
-                    <td>Niềng răng A</td>
-                    <td>10.000.000</td>
-                    <td>abc</td>
-                    <td class="text-center">
-                      <button href="#" class="btn btn-primary float-right btn-rounded"><i class="bi bi-pencil-square"></i></button>
-                      <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_service"><i class="bi bi-trash"></i></button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>4</td>
-                    <td><h2>Thủ thuật C</h2></td>
-                    <td>Niềng răng A</td>
-                    <td>10.000.000</td>
-                    <td>abc</td>
-                    <td class="text-center">
-                      <button href="#" class="btn btn-primary float-right btn-rounded"><i class="bi bi-pencil-square"></i></button>
-                      <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_service"><i class="bi bi-trash"></i></button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>5</td>
-                    <td><h2>Thủ thuật D</h2></td>
-                    <td>Niềng răng A</td>
-                    <td>10.000.000</td>
-                    <td>abc</td>
-                    <td class="text-center">
-                      <button href="#" class="btn btn-primary float-right btn-rounded"><i class="bi bi-pencil-square"></i></button>
-                      <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_service"><i class="bi bi-trash"></i></button>
-                    </td>
-                  </tr>
                   </tbody>
                 </table>
               </div>
@@ -197,3 +121,4 @@
 <app-popup-delete-group-service></app-popup-delete-group-service>
 <app-popup-add-service></app-popup-add-service>
 <app-popup-delete-service></app-popup-delete-service>
+<app-popup-edit-group-service [id]="[id]"></app-popup-edit-group-service>

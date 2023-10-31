@@ -775,3 +775,23 @@ main .recent-orders a {
 main .recent-orders table thead th{
   padding: 10px;
 }
+.new-record {
+  background-color: #b2f7a1; /* Màu nền của dòng ghi mới */
+  animation: pulse 2s 3; /* Sử dụng animation "pulse" trong 2 giây và lặp vô số lần */
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #b2f7a1; /* Màu nền ban đầu */
+  }
+  50% {
+    background-color: transparent; /* Màu nền trong suốt ở giữa */
+  }
+  100% {
+    background-color: #b2f7a1; /* Trở lại màu nền ban đầu */
+  }
+}
+tbody tr:hover {
+  background-color: #c7c3c3;
+  cursor: pointer;
+}
