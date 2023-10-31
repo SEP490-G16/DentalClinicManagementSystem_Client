@@ -97,3 +97,8 @@
 .form-control.textarea:focus {
   color: #333;
 }
+
+button.example-custom-date-class {
+  background: orange;
+  border-radius: 100%;
+}

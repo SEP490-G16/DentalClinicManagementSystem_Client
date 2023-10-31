@@ -11,6 +11,8 @@ import { Moment } from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import {MatCalendarCellClassFunction} from '@angular/material/datepicker';
+
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-popup-add-appointment',
   templateUrl: './popup-add-appointment.component.html',
@@ -33,8 +35,8 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     { name: 'Bác sĩ C. Lê', specialty: 'Nha khoa', image: 'https://img.verym.com/group1/M00/03/3F/wKhnFlvQGeCAZgG3AADVCU1RGpQ414.jpg' },
   ];
 
-  mindate: string = '';
-
+  mindate: Date;
+  minTime:string;
   constructor(private APPOINTMENT_SERVICE: ReceptionistAppointmentService,
     private PATIENT_SERVICE: PatientService,
     private renderer: Renderer2,
@@ -52,8 +54,11 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
         time: 0  //x
       }
     } as IAddAppointment;
-
-    this.mindate = Date();
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    this.minTime = `${hours}:${minutes}`;
+    this.mindate = new Date();
   }
 
   // checkDate() {
@@ -120,23 +125,25 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
       console.log("Date Parse: ", this.datesDisabled);
     }
   }
-
   ngOnInit(): void {
   }
 
 
   tooltipText: string = "";
-
   onPhoneInput() {
     console.log(this.AppointmentBody.appointment.phone_number);
     this.PATIENT_SERVICE.getPatientPhoneNumber(this.AppointmentBody.appointment.phone_number).subscribe((data) => {
       this.AppointmentBody.appointment.patient_id = data[0].patient_id;
       this.AppointmentBody.appointment.patient_name = data[0].patient_name;
-      this.tooltipText = `Thêm bệnh nhân thành công`;
+      this.tooltipText = `Thêm thông tin bệnh nhân thành công`;
       console.log(data)
     },
+    (err) => {
+      this.showErrorToast("Không tìm thấy số điện thoại");
+    }
     )
   }
+
 
   selectedDoctor: any = null;
   selectDoctor(doctor: any) {
@@ -196,14 +203,17 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
         } as IAddAppointment;
         this.procedure = '';
         this.appointmentTime = '';
-        this.router.navigate(['appointment'])
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
       },
       (error) => {
         console.error('Lỗi khi tạo lịch hẹn:', error);
-        alert('Lỗi khi tạo lịch hẹn!');
+        this.showErrorToast('Lỗi khi tạo lịch hẹn!');
       }
     );
   }
+
 
   showSuccessToast(message: string) {
     this.toastr.success(message, 'Thành công', {

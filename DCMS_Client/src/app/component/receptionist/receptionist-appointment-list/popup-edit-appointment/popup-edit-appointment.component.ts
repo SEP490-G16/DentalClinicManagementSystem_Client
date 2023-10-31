@@ -4,6 +4,8 @@ import { IAddAppointment } from 'src/app/model/IAppointment';
 import { PatientService } from 'src/app/service/PatientService/patient.service';
 import { ReceptionistAppointmentService } from 'src/app/service/ReceptionistService/receptionist-appointment.service';
 
+import {MatCalendarCellClassFunction} from '@angular/material/datepicker';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-popup-edit-appointment',
   templateUrl: './popup-edit-appointment.component.html',
@@ -15,6 +17,9 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
   @Input() dateString: any;
   @Input() timeString: any;
 
+  @Input() datesDisabled: any;
+
+  isDatepickerOpened: boolean = false;
   EDIT_APPOINTMENT_BODY: IEditAppointmentBody
 
   isPatientInfoEditable: boolean = false;
@@ -25,7 +30,11 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     { name: 'Bác sĩ C. Lê', specialty: 'Nha khoa', image: 'https://img.verym.com/group1/M00/03/3F/wKhnFlvQGeCAZgG3AADVCU1RGpQ414.jpg' },
   ];
 
-  constructor(private APPOINTMENT_SERVICE: ReceptionistAppointmentService, private PATIENT_SERVICE: PatientService) {
+  minDate:Date;
+  constructor(private APPOINTMENT_SERVICE: ReceptionistAppointmentService,
+    private PATIENT_SERVICE: PatientService,
+    private toastr: ToastrService,
+    ) {
     this.EDIT_APPOINTMENT_BODY = {
       epoch: 0,    //x
       new_epoch: 0,
@@ -38,7 +47,7 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
         time: 0  //x
       }
     } as IEditAppointmentBody;
-
+    this.minDate = new Date();
   }
 
   ngOnInit(): void {
@@ -71,8 +80,44 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
       this.oldTime = this.timeString;
       this.timeString = this.oldTime;
     }
+
+    if (changes['datesDisabled'] && this.datesDisabled && this.datesDisabled.length > 0) {
+      this.datesDisabled = this.datesDisabled.map((timestamp: number) => {
+        const date = new Date(timestamp * 1000); // Chuyển đổi timestamp sang date
+        return date.toISOString().slice(0, 10); // Lấy phần yyyy-MM-dd
+      });
+      console.log("Date Parse: ", this.datesDisabled);
+    }
   }
 
+  myHolidayDates = [
+    new Date("10/30/2023"),
+    new Date("11/06/2023"),
+    new Date("11/08/2023"),
+    new Date("11/10/2023"),
+    new Date("11/14/2023"),
+    new Date("11/17/2023")
+  ];
+
+  myHolidayFilter = (d: Date | null): boolean => {
+    if (d) {
+      const time = d.getTime();
+      return !this.myHolidayDates.some(date => date.getTime() === time);
+    }
+    return true;
+  }
+
+  dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
+    // Only highligh dates inside the month view.
+    if (view === 'month') {
+      const date = cellDate.getDate();
+
+      // Highlight the 1st and 20th day of each month.
+      return date === 1 || date === 20 ? 'example-custom-date-class' : '';
+    }
+
+    return '';
+  };
   selectedDoctor: any = null;
   selectDoctor(doctor: any) {
     this.selectedDoctor = doctor;
@@ -90,12 +135,28 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     console.log(this.EDIT_APPOINTMENT_BODY);
     // console.log("AppointmentId",this.selectedAppointment.appointment_id);
     this.APPOINTMENT_SERVICE.putAppointment(this.EDIT_APPOINTMENT_BODY, this.selectedAppointment.appointment_id).subscribe(response => {
-      alert("Cập nhật thành công");
+      console.log("Cập nhật thành công");
+      this.showSuccessToast('Sửa Lịch hẹn thành công!');
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
     }, error => {
-      alert("Lỗi khi cập nhật");
+      this.showErrorToast("Lỗi khi cập nhật");
     });
   }
 
+
+  showSuccessToast(message: string) {
+    this.toastr.success(message, 'Thành công', {
+      timeOut: 3000, // Adjust the duration as needed
+    });
+  }
+
+  showErrorToast(message: string) {
+    this.toastr.error(message, 'Lỗi', {
+      timeOut: 3000, // Adjust the duration as needed
+    });
+  }
 
   convertStringToTimestamp(date: string, time: string) {
     // Chuyển đổi ngày cố định sang timestamp

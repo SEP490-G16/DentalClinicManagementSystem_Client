@@ -1,5 +1,7 @@
 <!-- The Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+style="position: relative;"
+aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
@@ -55,7 +57,9 @@
               <div class="form-group">
                 <label for="appointmentTime" name="userCredential">Giờ hẹn khám</label>
                 <input type="time" class="form-control date-input-custom" id="time" name="time"
-                  [(ngModel)]="appointmentTime">
+                  [(ngModel)]="appointmentTime"
+                  [min]="minTime"
+                  >
               </div>
 
             </div>
@@ -80,17 +84,19 @@
             <div class="col">
               <!-- <label for="">Nhập giờ hẹn khám</label> -->
               <!-- <input type="date" [min]="mindate" [(ngModel)]="appointmentDate" (change)="checkDate()"> -->
+                <mat-form-field style="position: absolute;">
+                  <input matInput [matDatepicker]="picker"
+                   [matDatepickerFilter]="myHolidayFilter" placeholder="Chọn ngày hẹn"
+                   [min]="mindate"
+                   [(ngModel)]="appointmentDate"
+                   >
+                  <mat-datepicker-toggle matSuffix [for]="picker"
 
-              <mat-form-field>
-                <input matInput [matDatepicker]="picker"
-                 [matDatepickerFilter]="myHolidayFilter" placeholder="Chọn ngày hẹn"
-                 [(ngModel)]="appointmentDate"
-                 >
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker [opened]="isDatepickerOpened"></mat-datepicker>
-                <mat-datepicker [dateClass]="dateClass" #picker></mat-datepicker>
-              </mat-form-field>
-
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker #picker
+                  [opened]="isDatepickerOpened"></mat-datepicker>
+                  <mat-datepicker  style="position: absolute;" [dateClass]="dateClass" #picker></mat-datepicker>
+                </mat-form-field>
             </div>
           </div>
 

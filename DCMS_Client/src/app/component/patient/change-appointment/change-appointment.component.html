@@ -4,37 +4,39 @@
     <div class="bg-shape2 bg-primary opacity-50 bg-blur"></div>
     <div class="bg-shape1 bg-purple opacity-50 bg-blur"></div>
   </div>
-  <div class="container">
+  <div class="container" style="z-index: 999;">
     <h2>Xin chào, </h2>
     <h3></h3>
 
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker"
+       [matDatepickerFilter]="myHolidayFilter" placeholder="Chọn ngày hẹn"
+       [(ngModel)]="selectedDate"
+       [min]="mindate"
+       >
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-datepicker [dateClass]="dateClass" #picker></mat-datepicker>
+    </mat-form-field>
 
-    <ngb-datepicker #dp [(ngModel)]="model" (navigate)="date = $event.next"></ngb-datepicker>
-
-    <hr />
-
-    <button class="btn btn-sm btn-outline-primary me-2" (click)="selectToday()">Chọn ngày hôm nay</button>
-    <button class="btn btn-sm btn-outline-primary me-2" (click)="dp.navigateTo()">Đến tháng hiện tại</button>
-
-    <hr />
 
     <div class="form-group row mt-5">
       <label for="appointmentdate" class="col-3 name-title">Ngày hẹn:</label>
       <div class="col-9 value-staff">
-        <p class="date-display">   {{ date.month }} - {{ date.year }} <i class="bi bi-calendar3 float-end"></i></p>
+        <p class="date-display">{{appointmentDate |date}}<i class="bi bi-calendar3 float-end"></i></p>
       </div>
     </div>
 
     <div class="form-group row mt-3">
       <label for="changedate" class="col-3 name-title">Ngày đổi:</label>
       <div class="col-9 value-staff">
-        <p class="date-display">  {{ date.month }} - {{ date.year }} <i class="bi bi-calendar3 float-end"></i></p>
+        <p class="date-display">{{selectedDate | date}} <i class="bi bi-calendar3 float-end"></i></p>
       </div>
     </div>
     <div class="form-group row mt-3">
       <label for="time" class="col-3 name-title">Giờ:</label>
       <div class="col-9 value-staff">
-        <input type="time" class="form-control date-input-custom" id="time" name="time">
+        <input type="time" class="form-control date-input-custom" id="time" name="time" [(ngModel)]="timeString" >
       </div>
     </div>
     <div class="confirm">
@@ -42,7 +44,7 @@
         <button class="btn btn-secondary">Huỷ lịch hẹn</button>
       </div>
       <div class="btn-confirm">
-        <button class="btn btn-primary">Xác nhận</button>
+        <button class="btn btn-primary" (click)="onPutAppointment()">Xác nhận</button>
       </div>
     </div>
 

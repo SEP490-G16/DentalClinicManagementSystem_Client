@@ -20,6 +20,13 @@ import { PatientAppointmentTabComponent } from './patient-records/patient-appoin
 import { PatientPaymentTabComponent } from './patient-records/patient-payment-tab/patient-payment-tab.component';
 
 
+import { MatCalendar, MatDatepickerModule } from '@angular/material/datepicker';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+
+import {MatInputModule} from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatTooltipModule } from '@angular/material/tooltip';
 @NgModule({
   declarations: [
       PatientManagementComponent,
@@ -45,6 +52,11 @@ import { PatientPaymentTabComponent } from './patient-records/patient-payment-ta
       progressBar: true,
     }),
     NgbModule,
+    MatMomentDateModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatNativeDateModule,
+    MatTooltipModule
   ]
 })
 export class PatientModule { }
