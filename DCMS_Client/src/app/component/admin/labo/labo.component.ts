@@ -1,7 +1,9 @@
 import { LaboService } from './../../../service/LaboService/Labo.service';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ILabos } from 'src/app/model/ILabo';
+import { CognitoService } from 'src/app/service/cognito.service';
 
 @Component({
   selector: 'app-labo',
@@ -14,7 +16,8 @@ export class LaboComponent implements OnInit {
 
   constructor(
     private LaboService:LaboService,
-
+    private cognitoService:CognitoService,
+    private router:Router,
     private toastr:ToastrService
   ) {
 
@@ -97,6 +100,9 @@ export class LaboComponent implements OnInit {
   }
 
   signOut() {
-
+    this.cognitoService.signOut().then(() => {
+      console.log("Logged out!");
+      this.router.navigate(['/login']);
+    })
   }
 }

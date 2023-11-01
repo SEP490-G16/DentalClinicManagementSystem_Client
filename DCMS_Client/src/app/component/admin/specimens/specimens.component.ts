@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import {NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
+import { CognitoService } from 'src/app/service/cognito.service';
 
 @Component({
   selector: 'app-specimens',
@@ -10,7 +12,11 @@ export class SpecimensComponent implements OnInit {
   model: NgbDateStruct | undefined;
   model2: NgbDateStruct | undefined;
   model3: NgbDateStruct | undefined;
-  constructor() { }
+  constructor(
+
+    private cognitoService:CognitoService,
+    private router:Router
+  ) { }
 
   ngOnInit(): void {
   }
@@ -31,5 +37,12 @@ export class SpecimensComponent implements OnInit {
     { name: 'chatlieu', label: 'Chất liệu' },
     // Thêm các cột khác tương tự
   ];
+
+  signOut() {
+    this.cognitoService.signOut().then(() => {
+      console.log("Logged out!");
+      this.router.navigate(['/login']);
+    })
+  }
 
 }
