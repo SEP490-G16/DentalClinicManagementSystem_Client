@@ -20,6 +20,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   placement = 'bottom';
 
   @ViewChild(PopupAddAppointmentComponent) addAppointmentComponent!: PopupAddAppointmentComponent;
+
   constructor(private appointmentService: ReceptionistAppointmentService,
     private cognitoService: CognitoService, private router: Router,
     private toastr: ToastrService,
@@ -34,13 +35,14 @@ export class ReceptionistAppointmentListComponent implements OnInit {
       phone_number: ''
     } as ISelectedAppointment
   }
+
   selectedProcedure: string = '';
   searchText: string = '';
   filteredAppointments: any;
   appointmentList: any;
   startDate: any;
-  endDate: string = "2023-10-21";
-  defaultDate: string="";
+  endDate: string = "2024-01-01";
+
   ngOnInit(): void {
     const today = new Date(); // Lấy ngày hôm nay
     const year = today.getFullYear();
@@ -49,8 +51,9 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     const hours = today.getHours().toString().padStart(2, '0');
     const minutes = today.getMinutes().toString().padStart(2, '0');
     // Format ngày thành chuỗi "YYYY-MM-DD" (hoặc theo định dạng bạn muốn)
-    this.defaultDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours}:${minutes}`;
-    this.startDate = this.defaultDate;
+    const defaultDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours}:${minutes}`;
+    this.startDate = defaultDate;
+
     this.getAppointmentList();
   }
 
@@ -59,14 +62,14 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     let date1 = new Date(this.endDate);
     let startDateTimestamp = date.getTime() / 1000;
     let endDateTimestamp = date1.getTime() / 1000;
-    console.log(startDateTimestamp);
-    this.appointmentService.getAppointmentList(startDateTimestamp, startDateTimestamp).subscribe(data => {
+
+    // console.log(startDateTimestamp);
+    this.appointmentService.getAppointmentList(startDateTimestamp, 1704070800).subscribe(data => {
       this.appointmentList = ConvertJson.processApiResponse(data);
       this.filteredAppointments = this.appointmentList;
-      console.log(this.appointmentList);
+      console.log("Appointment List: ", this.appointmentList);
 
       this.appointmentDateInvalid();
-      console.log("Date Disabled: ", this.datesDisabled);
     })
   }
 
@@ -74,12 +77,74 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   appointmentDateInvalid() {
     this.datesDisabled = this.appointmentList
       .filter((item: any) => {
-        const count = item.appointments.reduce((total: number, appointment: any) => total + appointment.count, 0);
-        return count > 15;
+        const totalProcedures = item.appointments.reduce((total: number, appointment: any) => total + appointment.procedure, 0);
+        console.log(totalProcedures);
+        return totalProcedures > 15;
       })
       .map((item: any) => item.date);
+
+    console.log("Date disabled: ", this.datesDisabled);
   }
 
+
+  filterAppointments() {
+    if (this.selectedProcedure) {
+      // Lọc danh sách appointments dựa trên selectedProcedure
+      this.filteredAppointments = this.appointmentList
+        .map((a: any) => {
+          const filteredAppointments = a.appointments
+            .filter((appointment: any) => appointment.procedure === parseInt(this.selectedProcedure));
+          // Chỉ giữ lại các "appointment" có "details"
+          return { ...a, appointments: filteredAppointments };
+        })
+        .filter((a: any) => a.appointments.length > 0);
+    } else {
+      // Nếu không có selectedProcedure, hiển thị toàn bộ danh sách
+      this.filteredAppointments = this.appointmentList;
+    }
+  }
+
+  searchAppointments() {
+    const searchText = this.searchText.toLowerCase().trim();
+    console.log(searchText);
+    if (searchText) {
+      this.filteredAppointments = this.appointmentList
+      .map((a: any) => ({
+          ...a,
+          appointments: a.appointments.map((ap: any) => ({
+            ...ap,
+            details: ap.details.filter((detail: any) => {
+              const patientName = detail.patient_name ? detail.patient_name.toLowerCase() : '';
+              const patientId = detail.patient_id ? detail.patient_id.toLowerCase() : '';
+              return patientName.includes(searchText) || patientId.includes(searchText);
+            })
+          })).filter((ap: any) => ap.details.length > 0)
+        }))
+        .filter((a: any) => a.appointments.length > 0);
+      } else {
+      this.filteredAppointments = this.appointmentList;
+    }
+  }
+
+  selectedAppointment: ISelectedAppointment;
+  dateString: any;
+  timeString: any;
+  openEditModal(appointment: any, dateTimestamp: any) {
+    //console.log("DateTimestamp", dateTimestamp);
+    const date = new Date(dateTimestamp * 1000);
+    this.dateString = this.formatDateToCustomString(date);
+    console.log("DateString", this.dateString);
+
+    //Set Appointment
+    this.selectedAppointment = appointment;
+    //console.log(this.selectedAppointment.time);
+    this.timeString = this.convertTimestampToTimeString(this.selectedAppointment.time);
+  }
+
+
+  openAddAppointmentModal() {
+    this.datesDisabled = this.datesDisabled;
+  }
 
   convertTimestampToDateString(timestamp: any): string {
     const date = new Date(timestamp * 1000); // Nhân với 1000 để chuyển đổi từ giây sang mili giây
@@ -102,66 +167,6 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     }
     return value.toString();
   }
-  filterAppointments() {
-    if (this.selectedProcedure) {
-      // Lọc danh sách appointments dựa trên selectedProcedure
-      this.filteredAppointments = this.appointmentList
-        .map((a: any) => {
-          const filteredAppointments = a.appointments
-            .filter((appointment: any) => appointment.procedure === parseInt(this.selectedProcedure));
-          // Chỉ giữ lại các "appointment" có "details"
-          return { ...a, appointments: filteredAppointments };
-        })
-        .filter((a: any) => a.appointments.length > 0);
-    } else {
-      // Nếu không có selectedProcedure, hiển thị toàn bộ danh sách
-      this.filteredAppointments = this.appointmentList;
-    }
-  }
-  searchAppointments() {
-    const searchText = this.searchText.toLowerCase().trim();
-    console.log(searchText);
-    if (searchText) {
-      this.filteredAppointments = this.appointmentList
-        .map((a: any) => ({
-          ...a,
-          appointments: a.appointments.map((ap: any) => ({
-            ...ap,
-            details: ap.details.filter((detail: any) => {
-              const patientName = detail.patient_name ? detail.patient_name.toLowerCase() : '';
-              const patientId = detail.patient_id ? detail.patient_id.toLowerCase() : '';
-              return patientName.includes(searchText) || patientId.includes(searchText);
-            })
-          })).filter((ap: any) => ap.details.length > 0)
-        }))
-        .filter((a: any) => a.appointments.length > 0);
-    } else {
-      this.filteredAppointments = this.appointmentList;
-    }
-  }
-
-  selectedAppointment: ISelectedAppointment;
-  dateString: any;
-  timeString: any;
-  openEditModal(appointment: any, dateTimestamp: any) {
-    //console.log("DateTimestamp", dateTimestamp);
-    const date = new Date(dateTimestamp * 1000);
-    this.dateString = this.formatDateToCustomString(date);
-    console.log("DateString", this.dateString);
-
-    //Set Appointment
-    this.selectedAppointment = appointment;
-    //console.log(this.selectedAppointment.time);
-    this.timeString = this.convertTimestampToTimeString(this.selectedAppointment.time);
-
-
-  }
-  isDatepickerOpened: boolean = false;
-  openAddAppointmentModal() {
-    this.datesDisabled = this.datesDisabled;
-    this.isDatepickerOpened = true;
-  }
-
 
   formatDateToCustomString(date: Date): string {
     const year = date.getFullYear();

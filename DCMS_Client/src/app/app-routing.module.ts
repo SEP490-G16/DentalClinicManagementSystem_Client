@@ -12,11 +12,6 @@ const routes: Routes = [
       },
 
       {
-        path: 'receptionist',
-        loadChildren: () => import('./component/receptionist/receptionist.module').then(m => m.ReceptionistModule)
-      },
-
-      {
         path: 'doctor',
         loadChildren: () => import('./component/doctor/doctor.module').then(m => m.DoctorModule)
       },
@@ -26,6 +21,10 @@ const routes: Routes = [
         loadChildren: () => import('./component/nurse/nurse.module').then(m => m.NurseModule)
       },
     ]
+  },
+  {
+    path: 'receptionist',
+    loadChildren: () => import('./component/receptionist/receptionist.module').then(m => m.ReceptionistModule)
   },
   {
     path: 'patient',

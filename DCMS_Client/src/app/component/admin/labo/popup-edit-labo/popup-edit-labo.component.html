@@ -1,10 +1,10 @@
-<div class="modal" id="myModal">
+<div class="modal" id="myEditModal">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
       <!-- Modal Header -->
       <div class="modal-header color-header">
-        <h4 class="modal-title text-center w-100">Thêm mới labo</h4>
+        <h4 class="modal-title text-center w-100">Sửa labo</h4>
         <button type="button" class="btn-close"
         (click)="close()"
         data-bs-dismiss="modal"></button>
@@ -18,29 +18,29 @@
               <div class="form-group row">
                 <label for="name" class="col-3">Tên labo:</label>
                 <div class="col-9">
-                  <input type="text" class="form-control" id="name" name="name" [(ngModel)]="Labo.labo_name">
-                  <p class="error" style="color: red;">{{LaboErrors.labo_name}}</p>
+                  <input type="text" class="form-control" id="name" name="name" [(ngModel)]="PutLabo.labo_name">
+                  <p class="error" style="color: red;">{{EditLaboErrors.labo_name}}</p>
                 </div>
               </div>
               <div class="form-group row mt-3">
                 <label for="address" class="col-3">Địa chỉ:</label>
                 <div class="col-9">
-                  <input type="text" class="form-control" id="address" name="address" [(ngModel)]="Labo.address">
-                  <p class="error" style="color: red;">{{LaboErrors.address}}</p>
+                  <input type="text" class="form-control" id="address" name="address" [(ngModel)]="PutLabo.address">
+                  <p class="error" style="color: red;">{{EditLaboErrors.address}}</p>
                 </div>
               </div>
               <div class="form-group row mt-3">
                 <label for="phone_number" class="col-3">Số điện thoại:</label>
                 <div class="col-9">
-                  <input type="text" class="form-control" id="phone_number" name="phone_number" [(ngModel)]="Labo.phone_number">
-                  <p class="error" style="color: red;">{{LaboErrors.phone_number}}</p>
+                  <input type="text" class="form-control" id="phone_number" name="phone_number" [(ngModel)]="PutLabo.phone_number">
+                  <p class="error" style="color: red;">{{EditLaboErrors.phone_number}}</p>
                 </div>
               </div>
               <div class="form-group row mt-3">
                 <label for="email" class="col-3">Email:</label>
                 <div class="col-9">
-                  <input type="text" class="form-control" id="email" name="email" [(ngModel)]="Labo.email">
-                  <p class="error" style="color: red;">{{LaboErrors.email}}</p>
+                  <input type="text" class="form-control" id="email" name="email" [(ngModel)]="PutLabo.email">
+                  <p class="error" style="color: red;">{{EditLaboErrors.email}}</p>
                 </div>
               </div>
             </div>
@@ -50,7 +50,7 @@
         <!-- Modal footer -->
         <div class="modal-footer">
           <button type="button" class="btn btn-cancel" data-bs-dismiss="modal" (click)="close()">Hủy</button>
-          <button type="button" class="btn btn-save" data-bs-dismiss="modal" (click)="PostLabo()">
+          <button type="button" class="btn btn-save" data-bs-dismiss="modal" (click)="PutLaboAPI()">
             <i class="bi bi-floppy2"></i> Lưu</button>
         </div>
 

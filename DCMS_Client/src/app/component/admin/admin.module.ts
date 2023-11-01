@@ -49,6 +49,7 @@ import { PopupDeleteLaboComponent } from './labo/popup-delete-labo/popup-delete-
 import { ProfilePersonalComponent } from '../shared/profile-personal/profile-personal.component';
 import {AdminRoutingModule} from "./admin-routing.module";
 import { PopupEditGroupServiceComponent } from './service/popup-edit-group-service/popup-edit-group-service.component';
+import { PopupEditLaboComponent } from './labo/popup-edit-labo/popup-edit-labo.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { PopupEditGroupServiceComponent } from './service/popup-edit-group-servi
       PopupDeleteMaterialComponent,
 
       PopupAddLaboComponent,
+      PopupEditLaboComponent,
       PopupDeleteLaboComponent,
 
       PopupAddBillExportMaterialComponent,

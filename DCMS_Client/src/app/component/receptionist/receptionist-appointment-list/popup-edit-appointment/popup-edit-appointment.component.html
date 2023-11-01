@@ -16,7 +16,9 @@
             <div class="col-12 col-md-6">
               <div class="form-group">
                 <label for="phone">Số điện thoại</label>
-                <input type="text" class="form-control" id="phone" [(ngModel)]="EDIT_APPOINTMENT_BODY.appointment.phone_number" [disabled]="!isPatientInfoEditable">
+                <input type="text" class="form-control" id="phone"
+                [(ngModel)]="EDIT_APPOINTMENT_BODY.appointment.phone_number"
+                [disabled]="!isPatientInfoEditable">
               </div>
             </div>
             <div class="col-12 col-md-6">
@@ -76,7 +78,7 @@
                 <mat-datepicker #picker [opened]="isDatepickerOpened"></mat-datepicker>
                 <mat-datepicker [dateClass]="dateClass" #picker></mat-datepicker>
               </mat-form-field> -->
-
+              <label for="treatment">Chọn ngày khám</label>
               <form class="form-inline">
                 <div class="form-group">
                   <div class="input-group">
@@ -93,7 +95,11 @@
                       placeholder="Chọn ngày hẹn"
                       >
                     <div class="input-group-append">
-                      <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+                      <button class="btn btn-outline-secondary calendar"
+                      style="height: 48px;"
+                      (click)="d.toggle()" type="button">
+                      <i class="bi bi-calendar3"></i>
+                    </button>
                     </div>
                   </div>
                 </div>
