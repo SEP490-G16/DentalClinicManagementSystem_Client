@@ -6,6 +6,13 @@ import { ReceptionistAppointmentService } from 'src/app/service/ReceptionistServ
 
 import {MatCalendarCellClassFunction} from '@angular/material/datepicker';
 import { ToastrService } from 'ngx-toastr';
+
+import {
+  NgbDatepickerConfig,
+  NgbCalendar,
+  NgbDate,
+  NgbDateStruct
+} from "@ng-bootstrap/ng-bootstrap";
 @Component({
   selector: 'app-popup-edit-appointment',
   templateUrl: './popup-edit-appointment.component.html',
@@ -24,6 +31,20 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
 
   isPatientInfoEditable: boolean = false;
 
+  //config ng bootstrap
+  model!: NgbDateStruct;
+  datePickerJson = {};
+  markDisabled:any;
+  json = {
+    disable: [6, 7],
+    disabledDates: [
+      { year: 2020, month: 8, day: 13 },
+      { year: 2020, month: 8, day: 19 },
+      { year: 2020, month: 8, day: 25 }
+    ]
+  };
+  isDisabled:any;
+
   doctors = [
     { name: 'Bác sĩ A. Nguyễn', specialty: 'Nha khoa', image: 'https://th.bing.com/th/id/OIP.62F1Fz3e5gRZ1d-PAK1ihQAAAA?pid=ImgDet&rs=1' },
     { name: 'Bác sĩ B. Trần', specialty: 'Nha khoa', image: 'https://gamek.mediacdn.vn/133514250583805952/2020/6/8/873302766563216418622655364023183338578077n-15915865604311972647945.jpg' },
@@ -34,6 +55,8 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
   constructor(private APPOINTMENT_SERVICE: ReceptionistAppointmentService,
     private PATIENT_SERVICE: PatientService,
     private toastr: ToastrService,
+    private config: NgbDatepickerConfig,
+    private calendar: NgbCalendar
     ) {
     this.EDIT_APPOINTMENT_BODY = {
       epoch: 0,    //x
@@ -48,6 +71,18 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
       }
     } as IEditAppointmentBody;
     this.minDate = new Date();
+
+    this.isDisabled = (
+      date: NgbDateStruct
+      //current: { day: number; month: number; year: number }
+    ) => {
+      return this.json.disabledDates.find(x =>
+        (new NgbDate(x.year, x.month, x.day).equals(date))
+        || (this.json.disable.includes(calendar.getWeekday(new NgbDate(date.year,date.month,date.day))) )
+      )
+        ? true
+        : false;
+    };
   }
 
   ngOnInit(): void {

@@ -129,11 +129,13 @@
               bệnh nhân</button>
           </div>
           <div class="col-6">
-            <select class="form-select input-custom float-end" aria-label="Default select example">
-              <option selected>Phân loại điều trị</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+            <select class="form-select input-custom float-end"
+             aria-label="Default select example"
+             [(ngModel)]="procedure" (change)="filterProcedure()">
+              <option selected value="0">Tất cả loại điều trị</option>
+              <option value="1">Cạo vôi răng</option>
+              <option value="2">Niềng răng</option>
+              <option value="3">Nhổ răng</option>
             </select>
           </div>
         </div>
@@ -151,26 +153,18 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
+            <tr *ngFor="let wtr of filteredWaitingRoomData; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ wtr.patient_id }}</td>
+              <td>{{ wtr.patient_name }}</td>
+              <td>{{ wtr.reason }}</td>
+              <td>{{ wtr.produce }}</td>
               <td>
-                HE153724
-              </td>
-              <td>
-                Albina Simonis
-              </td>
-              <td>
-                Đau răng
-              </td>
-              <td>
-                Răng
-              </td>
-              <td>
-                <select>
-                  <option>Đang khám</option>
-                  <option>Đang chờ</option>
-                  <option>Đã khám</option>
-                  <option>Khám rồi</option>
+                <select class="text-center" [(ngModel)]="wtr.status" (change)="onPutStatus(wtr, wtr.epoch)">
+                  <option value="1">Đang chờ</option>
+                  <option value="2">Đang khám</option>
+                  <option value="3">Khám xong</option>
+                  <option value="4">Xóa hàng chờ</option>
                 </select>
               </td>
             </tr>
@@ -258,10 +252,7 @@
         </div>
 
       </div>
-
     </div>
-
-
   </div>
 
 </div>
@@ -283,9 +274,8 @@
         <div class="modal-body">
           <div class="row">
             <div class="col-md-3">
-              <div class="image-container" (click)="fileInput.click()">
-                <img [src]="imageURL" alt="Ảnh bệnh nhân">
-                <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput style="display: none;">
+              <div class="image-container">
+
               </div>
 
             </div>
@@ -367,100 +357,5 @@
 </div>
 
 
-<!--Add Waiting Modal -->
-<div class="modal" id="wrModal">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
 
-      <!-- Modal Header -->
-      <div class="modal-header color-main">
-        <h4 class="modal-title text-center w-100">Thêm hàng chờ</h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-
-      <!-- Modal body -->
-      <div class="modal-body">
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-md-3">
-              <div class="image-container" (click)="fileInput.click()">
-                <img [src]="imageURL" alt="Ảnh bệnh nhân">
-                <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput style="display: none;">
-              </div>
-
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="patientID">Mã bệnh nhân:</label>
-                <input type="text" class="form-control date-input-custom" id="patientID" name="patientID">
-              </div>
-              <div class="form-group">
-                <label for="fullName">Họ và tên:</label>
-                <input type="text" class="form-control date-input-custom" id="fullName" name="fullName">
-              </div>
-            </div>
-          </div>
-
-          <div class="row mt-3">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="phone">Hẹn trước</label>
-                <select class="form-control form-select form-control-sm mb-3 mx-auto text-center dropdown-custom">
-                  <option>Cạo vôi răng</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group bg-hover select-focus">
-                <label for="phone">Trạng thái</label>
-                <select class="form-control form-select form-control-sm mb-3 mx-auto text-center dropdown-custom">
-                  <option>Cạo vôi răng</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div class="row mt-3">
-            <div class="col-md-6">
-              <div class="form-group bg-hover select-focus">
-                <label for="phone">Lý do khám</label>
-                <select class="form-control form-select form-control-sm mb-3 mx-auto text-center dropdown-custom">
-                  <option>Cạo vôi răng</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group bg-hover select-focus">
-                <label for="phone">Phân loại điều trị</label>
-                <select class="form-control form-select form-control-sm mb-3 mx-auto text-center dropdown-custom">
-                  <option>Cạo vôi răng</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div class="row mt-5">
-            <div class="col-md-12">
-              <div class="form-group">
-                <label for="">Ghi chú</label>
-                <textarea type="text" class="textarea date-input-custom w-100 h-300px" placeholder="Ghi chú">
-                </textarea>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-save" data-bs-dismiss="modal">Xác nhận</button>
-      </div>
-
-    </div>
-  </div>
-</div>
+<app-add-waiting-room></app-add-waiting-room>

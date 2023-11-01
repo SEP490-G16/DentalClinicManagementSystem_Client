@@ -1,0 +1,103 @@
+<!--Add Waiting Modal -->
+<div class="modal" id="wrModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header color-main">
+        <h4 class="modal-title text-center">Thêm hàng chờ</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="close()"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12 text-center">
+              <img src="../../../../../assets/icon/aiga_waiting_room_bg.svg"
+                style="max-width: 100px; max-height: 100px;" alt="Ảnh bệnh nhân" class="img-fluid">
+            </div>
+          </div>
+
+          <!-- Hàng 2: 2 thanh input mỗi thanh chiếm 50% -->
+          <div class="row">
+            <div class="col-6">
+                <label for="sdt">Số điện thoại:</label>
+                <input type="text" class=".input" id="fullName" name="sdt" [(ngModel)]="phone_number"
+                  (keydown.enter)="onPhoneInput()">
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label for="phone">Loại điều trị</label>
+                <select [(ngModel)]="POST_WAITTINGROOM.produce"
+                  class="form-control form-select form-control-sm mb-3 mx-auto text-center dropdown-custom">
+                  <option value="1">Cạo vôi răng</option>
+                  <option value="2">Niềng răng</option>
+                  <option value="3">Nhổ răng</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hàng 2: 2 thanh input mỗi thanh chiếm 50% -->
+          <div class="row">
+            <div class="col-6">
+              <label for="fullName">Họ và tên:</label>
+              <input type="text" class="readonlyInput" [(ngModel)]="POST_WAITTINGROOM.patient_name" id="fullName"
+                name="fullName" readonly>
+            </div>
+
+            <div class="col-6">
+              <div class="form-group bg-hover select-focus">
+                <label for="phone">Trạng thái</label>
+                <select [(ngModel)]="POST_WAITTINGROOM.status"
+                  class="form-control form-select form-control-sm mb-3 mx-auto text-center dropdown-custom">
+                  <option value="1">Đang chờ</option>
+                  <option value="2">Đang khám</option>
+                  <option value="3">Khám xong</option>
+                  <option value="4">Không đến khám</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hàng 2: 2 thanh input mỗi thanh chiếm 50% -->
+          <div class="row">
+            <div class="col-6">
+                <label for="patientID">Mã bệnh nhân:</label>
+                <input type="text" class="readonlyInput" [(ngModel)]="POST_WAITTINGROOM.patient_id"
+                  id="patientID" name="patientID">
+            </div>
+            <div class="col-6">
+              <div class="form-group bg-hover select-focus">
+                <label for="phone">Trạng thái</label>
+                <select [(ngModel)]="POST_WAITTINGROOM.status"
+                  class="form-control form-select form-control-sm mb-3 mx-auto text-center dropdown-custom">
+                  <option value="1">Đang chờ</option>
+                  <option value="2">Đang khám</option>
+                  <option value="3">Khám xong</option>
+                  <option value="4">Không đến khám</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <textarea [(ngModel)]="POST_WAITTINGROOM.reason" class="form-control" placeholder="Lý do khám"
+                rows="4"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-cancel" data-bs-dismiss="modal" (click)="close()">Hủy</button>
+        <button type="button" class="btn btn-save" data-bs-dismiss="modal" (click)="onPostWaitingRoom()">Xác
+          nhận</button>
+      </div>
+
+    </div>
+  </div>
+</div>

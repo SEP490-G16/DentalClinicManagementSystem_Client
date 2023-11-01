@@ -2,7 +2,7 @@ import { CognitoService } from '../cognito.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {IAddAppointment, IEditAppointmentBody} from "../../model/IAppointment";
+import { IAddAppointment, IEditAppointmentBody } from "../../model/IAppointment";
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +12,13 @@ export class ReceptionistAppointmentService {
 
   constructor(private http: HttpClient, private cognitoService: CognitoService) { }
 
-  getAppointmentList(startTime: number, endTime: number):Observable<any> {
-      let idToken = sessionStorage.getItem("id_Token");
+  getAppointmentList(startTime: number, endTime: number): Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
 
-      const headers = new HttpHeaders({
-        'Authorization': `${idToken}`
-      });
-      return this.http.get(`${this.apiUrl}/appointment/${startTime}/${endTime}`, { headers , responseType: 'text' });
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`
+    });
+    return this.http.get(`${this.apiUrl}/appointment/${startTime}/${endTime}`, { headers, responseType: 'text' });
   }
 
 
@@ -34,7 +34,7 @@ export class ReceptionistAppointmentService {
     return this.http.post(`${this.apiUrl}/appointment`, requestBody, { headers });
   }
 
-  putAppointment(appointment: IEditAppointmentBody, appointmentId:string): Observable<any> {
+  putAppointment(appointment: IEditAppointmentBody, appointmentId: string): Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
 
     const headers = new HttpHeaders({
@@ -47,5 +47,17 @@ export class ReceptionistAppointmentService {
     return this.http.put(`${this.apiUrl}/appointment/${appointmentId}`, requestBody, { headers });
   }
 
+  async getAppointmentByPatient(startTime: number, endTime: number): Promise<any> {
+    const idToken = sessionStorage.getItem("id_Token");
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`
+    });
+    try {
+      return await this.http.get(`${this.apiUrl}/appointment/${startTime}/${endTime}`, { headers, responseType: 'text' }).toPromise();
+    } catch (error) {
+      console.error("Lỗi khi gọi API: ", error);
+      throw error;
+    }
+  }
 
 }

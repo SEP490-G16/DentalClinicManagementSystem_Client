@@ -1,6 +1,5 @@
 <!-- The Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-style="position: relative;"
 aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -17,7 +16,7 @@ aria-hidden="true">
           <div class="row">
             <div class="col-12 col-md-6">
               <div class="form-group">
-                <label for="phone">Nhập số điện thoại</label>
+                <label for="phone">Nhập số điện thoại</label>z
                 <input type="text" class="form-control" id="phone"
                   [(ngModel)]="AppointmentBody.appointment.phone_number"
                   (keydown.enter)="onPhoneInput()"
@@ -82,9 +81,7 @@ aria-hidden="true">
               </div>
             </div>
             <div class="col">
-              <!-- <label for="">Nhập giờ hẹn khám</label> -->
-              <!-- <input type="date" [min]="mindate" [(ngModel)]="appointmentDate" (change)="checkDate()"> -->
-                <mat-form-field style="position: absolute;">
+                <!-- <mat-form-field style="position: absolute;">
                   <input matInput [matDatepicker]="picker"
                    [matDatepickerFilter]="myHolidayFilter" placeholder="Chọn ngày hẹn"
                    [min]="mindate"
@@ -96,7 +93,29 @@ aria-hidden="true">
                   <mat-datepicker #picker
                   [opened]="isDatepickerOpened"></mat-datepicker>
                   <mat-datepicker  style="position: absolute;" [dateClass]="dateClass" #picker></mat-datepicker>
-                </mat-form-field>
+                </mat-form-field> -->
+
+                <form class="form-inline">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input
+                        class="form-control"
+                        placeholder="yyyy-mm-dd"
+                        [markDisabled]="isDisabled"
+                        name="dp"
+                        [(ngModel)]="model"
+                        [min]="mindate" [(ngModel)]="appointmentDate"
+                        ngbDatepicker
+                        #d="ngbDatepicker"
+                        [placement]="'right'"
+                        placeholder="Chọn ngày hẹn"
+                        >
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
             </div>
           </div>
 

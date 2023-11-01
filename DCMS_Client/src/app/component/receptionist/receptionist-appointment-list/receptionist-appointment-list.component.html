@@ -142,53 +142,56 @@
           </div>
         </div>
         <h2>Lịch hẹn</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Mã bệnh nhân</th>
-              <th>Tên bệnh nhân</th>
-              <th>SĐT</th>
-              <th>Loại điều trị</th>
-              <th>Bác sĩ</th>
-              <th style="min-width: 110px;">Thời gian hẹn khám</th>
-              <th></th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-          <ng-container *ngFor="let a of filteredAppointments">
-            <ng-container *ngFor="let ap of a.appointments">
-              <tr *ngFor="let detail of ap.details">
-                <td>
-                  <!--HE153724-->
-                  {{detail.patient_id}}
-                </td>
-                <td>
-                  {{detail.patient_name}}
-                </td>
-                <td>
-                  {{detail.phone_number}}
-                </td>
-                <td>
-                  {{ (detail.procedure == 1) ? 'Cạo vôi răng' : ((detail.procedure == 2) ? 'Nhổ răng' : 'Niềng Răng') }}
-                </td>
-                <td>{{ detail.doctor }}</td>
-                <td> {{ convertTimestampToDateString(a.date)}} {{convertTimestampToTimesString(detail.time)}}</td>
-                <td>
-                  <button class="btn btn-edit-custom" data-bs-toggle="modal" data-bs-target="#editAppointmentModal" (click)="openEditModal(detail, a.date)">
-                    <i class="bi bi-edit-circle"></i> Sửa lịch hẹn
-                  </button>
-                </td>
-                <td>
-                  <a routerLink="/receptionist/waitingroom" style="width: 100px; color: black;" class="btn btn-redirect">Đến hàng chờ</a>
-                </td>
+        <div style="overflow-y: auto; height: 300px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Mã bệnh nhân</th>
+                <th>Tên bệnh nhân</th>
+                <th>SĐT</th>
+                <th>Loại điều trị</th>
+                <th>Bác sĩ</th>
+                <th style="min-width: 110px;">Thời gian hẹn khám</th>
+                <th></th>
+                <th>Action</th>
               </tr>
+            </thead>
+            <tbody>
+            <ng-container *ngFor="let a of filteredAppointments">
+              <ng-container *ngFor="let ap of a.appointments">
+                <tr *ngFor="let detail of ap.details">
+                  <td>
+                    <!--HE153724-->
+                    {{detail.patient_id}}
+                  </td>
+                  <td>
+                    {{detail.patient_name}}
+                  </td>
+                  <td>
+                    {{detail.phone_number}}
+                  </td>
+                  <td>
+                    {{ (detail.procedure == 1) ? 'Cạo vôi răng' : ((detail.procedure == 2) ? 'Nhổ răng' : 'Niềng Răng') }}
+                  </td>
+                  <td>{{ detail.doctor }}</td>
+                  <td> {{ convertTimestampToDateString(a.date)}} {{convertTimestampToTimesString(detail.time)}}</td>
+                  <td>
+                    <button class="btn btn-edit-custom" data-bs-toggle="modal" data-bs-target="#editAppointmentModal" (click)="openEditModal(detail, a.date)">
+                      <i class="bi bi-edit-circle"></i> Sửa lịch hẹn
+                    </button>
+                  </td>
+                  <td>
+                    <a routerLink="/receptionist/waitingroom" style="width: 100px; color: black;" class="btn btn-redirect">Đến hàng chờ</a>
+                  </td>
+                </tr>
+              </ng-container>
+
             </ng-container>
 
-          </ng-container>
+            </tbody>
+          </table>
 
-          </tbody>
-        </table>
+        </div>
       </div>
       <!-- End of Recent Orders -->
 

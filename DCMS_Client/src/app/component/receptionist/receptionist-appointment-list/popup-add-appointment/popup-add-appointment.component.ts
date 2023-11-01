@@ -10,7 +10,15 @@ import { MatCalendar } from '@angular/material/datepicker';
 import { Moment } from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import {MatCalendarCellClassFunction} from '@angular/material/datepicker';
+// import {MatCalendarCellClassFunction} from '@angular/material/datepicker';
+
+
+import {
+  NgbDatepickerConfig,
+  NgbCalendar,
+  NgbDate,
+  NgbDateStruct
+} from "@ng-bootstrap/ng-bootstrap";
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
@@ -29,6 +37,19 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
 
   isPatientInfoEditable: boolean = false;
 
+  model!: NgbDateStruct;
+  datePickerJson = {};
+  markDisabled:any;
+  json = {
+    disable: [6, 7],
+    disabledDates: [
+      { year: 2020, month: 8, day: 13 },
+      { year: 2020, month: 8, day: 19 },
+      { year: 2020, month: 8, day: 25 }
+    ]
+  };
+  isDisabled:any;
+
   doctors = [
     { name: 'Bác sĩ A. Nguyễn', specialty: 'Nha khoa', image: 'https://th.bing.com/th/id/OIP.62F1Fz3e5gRZ1d-PAK1ihQAAAA?pid=ImgDet&rs=1' },
     { name: 'Bác sĩ B. Trần', specialty: 'Nha khoa', image: 'https://gamek.mediacdn.vn/133514250583805952/2020/6/8/873302766563216418622655364023183338578077n-15915865604311972647945.jpg' },
@@ -41,7 +62,10 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     private PATIENT_SERVICE: PatientService,
     private renderer: Renderer2,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+
+    private config: NgbDatepickerConfig,
+    private calendar: NgbCalendar
   ) {
     this.AppointmentBody = {
       epoch: 0,    //x
@@ -59,6 +83,18 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     const minutes = now.getMinutes().toString().padStart(2, '0');
     this.minTime = `${hours}:${minutes}`;
     this.mindate = new Date();
+
+    this.isDisabled = (
+      date: NgbDateStruct
+      //current: { day: number; month: number; year: number }
+    ) => {
+      return this.json.disabledDates.find(x =>
+        (new NgbDate(x.year, x.month, x.day).equals(date))
+        || (this.json.disable.includes(calendar.getWeekday(new NgbDate(date.year,date.month,date.day))) )
+      )
+        ? true
+        : false;
+    };
   }
 
   // checkDate() {
@@ -100,17 +136,14 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   //   return ''; // No additional CSS class
   // };
 
-  dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
-    // Only highligh dates inside the month view.
-    if (view === 'month') {
-      const date = cellDate.getDate();
+  // dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
+  //   if (view === 'month') {
+  //     const date = cellDate.getDate();
+  //     return date === 1 || date === 20 ? 'example-custom-date-class' : '';
+  //   }
 
-      // Highlight the 1st and 20th day of each month.
-      return date === 1 || date === 20 ? 'example-custom-date-class' : '';
-    }
-
-    return '';
-  };
+  //   return '';
+  // };
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.datesDisabled && this.datesDisabled.length == 0) {

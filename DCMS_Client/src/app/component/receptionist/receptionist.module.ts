@@ -25,6 +25,9 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import {MatInputModule} from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
+
+
+import { AddWaitingRoomComponent } from './receptionist-waiting-room/add-waiting-room/add-waiting-room.component';
 @NgModule({
   declarations: [
    ReceptionistAppointmentListComponent,
@@ -32,7 +35,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
    ReceptionistWaitingRoomComponent,
    ReceptionistComponent,
    PopupAddAppointmentComponent,
-   PopupEditAppointmentComponent
+   PopupEditAppointmentComponent,
+   AddWaitingRoomComponent
   ],
   imports: [
     CommonModule,

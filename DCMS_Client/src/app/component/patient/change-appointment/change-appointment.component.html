@@ -8,18 +8,6 @@
     <h2>Xin chào, </h2>
     <h3></h3>
 
-    <mat-form-field>
-      <input matInput [matDatepicker]="picker"
-       [matDatepickerFilter]="myHolidayFilter" placeholder="Chọn ngày hẹn"
-       [(ngModel)]="selectedDate"
-       [min]="mindate"
-       >
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-      <mat-datepicker [dateClass]="dateClass" #picker></mat-datepicker>
-    </mat-form-field>
-
-
     <div class="form-group row mt-5">
       <label for="appointmentdate" class="col-3 name-title">Ngày hẹn:</label>
       <div class="col-9 value-staff">
@@ -28,10 +16,17 @@
     </div>
 
     <div class="form-group row mt-3">
-      <label for="changedate" class="col-3 name-title">Ngày đổi:</label>
-      <div class="col-9 value-staff">
-        <p class="date-display">{{selectedDate | date}} <i class="bi bi-calendar3 float-end"></i></p>
-      </div>
+      <!-- <label for="changedate" class="col-3 name-title">Ngày đổi:</label> -->
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker"
+         [matDatepickerFilter]="myHolidayFilter" placeholder="Chọn ngày đổi"
+         [(ngModel)]="selectedDate"
+         [min]="mindate"
+         >
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-datepicker [dateClass]="dateClass" #picker></mat-datepicker>
+      </mat-form-field>
     </div>
     <div class="form-group row mt-3">
       <label for="time" class="col-3 name-title">Giờ:</label>

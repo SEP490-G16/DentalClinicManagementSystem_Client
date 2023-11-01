@@ -17,7 +17,7 @@ import { Observable, of } from 'rxjs';
   styleUrls: ['./change-appointment.component.css']
 })
 
-export class ChangeAppointmentComponent implements OnInit, OnChanges, DoCheck {
+export class ChangeAppointmentComponent implements OnInit {
 
 
   epoch_PathParam: number = 0;  // Lưu giá trị của epoch
@@ -84,92 +84,78 @@ export class ChangeAppointmentComponent implements OnInit, OnChanges, DoCheck {
   };
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.epoch_PathParam = params['epoch'];
-      this.appointmentId_Pathparam = params['appointmentId'];
-    });
-
-    this.appointmentService.getAppointmentList(this.epoch_PathParam, this.epoch_PathParam)
-      .subscribe((data) => {
-        const filteredAppointments = ConvertJson.processApiResponse(data);
-        //console.log(filteredAppointments);
-        const date = new Date(filteredAppointments[0].date * 1000);
-        this.selectedDate = this.formatDateToCustomString(date);
-
-        console.log("work", this.selectedDate);
-        const rawData = filteredAppointments as RootObject[];
-        if (rawData && rawData.length > 0) {
-          const appointments = rawData[0].appointments;
-          console.log("Origin1: ", filteredAppointments);
-          this.appointment = appointments[0].details.find(detail => detail.appointment_id === this.appointmentId_Pathparam);
-
-          if (this.appointment) {
-            this.appointmentDate = this.dateTimestampToGMT7String(this.epoch_PathParam);
-            this.timeString = this.timestampToGMT7HourString(this.appointment.time);
-            // this.selectedDate = this.appointmentDate;
-            console.log("convert to date: ", this.appointmentDate);
-            console.log("Oki: ", this.appointment);
-
-            if (this.appointment.migrated === true) {
-              console.log("Hehe", this.migrateCheck(this.appointment));
-              //this.appointment = this.migrateCheck(this.appointment);
-            }
-          } else {
-            console.log('Appointment not found');
-          }
-        }
-      })
+    this.fetchAPI();
   }
+
+  isMigrated: boolean = true;
+  async fetchAPI() {
+    while (this.isMigrated) {
+      console.log("isMigrated Work");
+      if (this.appointmentId_Pathparam === '' && this.epoch_PathParam === 0) {
+        this.route.params.subscribe(params => {
+          this.epoch_PathParam = params['epoch'];
+          this.appointmentId_Pathparam = params['appointmentId'];
+        });
+        console.log(this.epoch_PathParam);
+        console.log(this.appointmentId_Pathparam);
+      }
+
+      const data = await this.appointmentService.getAppointmentByPatient(this.epoch_PathParam, this.epoch_PathParam);
+      console.log("Data response: ", data);
+
+      // Kiểm tra xem data có giá trị không
+      const AppointmentParent = ConvertJson.processApiResponse(data);
+      console.log("appointmentParent: ", AppointmentParent);
+      const appointmentChild = this.findAppointmentById(data);
+
+      this.appointment = appointmentChild;
+      console.log("appointmentChild: ", appointmentChild);
+
+      if (appointmentChild.migrated === "true") {
+        this.epoch_PathParam = appointmentChild.epoch;
+        console.log("epoch_PathParam: ", this.epoch_PathParam);
+        this.appointmentId_Pathparam = appointmentChild.attribute_name;
+        console.log("appointmentId_Pathparam: ", this.appointmentId_Pathparam);
+      } else {
+        this.appointmentDate = this.dateTimestampToGMT7String(AppointmentParent[0].date);
+        console.log("AppointmentParent:", AppointmentParent[0].date);
+
+        const date = new Date(AppointmentParent[0].date * 1000);
+        this.selectedDate = this.formatDateToCustomString(date);
+        console.log("selectedDate: ", AppointmentParent[0].date);
+
+         this.timeString = this.timestampToGMT7HourString(appointmentChild.time);
+        console.log("timeString: ", this.timeString);
+        this.isMigrated = false;
+        console.log(this.isMigrated);
+      }
+    }
+  }
+
+
+
+
+  findAppointmentById(appointment: any) {
+    const filteredAppointments = ConvertJson.processApiResponse(appointment);
+    //console.log(filteredAppointments);
+    const rawData = filteredAppointments as RootObject[];
+    let res: any;
+    if (rawData && rawData.length > 0) {
+      const appointments = rawData[0].appointments;
+      console.log("Appointments: ", appointments);
+      res = appointments[0].details.find(detail => detail.appointment_id == this.appointmentId_Pathparam);
+    }
+    return res;
+  }
+
+
   formatDateToCustomString(date: Date): string {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Thêm số 0 ở đầu nếu cần
     const day = date.getDate().toString().padStart(2, '0'); // Thêm số 0 ở đầu nếu cần
     return `${year}-${month}-${day}`;
   }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['epoch_PathParam']) {
-      this.selectedDate = new Date(this.epoch_PathParam);
-      console.log("work")
-    }
-  }
 
-  ngDoCheck(): void {
-
-  }
-
-  migrateCheck(appointment: any): Observable<any> {
-    return new Observable((observer) => {
-      if (appointment.migrated) {
-        this.appointmentService.getAppointmentList(appointment.epoch, appointment.epoch)
-          .subscribe((newData) => {
-            const filteredAppointments = ConvertJson.processApiResponse(newData);
-            this.selectedDate = new Date(filteredAppointments.date);
-
-            const rawData = filteredAppointments as RootObject[];
-            if (rawData && rawData.length > 0) {
-              const appointments = rawData[0].appointments;
-              const newAppointment = appointments[0].details.find(detail => detail.appointment_id === this.appointmentId_Pathparam);
-              if (newAppointment) {
-                this.migrateCheck(newAppointment).subscribe((finalAppointment) => {
-                  this.timeString = this.timestampToGMT7HourString(finalAppointment.time);
-                  this.appointmentId_Pathparam = finalAppointment.appointment_id;
-                  this.epoch_PathParam = Number(finalAppointment.epoch);
-                  observer.next(finalAppointment);
-                  observer.complete();
-                });
-              } else {
-                console.log('New appointment not found');
-                observer.next(appointment);
-                observer.complete();
-              }
-            }
-          });
-      } else {
-        observer.next(appointment);
-        observer.complete();
-      }
-    });
-  }
 
   dateTimestampToGMT7String(timestamp: number): string {
     // Lấy giá trị timestamp
@@ -220,14 +206,14 @@ export class ChangeAppointmentComponent implements OnInit, OnChanges, DoCheck {
       }
     } as IEditAppointmentBody;
     console.log("EDIT_Appointment: ", this.EDIT_APPOINTMENT_BODY);
-    // this.appointmentService.putAppointment(this.EDIT_APPOINTMENT_BODY, this.appointmentId_Pathparam)
-    //   .subscribe((res) => {
-    //     this.showSuccessToast("Sửa lịch hẹn thành công");
-    //   },
-    //     (err) => {
-    //       this.showErrorToast("Sửa lịch hẹn thất bại");
-    //     }
-    //   )
+    this.appointmentService.putAppointment(this.EDIT_APPOINTMENT_BODY, this.appointmentId_Pathparam)
+      .subscribe((res) => {
+        this.showSuccessToast("Sửa lịch hẹn thành công");
+      },
+        (err) => {
+          this.showErrorToast("Sửa lịch hẹn thất bại");
+        }
+      )
   }
 
 
