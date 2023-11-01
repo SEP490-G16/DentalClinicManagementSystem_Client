@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {MedicalProcedureGroupService} from "../../../service/MedicalProcedureService/medical-procedure-group.service";
 import {ToastrService} from "ngx-toastr";
+import {MedicalProcedureService} from "../../../service/MedicalProcedureService/medical-procedure.service";
 
 @Component({
   selector: 'app-service',
@@ -9,9 +10,14 @@ import {ToastrService} from "ngx-toastr";
 })
 export class ServiceComponent implements OnInit {
   medicalProcedureGroups:any;
+  medicalProcedureList:any;
+  serviceGroupId:any;
   constructor(private medicalProcedureGroupService:MedicalProcedureGroupService,
+              private medicalProcedure:MedicalProcedureService,
               private toastr: ToastrService) { }
   id:any;
+  name:any;
+  description:any;
   ngOnInit(): void {
     this.getMedicalProcedureGroupList();
   }
@@ -35,7 +41,36 @@ export class ServiceComponent implements OnInit {
       }
     )
   }
-  openEditGroupService(id:any){
+
+  deleteMedicalProcedure(id:string){
+    console.log(id);
+    this.medicalProcedure.deleteMedicalProcedure(id).subscribe(data=>{
+        this.toastr.success('Xoá thủ thuật thành công !');
+        const index = this.medicalProcedureList.findIndex((medicalG:any) => medicalG.mp_id === id);
+        if (index !== -1) {
+          this.medicalProcedureGroups.splice(index, 1);
+        }
+      },
+      error => {
+        this.toastr.error('Xoá  thủ thuật thất bại!');
+      }
+    )
+  }
+
+
+  openEditGroupService(id:any,name:any,description:any){
     this.id = id;
+    this.name = name;
+    this.description = description
+    console.log(this.name);
+    console.log(this.id);
+    console.log(this.description)
+  }
+  getMedicalProcedureList(id:string){
+    this.medicalProcedureGroupService.getMedicalProcedureList().subscribe(data=>{
+      console.log(data);
+      this.medicalProcedureList = data.data.filter((item:any) => item.mg_id === id);
+      console.log(this.medicalProcedureList)
+    })
   }
 }

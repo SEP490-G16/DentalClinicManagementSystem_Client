@@ -27,6 +27,7 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import {MatInputModule} from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { PopupDeletePatientComponent } from './patient-records/popup-delete-patient/popup-delete-patient.component';
 @NgModule({
   declarations: [
       PatientManagementComponent,
@@ -36,7 +37,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
       PatientProfileTabComponent,
       PatientTreatmentCourseTabComponent,
       PatientAppointmentTabComponent,
-      PatientPaymentTabComponent
+      PatientPaymentTabComponent,
+      PopupDeletePatientComponent
   ],
   imports: [
     CommonModule,

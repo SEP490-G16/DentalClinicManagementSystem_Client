@@ -50,6 +50,7 @@ import { ProfilePersonalComponent } from '../shared/profile-personal/profile-per
 import {AdminRoutingModule} from "./admin-routing.module";
 import { PopupEditGroupServiceComponent } from './service/popup-edit-group-service/popup-edit-group-service.component';
 import { PopupEditLaboComponent } from './labo/popup-edit-labo/popup-edit-labo.component';
+import { PopupEditSpecimensComponent } from './specimens/popup-edit-specimens/popup-edit-specimens.component';
 
 @NgModule({
   declarations: [
@@ -93,7 +94,8 @@ import { PopupEditLaboComponent } from './labo/popup-edit-labo/popup-edit-labo.c
       PopupDeleteBillExportMaterialComponent,
       PopupDeleteBillImportMaterialComponent,
       PopupDeleteFacilityComponent,
-      PopupEditGroupServiceComponent
+      PopupEditGroupServiceComponent,
+      PopupEditSpecimensComponent
 
 
   ],

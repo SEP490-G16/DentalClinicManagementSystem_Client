@@ -35,9 +35,12 @@ export class PatientRecordsComponent implements OnInit {
       this.patientList = patients.data;
       //this.totalPages = Math.ceil(this.patientList.length / this.itemsPerPage);
       this.searchPatientsList = this.patientList;
-      this.pagingSearch.total=this.patientList.length;
       if (this.patientList.length < 11){
         this.pagingSearch.total+=this.patientList.length;
+      }
+      else
+      {
+        this.pagingSearch.total=this.patientList.length;
       }
       console.log(this.pagingSearch.total)
       console.log(this.searchPatientsList)
@@ -49,21 +52,11 @@ export class PatientRecordsComponent implements OnInit {
     console.log(this.pagingSearch.paging)
     this.getPatientList(this.pagingSearch.paging);
   }
-  deletePatient(id:string){
-    this.patientService.deletePatient(id).subscribe(data=>{
-      this.toastr.success('Xoá bệnh nhân thành công !');
-      /*this.getPatientList(this.paging);*/
-        /*this.patientList = this.patientList.filter((patient:any) => patient.patient_id != id);*/
-        const index = this.searchPatientsList.findIndex(patient => patient.patient_id === id);
-        if (index !== -1) {
-          this.searchPatientsList.splice(index, 1);
-        }
-    },
-      error => {
-      this.toastr.error('Xoá bệnh nhân thất bại!');
-      }
-      )
+  openDeletePatient(id:any,searchPatientsList:any){
+    this.id=id;
+    this.searchPatientsList = searchPatientsList;
   }
+
   detail(id: any) {
     this.router.navigate(['/patient/records/tab/profile', id])
   }

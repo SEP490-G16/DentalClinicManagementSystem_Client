@@ -16,28 +16,40 @@
               <div class="form-group row">
                 <label for="serviceName" class="col-3">Tên thủ thuật:</label>
                 <div class="col-9">
-                  <input type="text" class="form-control" id="serviceName" name="serviceName">
+                  <input type="text" [(ngModel)]="service.serviceName" required class="form-control" id="serviceName" name="serviceName" #name="ngModel">
+                  <div *ngIf="name.invalid && (name.dirty || name.touched)"  class="alert-danger-custom" style="color:#FF0000FF;">
+                    <div *ngIf="name.errors?.['required']">
+                      Tên nhóm thủ thuật không được bỏ trống!
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="form-group row mt-3">
                 <label for="groupService" class="col-3">Nhóm thủ thuật:</label>
                 <div class="col-9">
-                  <select class="form-select" id="groupService" aria-label="Default select example">
-                    <option selected></option>
-                    <option value="1">Niếng răng A</option>
+                  <select  class="form-select" [(ngModel)]="service.serviceGroupName" id="groupService" required  aria-label="Default select example">
+                    <!--<option selected></option>-->
+                    <option *ngFor="let f of medicalProcedureGroups" value="{{f.medical_procedure_group_id}}}">{{f.name}}</option>
                   </select>
+                  <div *ngIf="isCheckSelect" class="alert-danger-custom" style="color:#FF0000FF;">Vui lòng chọn một nhóm thủ thuật!</div>
                 </div>
               </div>
               <div class="form-group row mt-3">
                 <label for="unitprice" class="col-3">Đơn giá:</label>
                 <div class="col-9">
-                  <input type="text" class="form-control" id="unitprice" name="unitprice">
+                  <input type="number" (change)="checkPositiveNumber()" [(ngModel)]="service.price" required class="form-control" id="unitprice" name="price" #name="ngModel">
+                  <div *ngIf="name.invalid && (name.dirty || name.touched)"  class="alert-danger-custom" style="color:#FF0000FF;">
+                    <div *ngIf="name.errors?.['required']">
+                      Đơn giá không được bỏ trống!
+                    </div>
+                    <div *ngIf="isNotPositiveNumber">Đơn giá phải là số dương!</div>
+                  </div>
                 </div>
               </div>
               <div class="form-group row mt-3">
                 <label for="description" class="col-3">Mô tả:</label>
                 <div class="col-9">
-                  <textarea type="text" class="form-control" id="description" name="description"></textarea>
+                  <textarea type="text" [(ngModel)]="service.description" class="form-control" id="description" name="description"></textarea>
                 </div>
               </div>
             </div>
@@ -47,7 +59,7 @@
         <!-- Modal footer -->
         <div class="modal-footer">
           <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
-          <button type="button" class="btn btn-save" data-bs-dismiss="modal"><i class="bi bi-floppy2"></i> Lưu</button>
+          <button type="button" class="btn btn-save" (click)="addMedicalProcedure()"><i class="bi bi-floppy2"></i> Lưu</button>
         </div>
 
       </div>
