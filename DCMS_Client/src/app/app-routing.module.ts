@@ -6,10 +6,6 @@ const routes: Routes = [
   {
 
     path: '', component: LayoutsComponent, children: [
-      {
-        path: 'admin',
-        loadChildren: () => import('./component/admin/admin.module').then(m => m.AdminModule)
-      },
 
       {
         path: 'doctor',
@@ -21,6 +17,10 @@ const routes: Routes = [
         loadChildren: () => import('./component/nurse/nurse.module').then(m => m.NurseModule)
       },
     ]
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('./component/admin/admin.module').then(m => m.AdminModule)
   },
   {
     path: 'receptionist',

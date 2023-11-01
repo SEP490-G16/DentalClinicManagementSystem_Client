@@ -95,4 +95,8 @@ export class LaboComponent implements OnInit {
       timeOut: 3000, // Adjust the duration as needed
     });
   }
+
+  signOut() {
+
+  }
 }
