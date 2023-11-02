@@ -35,7 +35,7 @@ export class PopupAddSpecimensComponent implements OnInit {
     patient_id:'',
     facility_id:'',
   }
-  patients:any;
+  patients:any[]=[];
   patientId:any;
   constructor(private medicalSupplyService: MedicalSupplyService,
               private toastr: ToastrService,
@@ -70,7 +70,7 @@ export class PopupAddSpecimensComponent implements OnInit {
       this.toastr.success('Thêm mới mẫu thành công !');
       let ref = document.getElementById('cancel-specimen');
       ref?.click();
-      /*window.location.reload();*/
+      window.location.reload();
     },
       error => {
       this.toastr.error('Thêm mới thất bại !');

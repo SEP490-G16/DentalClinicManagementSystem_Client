@@ -24,8 +24,8 @@ export class ServiceComponent implements OnInit {
   }
   getMedicalProcedureGroupList(){
     this.medicalProcedureGroupService.getMedicalProcedureGroupList().subscribe((res:any)=>{
-      console.log(res);
       this.medicalProcedureGroups = res.data;
+      console.log(this.medicalProcedureGroups)
     })
   }
   deleteMedicalProcedureGroup(id:string){

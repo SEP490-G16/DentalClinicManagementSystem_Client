@@ -1,15 +1,9 @@
-<!--<div class="page-wrapper bg-wrapper">
-  <div class="content">
-    <div class="buy-form">
 
-    </div>
-  </div>
-</div>-->
 <div class="row">
   <div class="col-md-2">
     <a routerLink="/admin/specimens" class="page-title">Quản lý mẫu</a>
   </div>
-  <div class="col-md-2">
+  <div class="col-md-3">
     <a routerLink="/admin/specimens/approve-specimens" class="page-title">Mẫu đang chờ duyệt</a>
   </div>
 </div>
@@ -23,7 +17,7 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-    <div class="table-responsive">
+    <div class="table-container">
       <table class="table table-bordered text-center rounded-3 overflow-hidden">
         <thead>
         <tr>
@@ -40,22 +34,36 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <td>Răng sứ</td>
-          <td><h2>Mẫu A</h2></td>
-          <td>Nguyễn Văn A</td>
-          <td>Sứ</td>
-          <td>100</td>
-          <td>1000000</td>
-          <td>20/10/2023</td>
-          <td>Chưa duyệt</td>
-          <td>1000000000</td>
+        <tr *ngFor="let m of approveSpecimensList">
+          <td></td>
+          <td><h2>{{m.ms_name}}</h2></td>
+          <td>{{m.p_patient_name}}</td>
+          <td>{{m.ms_type}}</td>
+          <td>{{m.ms_quantity}}</td>
+          <td>{{m.ms_unit_price}}</td>
+          <td></td>
+          <td>{{m.ms_status === 1 ?'Chưa duyệt' : ''}}</td>
+          <td>{{ m.ms_quantity * m.ms_unit_price}}</td>
           <td class="text-center">
-            <button href="#" class="btn btn-primary float-right btn-rounded"><i class="bi bi-check-circle"></i> Duyệt</button>
+            <button href="#" class="btn btn-primary float-right btn-rounded" (click)="approveSpecimens(m.ms_id,m)"><i class="bi bi-check-circle"></i> Duyệt</button>
             <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_specimens"><i class="bi bi-trash"></i></button>
           </td>
         </tr>
-
+       <!-- <tr >
+          <td>1</td>
+          <td><h2></h2></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="text-center">
+            <button href="#" class="btn btn-primary float-right btn-rounded" (click)="approveSpecimens()"><i class="bi bi-check-circle"></i> Duyệt</button>
+            <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_specimens"><i class="bi bi-trash"></i></button>
+          </td>
+        </tr>-->
         </tbody>
       </table>
     </div>

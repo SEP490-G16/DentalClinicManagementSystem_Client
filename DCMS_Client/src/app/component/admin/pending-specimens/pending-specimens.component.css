@@ -358,3 +358,19 @@ table.table td h2 a {
 .bi-check-circle{
   color: #FFFFFF;
 }
+.table-container{
+  max-height: 350px;
+  overflow-y: auto;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #c0c0c0 #f0f0f0;
+  border-radius: 10px;
+}
+.table-container::-webkit-scrollbar-thumb {
+  background-color: #c0c0c0; /* Màu của thanh cuộn */
+  border-radius: 6px; /* Điều chỉnh góc bo tròn của thanh cuộn */
+}
+.table-container::-webkit-scrollbar-track {
+  background-color: #f0f0f0; /* Màu nền thanh cuộn */
+  border-radius: 10px; /* Điều chỉnh góc bo tròn của nền thanh cuộn */
+}
