@@ -16,12 +16,13 @@ const routes: Routes = [
         path: 'nurse',
         loadChildren: () => import('./component/nurse/nurse.module').then(m => m.NurseModule)
       },
+      {
+        path: 'admin',
+        loadChildren: () => import('./component/admin/admin.module').then(m => m.AdminModule)
+      },
     ]
   },
-  {
-    path: 'admin',
-    loadChildren: () => import('./component/admin/admin.module').then(m => m.AdminModule)
-  },
+
   {
     path: 'receptionist',
     loadChildren: () => import('./component/receptionist/receptionist.module').then(m => m.ReceptionistModule)

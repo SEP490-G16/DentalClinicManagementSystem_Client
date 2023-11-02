@@ -16,13 +16,13 @@
               <div class="form-group row mt-3">
                 <label for="name-specimens" class="col-3 name-title">Tên mẫu:</label>
                 <div class="col-9 value-staff">
-                  <input type="text" class="form-control" id="name-specimens" name="specimensName">
+                  <input type="text" [(ngModel)]="specimen.name" class="form-control" id="name-specimens" name="specimensName">
                 </div>
               </div>
               <div class="form-group row mt-3">
                 <label for="material" class="col-3 name-title">Chất liệu:</label>
                 <div class="col-9 value-staff">
-                  <input type="text" class="form-control" id="material" name="material">
+                  <input type="text" [(ngModel)]="specimen.type" class="form-control" id="material" name="material">
                 </div>
               </div>
               <div class="form-group row mt-3">
@@ -34,20 +34,20 @@
               <div class="form-group row mt-3">
                 <label for="receiverdate" class="col-3 name-title">Ngày nhận:</label>
                 <div class="col-9 value-staff">
-                  <input type="date" class="form-control date-input-custom" id="receiverdate" name="receiverdate">
+                  <input type="date" [(ngModel)]="specimen.receiverDate" class="form-control date-input-custom" id="receiverdate" name="receiverdate">
                 </div>
 
               </div>
               <div class="form-group row mt-3">
                 <label for="orderby" class="col-3 name-title">Người đặt:</label>
                 <div class="col-9 value-staff">
-                  <input type="text" class="form-control" id="orderby" name="orderby">
+                  <input type="text" [(ngModel)]="specimen.orderer" class="form-control" id="orderby" name="orderby">
                 </div>
               </div>
               <div class="form-group row mt-3">
                 <label for="installationdate" class="col-3 name-title">Ngày lắp:</label>
                 <div class="col-9 value-staff">
-                  <input type="date" class="form-control date-input-custom" id="installationdate" name="installationdate">
+                  <input type="date" [(ngModel)]="specimen.usedDate" class="form-control date-input-custom" id="installationdate" name="installationdate">
                 </div>
 
               </div>
@@ -57,32 +57,35 @@
               <div class="form-group row mt-3">
                 <label for="quantity" class="col-3 name-title">Số lượng:</label>
                 <div class="col-9 value-staff">
-                  <input type="number" class="form-control date-input-custom" id="quantity" name="quantity">
+                  <input type="number" [(ngModel)]="specimen.quantity" class="form-control date-input-custom" id="quantity" name="quantity">
                 </div>
               </div>
               <div class="form-group row mt-3">
                 <label for="unitprice" class="col-3 name-title">Đơn giá:</label>
                 <div class="col-9 value-staff">
-                  <input type="number" class="form-control" id="unitprice" name="unitprice">
+                  <input type="number" [(ngModel)]="specimen.price" (input)="calculateTotal()" class="form-control" id="unitprice" name="unitprice">
                 </div>
               </div>
               <div class="form-group row mt-3">
                 <label for="intomoney" class="col-3 name-title">Thành tiền:</label>
                 <div class="col-9 value-staff">
-                  <input type="text" class="form-control" disabled id="intomoney" name="intomoney">
+                  <input type="text" [(ngModel)]="specimen.total" class="form-control" disabled id="intomoney" name="intomoney">
                 </div>
               </div>
               <div class="form-group row mt-3">
                 <label for="orderdate" class="col-3 name-title">Ngày đặt:</label>
                 <div class="col-9 value-staff">
-                  <input type="date" class="form-control date-input-custom" id="orderdate" name="orderdate">
+                  <input type="date" [(ngModel)]="specimen.orderDate" class="form-control date-input-custom" id="orderdate" name="orderdate">
                 </div>
 
               </div>
               <div class="form-group row mt-3">
                 <label for="patient" class="col-3 name-title">Bệnh nhân:</label>
                 <div class="col-9 value-staff">
-                  <input type="text" class="form-control date-input-custom" id="patient" name="patient">
+                  <input type="text" [(ngModel)]="specimen.receiver" (keyup.enter)="onsearch()" class="form-control date-input-custom" id="patient" name="patient">
+                  <ul *ngIf="patients.length > 0">
+                    <li *ngFor="let patient of patients" (click)="selectPatient(patient)">{{ patient.patient_name }}</li>
+                  </ul>
                 </div>
               </div>
             </div>
@@ -93,8 +96,8 @@
 
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
-          <button type="button" class="btn btn-save" data-bs-dismiss="modal"><i class="bi bi-floppy2"></i> Lưu</button>
+          <button type="button" id="cancel-specimen" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
+          <button type="button" class="btn btn-save" (click)="addMedicalSupply()"><i class="bi bi-floppy2"></i> Lưu</button>
         </div>
 
       </div>

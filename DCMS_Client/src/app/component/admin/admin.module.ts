@@ -51,6 +51,7 @@ import {AdminRoutingModule} from "./admin-routing.module";
 import { PopupEditGroupServiceComponent } from './service/popup-edit-group-service/popup-edit-group-service.component';
 import { PopupEditLaboComponent } from './labo/popup-edit-labo/popup-edit-labo.component';
 import { PopupEditSpecimensComponent } from './specimens/popup-edit-specimens/popup-edit-specimens.component';
+import { PopupEditServiceComponent } from './service/popup-edit-service/popup-edit-service.component';
 
 @NgModule({
   declarations: [
@@ -95,7 +96,8 @@ import { PopupEditSpecimensComponent } from './specimens/popup-edit-specimens/po
       PopupDeleteBillImportMaterialComponent,
       PopupDeleteFacilityComponent,
       PopupEditGroupServiceComponent,
-      PopupEditSpecimensComponent
+      PopupEditSpecimensComponent,
+      PopupEditServiceComponent
 
 
   ],

@@ -16,6 +16,7 @@ export class ServiceComponent implements OnInit {
               private medicalProcedure:MedicalProcedureService,
               private toastr: ToastrService) { }
   id:any;
+  idService:any;
   name:any;
   description:any;
   ngOnInit(): void {
@@ -48,7 +49,7 @@ export class ServiceComponent implements OnInit {
         this.toastr.success('Xoá thủ thuật thành công !');
         const index = this.medicalProcedureList.findIndex((medicalG:any) => medicalG.mp_id === id);
         if (index !== -1) {
-          this.medicalProcedureGroups.splice(index, 1);
+          this.medicalProcedureList.splice(index, 1);
         }
       },
       error => {
@@ -66,6 +67,10 @@ export class ServiceComponent implements OnInit {
     console.log(this.id);
     console.log(this.description)
   }
+  openEditService(id:any){
+    this.idService = id;
+  }
+
   getMedicalProcedureList(id:string){
     this.medicalProcedureGroupService.getMedicalProcedureList().subscribe(data=>{
       console.log(data);
@@ -73,4 +78,6 @@ export class ServiceComponent implements OnInit {
       console.log(this.medicalProcedureList)
     })
   }
+
+
 }
