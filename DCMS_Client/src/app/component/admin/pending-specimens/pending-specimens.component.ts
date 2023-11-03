@@ -13,6 +13,7 @@ export class PendingSpecimensComponent implements OnInit {
               private toastr: ToastrService) { }
   status:any;
   paging:any;
+  specimen:any;
   ngOnInit(): void {
     this.status = 1;
     this.paging = 1;
@@ -71,5 +72,27 @@ export class PendingSpecimensComponent implements OnInit {
       this.approveSpecimensList = data.data;
       console.log(this.approveSpecimensList);
     })
+  }
+  deleteApproveSpecimens(id:string){
+    console.log(id);
+    const isConfirmed = window.confirm('Bạn có chắc muốn xoá mẫu này?');
+    if (isConfirmed){
+      this.medicalSupplyService.deleteApproveSpecimens(id).subscribe(data=>{
+          this.toastr.success('Xoá thủ thuật thành công !');
+          const index = this.approveSpecimensList.findIndex((specimens:any) => specimens.ms_id === id);
+          if (index !== -1) {
+            this.approveSpecimensList.splice(index, 1);
+          }
+        },
+        error => {
+          this.toastr.error('Xoá  thủ thuật thất bại!');
+        }
+      )
+    }
+
+  }
+  openEditApproveSpecimens(id:any, specimens:any){
+    this.id = id;
+    this.specimen = specimens;
   }
 }

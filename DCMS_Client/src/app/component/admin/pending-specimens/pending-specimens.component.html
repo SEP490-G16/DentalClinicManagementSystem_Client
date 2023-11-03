@@ -21,7 +21,6 @@
       <table class="table table-bordered text-center rounded-3 overflow-hidden">
         <thead>
         <tr>
-          <th>Răng/Hàm</th>
           <th>Tên mẫu</th>
           <th>Tên bệnh nhân</th>
           <th>Chất liệu</th>
@@ -35,7 +34,6 @@
         </thead>
         <tbody>
         <tr *ngFor="let m of approveSpecimensList">
-          <td></td>
           <td><h2>{{m.ms_name}}</h2></td>
           <td>{{m.p_patient_name}}</td>
           <td>{{m.ms_type}}</td>
@@ -44,9 +42,10 @@
           <td></td>
           <td>{{m.ms_status === 1 ?'Chưa duyệt' : ''}}</td>
           <td>{{ m.ms_quantity * m.ms_unit_price}}</td>
-          <td class="text-center">
-            <button href="#" class="btn btn-primary float-right btn-rounded" (click)="approveSpecimens(m.ms_id,m)"><i class="bi bi-check-circle"></i> Duyệt</button>
-            <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_specimens"><i class="bi bi-trash"></i></button>
+          <td class="text-center" style="min-width: 150px">
+            <button href="#" class="btn btn-primary float-right btn-rounded" (click)="approveSpecimens(m.ms_id,m)"><i class="bi bi-check-circle"></i></button>
+            <button href="#" class="btn btn-primary float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#editApproveSpecimensModal" (click)="openEditApproveSpecimens(m.ms_id,m)"><i class="bi bi-pencil-square"></i></button>
+            <button href="#" class="btn btn-danger float-right btn-rounded" (click)="deleteApproveSpecimens(m.ms_id)"><i class="bi bi-trash"></i></button>
           </td>
         </tr>
        <!-- <tr >
@@ -72,3 +71,4 @@
 <app-popup-add-approve-specimens></app-popup-add-approve-specimens>
 <app-popup-add-specimens></app-popup-add-specimens>
 <app-popup-delete-specimens></app-popup-delete-specimens>
+<app-popup-edit-approve-specimens [id] = "id" [specimens] = "specimen"></app-popup-edit-approve-specimens>

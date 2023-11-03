@@ -16,22 +16,18 @@
         </div>
       </div>
       <div class="row filter-row m-t-30">
-        <div class="col-md-2">
+        <div class="col-md-3">
           <div class="form-group form-group-filter">
             <button href="add-employee.html" class="btn btn-custom float-right btn-rounded"  data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus-circle"></i> Thêm phiếu xuất
             </button>
           </div>
         </div>
-        <div class="col-md-2">
-          <select class="form-select" aria-label="Default select example">
-            <option selected>Chọn người xuất</option>
-          </select>
-        </div>
-        <div class="col-sm-6 col-md-2">
+
+        <div class="col-sm-6 col-md-3">
           <div class="input-group">
             <input
               class="form-control"
-              placeholder="Ngày lập"
+              placeholder="Ngày xuất"
               name="dp"
               [(ngModel)]="model"
               ngbDatepicker

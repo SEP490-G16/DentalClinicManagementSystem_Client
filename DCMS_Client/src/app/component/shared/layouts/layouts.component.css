@@ -95,10 +95,10 @@
 }
 .container-custom {
   display: grid;
-  width: 96%;
+  width: 99%;
   margin: 0 auto;
   gap: 1.8rem;
-  grid-template-columns: 12rem auto 23rem;
+  grid-template-columns: 12rem auto 12rem;
 }
 aside {
   height: 100vh;
@@ -174,7 +174,7 @@ aside .sidebar a.active {
 aside .sidebar a.active::before {
   content: '';
   width: 6px;
-  height: 18px;
+  height: 40px;
   background-color: var(--custom-color-primary);
 }
 

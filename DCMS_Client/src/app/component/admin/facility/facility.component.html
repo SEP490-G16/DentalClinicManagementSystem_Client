@@ -23,72 +23,28 @@
             <table class="table table-bordered text-center rounded-3 overflow-hidden">
               <thead>
               <tr>
-                <th>STT</th>
+                <th>Mã cơ sở</th>
                 <th>Cơ sở</th>
                 <th>Người đại diện</th>
-                <th>Số điện thoại</th>
+                <th>SĐT Phòng khám</th>
+                <th>SĐT Người đại diện</th>
                 <th>Địa chỉ</th>
                 <th class="text-center">Thao tác</th>
               </tr>
               </thead>
               <tbody>
-              <tr>
-                <td>1</td>
-                <td><h2>Cơ sở 1</h2></td>
-                <td>Nguyễn Văn A</td>
-                <td>0912345678</td>
-                <td>Hà Nội</td>
+              <tr *ngFor="let f of facilityList">
+                <td>{{f.facility_id}}</td>
+                <td><h2>{{f.name}}</h2></td>
+                <td>{{f.manager_name}}</td>
+                <td>{{f.facility_phone_number}}</td>
+                <td>{{f.manager_phone_number}}</td>
+                <td>{{f.address}}</td>
                 <td class="text-center">
-                  <button href="#" class="btn btn-primary float-right btn-rounded"><i class="bi bi-pencil-square"></i></button>
-                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_facility"><i class="bi bi-trash"></i></button>
+                  <button href="#" class="btn btn-primary float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#editFacilityModal" (click)="openEditFacility(f)"><i class="bi bi-pencil-square"></i></button>
+                  <button href="#" class="btn btn-danger float-right btn-rounded" (click)="deleteFacility(f.facility_id)"><i class="bi bi-trash"></i></button>
                 </td>
               </tr>
-              <tr>
-                <td>2</td>
-                <td><h2>Cơ sở 2</h2></td>
-                <td>Nguyễn Văn A</td>
-                <td>0912345678</td>
-                <td>Hồ Chí Minh</td>
-                <td class="text-center">
-                  <button href="#" class="btn btn-primary float-right btn-rounded"><i class="bi bi-pencil-square"></i></button>
-                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_facility"><i class="bi bi-trash"></i></button>
-                </td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td><h2>Cơ sở 3</h2></td>
-                <td>Nguyễn Văn A</td>
-                <td>0912345678</td>
-                <td>Hà Nội</td>
-                <td class="text-center">
-                  <button href="#" class="btn btn-primary float-right btn-rounded"><i class="bi bi-pencil-square"></i></button>
-                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_facility"><i class="bi bi-trash"></i></button>
-                </td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td><h2>Cơ sở 4</h2></td>
-                <td>Nguyễn Văn A</td>
-                <td>0912345678</td>
-                <td>Hà Nội</td>
-                <td class="text-center">
-                  <button href="#" class="btn btn-primary float-right btn-rounded"><i class="bi bi-pencil-square"></i></button>
-                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_facility"><i class="bi bi-trash"></i></button>
-                </td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td><h2>Cơ sở 5</h2></td>
-                <td>Nguyễn Văn A</td>
-                <td>0912345678</td>
-                <td>Hà Nội</td>
-                <td class="text-center">
-                  <button href="#" class="btn btn-primary float-right btn-rounded"><i class="bi bi-pencil-square"></i></button>
-                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_facility"><i class="bi bi-trash"></i></button>
-                </td>
-              </tr>
-
-
               </tbody>
             </table>
           </div>
@@ -97,5 +53,6 @@
     </div>
   </div>
 </div>
-<app-popup-add-facility></app-popup-add-facility>
+<app-popup-add-facility [facilityList] = "facilityList"></app-popup-add-facility>
 <app-popup-delete-facility></app-popup-delete-facility>
+<app-popup-edit-facility [facility] = "facility" [facilityList] = "facilityList"></app-popup-edit-facility>

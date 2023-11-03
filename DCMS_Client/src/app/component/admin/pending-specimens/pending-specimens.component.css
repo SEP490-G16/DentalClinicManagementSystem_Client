@@ -358,8 +358,11 @@ table.table td h2 a {
 .bi-check-circle{
   color: #FFFFFF;
 }
+.bi-pencil-square{
+  color: #ffffff;
+}
 .table-container{
-  max-height: 350px;
+  max-height: 100%;
   overflow-y: auto;
   overflow-x: auto;
   scrollbar-width: thin;

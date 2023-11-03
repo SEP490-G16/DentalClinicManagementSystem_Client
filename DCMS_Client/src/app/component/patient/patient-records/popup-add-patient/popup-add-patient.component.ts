@@ -35,7 +35,7 @@ export class PopupAddPatientComponent implements OnInit {
   }
   addPatient(){
     this.patientBody={
-        /*patient_id:this.patient.patient_id,*/
+        patient_id:null,
         patient_name:this.patient1.patientName,
         email:this.patient1.Email,
         gender:this.patient1.Gender,
@@ -45,10 +45,12 @@ export class PopupAddPatientComponent implements OnInit {
         dental_medical_history:this.patient1.dental_medical_History,
       date_of_birth:this.patient1.dob
     }
-    this.patientService.addPatient(this.patientBody).subscribe(data=>{
+    this.patientService.addPatient(this.patientBody).subscribe((data:any)=>{
       this.toastr.success('Thêm mới bệnh nhân thành công!');
       let ref = document.getElementById('cancel');
       ref?.click();
+      const newPatientId = data.data.patient_id;
+      this.patientBody.patient_id = newPatientId;
       this.searchPatientsList.unshift(this.patientBody);
       this.patientBody.isNew = true;
       this.patientBody.isPulsing = true;

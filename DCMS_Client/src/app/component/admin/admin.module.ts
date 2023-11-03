@@ -52,6 +52,8 @@ import { PopupEditGroupServiceComponent } from './service/popup-edit-group-servi
 import { PopupEditLaboComponent } from './labo/popup-edit-labo/popup-edit-labo.component';
 import { PopupEditSpecimensComponent } from './specimens/popup-edit-specimens/popup-edit-specimens.component';
 import { PopupEditServiceComponent } from './service/popup-edit-service/popup-edit-service.component';
+import { PopupEditApproveSpecimensComponent } from './pending-specimens/popup-edit-approve-specimens/popup-edit-approve-specimens.component';
+import { PopupEditFacilityComponent } from './facility/popup-edit-facility/popup-edit-facility.component';
 
 @NgModule({
   declarations: [
@@ -97,7 +99,9 @@ import { PopupEditServiceComponent } from './service/popup-edit-service/popup-ed
       PopupDeleteFacilityComponent,
       PopupEditGroupServiceComponent,
       PopupEditSpecimensComponent,
-      PopupEditServiceComponent
+      PopupEditServiceComponent,
+      PopupEditApproveSpecimensComponent,
+      PopupEditFacilityComponent
 
 
   ],

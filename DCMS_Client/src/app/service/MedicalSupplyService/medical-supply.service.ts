@@ -36,4 +36,21 @@ export class MedicalSupplyService {
     });
     return this.http.get(`${this.url}/medical-supply/status/${status}/${paging}`,{headers})
   }
+  deleteApproveSpecimens(id:any):Observable<any>{
+    let idToken = sessionStorage.getItem("id_Token");
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      'Content-Type':'application/json'
+    });
+    return this.http.delete(`${this.url}/medical-supply/${id}`,{headers});
+  }
+  updateApproveSpecimens(id:any, specimen:any):Observable<any>{
+    let idToken = sessionStorage.getItem("id_Token");
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      'Content-Type':'application/json'
+    });
+    const requestBody = JSON.stringify(specimen);
+    return this.http.put(`${this.url}/medical-supply/${id}`,requestBody,{headers});
+  }
 }
