@@ -6,7 +6,6 @@
       <div class="modal-header color-header">
         <h4 class="modal-title text-center w-100">Sửa labo</h4>
         <button type="button" class="btn-close"
-        (click)="close()"
         data-bs-dismiss="modal"></button>
       </div>
 
@@ -18,7 +17,7 @@
               <div class="form-group row">
                 <label for="name" class="col-3">Tên labo:</label>
                 <div class="col-9">
-                  <input type="text" class="form-control" id="name" name="name" [(ngModel)]="PutLabo.labo_name">
+                  <input type="text" class="form-control" id="name" name="name" [(ngModel)]="PutLabo.name">
                   <p class="error" style="color: red;">{{EditLaboErrors.labo_name}}</p>
                 </div>
               </div>
@@ -49,7 +48,7 @@
 
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-cancel" data-bs-dismiss="modal" (click)="close()">Hủy</button>
+          <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
           <button type="button" class="btn btn-save" data-bs-dismiss="modal" (click)="PutLaboAPI()">
             <i class="bi bi-floppy2"></i> Lưu</button>
         </div>

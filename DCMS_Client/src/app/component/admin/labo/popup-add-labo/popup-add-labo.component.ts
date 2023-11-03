@@ -29,10 +29,12 @@ export class PopupAddLaboComponent implements OnInit {
     private toastr: ToastrService
   ) {
     this.Labo = {
-      labo_name: "",
-      address: "",
-      phone_number: "",
-      email: ""
+      name:'',
+      address:'',
+      phone_number:'',
+      email:'',
+      description:'',
+      active: 1
     }
   }
 
@@ -41,47 +43,29 @@ export class PopupAddLaboComponent implements OnInit {
   }
 
   PostLabo() {
-    console.log(this.Labo);
-    this.resetErrors();
-    if (!this.Labo.labo_name) {
-      this.LaboErrors.labo_name = 'Tên labo không được để trống';
-    }
-    if (!this.Labo.address) {
-      this.LaboErrors.address = 'Địa chỉ không được để trống';
-    }
-    if (!this.Labo.phone_number) {
-      this.LaboErrors.phone_number = 'Số điện thoại không được để trống';
-    }
-    if (!this.Labo.email) {
-      this.LaboErrors.email = 'Email không được để trống';
-    } else if (!this.isValidEmail(this.Labo.email)) {
-      this.LaboErrors.email = 'Địa chỉ email không hợp lệ';
-    }
+    // Tiến hành gửi dữ liệu nếu không có lỗi
+    this.PostLaboService.postLabo(this.Labo)
+      .subscribe(
+        (data) => {
+          console.log(this.Labo);
+          this.showSuccessToast("Thêm mới Labo thành công");
+          this.Labo = {
+            name: "",
+            address: "",
+            phone_number: "",
+            email: "",
+            description: "",
+            active: 1
+          };
+          setTimeout(() => {
+            window.location.reload();
+          }, 3000);
+        },
+        (err) => {
+          this.showErrorToast("Lỗi khi thêm Labo");
+        }
+      );
 
-    // Kiểm tra xem có lỗi nào không
-    if (this.hasErrors()) {
-      this.showErrorToast("Vui lòng kiểm tra và điền đầy đủ thông tin cần thiết.");
-    } else {
-      // Tiến hành gửi dữ liệu nếu không có lỗi
-      this.PostLaboService.postLabo(this.Labo)
-        .subscribe(
-          (data) => {
-            this.showSuccessToast("Thêm mới Labo thành công");
-            this.Labo = {
-              labo_name: "",
-              address: "",
-              phone_number: "",
-              email: ""
-            };
-            setTimeout(() => {
-              window.location.reload();
-            }, 3000);
-          },
-          (err) => {
-            this.showErrorToast("Lỗi khi thêm Labo");
-          }
-        );
-    }
   }
 
   private resetErrors() {
@@ -93,9 +77,6 @@ export class PopupAddLaboComponent implements OnInit {
     };
   }
 
-  private hasErrors() {
-    return Object.values(this.LaboErrors).some((error) => error !== '');
-  }
 
   private isValidEmail(email: string): boolean {
     // Thực hiện kiểm tra địa chỉ email ở đây, có thể sử dụng biểu thức chính quy
@@ -104,11 +85,13 @@ export class PopupAddLaboComponent implements OnInit {
 
   close() {
     this.Labo = {
-      labo_name: "",
+      name: "",
       address: "",
       phone_number: "",
-      email: ""
-    }
+      email: "",
+      description: "",
+      active: 1
+    };
   }
 
 

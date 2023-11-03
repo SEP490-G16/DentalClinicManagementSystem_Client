@@ -12,7 +12,7 @@ export class PopupEditLaboComponent implements OnInit, OnChanges {
 
   @Input() LaboEdit: any;
 
-  PutLabo:IEditLabo;
+  PutLabo:ILabos;
 
   EditLaboErrors: {
     labo_name: string,
@@ -31,19 +31,25 @@ export class PopupEditLaboComponent implements OnInit, OnChanges {
     private toastr:ToastrService
   ) {
     this.PutLabo = {
-      labo_name: "",
-      address: "",
-      phone_number: "",
-      email: ""
+      labo_id: '',
+      name:'',
+      address:'',
+      phone_number:'',
+      email:'',
+      description:'',
+      active: 1
     }
   }
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['LaboEdit']) {
       this.PutLabo = {
-        labo_name: this.LaboEdit.labo_name,
+        labo_id: this.LaboEdit.labo_id,
+        name: this.LaboEdit.name,
         address: this.LaboEdit.address,
         phone_number: this.LaboEdit.phone_number,
-        email: this.LaboEdit.email
+        email: this.LaboEdit.email,
+        description: '',
+        active: 1
       }
     }
   }
@@ -55,35 +61,38 @@ export class PopupEditLaboComponent implements OnInit, OnChanges {
 
   PutLaboAPI() {
     this.resetErrors(); // Đặt lại thông báo lỗi trước khi kiểm tra lại
-    if (!this.PutLabo.labo_name) {
-      this.EditLaboErrors.labo_name = 'Tên labo không được để trống';
-    }
-    if (!this.PutLabo.address) {
-      this.EditLaboErrors.address = 'Địa chỉ không được để trống';
-    }
-    if (!this.PutLabo.phone_number) {
-      this.EditLaboErrors.phone_number = 'Số điện thoại không được để trống';
-    }
-    if (!this.PutLabo.email) {
-      this.EditLaboErrors.email = 'Email không được để trống';
-    } else if (!this.isValidEmail(this.PutLabo.email)) {
-      this.EditLaboErrors.email = 'Địa chỉ email không hợp lệ';
-    }
+    // if (!this.PutLabo.name) {
+    //   this.EditLaboErrors.labo_name = 'Tên labo không được để trống';
+    // }
+    // if (!this.PutLabo.address) {
+    //   this.EditLaboErrors.address = 'Địa chỉ không được để trống';
+    // }
+    // if (!this.PutLabo.phone_number) {
+    //   this.EditLaboErrors.phone_number = 'Số điện thoại không được để trống';
+    // }
+    // if (!this.PutLabo.email) {
+    //   this.EditLaboErrors.email = 'Email không được để trống';
+    // } else if (!this.isValidEmail(this.PutLabo.email)) {
+    //   this.EditLaboErrors.email = 'Địa chỉ email không hợp lệ';
+    // }
 
-    // Kiểm tra xem có lỗi nào không
-    if (this.hasErrors()) {
-      this.showErrorToast("Vui lòng kiểm tra và điền đầy đủ thông tin cần thiết.");
-    } else {
-      // Tiến hành gửi dữ liệu nếu không có lỗi
-      this.EditLaboService.putLabo(this.LaboEdit.laboId, this.PutLabo)
+    // console.log()
+    // if (this.hasErrors()) {
+    //   this.showErrorToast("Vui lòng kiểm tra và điền đầy đủ thông tin cần thiết.");
+    // } else {
+      console.log(this.LaboEdit);
+      this.EditLaboService.putLabo(this.LaboEdit.labo_id, this.PutLabo)
         .subscribe(
           (res) => {
             this.showSuccessToast("Sửa Labo thành công");
             this.PutLabo = {
-              labo_name: "",
+              labo_id: "",
+              name: "",
               address: "",
               phone_number: "",
-              email: ""
+              email: "",
+              description: "",
+              active: 1
             };
             setTimeout(() => {
               window.location.reload();
@@ -93,7 +102,7 @@ export class PopupEditLaboComponent implements OnInit, OnChanges {
             this.showErrorToast("Sửa Labo thất bại");
           }
         );
-    }
+    // }
   }
 
   private resetErrors() {
@@ -114,14 +123,6 @@ export class PopupEditLaboComponent implements OnInit, OnChanges {
     return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email);
   }
 
-  close() {
-    this.PutLabo = {
-      labo_name: "",
-      address: "",
-      phone_number: "",
-      email: ""
-    }
-  }
 
 
   showSuccessToast(message: string) {

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterModule} from "@angular/router";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -6,7 +6,7 @@ import {HttpClientModule} from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-
+import * as AWS from 'aws-sdk';
 import { ReceptionistAppointmentListComponent } from './receptionist-appointment-list/receptionist-appointment-list.component';
 import { ReceptionistTimekeepingComponent } from './receptionist-timekeeping/receptionist-timekeeping.component';
 import { ReceptionistWaitingRoomComponent } from './receptionist-waiting-room/receptionist-waiting-room.component';
@@ -60,4 +60,6 @@ import { AddWaitingRoomComponent } from './receptionist-waiting-room/add-waiting
     MatTooltipModule
   ]
 })
-export class ReceptionistModule { }
+export class ReceptionistModule{
+
+}

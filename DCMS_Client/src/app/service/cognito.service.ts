@@ -1,10 +1,13 @@
 import { ICognitoUser } from './../model/ICognitoUser';
 import { Injectable } from '@angular/core';
 import { Amplify, Auth } from 'aws-amplify';
-import { CookieService } from 'ngx-cookie-service';
 import { IUser } from '../model/IUser';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import * as AWS from 'aws-sdk';
+import { IStaff } from '../model/Staff';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -12,24 +15,91 @@ import { environment } from 'src/environments/environment';
 export class CognitoService {
   private authenticationSubject: BehaviorSubject<any>;
 
+
+
   cognitoUser: ICognitoUser;
 
   constructor() {
     this.cognitoUser = {} as ICognitoUser;
 
-      Amplify.configure({
-        Auth: environment.cognito
-      });
+    Amplify.configure({
+      Auth: environment.cognito
+    });
+
+    AWS.config.region = 'ap-southeast-1';
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+      IdentityPoolId: 'ap-southeast-1:54518664-3eb5-47fd-bc15-5b48ec109d8a',
+    });
 
     this.authenticationSubject = new BehaviorSubject<boolean>(false);
+
   }
 
-  signup(User: IUser): Promise<any> {
-    return Auth.signUp({
-      username: User.userCredential,
-      password: User.password
-    })
+  listUsers() {
+    const cognitoIdentityServiceProvider = new AWS.CognitoIdentityServiceProvider();
+
+    const params = {
+      UserPoolId: environment.cognito.userPoolId,
+    };
+
+    return new Promise((resolve, reject) => {
+      cognitoIdentityServiceProvider.listUsers(params, (err, data) => {
+        if (err) {
+          console.error('Lỗi:', err);
+          reject(err);
+        } else {
+          console.log('Danh sách người dùng:', data);
+          resolve(data);
+        }
+      });
+    });
   }
+
+  addStaff(User: IStaff): Promise<any> {
+    const attributes = {
+      email: User.email,
+      phone_number: User.phone,
+      name: User.name,
+      gender: User.gender,
+      address: User.address,
+      'custom:DOB': User.DOB,
+      'custom:description': User.description,
+      'custom:status': User.status,
+      'custom:image': User.image,
+    };
+
+    return Auth.signUp({
+      username: User.username,
+      password: User.password,
+      attributes, // Các thuộc tính tùy chỉnh và các thuộc tính tiêu chuẩn
+    });
+  }
+
+  updateUserAttributes(userId: string, userData: any): Promise<any> {
+    const attributes = {
+      email: userData.email,
+      phone_number: userData.phone,
+      name: userData.name,
+      gender: userData.gender,
+      address: userData.address,
+      'custom:DOB': userData.DOB,
+      'custom:description': userData.description,
+      'custom:status': userData.status,
+      'custom:image': userData.image,
+    };
+
+    return Auth.updateUserAttributes(userId, attributes)
+      .then((result) => {
+        console.log('Cập nhật thông tin người dùng thành công:', result);
+        return result;
+      })
+      .catch((error) => {
+        console.error('Lỗi cập nhật thông tin người dùng:', error);
+        throw error;
+      });
+  }
+
+
 
   signIn(User: IUser): Promise<any> {
     return Auth.signIn(User.userCredential, User.password).then((userResult) => {
@@ -44,6 +114,25 @@ export class CognitoService {
       sessionStorage.setItem('id_Token', this.cognitoUser.idToken);
     });
   }
+
+
+  // async listUsers() {
+  //   const params = {
+  //     UserPoolId: environment.cognito.userPoolId // Thay thế bằng ID của User Pool của bạn
+  //   };
+  //   try {
+  //     const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
+  //     const users = await cognitoidentityserviceprovider.listUsers(params).promise();
+  //     // Xử lý danh sách người dùng ở đây
+  //     console.log(users);
+  //     return users;
+  //   } catch (error) {
+  //     console.error('Error fetching users', error);
+  //     throw error;
+  //   }
+  // }
+
+
 
   signOut(): Promise<any> {
     return Auth.signOut().then(() => {

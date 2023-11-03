@@ -531,6 +531,13 @@ main .recent-orders a {
   gap: 0.6rem;
 }
 
+.m-r-3 {
+  margin-right: 5px !important
+}
+
+.button-cus {
+  border: 1px solid #000;
+}
 /* @media screen and (max-width: 1200px) {
   .container-custom {
     width: 95%;

@@ -4,7 +4,8 @@
     <aside>
       <div class="toggle">
         <div class="logo">
-          <img src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
+          <img
+            src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
           <p><span class="danger">Nguyen Tran</span> Clinic</p>
         </div>
         <div class="close" id="close-btn">
@@ -51,13 +52,13 @@
           </span>
           <h3>Labo</h3>
         </a>
-        <a routerLink="/receptionist/timekeeping">
+        <a routerLink="/admin/specimens">
           <span class="material-icons-sharp">
             insights
           </span>
           <h3>Mẫu</h3>
         </a>
-        <a routerLink="/receptionist/timekeeping" >
+        <a routerLink="/receptionist/timekeeping">
           <span class="material-icons-sharp">
             insights
           </span>
@@ -88,56 +89,6 @@
     <!-- Main Content -->
     <main>
       <!-- Analyses -->
-      <div class="analyse">
-        <div class="sales">
-          <div class="status">
-            <div class="info">
-              <h3>Lịch hẹn</h3>
-              <h1 class="text-center">02</h1>
-            </div>
-            <div class="progresss">
-              <svg>
-                <circle cx="38" cy="38" r="36"></circle>
-              </svg>
-              <div class="percentage">
-                <p>+81%</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="visits">
-          <div class="status">
-            <div class="info">
-              <h3>Labo</h3>
-              <h1 class="text-center">24</h1>
-            </div>
-            <div class="progresss">
-              <svg>
-                <circle cx="38" cy="38" r="36"></circle>
-              </svg>
-              <div class="percentage">
-                <p>-48%</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="searches">
-          <div class="status">
-            <div class="info">
-              <h3>Bệnh nhân</h3>
-              <h1 class="text-center">23</h1>
-            </div>
-            <div class="progresss">
-              <svg>
-                <circle cx="38" cy="38" r="36"></circle>
-              </svg>
-              <div class="percentage">
-                <p>+21%</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       <!-- End of Analyses -->
 
       <!-- New Users Section -->
@@ -154,39 +105,43 @@
         <div class="row mt-5 mb-5">
           <div class="col-6">
             <div class="form-group form-group-filter">
-              <button class="btn btn-add-custom " data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus-circle"></i> Thêm mới
+              <button class="btn btn-add-custom " data-bs-toggle="modal" data-bs-target="#myModal"><i
+                  class="bi bi-plus-circle"></i> Thêm mới
                 labo</button>
             </div>
           </div>
         </div>
         <h2>Labo</h2>
-        <div style="overflow-y: auto; height: 300px;">
+        <div style="overflow-y: auto; height: 500px;">
           <table>
             <thead>
               <tr>
-                <th>Mã labo</th>
-                <th>Tên labo</th>
-                <th>Địa chỉ</th>
-                <th>Số điện thoại</th>
-                <th>Email</th>
-                <th class="text-center">Thao tác</th>
+                <th style="padding-top: 10px;padding-bottom: 10px;">Mã labo</th>
+                <th style="padding-top: 10px;padding-bottom: 10px;">Tên labo</th>
+                <th style="padding-top: 10px;padding-bottom: 10px;">Địa chỉ</th>
+                <th style="padding-top: 10px;padding-bottom: 10px;">Số điện thoại</th>
+                <th style="padding-top: 10px;padding-bottom: 10px;">Email</th>
+                <th style="padding-top: 10px;padding-bottom: 10px;" class="text-center">Thao tác</th>
               </tr>
-              </thead>
-              <tbody>
+            </thead>
+            <tbody>
               <tr *ngFor="let labo of Labos">
-                <td>{{labo.laboId}}</td>
-                <td><h2>{{labo.labo_name}}</h2></td>
+                <td>{{labo.labo_id}}</td>
+                <td>{{labo.name}}</td>
                 <td>{{labo.address}}</td>
                 <td>{{labo.phone_number}}</td>
                 <td>{{labo.email}}</td>
-                <td class="text-center">
-                  <button class="btn btn-primary float-right btn-rounded" (click)="deleteLabo(labo.laboId)"><i class="bi bi-pencil-square"></i></button>
-                  <button class="btn btn-danger float-right"
-                  data-bs-toggle="modal" data-bs-target="#myEditModal"
-                  (click)="openEditModal(labo)"><i class="bi bi-trash"></i></button>
+                <td>
+                  <button class="btn button-cus p-1 m-r-3" data-bs-toggle="modal" data-bs-target="#myEditModal"
+                    (click)="openEditModal(labo)">
+                    <i class="bi bi-pencil-square"></i></button>
+                  <button class="btn button-cus p-1"
+
+                  (click)="deleteLabo(labo.labo_id)"> <i
+                      class="bi bi-trash"></i></button>
                 </td>
               </tr>
-              </tbody>
+            </tbody>
           </table>
 
         </div>
@@ -282,3 +237,4 @@
 
 <app-popup-add-labo></app-popup-add-labo>
 <app-popup-edit-labo [LaboEdit]="LaboEdit"></app-popup-edit-labo>
+<app-popup-delete-labo [LaboId]="LaboId"></app-popup-delete-labo>

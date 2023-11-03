@@ -1,4 +1,3 @@
-
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from "@angular/router";
@@ -54,6 +53,8 @@ import { PopupEditSpecimensComponent } from './specimens/popup-edit-specimens/po
 import { PopupEditServiceComponent } from './service/popup-edit-service/popup-edit-service.component';
 import { PopupEditApproveSpecimensComponent } from './pending-specimens/popup-edit-approve-specimens/popup-edit-approve-specimens.component';
 import { PopupEditFacilityComponent } from './facility/popup-edit-facility/popup-edit-facility.component';
+import { PopupEditStaffComponent } from './staff/popup-edit-staff/popup-edit-staff.component';
+
 
 @NgModule({
   declarations: [
@@ -80,14 +81,11 @@ import { PopupEditFacilityComponent } from './facility/popup-edit-facility/popup
       PopupDeleteGroupServiceComponent,
       PopupDeleteMedicineComponent,
       PopupAddMedicineComponent,
-
       PopupAddMaterialComponent,
       PopupDeleteMaterialComponent,
-
       PopupAddLaboComponent,
       PopupEditLaboComponent,
       PopupDeleteLaboComponent,
-
       PopupAddBillExportMaterialComponent,
       PopupAddBillImportMaterialComponent,
       PopupAddFacilityComponent,
@@ -101,9 +99,8 @@ import { PopupEditFacilityComponent } from './facility/popup-edit-facility/popup
       PopupEditSpecimensComponent,
       PopupEditServiceComponent,
       PopupEditApproveSpecimensComponent,
-      PopupEditFacilityComponent
-
-
+      PopupEditFacilityComponent,
+      PopupEditStaffComponent
   ],
   imports: [
     CommonModule,

@@ -1,22 +1,28 @@
 export interface ILabos {
-  laboId:number;
-  labo_name:string;
+  labo_id:string;
+  name:string;
   address:string;
   phone_number:string;
   email:string;
+  description:string;
+  active:number;
 }
 
 export interface IPostLabo {
-  labo_name:string;
+  name:string;
   address:string;
   phone_number:string;
   email:string;
+  description:string;
+  active:number;
 }
 
 
 export interface IEditLabo {
-  labo_name:string;
+  name:string;
   address:string;
   phone_number:string;
   email:string;
+  description:string;
+  active:number;
 }

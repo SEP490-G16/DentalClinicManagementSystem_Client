@@ -1,10 +1,11 @@
-<div class="modal" id="myModal">
+<!-- popup-edit-staff.component.html -->
+<div class="modal" id="editAppointmentModal">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
 
       <!-- Modal Header -->
       <div class="modal-header color-header">
-        <h4 class="modal-title text-center w-100">Thêm nhân viên</h4>
+        <h4 class="modal-title text-center w-100">Chỉnh sửa nhân viên</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
@@ -91,7 +92,7 @@
                 <div class="col-md-9">
                   <select id="role"
                   [(ngModel)]="role"
-                  class="form-select" aria-label="Default select example">
+                  class="form-select" aria-label="Default select example" disabled>
                     <option value="1" selected>Bác sĩ</option>
                     <option value="2">Lễ tân</option>
                     <option value="3">Y tá</option>
@@ -114,51 +115,34 @@
               </div>
             </div>
           </div>
-          <div class="account-staff mt-5">
-            <div class="header-account">Tài khoản đăng nhập</div>
-            <div class="account-content">
-              <div class="form-group row mt-3">
-                <label for="account" class="col-3 name-title">Tên đăng nhập:</label>
-                <div class="col-6">
-                  <input type="text"
-                  [(ngModel)]="staff.username"
-                  id="account" class="form-control value-staff">
-                </div>
-              </div>
-              <div class="form-group row mt-2">
-                <label for="password" class="col-3 name-title">Mật khẩu:</label>
-                <div class="col-6" style="position: relative;">
-                  <div style="position: relative;">
-                    <input [type]="showPassword ? 'password' : 'text'" id="password"
-                    [(ngModel)]="staff.password"
-                    class="form-control value-staff">
-                    <span class="password-toggle-icon" (click)="togglePassword()"><i class="bi" [ngClass]="{'bi-eye-fill': showPassword, 'bi-eye-slash-fill': !showPassword}"></i></span>
-                  </div>
-                </div>
 
-              </div>
-              <div class="form-group row mt-2">
-                <label for="password-repeat" class="col-3 name-title">Nhập lại mật khẩu:</label>
-                <div class="col-6" style="position: relative;">
-                  <div style="position: relative;">
-                    <input [type]="showPasswordRepeat ? 'password' : 'text'" id="password-repeat"
-                    class="form-control value-staff"
-                    [(ngModel)]="passwordRepeat">
-                  <span class="password-toggle-icon" (click)="togglePasswordRepeat()"><i class="bi" [ngClass]="{'bi-eye-fill': showPasswordRepeat, 'bi-eye-slash-fill': !showPasswordRepeat}"></i></span>
-                  </div>
-                </div>
-              </div>
+          <div class="row mt-3">
+            <div class="col-3">
+              <label for="phone">Tình trạng</label>
+            </div>
+            <div class="col-3">
+              <select id="role"
+              [(ngModel)]="status"
+              class="form-select float-start" aria-label="Default select example">
+                <option value="1" selected>Đang làm</option>
+                <option value="2">Nghỉ phép</option>
+                <option value="3">Nghỉ việc</option>
+              </select>
+            </div>
+
+            <div class="col-md-3 name-title">
+              <label for="phone"></label>
+            </div>
+            <div class="col-md-9">
 
             </div>
           </div>
-        </div>
+      </div>
 
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
-          <button type="button" class="btn btn-save" data-bs-dismiss="modal" (click)="addSTAFF()"><i class="bi bi-floppy2"></i> Lưu</button>
-        </div>
-
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-save" data-bs-dismiss="modal" (click)="saveEditedStaff()"><i class="bi bi-floppy2"></i> Lưu</button>
       </div>
     </div>
   </div>

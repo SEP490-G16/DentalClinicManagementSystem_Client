@@ -55,6 +55,8 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     this.startDate = defaultDate;
 
     this.getAppointmentList();
+
+    console.log(this.cognitoService.getUser());
   }
 
   getAppointmentList() {

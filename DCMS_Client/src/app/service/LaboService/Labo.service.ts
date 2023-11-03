@@ -32,7 +32,7 @@ export class LaboService {
     return this.http.post(`${this.apiUrl}/labo`, requestBody, { headers });
   }
 
-  putLabo(laboId:number, PutLaboBody:IEditLabo): Observable<any> {
+  putLabo(laboId:string, PutLaboBody:IEditLabo): Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`,
@@ -42,7 +42,7 @@ export class LaboService {
     return this.http.put(`${this.apiUrl}/labo/${laboId}`, requestBody, { headers });
   }
 
-  deleteLabo(laboId:number):Observable<any> {
+  deleteLabo(laboId:string):Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
 
     const headers = new HttpHeaders({

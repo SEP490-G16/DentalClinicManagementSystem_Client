@@ -786,7 +786,19 @@ main .recent-orders a {
   background-color: rgba(128, 128, 128, 0.637);
 }
 
-.highlight-dates{
-  background: red;
-  border-radius: 100%;
+.button-cus {
+  border: 1px solid #7B4C50;
 }
+
+.ml-2 {
+  margin-left: 20px;
+}
+
+.m-b-1 {
+  margin-bottom: 10px;
+}
+
+.mr-2 {
+  margin-right: 20px;
+}
+
