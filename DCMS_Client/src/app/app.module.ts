@@ -18,10 +18,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import * as AWS from 'aws-sdk';
 import { environment } from 'src/environments/environment';
+import { ChatComponent } from './component/chat/chat.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ChatComponent
   ],
   imports: [
     FormsModule,
