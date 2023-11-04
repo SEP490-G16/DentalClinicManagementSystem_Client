@@ -29,27 +29,57 @@
       <div class="form-group mb-3">
         <label for="dateCreated">Ngày tạo:</label>
         <input type="datetime-local" [(ngModel)]="patient.created_date" [disabled]="!isEditing" class="form-control border-bottom-0">
+        <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+          <p>
+            {{validatePatient.createDate}}
+          </p>
+        </div>
       </div>
       <div class="form-group mb-3">
         <label for="fullName">Họ và Tên:</label>
         <input [(ngModel)]="patient.patient_name" [disabled]="!isEditing" class="form-control border-bottom-0">
+        <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+          <p>
+            {{validatePatient.name}}
+          </p>
+        </div>
       </div>
       <div class="form-group mb-3">
         <label for="gender">Giới tính:</label>
         <input type="radio" [(ngModel)]="patient.gender" [value]="1" [disabled]="!isEditing"> Nam
         <input type="radio" [(ngModel)]="patient.gender" [value]="0" [disabled]="!isEditing"> Nữ
+        <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+          <p>
+            {{validatePatient.gender}}
+          </p>
+        </div>
       </div>
       <div class="form-group mb-3">
         <label for="phone">SĐT:</label>
         <input [(ngModel)]="patient.phone_number" [disabled]="!isEditing" class="form-control border-bottom-0">
+        <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+          <p>
+            {{validatePatient.phone}}
+          </p>
+        </div>
       </div>
       <div class="form-group mb-3">
         <label for="email">Email:</label>
         <input [(ngModel)]="patient.email" [disabled]="!isEditing" class="form-control border-bottom-0">
+        <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+          <p>
+            {{validatePatient.email}}
+          </p>
+        </div>
       </div>
       <div class="form-group mb-3">
         <label for="address">Địa chỉ:</label>
         <input [(ngModel)]="patient.address" [disabled]="!isEditing" class="form-control border-bottom-0">
+        <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+          <p>
+            {{validatePatient.address}}
+          </p>
+        </div>
       </div>
       <div class="form-group mb-3">
         <label for="tsb">Tiền sử bệnh:</label>
@@ -61,7 +91,7 @@
       </div>
     </div>
     <div class="col text-center">
-      <button class="btn btn-custom" (click)="toggleEditing()"> {{ isEditing ? 'Lưu' : 'Cập nhật'
+      <button class="btn btn-custom"  (click)="toggleEditing()"> {{ isEditing ? 'Lưu' : 'Cập nhật'
         }}</button>
     </div>
   </div>

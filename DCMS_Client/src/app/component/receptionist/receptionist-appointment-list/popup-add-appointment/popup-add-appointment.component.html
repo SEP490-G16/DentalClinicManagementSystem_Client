@@ -21,7 +21,7 @@ aria-hidden="true">
                   [(ngModel)]="AppointmentBody.appointment.phone_number"
                   (keydown.enter)="onPhoneInput()"
                   >
-                  <p class="error" style="color: red;">{{phoneErr}}</p>
+                  <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.phoneNumber}}</p>
               </div>
             </div>
             <div class="col-12 col-md-6">
@@ -51,6 +51,7 @@ aria-hidden="true">
                   <option value="2">Nhổ Răng</option>
                   <option value="3">Niềng Răng</option>
                 </select>
+                <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.procedure}}</p>
               </div>
             </div>
             <div class="col-12 col-md-6">
@@ -60,6 +61,7 @@ aria-hidden="true">
                   [(ngModel)]="appointmentTime"
                   [min]="minTime"
                   >
+                <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.appointmentTime}}</p>
               </div>
 
             </div>
@@ -99,12 +101,15 @@ aria-hidden="true">
                         [placement]="'right'"
                         placeholder="Chọn ngày hẹn"
                         >
+
                       <div class="input-group-append">
                         <button class="btn btn-outline-secondary calendar" style="height: 48px;" (click)="d.toggle()" type="button">
                           <i class="bi bi-calendar3"></i>
                         </button>
                       </div>
+
                     </div>
+                    <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.appointmentDate}}</p>
                   </div>
                 </form>
             </div>

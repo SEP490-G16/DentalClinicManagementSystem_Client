@@ -50,7 +50,13 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     { name: 'Bác sĩ B. Trần', specialty: 'Nha khoa', image: 'https://gamek.mediacdn.vn/133514250583805952/2020/6/8/873302766563216418622655364023183338578077n-15915865604311972647945.jpg' },
     { name: 'Bác sĩ C. Lê', specialty: 'Nha khoa', image: 'https://img.verym.com/group1/M00/03/3F/wKhnFlvQGeCAZgG3AADVCU1RGpQ414.jpg' },
   ];
-
+  validateAppointment={
+    phoneNumber:'',
+    procedure:'',
+    appointmentTime:'',
+    appointmentDate:'',
+  }
+  isSubmitted:boolean = false;
   minDate:Date;
   constructor(private APPOINTMENT_SERVICE: ReceptionistAppointmentService,
     private PATIENT_SERVICE: PatientService,
@@ -168,6 +174,27 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     this.EDIT_APPOINTMENT_BODY.appointment.time = this.convertStringToTimestamp(this.dateString, this.timeString).combinedDateTime;
 
     console.log(this.EDIT_APPOINTMENT_BODY);
+    this.resetValidate();
+    if (!this.EDIT_APPOINTMENT_BODY.appointment.procedure){
+      this.validateAppointment.procedure = "Vui lòng chọn loại điều trị!";
+      this.isSubmitted = true;
+    }
+    if (!this.timeString){
+      this.validateAppointment.appointmentTime = "Vui lòng chọn giờ khám!";
+      this.isSubmitted = true;
+    }
+    if (!this.dateString){
+      console.log("abc")
+      this.validateAppointment.appointmentDate = "Vui lòng chọn ngày khám!";
+      this.isSubmitted = true;
+    }
+    if (!this.EDIT_APPOINTMENT_BODY.appointment.phone_number) {
+      this.validateAppointment.phoneNumber = "Vui lòng nhập số điện thoại";
+      this.isSubmitted = true;
+    } else if (!this.isVietnamesePhoneNumber(this.EDIT_APPOINTMENT_BODY.appointment.phone_number)) {
+      this.validateAppointment.phoneNumber  = "Số điện thoại không đúng định dạng. Vui lòng kiểm tra lại";
+      this.isSubmitted = true;
+    }
     // console.log("AppointmentId",this.selectedAppointment.appointment_id);
     this.APPOINTMENT_SERVICE.putAppointment(this.EDIT_APPOINTMENT_BODY, this.selectedAppointment.appointment_id).subscribe(response => {
       console.log("Cập nhật thành công");
@@ -216,5 +243,18 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
       dateTimestamp: dateTimestamp,
       combinedDateTime: combinedTimestamp
     };
+  }
+  private isVietnamesePhoneNumber(number:string):boolean {
+    return /^(\+84|84|0)?[1-9]\d{8}$/
+      .test(number);
+  }
+  private resetValidate(){
+    this.validateAppointment={
+      phoneNumber:'',
+      procedure:'',
+      appointmentTime:'',
+      appointmentDate:'',
+    }
+    this.isSubmitted = true;
   }
 }

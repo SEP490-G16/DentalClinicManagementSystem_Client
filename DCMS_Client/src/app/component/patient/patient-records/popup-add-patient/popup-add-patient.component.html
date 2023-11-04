@@ -24,23 +24,48 @@
               <div class="form-group">
                 <label for="fullName">Họ và tên:</label>
                 <input type="text" [(ngModel)]="patient1.patientName" class="form-control date-input-custom" id="fullName" name="fullName">
+                <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <p>
+                    {{validatePatient.name}}
+                  </p>
+                </div>
               </div>
               <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" [(ngModel)]="patient1.Email" class="form-control date-input-custom" id="email" name="email">
+                <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <p>
+                    {{validatePatient.email}}
+                  </p>
+                </div>
                 <div class="form-group text-center pt-3">
                   <input type="radio" [(ngModel)]="patient1.Gender" [value]="1" class="radio m-2" id="male" name="gender">
                   <label for="male">Nam</label>
                   <input type="radio" [(ngModel)]="patient1.Gender"  [value]="0" class="radio m-2" id="female" name="gender">
                   <label for="female">Nữ</label>
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                    <p>
+                      {{validatePatient.gender}}
+                    </p>
+                  </div>
                 </div>
                 <div class="form-group">
                   <label for="phone">Số điện thoại</label>
                   <input type="text" [(ngModel)]="patient1.phone_Number" class="form-control date-input-custom" id="phone" name="phone">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                    <p>
+                      {{validatePatient.phone}}
+                    </p>
+                  </div>
                 </div>
                 <div class="form-group">
                   <label for="dob">Ngày sinh: </label>
                   <input type="date" [(ngModel)]="patient1.dob" class="form-control date-input-custom" id="dob" name="phone">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                    <p>
+                      {{validatePatient.dob}}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -49,6 +74,11 @@
                 <div class="form-group">
                   <label for="address">Địa chỉ</label>
                   <input type="text" [(ngModel)]="patient1.Address" class="form-control date-input-custom" id="address" name="address">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                    <p>
+                      {{validatePatient.address}}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

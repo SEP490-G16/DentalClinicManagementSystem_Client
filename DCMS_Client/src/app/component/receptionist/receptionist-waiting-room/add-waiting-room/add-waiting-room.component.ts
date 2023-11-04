@@ -35,28 +35,68 @@ export class AddWaitingRoomComponent implements OnInit {
     } as IPostWaitingRoom
 
    }
-
+    validateWatingRoom = {
+      phone:'',
+      procedure:'',
+      status:'',
+      reason:''
+    }
+    isSubmitted:boolean = false;
   ngOnInit(): void {
   }
 
 
   onPhoneInput() {
     // console.log();
-    this.PATIENT_SERVICE.getPatientPhoneNumber(this.phone_number).subscribe((data) => {
-      this.POST_WAITTINGROOM.patient_id = data[0].patient_id;
-      this.POST_WAITTINGROOM.patient_name= data[0].patient_name;
-    },
-    (err) => {
-      this.showErrorToast("Không tìm thấy số điện thoại");
+    this.resetValidate();
+    if (!this.phone_number){
+      this.validateWatingRoom.phone = "Vui lòng nhập số điện thoại!";
+      this.isSubmitted = true;
     }
-    )
+    else if (!this.isVietnamesePhoneNumber(this.phone_number)){
+      this.validateWatingRoom.phone = "Số điện thoại không hợp lệ"
+    }
+    else {
+      this.PATIENT_SERVICE.getPatientPhoneNumber(this.phone_number).subscribe((data) => {
+          this.POST_WAITTINGROOM.patient_id = data[0].patient_id;
+          this.POST_WAITTINGROOM.patient_name= data[0].patient_name;
+        },
+        (err) => {
+          this.showErrorToast("Không tìm thấy số điện thoại");
+        }
+      )
+    }
+
   }
 
   onPostWaitingRoom() {
       //Convert date to timestamp:
       const date = new Date();
       this.POST_WAITTINGROOM.epoch = this.convertDateToTimestampWithGMT7(date);
-
+      this.resetValidate();
+      if (!this.phone_number){
+        this.validateWatingRoom.phone = "Vui lòng nhập số điện thoại!";
+        this.isSubmitted = true;
+      }
+      else if (!this.isVietnamesePhoneNumber(this.phone_number)){
+        this.validateWatingRoom.phone = "Số điện thoại không hợp lệ!";
+        this.isSubmitted = true;
+      }
+      if (!this.POST_WAITTINGROOM.produce){
+        this.validateWatingRoom.procedure="Vui lòng chọn loại điều trị!";
+        this.isSubmitted = true;
+      }
+      if (!this.POST_WAITTINGROOM.status){
+        this.validateWatingRoom.status = "Vui lòng chọn trạng thái!";
+        this.isSubmitted = true;
+      }
+      if (!this.POST_WAITTINGROOM.reason){
+        this.validateWatingRoom.reason = "Vui lòng nhập lý do khám!";
+        this.isSubmitted = true;
+      }
+      if (this.isSubmitted){
+        return;
+      }
       this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
       .subscribe((data) => {
         this.showSuccessToast("Thêm phòng chờ thành công!!");
@@ -117,5 +157,17 @@ export class AddWaitingRoomComponent implements OnInit {
       status: 0
     } as IPostWaitingRoom
   }
-
+  private resetValidate(){
+    this.validateWatingRoom = {
+      phone:'',
+      procedure:'',
+      status:'',
+      reason:''
+    }
+    this.isSubmitted = false;
+  }
+  private isVietnamesePhoneNumber(number:string):boolean {
+    return /^(\+84|84|0)?[1-9]\d{8}$/
+      .test(number);
+  }
 }

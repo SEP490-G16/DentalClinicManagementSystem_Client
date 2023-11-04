@@ -26,6 +26,16 @@ export class PatientProfileTabComponent implements OnInit {
     description:''
 
   }
+  validatePatient = {
+    name:'',
+    gender:'',
+    phone:'',
+    address:'',
+    dob:'',
+    email:'',
+    createDate:''
+  }
+  isSubmitted:boolean = false;
   ngOnInit(): void {
     this.id=this.route.snapshot.params['id'];
     this.getPatient(this.id);
@@ -51,8 +61,41 @@ export class PatientProfileTabComponent implements OnInit {
 
   toggleEditing() {
     this.isEditing = !this.isEditing;
+
     if (this.isEditing==false){
       console.log(this.isEditing)
+      this.resetValidate();
+      if (!this.patient.patient_name){
+        this.validatePatient.name = "Vui lòng nhập tên bệnh nhân!";
+        this.isSubmitted = true;
+      }
+      if (!this.patient.created_date){
+        this.validatePatient.createDate = "Vui lòng nhập ngày tạo hồ sơ!";
+        this.isSubmitted = true;
+      }
+      if (this.patient.email && !this.isValidEmail(this.patient.email)){
+        this.validatePatient.email = "Email không hợp lệ!";
+        this.isSubmitted = true;
+      }
+      if (!this.patient.gender){
+        this.validatePatient.gender = "Vui lòng chọn giới tính!";
+        this.isSubmitted = true;
+      }
+      if (!this.patient.phone_number){
+        this.validatePatient.phone = "Vui lòng nhập số điện thoại!";
+        this.isSubmitted = true;
+      }
+      else if (!this.isVietnamesePhoneNumber(this.patient.phone_number)){
+        this.validatePatient.phone = "Số điện thoại không hợp lệ!";
+        this.isSubmitted = true;
+      }
+      if (!this.patient.address){
+        this.validatePatient.address = "Vui lòng nhập địa chỉ!";
+        this.isSubmitted = true;
+      }
+      if (this.isSubmitted){
+        return;
+      }
       this.patientBody = {
         created_date: this.patient.created_date,
         patient_name: this.patient.patient_name,
@@ -77,5 +120,24 @@ export class PatientProfileTabComponent implements OnInit {
       console.log(data);
     })
   }
-
+  private resetValidate(){
+    this.validatePatient = {
+      name:'',
+      gender:'',
+      phone:'',
+      address:'',
+      dob:'',
+      email: '',
+      createDate:''
+    }
+    this.isSubmitted = false;
+  }
+  private isVietnamesePhoneNumber(number:string):boolean {
+    return /^(\+84|84|0)?[1-9]\d{8}$/
+      .test(number);
+  }
+  private isValidEmail(email: string): boolean {
+    // Thực hiện kiểm tra địa chỉ email ở đây, có thể sử dụng biểu thức chính quy
+    return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email);
+  }
 }

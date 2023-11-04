@@ -18,6 +18,11 @@ export class PopupAddServiceComponent implements OnInit {
     price:'',
     serviceGroupName:'',
   }
+  validateService={
+    serviceName:'',
+    price:'',
+    serviceGroupName:'',
+  }
   serviceBody={
     name:'',
     mp_description:'',
@@ -25,8 +30,7 @@ export class PopupAddServiceComponent implements OnInit {
     medical_procedure_group_id:'',
   }
   medicalProcedureGroups:any;
-  isNotPositiveNumber: boolean = false;
-  isCheckSelect:boolean = false;
+  isSubmitted:boolean = false;
   constructor(private medicalProcedureService:MedicalProcedureService,
               private toastr: ToastrService,
               private medicalProcedureGroupService:MedicalProcedureGroupService) { }
@@ -34,17 +38,29 @@ export class PopupAddServiceComponent implements OnInit {
   ngOnInit(): void {
     this.getMedicalProcedureGroupList();
   }
-  checkPositiveNumber() {
-    const price = parseFloat(this.service.price);
-    if (price <= 0 || isNaN(price)) {
-      this.isNotPositiveNumber = true;
-    } else {
-      this.isNotPositiveNumber = false;
-    }
+  private checkNumber(number:any):boolean{
+    return /^[1-9]\d*$/.test(number);
   }
   addMedicalProcedure(){
-    if (this.service.serviceGroupName == null){
-      this.isCheckSelect = true;
+    this.resetValidate();
+    if (!this.service.serviceGroupName){
+      this.validateService.serviceGroupName = "Vui lòng chọn nhóm thủ thuật!"
+      this.isSubmitted = true;
+    }
+    if (!this.service.serviceName){
+      this.validateService.serviceName = "Vui lòng nhập tên thủ thuật!"
+      this.isSubmitted = true
+    }
+    if (!this.service.price){
+      this.validateService.price = "Vui lòng nhập đơn giá"
+      this.isSubmitted = true;
+    }
+    else if (!this.checkNumber(this.service.price)){
+      this.validateService.price = "Đơn giá là số dương!";
+      this.isSubmitted = true;
+    }
+    if (this.isSubmitted){
+      return;
     }
     this.serviceBody={
       name:this.service.serviceName,
@@ -65,5 +81,13 @@ export class PopupAddServiceComponent implements OnInit {
       console.log(res);
       this.medicalProcedureGroups = res.data;
     })
+  }
+  private resetValidate(){
+    this.validateService={
+      serviceName:'',
+      price:'',
+      serviceGroupName:'',
+    }
+    this.isSubmitted = false;
   }
 }

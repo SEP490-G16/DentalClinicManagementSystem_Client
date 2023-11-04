@@ -24,6 +24,12 @@ export class PopupEditServiceComponent implements OnChanges {
     price:'',
     medical_procedure_group_id:'',
   }
+  validateService={
+    serviceName:'',
+    price:'',
+    serviceGroupName:'',
+  }
+  isSubmitted:boolean = false;
   medicalProcedureGroups:any;
   constructor(private medicalProcedureService: MedicalProcedureService,
               private medicalProcedureGroupService:MedicalProcedureGroupService,
@@ -32,7 +38,9 @@ export class PopupEditServiceComponent implements OnChanges {
   ngOnInit(): void {
     this.getMedicalProcedureGroupList();
   }
-
+  private checkNumber(number:any):boolean{
+    return /^[1-9]\d*$/.test(number);
+  }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['id']){
       this.getMedicalProcedure(this.id);
@@ -58,6 +66,26 @@ export class PopupEditServiceComponent implements OnChanges {
     })
   }
   updateMedicalProcedure(){
+    this.resetValidate();
+    if (!this.service.serviceGroupName){
+      this.validateService.serviceGroupName = "Vui lòng chọn nhóm thủ thuật!"
+      this.isSubmitted = true;
+    }
+    if (!this.service.serviceName){
+      this.validateService.serviceName = "Vui lòng nhập tên thủ thuật!"
+      this.isSubmitted = true
+    }
+    if (!this.service.price){
+      this.validateService.price = "Vui lòng nhập đơn giá"
+      this.isSubmitted = true;
+    }
+    else if (!this.checkNumber(this.service.price)){
+      this.validateService.price = "Đơn giá là số dương!";
+      this.isSubmitted = true;
+    }
+    if (this.isSubmitted){
+      return;
+    }
     this.serviceBody={
       name:this.service.serviceName,
       mp_description:this.service.description,
@@ -73,5 +101,13 @@ export class PopupEditServiceComponent implements OnChanges {
       error => {
       this.toastr.error('Cập nhật thủ thuật thất bại!');
       })
+  }
+  private resetValidate(){
+    this.validateService={
+      serviceName:'',
+      price:'',
+      serviceGroupName:'',
+    }
+    this.isSubmitted = false;
   }
 }

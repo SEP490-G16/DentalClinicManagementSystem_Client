@@ -44,8 +44,13 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
       { year: 2020, month: 8, day: 25 }
     ]
   };
-
-
+  validateAppointment={
+    phoneNumber:'',
+    procedure:'',
+    appointmentTime:'',
+    appointmentDate:'',
+  }
+  isSubmitted:boolean = false;
   seedDateDisabled = [
     {
         "date": 1698836571,
@@ -180,13 +185,16 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   ngOnInit(): void {
   }
 
-
+  private isVietnamesePhoneNumber(number:string):boolean {
+    return /^(\+84|84|0)?[1-9]\d{8}$/
+      .test(number);
+  }
   phoneErr: string = "";
   onPhoneInput() {
 
     if (this.AppointmentBody.appointment.phone_number === "") {
-      this.phoneErr = "Phone is required";
-    } else if (!this.phoneRegex.test(this.AppointmentBody.appointment.phone_number)) {
+      this.phoneErr = "Vui lòng nhập số điện thoại";
+    } else if (!this.isVietnamesePhoneNumber(this.AppointmentBody.appointment.phone_number)) {
       this.phoneErr = "Số điện thoại không đúng định dạng. Vui lòng kiểm tra lại";
     } else {
       this.phoneErr = "";
@@ -247,12 +255,27 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
 
     console.log("a ", dateTimestamp);
     // Gọi API POST
-
-    if (this.AppointmentBody.appointment.phone_number === "") {
-      this.phoneErr = "Phone is required";
-    } else if (!this.phoneRegex.test(this.AppointmentBody.appointment.phone_number)) {
-      this.phoneErr = "Số điện thoại không đúng định dạng. Vui lòng kiểm tra lại";
-    } else {
+    this.resetValidate();
+    if (!this.AppointmentBody.appointment.procedure){
+      this.validateAppointment.procedure = "Vui lòng chọn loại điều trị!";
+      this.isSubmitted = true;
+    }
+    if (!this.appointmentTime){
+      this.validateAppointment.appointmentTime = "Vui lòng chọn giờ khám!";
+      this.isSubmitted = true;
+    }
+    if (!this.appointmentDate){
+      this.validateAppointment.appointmentDate = "Vui lòng chọn ngày khám!";
+      this.isSubmitted = true;
+    }
+    if (!this.AppointmentBody.appointment.phone_number) {
+      this.validateAppointment.phoneNumber = "Vui lòng nhập số điện thoại";
+      this.isSubmitted = true;
+    } else if (!this.isVietnamesePhoneNumber(this.AppointmentBody.appointment.phone_number)) {
+      this.validateAppointment.phoneNumber  = "Số điện thoại không đúng định dạng. Vui lòng kiểm tra lại";
+      this.isSubmitted = true;
+    }
+    else {
       this.phoneErr = "";
 
       this.APPOINTMENT_SERVICE.postAppointment(this.AppointmentBody).subscribe(
@@ -317,4 +340,13 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     { name: 'Bác sĩ B. Trần', specialty: 'Nha khoa', image: 'https://gamek.mediacdn.vn/133514250583805952/2020/6/8/873302766563216418622655364023183338578077n-15915865604311972647945.jpg' },
     { name: 'Bác sĩ C. Lê', specialty: 'Nha khoa', image: 'https://img.verym.com/group1/M00/03/3F/wKhnFlvQGeCAZgG3AADVCU1RGpQ414.jpg' },
   ];
+  private resetValidate(){
+    this.validateAppointment={
+      phoneNumber:'',
+      procedure:'',
+      appointmentTime:'',
+      appointmentDate:'',
+    }
+    this.isSubmitted = true;
+  }
 }

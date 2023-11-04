@@ -23,7 +23,7 @@ export class PopupAddLaboComponent implements OnInit {
       phone_number: '',
       email: ''
     };
-
+  isSubmitted:boolean=false;
   constructor(
     private PostLaboService: LaboService,
     private toastr: ToastrService
@@ -43,6 +43,35 @@ export class PopupAddLaboComponent implements OnInit {
   }
 
   PostLabo() {
+    this.resetErrors();
+    if (!this.Labo.name){
+      this.LaboErrors.labo_name = "Vui lòng nhập tên labo!";
+      this.isSubmitted = true;
+    }
+    if (!this.Labo.address){
+      this.LaboErrors.address = "Vui lòng nhập địa chỉ!";
+      this.isSubmitted =true;
+    }
+    if (!this.Labo.phone_number){
+      this.LaboErrors.phone_number = "Vui lòng nhập số điện thoại!";
+      this.isSubmitted = true;
+    }
+    else if (!this.isVietnamesePhoneNumber(this.Labo.phone_number)){
+      this.LaboErrors.phone_number = "Số điện thoại không hợp lệ!";
+      this.isSubmitted = true;
+    }
+    if (!this.Labo.email){
+      this.LaboErrors.email = "Vui lòng nhập email!";
+      this.isSubmitted = true;
+    }
+    else if (!this.isValidEmail(this.Labo.email)){
+      this.LaboErrors.email = "Email không hợp lệ!";
+    }
+    if (this.isSubmitted){
+      return;
+    }
+
+
     // Tiến hành gửi dữ liệu nếu không có lỗi
     this.PostLaboService.postLabo(this.Labo)
       .subscribe(
@@ -75,8 +104,12 @@ export class PopupAddLaboComponent implements OnInit {
       phone_number: '',
       email: ''
     };
+    this.isSubmitted = false;
   }
-
+  private isVietnamesePhoneNumber(number:string):boolean {
+    return /^(\+84|84|0)?[1-9]\d{8}$/
+      .test(number);
+  }
 
   private isValidEmail(email: string): boolean {
     // Thực hiện kiểm tra địa chỉ email ở đây, có thể sử dụng biểu thức chính quy

@@ -27,7 +27,7 @@ export class PopupAddGroupServiceComponent implements OnInit {
   ngOnInit(): void {
   }
   addMedicalProcedureGroup(){
-    if (this.serviceGroup.serviceGroupName == "") {
+    if (!this.serviceGroup.serviceGroupName) {
       this.isCheckName = true;
       return;
     }

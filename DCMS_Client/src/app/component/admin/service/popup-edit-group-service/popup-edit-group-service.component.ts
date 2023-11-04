@@ -19,6 +19,7 @@ export class PopupEditGroupServiceComponent implements OnChanges {
     serviceGroupName: '',
     description: ''
   }
+  isCheckName:boolean=false;
   constructor(private medicalProcedureGroupService: MedicalProcedureGroupService,
               private toastr:ToastrService) {
   }
@@ -33,7 +34,12 @@ export class PopupEditGroupServiceComponent implements OnChanges {
       description: this.description
     }
   }
+
   updateServiceGroup(){
+    if (!this.serviceGroup.serviceGroupName) {
+      this.isCheckName = true;
+      return;
+    }
     this.serviceGroupBody={
       name: this.serviceGroup.serviceGroupName,
       description: this.serviceGroup.description

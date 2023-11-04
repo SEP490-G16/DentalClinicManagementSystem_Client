@@ -17,6 +17,11 @@
                 <label for="groupServiceName" class="col-3 name-title">Tên nhóm thủ thuật:</label>
                 <div class="col-9 value-staff">
                   <input type="text" [(ngModel)]="serviceGroup.serviceGroupName" class="form-control" id="groupServiceName" name="groupServiceName">
+                  <div *ngIf="isCheckName"  class="alert-danger-custom" style="color:#FF0000FF;">
+                    <div>
+                      Tên nhóm thủ thuật không được bỏ trống!
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="form-group row mt-3">

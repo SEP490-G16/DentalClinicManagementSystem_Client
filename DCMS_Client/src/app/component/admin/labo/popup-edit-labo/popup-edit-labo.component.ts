@@ -25,7 +25,7 @@ export class PopupEditLaboComponent implements OnInit, OnChanges {
     phone_number: '',
     email: ''
   };
-
+  isSubmitted:boolean=false;
   constructor(
     private EditLaboService:LaboService,
     private toastr:ToastrService
@@ -61,21 +61,32 @@ export class PopupEditLaboComponent implements OnInit, OnChanges {
 
   PutLaboAPI() {
     this.resetErrors(); // Đặt lại thông báo lỗi trước khi kiểm tra lại
-    // if (!this.PutLabo.name) {
-    //   this.EditLaboErrors.labo_name = 'Tên labo không được để trống';
-    // }
-    // if (!this.PutLabo.address) {
-    //   this.EditLaboErrors.address = 'Địa chỉ không được để trống';
-    // }
-    // if (!this.PutLabo.phone_number) {
-    //   this.EditLaboErrors.phone_number = 'Số điện thoại không được để trống';
-    // }
-    // if (!this.PutLabo.email) {
-    //   this.EditLaboErrors.email = 'Email không được để trống';
-    // } else if (!this.isValidEmail(this.PutLabo.email)) {
-    //   this.EditLaboErrors.email = 'Địa chỉ email không hợp lệ';
-    // }
-
+    if (!this.PutLabo.name) {
+      this.EditLaboErrors.labo_name = 'Vui lòng nhập tên labo';
+      this.isSubmitted = true;
+    }
+    if (!this.PutLabo.address) {
+      this.EditLaboErrors.address = 'Vui lòng nhập địa chỉ';
+      this.isSubmitted = true;
+    }
+    if (!this.PutLabo.phone_number) {
+      this.EditLaboErrors.phone_number = 'Vui lòng nhập số điện thoại';
+      this.isSubmitted = true;
+    }
+    else if (!this.isVietnamesePhoneNumber(this.PutLabo.phone_number)){
+      this.EditLaboErrors.phone_number = "Số điện thoại không hợp lệ!";
+      this.isSubmitted = true;
+    }
+    if (!this.PutLabo.email) {
+      this.EditLaboErrors.email = 'Vui lòng nhập email!';
+      this.isSubmitted = true;
+    } else if (!this.isValidEmail(this.PutLabo.email)) {
+      this.EditLaboErrors.email = 'Email không hợp lệ!';
+      this.isSubmitted = true;
+    }
+    if (this.isSubmitted){
+      return;
+    }
     // console.log()
     // if (this.hasErrors()) {
     //   this.showErrorToast("Vui lòng kiểm tra và điền đầy đủ thông tin cần thiết.");
@@ -112,12 +123,16 @@ export class PopupEditLaboComponent implements OnInit, OnChanges {
       phone_number: '',
       email: ''
     };
+    this.isSubmitted = false;
   }
 
   private hasErrors() {
     return Object.values(this.EditLaboErrors).some((error) => error !== '');
   }
-
+  private isVietnamesePhoneNumber(number:string):boolean {
+    return /^(\+84|84|0)?[1-9]\d{8}$/
+      .test(number);
+  }
   private isValidEmail(email: string): boolean {
     // Thực hiện kiểm tra địa chỉ email ở đây, có thể sử dụng biểu thức chính quy
     return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email);

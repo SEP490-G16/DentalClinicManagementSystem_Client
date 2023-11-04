@@ -19,28 +19,28 @@
                 <label for="name" class="col-3">Tên labo:</label>
                 <div class="col-9">
                   <input type="text" class="form-control" id="name" name="name" [(ngModel)]="Labo.name">
-                  <p class="error" style="color: red;">{{LaboErrors.labo_name}}</p>
+                  <p *ngIf="isSubmitted" class="error" style="color: red;">{{LaboErrors.labo_name}}</p>
                 </div>
               </div>
               <div class="form-group row mt-3">
                 <label for="address" class="col-3">Địa chỉ:</label>
                 <div class="col-9">
                   <input type="text" class="form-control" id="address" name="address" [(ngModel)]="Labo.address">
-                  <p class="error" style="color: red;">{{LaboErrors.address}}</p>
+                  <p *ngIf="isSubmitted" class="error" style="color: red;">{{LaboErrors.address}}</p>
                 </div>
               </div>
               <div class="form-group row mt-3">
                 <label for="phone_number" class="col-3">Số điện thoại:</label>
                 <div class="col-9">
                   <input type="text" class="form-control" id="phone_number" name="phone_number" [(ngModel)]="Labo.phone_number">
-                  <p class="error" style="color: red;">{{LaboErrors.phone_number}}</p>
+                  <p *ngIf="isSubmitted" class="error" style="color: red;">{{LaboErrors.phone_number}}</p>
                 </div>
               </div>
               <div class="form-group row mt-3">
                 <label for="email" class="col-3">Email:</label>
                 <div class="col-9">
                   <input type="text" class="form-control" id="email" name="email" [(ngModel)]="Labo.email">
-                  <p class="error" style="color: red;">{{LaboErrors.email}}</p>
+                  <p *ngIf="isSubmitted" class="error" style="color: red;">{{LaboErrors.email}}</p>
                 </div>
               </div>
             </div>
@@ -50,7 +50,7 @@
         <!-- Modal footer -->
         <div class="modal-footer">
           <button type="button" class="btn btn-cancel" data-bs-dismiss="modal" (click)="close()">Hủy</button>
-          <button type="button" class="btn btn-save" data-bs-dismiss="modal" (click)="PostLabo()">
+          <button type="button" class="btn btn-save" (click)="PostLabo()">
             <i class="bi bi-floppy2"></i> Lưu</button>
         </div>
 

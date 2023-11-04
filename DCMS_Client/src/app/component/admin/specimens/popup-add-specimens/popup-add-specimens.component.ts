@@ -10,6 +10,17 @@ import {PatientService} from "../../../../service/PatientService/patient.service
 })
 export class PopupAddSpecimensComponent implements OnInit {
 
+  validateSpecimens = {
+    name:'',
+    type:'',
+    receiverDate:'',
+    orderer:'',
+    usedDate:'',
+    quantity:'',
+    price:'',
+    orderDate:'',
+    receiver:'',
+  }
   specimen={
     name:'',
     type:'',
@@ -37,6 +48,7 @@ export class PopupAddSpecimensComponent implements OnInit {
   }
   patients:any[]=[];
   patientId:any;
+  isSubmitted:boolean = false;
   constructor(private medicalSupplyService: MedicalSupplyService,
               private toastr: ToastrService,
               private patientSerivce:PatientService) { }
@@ -48,6 +60,54 @@ export class PopupAddSpecimensComponent implements OnInit {
    this.specimen.total = total.toString();
   }
   addMedicalSupply(){
+    this.resetValidate();
+    if (!this.specimen.name){
+      this.validateSpecimens.name = 'Vui lòng nhập tên mẫu!';
+      this.isSubmitted = true;
+    }
+    if (!this.specimen.type){
+      this.validateSpecimens.type = 'Vui lòng nhập chất liệu!';
+      this.isSubmitted = true;
+    }
+    if (!this.specimen.receiverDate){
+      this.validateSpecimens.receiverDate = 'Vui lòng nhập ngày nhận!';
+      this.isSubmitted = true;
+    }
+    if (!this.specimen.orderer){
+      this.validateSpecimens.orderer = 'Vui lòng nhập người dặt!';
+      this.isSubmitted = true;
+    }
+    if(!this.specimen.usedDate){
+      this.validateSpecimens.usedDate = 'Vui lòng nhập ngày lắp!';
+      this.isSubmitted = true;
+    }
+    if (!this.specimen.quantity){
+      this.validateSpecimens.quantity = 'Vui lòng nhập số lượng!';
+      this.isSubmitted = true;
+    }
+    else if (!this.checkNumber(this.specimen.quantity)){
+      this.validateSpecimens.quantity = 'Vui lòng nhập số dương!';
+      this.isSubmitted = true;
+    }
+    if (!this.specimen.price){
+      this.validateSpecimens.price = 'Vui lòng nhập đơn giá!';
+      this.isSubmitted = true;
+    }
+    else if (!this.checkNumber(this.specimen.price)){
+      this.validateSpecimens.price = 'Vui lòng nhập số dương!'
+      this.isSubmitted = true;
+    }
+    if (!this.specimen.orderDate){
+      this.validateSpecimens.orderDate = 'Vui lòng nhập ngày đặt!';
+      this.isSubmitted = true;
+    }
+    if (!this.specimen.receiver){
+      this.validateSpecimens.receiver = 'Vui lòng nhập bệnh nhân';
+      this.isSubmitted = true;
+    }
+    if (this.isSubmitted){
+      return;
+    }
     let orderDate = new Date(this.specimen.orderDate);
     let receivedDate = new Date(this.specimen.receiverDate);
     let usedDate = new Date(this.specimen.usedDate);
@@ -88,5 +148,22 @@ export class PopupAddSpecimensComponent implements OnInit {
     this.patientId = patient.patient_id;
     // Xóa danh sách kết quả
     this.patients = [];
+  }
+  private resetValidate(){
+    this.validateSpecimens = {
+      name:'',
+      type:'',
+      receiverDate:'',
+      orderer:'',
+      usedDate:'',
+      quantity:'',
+      price:'',
+      orderDate:'',
+      receiver:'',
+    }
+    this.isSubmitted = false;
+  }
+  private checkNumber(number:any):boolean{
+    return /^[1-9]\d*$/.test(number);
   }
 }

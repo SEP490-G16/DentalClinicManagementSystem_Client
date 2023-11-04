@@ -16,12 +16,7 @@
                 <div class="form-group row mt-3">
                   <label for="groupServiceName" class="col-3 name-title">Tên nhóm thủ thuật:</label>
                   <div class="col-9 value-staff">
-                    <input type="text" [(ngModel)]="serviceGroup.serviceGroupName" required  class="form-control" id="groupServiceName" name="serviceGroupName" #name="ngModel">
-                    <div *ngIf="name.invalid && (name.dirty || name.touched)"  class="alert-danger-custom" style="color:#FF0000FF;">
-                      <div *ngIf="name.errors?.['required']">
-                        Tên nhóm thủ thuật không được bỏ trống!
-                      </div>
-                    </div>
+                    <input type="text" [(ngModel)]="serviceGroup.serviceGroupName" class="form-control" id="groupServiceName" name="serviceGroupName">
                     <div *ngIf="isCheckName"  class="alert-danger-custom" style="color:#FF0000FF;">
                       <div>
                         Tên nhóm thủ thuật không được bỏ trống!
