@@ -1,20 +1,24 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
 <div class="web-wrapper">
   <div class="container-custom">
     <!-- Sidebar Section -->
     <aside>
-      <div class="toggle">
-        <div class="logo">
-          <img src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
-          <p><span class="danger">Nguyen Tran</span> Clinic</p>
-        </div>
-        <div class="close" id="close-btn">
-          <span class="material-icons-sharp">
-            close
-          </span>
-        </div>
-      </div>
 
       <div class="sidebar">
+        <div class="toggle">
+          <div class="logo">
+            <img
+              src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
+            <p><span class="danger">Nguyen Tran</span> Clinic</p>
+          </div>
+          <div class="close" id="close-btn">
+            <span class="material-icons-sharp">
+              close
+            </span>
+          </div>
+        </div>
         <a routerLink="/receptionist/appointment" class="active">
           <span class="material-icons-sharp">
             dashboard
@@ -64,7 +68,7 @@
                 <circle cx="38" cy="38" r="36"></circle>
               </svg>
               <div class="percentage">
-                <p>+81%</p>
+                <i class="bi bi-calendar3"></i>
               </div>
             </div>
           </div>
@@ -80,7 +84,7 @@
                 <circle cx="38" cy="38" r="36"></circle>
               </svg>
               <div class="percentage">
-                <p>-48%</p>
+                <i class="bi bi-houses"></i>
               </div>
             </div>
           </div>
@@ -96,9 +100,22 @@
                 <circle cx="38" cy="38" r="36"></circle>
               </svg>
               <div class="percentage">
-                <p>+21%</p>
+                <i class="bi bi-person-standing"></i>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div class="profile">
+          <div class="icon">
+
+          </div>
+          <div class="info">
+            <p>Xin chào, <b>Linh</b></p>
+            <small class="text-muted">Lễ tân</small>
+          </div>
+          <div class="profile-photo">
+            <img src="../../../../assets/img/person.png">
           </div>
         </div>
       </div>
@@ -112,7 +129,8 @@
         <section class="table__header">
           <h1></h1>
           <div class="input-group">
-            <input type="search search-custom" placeholder="Tìm kiếm theo tên, mã bệnh nhân..." [(ngModel)]="searchText" (input)="searchAppointments()">
+            <input type="search" placeholder="Tìm kiếm theo tên, mã bệnh nhân..." [(ngModel)]="searchText"
+              (input)="searchAppointments()">
           </div>
           <div class="export__file">
           </div>
@@ -120,20 +138,22 @@
 
         <div class="row mt-5 mb-5">
           <div class="col-6">
-            <button class="btn btn-add-custom" data-bs-toggle="modal" data-bs-target="#myModal"
-            (click)="openAddAppointmentModal()"
-            ><i
-                class="bi bi-plus-circle"></i>
+            <button class="btn button-timekeeping"
+            style="margin-right: 30px;"
+            data-bs-toggle="modal" data-bs-target="#myModal"
+              (click)="openAddAppointmentModal()"><i class="bi bi-plus-circle"></i>
               Thêm
               lịch hẹn</button>
-            <button class="btn btn-add-custom" data-bs-toggle="modal" data-bs-target="#myBNModal"><i
+            <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myBNModal"><i
                 class="bi bi-plus-circle"></i> Thêm
               bệnh nhân</button>
           </div>
           <div class="col-6">
-            <input type="datetime-local" class="date-input-custom" [(ngModel)]="startDate" (change)="getAppointmentList()">
+            <input type="datetime-local" class="date-input-custom" [(ngModel)]="startDate"
+              (change)="getAppointmentList()">
 
-            <select class="form-select input-custom float-end" aria-label="Default select example" [(ngModel)]="selectedProcedure" (change)="filterAppointments()">
+            <select class="form-select input-custom float-end" aria-label="Default select example"
+              [(ngModel)]="selectedProcedure" (change)="filterAppointments()">
               <option selected value="">Phân loại điều trị</option>
               <option value="1">Cạo vôi răng</option>
               <option value="2">Nhổ Răng</option>
@@ -141,7 +161,8 @@
             </select>
           </div>
         </div>
-        <h2>Lịch hẹn</h2>
+        <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px;">Lịch hẹn</h2>
+
         <div style="overflow-y: auto; height: 300px;">
           <table>
             <thead>
@@ -157,36 +178,39 @@
               </tr>
             </thead>
             <tbody>
-            <ng-container *ngFor="let a of filteredAppointments">
-              <ng-container *ngFor="let ap of a.appointments">
-                <tr *ngFor="let detail of ap.details">
-                  <td>
-                    <!--HE153724-->
-                    {{detail.patient_id}}
-                  </td>
-                  <td>
-                    {{detail.patient_name}}
-                  </td>
-                  <td>
-                    {{detail.phone_number}}
-                  </td>
-                  <td>
-                    {{ (detail.procedure == 1) ? 'Cạo vôi răng' : ((detail.procedure == 2) ? 'Nhổ răng' : 'Niềng Răng') }}
-                  </td>
-                  <td>{{ detail.doctor }}</td>
-                  <td> {{ convertTimestampToDateString(a.date)}} {{convertTimestampToTimesString(detail.time)}}</td>
-                  <td>
-                    <button class="btn btn-edit-custom" data-bs-toggle="modal" data-bs-target="#editAppointmentModal" (click)="openEditModal(detail, a.date)">
-                      <i class="bi bi-edit-circle"></i> Sửa lịch hẹn
-                    </button>
-                  </td>
-                  <td>
-                    <a routerLink="/receptionist/waitingroom" style="width: 100px; color: black;" class="btn btn-redirect">Đến hàng chờ</a>
-                  </td>
-                </tr>
-              </ng-container>
+              <ng-container *ngFor="let a of filteredAppointments">
+                <ng-container *ngFor="let ap of a.appointments">
+                  <tr *ngFor="let detail of ap.details">
+                    <td>
+                      <!--HE153724-->
+                      {{detail.patient_id}}
+                    </td>
+                    <td>
+                      {{detail.patient_name}}
+                    </td>
+                    <td>
+                      {{detail.phone_number}}
+                    </td>
+                    <td>
+                      {{ (detail.procedure == 1) ? 'Cạo vôi răng' : ((detail.procedure == 2) ? 'Nhổ răng' : 'Niềng
+                      Răng') }}
+                    </td>
+                    <td>{{ detail.doctor }}</td>
+                    <td> {{ convertTimestampToDateString(a.date)}} {{convertTimestampToTimesString(detail.time)}}</td>
+                    <td>
+                      <button class="btn btn-edit-custom" data-bs-toggle="modal" data-bs-target="#editAppointmentModal"
+                        (click)="openEditModal(detail, a.date)">
+                        <i class="bi bi-pencil-square"></i>
+                      </button>
+                    </td>
+                    <td>
+                      <a routerLink="/receptionist/waitingroom" style="width: 100px; color: black;"
+                        class="btn btn-redirect">Đến hàng chờ</a>
+                    </td>
+                  </tr>
+                </ng-container>
 
-            </ng-container>
+              </ng-container>
 
             </tbody>
           </table>
@@ -198,84 +222,9 @@
     </main>
     <!-- End of Main Content -->
 
-    <div class="right-section">
-      <div class="nav">
-        <button id="menu-btn">
-          <span class="material-icons-sharp">
-            menu
-          </span>
-        </button>
-        <div class="dark-mode">
-          <span class="material-icons-sharp active">
-            light_mode
-          </span>
-          <span class="material-icons-sharp">
-            dark_mode
-          </span>
-        </div>
 
-        <div class="profile">
-          <div class="info">
-            <p>Xin chào, <b>Linh</b></p>
-            <small class="text-muted">Lễ tân</small>
-          </div>
-          <div class="profile-photo">
-            <img src="../../../../assets/img/person.png">
-          </div>
-        </div>
 
-      </div>
-      <!-- End of Nav -->
 
-      <div class="reminders">
-        <div class="header">
-          <h2>Thông báo</h2>
-          <span class="material-icons-sharp">
-            notifications_none
-          </span>
-        </div>
-
-        <div class="notification">
-          <div class="icon">
-            <span class="material-icons-sharp">
-              volume_up
-            </span>
-          </div>
-          <div class="content">
-            <div class="info">
-              <h3>Workshop</h3>
-              <small class="text_muted">
-                08:00 AM - 12:00 PM
-              </small>
-            </div>
-            <span class="material-icons-sharp">
-              more_vert
-            </span>
-          </div>
-        </div>
-
-        <div class="notification deactive">
-          <div class="icon">
-            <span class="material-icons-sharp">
-              edit
-            </span>
-          </div>
-          <div class="content">
-            <div class="info">
-              <h3>Workshop</h3>
-              <small class="text_muted">
-                08:00 AM - 12:00 PM
-              </small>
-            </div>
-            <span class="material-icons-sharp">
-              more_vert
-            </span>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
 
 
   </div>
@@ -284,4 +233,5 @@
 
 <app-popup-add-appointment [datesDisabled]="datesDisabled"></app-popup-add-appointment>
 
-<app-popup-edit-appointment [datesDisabled]="datesDisabled" [selectedAppointment]="selectedAppointment" [dateString]="dateString" [timeString]="timeString"></app-popup-edit-appointment>
+<app-popup-edit-appointment [datesDisabled]="datesDisabled" [selectedAppointment]="selectedAppointment"
+  [dateString]="dateString" [timeString]="timeString"></app-popup-edit-appointment>

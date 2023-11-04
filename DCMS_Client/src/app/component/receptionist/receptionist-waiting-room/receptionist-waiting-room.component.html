@@ -1,21 +1,25 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
+
 <div class="web-wrapper">
   <div class="container-custom">
     <!-- Sidebar Section -->
     <aside>
-      <div class="toggle">
-        <div class="logo">
-          <img
-            src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
-          <p><span class="danger">Nguyen Tran</span> Clinic</p>
-        </div>
-        <div class="close" id="close-btn">
-          <span class="material-icons-sharp">
-            close
-          </span>
-        </div>
-      </div>
 
       <div class="sidebar">
+        <div class="toggle">
+          <div class="logo">
+            <img
+              src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
+            <p><span class="danger">Nguyen Tran</span> Clinic</p>
+          </div>
+          <div class="close" id="close-btn">
+            <span class="material-icons-sharp">
+              close
+            </span>
+          </div>
+        </div>
         <a routerLink="/receptionist/appointment">
           <span class="material-icons-sharp">
             dashboard
@@ -65,7 +69,7 @@
                 <circle cx="38" cy="38" r="36"></circle>
               </svg>
               <div class="percentage">
-                <p>+81%</p>
+                <i class="bi bi-calendar3"></i>
               </div>
             </div>
           </div>
@@ -81,7 +85,7 @@
                 <circle cx="38" cy="38" r="36"></circle>
               </svg>
               <div class="percentage">
-                <p>-48%</p>
+                <i class="bi bi-houses"></i>
               </div>
             </div>
           </div>
@@ -97,9 +101,22 @@
                 <circle cx="38" cy="38" r="36"></circle>
               </svg>
               <div class="percentage">
-                <p>+21%</p>
+                <i class="bi bi-person-standing"></i>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div class="profile">
+          <div class="icon">
+
+          </div>
+          <div class="info">
+            <p>Xin chào, <b>Linh</b></p>
+            <small class="text-muted">Lễ tân</small>
+          </div>
+          <div class="profile-photo">
+            <img src="../../../../assets/img/person.png">
           </div>
         </div>
       </div>
@@ -121,17 +138,16 @@
 
         <div class="row mt-5 mb-5">
           <div class="col-6">
-            <button class="btn btn-add-custom" data-bs-toggle="modal" data-bs-target="#wrModal"><i
-                class="bi bi-plus-circle"></i>
+            <button class="btn button-timekeeping" style="margin-right: 30px;" data-bs-toggle="modal"
+              data-bs-target="#wrModal"><i class="bi bi-plus-circle"></i>
               Thêm hàng chờ</button>
-            <button class="btn btn-add-custom m-l-9" data-bs-toggle="modal" data-bs-target="#myModal"><i
+            <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myModal"><i
                 class="bi bi-plus-circle"></i> Thêm
               bệnh nhân</button>
           </div>
           <div class="col-6">
-            <select class="form-select input-custom float-end"
-             aria-label="Default select example"
-             [(ngModel)]="procedure" (change)="filterProcedure()">
+            <select class="form-select input-custom float-end" aria-label="Default select example"
+              [(ngModel)]="procedure" (change)="filterProcedure()">
               <option selected value="0">Tất cả loại điều trị</option>
               <option value="1">Cạo vôi răng</option>
               <option value="2">Niềng răng</option>
@@ -140,7 +156,7 @@
           </div>
         </div>
 
-        <h2>Phòng chờ</h2>
+        <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px;">Phòng chờ</h2>
         <table>
           <thead>
             <tr>
@@ -176,83 +192,6 @@
     </main>
     <!-- End of Main Content -->
 
-    <div class="right-section">
-      <div class="nav">
-        <button id="menu-btn">
-          <span class="material-icons-sharp">
-            menu
-          </span>
-        </button>
-        <div class="dark-mode">
-          <span class="material-icons-sharp active">
-            light_mode
-          </span>
-          <span class="material-icons-sharp">
-            dark_mode
-          </span>
-        </div>
-
-        <div class="profile">
-          <div class="info">
-            <p>Xin chào, <b>Linh</b></p>
-            <small class="text-muted">Lễ tân</small>
-          </div>
-          <div class="profile-photo">
-            <img src="../../../../assets/img/person.png">
-          </div>
-        </div>
-
-      </div>
-      <!-- End of Nav -->
-
-      <div class="reminders">
-        <div class="header">
-          <h2>Thông báo</h2>
-          <span class="material-icons-sharp">
-            notifications_none
-          </span>
-        </div>
-
-        <div class="notification">
-          <div class="icon">
-            <span class="material-icons-sharp">
-              volume_up
-            </span>
-          </div>
-          <div class="content">
-            <div class="info">
-              <h3>Workshop</h3>
-              <small class="text_muted">
-                08:00 AM - 12:00 PM
-              </small>
-            </div>
-            <span class="material-icons-sharp">
-              more_vert
-            </span>
-          </div>
-        </div>
-
-        <div class="notification deactive">
-          <div class="icon">
-            <span class="material-icons-sharp">
-              edit
-            </span>
-          </div>
-          <div class="content">
-            <div class="info">
-              <h3>Workshop</h3>
-              <small class="text_muted">
-                08:00 AM - 12:00 PM
-              </small>
-            </div>
-            <span class="material-icons-sharp">
-              more_vert
-            </span>
-          </div>
-        </div>
-
-      </div>
-    </div>
   </div>
 
 </div>

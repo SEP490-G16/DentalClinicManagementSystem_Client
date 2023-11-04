@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {MedicalProcedureGroupService} from "../../../service/MedicalProcedureService/medical-procedure-group.service";
 import {ToastrService} from "ngx-toastr";
 import {MedicalProcedureService} from "../../../service/MedicalProcedureService/medical-procedure.service";
+import { Router } from '@angular/router';
+import { CognitoService } from 'src/app/service/cognito.service';
 
 @Component({
   selector: 'app-service',
@@ -14,6 +16,8 @@ export class ServiceComponent implements OnInit {
   serviceGroupId:any;
   constructor(private medicalProcedureGroupService:MedicalProcedureGroupService,
               private medicalProcedure:MedicalProcedureService,
+              private cognitoService: CognitoService,
+              private router: Router,
               private toastr: ToastrService) { }
   id:any;
   idService:any;
@@ -79,5 +83,11 @@ export class ServiceComponent implements OnInit {
     })
   }
 
+  signOut() {
+    this.cognitoService.signOut().then(() => {
+      console.log("Logged out!");
+      this.router.navigate(['/login']);
+    })
+  }
 
 }

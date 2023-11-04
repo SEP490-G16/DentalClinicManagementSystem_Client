@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutsComponent } from "./component/shared/layouts/layouts.component";
+import { ChatComponent } from './component/chat/chat.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,10 @@ const routes: Routes = [
     ]
   },
 
+  {
+    path:'chat',
+    component: ChatComponent
+  },
   {
     path: 'admin',
     loadChildren: () => import('./component/admin/admin.module').then(m => m.AdminModule)
