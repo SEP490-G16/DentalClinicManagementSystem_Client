@@ -15,6 +15,7 @@ export class PopupEditGroupServiceComponent implements OnChanges {
   @Input() id:any;
   @Input() name:any;
   @Input() description:any;
+  @Input() medicalProcedureGroups:any;
   serviceGroup={
     serviceGroupName: '',
     description: ''
@@ -25,14 +26,15 @@ export class PopupEditGroupServiceComponent implements OnChanges {
   }
 
   serviceGroupBody={
+    medical_procedure_group_id:'',
     name:'',
     description:''
   }
   ngOnInit(): void {
-    this.serviceGroup={
+    /*this.serviceGroup={
       serviceGroupName: this.name,
       description: this.description
-    }
+    }*/
   }
 
   updateServiceGroup(){
@@ -41,44 +43,21 @@ export class PopupEditGroupServiceComponent implements OnChanges {
       return;
     }
     this.serviceGroupBody={
+      medical_procedure_group_id:'',
       name: this.serviceGroup.serviceGroupName,
       description: this.serviceGroup.description
     }
-    /*this.medicalProcedureGroupService.updateMedicalProcedureGroup(this.serviceGroupBody, this.id).pipe(
-      tap(data => {
-        console.log('Phản hồi:', data);
-      })
-    ).subscribe(
-      (response) => {
-        console.log("response0", response);
-
-        if (response.status === 200) {
-          this.toastr.success('Cập nhật nhóm thủ thuật thành công!');
-        } else {
-          this.toastr.error('1 Cập nhật nhóm thủ thuật thất bại!');
-        }
-      },
-      (error) => {
-        console.log("error", error);
-        if (error instanceof HttpResponse) {
-          // Xử lý phản hồi có HTTP status code 200 trong trường hợp lỗi
-          if (error.status === 200) {
-            this.toastr.success('Cập nhật nhóm thủ thuật thành công trong trường hợp lỗi!');
-          } else {
-            // Xử lý các trường hợp lỗi khác
-            this.toastr.error(' 2 Cập nhật nhóm thủ thuật thất bại!');
-          }
-        } else {
-          // Xử lý các trường hợp lỗi không phải là HTTP response
-          this.toastr.error(' 3Cập nhật nhóm thủ thuật thất bại!');
-        }
-      })*/
      this.medicalProcedureGroupService.updateMedicalProcedureGroup(this.serviceGroupBody, this.id).subscribe(data=>{
        console.log(data);
        this.toastr.success('Cập nhật nhóm thủ thuật thành công!');
         let ref = document.getElementById('cancel');
          ref?.click();
-        window.location.reload();
+        //window.location.reload();
+         this.serviceGroupBody.medical_procedure_group_id = this.id;
+         const index = this.medicalProcedureGroups.findIndex((serviceGroup:any) => serviceGroup.medical_procedure_group_id === this.id);
+         if (index !== -1) {
+           this.medicalProcedureGroups[index] = this.serviceGroupBody;
+         }
      },
        error => {
 

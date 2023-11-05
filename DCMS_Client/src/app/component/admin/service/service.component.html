@@ -248,10 +248,10 @@
                   </td>
                   <td>{{s.mg_name}}</td>
                   <td>{{s.mp_price}}</td>
-                  <td>abc</td>
+                  <td>{{s.mp_description}}</td>
                   <td class="text-center">
                     <button href="#" class="btn btn-primary float-right btn-rounded" data-bs-toggle="modal"
-                      data-bs-target="#editServiceModal" (click)="openEditService(s.mp_id)"><i
+                      data-bs-target="#editServiceModal" (click)="openEditService(s.mp_id,s)"><i
                         class="bi bi-pencil-square"></i></button>
                     <button href="#" class="btn btn-danger float-right btn-rounded"
                       (click)="deleteMedicalProcedure(s.mp_id)">
@@ -265,11 +265,12 @@
         </div>
       </div>
 
-
-
-      <app-popup-add-group-service [medicalProcedureGroups]="medicalProcedureGroups"></app-popup-add-group-service>
-      <app-popup-delete-group-service></app-popup-delete-group-service>
-      <app-popup-add-service [medicalProcedureList]="medicalProcedureList"></app-popup-add-service>
-      <app-popup-delete-service></app-popup-delete-service>
-      <app-popup-edit-group-service [id]="id" [name]="name" [description]="description"></app-popup-edit-group-service>
-      <app-popup-edit-service [id]="idService"></app-popup-edit-service>
+    </main>
+  </div>
+</div>
+<app-popup-add-group-service [medicalProcedureGroups]="medicalProcedureGroups"></app-popup-add-group-service>
+<app-popup-delete-group-service></app-popup-delete-group-service>
+<app-popup-add-service [medicalProcedureList]="medicalProcedureList" [medicalProcedureGroups] = "medicalProcedureGroups" ></app-popup-add-service>
+<app-popup-delete-service></app-popup-delete-service>
+<app-popup-edit-group-service [id]="id" [name]="name" [description]="description" [medicalProcedureGroups] = "medicalProcedureGroups"></app-popup-edit-group-service>
+<app-popup-edit-service [medicalProcedureGroups] = "medicalProcedureGroups" [medicalProcedureList]="medicalProcedureList" [serviceObject]="service" [id]="idService"></app-popup-edit-service>

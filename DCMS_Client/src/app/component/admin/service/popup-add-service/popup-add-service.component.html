@@ -24,9 +24,9 @@
               <div class="form-group row mt-3">
                 <label for="groupService" class="col-3">Nhóm thủ thuật:</label>
                 <div class="col-9">
-                  <select  class="form-select" [(ngModel)]="service.serviceGroupName" id="groupService" required  aria-label="Default select example">
+                  <select  class="form-select" [(ngModel)]="service.serviceGroupName" (change)="updateServiceRes()" id="groupService" required  aria-label="Default select example">
                     <!--<option selected></option>-->
-                    <option *ngFor="let f of medicalProcedureGroups" value="{{f.medical_procedure_group_id}}}">{{f.name}}</option>
+                    <option *ngFor="let f of medicalProcedureGroupList" value="{{f.medical_procedure_group_id}}">{{f.name}}</option>
                   </select>
                   <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">{{validateService.serviceGroupName}}</div>
                 </div>
@@ -50,7 +50,7 @@
 
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
+          <button type="button" id="cancel-addService" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
           <button type="button" class="btn btn-save" (click)="addMedicalProcedure()"><i class="bi bi-floppy2"></i> Lưu</button>
         </div>
 
