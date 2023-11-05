@@ -94,14 +94,12 @@ aria-hidden="true">
                         placeholder="yyyy-mm-dd"
                         [markDisabled]="isDisabled"
                         name="dp"
-                        [(ngModel)]="model"
-                        [min]="mindate" [(ngModel)]="appointmentDate"
+                        [min]="mindate" [(ngModel)]="model"
                         ngbDatepicker
                         #d="ngbDatepicker"
                         [placement]="'right'"
                         placeholder="Chọn ngày hẹn"
                         >
-
                       <div class="input-group-append">
                         <button class="btn btn-outline-secondary calendar" style="height: 48px;" (click)="d.toggle()" type="button">
                           <i class="bi bi-calendar3"></i>

@@ -1,112 +1,125 @@
-<div class="page-wrapper bg-wrapper">
-  <div class="content">
-    <div class="buy-form">
-      <div class="row">
-        <div class="col-12 header-card">
-          <div class="title-header">
-            <h4 class="page-title">Thông tin nhân viên</h4>
-          </div>
-          <div class="edit">
-            <button class="btn" [ngClass]="{'btn-custom':!isEditing, 'btn-save':isEditing}" (click)="toggleEditing()"><i class="bi" [ngClass]="{'bi-floppy2':isEditing, 'bi-pencil-square':!isEditing}"></i> {{ isEditing ? 'Lưu' : 'Cập nhật'
-              }}</button>
-          </div>
-        </div>
+<div class="container">
+  <h4 class="text-center">Chỉnh sửa nhân viên</h4>
 
-      </div>
-      <div class="row mt-5">
-        <div class="col-4 text-centers">
-          <div class="image-avt">
-            <img height="250px"
-                 src="https://vnn-imgs-a1.vgcloud.vn/icdn.dantri.com.vn/2021/05/26/ngo-ngang-voi-ve-dep-cua-hot-girl-anh-the-chua-tron-18-docx-1622043349706.jpeg"
-                 alt="">
+  <div class="row">
+      <div class="col-md-3">
+          <div class="image-container" (click)="fileInput.click()">
+              <img [src]="imageURL" alt="Ảnh nhân viên">
+              <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput style="display: none;">
           </div>
-          <div class="account-staff mt-5">
-            <div class="header-account">Tài khoản đăng nhập</div>
-            <div class="account-content">
-              <div class="form-group row">
-                <label class="col-4 name-title">Tên đăng nhập:</label>
-                <div class="col-8">
-                  <p class="value-staff">letan123</p>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="password" class="col-4 name-title">Mật khẩu:</label>
-                <div class="col-8" style="position: relative;">
-                  <div style="position: relative;">
-                    <input [type]="showPassword ? 'password' : 'text'" id="password" [disabled]="!isEditing" class="form-control value-staff" [(ngModel)]="matkhau">
-                    <span class="password-toggle-icon" (click)="togglePassword()"><i class="bi" [ngClass]="{'bi-eye-fill': showPassword, 'bi-eye-slash-fill': !showPassword}"></i></span>
+      </div>
+
+      <div class="col-md-9">
+          <div class="form-group row">
+              <label for="fullName" class="col-3">Họ và tên:</label>
+              <div class="col-9">
+                  <input type="text" class="form-control" [(ngModel)]="staff.name" id="fullName" name="fullName">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom" style="color: #FF0000FF;">
+                      <p>{{vailidateStaff.name}}</p>
                   </div>
-                </div>
               </div>
-            </div>
           </div>
 
-        </div>
-        <div class="col-8">
-          <div class="form-group mb-3 row">
-            <label class="col-2 name-title">Họ và tên:</label>
-            <div class="col-10">
-              <input [(ngModel)]="hoVaTen" id="fullName" *ngIf="isEditing" [disabled]="!isEditing" class="form-control value-staff">
-              <p *ngIf="!isEditing" class="value-staff">Nguyễn Văn A</p>
-            </div>
+          <div class="form-group row">
+              <label for="dob" class="col-3">Ngày sinh:</label>
+              <div class="col-9">
+                  <input type="date" [(ngModel)]="staff.DOB" class="form-control date-input-custom" id="dob" name="dob">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom" style="color: #FF0000FF;">
+                      <p>{{vailidateStaff.dob}}</p>
+                  </div>
+              </div>
           </div>
-          <div class="form-group mb-3 row">
-            <label class="col-2 name-title">Ngày sinh:</label>
-            <div class="col-10">
-              <input [(ngModel)]="ngaySinh" id="dob" *ngIf="isEditing" [disabled]="!isEditing" class="form-control value-staff">
-              <p *ngIf="!isEditing" class="value-staff">20/01/1994</p>
-            </div>
+
+          <div class="form-group row">
+              <label for="address" class="col-3">Địa chỉ:</label>
+              <div class="col-9">
+                  <input type="text" [(ngModel)]="staff.address" class="form-control" id="address" name="address">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom" style="color: #FF0000FF;">
+                      <p>{{vailidateStaff.address}}</p>
+                  </div>
+              </div>
           </div>
-          <div class="form-group mb-3 row">
-            <label class="col-2 name-title">Giới tính:</label>
-            <div class="col-10">
-              <p class="value-staff">Nam</p>
-            </div>
-          </div>
-          <div class="form-group mb-3 row">
-            <label for="sdt" class="col-2 name-title">Số điện thoại:</label>
-            <div class="col-10">
-              <input [(ngModel)]="sdt" id="sdt" *ngIf="isEditing" [disabled]="!isEditing" class="form-control value-staff">
-              <p *ngIf="!isEditing" class="value-staff">{{sdt}}</p>
-            </div>
-          </div>
-          <div class="form-group mb-3 row">
-            <label for="email" class="col-2 name-title">Email:</label>
-            <div  class="col-10">
-              <input [(ngModel)]="email" id="email" *ngIf="isEditing" [disabled]="!isEditing" class="form-control value-staff">
-              <p *ngIf="!isEditing" class="value-staff">{{email}}</p>
-            </div>
-          </div>
-          <div class="form-group mb-3 row">
-            <label for="diaChi" class="col-2 name-title">Địa chỉ :</label>
-            <div class="col-10">
-              <input [(ngModel)]="diaChi" id="diaChi" *ngIf="isEditing" [disabled]="!isEditing" class="form-control value-staff">
-              <p *ngIf="!isEditing" class="value-staff">{{diaChi}}</p>
-            </div>
-          </div>
-          <div class="form-group mb-3 row">
-            <label class="col-2 name-title">Chức vụ:</label>
-            <div class="col-10">
-              <p class="value-staff">Bác sĩ</p>
-            </div>
-          </div>
-          <div class="form-group mb-3 row">
-            <label class="col-2 name-title">Ghi chú:</label>
-            <div class="col-10">
-              <input [(ngModel)]="ghiChu" id="note" *ngIf="isEditing" [disabled]="!isEditing" class="form-control value-staff">
-              <p *ngIf="!isEditing" class="value-staff">abc</p>
-            </div>
-          </div>
-          <div class="form-group mb-3 row">
-            <label class="col-2 name-title">Cơ sở:</label>
-            <div class="col-10">
-              <p class="value-staff">1</p>
-            </div>
-          </div>
-        </div>
       </div>
-    </div>
+  </div>
+
+  <div class="row mt-3">
+      <div class="col-md-6 mt-3">
+          <div class="form-group row">
+              <div class="col-md-3 name-title">
+                  <label for="email">Email:</label>
+              </div>
+              <div class="col-md-9">
+                  <input type="email" [(ngModel)]="staff.email" class="form-control" id="email" name="email">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom" style="color: #FF0000FF;">
+                      <p>{{vailidateStaff.email}}</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="col-md-6 mt-3">
+          <div class="form-group row">
+              <div class="col-md-3 name-title">
+                  <label for="phone">Số điện thoại:</label>
+              </div>
+              <div class="col-md-9">
+                  <input type="tel" [(ngModel)]="staff.phone" class="form-control" id="phone" name="phone">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom" style="color: #FF0000FF;">
+                      <p>{{vailidateStaff.phone}}</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="col-md-6 mt-3">
+          <div class="form-group row">
+              <div class="col-md-3 name-title">
+                  <label for="role">Vai trò:</label>
+              </div>
+              <div class="col-md-9">
+                  <select id="role" [(ngModel)]="role" class="form-select" aria-label="Default select example" disabled>
+                      <option value="1" selected>Bác sĩ</option>
+                      <option value="2">Lễ tân</option>
+                      <option value="3">Y tá</option>
+                      <option value="4">Y tá trưởng</option>
+                  </select>
+              </div>
+          </div>
+      </div>
+
+      <div class="col-md-6 mt-3">
+          <div class="form-group row">
+              <div class="col-md-3 name-title">
+                  <label for="gender">Giới tính:</label>
+              </div>
+              <div class="col-md-9">
+                  <label for="male">Nam</label>
+                  <input type="radio" class="radio m-2" [(ngModel)]="staff.gender" id="male" name="gender">
+                  <label for="female">Nữ</label>
+                  <input type="radio" class="radio m-2" id="female" name="gender">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom" style="color: #FF0000FF;">
+                      <p>{{vailidateStaff.gender}}</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="row mt-3">
+      <div class="col-3">
+          <label for="status">Tình trạng:</label>
+      </div>
+      <div class="col-3">
+          <select id="status" [(ngModel)]="status" class="form-select float-start" aria-label="Default select example">
+              <option value="1" selected>Đang làm</option>
+              <option value="2">Nghỉ phép</option>
+              <option value="3">Nghỉ việc</option>
+          </select>
+      </div>
   </div>
 </div>
 
-
+<div class="text-center mt-3">
+  <button type="button" class="btn btn-cancel">Hủy</button>
+  <button type="button" class="btn btn-save" (click)="saveEditedStaff()"><i class="bi bi-floppy2"></i> Lưu</button>
+</div>

@@ -9,8 +9,9 @@ import { ReceptionistAppointmentService } from 'src/app/service/ReceptionistServ
 
 import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
 import { ToastrService } from 'ngx-toastr';
+import * as moment from 'moment-timezone';
 
-import { Observable, of } from 'rxjs';
+
 @Component({
   selector: 'app-change-appointment',
   templateUrl: './change-appointment.component.html',
@@ -117,12 +118,11 @@ export class ChangeAppointmentComponent implements OnInit {
         this.appointmentId_Pathparam = appointmentChild.attribute_name;
         console.log("appointmentId_Pathparam: ", this.appointmentId_Pathparam);
       } else {
-        this.appointmentDate = this.dateTimestampToGMT7String(AppointmentParent[0].date);
+        this.appointmentDate = this.timestampToDate(AppointmentParent[0].date);
         console.log("AppointmentParent:", AppointmentParent[0].date);
 
-        const date = new Date(AppointmentParent[0].date * 1000);
-        this.selectedDate = this.formatDateToCustomString(date);
-        console.log("selectedDate: ", AppointmentParent[0].date);
+        this.selectedDate = this.timestampToDate(AppointmentParent[0].date);
+        console.log("selectedDate: ", this.selectedDate);
 
          this.timeString = this.timestampToGMT7HourString(appointmentChild.time);
         console.log("timeString: ", this.timeString);
@@ -133,6 +133,12 @@ export class ChangeAppointmentComponent implements OnInit {
   }
 
 
+  timestampToDate(timestamp: number): string {
+    const format = 'YYYY-MM-DD'; // Định dạng cho chuỗi ngày đầu ra
+    const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
+    const dateStr = moment.tz(timestamp, timeZone).format(format);
+    return dateStr;
+  }
 
 
   findAppointmentById(appointment: any) {
@@ -157,24 +163,6 @@ export class ChangeAppointmentComponent implements OnInit {
   }
 
 
-  dateTimestampToGMT7String(timestamp: number): string {
-    // Lấy giá trị timestamp
-    const date = new Date(timestamp * 1000);
-
-    // Định cấu hình tùy chọn định dạng ngày
-    const options: Intl.DateTimeFormatOptions = {
-      timeZone: 'Asia/Ho_Chi_Minh',
-      hour12: false,
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    };
-
-    // Sử dụng tùy chọn để định dạng ngày
-    return date.toLocaleDateString('en-US', options);
-  }
-
-
   timestampToGMT7HourString(timestamp: number): string {
     const date = new Date(timestamp * 1000);
     date.setHours(date.getHours() + 7); // Thêm 7 giờ để chuyển sang GMT+7
@@ -195,7 +183,7 @@ export class ChangeAppointmentComponent implements OnInit {
   onPutAppointment() {
     this.EDIT_APPOINTMENT_BODY = {
       epoch: this.epoch_PathParam,    //x
-      new_epoch: this.dateTimeToGMT7Timestamp(this.selectedDate, this.timeString).dateTimestamp,
+      new_epoch: this.dateToTimestamp(this.selectedDate),
       appointment: {
         patient_id: this.appointment.patient_id,  //x
         patient_name: this.appointment.patient_name, //x
@@ -216,6 +204,12 @@ export class ChangeAppointmentComponent implements OnInit {
       )
   }
 
+  dateToTimestamp(dateStr: string): number {
+    const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng của chuỗi ngày
+    const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
+    const timestamp = moment.tz(dateStr, format, timeZone).valueOf();
+    return timestamp;
+  }
 
   dateTimeToGMT7Timestamp(date: Date, time: string): { dateTimestamp: number, timeTimestamp: number } {
     const gmt7Date = new Date(date);
@@ -230,6 +224,9 @@ export class ChangeAppointmentComponent implements OnInit {
 
     return { dateTimestamp, timeTimestamp };
   }
+
+
+
 
   timeToGMT7Timestamp(time: string): number {
     const timeParts = time.split(':');

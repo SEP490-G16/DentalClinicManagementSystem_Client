@@ -6,7 +6,9 @@ import {RouterModule} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import { LayoutsComponent } from './layouts/layouts.component';
 import { ProfilePersonalComponent } from './profile-personal/profile-personal.component';
-
+import { RegisterWorkScheduleComponent } from './register-work-schedule/register-work-schedule.component';
+import { AppModule } from 'src/app/app.module';
+import { FlatpickrModule } from 'angularx-flatpickr';
 
 
 @NgModule({
@@ -14,12 +16,12 @@ import { ProfilePersonalComponent } from './profile-personal/profile-personal.co
     SidebarComponent,
     HeaderComponent,
     LayoutsComponent,
-    ProfilePersonalComponent
+    ProfilePersonalComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule
+    FormsModule,
   ]
 })
 export class SharedModule { }

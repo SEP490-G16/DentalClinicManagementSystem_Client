@@ -9,6 +9,7 @@ import { ConvertJson } from "../../../service/Lib/ConvertJson";
 import { PopupAddAppointmentComponent } from './popup-add-appointment/popup-add-appointment.component';
 
 import { ToastrService } from 'ngx-toastr';
+import * as moment from 'moment-timezone';
 
 @Component({
   selector: 'app-receptionist-appointment-list',
@@ -18,8 +19,6 @@ import { ToastrService } from 'ngx-toastr';
 export class ReceptionistAppointmentListComponent implements OnInit {
   model!: NgbDateStruct;
   placement = 'bottom';
-
-  @ViewChild(PopupAddAppointmentComponent) addAppointmentComponent!: PopupAddAppointmentComponent;
 
   constructor(private appointmentService: ReceptionistAppointmentService,
     private cognitoService: CognitoService, private router: Router,
@@ -66,7 +65,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     let endDateTimestamp = date1.getTime() / 1000;
 
     // console.log(startDateTimestamp);
-    this.appointmentService.getAppointmentList(startDateTimestamp, 1704070800).subscribe(data => {
+    this.appointmentService.getAppointmentList(startDateTimestamp, endDateTimestamp).subscribe(data => {
       this.appointmentList = ConvertJson.processApiResponse(data);
       this.filteredAppointments = this.appointmentList;
       console.log("Appointment List: ", this.appointmentList);
@@ -80,7 +79,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     this.datesDisabled = this.appointmentList
       .filter((item: any) => {
         const totalProcedures = item.appointments.reduce((total: number, appointment: any) => total + appointment.procedure, 0);
-        console.log(totalProcedures);
+        console.log("Totla procedure", totalProcedures);
         return totalProcedures > 15;
       })
       .map((item: any) => item.date);
@@ -132,21 +131,56 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   dateString: any;
   timeString: any;
   openEditModal(appointment: any, dateTimestamp: any) {
-    //console.log("DateTimestamp", dateTimestamp);
-    const date = new Date(dateTimestamp * 1000);
-    this.dateString = this.formatDateToCustomString(date);
+    console.log("DateTimestamp", dateTimestamp);
+    this.dateString = this.timestampToGMT7Date(dateTimestamp);
     console.log("DateString", this.dateString);
 
     //Set Appointment
     this.selectedAppointment = appointment;
-    //console.log(this.selectedAppointment.time);
-    this.timeString = this.convertTimestampToTimeString(this.selectedAppointment.time);
+    this.timeString = this.timestampToGMT7String(1699500180);
+    console.log("Tiem, ", this.timeString);
   }
 
 
   openAddAppointmentModal() {
     this.datesDisabled = this.datesDisabled;
   }
+
+  //Convert Date
+  dateToTimestamp(dateStr: string): number {
+    const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng của chuỗi ngày
+    const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
+    const timestamp = moment.tz(dateStr, format, timeZone).valueOf();
+    return timestamp;
+  }
+
+  timestampToGMT7String(timestamp: number): string {
+    // Chuyển timestamp thành chuỗi ngày và thời gian dựa trên múi giờ GMT+7
+    const dateTimeString = moment.tz(timestamp * 1000, 'Asia/Ho_Chi_Minh').format('HH:mm:ss');
+    return dateTimeString;
+  }
+
+  timestampToGMT7Date(timestamp: number): string {
+    const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ GMT+7
+
+    // Sử dụng moment.tz để chuyển đổi timestamp sang đối tượng ngày với múi giờ GMT+7
+    const date = moment.tz(timestamp * 1000, timeZone);
+
+    // Định dạng ngày theo mong muốn
+    const formattedDate = date.format('YYYY-MM-DD'); // Định dạng ngày giờ
+
+    return formattedDate;
+  }
+
+  timeAndDateToTimestamp(timeStr: string, dateStr: string): number {
+    const format = 'YYYY-MM-DD HH:mm'; // Định dạng của chuỗi ngày và thời gian
+    const timeZone = 'Asia/Ho_Chi_Minh';
+    const dateTimeStr = `${dateStr} ${timeStr}`;
+    const timestamp = moment.tz(dateTimeStr, format, timeZone).valueOf();
+    return timestamp;
+  }
+
+
 
   convertTimestampToDateString(timestamp: any): string {
     const date = new Date(timestamp * 1000); // Nhân với 1000 để chuyển đổi từ giây sang mili giây

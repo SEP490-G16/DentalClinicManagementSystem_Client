@@ -15,8 +15,6 @@ import { IStaff } from '../model/Staff';
 export class CognitoService {
   private authenticationSubject: BehaviorSubject<any>;
 
-
-
   cognitoUser: ICognitoUser;
 
   constructor() {
@@ -76,6 +74,7 @@ export class CognitoService {
   }
 
   updateUserAttributes(userId: string, userData: any): Promise<any> {
+
     const attributes = {
       email: userData.email,
       phone_number: userData.phone,
@@ -98,6 +97,7 @@ export class CognitoService {
         throw error;
       });
   }
+
 
 
 

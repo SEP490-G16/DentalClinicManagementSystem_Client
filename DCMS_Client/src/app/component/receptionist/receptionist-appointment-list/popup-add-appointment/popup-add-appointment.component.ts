@@ -44,87 +44,60 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
       { year: 2020, month: 8, day: 25 }
     ]
   };
-  validateAppointment={
-    phoneNumber:'',
-    procedure:'',
-    appointmentTime:'',
-    appointmentDate:'',
+  validateAppointment = {
+    phoneNumber: '',
+    procedure: '',
+    appointmentTime: '',
+    appointmentDate: '',
   }
-  isSubmitted:boolean = false;
+  isSubmitted: boolean = false;
   seedDateDisabled = [
     {
-        "date": 1698836571,
-        "appointments": [
+      "date": 1698836571,
+      "appointments": [
+        {
+          "procedure": 1,
+          "count": 4,
+          "details": [
             {
-                "procedure": 1,
-                "count": 4,
-                "details": [
-                    {appointment_id:"6e005b74-dc60-4ad9-9a4f-11954b94c2a7",
-                     patient_id:"P-000001",
-                     patient_name: "Nguyễn Văn An",
-                     phone_number:"0123456789", procedure: 1,
-                     doctor:"Bác sĩ A",
-                     time:"1698688620",
-                     attribute_name: "",
-                     epoch: 0,
-                     migrated: "false"
-                    }
-                ]
+              appointment_id: "6e005b74-dc60-4ad9-9a4f-11954b94c2a7",
+              patient_id: "P-000001",
+              patient_name: "Nguyễn Văn An",
+              phone_number: "0123456789", procedure: 1,
+              doctor: "Bác sĩ A",
+              time: "1698688620",
+              attribute_name: "",
+              epoch: 0,
+              migrated: "false"
             }
-        ]
+          ]
+        }
+      ]
     },
     {
       "date": 1698836571,
       "appointments": [
-          {
-              "procedure": 1,
-              "count": 4,
-              "details": [
-                  {appointment_id:"6e005b74-dc60-4ad9-9a4f-11954b94c2a7",
-                   patient_id:"P-000001",
-                   patient_name: "Nguyễn Văn An",
-                   phone_number:"0123456789", procedure: 1,
-                   doctor:"Bác sĩ A",
-                   time:"1698688620",
-                   attribute_name: "",
-                   epoch: 0,
-                   migrated: "false"
-                  }
-              ]
-          }
+        {
+          "procedure": 1,
+          "count": 4,
+          "details": [
+            {
+              appointment_id: "6e005b74-dc60-4ad9-9a4f-11954b94c2a7",
+              patient_id: "P-000001",
+              patient_name: "Nguyễn Văn An",
+              phone_number: "0123456789", procedure: 1,
+              doctor: "Bác sĩ A",
+              time: "1698688620",
+              attribute_name: "",
+              epoch: 0,
+              migrated: "false"
+            }
+          ]
+        }
       ]
-  },
+    },
   ]
 
-  //Convert Date
-  dateToTimestamp(dateStr: string): number {
-    const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng của chuỗi ngày
-    const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
-    const timestamp = moment.tz(dateStr, format, timeZone).valueOf();
-    return timestamp;
-  }
-
-  timestampToDate(timestamp: number): string {
-    const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng cho chuỗi ngày đầu ra
-    const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
-    const dateStr = moment.tz(timestamp, timeZone).format(format);
-    return dateStr;
-  }
-
-
-  timestampToTime(timestamp: number): string {
-    const timeZone = 'Asia/Ho_Chi_Minh';
-    const timeStr = moment.tz(timestamp, timeZone).format('HH:mm');
-    return timeStr;
-  }
-
-  timeAndDateToTimestamp(timeStr: string, dateStr: string): number {
-    const format = 'YYYY-MM-DD HH:mm'; // Định dạng của chuỗi ngày và thời gian
-    const timeZone = 'Asia/Ho_Chi_Minh';
-    const dateTimeStr = `${dateStr} ${timeStr}`;
-    const timestamp = moment.tz(dateTimeStr, format, timeZone).valueOf();
-    return timestamp;
-  }
 
   mindate: Date;
   minTime: string;
@@ -166,13 +139,27 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     this.minTime = `${hours}:${minutes}`;
     this.mindate = new Date();
 
+    const currentTime = new Date();
+
+    // Set date time hiện tại
+    const currentTimeGMT7 = moment.tz('Asia/Ho_Chi_Minh').format('HH:mm');
+    this.appointmentTime = currentTimeGMT7;
+
+    const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
+
+    this.model = {
+      year: parseInt(currentDateGMT7.split('-')[0]),
+      month: parseInt(currentDateGMT7.split('-')[1]),
+      day: parseInt(currentDateGMT7.split('-')[2])
+    };
+    console.log(this.appointmentDate);
   }
 
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.datesDisabled && this.datesDisabled.length == 0) {
-      this.datesDisabled.push(1698681910);
-      console.log("Date disabled: ", this.datesDisabled);
+      // this.datesDisabled.push(1698681910);
+      // console.log("Date disabled: ", this.datesDisabled);
     }
     if (changes['datesDisabled'] && this.datesDisabled && this.datesDisabled.length > 0) {
       this.datesDisabled = this.datesDisabled.map((timestamp: number) => {
@@ -185,7 +172,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   ngOnInit(): void {
   }
 
-  private isVietnamesePhoneNumber(number:string):boolean {
+  private isVietnamesePhoneNumber(number: string): boolean {
     return /^(\+84|84|0)?[1-9]\d{8}$/
       .test(number);
   }
@@ -222,49 +209,33 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   }
 
   appointmentDate: string = '';
-  timestamp2: number = 0;
   onPostAppointment() {
 
-    const gmt7Moment = moment.tz(this.appointmentDate, 'Asia/Ho_Chi_Minh'); // GMT+7
+    //Convert model to string
+    const selectedYear = this.model.year;
+    const selectedMonth = this.model.month.toString().padStart(2, '0'); // Đảm bảo có 2 chữ số
+    const selectedDay = this.model.day.toString().padStart(2, '0'); // Đảm bảo có 2 chữ số
 
-    // Lấy timestamp
-    this.timestamp2 = gmt7Moment.valueOf();
-    console.log("new", this.timestamp2);
+    const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
+    console.log(selectedDate); // Đây là ngày dưới dạng "YYYY-MM-DD"
 
-    // Chuyển đổi ngày cố định sang timestamp
-    const fixedDate = new Date(this.appointmentDate);
-    const dateTimestamp = (fixedDate.getTime() / 1000); // Chuyển đổi sang timestamp (giây)
 
-    // Lấy giá trị thời gian từ biến appointmentTime và chuyển đổi thành timestamp
-    const timeParts = this.appointmentTime.split(":");
-    const hours = parseInt(timeParts[0], 10);
-    const minutes = parseInt(timeParts[1], 10);
+    this.AppointmentBody.epoch = this.dateToTimestamp(selectedDate);
+    console.log(this.AppointmentBody.epoch);
+    this.AppointmentBody.appointment.time = this.timeAndDateToTimestamp(this.appointmentTime, selectedDate);
 
-    // Khởi tạo một đối tượng Date với ngày cố định
-    const combinedDateTime = new Date(fixedDate);
-
-    // Đặt giờ và phút cho combinedDateTime
-    combinedDateTime.setHours(hours, minutes, 0, 0);
-
-    // Chuyển đổi thành timestamp
-    const combinedTimestamp = combinedDateTime.getTime() / 1000; // Chuyển đổi sang timestamp (giây)
-
-    this.AppointmentBody.epoch = dateTimestamp;
-    console.log(this.AppointmentBody.epoch = dateTimestamp); // Chứa giá trị ngày (date)
-    this.AppointmentBody.appointment.time = combinedTimestamp; // Chứa giá trị giờ trong ngày
-
-    console.log("a ", dateTimestamp);
+    console.log(this.AppointmentBody);
     // Gọi API POST
     this.resetValidate();
-    if (!this.AppointmentBody.appointment.procedure){
+    if (!this.AppointmentBody.appointment.procedure) {
       this.validateAppointment.procedure = "Vui lòng chọn loại điều trị!";
       this.isSubmitted = true;
     }
-    if (!this.appointmentTime){
+    if (!this.appointmentTime) {
       this.validateAppointment.appointmentTime = "Vui lòng chọn giờ khám!";
       this.isSubmitted = true;
     }
-    if (!this.appointmentDate){
+    if (!this.appointmentDate) {
       this.validateAppointment.appointmentDate = "Vui lòng chọn ngày khám!";
       this.isSubmitted = true;
     }
@@ -272,7 +243,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
       this.validateAppointment.phoneNumber = "Vui lòng nhập số điện thoại";
       this.isSubmitted = true;
     } else if (!this.isVietnamesePhoneNumber(this.AppointmentBody.appointment.phone_number)) {
-      this.validateAppointment.phoneNumber  = "Số điện thoại không đúng định dạng. Vui lòng kiểm tra lại";
+      this.validateAppointment.phoneNumber = "Số điện thoại không đúng định dạng. Vui lòng kiểm tra lại";
       this.isSubmitted = true;
     }
     else {
@@ -305,6 +276,40 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
         }
       );
     }
+  }
+
+  //Convert Date
+  dateToTimestamp(dateStr: string): number {
+    const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng của chuỗi ngày
+    const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
+    const timestamp = moment.tz(dateStr, format, timeZone).valueOf();
+    return timestamp;
+  }
+
+  timestampToGMT7String(timestamp: number): string {
+    // Chuyển timestamp thành chuỗi ngày và thời gian dựa trên múi giờ GMT+7
+    const dateTimeString = moment.tz(timestamp * 1000, 'Asia/Ho_Chi_Minh').format('HH:mm:ss');
+    return dateTimeString;
+  }
+
+  timestampToGMT7Date(timestamp: number): string {
+    const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ GMT+7
+
+    // Sử dụng moment.tz để chuyển đổi timestamp sang đối tượng ngày với múi giờ GMT+7
+    const date = moment.tz(timestamp * 1000, timeZone);
+
+    // Định dạng ngày theo mong muốn
+    const formattedDate = date.format('YYYY-MM-DD'); // Định dạng ngày giờ
+
+    return formattedDate;
+  }
+
+  timeAndDateToTimestamp(timeStr: string, dateStr: string): number {
+    const format = 'YYYY-MM-DD HH:mm'; // Định dạng của chuỗi ngày và thời gian
+    const timeZone = 'Asia/Ho_Chi_Minh';
+    const dateTimeStr = `${dateStr} ${timeStr}`;
+    const timestamp = moment.tz(dateTimeStr, format, timeZone).valueOf();
+    return timestamp;
   }
 
 
@@ -340,12 +345,12 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     { name: 'Bác sĩ B. Trần', specialty: 'Nha khoa', image: 'https://gamek.mediacdn.vn/133514250583805952/2020/6/8/873302766563216418622655364023183338578077n-15915865604311972647945.jpg' },
     { name: 'Bác sĩ C. Lê', specialty: 'Nha khoa', image: 'https://img.verym.com/group1/M00/03/3F/wKhnFlvQGeCAZgG3AADVCU1RGpQ414.jpg' },
   ];
-  private resetValidate(){
-    this.validateAppointment={
-      phoneNumber:'',
-      procedure:'',
-      appointmentTime:'',
-      appointmentDate:'',
+  private resetValidate() {
+    this.validateAppointment = {
+      phoneNumber: '',
+      procedure: '',
+      appointmentTime: '',
+      appointmentDate: '',
     }
     this.isSubmitted = true;
   }

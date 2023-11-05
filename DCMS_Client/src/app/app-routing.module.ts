@@ -1,7 +1,9 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutsComponent } from "./component/shared/layouts/layouts.component";
 import { ChatComponent } from './component/chat/chat.component';
+import { RegisterWorkScheduleComponent } from './component/shared/register-work-schedule/register-work-schedule.component';
+import { ProfilePersonalComponent } from './component/shared/profile-personal/profile-personal.component';
 
 const routes: Routes = [
   {
@@ -19,7 +21,14 @@ const routes: Routes = [
       },
     ]
   },
-
+  {
+    path:"edit-profile",
+    component: ProfilePersonalComponent
+  },
+  {
+    path: 'register-work-schedule',
+    component: RegisterWorkScheduleComponent
+  },
   {
     path:'chat',
     component: ChatComponent

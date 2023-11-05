@@ -71,16 +71,6 @@
               </div>
             </div>
             <div class="col">
-              <!-- <mat-form-field>
-                <input matInput [matDatepicker]="picker"
-                 [matDatepickerFilter]="myHolidayFilter" placeholder="Chọn ngày hẹn"
-                 [(ngModel)]="dateString"
-                 [min]="minDate"
-                 >
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker [opened]="isDatepickerOpened"></mat-datepicker>
-                <mat-datepicker [dateClass]="dateClass" #picker></mat-datepicker>
-              </mat-form-field> -->
               <label for="treatment">Chọn ngày khám</label>
               <form class="form-inline">
                 <div class="form-group">
@@ -91,7 +81,7 @@
                       [markDisabled]="isDisabled"
                       name="dp"
                       [(ngModel)]="model"
-                      [min]="minDate" [(ngModel)]="dateString"
+                      [min]="minDate"
                       ngbDatepicker
                       #d="ngbDatepicker"
                       [placement]="'right'"

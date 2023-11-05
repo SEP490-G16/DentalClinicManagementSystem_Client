@@ -115,7 +115,7 @@ b {
   width: 96%;
   margin: 0 auto;
   gap: 1.8rem;
-  grid-template-columns: 13rem auto;
+  grid-template-columns: 15rem auto;
 }
 
 aside {

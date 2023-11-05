@@ -19,11 +19,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import * as AWS from 'aws-sdk';
 import { environment } from 'src/environments/environment';
 import { ChatComponent } from './component/chat/chat.component';
-
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { RegisterWorkScheduleComponent } from './component/shared/register-work-schedule/register-work-schedule.component';
 @NgModule({
   declarations: [
     AppComponent,
-    ChatComponent
+    ChatComponent,
+    RegisterWorkScheduleComponent
   ],
   imports: [
     FormsModule,
@@ -39,7 +44,13 @@ import { ChatComponent } from './component/chat/chat.component';
     CommonModule,
     BrowserModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgbModalModule,
+    FlatpickrModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

@@ -18,13 +18,7 @@ import { PopupEditAppointmentComponent } from 'src/app/component/receptionist/re
 import { PatientModule } from '../patient/patient.module';
 import { PopupAddPatientComponent } from '../patient/patient-records/popup-add-patient/popup-add-patient.component';
 
-import { MatCalendar, MatDatepickerModule } from '@angular/material/datepicker';
-import { MatButtonModule } from '@angular/material/button';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
-import {MatInputModule} from '@angular/material/input';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 import { AddWaitingRoomComponent } from './receptionist-waiting-room/add-waiting-room/add-waiting-room.component';
@@ -53,11 +47,6 @@ import { AddWaitingRoomComponent } from './receptionist-waiting-room/add-waiting
       closeButton: true,
       progressBar: true,
     }),
-    MatMomentDateModule,
-    MatDatepickerModule,
-    MatInputModule,
-    MatNativeDateModule,
-    MatTooltipModule
   ]
 })
 export class ReceptionistModule{

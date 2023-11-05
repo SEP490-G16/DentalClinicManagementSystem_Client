@@ -55,6 +55,11 @@ import { PopupEditApproveSpecimensComponent } from './pending-specimens/popup-ed
 import { PopupEditFacilityComponent } from './facility/popup-edit-facility/popup-edit-facility.component';
 import { PopupEditStaffComponent } from './staff/popup-edit-staff/popup-edit-staff.component';
 
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 @NgModule({
   declarations: [
@@ -100,7 +105,7 @@ import { PopupEditStaffComponent } from './staff/popup-edit-staff/popup-edit-sta
       PopupEditServiceComponent,
       PopupEditApproveSpecimensComponent,
       PopupEditFacilityComponent,
-      PopupEditStaffComponent
+      PopupEditStaffComponent,
   ],
   imports: [
     CommonModule,
@@ -116,7 +121,14 @@ import { PopupEditStaffComponent } from './staff/popup-edit-staff/popup-edit-sta
       progressBar: true,
     }),
     NgbModule,
-    AdminRoutingModule
+    AdminRoutingModule,
+    NgbModalModule,
+    BrowserAnimationsModule,
+    FlatpickrModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ]
 })
 export class AdminModule { }
