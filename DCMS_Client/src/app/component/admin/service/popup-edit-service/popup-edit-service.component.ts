@@ -12,6 +12,9 @@ import {ToastrService} from "ngx-toastr";
 })
 export class PopupEditServiceComponent implements OnChanges {
   @Input() id:any;
+  @Input() medicalProcedureGroups:any;
+  @Input() serviceObject:any;
+  @Input() medicalProcedureList:any;
   service={
     serviceName:'',
     description:'',
@@ -20,7 +23,7 @@ export class PopupEditServiceComponent implements OnChanges {
   }
   serviceBody={
     name:'',
-    mp_description:'',
+    description:'',
     price:'',
     medical_procedure_group_id:'',
   }
@@ -29,24 +32,45 @@ export class PopupEditServiceComponent implements OnChanges {
     price:'',
     serviceGroupName:'',
   }
+  serviceRes = {
+    mp_id: '',
+    mp_name: '',
+    mp_description: '',
+    mg_name: '',
+    mp_price: '',
+  }
   isSubmitted:boolean = false;
-  medicalProcedureGroups:any;
+  medicalProcedureGroupList:any;
   constructor(private medicalProcedureService: MedicalProcedureService,
               private medicalProcedureGroupService:MedicalProcedureGroupService,
               private toastr:ToastrService) { }
 
   ngOnInit(): void {
-    this.getMedicalProcedureGroupList();
+    //this.getMedicalProcedureGroupList();
   }
   private checkNumber(number:any):boolean{
     return /^[1-9]\d*$/.test(number);
   }
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['id']){
+    /*if (changes['id']){
       this.getMedicalProcedure(this.id);
+    }*/
+    if (changes['medicalProcedureGroups']){
+      this.medicalProcedureGroupList = this.medicalProcedureGroups;
+    }
+    if (changes['serviceObject']){
+      this.service.serviceName = this.serviceObject.mp_name;
+      this.service.price = this.serviceObject.mp_price;
+      this.service.serviceGroupName = this.serviceObject.mg_id;
+      this.service.description = this.serviceObject.mp_description;
+      const matchingGroup = this.medicalProcedureGroups.find((group:any) => group.medical_procedure_group_id === this.serviceObject.mg_id);
+      if (matchingGroup) {
+        this.service.serviceGroupName = matchingGroup.medical_procedure_group_id;
+        console.log(this.service.serviceGroupName)
+      }
     }
   }
-  private getMedicalProcedure(id:any){
+  /*private getMedicalProcedure(id:any){
     this.medicalProcedureService.getMedicalProcedure(id).subscribe(data=>{
       this.service.serviceName = data.data.name;
       this.service.price = data.data.price;
@@ -58,12 +82,25 @@ export class PopupEditServiceComponent implements OnChanges {
       }
       console.log(this.service);
     })
-  }
-  getMedicalProcedureGroupList(){
+  }*/
+  /*getMedicalProcedureGroupList(){
     this.medicalProcedureGroupService.getMedicalProcedureGroupList().subscribe((res:any)=>{
       console.log(res);
       this.medicalProcedureGroups = res.data;
     })
+  }*/
+  updateServiceRes(){
+    this.serviceRes = {
+      mp_id:'',
+      mp_name: this.serviceBody.name,
+      mp_description: this.serviceBody.description,
+      mp_price: this.serviceBody.price,
+      mg_name: ''
+    }
+    const selectedGroup = this.medicalProcedureGroupList.find((f:any) => f.medical_procedure_group_id === this.service.serviceGroupName);
+    if (selectedGroup) {
+      this.serviceRes.mg_name = selectedGroup.name;
+    }
   }
   updateMedicalProcedure(){
     this.resetValidate();
@@ -88,7 +125,7 @@ export class PopupEditServiceComponent implements OnChanges {
     }
     this.serviceBody={
       name:this.service.serviceName,
-      mp_description:this.service.description,
+      description:this.service.description,
       price:this.service.price,
       medical_procedure_group_id: this.service.serviceGroupName
     }
@@ -96,7 +133,13 @@ export class PopupEditServiceComponent implements OnChanges {
       this.toastr.success('Cập nhật thủ thuật thành công');
         let ref = document.getElementById('cancel-service');
         ref?.click();
-        window.location.reload();
+        //window.location.reload();
+        this.updateServiceRes();
+        this.serviceRes.mp_id = this.id;
+        const index = this.medicalProcedureList.findIndex((service:any) => service.mp_id === this.id);
+        if (index !== -1) {
+          this.medicalProcedureList[index] = this.serviceRes;
+        }
     },
       error => {
       this.toastr.error('Cập nhật thủ thuật thất bại!');

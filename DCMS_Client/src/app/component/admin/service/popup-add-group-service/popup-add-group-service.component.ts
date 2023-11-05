@@ -17,6 +17,7 @@ export class PopupAddGroupServiceComponent implements OnInit {
     description:''
   }
   serviceGroupBody={
+    medical_procedure_group_id:'',
     name:'',
     description:'',
   }
@@ -32,6 +33,7 @@ export class PopupAddGroupServiceComponent implements OnInit {
       return;
     }
     this.serviceGroupBody={
+      medical_procedure_group_id:'',
       name: this.serviceGroup.serviceGroupName,
       description: this.serviceGroup.description
     }
@@ -39,6 +41,7 @@ export class PopupAddGroupServiceComponent implements OnInit {
       this.toastr.success('Thêm mới thành công!')
       let ref = document.getElementById('cancel-medical');
       ref?.click();
+      this.serviceGroupBody.medical_procedure_group_id = data.data.medical_procedure_group_id;
       this.medicalProcedureGroups.unshift(this.serviceGroupBody);
       /*this.serviceGroupBody.isNew = true;
       this.serviceGroupBody.isPulsing = true;

@@ -21,6 +21,7 @@ export class ServiceComponent implements OnInit {
               private toastr: ToastrService) { }
   id:any;
   idService:any;
+  service:any;
   name:any;
   description:any;
   ngOnInit(): void {
@@ -71,8 +72,9 @@ export class ServiceComponent implements OnInit {
     console.log(this.id);
     console.log(this.description)
   }
-  openEditService(id:any){
+  openEditService(id:any,service:any){
     this.idService = id;
+    this.service = service;
   }
 
   getMedicalProcedureList(id:string){
