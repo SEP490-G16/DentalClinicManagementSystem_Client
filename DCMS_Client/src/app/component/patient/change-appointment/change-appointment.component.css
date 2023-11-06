@@ -16,6 +16,7 @@ body {
   justify-content: center;
 }
 
+
 .bg-shape1 {
   width: 400px;
   height: 400px;
@@ -32,7 +33,7 @@ body {
   animation: two 10s infinite;
 }
 
-@keyframes one {
+/* @keyframes one {
   0% {
     left: 0px;
     top: 0px;
@@ -84,7 +85,7 @@ body {
     left: 0px;
     top: 0px;
   }
-}
+} */
 
 .opacity-50 {
   opacity: .5;

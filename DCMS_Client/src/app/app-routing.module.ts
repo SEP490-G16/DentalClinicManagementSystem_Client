@@ -11,22 +11,22 @@ const routes: Routes = [
     path: '', component: LayoutsComponent, children: [
 
       {
-        path: 'doctor',
+        path: 'bacsi',
         loadChildren: () => import('./component/doctor/doctor.module').then(m => m.DoctorModule)
       },
 
       {
-        path: 'nurse',
+        path: 'yta',
         loadChildren: () => import('./component/nurse/nurse.module').then(m => m.NurseModule)
       },
     ]
   },
   {
-    path:"edit-profile",
+    path:"suahoso",
     component: ProfilePersonalComponent
   },
   {
-    path: 'register-work-schedule',
+    path: 'dangkilichlamviec',
     component: RegisterWorkScheduleComponent
   },
   {
@@ -38,15 +38,15 @@ const routes: Routes = [
     loadChildren: () => import('./component/admin/admin.module').then(m => m.AdminModule)
   },
   {
-    path: 'receptionist',
+    path: 'letan',
     loadChildren: () => import('./component/receptionist/receptionist.module').then(m => m.ReceptionistModule)
   },
   {
-    path: 'patient',
+    path: 'benhnhan',
     loadChildren: () => import('./component/patient/patient.module').then(m => m.PatientModule)
   },
   {
-    path: 'login',
+    path: 'dangnhap',
     loadChildren: () => import('./component/auth/auth.module').then(m => m.AuthModule)
   },
 

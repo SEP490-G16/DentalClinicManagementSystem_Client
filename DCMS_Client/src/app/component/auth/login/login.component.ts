@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     if (this.User && this.User.userCredential && this.User.password) {
       this.cognitoService.signIn(this.User).then(() => {
-        this.router.navigate(['/receptionist/appointment'])
+        this.router.navigate(['/letan/lichhen'])
         this.loading = false;
       })
         .catch((err) => {
@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
         })
     } else {
       this.loading = false;
-      alert("Username/email or password is required.");
+      alert("Tài khoản/email hoặc Password không được để trống.");
     }
   }
 
@@ -77,7 +77,7 @@ export class LoginComponent implements OnInit {
         })
     } else {
       this.loading = false;
-      alert('Please enter Email')
+      alert('Vui lòng nhập Email')
     }
   }
 
@@ -86,7 +86,7 @@ export class LoginComponent implements OnInit {
     if (this.User.code && this.newPassword.trim().length != 0) {
       this.cognitoService.forgotPasswordSubmit(this.User, this.newPassword.trim())
         .then(() => {
-          alert('Password change successfully!')
+          alert('Đổi mật khẩu thành công!')
           this.isEnterEmail=false
           this.isForgotPassword = false;
           this.loading = false;
@@ -97,7 +97,7 @@ export class LoginComponent implements OnInit {
         });
     } else {
       this.loading = false;
-      alert('Code or Password is required. !!')
+      alert('Mã xác nhận hoặc Mật khẩu không được để trống. !!')
     }
   }
 

@@ -8,13 +8,14 @@
 
     <h2>Nha Khoa Nguyên Trần</h2>
 
-    <pre>Xin chào, {{EDIT_APPOINTMENT_BODY.appointment.patient_name}},
-          {{EDIT_APPOINTMENT_BODY.appointment.phone_number}}
-    </pre>
+    <div class="text-center">Xin chào, {{EDIT_APPOINTMENT_BODY.appointment.patient_name}}
+          <p class="text-center">{{EDIT_APPOINTMENT_BODY.appointment.phone_number}}</p>
+    </div>
     <h3></h3>
 
     <div class="form-group row mt-5">
-      <label for="appointmentdate" class="col-3 name-title" style="padding: 8px; vertical-align: middle;">Ngày
+      <label for="appointmentdate" class="col-3 name-title"
+      style="padding: 8px; vertical-align: middle;">Ngày
         hẹn:</label>
       <div class="col-9 value-staff">
         <p class="date-display">{{appointmentDate | date}}<i class="bi bi-calendar3 float-end"></i></p>
@@ -23,15 +24,22 @@
     </div>
 
     <div class="form-group row mt-3">
-      <!-- <label for="changedate" class="col-3 name-title">Ngày đổi:</label> -->
-      <mat-form-field>
-        <input matInput [matDatepicker]="picker" [matDatepickerFilter]="myHolidayFilter" placeholder="Chọn ngày đổi"
-          [(ngModel)]="selectedDate" [min]="mindate">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-        <mat-datepicker [dateClass]="dateClass" #picker></mat-datepicker>
-      </mat-form-field>
+      <label for="changedate" class="col-3 name-title"
+      style=" padding:8px; line-height: 39px;"
+      >Ngày đổi:</label>
+
+      <div class="col-9 value-staff">
+        <mat-form-field  style="vertical-align: middle;width: 100%;">
+          <input matInput [matDatepicker]="picker" [matDatepickerFilter]="myHolidayFilter" placeholder="Chọn ngày đổi"
+            [(ngModel)]="selectedDate" [min]="mindate">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-datepicker [dateClass]="dateClass" #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
     </div>
+
+
     <div class="form-group row mt-3">
       <label for="appointmentdate" class="col-3 name-title" style="padding: 8px; vertical-align: middle;">Giờ
         hẹn:</label>
@@ -40,6 +48,7 @@
           style="vertical-align: middle;">
       </div>
     </div>
+
     <div class="row mt-5">
       <div class="col-sm-12 text-center">
         <button class="btn btn-secondary" style="margin-right: 10px;">Huỷ lịch hẹn</button>

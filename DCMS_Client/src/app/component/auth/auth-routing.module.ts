@@ -11,12 +11,12 @@ const authRoutes: Routes = [
   },
 
   {
-    path: 'receptionist',
+    path: 'letan',
     loadChildren: () => import('../receptionist/receptionist.module').then(m => m.ReceptionistModule)
   },
 
   {
-    path: 'patient',
+    path: 'benhnhan',
     loadChildren: () => import('../patient/patient.module').then(m => m.PatientModule)
   },
 

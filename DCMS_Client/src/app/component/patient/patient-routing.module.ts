@@ -14,29 +14,29 @@ const authRoutes: Routes = [
     component: PatientManagementComponent
   },
   {
-    path: 'records', children:[
+    path: 'danhsach', children:[
       {
       path:'', component:PatientRecordsComponent,
       },
       {
-        path: 'tab/treatment-course',
+        path: 'tab/lichtrinhdieutri',
         component: PatientTreatmentCourseTabComponent
       },
       {
-        path: 'tab/appointment',
+        path: 'tab/lichhen',
         component: PatientAppointmentTabComponent
       },
       {
-        path: 'tab/payment',
+        path: 'tab/thanhtoan',
         component: PatientPaymentTabComponent
       },
       // {path:'tab/profile/:id', component:PatientProfileTabComponent}
-      {path:'tab/profile', component:PatientProfileTabComponent}
+      {path:'tab/hosobenhnhan', component:PatientProfileTabComponent}
 
       ]
   },
   {
-    path:'doi-lich-hen/:epoch/:appointmentId', component:ChangeAppointmentComponent
+    path:'doilichhen/:epoch/:appointmentId', component:ChangeAppointmentComponent
   },
 
 ];
