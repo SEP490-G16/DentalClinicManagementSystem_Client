@@ -1,4 +1,4 @@
-<div class="page-wrapper bg-wrapper">
+<!--<div class="page-wrapper bg-wrapper">
   <div class="content">
     <div class="buy-form">
       <div class="row">
@@ -44,17 +44,7 @@
                 <td>abc</td>
                 <td>abc</td>
                 <td class="text-center">
-                 <!-- <div class="dropdown dropdown-action">
-                    <a href="#" class="action-icon dropdown-toggle"data-bs-toggle="dropdown" aria-expanded="false"><i
-                      class="fas fa-ellipsis-v"></i></a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="#"><i class="fas fa-pencil-alt m-r-5"></i>
-                        Edit</a>
-                      <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_employee"><i
-                        class="fas fa-trash-alt m-r-5"></i> Delete</a>
-                    </div>
-                  </div>-->
-                  <button href="#" class="btn btn-primary float-right btn-rounded"><i class="bi bi-pencil-square"></i></button>
+                  <button href="#" class="btn btn-primary float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#editMedicineModal"><i class="bi bi-pencil-square"></i></button>
                   <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_medicine"><i class="bi bi-trash"></i></button>
                 </td>
               </tr>
@@ -64,7 +54,7 @@
                 <td>abc</td>
                 <td>abc</td>
                 <td class="text-center">
-                  <button href="#" class="btn btn-primary float-right btn-rounded"><i class="bi bi-pencil-square"></i></button>
+                  <button href="#" class="btn btn-primary float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#editMedicineModal"><i class="bi bi-pencil-square"></i></button>
                   <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_medicine"><i class="bi bi-trash"></i></button>
                 </td>
               </tr>
@@ -74,7 +64,7 @@
                 <td>abc</td>
                 <td>abc</td>
                 <td class="text-center">
-                  <button href="#" class="btn btn-primary float-right btn-rounded"><i class="bi bi-pencil-square"></i></button>
+                  <button href="#" class="btn btn-primary float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#editMedicineModal"><i class="bi bi-pencil-square"></i></button>
                   <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_medicine"><i class="bi bi-trash"></i></button>
                 </td>
               </tr>
@@ -84,7 +74,7 @@
                 <td>abc</td>
                 <td>abc</td>
                 <td class="text-center">
-                  <button href="#" class="btn btn-primary float-right btn-rounded"><i class="bi bi-pencil-square"></i></button>
+                  <button href="#" class="btn btn-primary float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#editMedicineModal"><i class="bi bi-pencil-square"></i></button>
                   <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_medicine"><i class="bi bi-trash"></i></button>
                 </td>
               </tr>
@@ -94,7 +84,7 @@
                 <td>abc</td>
                 <td>abc</td>
                 <td class="text-center">
-                  <button href="#" class="btn btn-primary float-right btn-rounded"><i class="bi bi-pencil-square"></i></button>
+                  <button href="#" class="btn btn-primary float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#editMedicineModal"><i class="bi bi-pencil-square"></i></button>
                   <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_medicine"><i class="bi bi-trash"></i></button>
                 </td>
               </tr>
@@ -107,6 +97,220 @@
       </div>
     </div>
   </div>
+</div>-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
+<div class="web-wrapper">
+  <div class="container-custom">
+    <!-- Sidebar Section -->
+    <aside>
+
+      <div class="sidebar">
+        <div class="toggle">
+          <div class="logo">
+            <img
+              src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
+            <p><span class="danger">Nguyen Tran</span> Clinic</p>
+          </div>
+          <div class="close" id="close-btn">
+            <span class="material-icons-sharp">
+              close
+            </span>
+          </div>
+        </div>
+        <a routerLink="/admin/appointment">
+          <span class="material-icons-sharp">
+            dashboard
+          </span>
+          <h3>Lịch hẹn</h3>
+        </a>
+        <a routerLink="/receptionist/waitingroom">
+          <span class="material-icons-sharp">
+            person_outline
+          </span>
+          <h3>Thủ thuật</h3>
+        </a>
+        <a routerLink="/patient/records">
+          <span class="material-icons-sharp">
+            receipt_long
+          </span>
+          <h3>Bệnh nhân</h3>
+        </a>
+        <a routerLink="/receptionist/timekeeping">
+          <span class="material-icons-sharp">
+            insights
+          </span>
+          <h3>Bảng theo dõi chấm công</h3>
+        </a>
+        <a routerLink="/receptionist/timekeeping">
+          <span class="material-icons-sharp">
+            insights
+          </span>
+          <h3>Nhân viên</h3>
+        </a>
+        <a routerLink="/admin/labo">
+          <span class="material-icons-sharp">
+            insights
+          </span>
+          <h3>Labo</h3>
+        </a>
+        <a routerLink="/admin/specimens" class="active">
+          <span class="material-icons-sharp">
+            insights
+          </span>
+          <h3>Mẫu</h3>
+        </a>
+        <a routerLink="/receptionist/timekeeping">
+          <span class="material-icons-sharp">
+            insights
+          </span>
+          <h3>Vật liệu</h3>
+        </a>
+        <a routerLink="/receptionist/timekeeping">
+          <span class="material-icons-sharp">
+            insights
+          </span>
+          <h3>Thuốc</h3>
+        </a>
+        <a routerLink="/receptionist/timekeeping">
+          <span class="material-icons-sharp">
+            insights
+          </span>
+          <h3>Cơ sở</h3>
+        </a>
+        <!--<a (click)="signOut()" style="cursor:pointer;">
+          <span class="material-icons-sharp">
+            logout
+          </span>
+          <h3>Logout</h3>
+        </a>-->
+      </div>
+    </aside>
+    <!-- End of Sidebar Section -->
+
+    <!-- Main Content -->
+    <main>
+      <!-- Analyses -->
+      <!-- Analyses -->
+      <div class="analyse">
+        <div class="sales">
+          <div class="status">
+            <div class="info">
+              <h3>Lịch hẹn</h3>
+              <h1 class="text-center">02</h1>
+            </div>
+            <div class="progresss">
+              <svg>
+                <circle cx="38" cy="38" r="36"></circle>
+              </svg>
+              <div class="percentage">
+                <i class="bi bi-calendar3"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visits">
+          <div class="status">
+            <div class="info">
+              <h3>Phòng chờ</h3>
+              <h1 class="text-center">24</h1>
+            </div>
+            <div class="progresss">
+              <svg>
+                <circle cx="38" cy="38" r="36"></circle>
+              </svg>
+              <div class="percentage">
+                <i class="bi bi-houses"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="searches">
+          <div class="status">
+            <div class="info">
+              <h3>Bệnh nhân</h3>
+              <h1 class="text-center">23</h1>
+            </div>
+            <div class="progresss">
+              <svg>
+                <circle cx="38" cy="38" r="36"></circle>
+              </svg>
+              <div class="percentage">
+                <i class="bi bi-person-standing"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile">
+          <div class="icon">
+
+          </div>
+          <div class="info">
+            <p>Xin chào, <b>Long</b></p>
+            <small class="text-muted">Admin</small>
+          </div>
+          <div class="profile-photo">
+            <img src="../../../../assets/img/person.png">
+          </div>
+        </div>
+      </div>
+      <!-- End of Analyses -->
+
+      <!-- New Users Section -->
+      <!-- End of New Users Section -->
+
+      <!-- Recent Orders Table -->
+      <div class="recent-orders">
+        <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px;">Thuốc</h2>
+        <section class="table__header">
+          <h1></h1>
+          <div class="export__file">
+          </div>
+        </section>
+        <div class="row filter-row m-t-30">
+          <div class="col-sm-6 col-md-3">
+            <div class="form-group form-group-filter">
+              <button class="btn button-timekeeping float-right" data-bs-toggle="modal" data-bs-target="#addSpecimensModal"><i class="bi bi-plus-circle"></i> Thêm mới
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- <h2>Mẫu vật</h2> -->
+        <div style="overflow-y: auto; height: 300px;" style="margin-top: 30px;">
+          <table>
+            <thead>
+            <tr>
+              <th style="padding: 20px;">Tên thuốc</th> <!--1-->
+              <th style="min-width: 80px">Mô tả</th> <!--2-->
+              <th style="min-width: 82px">Cách sử dụng</th> <!--3-->
+              <th style="min-width: 85px">Chống chỉ định</th> <!--4-->
+              <th style="min-width: 101px">Thao tác</th> <!--14-->
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td><h2>Thuốc A</h2></td>
+              <td>thuốc tê</td>
+              <td>abc</td>
+              <td>abc</td>
+              <td class="text-center">
+                <button href="#" class="btn btn-primary float-right btn-rounded" style="padding: 2px 5px;margin-right: 3px;" data-bs-toggle="modal" data-bs-target="#editMedicineModal"><i class="bi bi-pencil-square"></i></button>
+                <button href="#" class="btn btn-danger float-right btn-rounded" style="padding: 2px 5px" data-bs-toggle="modal" data-bs-target="#delete_medicine"><i class="bi bi-trash"></i></button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+      <!-- End of Recent Orders -->
+    </main>
+    <!-- End of Main Content -->
+
+  </div>
 </div>
 <app-popup-add-medicine></app-popup-add-medicine>
 <app-popup-delete-medicine></app-popup-delete-medicine>
+<app-popup-edit-medicine></app-popup-edit-medicine>

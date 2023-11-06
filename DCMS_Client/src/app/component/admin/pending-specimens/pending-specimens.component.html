@@ -1,74 +1,238 @@
 
-<div class="row">
-  <div class="col-md-2">
-    <a routerLink="/admin/specimens" class="page-title">Quản lý mẫu</a>
-  </div>
-  <div class="col-md-3">
-    <a routerLink="/admin/specimens/approve-specimens" class="page-title">Mẫu đang chờ duyệt</a>
-  </div>
-</div>
-<div class="row filter-row m-t-30">
-  <div class="col-sm-6 col-md-3">
-    <div class="form-group form-group-filter">
-      <button class="btn btn-custom float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#addSpecimensModal"><i class="bi bi-plus-circle"></i> Thêm mới
-      </button>
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-12">
-    <div class="table-container">
-      <table class="table table-bordered text-center rounded-3 overflow-hidden">
-        <thead>
-        <tr>
-          <th>Tên mẫu</th>
-          <th>Tên bệnh nhân</th>
-          <th>Chất liệu</th>
-          <th>Số lượng</th>
-          <th>Đơn giá</th>
-          <th>Ngày lắp</th>
-          <th>Trạng thái duyệt</th>
-          <th>Thành tiền</th>
-          <th class="text-center">Thao tác</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let m of approveSpecimensList">
-          <td><h2>{{m.ms_name}}</h2></td>
-          <td>{{m.p_patient_name}}</td>
-          <td>{{m.ms_type}}</td>
-          <td>{{m.ms_quantity}}</td>
-          <td>{{m.ms_unit_price}}</td>
-          <td></td>
-          <td>{{m.ms_status === 1 ?'Chưa duyệt' : ''}}</td>
-          <td>{{ m.ms_quantity * m.ms_unit_price}}</td>
-          <td class="text-center" style="min-width: 150px">
-            <button href="#" class="btn btn-primary float-right btn-rounded" (click)="approveSpecimens(m.ms_id,m)"><i class="bi bi-check-circle"></i></button>
-            <button href="#" class="btn btn-primary float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#editApproveSpecimensModal" (click)="openEditApproveSpecimens(m.ms_id,m)"><i class="bi bi-pencil-square"></i></button>
-            <button href="#" class="btn btn-danger float-right btn-rounded" (click)="deleteApproveSpecimens(m.ms_id)"><i class="bi bi-trash"></i></button>
-          </td>
-        </tr>
-       <!-- <tr >
-          <td>1</td>
-          <td><h2></h2></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td class="text-center">
-            <button href="#" class="btn btn-primary float-right btn-rounded" (click)="approveSpecimens()"><i class="bi bi-check-circle"></i> Duyệt</button>
-            <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_specimens"><i class="bi bi-trash"></i></button>
-          </td>
-        </tr>-->
-        </tbody>
-      </table>
-    </div>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
+<div class="web-wrapper">
+  <div class="container-custom">
+    <!-- Sidebar Section -->
+    <aside>
+
+      <div class="sidebar">
+        <div class="toggle">
+          <div class="logo">
+            <img
+              src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
+            <p><span class="danger">Nguyen Tran</span> Clinic</p>
+          </div>
+          <div class="close" id="close-btn">
+            <span class="material-icons-sharp">
+              close
+            </span>
+          </div>
+        </div>
+        <a routerLink="/admin/appointment">
+          <span class="material-icons-sharp">
+            dashboard
+          </span>
+          <h3>Lịch hẹn</h3>
+        </a>
+        <a routerLink="/receptionist/waitingroom">
+          <span class="material-icons-sharp">
+            person_outline
+          </span>
+          <h3>Thủ thuật</h3>
+        </a>
+        <a routerLink="/patient/records">
+          <span class="material-icons-sharp">
+            receipt_long
+          </span>
+          <h3>Bệnh nhân</h3>
+        </a>
+        <a routerLink="/receptionist/timekeeping">
+          <span class="material-icons-sharp">
+            insights
+          </span>
+          <h3>Bảng theo dõi chấm công</h3>
+        </a>
+        <a routerLink="/receptionist/timekeeping">
+          <span class="material-icons-sharp">
+            insights
+          </span>
+          <h3>Nhân viên</h3>
+        </a>
+        <a routerLink="/admin/labo">
+          <span class="material-icons-sharp">
+            insights
+          </span>
+          <h3>Labo</h3>
+        </a>
+        <a routerLink="/admin/specimens" class="active">
+          <span class="material-icons-sharp">
+            insights
+          </span>
+          <h3>Mẫu</h3>
+        </a>
+        <a routerLink="/receptionist/timekeeping">
+          <span class="material-icons-sharp">
+            insights
+          </span>
+          <h3>Vật liệu</h3>
+        </a>
+        <a routerLink="/receptionist/timekeeping">
+          <span class="material-icons-sharp">
+            insights
+          </span>
+          <h3>Thuốc</h3>
+        </a>
+        <a routerLink="/receptionist/timekeeping">
+          <span class="material-icons-sharp">
+            insights
+          </span>
+          <h3>Cơ sở</h3>
+        </a>
+        <!--<a (click)="signOut()" style="cursor:pointer;">
+          <span class="material-icons-sharp">
+            logout
+          </span>
+          <h3>Logout</h3>
+        </a>-->
+      </div>
+    </aside>
+    <!-- End of Sidebar Section -->
+
+    <!-- Main Content -->
+    <main>
+      <!-- Analyses -->
+      <!-- Analyses -->
+      <div class="analyse">
+        <div class="sales">
+          <div class="status">
+            <div class="info">
+              <h3>Lịch hẹn</h3>
+              <h1 class="text-center">02</h1>
+            </div>
+            <div class="progresss">
+              <svg>
+                <circle cx="38" cy="38" r="36"></circle>
+              </svg>
+              <div class="percentage">
+                <i class="bi bi-calendar3"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visits">
+          <div class="status">
+            <div class="info">
+              <h3>Phòng chờ</h3>
+              <h1 class="text-center">24</h1>
+            </div>
+            <div class="progresss">
+              <svg>
+                <circle cx="38" cy="38" r="36"></circle>
+              </svg>
+              <div class="percentage">
+                <i class="bi bi-houses"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="searches">
+          <div class="status">
+            <div class="info">
+              <h3>Bệnh nhân</h3>
+              <h1 class="text-center">23</h1>
+            </div>
+            <div class="progresss">
+              <svg>
+                <circle cx="38" cy="38" r="36"></circle>
+              </svg>
+              <div class="percentage">
+                <i class="bi bi-person-standing"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile">
+          <div class="icon">
+
+          </div>
+          <div class="info">
+            <p>Xin chào, <b>Long</b></p>
+            <small class="text-muted">Admin</small>
+          </div>
+          <div class="profile-photo">
+            <img src="../../../../assets/img/person.png">
+          </div>
+        </div>
+      </div>
+      <!-- End of Analyses -->
+
+      <!-- New Users Section -->
+      <!-- End of New Users Section -->
+
+      <!-- Recent Orders Table -->
+      <div class="recent-orders">
+        <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px;">Mẫu đang chờ duyệt</h2>
+        <section class="table__header">
+          <h1></h1>
+          <div class="export__file">
+          </div>
+        </section>
+
+        <div class="row" style="margin-bottom: 20px;">
+          <div class="col-md-2">
+            <a routerLink="/admin/specimens" class="page-title">Quản lý mẫu</a>
+          </div>
+          <div class="col-md-2">
+            <a routerLink="/admin/specimens/approve-specimens" class="page-title">Mẫu đang chờ duyệt</a>
+          </div>
+        </div>
+        <div class="row filter-row m-t-30">
+          <div class="col-sm-6 col-md-3">
+            <div class="form-group form-group-filter">
+              <button class="btn button-timekeeping float-right" data-bs-toggle="modal" data-bs-target="#addSpecimensModal"><i class="bi bi-plus-circle"></i> Thêm mới
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- <h2>Mẫu vật</h2> -->
+        <div style="overflow-y: auto; height: 300px;" style="margin-top: 30px;">
+          <table>
+            <thead>
+            <tr>
+              <th style="padding: 20px;">Mã mẫu</th> <!--1-->
+              <th style="min-width: 80px">Tên mẫu</th> <!--2-->
+              <th style="min-width: 82px">Tên bệnh nhân</th> <!--3-->
+              <th style="min-width: 85px">Chất liệu</th> <!--4-->
+              <th style="min-width: 75px">Số lượng</th> <!--5-->
+              <th style="min-width: 80px">Đơn giá</th> <!--6-->
+              <th style="min-width: 90px">Ngày lắp</th> <!--7-->
+              <th style="min-width: 75px">Trạng thái duyệt</th> <!--8-->
+              <th style="min-width: 75px">Thành tiền</th>
+              <th style="min-width: 101px">Thao tác</th> <!--14-->
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let m of approveSpecimensList">
+              <td>{{m.ms_id}}</td>
+              <td>{{m.ms_name}}</td>
+              <td>{{m.p_patient_name}}</td>
+              <td>{{m.ms_type}}</td>
+              <td>{{m.ms_quantity}}</td>
+              <td>{{m.ms_unit_price}}</td>
+              <td>{{ m.ms_used_date | date:'yyyy-MM-dd' }}</td>
+              <td>{{m.ms_status === 1 ?'Chưa duyệt' : ''}}</td>
+              <td>{{ m.ms_quantity * m.ms_unit_price}}</td>
+              <td class="text-center" style="min-width: 150px">
+                <button href="#" class="btn btn-primary float-right btn-rounded" style="padding: 2px 5px; margin-right: 3px" (click)="approveSpecimens(m.ms_id,m)"><i class="bi bi-check-circle"></i></button>
+                <button href="#" class="btn btn-primary float-right btn-rounded"  style="padding: 2px 5px; margin-right: 3px" data-bs-toggle="modal" data-bs-target="#editApproveSpecimensModal" (click)="openEditApproveSpecimens(m.ms_id,m)"><i class="bi bi-pencil-square"></i></button>
+                <button href="#" class="btn btn-danger float-right btn-rounded" style="padding:2px 5px; " (click)="deleteApproveSpecimens(m.ms_id)"><i class="bi bi-trash"></i></button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+      <!-- End of Recent Orders -->
+    </main>
+    <!-- End of Main Content -->
+
   </div>
 </div>
 <app-popup-add-approve-specimens></app-popup-add-approve-specimens>
-<app-popup-add-specimens></app-popup-add-specimens>
+<app-popup-add-specimens [approveSpecimensList]="approveSpecimensList"></app-popup-add-specimens>
 <app-popup-delete-specimens></app-popup-delete-specimens>
-<app-popup-edit-approve-specimens [id] = "id" [specimens] = "specimen"></app-popup-edit-approve-specimens>
+<app-popup-edit-approve-specimens [approveSpecimensList]="approveSpecimensList" [id] = "id" [specimens] = "specimen"></app-popup-edit-approve-specimens>

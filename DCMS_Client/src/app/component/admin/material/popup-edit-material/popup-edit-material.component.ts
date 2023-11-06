@@ -3,12 +3,11 @@ import {MaterialService} from "../../../../service/MaterialService/material.serv
 import {ToastrService} from "ngx-toastr";
 
 @Component({
-  selector: 'app-popup-add-material',
-  templateUrl: './popup-add-material.component.html',
-  styleUrls: ['./popup-add-material.component.css']
+  selector: 'app-popup-edit-material',
+  templateUrl: './popup-edit-material.component.html',
+  styleUrls: ['./popup-edit-material.component.css']
 })
-export class PopupAddMaterialComponent implements OnInit {
-
+export class PopupEditMaterialComponent implements OnInit {
   material = {
     name:'',
     description:'',
@@ -26,12 +25,13 @@ export class PopupAddMaterialComponent implements OnInit {
     unitPrice:''
   }
   isSubmitted:boolean = false;
+  id:any;
   constructor(private materialSerivce:MaterialService,
               private toastr:ToastrService) { }
 
   ngOnInit(): void {
   }
-  addMaterial(){
+  updateMaterial(){
     this.resetValidate();
     if (!this.material.name){
       this.validateMaterial.name = "Vui lòng nhập tên vật liệu!";
@@ -60,13 +60,13 @@ export class PopupAddMaterialComponent implements OnInit {
     if (this.isSubmitted){
       return;
     }
-    this.materialSerivce.addMaterial(this.materialBody).subscribe(data=>{
-      this.toastr.success('Thêm mới vật liệu thành công!');
-    },
+    this.materialSerivce.updateMaterial(this.id,this.materialBody).subscribe(data=>{
+        this.toastr.success('Thêm mới vật liệu thành công!');
+      },
       error => {
-      this.toastr.error('Thêm mới vật liệu thất bại!');
+        this.toastr.error('Thêm mới vật liệu thất bại!');
       }
-      )
+    )
   }
   private resetValidate(){
     this.validateMaterial = {

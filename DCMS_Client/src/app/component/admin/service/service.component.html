@@ -183,7 +183,7 @@
           </div>
           <div class="col-3"></div>
 
-          <div class="col-4" style="margin-top: 10px;">
+          <div class="col-5" style="margin-top: 10px;">
             <section class="table__header">
               <h1></h1>
               <div class="input-group">
@@ -191,18 +191,18 @@
               </div>
             </section>
           </div>
-          <div class="col-3" style="margin-top: 10px;">
+          <div class="col-2" style="margin-top: 10px;">
             <button href="#" class="btn button-timekeeping float-end" data-bs-toggle="modal"
-              data-bs-target="#addServiceModal"><i class="bi bi-plus-circle"></i> Thêm mới
+              data-bs-target="#addServiceModal" style="margin-right: 1rem"><i class="bi bi-plus-circle"></i> Thêm mới
             </button>
           </div>
         </div>
 
 
         <div class="row" style="padding: 5px">
-          <div class="col-5">
+          <div class="col-4 table-container">
             <table>
-              <thead>
+              <thead class="sticky-thead">
                 <tr>
                   <th>Mã nhóm</th>
                   <th>Tên nhóm thủ thuật</th>
@@ -228,9 +228,10 @@
             </table>
           </div>
 
-          <div class="col-7">
-            <table style="margin-left: 20px;">
-              <thead>
+          <div class="col-7 table-container" style="margin-left: 6rem;">
+
+              <table>
+                <thead class="sticky-thead">
                 <tr>
                   <th>Mã TT</th>
                   <th>Tên thủ thuật</th>
@@ -239,8 +240,8 @@
                   <th>Mô tả</th>
                   <th class="text-center">Thao tác</th>
                 </tr>
-              </thead>
-              <tbody>
+                </thead>
+                <tbody>
                 <tr *ngFor="let s of medicalProcedureList">
                   <td>{{s.mp_id}}</td>
                   <td>
@@ -251,17 +252,18 @@
                   <td>{{s.mp_description}}</td>
                   <td class="text-center">
                     <button href="#" class="btn btn-primary float-right btn-rounded" data-bs-toggle="modal"
-                      data-bs-target="#editServiceModal" (click)="openEditService(s.mp_id,s)"><i
-                        class="bi bi-pencil-square"></i></button>
+                            data-bs-target="#editServiceModal" (click)="openEditService(s.mp_id,s)"><i
+                      class="bi bi-pencil-square"></i></button>
                     <button href="#" class="btn btn-danger float-right btn-rounded"
-                      (click)="deleteMedicalProcedure(s.mp_id)">
+                            (click)="deleteMedicalProcedure(s.mp_id)">
                       <!--data-bs-toggle="modal" data-bs-target="#delete_service"--> <i
-                        class="bi bi-trash"></i></button>
+                      class="bi bi-trash"></i></button>
                   </td>
                 </tr>
-              </tbody>
-            </table>
-          </div>
+                </tbody>
+              </table>
+            </div>
+
         </div>
       </div>
 

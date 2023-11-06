@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {MedicalSupplyService} from "../../../../service/MedicalSupplyService/medical-supply.service";
 import {ToastrService} from "ngx-toastr";
 import {PatientService} from "../../../../service/PatientService/patient.service";
@@ -9,7 +9,7 @@ import {PatientService} from "../../../../service/PatientService/patient.service
   styleUrls: ['./popup-add-specimens.component.css']
 })
 export class PopupAddSpecimensComponent implements OnInit {
-
+  @Input() approveSpecimensList:any;
   validateSpecimens = {
     name:'',
     type:'',
@@ -46,6 +46,17 @@ export class PopupAddSpecimensComponent implements OnInit {
     patient_id:'',
     facility_id:'',
   }
+  specimensRes = {
+    medical_supply_id:'',
+    ms_name:'',
+    ms_type:'',
+    p_patient_name:'',
+    ms_quantity:'',
+    ms_unit_price:'',
+    ms_used_date:'',
+    ms_status:0
+  }
+
   patients:any[]=[];
   patientId:any;
   isSubmitted:boolean = false;
@@ -58,6 +69,36 @@ export class PopupAddSpecimensComponent implements OnInit {
   calculateTotal() {
     const total = parseInt(this.specimen.quantity) * parseInt(this.specimen.price);
    this.specimen.total = total.toString();
+  }
+  convertTimestampToDateString(timestamp: any): string {
+    const date = new Date(timestamp * 1000); // Nhân với 1000 để chuyển đổi từ giây sang mili giây
+    const day = this.padZero(date.getDate());
+    const month = this.padZero(date.getMonth() + 1);
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0'); // Lấy giờ và đảm bảo có 2 chữ số
+    const minutes = date.getMinutes().toString().padStart(2, '0'); // Lấy phút và đảm bảo có 2 chữ số
+    const formattedDate = `${year}-${month}-${day}`;
+    return formattedDate;
+  }
+  padZero(value: number): string {
+    if (value < 10) {
+      return `0${value}`;
+    }
+    return value.toString();
+  }
+  updateSpecimensRes(){
+    let usedDate = this.convertTimestampToDateString(this.specimenBody.used_date);
+    this.specimensRes={
+      medical_supply_id:'',
+      ms_name: this.specimenBody.name,
+      ms_type: this.specimenBody.type,
+      p_patient_name: this.specimen.receiver,
+      ms_quantity: this.specimenBody.quantity,
+      ms_unit_price: this.specimenBody.unit_price,
+      ms_used_date: usedDate,
+      ms_status: 1
+    }
+
   }
   addMedicalSupply(){
     this.resetValidate();
@@ -130,7 +171,10 @@ export class PopupAddSpecimensComponent implements OnInit {
       this.toastr.success('Thêm mới mẫu thành công !');
       let ref = document.getElementById('cancel-specimen');
       ref?.click();
-      window.location.reload();
+      //window.location.reload();
+      this.updateSpecimensRes();
+      this.specimensRes.medical_supply_id = data.data.medical_supply_id;
+      this.approveSpecimensList.unshift(this.specimensRes);
     },
       error => {
       this.toastr.error('Thêm mới thất bại !');

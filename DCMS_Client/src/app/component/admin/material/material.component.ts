@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {MaterialService} from "../../../service/MaterialService/material.service";
 
 @Component({
   selector: 'app-material',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MaterialComponent implements OnInit {
 
-  constructor() { }
+  constructor(private materialService:MaterialService) { }
 
   ngOnInit(): void {
   }

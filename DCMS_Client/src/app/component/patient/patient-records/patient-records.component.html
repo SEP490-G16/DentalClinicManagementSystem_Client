@@ -127,6 +127,7 @@
 
       <!-- Recent Orders Table -->
       <div class="recent-orders">
+        <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px;">Danh sách bệnh nhân</h2>
         <section class="table__header row">
           <div class="col-4">
             <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myBNModal"><i
@@ -139,14 +140,9 @@
           <div class="export__file">
           </div>
         </section>
-
-        <div class="row mt-5">
-          <ngb-pagination [collectionSize]="pagingSearch.total" [(page)]="pagingSearch.paging" [boundaryLinks]="true"  (pageChange)="pageChanged($event)"></ngb-pagination>
-        </div>
-        <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px;">Danh sách bệnh nhân</h2>
-
-        <table>
-          <thead>
+        <div class="table-container">
+          <table>
+            <thead class="sticky-thead">
             <tr>
               <th style="max-width: 50px;">Mã bệnh nhân</th>
               <th>Tên bệnh nhân</th>
@@ -154,14 +150,14 @@
               <th>Địa chỉ</th>
               <th>Thao tác</th>
             </tr>
-          </thead>
-          <tbody>
+            </thead>
+            <tbody>
             <tr *ngFor="let p of searchPatientsList" [ngClass]="{'new-record': p.isNew,'pulse': p.isPulsing}">
               <td>
                 <!--HE153724-->{{p.patient_id}}
               </td>
               <td>
-                  <a  (click)="detail(p.patient_id)" >{{p.patient_name}}</a>
+                <a  (click)="detail(p.patient_id)" >{{p.patient_name}}</a>
               </td>
               <td>
                 {{p.phone_number}}
@@ -170,12 +166,17 @@
                 {{p.address}}
               </td>
               <td>
-                <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_patient" (click)="openDeletePatient(p.patient_id,searchPatientsList)"><i class="bi bi-trash"></i></button>
+                <button href="#" class="btn btn-danger float-right btn-rounded" style="padding: 2px 5px" data-bs-toggle="modal" data-bs-target="#delete_patient" (click)="openDeletePatient(p.patient_id,searchPatientsList)"><i class="bi bi-trash"></i></button>
               </td>
             </tr>
 
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+
+        </div>
+        <div class="row mt-5" style="float:right;">
+          <ngb-pagination [collectionSize]="pagingSearch.total" [(page)]="pagingSearch.paging" [boundaryLinks]="true"  (pageChange)="pageChanged($event)"></ngb-pagination>
+        </div>
       </div>
       <!-- End of Recent Orders -->
 

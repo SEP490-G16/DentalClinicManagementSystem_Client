@@ -11,6 +11,7 @@ import {PatientService} from "../../../../service/PatientService/patient.service
 export class PopupEditApproveSpecimensComponent implements OnChanges {
   @Input() id:any;
   @Input() specimens: any;
+  @Input() approveSpecimensList:any;
   specimen={
     name:'',
     type:'',
@@ -48,6 +49,16 @@ export class PopupEditApproveSpecimensComponent implements OnChanges {
     orderDate:'',
     receiver:'',
   }
+  specimensRes = {
+    ms_id:'',
+    ms_name:'',
+    ms_type:'',
+    p_patient_name:'',
+    ms_quantity:'',
+    ms_unit_price:'',
+    ms_used_date:'',
+    ms_status:0
+  }
   isSubmitted:boolean = false;
   specimenId:any;
   patients:any[]=[];
@@ -75,7 +86,22 @@ export class PopupEditApproveSpecimensComponent implements OnChanges {
     // Xóa danh sách kết quả
     this.patients = [];
   }
-
+  convertTimestampToDateString(timestamp: any): string {
+    const date = new Date(timestamp * 1000); // Nhân với 1000 để chuyển đổi từ giây sang mili giây
+    const day = this.padZero(date.getDate());
+    const month = this.padZero(date.getMonth() + 1);
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0'); // Lấy giờ và đảm bảo có 2 chữ số
+    const minutes = date.getMinutes().toString().padStart(2, '0'); // Lấy phút và đảm bảo có 2 chữ số
+    const formattedDate = `${year}-${month}-${day}`;
+    return formattedDate;
+  }
+  padZero(value: number): string {
+    if (value < 10) {
+      return `0${value}`;
+    }
+    return value.toString();
+  }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['id']){
       this.specimenId = this.id;
@@ -101,6 +127,20 @@ export class PopupEditApproveSpecimensComponent implements OnChanges {
       const formattedUsedDate = usedDatePart[0];
       this.specimen.usedDate = formattedUsedDate;
     }
+  }
+  updateSpecimensRes(){
+    let usedDate = this.convertTimestampToDateString(this.specimenBody.used_date);
+    this.specimensRes={
+      ms_id:'',
+      ms_name: this.specimenBody.name,
+      ms_type: this.specimenBody.type,
+      p_patient_name: this.specimen.receiver,
+      ms_quantity: this.specimenBody.quantity,
+      ms_unit_price: this.specimenBody.unit_price,
+      ms_used_date: usedDate,
+      ms_status: 1
+    }
+
   }
 
   updateApproveSpecimens(){
@@ -175,7 +215,13 @@ export class PopupEditApproveSpecimensComponent implements OnChanges {
       this.toastr.success('Cập nhật thành công !');
         let ref = document.getElementById('cancel-approve');
         ref?.click();
-        window.location.reload();
+        //window.location.reload();
+        this.updateSpecimensRes();
+        this.specimensRes.ms_id = this.id;
+        const index = this.approveSpecimensList.findIndex((s:any) => s.ms_id === this.id);
+        if (index !== -1) {
+          this.approveSpecimensList[index] = this.specimensRes;
+        }
     },
       error => {
       this.toastr.error('Cập nhật thất bại !');

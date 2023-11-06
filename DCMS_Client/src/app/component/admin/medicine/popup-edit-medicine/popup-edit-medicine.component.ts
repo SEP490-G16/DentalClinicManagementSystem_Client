@@ -1,27 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-popup-add-medicine',
-  templateUrl: './popup-add-medicine.component.html',
-  styleUrls: ['./popup-add-medicine.component.css']
+  selector: 'app-popup-edit-medicine',
+  templateUrl: './popup-edit-medicine.component.html',
+  styleUrls: ['./popup-edit-medicine.component.css']
 })
-export class PopupAddMedicineComponent implements OnInit {
-
+export class PopupEditMedicineComponent implements OnInit {
   medicine={
     name:'',
     toUse:'',
     contraindicated:'',
     description:''
   }
-  constructor() { }
   validateMedicine ={
     name:'',
     toUse:'',
   }
   isSubmitted:boolean = false;
+  constructor() { }
+
   ngOnInit(): void {
   }
-  addMedicine(){
+  updateMedicine(){
     this.resetValidate();
     if (!this.medicine.name){
       this.validateMedicine.name = "Vui lòng nhập tên thuốc!";

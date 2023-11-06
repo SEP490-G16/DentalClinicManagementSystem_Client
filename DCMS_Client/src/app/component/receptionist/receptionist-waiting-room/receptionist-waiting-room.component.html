@@ -135,7 +135,7 @@
           <div class="export__file">
           </div>
         </section> -->
-
+        <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px;">Phòng chờ</h2>
         <div class="row mt-5 mb-5">
           <div class="col-6">
             <button class="btn button-timekeeping" style="margin-right: 30px;" data-bs-toggle="modal"
@@ -155,10 +155,9 @@
             </select>
           </div>
         </div>
-
-        <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px;">Phòng chờ</h2>
-        <table>
-          <thead>
+        <div class="table-container">
+          <table>
+            <thead class="sticky-thead">
             <tr>
               <th>STT</th>
               <th>Mã bệnh nhân</th>
@@ -167,8 +166,8 @@
               <th>Loại điều trị</th>
               <th>Trạng thái</th>
             </tr>
-          </thead>
-          <tbody>
+            </thead>
+            <tbody>
             <tr *ngFor="let wtr of filteredWaitingRoomData; let i = index">
               <td>{{ i + 1 }}</td>
               <td>{{ wtr.patient_id }}</td>
@@ -184,8 +183,10 @@
                 </select>
               </td>
             </tr>
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
+
       </div>
       <!-- End of Recent Orders -->
 
