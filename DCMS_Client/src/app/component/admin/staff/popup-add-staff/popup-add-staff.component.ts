@@ -10,7 +10,7 @@ import { CognitoService } from 'src/app/service/cognito.service';
   styleUrls: ['./popup-add-staff.component.css']
 })
 export class PopupAddStaffComponent implements OnInit {
-  imageURL: string | ArrayBuffer = '';
+  imageURL: string | ArrayBuffer = 'https://icon-library.com/images/staff-icon/staff-icon-15.jpg';
   showPassword: boolean = true;
   showPasswordRepeat:boolean = true;
   password: string = '';

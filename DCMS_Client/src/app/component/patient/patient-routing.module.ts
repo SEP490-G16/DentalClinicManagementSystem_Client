@@ -30,16 +30,14 @@ const authRoutes: Routes = [
         path: 'tab/payment',
         component: PatientPaymentTabComponent
       },
-      {path:'tab/profile/:id', component:PatientProfileTabComponent}
+      // {path:'tab/profile/:id', component:PatientProfileTabComponent}
+      {path:'tab/profile', component:PatientProfileTabComponent}
+
       ]
   },
   {
-    path:'change-appointment/:epoch/:appointmentId', component:ChangeAppointmentComponent
+    path:'doi-lich-hen/:epoch/:appointmentId', component:ChangeAppointmentComponent
   },
-
-
-
-
 
 ];
 

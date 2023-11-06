@@ -111,13 +111,14 @@ body {
     max-width: 100%;
     margin: 0;
   }
-  .input-group{
+
+  .input-group {
     display: flex;
     justify-content: center;
     width: 100%;
   }
 
-  .date-input-custom-change{
+  .date-input-custom-change {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -125,25 +126,29 @@ body {
     border-radius: 4px;
     font-size: 16px;
   }
-  .btn-confirm{
 
+  /* .btn-confirm {
     border-radius: 20px;
     display: flex;
     justify-content: center;
   }
-  .cancel{
+
+  .cancel {
     margin-top: 30px;
     border-radius: 20px;
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
-  }
-  h2{
+  } */
+
+  h2 {
     text-align: center;
   }
-  h3{
+
+  h3 {
     text-align: center;
   }
+
 }
 
 
@@ -164,4 +169,11 @@ h3 {
 button.example-custom-date-class {
   background: orange;
   border-radius: 100%;
+}
+
+.confirm {
+  margin-top: 10rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

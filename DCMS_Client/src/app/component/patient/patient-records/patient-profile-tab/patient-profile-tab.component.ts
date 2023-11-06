@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {PatientService} from "../../../../service/PatientService/patient.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
+import { CognitoService } from 'src/app/service/cognito.service';
 
 @Component({
   selector: 'app-patient-profile-tab',
@@ -12,6 +13,8 @@ export class PatientProfileTabComponent implements OnInit {
 
   constructor(private patientService:PatientService,
               private route:ActivatedRoute,
+              private cognitoService:CognitoService,
+              private router:Router,
               private toastr: ToastrService) { }
   patient:any;
   id:any;
@@ -36,6 +39,8 @@ export class PatientProfileTabComponent implements OnInit {
     createDate:''
   }
   isSubmitted:boolean = false;
+
+
   ngOnInit(): void {
     this.id=this.route.snapshot.params['id'];
     this.getPatient(this.id);
@@ -58,6 +63,27 @@ export class PatientProfileTabComponent implements OnInit {
 
 
   isEditing: boolean = false;
+
+  showSuccessToast(message: string) {
+    this.toastr.success(message, 'Thành công', {
+      timeOut: 3000, // Adjust the duration as needed
+    });
+  }
+
+  showErrorToast(message: string) {
+    this.toastr.error(message, 'Lỗi', {
+      timeOut: 3000, // Adjust the duration as needed
+    });
+  }
+
+  signOut() {
+    this.cognitoService.signOut().then(() => {
+      console.log("Logged out!");
+      this.router.navigate(['/login']);
+    })
+  }
+
+
 
   toggleEditing() {
     this.isEditing = !this.isEditing;

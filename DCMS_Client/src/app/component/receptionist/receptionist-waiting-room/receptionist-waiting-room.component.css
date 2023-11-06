@@ -405,7 +405,7 @@ main .recent-orders a {
 @media screen and (max-width: 1200px) {
   .container-custom {
     width: 95%;
-    grid-template-columns: 7rem auto 23rem;
+    grid-template-columns: 7rem auto;
   }
 
   aside .logo h2 {

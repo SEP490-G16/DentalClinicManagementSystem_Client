@@ -12,17 +12,17 @@ const authRoutes: Routes = [
   },
 
   {
-    path: 'waitingroom',
+    path: 'phong-cho',
     component: ReceptionistWaitingRoomComponent
   },
 
   {
-    path: 'timekeeping',
+    path: 'cham-cong',
     component: ReceptionistTimekeepingComponent
   },
 
   {
-    path: 'appointment',
+    path: 'lich-hen',
     component: ReceptionistAppointmentListComponent
   },
 ];

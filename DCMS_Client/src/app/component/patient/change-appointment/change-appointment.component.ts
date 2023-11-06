@@ -85,7 +85,7 @@ export class ChangeAppointmentComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.fetchAPI();
+    // this.fetchAPI();
   }
 
   isMigrated: boolean = true;

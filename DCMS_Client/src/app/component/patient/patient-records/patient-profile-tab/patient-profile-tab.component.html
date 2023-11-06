@@ -1,101 +1,252 @@
-<h2 class="text-center">Hồ sơ bệnh nhân: </h2>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
+<div class="web-wrapper">
+  <div class="container-custom">
+    <!-- Sidebar Section -->
+    <aside>
 
-<div class="row">
-  <div class="card-box">
-    <ul class="nav nav-tabs">
-      <li class="nav-item"><a class="nav-link" routerLink="/patient/records/tab/profile">Thông tin chung</a></li>
-      <li class="nav-item"><a class="nav-link" routerLink="/patient/records/tab/treatment-course">Khám và điều trị</a></li>
-      <li class="nav-item"><a class="nav-link" routerLink="/patient/records/tab/appointment">Lịch hẹn</a></li>
-      <li class="nav-item"><a class="nav-link" routerLink="/patient/records/tab/payment">Thanh toán</a></li>
-    </ul>
-    <div class="tab-content">
-      <router-outlet></router-outlet>
-    </div>
+      <div class="sidebar">
+        <div class="toggle">
+          <div class="logo">
+            <img
+              src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
+            <p><span class="danger">Nguyen Tran</span> Clinic</p>
+          </div>
+          <div class="close" id="close-btn">
+            <span class="material-icons-sharp">
+              close
+            </span>
+          </div>
+        </div>
+        <a routerLink="/receptionist/appointment" class="active">
+          <span class="material-icons-sharp">
+            dashboard
+          </span>
+          <h3>Lịch hẹn</h3>
+        </a>
+        <a routerLink="/receptionist/waitingroom">
+          <span class="material-icons-sharp">
+            person_outline
+          </span>
+          <h3>Phòng chờ</h3>
+        </a>
+        <a routerLink="/patient/records">
+          <span class="material-icons-sharp">
+            receipt_long
+          </span>
+          <h3>Bệnh nhân</h3>
+        </a>
+        <a routerLink="/receptionist/timekeeping">
+          <span class="material-icons-sharp">
+            insights
+          </span>
+          <h3>Chấm công</h3>
+        </a>
+        <a (click)="signOut()" style="cursor:pointer;">
+          <span class="material-icons-sharp">
+            logout
+          </span>
+          <h3>Logout</h3>
+        </a>
+      </div>
+    </aside>
+    <!-- End of Sidebar Section -->
+
+    <!-- Main Content -->
+    <main>
+      <!-- Analyses -->
+      <div class="analyse">
+        <div class="sales">
+          <div class="status">
+            <div class="info">
+              <h3>Lịch hẹn</h3>
+              <h1 class="text-center">02</h1>
+            </div>
+            <div class="progresss">
+              <svg>
+                <circle cx="38" cy="38" r="36"></circle>
+              </svg>
+              <div class="percentage">
+                <i class="bi bi-calendar3"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visits">
+          <div class="status">
+            <div class="info">
+              <h3>Phòng chờ</h3>
+              <h1 class="text-center">24</h1>
+            </div>
+            <div class="progresss">
+              <svg>
+                <circle cx="38" cy="38" r="36"></circle>
+              </svg>
+              <div class="percentage">
+                <i class="bi bi-houses"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="searches">
+          <div class="status">
+            <div class="info">
+              <h3>Bệnh nhân</h3>
+              <h1 class="text-center">23</h1>
+            </div>
+            <div class="progresss">
+              <svg>
+                <circle cx="38" cy="38" r="36"></circle>
+              </svg>
+              <div class="percentage">
+                <i class="bi bi-person-standing"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile">
+          <div class="icon">
+
+          </div>
+          <div class="info">
+            <p>Xin chào, <b>Linh</b></p>
+            <small class="text-muted">Lễ tân</small>
+          </div>
+          <div class="profile-photo">
+            <img src="../../../../assets/img/person.png">
+          </div>
+        </div>
+      </div>
+      <div class="recent-orders bg-white" style="border-radius: 15px;">
+        <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px; padding-top: 20px;">Hồ sơ bệnh nhân</h2>
+
+        <div class="content-wrapper">
+          <div class="row">
+            <div class="card-box">
+              <ul class="nav nav-tabs">
+                <li class="nav-item mr-2"><a class="nav-link active"
+                  style="padding: 10px; color: #7B4C50;"
+                  routerLink="/patient/records/tab/profile">Thông tin
+                    chung</a>
+                </li>
+                <li class="nav-item mr-2"><a class="nav-link" routerLink="/patient/records/tab/treatment-course"
+                  style="padding: 10px; color: #000;"
+                  >Khám và
+                    điều
+                    trị</a></li>
+                <li class="nav-item mr-2"><a class="nav-link"
+                  style="padding: 10px; color: #000;"
+                  routerLink="/patient/records/tab/appointment">Lịch hẹn</a>
+                </li>
+                <li class="nav-item mr-2"><a class="nav-link"
+                  style="padding: 10px; color: #000;"
+                  routerLink="/patient/records/tab/payment">Thanh toán</a>
+                </li>
+              </ul>
+              <!-- <div class="tab-content">
+                <router-outlet></router-outlet>
+              </div> -->
+            </div>
+          </div>
+          <div class="tab-pane show active" id="TTCtab">
+            <div class="row mt-5">
+              <div class="col text-center">
+                <img src="https://th.bing.com/th/id/R.13156d2168f97d5e7b8880c42d0e2380?rik=I0RORQtJ1OVRLg&riu=http%3a%2f%2fcdn.onlinewebfonts.com%2fsvg%2fimg_320438.png&ehk=eE6Y11wS%2bflUtRgFvBllYtM8ZHabQuUa%2b6y8y3G4gQM%3d&risl=&pid=ImgRaw&r=0" alt="">
+              </div>
+              <div class="col"></div>
+              <div class="col">
+                <div class="form-group mb-3">
+                  <label for="maHoSo">Mã hồ sơ:</label>
+                  <input  [disabled]="!isEditing" id="maHoSo" class="form-control border-bottom-0">
+                </div>
+                <div class="form-group mb-3">
+                  <label for="dateCreated">Ngày tạo:</label>
+                  <input type="datetime-local" [(ngModel)]="patient.created_date" [disabled]="!isEditing" class="form-control border-bottom-0">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                    <p>
+                      {{validatePatient.createDate}}
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group mb-3">
+                  <label for="fullName">Họ và Tên:</label>
+                  <input [(ngModel)]="patient.patient_name" [disabled]="!isEditing" class="form-control border-bottom-0">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                    <p>
+                      {{validatePatient.name}}
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group mb-3">
+                  <label for="gender">Giới tính:</label>
+                  <input type="radio" [(ngModel)]="patient.gender" [value]="1" [disabled]="!isEditing"> Nam
+                  <input type="radio" [(ngModel)]="patient.gender" [value]="0" [disabled]="!isEditing"> Nữ
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                    <p>
+                      {{validatePatient.gender}}
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group mb-3">
+                  <label for="phone">SĐT:</label>
+                  <input [(ngModel)]="patient.phone_number" [disabled]="!isEditing" class="form-control border-bottom-0">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                    <p>
+                      {{validatePatient.phone}}
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group mb-3">
+                  <label for="email">Email:</label>
+                  <input [(ngModel)]="patient.email" [disabled]="!isEditing" class="form-control border-bottom-0">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                    <p>
+                      {{validatePatient.email}}
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group mb-3">
+                  <label for="address">Địa chỉ:</label>
+                  <input [(ngModel)]="patient.address" [disabled]="!isEditing" class="form-control border-bottom-0">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                    <p>
+                      {{validatePatient.address}}
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group mb-3">
+                  <label for="tsb">Tiền sử bệnh:</label>
+                  <input [(ngModel)]="patient.dental_medical_history" [disabled]="!isEditing" class="form-control border-bottom-0">
+                </div>
+                <div class="form-group mb-3">
+                  <label for="note">Ghi chú:</label>
+                  <input [(ngModel)]="patient.description" [disabled]="!isEditing" class="form-control border-bottom-0">
+                </div>
+              </div>
+              <div class="col text-center">
+                <button class="btn btn-custom"  (click)="toggleEditing()"> {{ isEditing ? 'Lưu' : 'Cập nhật'
+                  }}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+      <!-- End of Recent Orders -->
+
+    </main>
+    <!-- End of Main Content -->
+
   </div>
+
 </div>
 
-<div class="tab-pane show active" id="TTCtab">
-  <div class="row mt-5">
-    <div class="col text-center">
-      <img height="300px"
-           src="https://th.bing.com/th/id/R.13156d2168f97d5e7b8880c42d0e2380?rik=I0RORQtJ1OVRLg&riu=http%3a%2f%2fcdn.onlinewebfonts.com%2fsvg%2fimg_320438.png&ehk=eE6Y11wS%2bflUtRgFvBllYtM8ZHabQuUa%2b6y8y3G4gQM%3d&risl=&pid=ImgRaw&r=0"
-           alt="">
-    </div>
-    <div class="col">
-      <div class="form-group mb-3">
-        <label for="maHoSo">Mã hồ sơ:</label>
-        <input  [disabled]="!isEditing" id="maHoSo" class="form-control border-bottom-0">
-      </div>
-      <div class="form-group mb-3">
-        <label for="dateCreated">Ngày tạo:</label>
-        <input type="datetime-local" [(ngModel)]="patient.created_date" [disabled]="!isEditing" class="form-control border-bottom-0">
-        <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
-          <p>
-            {{validatePatient.createDate}}
-          </p>
-        </div>
-      </div>
-      <div class="form-group mb-3">
-        <label for="fullName">Họ và Tên:</label>
-        <input [(ngModel)]="patient.patient_name" [disabled]="!isEditing" class="form-control border-bottom-0">
-        <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
-          <p>
-            {{validatePatient.name}}
-          </p>
-        </div>
-      </div>
-      <div class="form-group mb-3">
-        <label for="gender">Giới tính:</label>
-        <input type="radio" [(ngModel)]="patient.gender" [value]="1" [disabled]="!isEditing"> Nam
-        <input type="radio" [(ngModel)]="patient.gender" [value]="0" [disabled]="!isEditing"> Nữ
-        <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
-          <p>
-            {{validatePatient.gender}}
-          </p>
-        </div>
-      </div>
-      <div class="form-group mb-3">
-        <label for="phone">SĐT:</label>
-        <input [(ngModel)]="patient.phone_number" [disabled]="!isEditing" class="form-control border-bottom-0">
-        <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
-          <p>
-            {{validatePatient.phone}}
-          </p>
-        </div>
-      </div>
-      <div class="form-group mb-3">
-        <label for="email">Email:</label>
-        <input [(ngModel)]="patient.email" [disabled]="!isEditing" class="form-control border-bottom-0">
-        <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
-          <p>
-            {{validatePatient.email}}
-          </p>
-        </div>
-      </div>
-      <div class="form-group mb-3">
-        <label for="address">Địa chỉ:</label>
-        <input [(ngModel)]="patient.address" [disabled]="!isEditing" class="form-control border-bottom-0">
-        <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
-          <p>
-            {{validatePatient.address}}
-          </p>
-        </div>
-      </div>
-      <div class="form-group mb-3">
-        <label for="tsb">Tiền sử bệnh:</label>
-        <input [(ngModel)]="patient.dental_medical_history" [disabled]="!isEditing" class="form-control border-bottom-0">
-      </div>
-      <div class="form-group mb-3">
-        <label for="note">Ghi chú:</label>
-        <input [(ngModel)]="patient.description" [disabled]="!isEditing" class="form-control border-bottom-0">
-      </div>
-    </div>
-    <div class="col text-center">
-      <button class="btn btn-custom"  (click)="toggleEditing()"> {{ isEditing ? 'Lưu' : 'Cập nhật'
-        }}</button>
-    </div>
-  </div>
-</div>
+
+
 <!-- <h2 class="text-center">Hồ sơ bệnh nhân: </h2>
 
 <div class="row">
