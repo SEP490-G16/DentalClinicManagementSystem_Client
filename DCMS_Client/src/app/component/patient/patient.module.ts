@@ -30,6 +30,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { PopupDeletePatientComponent } from './patient-records/popup-delete-patient/popup-delete-patient.component';
 import { PatientLichtrinhdieutriComponent } from './patient-records/patient-lichtrinhdieutri/patient-lichtrinhdieutri.component';
 import { VNDateTimeFormatPipe } from '../shared/pipe/datetimeformat.pipe';
+import { PopupAddTreatmentcourseComponent } from './patient-records/patient-lichtrinhdieutri/popup-add-treatmentcourse/popup-add-treatmentcourse.component';
+import { PopupEditTreatmentcourseComponent } from './patient-records/patient-lichtrinhdieutri/popup-edit-treatmentcourse/popup-edit-treatmentcourse.component';
 @NgModule({
   declarations: [
       PatientManagementComponent,
@@ -42,7 +44,9 @@ import { VNDateTimeFormatPipe } from '../shared/pipe/datetimeformat.pipe';
       PatientPaymentTabComponent,
       PopupDeletePatientComponent,
       PatientLichtrinhdieutriComponent,
-      VNDateTimeFormatPipe
+      VNDateTimeFormatPipe,
+      PopupAddTreatmentcourseComponent,
+      PopupEditTreatmentcourseComponent
   ],
   imports: [
     CommonModule,

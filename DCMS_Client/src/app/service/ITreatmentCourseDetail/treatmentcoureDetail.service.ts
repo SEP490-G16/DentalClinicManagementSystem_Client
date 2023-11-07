@@ -1,0 +1,60 @@
+
+import { ITreatmentCourse } from './../../model/ITreatment-Course';
+import { CognitoService } from '../cognito.service';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class TreatmentCourseDetailService {
+  private apiUrl = 'https://0l59n7hga6.execute-api.ap-southeast-1.amazonaws.com/dev';
+
+  constructor(private http: HttpClient, private cognitoService:CognitoService) { }
+
+  getTreatmentCourseDetail(id:string):Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
+    console.log("id token", idToken);
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      'Accept':'application/json'
+    });
+
+    return this.http.get(`${this.apiUrl}/examination/treatment-course/${id}`, { headers });
+  }
+
+  // postTreatmentCourseDetail(PostTreatmentCourse:any): Observable<any> {
+  //   let idToken = sessionStorage.getItem("id_Token");
+  //   const headers = new HttpHeaders({
+  //     'Authorization': `${idToken}`,
+  //     "Content-Type": "application/json; charset=utf8"
+  //   });
+  //   const requestBody = JSON.stringify(PostTreatmentCourse);
+  //   return this.http.post(`${this.apiUrl}/treatment-course`, requestBody, { headers });
+  // }
+
+  // putTreatmentCourseDetail(id:string, PutTreatmentCourse:any): Observable<any> {
+  //   let idToken = sessionStorage.getItem("id_Token");
+  //   const headers = new HttpHeaders({
+  //     'Authorization': `${idToken}`,
+  //     "Content-Type": "application/json; charset=utf8"
+  //   });
+  //   const requestBody = JSON.stringify(PutTreatmentCourse);
+  //   return this.http.put(`${this.apiUrl}/treatment-course/${id}`, requestBody, { headers });
+  // }
+
+  // deleteTreatmentCourseDetail(id:string):Observable<any> {
+  //   let idToken = sessionStorage.getItem("id_Token");
+
+  //   const headers = new HttpHeaders({
+  //     'Authorization': `${idToken}`
+  //   });
+  //     return this.http.delete(`${this.apiUrl}/treatment-course/${id}`, { headers });
+  // }
+
+
+}
+
+
+//https://0l59n7hga6.execute-api.ap-southeast-1.amazonaws.com/dev

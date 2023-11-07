@@ -8,8 +8,17 @@ export class VNDateTimeFormatPipe implements PipeTransform {
 
   constructor(private datePipe: DatePipe) {}
 
-  transform(value: string): string {
+  transform(value: string, includeTime: boolean = true): string {
+    if (!value || value === 'Invalid Date') {
+      return value;
+    }
+
     const date = new Date(value);
-    return this.datePipe.transform(date, 'HH:mm dd/MM/yyyy') || value;
+
+    if (includeTime) {
+      return this.datePipe.transform(date, 'HH:mm dd/MM/yyyy') || value;
+    } else {
+      return this.datePipe.transform(date, 'dd/MM/yyyy') || value;
+    }
   }
 }

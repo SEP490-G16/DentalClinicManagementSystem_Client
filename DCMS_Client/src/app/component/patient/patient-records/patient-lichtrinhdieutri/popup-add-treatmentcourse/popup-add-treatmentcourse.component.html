@@ -1,0 +1,74 @@
+<div class="modal" id="AddTreatmentModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header color-main">
+        <h4 class="modal-title text-center w-100">Thêm liệu trình</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Mã bệnh nhân</label>
+                <input type="text" class="form-control" id="exampleInputEmail1"
+                [(ngModel)]="Add_TreatmentCourse.patient_id"
+                disabled
+                aria-describedby="emailHelp">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Tên Liệu trình</label>
+                <input type="text" class="form-control" id="exampleInputEmail1"
+                [(ngModel)]="Add_TreatmentCourse.name"
+                aria-describedby="emailHelp">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Status</label>
+                <select class="form-select" aria-label="Default select example"
+                [(ngModel)]="Add_TreatmentCourse.status"
+                >
+                  <option value="1" selected>One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Created Date</label>
+                <input type="date" class="form-control" id="exampleInputEmail1"
+                [(ngModel)]="Add_TreatmentCourse.created_date"
+                aria-describedby="emailHelp">
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" id="cancel" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
+            <button type="button" class="btn btn-save" (click)="addTreatmentCourse()">Lưu</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -129,12 +129,12 @@
             <div class="card-box">
               <ul class="nav nav-tabs" style="padding: 0px 80px;
               ">
-                <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000;"
-                    routerLink="/benhnhan/danhsach/tab/hosobenhnhan">Thông tin
+                <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
+                  (click)="navigateHref('/benhnhan/danhsach/tab/hosobenhnhan/')" >Thông tin
                     chung</a>
                 </li>
                 <li class="nav-item mr-2"><a class="nav-link active"
-                    routerLink="/benhnhan/danhsach/tab/lichtrinhdieutri" style="padding: 10px; color: #7B4C50;">Khám và
+                    (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')" style="padding: 10px; color: #7B4C50;">Khám và
                     điều
                     trị</a></li>
                 <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000;"
@@ -152,43 +152,58 @@
           <div class="tab-pane show active" id="TTCtab">
             <div class="row" style="padding-right: 80px;">
               <div class="col-12">
-                <button class="btn button-timekeeping float-end">Thêm lịch trình</button>
+                <button class="btn button-timekeeping float-end"
+                data-bs-toggle="modal" data-bs-target="#AddTreatmentModal"
+                (click)="addTreatmentCourse()"
+                > <i class="bi bi-plus-circle-fill"></i> Thêm lịch trình</button>
               </div>
             </div>
 
-            <div class="row" style="padding: 0px 80px 50px;">
-              <div class="col-md-12" id="accordion">
-                <div class="card" *ngFor="let course of ITreatmentCourse; let i = index">
-                  <div class="card-header" style="background-color: #7B4C50; color: aliceblue;">
-                    <div class="row">
-                      <div class="col">
-                        <a class="collapsed btn float-start" style="color: white; padding: 2px 4px 8px;"
-                           data-bs-toggle="collapse" [attr.href]="'#collapse' + i" [attr.aria-controls]="'collapse' + i">
-                          Lịch trình: {{ course.name }}
-                        </a>
-                      </div>
-                      <div class="col">
-                        <i class="bi bi-arrow-down-circle float-end" style="padding: 16px 4px 8px; font-size: 20px; cursor: pointer;"
-                           data-bs-toggle="collapse" [attr.href]="'#collapse' + i" [attr.aria-controls]="'collapse' + i">
-                        </i>
+              <div class="row" style="padding: 0px 80px 50px;">
+                <div class="col-md-12" id="accordion">
+                  <div class="card" style="margin-top: 20px;"  *ngFor="let course of ITreatmentCourse; let i = index">
+                    <div class="card-header" style="background-color: #7B4C50; color: aliceblue;">
+                      <div class="row">
+                        <div class="col">
+                          <a class="collapsed btn float-start" style="color: white; padding: 2px 8px 8px; padding-left: 20px;"
+                             data-bs-toggle="collapse" [attr.href]="'#collapse' + i" [attr.aria-controls]="'collapse' + i">
+                            Lịch trình: {{ course.name }}
+                          </a>
+                        </div>
+                        <div class="col">
+                          <i class="bi bi-arrow-down-circle float-end" style="padding-right: 20px; padding-top: 20px; font-size: 20px; cursor: pointer;"
+                             data-bs-toggle="collapse" [attr.href]="'#collapse' + i" [attr.aria-controls]="'collapse' + i">
+                          </i>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div [id]="'collapse' + i" class="collapse" [attr.data-parent]="'#accordion'">
-                    <div class="card-body" style="border: 1px solid #000; padding: 10px;">
-                      <div class="row">
-                        <div class="col">Lần khám {{ i + 1}}: <b>{{ course.created_date | VNdateTimeFormat}}</b></div>
-                        <div class="col">
-                          <i class="bi bi-patch-plus float-end"
-                          style="font-size: 20px;"
-                          ></i>
+                    <div [id]="'collapse' + i" class="collapse" [attr.data-parent]="'#accordion'">
+                      <div class="card-body" style="border: 1px solid #000; padding: 10px;">
+                        <div class="row">
+                          <div class="col">Lần khám {{ i + 1}}: <b>{{ course.created_date | VNdateTimeFormat}}</b></div>
+                          <div class="col">
+                            <div class="action float-end" style="font-size: 20px; padding-right: 10px;">
+                              <button type="btn" class="mr-2">
+                                <i class="bi bi-pencil-square"
+                                data-bs-toggle="modal" data-bs-target="#EditTreatmentModal"
+                                (click)="editTreatmentCourse(course)"></i>
+                              </button>
+                              <button class="btn" class="mr-2">
+                                <i class="bi bi-trash3" (click)="deleteTreatmentCourse(course.treatment_course_id)"></i>
+                              </button>
+                              <i class="bi bi-patch-plus"
+                              style="
+                              cursor: pointer;
+                              " (click)="navigateTreatmentCourse_Detail(course.treatment_course_id)"
+                              ></i>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
           </div>
         </div>
@@ -205,3 +220,6 @@
 
 </div>
 
+
+<app-popup-add-treatmentcourse [Patient_Id]="Patient_Id"></app-popup-add-treatmentcourse>
+<app-popup-edit-treatmentcourse [TreatmentCourse] = "TreatmentCourse"></app-popup-edit-treatmentcourse>

@@ -33,6 +33,29 @@ export class CognitoService {
 
   }
 
+
+  getUserBySub(sub: string): Promise<any> {
+    const params = {
+      UserPoolId: environment.cognito.userPoolId,
+      Username: sub
+    };
+    const cognitoIdentityServiceProvider = new AWS.CognitoIdentityServiceProvider();
+
+    return new Promise((resolve, reject) => {
+      cognitoIdentityServiceProvider.adminGetUser(params, (err, data) => {
+        if (err) {
+          console.error('Lỗi:', err);
+          reject(err);
+        } else {
+          console.log('Thông tin người dùng:', data);
+          resolve(data);
+        }
+      });
+    });
+  }
+
+
+
   listUsers() {
     const cognitoIdentityServiceProvider = new AWS.CognitoIdentityServiceProvider();
 
@@ -97,8 +120,6 @@ export class CognitoService {
         throw error;
       });
   }
-
-
 
 
   signIn(User: IUser): Promise<any> {

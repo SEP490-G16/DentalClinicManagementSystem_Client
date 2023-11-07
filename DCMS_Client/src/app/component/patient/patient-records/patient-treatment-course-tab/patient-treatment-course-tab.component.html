@@ -9,7 +9,8 @@
       <div class="sidebar">
         <div class="toggle">
           <div class="logo">
-            <img src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
+            <img
+              src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
             <p><span class="danger">Nguyen Tran</span> Clinic</p>
           </div>
           <div class="close" id="close-btn">
@@ -125,23 +126,19 @@
           <div class="row">
             <div class="card-box">
               <ul class="nav nav-tabs">
-                <li class="nav-item mr-2"><a class="nav-link active"
-                  style="padding: 10px; color: #7B4C50;"
-                  routerLink="/benhnhan/danhsach/tab/hosobenhnhan">Thông tin
+                <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000;"
+                    routerLink="/benhnhan/danhsach/tab/hosobenhnhan">Thông tin
                     chung</a>
                 </li>
-                <li class="nav-item mr-2"><a class="nav-link" routerLink="/benhnhan/danhsach/tab/lichtrinhdieutri"
-                  style="padding: 10px; color: #000;"
-                  >Khám và
+                <li class="nav-item mr-2"><a class="nav-link active" routerLink="/benhnhan/danhsach/tab/lichtrinhdieutri"
+                    style="padding: 10px; color: #7B4C50;">Lịch trình
                     điều
                     trị</a></li>
-                <li class="nav-item mr-2"><a class="nav-link"
-                  style="padding: 10px; color: #000;"
-                  routerLink="/benhnhan/danhsach/tab/lichhen">Lịch hẹn</a>
+                <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000;"
+                    routerLink="/benhnhan/danhsach/tab/lichhen">Lịch hẹn</a>
                 </li>
-                <li class="nav-item mr-2"><a class="nav-link"
-                  style="padding: 10px; color: #000;"
-                  routerLink="/benhnhan/danhsach/tab/thanhtoan">Thanh toán</a>
+                <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000;"
+                    routerLink="/benhnhan/danhsach/tab/thanhtoan">Thanh toán</a>
                 </li>
               </ul>
               <!-- <div class="tab-content">
@@ -153,7 +150,8 @@
             <div class="KvDTtab-container mt-3">
               <div class="row">
                 <div class="col-sm-12">
-                  <h2 class="color-main text-center bg-primary text-white">Ngày khám 11/9/2023</h2>
+                  <h2 class="color-main text-center bg-primary text-white">Ngày khám
+                    {{TreatmentCourseDetail.created_date | VNdateTimeFormat}}</h2>
                 </div>
               </div>
 
@@ -162,7 +160,8 @@
                 <div class="row content-child">
                   <div class="col-md-12">
                     <div class="form-group mb-3">
-                      <label for="" style="font-size: 17px;">Bác sĩ khám và điều trị: <b>Dr.Long</b></label>
+                      <label for="" style="font-size: 17px;">Bác sĩ khám và điều trị:
+                        <b>{{TreatmentCourseDetail.staff_id}}</b></label>
                     </div>
                   </div>
                 </div>
@@ -177,43 +176,43 @@
                 </div>
 
                 <div class="row mt-3">
-                    <div class="col content-child" >
-                      <textarea
-                      style="min-height: 200px; width: 100%;
+                  <div class="col content-child">
+                    <textarea style="min-height: 200px; width: 100%;
                         text-align: justify;
                         border: 1px solid #000;
-                        "
-                      ></textarea>
-                    </div>
-                    <div class="col content-child">
-                        <textarea
-                        style="min-height: 200px; width: 100%;
+                        " [(ngModel)]="TreatmentCourseDetail.description"></textarea>
+                  </div>
+                  <div class="col content-child">
+                    <textarea style="min-height: 200px; width: 100%;
                         text-align: justify;
                         border: 1px solid #000;"></textarea>
-                    </div>
+                  </div>
                 </div>
 
                 <h2>Hình ảnh</h2>
                 <div class="row mt-3 content-child">
                   <div class="col-md-3">
-                    <img width="100%" height="100%"
-                      src="https://nhakhoathuyanh.com/wp-content/uploads/2020/08/chup-x-quang-nho-rang-khon-1-1400x767.jpg"
-                      alt="ảnh nếu có">
+                    <!-- <img width="100%" height="100%" [src]="TreatmentCourseDetail.xRayImage" alt="ảnh nếu có"> -->
+                    <div class="image-container" style="border: 3px dotted #ccc;" (click)="fileInput.click()">
+                      <img [src]="imageURL" alt="ẢNH" class="text-center">
+                      <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput
+                        style="display: none;">
+                    </div>
+                    <i class="text-center" style="font-size: 12px;">Bấm vào ô vuông này để thêm ảnh X-quang</i>
                   </div>
                   <div class="col-1">
 
                   </div>
                   <div class="col-md-5">
-                    <textarea class="form-control"
-                    style="border: 1px solid #000;
-                    height: 100%;"
-                    placeholder="Nhận xét về ảnh x-quang(nếu có ảnh)"></textarea>
+                    <textarea class="form-control" style="border: 1px solid #000;
+                    height: 100%;" [(ngModel)]="TreatmentCourseDetail.xRayImageDes"
+                      placeholder="Nhận xét về ảnh x-quang(nếu có ảnh)"></textarea>
                   </div>
                 </div>
 
                 <div class="row mt-4">
                   <div class="col-sm-6">
-                    <h2>Khám và điều trị</h2>
+                    <h2>Lịch trình điều trị</h2>
                   </div>
                   <div class="col-sm-6">
                     <button class="btn button-timekeeping float-end">Thêm mới</button>
@@ -287,11 +286,13 @@
                                 <li>Với người lớn: Liều dùng 4-6viên/ngày, chia ra thành 2 lần uống, dùng trong
                                   bữa ăn
                                 </li>
-                                <li>Với trẻ nhỏ: Dùng tương tự người lớn, nhưng liều lượng giảm đi 1 nửa, còn 2 viên/ngày</li>
+                                <li>Với trẻ nhỏ: Dùng tương tự người lớn, nhưng liều lượng giảm đi 1 nửa, còn 2
+                                  viên/ngày</li>
                               </ul>
                             </td>
                             <td>
-                              <p class="equal-width-list">Lưu ý không được uống thuốc tư thế nằm, không dùng cho người cao tuổi. Các đối
+                              <p class="equal-width-list">Lưu ý không được uống thuốc tư thế nằm, không dùng cho người
+                                cao tuổi. Các đối
                                 tượng có bệnh viêm đường ruột, bệnh dạ dày cần tham khảo ý kiến.</p>
                             </td>
                           </tr>

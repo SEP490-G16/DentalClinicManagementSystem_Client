@@ -23,32 +23,34 @@ export class TreatmentCourseService {
     return this.http.get(`${this.apiUrl}/treatment-course/patient-id/${id}`, { headers });
   }
 
-  // postLabo(PostLabo: IPostLabo): Observable<any> {
-  //   let idToken = sessionStorage.getItem("id_Token");
-  //   const headers = new HttpHeaders({
-  //     'Authorization': `${idToken}`,
-  //     "Content-Type": "application/json; charset=utf8"
-  //   });
-  //   const requestBody = JSON.stringify(PostLabo);
-  //   return this.http.post(`${this.apiUrl}/labo`, requestBody, { headers });
-  // }
+  postTreatmentCourse(PostTreatmentCourse:any): Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      "Content-Type": "application/json; charset=utf8"
+    });
+    const requestBody = JSON.stringify(PostTreatmentCourse);
+    return this.http.post(`${this.apiUrl}/treatment-course`, requestBody, { headers });
+  }
 
-  // putLabo(laboId:string, PutLaboBody:IEditLabo): Observable<any> {
-  //   let idToken = sessionStorage.getItem("id_Token");
-  //   const headers = new HttpHeaders({
-  //     'Authorization': `${idToken}`,
-  //     "Content-Type": "application/json; charset=utf8"
-  //   });
-  //   const requestBody = JSON.stringify(PutLaboBody);
-  //   return this.http.put(`${this.apiUrl}/labo/${laboId}`, requestBody, { headers });
-  // }
+  putTreatmentCourse(id:string, PutTreatmentCourse:any): Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      "Content-Type": "application/json; charset=utf8"
+    });
+    const requestBody = JSON.stringify(PutTreatmentCourse);
+    return this.http.put(`${this.apiUrl}/treatment-course/${id}`, requestBody, { headers });
+  }
 
-  // deleteLabo(laboId:string):Observable<any> {
-  //   let idToken = sessionStorage.getItem("id_Token");
+  deleteTreatmentCourse(id:string):Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
 
-  //   const headers = new HttpHeaders({
-  //     'Authorization': `${idToken}`
-  //   });
-  //     return this.http.delete(`${this.apiUrl}/labo/${laboId}`, { headers });
-  // }
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`
+    });
+      return this.http.delete(`${this.apiUrl}/treatment-course/${id}`, { headers });
+  }
+
+
 }
