@@ -1,0 +1,207 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
+<div class="web-wrapper">
+  <div class="container-custom">
+    <!-- Sidebar Section -->
+    <aside>
+
+      <div class="sidebar">
+        <div class="toggle">
+          <div class="logo">
+            <img
+              src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
+            <p><span class="danger">Nguyen Tran</span> Clinic</p>
+          </div>
+          <div class="close" id="close-btn">
+            <span class="material-icons-sharp">
+              close
+            </span>
+          </div>
+        </div>
+        <a routerLink="/letan/lich-hen" class="active">
+          <span class="material-icons-sharp">
+            dashboard
+          </span>
+          <h3>Lịch hẹn</h3>
+        </a>
+        <a routerLink="/letan/phong-cho">
+          <span class="material-icons-sharp">
+            person_outline
+          </span>
+          <h3>Phòng chờ</h3>
+        </a>
+        <a routerLink="/benhnhan/danhsach">
+          <span class="material-icons-sharp">
+            receipt_long
+          </span>
+          <h3>Bệnh nhân</h3>
+        </a>
+        <a routerLink="/letan/cham-cong">
+          <span class="material-icons-sharp">
+            insights
+          </span>
+          <h3>Chấm công</h3>
+        </a>
+        <a (click)="signOut()" style="cursor:pointer;">
+          <span class="material-icons-sharp">
+            logout
+          </span>
+          <h3>Logout</h3>
+        </a>
+      </div>
+    </aside>
+    <!-- End of Sidebar Section -->
+
+    <!-- Main Content -->
+    <main>
+      <!-- Analyses -->
+
+      <div class="analyse">
+        <div class="sales">
+          <div class="status">
+            <div class="info">
+              <h3>Lịch hẹn</h3>
+              <h1 class="text-center">02</h1>
+            </div>
+            <div class="progresss">
+              <svg>
+                <circle cx="38" cy="38" r="36"></circle>
+              </svg>
+              <div class="percentage">
+                <i class="bi bi-calendar3"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visits">
+          <div class="status">
+            <div class="info">
+              <h3>Phòng chờ</h3>
+              <h1 class="text-center">24</h1>
+            </div>
+            <div class="progresss">
+              <svg>
+                <circle cx="38" cy="38" r="36"></circle>
+              </svg>
+              <div class="percentage">
+                <i class="bi bi-houses"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="searches">
+          <div class="status">
+            <div class="info">
+              <h3>Bệnh nhân</h3>
+              <h1 class="text-center">23</h1>
+            </div>
+            <div class="progresss">
+              <svg>
+                <circle cx="38" cy="38" r="36"></circle>
+              </svg>
+              <div class="percentage">
+                <i class="bi bi-person-standing"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile">
+          <div class="icon">
+
+          </div>
+          <div class="info">
+            <p>Xin chào, <b>Linh</b></p>
+            <small class="text-muted">Lễ tân</small>
+          </div>
+          <div class="profile-photo">
+            <img src="../../../../assets/img/person.png">
+          </div>
+        </div>
+      </div>
+
+      <div class="recent-orders bg-white" style="border-radius: 15px;">
+        <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px; padding-top: 20px;">Hồ sơ bệnh nhân</h2>
+
+        <div class="content-wrapper">
+          <div class="row">
+            <div class="card-box">
+              <ul class="nav nav-tabs" style="padding: 0px 80px;
+              ">
+                <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000;"
+                    routerLink="/benhnhan/danhsach/tab/hosobenhnhan">Thông tin
+                    chung</a>
+                </li>
+                <li class="nav-item mr-2"><a class="nav-link active"
+                    routerLink="/benhnhan/danhsach/tab/lichtrinhdieutri" style="padding: 10px; color: #7B4C50;">Khám và
+                    điều
+                    trị</a></li>
+                <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000;"
+                    routerLink="/benhnhan/danhsach/tab/lichhen">Lịch hẹn</a>
+                </li>
+                <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000;"
+                    routerLink="/benhnhan/danhsach/tab/thanhtoan">Thanh toán</a>
+                </li>
+              </ul>
+              <!-- <div class="tab-content">
+                <router-outlet></router-outlet>
+              </div> -->
+            </div>
+          </div>
+          <div class="tab-pane show active" id="TTCtab">
+            <div class="row" style="padding-right: 80px;">
+              <div class="col-12">
+                <button class="btn button-timekeeping float-end">Thêm lịch trình</button>
+              </div>
+            </div>
+
+            <div class="row" style="padding: 0px 80px 50px;">
+              <div class="col-md-12" id="accordion">
+                <div class="card" *ngFor="let course of ITreatmentCourse; let i = index">
+                  <div class="card-header" style="background-color: #7B4C50; color: aliceblue;">
+                    <div class="row">
+                      <div class="col">
+                        <a class="collapsed btn float-start" style="color: white; padding: 2px 4px 8px;"
+                           data-bs-toggle="collapse" [attr.href]="'#collapse' + i" [attr.aria-controls]="'collapse' + i">
+                          Lịch trình: {{ course.name }}
+                        </a>
+                      </div>
+                      <div class="col">
+                        <i class="bi bi-arrow-down-circle float-end" style="padding: 16px 4px 8px; font-size: 20px; cursor: pointer;"
+                           data-bs-toggle="collapse" [attr.href]="'#collapse' + i" [attr.aria-controls]="'collapse' + i">
+                        </i>
+                      </div>
+                    </div>
+                  </div>
+                  <div [id]="'collapse' + i" class="collapse" [attr.data-parent]="'#accordion'">
+                    <div class="card-body" style="border: 1px solid #000; padding: 10px;">
+                      <div class="row">
+                        <div class="col">Lần khám {{ i + 1}}: <b>{{ course.created_date | VNdateTimeFormat}}</b></div>
+                        <div class="col">
+                          <i class="bi bi-patch-plus float-end"
+                          style="font-size: 20px;"
+                          ></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+      </div>
+
+      <!-- End of Recent Orders -->
+
+    </main>
+    <!-- End of Main Content -->
+
+  </div>
+
+</div>
+

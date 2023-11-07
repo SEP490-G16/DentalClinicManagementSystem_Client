@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import {RouterModule} from "@angular/router";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
@@ -28,6 +28,8 @@ import {MatInputModule} from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { PopupDeletePatientComponent } from './patient-records/popup-delete-patient/popup-delete-patient.component';
+import { PatientLichtrinhdieutriComponent } from './patient-records/patient-lichtrinhdieutri/patient-lichtrinhdieutri.component';
+import { VNDateTimeFormatPipe } from '../shared/pipe/datetimeformat.pipe';
 @NgModule({
   declarations: [
       PatientManagementComponent,
@@ -38,7 +40,9 @@ import { PopupDeletePatientComponent } from './patient-records/popup-delete-pati
       PatientTreatmentCourseTabComponent,
       PatientAppointmentTabComponent,
       PatientPaymentTabComponent,
-      PopupDeletePatientComponent
+      PopupDeletePatientComponent,
+      PatientLichtrinhdieutriComponent,
+      VNDateTimeFormatPipe
   ],
   imports: [
     CommonModule,
@@ -59,6 +63,7 @@ import { PopupDeletePatientComponent } from './patient-records/popup-delete-pati
     MatInputModule,
     MatNativeDateModule,
     MatTooltipModule
-  ]
+  ],
+  providers: [DatePipe]
 })
 export class PatientModule { }

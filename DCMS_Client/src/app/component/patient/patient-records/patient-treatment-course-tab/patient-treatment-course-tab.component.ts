@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CognitoService } from 'src/app/service/cognito.service';
 
@@ -10,13 +10,16 @@ import { CognitoService } from 'src/app/service/cognito.service';
 })
 export class PatientTreatmentCourseTabComponent implements OnInit {
 
+  id:string = "";
+
   constructor(
     private cognitoService: CognitoService, private router: Router,
     private toastr: ToastrService,
-
+    private route:ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
+    this.id=this.route.snapshot.params['id'];
   }
 
   showSuccessToast(message: string) {

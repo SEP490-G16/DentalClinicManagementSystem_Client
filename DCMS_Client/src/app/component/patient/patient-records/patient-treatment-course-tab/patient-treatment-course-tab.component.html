@@ -9,8 +9,7 @@
       <div class="sidebar">
         <div class="toggle">
           <div class="logo">
-            <img
-              src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
+            <img src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
             <p><span class="danger">Nguyen Tran</span> Clinic</p>
           </div>
           <div class="close" id="close-btn">
@@ -19,31 +18,31 @@
             </span>
           </div>
         </div>
-        <a routerLink="/receptionist/appointment" class="active">
+        <a routerLink="/letan/lich-hen">
           <span class="material-icons-sharp">
             dashboard
           </span>
           <h3>Lịch hẹn</h3>
         </a>
-        <a routerLink="/receptionist/waitingroom">
+        <a routerLink="/letan/phong-cho">
           <span class="material-icons-sharp">
             person_outline
           </span>
           <h3>Phòng chờ</h3>
         </a>
-        <a routerLink="/patient/records">
+        <a routerLink="/benhnhan/danhsach" class="active">
           <span class="material-icons-sharp">
             receipt_long
           </span>
           <h3>Bệnh nhân</h3>
         </a>
-        <a routerLink="/receptionist/timekeeping">
+        <a routerLink="/letan/cham-cong">
           <span class="material-icons-sharp">
             insights
           </span>
           <h3>Chấm công</h3>
         </a>
-        <a (click)="signOut()" style="cursor:pointer;">
+        <a (click)="signOut()">
           <span class="material-icons-sharp">
             logout
           </span>
@@ -126,23 +125,23 @@
           <div class="row">
             <div class="card-box">
               <ul class="nav nav-tabs">
-                <li class="nav-item mr-2"><a class="nav-link"
-                  style="padding: 10px; color: #000;"
-                  routerLink="/patient/records/tab/profile">Thông tin
+                <li class="nav-item mr-2"><a class="nav-link active"
+                  style="padding: 10px; color: #7B4C50;"
+                  routerLink="/benhnhan/danhsach/tab/hosobenhnhan">Thông tin
                     chung</a>
                 </li>
-                <li class="nav-item mr-2"><a class="nav-link active" routerLink="/patient/records/tab/treatment-course"
-                  style="padding: 10px; color: #7B4C50;"
+                <li class="nav-item mr-2"><a class="nav-link" routerLink="/benhnhan/danhsach/tab/lichtrinhdieutri"
+                  style="padding: 10px; color: #000;"
                   >Khám và
                     điều
                     trị</a></li>
                 <li class="nav-item mr-2"><a class="nav-link"
                   style="padding: 10px; color: #000;"
-                  routerLink="/patient/records/tab/appointment">Lịch hẹn</a>
+                  routerLink="/benhnhan/danhsach/tab/lichhen">Lịch hẹn</a>
                 </li>
                 <li class="nav-item mr-2"><a class="nav-link"
                   style="padding: 10px; color: #000;"
-                  routerLink="/patient/records/tab/payment">Thanh toán</a>
+                  routerLink="/benhnhan/danhsach/tab/thanhtoan">Thanh toán</a>
                 </li>
               </ul>
               <!-- <div class="tab-content">

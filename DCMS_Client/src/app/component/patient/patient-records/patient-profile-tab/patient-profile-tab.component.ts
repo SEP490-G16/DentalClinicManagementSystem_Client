@@ -64,6 +64,10 @@ export class PatientProfileTabComponent implements OnInit {
 
   isEditing: boolean = false;
 
+  setPatientId(){
+    this.router.navigate(['/benhnhan/danhsach/tab/lichtrinhdieutri', this.id])
+  }
+
   showSuccessToast(message: string) {
     this.toastr.success(message, 'Thành công', {
       timeOut: 3000, // Adjust the duration as needed

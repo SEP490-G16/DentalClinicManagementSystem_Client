@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     if (this.User && this.User.userCredential && this.User.password) {
       this.cognitoService.signIn(this.User).then(() => {
-        this.router.navigate(['/letan/lichhen'])
+        this.router.navigate(['/letan/lich-hen'])
         this.loading = false;
       })
         .catch((err) => {

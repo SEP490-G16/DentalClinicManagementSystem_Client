@@ -7,6 +7,7 @@ import {ChangeAppointmentComponent} from "./change-appointment/change-appointmen
 import { PatientProfileTabComponent } from './patient-records/patient-profile-tab/patient-profile-tab.component';
 import { PatientAppointmentTabComponent } from './patient-records/patient-appointment-tab/patient-appointment-tab.component';
 import { PatientPaymentTabComponent } from './patient-records/patient-payment-tab/patient-payment-tab.component';
+import { PatientLichtrinhdieutriComponent } from './patient-records/patient-lichtrinhdieutri/patient-lichtrinhdieutri.component';
 
 const authRoutes: Routes = [
   {
@@ -19,19 +20,21 @@ const authRoutes: Routes = [
       path:'', component:PatientRecordsComponent,
       },
       {
-        path: 'tab/lichtrinhdieutri',
-        component: PatientTreatmentCourseTabComponent
+        path: 'tab/lichtrinhdieutri/:id', children: [
+          {path: '',  component:PatientLichtrinhdieutriComponent},
+          {path: 'chitiet', component: PatientTreatmentCourseTabComponent}
+        ]
       },
       {
-        path: 'tab/lichhen',
+        path: 'tab/lichhen/:id',
         component: PatientAppointmentTabComponent
       },
       {
-        path: 'tab/thanhtoan',
+        path: 'tab/thanhtoan/:id',
         component: PatientPaymentTabComponent
       },
       // {path:'tab/profile/:id', component:PatientProfileTabComponent}
-      {path:'tab/hosobenhnhan', component:PatientProfileTabComponent}
+      {path:'tab/hosobenhnhan/:id', component:PatientProfileTabComponent}
 
       ]
   },

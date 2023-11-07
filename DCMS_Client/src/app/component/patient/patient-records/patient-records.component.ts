@@ -5,6 +5,7 @@ import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {PopupAddPatientComponent} from "./popup-add-patient/popup-add-patient.component";
+import { CognitoService } from 'src/app/service/cognito.service';
 
 @Component({
   selector: 'app-patient-records',
@@ -16,6 +17,7 @@ export class PatientRecordsComponent implements OnInit {
   constructor(private patientService: PatientService,
               private toastr: ToastrService,
               private router: Router,
+              private cognitoService:CognitoService,
               private modalService: NgbModal) { }
   patientList:any;
   searchPatientsList:any[]=[];
@@ -58,8 +60,16 @@ export class PatientRecordsComponent implements OnInit {
   }
 
   detail(id: any) {
-    this.router.navigate(['/patient/records/tab/profile', id])
+    this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', id])
   }
+
+  signOut() {
+    this.cognitoService.signOut().then(() => {
+      console.log("Logged out!");
+      this.router.navigate(['dangnhap']);
+    })
+  }
+
   searchPatient() {
     const search = this.search.toLowerCase().trim();
     if (search) {
