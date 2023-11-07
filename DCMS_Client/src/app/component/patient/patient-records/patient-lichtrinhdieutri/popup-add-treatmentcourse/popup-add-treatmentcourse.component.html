@@ -34,22 +34,7 @@
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-12">
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Status</label>
-                <select class="form-select" aria-label="Default select example"
-                [(ngModel)]="Add_TreatmentCourse.status"
-                >
-                  <option value="1" selected>One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
+          <!-- <div class="row">
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Created Date</label>
@@ -59,12 +44,23 @@
 
               </div>
             </div>
+          </div> -->
+
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Mô tả</label>
+                <input type="text" class="form-control" id="exampleInputEmail1"
+                [(ngModel)]="Add_TreatmentCourse.description"
+                aria-describedby="emailHelp">
+              </div>
+            </div>
           </div>
 
           <!-- Modal footer -->
-          <div class="modal-footer">
-            <button type="button" id="cancel" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
-            <button type="button" class="btn btn-save" (click)="addTreatmentCourse()">Lưu</button>
+          <div class="button-conf float-end">
+            <button type="button" id="cancel" class="btn bg-white" data-bs-dismiss="modal">Hủy</button>
+            <button type="button" class="btn" style="background-color: rgba(139, 55, 19,.95); color:white" (click)="addTreatmentCourse()">Lưu</button>
           </div>
 
         </div>

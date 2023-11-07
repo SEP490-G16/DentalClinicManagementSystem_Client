@@ -1,10 +1,12 @@
+import { TreatmentCourseDetailService } from './../../../../service/ITreatmentCourseDetail/treatmentcoureDetail.service';
 import { ITreatmentCourse } from './../../../../model/ITreatment-Course';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/TreatmentCourse.service';
 import { CognitoService } from 'src/app/service/cognito.service';
-
+import { treatementCourseDSService } from './../../../../service/Data-Sharing/Treatment-Course-Detail.service';
+import { ITreatmentCourseDetail, TreatmentCourseDetail } from 'src/app/model/ITreatmentCourseDetail';
 @Component({
   selector: 'app-patient-lichtrinhdieutri',
   templateUrl: './patient-lichtrinhdieutri.component.html',
@@ -15,13 +17,14 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
 
   href_profile = "/benhnhan/danhsach/tab/hosobenhnhan/";
   href_treatment_course = "/benhnhan/danhsach/tab/lichtrinhdieutri"
-  ITreatmentCourse: ITreatmentCourse = [];
+  ITreatmentCourse:any;
 
   constructor(
     private cognitoService: CognitoService, private router: Router,
     private route: ActivatedRoute,
     private toastr: ToastrService,
-    private treatmentCourseService: TreatmentCourseService
+    private treatmentCourseService: TreatmentCourseService,
+    private TreatmentCourseDetailService: TreatmentCourseDetailService,
   ) { }
 
   navigateHref(href: string) {
@@ -44,12 +47,21 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     // ]
 
   }
-
+  ok:any;
   getTreatmentCourse() {
     this.treatmentCourseService.getTreatmentCourse(this.id)
       .subscribe((data) => {
-        console.log(data);
+        console.log("Data tra ve tu treatment api: ", data);
         this.ITreatmentCourse = data;
+        console.log("Data nhan",  this.ITreatmentCourse)
+
+        this.TreatmentCourseDetailService.getTreatmentCourseDetail(this.ITreatmentCourse[0].treatment_course_id)
+        .subscribe(data => {
+          console.log("Data tra ve tu examination: ", data.data);
+            this.ok = data.data;
+            console.log("Data nhan", this.ok);
+            // console.log("Treatment Course detail: ", this.TreatmentCourseDetail.data);
+        })
       }
       )
   }
@@ -57,6 +69,11 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
   Patient_Id: string = "";
   addTreatmentCourse() {
     this.Patient_Id = this.ITreatmentCourse[0].patient_id;
+  }
+
+  Add_TreatmentCourseId:any
+  addExamination(id:string) {
+    this.Add_TreatmentCourseId = id;
   }
 
   TreatmentCourse: any;
@@ -69,15 +86,38 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     const cf = confirm('Bạn có muốn xóa lộ trình này không?');
     if (cf) {
       this.treatmentCourseService.deleteTreatmentCourse(treatment_course_id)
-        .subscribe
+        .subscribe(() => {
+          this.showSuccessToast('Xóa liệu trình thành công');
+        },
+        () => {
+          this.showErrorToast('Xóa liệu trình thất bại');
+        }
+        )
     }
   }
 
-  navigateTreatmentCourse_Detail(tc_id:string) {
-    // this.router.navigate(['chitiet']);
-    this.router.navigate(['/benhnhan/danhsach/tab/lichtrinhdieutri/' + this.id + '/chitiet/' + tc_id]);
+  editExamination(courseDetail:any) {
 
   }
+
+  deleteExamination(examination_id:string) {
+    const cf = confirm('Bạn có muốn xóa lần khám này không?');
+    if (cf) {
+      this.TreatmentCourseDetailService.deleteExamination(examination_id)
+      .subscribe(() => {
+          this.showSuccessToast('Xóa Lần khám thành công!');
+      })
+    }
+  }
+
+  TreatmentCourseDetail:any;
+  navigateTreatmentCourse_Detail(tcDetail:any) {
+    const TreatmentCourseDetail:TreatmentCourseDetail = tcDetail;
+    this.TreatmentCourseDetail = TreatmentCourseDetail;
+    this.router.navigate(['/benhnhan/danhsach/tab/lichtrinhdieutri/' + this.id + '/chitiet/' + tcDetail.examination_id]);
+  }
+
+
   showSuccessToast(message: string) {
     this.toastr.success(message, 'Thành công', {
       timeOut: 3000, // Adjust the duration as needed

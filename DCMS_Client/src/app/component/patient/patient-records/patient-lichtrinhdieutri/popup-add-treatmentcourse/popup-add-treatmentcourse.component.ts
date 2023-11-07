@@ -1,5 +1,7 @@
+import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/TreatmentCourse.service';
 import { ITreatmentCourse, TreatmentCourse } from './../../../../../model/ITreatment-Course';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-popup-add-treatmentcourse',
@@ -11,12 +13,13 @@ export class PopupAddTreatmentcourseComponent implements OnInit, OnChanges {
   TreatmentCourse: TreatmentCourse = {} as TreatmentCourse
 
 
-  constructor() {
+  constructor(
+    private treatmentCourseService:TreatmentCourseService,
+    private toastr: ToastrService
+  ) {
     this.Add_TreatmentCourse = {
       patient_id: "",
       description: "",
-      status: 1,
-      created_date: "",
       name: "",
     }
   }
@@ -35,5 +38,26 @@ export class PopupAddTreatmentcourseComponent implements OnInit, OnChanges {
 
   addTreatmentCourse() {
     console.log(this.Add_TreatmentCourse);
+    this.treatmentCourseService.postTreatmentCourse(this.Add_TreatmentCourse).
+    subscribe((res) => {
+      this.showSuccessToast("Thêm lịch trình điều trị thành công");
+    },
+    (err) => {
+      this.showErrorToast("Thêm lịch trình điều trị thất bại");
+
+    }
+    )
+  }
+
+  showSuccessToast(message: string) {
+    this.toastr.success(message, 'Thành công', {
+      timeOut: 3000, // Adjust the duration as needed
+    });
+  }
+
+  showErrorToast(message: string) {
+    this.toastr.error(message, 'Lỗi', {
+      timeOut: 3000, // Adjust the duration as needed
+    });
   }
 }

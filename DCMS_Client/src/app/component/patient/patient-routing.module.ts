@@ -22,7 +22,7 @@ const authRoutes: Routes = [
       {
         path: 'tab/lichtrinhdieutri/:id', children: [
           {path: '',  component:PatientLichtrinhdieutriComponent},
-          {path: 'chitiet/:treatmentCourseId', component: PatientTreatmentCourseTabComponent}
+          {path: 'chitiet/:examinationId', component: PatientTreatmentCourseTabComponent}
         ]
       },
       {

@@ -20,38 +20,49 @@ export class TreatmentCourseDetailService {
       'Authorization': `${idToken}`,
       'Accept':'application/json'
     });
-
     return this.http.get(`${this.apiUrl}/examination/treatment-course/${id}`, { headers });
   }
 
-  // postTreatmentCourseDetail(PostTreatmentCourse:any): Observable<any> {
-  //   let idToken = sessionStorage.getItem("id_Token");
-  //   const headers = new HttpHeaders({
-  //     'Authorization': `${idToken}`,
-  //     "Content-Type": "application/json; charset=utf8"
-  //   });
-  //   const requestBody = JSON.stringify(PostTreatmentCourse);
-  //   return this.http.post(`${this.apiUrl}/treatment-course`, requestBody, { headers });
-  // }
 
-  // putTreatmentCourseDetail(id:string, PutTreatmentCourse:any): Observable<any> {
-  //   let idToken = sessionStorage.getItem("id_Token");
-  //   const headers = new HttpHeaders({
-  //     'Authorization': `${idToken}`,
-  //     "Content-Type": "application/json; charset=utf8"
-  //   });
-  //   const requestBody = JSON.stringify(PutTreatmentCourse);
-  //   return this.http.put(`${this.apiUrl}/treatment-course/${id}`, requestBody, { headers });
-  // }
+  getExamination(id:string):Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
+    console.log("id token", idToken);
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      'Accept':'application/json'
+    });
 
-  // deleteTreatmentCourseDetail(id:string):Observable<any> {
-  //   let idToken = sessionStorage.getItem("id_Token");
+    return this.http.get(`${this.apiUrl}/examination/${id}`, { headers });
+  }
 
-  //   const headers = new HttpHeaders({
-  //     'Authorization': `${idToken}`
-  //   });
-  //     return this.http.delete(`${this.apiUrl}/treatment-course/${id}`, { headers });
-  // }
+  postExamination(PostTreatmentCourse:any): Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      "Content-Type": "application/json; charset=utf8"
+    });
+    const requestBody = JSON.stringify(PostTreatmentCourse);
+    return this.http.post(`${this.apiUrl}/examination`, requestBody, { headers });
+  }
+
+  putExamination(id:string, PutTreatmentCourse:any): Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      "Content-Type": "application/json; charset=utf8"
+    });
+    const requestBody = JSON.stringify(PutTreatmentCourse);
+    return this.http.put(`${this.apiUrl}/examination/${id}`, requestBody, { headers });
+  }
+
+  deleteExamination(id:string):Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
+
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`
+    });
+      return this.http.delete(`${this.apiUrl}/examination/${id}`, { headers });
+  }
 
 
 }

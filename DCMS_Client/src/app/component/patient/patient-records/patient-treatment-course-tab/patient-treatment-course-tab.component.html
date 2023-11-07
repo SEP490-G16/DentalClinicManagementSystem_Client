@@ -151,7 +151,7 @@
               <div class="row">
                 <div class="col-sm-12">
                   <h2 class="color-main text-center bg-primary text-white">Ngày khám
-                    {{TreatmentCourseDetail.created_date | VNdateTimeFormat}}</h2>
+                    {{treatmentCourseDetail.created_date | VNdateTimeFormat}}</h2>
                 </div>
               </div>
 
@@ -161,7 +161,7 @@
                   <div class="col-md-12">
                     <div class="form-group mb-3">
                       <label for="" style="font-size: 17px;">Bác sĩ khám và điều trị:
-                        <b>{{TreatmentCourseDetail.staff_id}}</b></label>
+                        <b>{{treatmentCourseDetail.staff_id}}</b></label>
                     </div>
                   </div>
                 </div>
@@ -180,7 +180,7 @@
                     <textarea style="min-height: 200px; width: 100%;
                         text-align: justify;
                         border: 1px solid #000;
-                        " [(ngModel)]="TreatmentCourseDetail.description"></textarea>
+                        " [(ngModel)]="treatmentCourseDetail.description"></textarea>
                   </div>
                   <div class="col content-child">
                     <textarea style="min-height: 200px; width: 100%;
@@ -200,12 +200,12 @@
                     </div>
                     <i class="text-center" style="font-size: 12px;">Bấm vào ô vuông này để thêm ảnh X-quang</i>
                   </div>
-                  <div class="col-1">
+                  <div class="col-md-1">
 
                   </div>
-                  <div class="col-md-5">
+                  <div class="col-md-8">
                     <textarea class="form-control" style="border: 1px solid #000;
-                    height: 100%;" [(ngModel)]="TreatmentCourseDetail.xRayImageDes"
+                    height: 100%;" [(ngModel)]="treatmentCourseDetail.xRayImageDes"
                       placeholder="Nhận xét về ảnh x-quang(nếu có ảnh)"></textarea>
                   </div>
                 </div>
