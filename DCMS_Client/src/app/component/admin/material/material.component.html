@@ -343,22 +343,26 @@
             <a routerLink="/admin/material" class="page-title">Quản lý vật liệu</a>
           </div>
           <div class="col-md-2">
+            <a routerLink="#" class="page-title" >Quản lý kho</a>
+          </div>
+          <div class="col-md-2">
             <a routerLink="/admin/material/import-material" class="page-title" >Quản lý nhập</a>
           </div>
           <div class="col-md-2">
             <a routerLink="/admin/material/export-material" class="page-title">Quản lý xuất</a>
           </div>
         </div>
-        <div class="row mt-5 mb-5">
+        <h2 class="text-center mt-3" style="font-family: Agbalumo; font-size: 29px;">Vật liệu</h2>
+        <div class="row mt-5 mb-2">
           <div class="col-6">
             <div class="form-group form-group-filter">
               <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myModal"><i
                 class="bi bi-plus-circle"></i> Thêm mới
-                labo</button>
+                </button>
             </div>
           </div>
         </div>
-        <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px;">Vật liệu</h2>
+
         <div style="overflow-y: auto; height: 500px;">
           <table>
             <thead>
@@ -374,22 +378,25 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
+            <tr *ngFor="let v of materialList">
+              <td>{{v.material_id}}</td>
+              <td>{{v.material_name}}</td>
+              <td>{{v.quantity_import}}</td>
+              <td>{{v.price}}</td>
+              <td>{{v.unit}}</td>
+              <td>{{v.warranty}}</td>
               <td></td>
               <td>
-                <button class="btn button-cus p-1 m-r-3" data-bs-toggle="modal" data-bs-target="#editMaterialModal">
+                <button class="btn button-cus p-1 m-r-3" data-bs-toggle="modal" data-bs-target="#editMaterialModal" (click)="openEditMaterial(v)">
                   <i class="bi bi-pencil-square"></i></button>
-                <button class="btn button-cus p-1"> <i class="bi bi-trash"></i></button>
+                <button class="btn button-cus p-1" (click)="deleteMaterial(v.material_id)"> <i class="bi bi-trash"></i></button>
               </td>
             </tr>
             </tbody>
           </table>
+        </div>
+        <div class="row mt-5" style="float:right;">
+          <ngb-pagination [collectionSize]="pagingMaterial.total" [(page)]="pagingMaterial.paging" [boundaryLinks]="true"  (pageChange)="pageChanged($event)"></ngb-pagination>
         </div>
       </div>
       <!-- End of Recent Orders -->
@@ -402,6 +409,6 @@
   </div>
 
 </div>
-<app-popup-add-material></app-popup-add-material>
+<app-popup-add-material [materialList] = "materialList"></app-popup-add-material>
 <app-popup-delete-material></app-popup-delete-material>
-<app-popup-edit-material></app-popup-edit-material>
+<app-popup-edit-material [material] = "material" [materialList] = "materialList"></app-popup-edit-material>

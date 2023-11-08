@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {MaterialService} from "../../../../service/MaterialService/material.service";
 import {ToastrService} from "ngx-toastr";
 
@@ -7,22 +7,21 @@ import {ToastrService} from "ngx-toastr";
   templateUrl: './popup-edit-material.component.html',
   styleUrls: ['./popup-edit-material.component.css']
 })
-export class PopupEditMaterialComponent implements OnInit {
-  material = {
+export class PopupEditMaterialComponent implements OnChanges {
+  @Input() material:any;
+  @Input() materialList:any;
+  materialInput = {
     name:'',
-    description:'',
-    unit:'',
-    quantity:'',
-    unitPrice:''
+    unit:''
   }
   materialBody={
-
+    material_id:'',
+    material_name:'',
+    unit:''
   }
   validateMaterial={
     name:'',
-    unit:'',
-    quantity:'',
-    unitPrice:''
+    unit:''
   }
   isSubmitted:boolean = false;
   id:any;
@@ -32,52 +31,55 @@ export class PopupEditMaterialComponent implements OnInit {
   ngOnInit(): void {
   }
   updateMaterial(){
-    this.resetValidate();
-    if (!this.material.name){
+    this.resetValidates();
+    if (!this.materialInput.name){
       this.validateMaterial.name = "Vui lòng nhập tên vật liệu!";
       this.isSubmitted = true;
     }
-    if (!this.material.unit){
+    if (!this.materialInput.unit){
       this.validateMaterial.unit = "Vui lòng nhập đơn vị!";
-      this.isSubmitted = true;
-    }
-    if (!this.material.quantity){
-      this.validateMaterial.quantity = "Vui lòng nhập số lượng!";
-      this.isSubmitted = true;
-    }
-    else if (!this.checkNumber(this.material.quantity)){
-      this.validateMaterial.quantity = "Số lượng không hợp lệ!";
-      this.isSubmitted = true;
-    }
-    if (!this.material.unitPrice){
-      this.validateMaterial.unitPrice = "Vui lòng nhập đơn giá!";
-      this.isSubmitted = true;
-    }
-    else if (!this.checkNumber(this.material.unitPrice)){
-      this.validateMaterial.unitPrice = "Đơn giá không hợp lệ!";
       this.isSubmitted = true;
     }
     if (this.isSubmitted){
       return;
     }
+    this.materialBody = {
+      material_id:'',
+      material_name: this.materialInput.name,
+      unit: this.materialInput.unit
+    }
     this.materialSerivce.updateMaterial(this.id,this.materialBody).subscribe(data=>{
-        this.toastr.success('Thêm mới vật liệu thành công!');
+        this.toastr.success('Cập nhật vật liệu thành công!');
+        //window.location.reload();
+        let ref = document.getElementById('cancel-editMaterial');
+        ref?.click();
+        this.materialBody.material_id = this.id;
+        const index = this.materialList.findIndex((material:any) => material.material_id === this.id);
+        if (index !== -1) {
+          this.materialList[index] = this.materialBody;
+        }
       },
       error => {
-        this.toastr.error('Thêm mới vật liệu thất bại!');
+        this.toastr.error('Cập nhật vật liệu thất bại!');
       }
     )
   }
-  private resetValidate(){
+  private resetValidates(){
     this.validateMaterial = {
       name:'',
-      unit:'',
-      quantity:'',
-      unitPrice:''
+      unit:''
     }
     this.isSubmitted = false;
   }
   private checkNumber(number:any):boolean{
     return /^[1-9]\d*$/.test(number);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['material']){
+      this.id = this.material.material_id;
+      this.materialInput.name = this.material.material_name;
+      this.materialInput.unit = this.material.unit;
+    }
   }
 }

@@ -20,24 +20,23 @@ import {
 
 
 const adminRoutes: Routes = [
-  {path: 'facility', component: FacilityComponent},
+  {path: 'co-so', component: FacilityComponent},
   {path: 'labo', component: LaboComponent},
-  {path: 'material',children:[
+  {path: 'vat-lieu',children:[
       {path: '', component: MaterialComponent},
-      {path: 'approve-material', component: PendingMaterialComponent},
-      {path: 'import-material', component: WarehouseImportMaterialManagementComponent},
-      {path: 'export-material', component: WarehouseExportMaterialManagementComponent}
+      {path: 'quan-ly-nhap', component: WarehouseImportMaterialManagementComponent},
+      {path: 'quan-ly-xuat', component: WarehouseExportMaterialManagementComponent}
     ]},
-  {path: 'medicine', component: MedicineComponent},
-  {path: 'service', component: ServiceComponent},
-  {path: 'specimens', children:[
+  {path: 'thuoc', component: MedicineComponent},
+  {path: 'thu-thuat', component: ServiceComponent},
+  {path: 'mau', children:[
       {path: '',component: SpecimensComponent},
-      {path: 'approve-specimens',component: PendingSpecimensComponent}
+      {path: 'mau-dang-cho',component: PendingSpecimensComponent}
     ]},
   {
-    path: 'staff',children: [
+    path: 'nhan-vien',children: [
       {path: '', component: StaffComponent},
-      {path: 'detail-staff', component: StaffDetailComponent}
+      {path: 'chi-tiet-nhan-vien', component: StaffDetailComponent}
     ]
   }
 ]

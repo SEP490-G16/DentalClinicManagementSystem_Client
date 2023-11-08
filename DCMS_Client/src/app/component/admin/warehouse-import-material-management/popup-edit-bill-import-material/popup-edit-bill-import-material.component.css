@@ -119,6 +119,3 @@ table.table td h2 a {
 .form-select{
   border: 1px solid #7B4C50;
 }
-.ng-dropdown-panel {
-  z-index: 9999;
-}

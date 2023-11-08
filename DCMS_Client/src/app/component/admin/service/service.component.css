@@ -780,3 +780,30 @@ button:active{
 .table-container {
   position: relative;
 }
+@media only screen and (min-width: 2000px) {
+  .table-container{
+    max-height: 600px;
+    overflow-y: auto;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #c0c0c0 #f0f0f0;
+    border-radius: 10px;
+  }
+  .table-container::-webkit-scrollbar-thumb {
+    background-color: #c0c0c0;
+    border-radius: 6px;
+  }
+  .table-container::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+    border-radius: 10px;
+  }
+  .sticky-thead {
+    position: sticky;
+    top: 0; /* Giữ phần thead ở vị trí trên cùng khi cuộn */
+    background-color: white;
+    z-index: 1; /* Đảm bảo phần thead nằm trên cùng của bảng */
+  }
+  .table-container {
+    position: relative;
+  }
+}

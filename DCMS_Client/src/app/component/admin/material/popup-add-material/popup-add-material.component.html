@@ -34,36 +34,6 @@
                     </p>
                   </div>
                 </div>
-
-              </div>
-              <div class="form-group row mt-3">
-                <label for="quantity" class="col-3 name-title">Số lượng:</label>
-                <div class="col-9">
-                  <input type="number" [(ngModel)]="material.quantity" class="form-control date-input-custom value-staff" id="quantity" name="quantity">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
-                    <p>
-                      {{validateMaterial.quantity}}
-                    </p>
-                  </div>
-                </div>
-
-              </div>
-              <div class="form-group row mt-3">
-                <label for="unitprice" class="col-3 name-title">Đơn giá:</label>
-                <div class="col-9 ">
-                  <input type="number" [(ngModel)]="material.unitPrice" class="form-control value-staff" id="unitprice" name="unitprice">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
-                    <p>
-                      {{validateMaterial.unitPrice}}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row mt-3">
-                <label for="description" class="col-3 name-title">Mô tả:</label>
-                <div class="col-9">
-                  <textarea type="text" [(ngModel)]="material.description" class="form-control" id="description" name="description"></textarea>
-                </div>
               </div>
             </div>
           </div>
@@ -71,7 +41,7 @@
 
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
+          <button type="button" id="cancel-addMaterial" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
           <button type="button" class="btn btn-save" (click)="addMaterial()"><i class="bi bi-floppy2"></i> Lưu</button>
         </div>
 

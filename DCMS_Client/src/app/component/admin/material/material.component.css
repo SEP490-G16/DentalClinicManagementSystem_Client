@@ -735,9 +735,14 @@ main .recent-orders a {
   text-align: center;
   display: block;
   margin: 1rem auto;
-  color: var(--custom-color-primary);
+  color: #1E1E1E;
 }
-
+main .recent-orders a:active {
+  text-align: center;
+  display: block;
+  margin: 1rem auto;
+color: var(--custom-color-primary);
+}
 .profile {
   display: flex;
   align-items: center;
@@ -1066,4 +1071,10 @@ button:active{
 
 .time-clockout {
   color: red;
+}
+.page-title{
+  color: #1E1E1E;
+}
+.page-title:active:hover{
+  color: #1c42af;
 }

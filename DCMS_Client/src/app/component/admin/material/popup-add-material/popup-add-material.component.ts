@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {MaterialService} from "../../../../service/MaterialService/material.service";
 import {ToastrService} from "ngx-toastr";
 
@@ -8,7 +8,7 @@ import {ToastrService} from "ngx-toastr";
   styleUrls: ['./popup-add-material.component.css']
 })
 export class PopupAddMaterialComponent implements OnInit {
-
+  @Input() materialList:any;
   material = {
     name:'',
     description:'',
@@ -17,13 +17,13 @@ export class PopupAddMaterialComponent implements OnInit {
     unitPrice:''
   }
   materialBody={
-
+    material_id:'',
+    material_name:'',
+    unit:''
   }
   validateMaterial={
     name:'',
-    unit:'',
-    quantity:'',
-    unitPrice:''
+    unit:''
   }
   isSubmitted:boolean = false;
   constructor(private materialSerivce:MaterialService,
@@ -41,27 +41,23 @@ export class PopupAddMaterialComponent implements OnInit {
       this.validateMaterial.unit = "Vui lòng nhập đơn vị!";
       this.isSubmitted = true;
     }
-    if (!this.material.quantity){
-      this.validateMaterial.quantity = "Vui lòng nhập số lượng!";
-      this.isSubmitted = true;
-    }
-    else if (!this.checkNumber(this.material.quantity)){
-      this.validateMaterial.quantity = "Số lượng không hợp lệ!";
-      this.isSubmitted = true;
-    }
-    if (!this.material.unitPrice){
-      this.validateMaterial.unitPrice = "Vui lòng nhập đơn giá!";
-      this.isSubmitted = true;
-    }
-    else if (!this.checkNumber(this.material.unitPrice)){
-      this.validateMaterial.unitPrice = "Đơn giá không hợp lệ!";
-      this.isSubmitted = true;
-    }
     if (this.isSubmitted){
       return;
     }
+    this.materialBody = {
+      material_id:'',
+      material_name: this.material.name,
+      unit: this.material.unit
+    }
     this.materialSerivce.addMaterial(this.materialBody).subscribe(data=>{
       this.toastr.success('Thêm mới vật liệu thành công!');
+      //window.location.reload();
+        let ref = document.getElementById('cancel-addMaterial');
+        ref?.click();
+        const newMaterialId = data.data.medical_id;
+        this.materialBody.material_id = newMaterialId;
+        this.materialList.unshift(this.materialBody);
+
     },
       error => {
       this.toastr.error('Thêm mới vật liệu thất bại!');
@@ -71,9 +67,7 @@ export class PopupAddMaterialComponent implements OnInit {
   private resetValidate(){
     this.validateMaterial = {
       name:'',
-      unit:'',
-      quantity:'',
-      unitPrice:''
+      unit:''
     }
     this.isSubmitted = false;
   }

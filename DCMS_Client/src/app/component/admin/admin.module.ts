@@ -62,6 +62,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import {NgSelectModule} from "@ng-select/ng-select";
+import { PopupEditBillImportMaterialComponent } from './warehouse-import-material-management/popup-edit-bill-import-material/popup-edit-bill-import-material.component';
 
 @NgModule({
   declarations: [
@@ -109,29 +111,31 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
       PopupEditFacilityComponent,
       PopupEditStaffComponent,
       PopupEditMaterialComponent,
-      PopupEditMedicineComponent
+      PopupEditMedicineComponent,
+      PopupEditBillImportMaterialComponent
   ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    FormsModule,
-    SharedModule,
-    NgbModule,
-    HttpClientModule,
-    ToastrModule.forRoot({
-      preventDuplicates: true,
-      timeOut: 3000,
-      closeButton: true,
-      progressBar: true,
-    }),
-    NgbModule,
-    AdminRoutingModule,
-    NgbModalModule,
-    FlatpickrModule.forRoot(),
-    CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory,
-    }),
-  ]
+    imports: [
+        CommonModule,
+        RouterModule,
+        FormsModule,
+        SharedModule,
+        NgbModule,
+        HttpClientModule,
+        ToastrModule.forRoot({
+            preventDuplicates: true,
+            timeOut: 3000,
+            closeButton: true,
+            progressBar: true,
+        }),
+        NgbModule,
+        AdminRoutingModule,
+        NgbModalModule,
+        FlatpickrModule.forRoot(),
+        CalendarModule.forRoot({
+            provide: DateAdapter,
+            useFactory: adapterFactory,
+        }),
+        NgSelectModule,
+    ]
 })
 export class AdminModule { }
