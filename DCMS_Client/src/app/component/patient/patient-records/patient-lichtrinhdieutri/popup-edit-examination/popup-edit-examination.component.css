@@ -385,6 +385,10 @@ main table tbody td {
 }
 
 
+main table tbody tr:last-child td {
+  /* border: none; */
+}
+
 main .recent-orders a {
   text-align: center;
   display: block;
@@ -774,8 +778,4 @@ button:active{
 
 .content-child {
   margin-left: 35px;
-}
-
-.input-cus {
-  border-bottom: 1px solid #000 ;
 }

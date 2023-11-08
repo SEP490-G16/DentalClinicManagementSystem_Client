@@ -14,7 +14,7 @@ export class PopupAddTreatmentcourseComponent implements OnInit, OnChanges {
 
 
   constructor(
-    private treatmentCourseService:TreatmentCourseService,
+    private treatmentCourseService: TreatmentCourseService,
     private toastr: ToastrService
   ) {
     this.Add_TreatmentCourse = {
@@ -29,8 +29,8 @@ export class PopupAddTreatmentcourseComponent implements OnInit, OnChanges {
   ngOnInit(): void {
   }
 
-  ngOnChanges(changes:SimpleChanges): void {
-    if(changes['Patient_Id']) {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['Patient_Id']) {
       this.Add_TreatmentCourse.patient_id = this.Patient_Id;
     }
   }
@@ -39,14 +39,17 @@ export class PopupAddTreatmentcourseComponent implements OnInit, OnChanges {
   addTreatmentCourse() {
     console.log(this.Add_TreatmentCourse);
     this.treatmentCourseService.postTreatmentCourse(this.Add_TreatmentCourse).
-    subscribe((res) => {
-      this.showSuccessToast("Thêm lịch trình điều trị thành công");
-    },
-    (err) => {
-      this.showErrorToast("Thêm lịch trình điều trị thất bại");
+      subscribe((res) => {
+        this.showSuccessToast("Thêm lịch trình điều trị thành công");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      },
+        (err) => {
+          this.showErrorToast("Thêm lịch trình điều trị thất bại");
 
-    }
-    )
+        }
+      )
   }
 
   showSuccessToast(message: string) {

@@ -33,6 +33,7 @@ import { VNDateTimeFormatPipe } from '../shared/pipe/datetimeformat.pipe';
 import { PopupAddTreatmentcourseComponent } from './patient-records/patient-lichtrinhdieutri/popup-add-treatmentcourse/popup-add-treatmentcourse.component';
 import { PopupEditTreatmentcourseComponent } from './patient-records/patient-lichtrinhdieutri/popup-edit-treatmentcourse/popup-edit-treatmentcourse.component';
 import { PopupAddExaminationComponent } from './patient-records/patient-lichtrinhdieutri/popup-add-examination/popup-add-examination.component';
+import { PopupEditExaminationComponent } from './patient-records/patient-lichtrinhdieutri/popup-edit-examination/popup-edit-examination.component';
 @NgModule({
   declarations: [
       PatientManagementComponent,
@@ -48,7 +49,8 @@ import { PopupAddExaminationComponent } from './patient-records/patient-lichtrin
       VNDateTimeFormatPipe,
       PopupAddTreatmentcourseComponent,
       PopupEditTreatmentcourseComponent,
-      PopupAddExaminationComponent
+      PopupAddExaminationComponent,
+      PopupEditExaminationComponent
   ],
   imports: [
     CommonModule,

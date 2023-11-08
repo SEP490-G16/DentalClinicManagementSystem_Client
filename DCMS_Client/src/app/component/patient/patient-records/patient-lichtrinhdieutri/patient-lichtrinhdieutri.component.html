@@ -174,14 +174,14 @@
                       <div class="col">
                         <i class="bi bi-trash3 float-end"
                           style="padding-right: 20px; padding-top: 20px; font-size: 20px; cursor: pointer;"
-                          (click)="deleteTreatmentCourse(course.treatment_course_id)"></i>
+                          (click)="deleteTreatmentCourse(course.treatment_course_id)" title="Xóa Liệu trình"></i>
                         <i class="bi bi-pencil-square float-end"
                           style="padding-right: 20px; padding-top: 20px; font-size: 20px; cursor: pointer;"
                           data-bs-toggle="modal" data-bs-target="#EditTreatmentModal"
-                          (click)="editTreatmentCourse(course)"></i>
+                          (click)="editTreatmentCourse(course)" title="Sửa liệu trình"></i>
                         <i class="bi bi-patch-plus float-end"
-                        style="padding-right: 20px; padding-top: 20px; font-size: 20px; cursor: pointer;"
-                        (click)="addExamination(course.treatment_course_id)">
+                          style="padding-right: 20px; padding-top: 20px; font-size: 20px; cursor: pointer;"
+                          (click)="navigateAddExamination(course.treatment_course_id)" title="Thêm lần khám">
 
                         </i>
                         <i class="bi bi-arrow-down-circle float-end"
@@ -194,25 +194,37 @@
 
                   <div [id]="'collapse' + i" class="collapse" [attr.data-parent]="'#accordion'"
                     *ngFor="let courseDetail of ok; let i2 = index">
+                    <ng-container *ngIf="courseDetail.treatment_course_id === course.treatment_course_id; else noData">
                     <div class="card-body"
                       style="padding: 10px; background-color: rgb(233, 197, 199); border-bottom: 27px;">
                       <div class="row">
                         <div class="col">
-                          <p style="cursor: pointer;" (click)="navigateTreatmentCourse_Detail(courseDetail)">Lần khám {{
+                          <p style="cursor: pointer;" (click)="navigateTreatmentCourse_Detail(courseDetail)"
+                            title="Xem chi tiết lần khám">Lần khám {{
                             i2 + 1}}: <b>{{ courseDetail.created_date | VNdateTimeFormat}}</b></p>
                         </div>
                         <div class="col">
                           <div class="action float-end" style="font-size: 20px; padding-right: 10px;">
-                            <i class="bi bi-pencil-square" data-bs-toggle="modal"
+                            <i class="bi bi-trash3 float-end" style="cursor: pointer;"
+                              style="font-size: 20px; cursor: pointer;"
+                              title="Xóa lần khám" (click)="deleteExamination(courseDetail.examination_id)"></i>
+                            <i class="bi bi-pencil-square float-end" data-bs-toggle="modal" title="Sửa lần khám"
+                              style="padding-left: 25px; padding-right: 20px; font-size: 20px; cursor: pointer;"
+                              (click)="navigateEditExamination(courseDetail)"
                               data-bs-target="#EditTreatmentModal"></i>
-                            <i class="bi bi-trash3" style="cursor: pointer;"
-                              (click)="deleteExamination(courseDetail.examination_id)"></i>
                           </div>
                         </div>
                       </div>
                     </div>
+                    </ng-container>
                   </div>
 
+                  <ng-template #noData>
+                     <div class="card-body"
+                      style="padding: 10px; background-color: rgb(233, 197, 199); border-bottom: 27px;">
+                      Không có lần khám nào được tìm thấy.
+                    </div>
+                  </ng-template>
                 </div>
               </div>
             </div>

@@ -120,7 +120,7 @@
         </div>
       </div>
       <div class="recent-orders bg-white" style="border-radius: 15px;">
-        <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px; padding-top: 20px;">Thêm lần khám</h2>
+        <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px; padding-top: 20px;">Sửa bệnh nhân</h2>
 
         <div class="content-wrapper">
           <div class="row">
@@ -150,18 +150,13 @@
           <div class="tab-pane" id="KvDTtab">
             <div class="KvDTtab-container mt-3">
               <div class="row">
-                <div class="col-12">
-                  <h2>Ngày khám</h2>
+                <div class="col-12 bg-primary text-white">
+                  <h2 class="text-center">
+                    Ngày khám: {{examination.created_date | VNdateTimeFormat:true}}
+                  </h2>
                 </div>
               </div>
 
-              <div class="row">
-                <div class="col-12 text-center ">
-                  <input type="date" class="input-cus"
-                  style="min-width: 300px;"
-                  [(ngModel)]="examination.created_date" />
-                </div>
-              </div>
 
               <div class="KvDTtab-content mt-3">
                 <h2>Khám tổng quát</h2>
@@ -218,6 +213,7 @@
                   </div>
                 </div>
 
+
                 <div class="row mt-4">
                   <div class="col-sm-6">
                     <h2>Lịch trình điều trị</h2>
@@ -267,7 +263,7 @@
                     <h2>Đơn thuốc</h2>
                   </div>
                   <div class="col-sm-6">
-
+                    <button class="btn button-timekeeping float-end">Thêm mới</button>
                   </div>
                 </div>
 
@@ -315,6 +311,7 @@
                     <h2>Đặt xưởng/vật tư</h2>
                   </div>
                   <div class="col-sm-6">
+                    <button class="btn button-timekeeping float-end">Thêm mới</button>
                   </div>
                 </div>
 
@@ -361,6 +358,7 @@
                     <h2>Vật liệu sử dụng</h2>
                   </div>
                   <div class="col-sm-6">
+                    <button class="btn button-timekeeping float-end">Thêm mới</button>
                   </div>
                 </div>
                 <div class="row">
@@ -391,7 +389,7 @@
                     </div>
                   </div>
                   <div class="save float-end" style="padding: 10px 0px;">
-                    <button class="btn button-timekeeping" (click)="postExamination()">Lưu</button>
+                    <button class="btn button-timekeeping" (click)="putExamination()">Lưu</button>
                   </div>
                 </div>
               </div>
@@ -399,6 +397,7 @@
 
           </div>
         </div>
+
 
       </div>
 

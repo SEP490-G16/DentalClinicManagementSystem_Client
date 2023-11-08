@@ -17,7 +17,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
 
   href_profile = "/benhnhan/danhsach/tab/hosobenhnhan/";
   href_treatment_course = "/benhnhan/danhsach/tab/lichtrinhdieutri"
-  ITreatmentCourse:any;
+  ITreatmentCourse: any;
 
   constructor(
     private cognitoService: CognitoService, private router: Router,
@@ -47,21 +47,23 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     // ]
 
   }
-  ok:any;
+
+
+  ok: any;
   getTreatmentCourse() {
     this.treatmentCourseService.getTreatmentCourse(this.id)
       .subscribe((data) => {
         console.log("Data tra ve tu treatment api: ", data);
         this.ITreatmentCourse = data;
-        console.log("Data nhan",  this.ITreatmentCourse)
+        console.log("Data nhan", this.ITreatmentCourse)
 
         this.TreatmentCourseDetailService.getTreatmentCourseDetail(this.ITreatmentCourse[0].treatment_course_id)
-        .subscribe(data => {
-          console.log("Data tra ve tu examination: ", data.data);
+          .subscribe(data => {
+            console.log("Data tra ve tu examination: ", data.data);
             this.ok = data.data;
             console.log("Data nhan", this.ok);
             // console.log("Treatment Course detail: ", this.TreatmentCourseDetail.data);
-        })
+          })
       }
       )
   }
@@ -71,10 +73,6 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     this.Patient_Id = this.ITreatmentCourse[0].patient_id;
   }
 
-  Add_TreatmentCourseId:any
-  addExamination(id:string) {
-    this.Add_TreatmentCourseId = id;
-  }
 
   TreatmentCourse: any;
   editTreatmentCourse(course: any) {
@@ -88,35 +86,41 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
       this.treatmentCourseService.deleteTreatmentCourse(treatment_course_id)
         .subscribe(() => {
           this.showSuccessToast('Xóa liệu trình thành công');
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
         },
-        () => {
-          this.showErrorToast('Xóa liệu trình thất bại');
-        }
+          () => {
+            this.showErrorToast('Xóa liệu trình thất bại');
+          }
         )
     }
   }
 
-  editExamination(courseDetail:any) {
-
-  }
-
-  deleteExamination(examination_id:string) {
+  deleteExamination(examination_id: string) {
     const cf = confirm('Bạn có muốn xóa lần khám này không?');
     if (cf) {
       this.TreatmentCourseDetailService.deleteExamination(examination_id)
-      .subscribe(() => {
+        .subscribe(() => {
           this.showSuccessToast('Xóa Lần khám thành công!');
-      })
+        })
     }
   }
 
-  TreatmentCourseDetail:any;
-  navigateTreatmentCourse_Detail(tcDetail:any) {
-    const TreatmentCourseDetail:TreatmentCourseDetail = tcDetail;
+  TreatmentCourseDetail: any;
+  navigateTreatmentCourse_Detail(examination: any) {
+    const TreatmentCourseDetail: TreatmentCourseDetail = examination;
     this.TreatmentCourseDetail = TreatmentCourseDetail;
-    this.router.navigate(['/benhnhan/danhsach/tab/lichtrinhdieutri/' + this.id + '/chitiet/' + tcDetail.examination_id]);
+    this.router.navigate(['/benhnhan/danhsach/tab/lichtrinhdieutri/' + this.id + '/chitiet/' + examination.examination_id]);
   }
 
+  navigateAddExamination(tcId:string) {
+    this.router.navigate(['/benhnhan/danhsach/tab/lichtrinhdieutri/' + this.id + '/themlankham/' + tcId]);
+  }
+
+  navigateEditExamination(examination: any) {
+    this.router.navigate(['/benhnhan/danhsach/tab/lichtrinhdieutri/' + this.id + '/sualankham/' + examination.treatment_course_id + '/' + examination.examination_id]);
+  }
 
   showSuccessToast(message: string) {
     this.toastr.success(message, 'Thành công', {

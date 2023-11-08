@@ -1,24 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Examination, TreatmentCourseDetail } from 'src/app/model/ITreatmentCourseDetail';
+import { Examination } from 'src/app/model/ITreatmentCourseDetail';
 import { TreatmentCourseDetailService } from 'src/app/service/ITreatmentCourseDetail/treatmentcoureDetail.service';
 import { CognitoService } from 'src/app/service/cognito.service';
 
 @Component({
-  selector: 'app-popup-add-examination',
-  templateUrl: './popup-add-examination.component.html',
-  styleUrls: ['./popup-add-examination.component.css']
+  selector: 'app-popup-edit-examination',
+  templateUrl: './popup-edit-examination.component.html',
+  styleUrls: ['./popup-edit-examination.component.css']
 })
-export class PopupAddExaminationComponent implements OnInit {
-
+export class PopupEditExaminationComponent implements OnInit {
 
   imageURL: string | ArrayBuffer = 'https://www.cignodental.com/wp-content/uploads/2021/03/are_dental_x_rays_safe_greenfield_wi.jpeg';
 
 
   patient_Id: string = "";
   treatmentCourse_Id:string = "";
-
+  examinationId:string = "";
   examination:Examination = {} as Examination;
 
   constructor(
@@ -34,20 +33,32 @@ export class PopupAddExaminationComponent implements OnInit {
   ngOnInit(): void {
     this.patient_Id = this.route.snapshot.params['id'];
     this.treatmentCourse_Id = this.route.snapshot.params['tcId'];
-
+    this.examinationId =  this.route.snapshot.params['examinationId'];
     console.log("Patient Id", this.patient_Id);
-    console.log("Patient Id", this.treatmentCourse_Id);
+    console.log("Treatment Id", this.treatmentCourse_Id);
+    console.log("Examination Id", this.treatmentCourse_Id);
 
-
+    this.getExamination();
   }
 
-  postExamination() {
-    this.tcDetailService.postExamination(this.examination)
-    .subscribe(() => {
-        this.showSuccessToast('Thêm lần khám thành công');
+  getExamination() {
+    this.tcDetailService.getExamination(this.examinationId)
+    .subscribe((data) => {
+        console.log("data: ", data);
     },
     (err) => {
-      this.showErrorToast('Thêm lần khám thất bại');
+      this.showErrorToast('Lỗi khi lấy dữ liệu lần khám');
+    })
+  }
+
+
+  putExamination() {
+    this.tcDetailService.putExamination(this.examinationId,this.examination)
+    .subscribe(() => {
+        this.showSuccessToast('Sửa lần khám thành công');
+    },
+    (err) => {
+      this.showErrorToast('Sửa lần khám thất bại');
     })
 
   }
