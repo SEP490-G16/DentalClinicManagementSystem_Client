@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { ITreatmentCourse } from 'src/app/model/ITreatment-Course';
 import { Examination, TreatmentCourseDetail } from 'src/app/model/ITreatmentCourseDetail';
 import { TreatmentCourseDetailService } from 'src/app/service/ITreatmentCourseDetail/treatmentcoureDetail.service';
+import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/TreatmentCourse.service';
 import { CognitoService } from 'src/app/service/cognito.service';
 
 @Component({
@@ -20,13 +22,34 @@ export class PopupAddExaminationComponent implements OnInit {
   treatmentCourse_Id:string = "";
 
   examination:Examination = {} as Examination;
+  treatmentCourse: ITreatmentCourse = [];
+  staff_id:string = "";
+  doctors = [
+    {
+      doctorid: "ad2879dd-626c-4ade-8c95-da187af572ad",
+      doctorName: "Thế"
+    }
+  ]
 
   constructor(
     private cognitoService: CognitoService, private router: Router,
     private toastr: ToastrService,
     private route: ActivatedRoute,
+    private tcService: TreatmentCourseService,
     private tcDetailService: TreatmentCourseDetailService,
   ) {
+    this.examination = {
+      treatment_course_id: "",
+      diagnosis: "",
+      xRayImage: "",
+      created_date: "",
+      facility_id: "",
+      description: "",
+      staff_id: "",
+      xRayImageDes: "",
+      medicine: ""
+
+    } as Examination;
 
     this.examination.created_date = new Date().toISOString().substring(0, 10);
   }
@@ -36,19 +59,32 @@ export class PopupAddExaminationComponent implements OnInit {
     this.treatmentCourse_Id = this.route.snapshot.params['tcId'];
 
     console.log("Patient Id", this.patient_Id);
-    console.log("Patient Id", this.treatmentCourse_Id);
-
+    console.log("TreatmentCourse Id", this.treatmentCourse_Id);
+    this.staff_id = this.doctors[0].doctorid;
+    this.getTreatmentCourse();
 
   }
 
+  getTreatmentCourse() {
+    this.tcService.getTreatmentCourse(this.patient_Id)
+      .subscribe((data) => {
+        console.log("data treatment: ", data);
+        this.treatmentCourse = data;
+        console.log("treatment course: ", this.treatmentCourse);
+      })
+  }
+
   postExamination() {
-    this.tcDetailService.postExamination(this.examination)
-    .subscribe(() => {
-        this.showSuccessToast('Thêm lần khám thành công');
-    },
-    (err) => {
-      this.showErrorToast('Thêm lần khám thất bại');
-    })
+    this.examination.treatment_course_id = this.treatmentCourse_Id;
+    this.examination.staff_id = this.staff_id;
+    console.log("post", this.examination);
+    // this.tcDetailService.postExamination(this.examination)
+    // .subscribe(() => {
+    //     this.showSuccessToast('Thêm lần khám thành công');
+    // },
+    // (err) => {
+    //   this.showErrorToast('Thêm lần khám thất bại');
+    // })
 
   }
 
@@ -62,7 +98,7 @@ export class PopupAddExaminationComponent implements OnInit {
       reader.onload = (e: any) => {
         this.imageURL = e.target.result;
         this.examination.xRayImage = this.imageURL; // Di chuyển dòng này vào đây
-        console.log(this.examination.xRayImage);
+        console.log("xRayImage: ", this.examination.xRayImage);
       };
 
       reader.readAsDataURL(file);

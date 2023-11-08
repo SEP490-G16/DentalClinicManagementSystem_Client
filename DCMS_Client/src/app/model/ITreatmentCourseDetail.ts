@@ -27,6 +27,5 @@ export interface Examination {
   description: any,
   staff_id: string,
   xRayImageDes: any,
-  medicine: any,
-  status: number
+  medicine: any
 }

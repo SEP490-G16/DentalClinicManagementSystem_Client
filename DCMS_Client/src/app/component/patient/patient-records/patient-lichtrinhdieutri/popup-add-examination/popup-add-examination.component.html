@@ -120,7 +120,6 @@
         </div>
       </div>
       <div class="recent-orders bg-white" style="border-radius: 15px;">
-        <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px; padding-top: 20px;">Thêm lần khám</h2>
 
         <div class="content-wrapper">
           <div class="row">
@@ -149,29 +148,42 @@
           </div>
           <div class="tab-pane" id="KvDTtab">
             <div class="KvDTtab-container mt-3">
-              <div class="row">
-                <div class="col-12">
-                  <h2>Ngày khám</h2>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-12 text-center ">
-                  <input type="date" class="input-cus"
-                  style="min-width: 300px;"
-                  [(ngModel)]="examination.created_date" />
-                </div>
-              </div>
-
               <div class="KvDTtab-content mt-3">
                 <h2>Khám tổng quát</h2>
                 <div class="row content-child">
-                  <div class="col-md-12">
+                  <div class="col-md-4">
                     <div class="form-group mb-3">
-                      <label for="" style="font-size: 17px;">Bác sĩ khám và điều trị:
-                        <b><input type="text" class="input-cus" [(ngModel)]="examination.staff_id"></b></label>
+                      <label for="">Bác sĩ khám và điều trị:</label>
+                      <select class="form-select input-cus" style="width: 60%;" id="doctorSelect"
+                      [(ngModel)]="staff_id"> <!-- Binding giá trị được chọn -->
+
+                      <option *ngFor="let doctor of doctors" [value]="doctor.doctorid">
+                        {{ doctor.doctorName }}
+                      </option>
+                    </select>
                     </div>
                   </div>
+
+                  <div class="col-md-4">
+                    <label for="">Ngày khám</label>
+                    <input type="date" class="form-control input-cus"
+                    style="width: 60%;"
+                    [(ngModel)]="examination.created_date">
+                  </div>
+
+                  <div class="col-md-4">
+                    <label for="">Lịch trình điều trị</label>
+                    <select class="form-select input-cus" style="width: 60%;" aria-label="Chọn lịch trình điều trị"
+                      id="treatmentCourseSelect" [(ngModel)]="treatmentCourse_Id"> <!-- Binding giá trị được chọn -->
+                      <option *ngFor="let course of treatmentCourse" [value]="course.treatment_course_id">
+                        {{ course.name }}
+                      </option>
+                    </select>
+                  </div>
+<!--
+                  <div class="col-md-2">
+
+                  </div> -->
                 </div>
 
                 <div class="row mt-3">
@@ -179,20 +191,22 @@
                     <label for="">Ghi chú chuẩn đoán</label>
                   </div>
                   <div class="col content-child">
-                    <label for="">Lịch trình điều trị về sâu răng</label>
+                    <label for="">Đơn thuốc</label>
                   </div>
                 </div>
 
                 <div class="row mt-3">
                   <div class="col content-child">
-                    <textarea style="min-height: 200px; width: 100%;
+                    <textarea style="width: 100%;
                         text-align: justify;
                         border: 1px solid #000;
+                        height: 100px;
                         " [(ngModel)]="examination.description"></textarea>
                   </div>
                   <div class="col content-child">
-                    <textarea style="min-height: 200px; width: 100%;
+                    <textarea style="width: 100%;
                         text-align: justify;
+                        height: 100px;
                         border: 1px solid #000;" [(ngModel)]="examination.diagnosis"></textarea>
                   </div>
                 </div>
@@ -207,6 +221,8 @@
                         style="display: none;">
                     </div>
                     <i class="text-center" style="font-size: 12px;">Bấm vào ô vuông này để thêm ảnh X-quang</i>
+                    <input type="text" placeholder="Hoặc nhập đường dẫn vào đây"
+                    style="border-bottom: 1px solid #746d6d00; width: 100%;" [(ngModel)]="this.examination.xRayImage">
                   </div>
                   <div class="col-md-1">
 
@@ -217,6 +233,7 @@
                       placeholder="Nhận xét về ảnh x-quang(nếu có ảnh)"></textarea>
                   </div>
                 </div>
+
 
                 <div class="row mt-4">
                   <div class="col-sm-6">
@@ -262,59 +279,13 @@
                   </div>
                 </div>
 
-                <div class="row mt-3">
-                  <div class="col-sm-6">
-                    <h2>Đơn thuốc</h2>
-                  </div>
-                  <div class="col-sm-6">
-
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-sm-12">
-                    <div class="table-responsive">
-                      <table class="table table-bordered">
-                        <thead class="text-center">
-                          <tr>
-                            <th style="min-width: 100px;">Mã thuốc</th>
-                            <th>Tên thuốc</th>
-                            <th style="min-width: 100px;">Số lượng</th>
-                            <th>Liều dùng</th>
-                            <th>Ghi chú</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>1</td>
-                            <td>Naphacogyl</td>
-                            <td>2 vỉ</td>
-                            <td>
-                              <ul class="equal-width-list">
-                                <li>Với người lớn: Liều dùng 4-6viên/ngày, chia ra thành 2 lần uống, dùng trong
-                                  bữa ăn
-                                </li>
-                                <li>Với trẻ nhỏ: Dùng tương tự người lớn, nhưng liều lượng giảm đi 1 nửa, còn 2
-                                  viên/ngày</li>
-                              </ul>
-                            </td>
-                            <td>
-                              <p class="equal-width-list">Lưu ý không được uống thuốc tư thế nằm, không dùng cho người
-                                cao tuổi. Các đối
-                                tượng có bệnh viêm đường ruột, bệnh dạ dày cần tham khảo ý kiến.</p>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
 
                 <div class="row mt-3">
                   <div class="col-sm-6">
                     <h2>Đặt xưởng/vật tư</h2>
                   </div>
                   <div class="col-sm-6">
+                    <button class="btn button-timekeeping float-end">Thêm mới</button>
                   </div>
                 </div>
 
@@ -361,6 +332,7 @@
                     <h2>Vật liệu sử dụng</h2>
                   </div>
                   <div class="col-sm-6">
+                    <button class="btn button-timekeeping float-end">Thêm mới</button>
                   </div>
                 </div>
                 <div class="row">
@@ -399,6 +371,7 @@
 
           </div>
         </div>
+
 
       </div>
 

@@ -779,3 +779,7 @@ button:active{
 .content-child {
   margin-left: 35px;
 }
+
+.input-cus {
+  border-bottom: 1px solid #000;
+}

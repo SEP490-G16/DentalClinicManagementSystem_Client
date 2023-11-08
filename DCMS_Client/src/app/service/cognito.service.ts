@@ -124,15 +124,19 @@ export class CognitoService {
 
   signIn(User: IUser): Promise<any> {
     return Auth.signIn(User.userCredential, User.password).then((userResult) => {
-      console.log(userResult);
+
+      console.log("User result:", userResult.attributes);
       this.cognitoUser.Username = userResult.username;
       this.cognitoUser.Email = userResult.attributes.email;
       this.cognitoUser.ClientId = userResult.pool.clientId;
       this.cognitoUser.idToken = userResult.signInUserSession.idToken.jwtToken;
       this.cognitoUser.refreshToken = userResult.signInUserSession.refreshToken.token;
-      console.log(this.cognitoUser);
+      this.cognitoUser.locale = userResult.attributes.locale;
+      console.log("CognitoUser: ", this.cognitoUser);
 
       sessionStorage.setItem('id_Token', this.cognitoUser.idToken);
+      sessionStorage.setItem('locale', this.cognitoUser.locale);
+
     });
   }
 

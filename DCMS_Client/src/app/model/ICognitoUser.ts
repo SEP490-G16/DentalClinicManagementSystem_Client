@@ -4,4 +4,5 @@ export interface ICognitoUser {
   ClientId: string;
   idToken:string;
   refreshToken:string;
+  locale:string;
 }

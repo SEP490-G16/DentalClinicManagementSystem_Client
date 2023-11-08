@@ -5,4 +5,5 @@ export interface IUser{
   name: string;
   role: string;
   sub:string;
+  locale: string;
 }
