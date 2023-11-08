@@ -97,7 +97,6 @@ export class PopupEditExaminationComponent implements OnInit {
 
     console.log("Put Examination: ", this.examination);
     this.examination.staff_id = this.staff_id;
-    console.log(this.examination)
     this.tcDetailService.putExamination(this.examinationId, this.examination)
       .subscribe(() => {
         this.showSuccessToast('Sửa lần khám thành công');

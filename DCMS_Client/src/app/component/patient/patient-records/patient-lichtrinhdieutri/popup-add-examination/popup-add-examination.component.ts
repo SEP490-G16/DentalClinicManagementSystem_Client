@@ -19,11 +19,11 @@ export class PopupAddExaminationComponent implements OnInit {
 
 
   patient_Id: string = "";
-  treatmentCourse_Id:string = "";
+  treatmentCourse_Id: string = "";
 
-  examination:Examination = {} as Examination;
+  examination: Examination = {} as Examination;
   treatmentCourse: ITreatmentCourse = [];
-  staff_id:string = "";
+  staff_id: string = "";
   doctors = [
     {
       doctorid: "ad2879dd-626c-4ade-8c95-da187af572ad",
@@ -77,14 +77,16 @@ export class PopupAddExaminationComponent implements OnInit {
   postExamination() {
     this.examination.treatment_course_id = this.treatmentCourse_Id;
     this.examination.staff_id = this.staff_id;
+    const facility: string | null = sessionStorage.getItem('locale');
+    this.examination.facility_id = facility || ""; // Sử dụng toán tử '||' để gán giá trị mặc định nếu facility là null
     console.log("post", this.examination);
-    // this.tcDetailService.postExamination(this.examination)
-    // .subscribe(() => {
-    //     this.showSuccessToast('Thêm lần khám thành công');
-    // },
-    // (err) => {
-    //   this.showErrorToast('Thêm lần khám thất bại');
-    // })
+    this.tcDetailService.postExamination(this.examination)
+      .subscribe(() => {
+        this.showSuccessToast('Thêm lần khám thành công');
+      },
+        (err) => {
+          this.showErrorToast('Thêm lần khám thất bại');
+        })
 
   }
 
