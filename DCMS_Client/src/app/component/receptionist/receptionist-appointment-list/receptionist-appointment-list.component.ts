@@ -77,9 +77,6 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     })
   }
 
-  toggleChat() {
-    this.chatService.toggleChat();
-  }
 
   datesDisabled: any;
   appointmentDateInvalid() {

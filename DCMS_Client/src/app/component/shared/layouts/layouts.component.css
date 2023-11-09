@@ -22,15 +22,6 @@
   --custom-box-shadow: 0 2rem 3rem var(--custom-color-light);
 }
 
-.custom-dark-mode-variables {
-  --custom-color-background: #181a1e;
-  --custom-color-white: #202528;
-  --custom-color-dark: #edeffd;
-  --custom-color-dark-variant: #a3bdcc;
-  --custom-color-light: rgba(0, 0, 0, 0.4);
-  --custom-box-shadow: 0 2rem 3rem var(--custom-color-light);
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -337,52 +328,6 @@ main .new-users .user-list .user img {
   border-radius: 50%;
 }
 
-main .recent-orders {
-  margin-top: 1.3rem;
-}
-
-main .recent-orders h2 {
-  margin-bottom: 0.8rem;
-}
-
-main .recent-orders table {
-  background-color: var(--custom-color-white);
-  width: 100%;
-  padding: var(--custom-card-padding);
-  text-align: center;
-  box-shadow: var(--custom-box-shadow);
-  border-radius: var(--custom-card-border-radius);
-  transition: all 0.3s ease;
-}
-
-main .recent-orders table:hover {
-  box-shadow: none;
-}
-
-main table thead th {
-  height: 2.8rem;
-  border-bottom: 1px solid #7B4C50;
-  color: var(--custom-color-dark-variant);
-  border-right: 1px solid #7B4C50;
-}
-
-main table tbody td {
-  height: 2.8rem;
-  border-bottom: 1px solid #7B4C50;
-  color: var(--custom-color-dark-variant);
-  border-right: 1px solid #7B4C50;
-}
-
-main table tbody tr:last-child td {
-  border: none;
-}
-
-main .recent-orders a {
-  text-align: center;
-  display: block;
-  margin: 1rem auto;
-  color: var(--custom-color-primary);
-}
 
 .profile {
   display: flex;
@@ -749,18 +694,6 @@ button:active{
   transform: translateY(4px);
   box-shadow: 0px -1px -1px #fff;
 } */
-
-
-* {
-  padding: 0px;
-  margin: 0px;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-}
-
-body {
-  background-color: whitesmoke;
-}
 
 .open-btn {
   background-color: #7d72e4;

@@ -22,7 +22,11 @@ const routes: Routes = [
       {
         path: 'letan',
         loadChildren: () => import('./component/receptionist/receptionist.module').then(m => m.ReceptionistModule)
-      }
+      },
+      {
+        path: 'benhnhan',
+        loadChildren: () => import('./component/patient/patient.module').then(m => m.PatientModule)
+      },
     ]
   },
   {
@@ -40,10 +44,6 @@ const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () => import('./component/admin/admin.module').then(m => m.AdminModule)
-  },
-  {
-    path: 'benhnhan',
-    loadChildren: () => import('./component/patient/patient.module').then(m => m.PatientModule)
   },
   {
     path: 'dangnhap',
