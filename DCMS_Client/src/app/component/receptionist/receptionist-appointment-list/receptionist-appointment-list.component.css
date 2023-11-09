@@ -22,15 +22,6 @@
   --custom-box-shadow: 0 2rem 3rem var(--custom-color-light);
 }
 
-.custom-dark-mode-variables {
-  --custom-color-background: #181a1e;
-  --custom-color-white: #202528;
-  --custom-color-dark: #edeffd;
-  --custom-color-dark-variant: #a3bdcc;
-  --custom-color-light: rgba(0, 0, 0, 0.4);
-  --custom-box-shadow: 0 2rem 3rem var(--custom-color-light);
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -287,4 +278,42 @@ button:active{
 
 .time-clockout {
   color: red;
+}
+
+.table__header {
+  width: 90%;
+  height: 10%;
+  background-color: #fff4;
+  padding: .8rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.table__header .input-group {
+  width: 50%;
+  height: 5vh;
+  background-color: #fff5;
+  padding: 0 .8rem;
+  border-radius: 2rem;
+  border: 1px solid #7B4C50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: .2s;
+}
+
+.table__header .input-group:hover {
+  width: 70%;
+  background-color: #fff8;
+  box-shadow: 0 .1rem .4rem #0002;
+}
+
+
+.table__header .input-group input {
+  width: 100%;
+  padding: 0 .5rem 0 .3rem;
+  background-color: transparent;
+  border: none;
+  outline: none;
 }
