@@ -4,12 +4,15 @@
     <div class="col-6">
     </div>
     <div class="col-6">
-      <select class="form-select input-custom float-end" style="width: 12rem; margin-bottom: 10px;" aria-label="Default select example">
-        <option selected>Tất cả nhân viên</option>
-        <option value="">Bác sĩ</option>
-        <option value="">Y tá</option>
+      <select class="form-select input-custom float-end" style="width: 12rem; margin-bottom: 10px;" aria-label="Default select example"
+      [(ngModel)]="selectedFilter"
+      (change)="filterStaff()">
+        <option value = "" selected>Tất cả nhân viên</option>
+        <option value="1">Bác sĩ</option>
+        <option value="2">Y tá</option>
       </select>
     </div>
+
   </div>
 
   <table class="table table-bordered custom-table">
@@ -44,18 +47,23 @@
         <td>Clockout</td>
       </tr>
 
-      <tr>
-        <td style="border-right: 1px solid #7B4C50;">
-          <p style="color: brown;">Phạm Thanh Long</p>
+      <tr *ngFor="let staff of StaffFilter">
+        <td  style="border-right: 1px solid #7B4C50;">
+          <p style="color: brown;">{{staff.name}}</p>
         </td>
+
+        <!--Thứ-->
         <td style="border-right: 1px solid #7B4C50;">
-          <button class="button-timekeeping" (click)="onClockin()" [value]="clockin"></button>
-          <p class="time-clockin" [(ngModel)]="timeClockin"></p>
+          <button class="button-timekeeping"
+          (click)="onClockin(staff)" [disabled]="staff.isClockin" >{{staff.clockInStatus}}</button>
+          <p [class]="timeClockinColor">{{staff.timeClockin}}</p>
         </td>
+
         <td style="border-right: 1px solid #7B4C50;">
-          <button class="button-timekeeping" (click)="onClockout()" [value]="clockout"></button>
-          <p class="time-clockin" [(ngModel)]="timeClockout"></p>
+          <button class="button-timekeeping" (click)="onClockout(staff)">{{staff.clockOutStatus}}</button>
+          <p [class]="timeClockoutColor">{{staff.timeClockout}}</p>
         </td>
+
         <td style="border-right: 1px solid #7B4C50;"></td>
         <td style="border-right: 1px solid #7B4C50;"></td>
         <td style="border-right: 1px solid #7B4C50;"></td>

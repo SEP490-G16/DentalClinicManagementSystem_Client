@@ -72,6 +72,10 @@ import { PopupEditExaminationComponent } from './patient-records/patient-lichtri
     MatNativeDateModule,
     MatTooltipModule
   ],
+  exports: [
+    PopupAddPatientComponent
+  ],
+
   providers: [DatePipe]
 })
 export class PatientModule { }

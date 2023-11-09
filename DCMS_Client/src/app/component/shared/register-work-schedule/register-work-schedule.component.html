@@ -9,14 +9,14 @@
         [(viewDate)]="viewDate"
         (viewDateChange)="closeOpenMonthViewDay()"
       >
-        Previous
+        Trước
       </div>
       <div
         class="btn btn-outline-secondary"
         mwlCalendarToday
         [(viewDate)]="viewDate"
       >
-        Today
+        Hôm nay
       </div>
       <div
         class="btn btn-primary"
@@ -25,7 +25,7 @@
         [(viewDate)]="viewDate"
         (viewDateChange)="closeOpenMonthViewDay()"
       >
-        Next
+        Sau
       </div>
     </div>
   </div>
@@ -39,21 +39,21 @@
         (click)="setView(CalendarView.Month)"
         [class.active]="view === CalendarView.Month"
       >
-        Month
+        Tháng
       </div>
       <div
         class="btn btn-primary"
         (click)="setView(CalendarView.Week)"
         [class.active]="view === CalendarView.Week"
       >
-        Week
+        Tuần
       </div>
       <div
         class="btn btn-primary"
         (click)="setView(CalendarView.Day)"
         [class.active]="view === CalendarView.Day"
       >
-        Day
+        Ngày
       </div>
     </div>
   </div>
@@ -96,9 +96,9 @@
 <br /><br /><br />
 
 <h3>
-  Edit events
+  Sửa lịch làm việc
   <button class="btn btn-primary float-end" (click)="addEvent()">
-    Add new
+    Thêm mới lịch làm việc
   </button>
   <div class="clearfix"></div>
 </h3>
@@ -107,12 +107,12 @@
   <table class="table table-bordered">
     <thead>
       <tr>
-        <th>Title</th>
-        <th>Primary color</th>
-        <th>Secondary + text color</th>
-        <th>Starts at</th>
-        <th>Ends at</th>
-        <th>Remove</th>
+        <th>Nội dung công việc</th>
+        <th>Màu chính</th>
+        <th>Màu phụ + màu chữ</th>
+        <th>Thời gian bắt đầu</th>
+        <th>Thời gian kết thúc</th>
+        <th>Xóa</th>
       </tr>
     </thead>
 
@@ -167,7 +167,7 @@
         </td>
         <td>
           <button class="btn btn-danger" (click)="deleteEvent(event)">
-            Delete
+            Xóa
           </button>
         </td>
       </tr>
@@ -175,7 +175,7 @@
   </table>
 </div>
 
-<ng-template #modalContent let-close="close">
+<!-- <ng-template #modalContent let-close="close">
   <div class="modal-header">
     <h5 class="modal-title">Event action occurred</h5>
     <button type="button" class="close" (click)="close()">
@@ -197,5 +197,5 @@
       OK
     </button>
   </div>
-</ng-template>
+</ng-template> -->
 

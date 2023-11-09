@@ -57,7 +57,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
       "appointments": [
         {
           "procedure": 1,
-          "count": 4,
+          "count": 16,
           "details": [
             {
               appointment_id: "6e005b74-dc60-4ad9-9a4f-11954b94c2a7",
@@ -79,7 +79,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
       "appointments": [
         {
           "procedure": 1,
-          "count": 4,
+          "count": 16,
           "details": [
             {
               appointment_id: "6e005b74-dc60-4ad9-9a4f-11954b94c2a7",

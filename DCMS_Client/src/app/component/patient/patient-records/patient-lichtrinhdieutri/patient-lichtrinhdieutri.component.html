@@ -1,247 +1,110 @@
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
-<div class="web-wrapper">
-  <div class="container-custom">
-    <!-- Sidebar Section -->
-    <aside>
+<div class="recent-orders bg-white" style="border-radius: 15px;">
+  <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px; padding-top: 20px;">Hồ sơ bệnh nhân</h2>
 
-      <div class="sidebar">
-        <div class="toggle">
-          <div class="logo">
-            <img
-              src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
-            <p><span class="danger">Nguyen Tran</span> Clinic</p>
-          </div>
-          <div class="close" id="close-btn">
-            <span class="material-icons-sharp">
-              close
-            </span>
-          </div>
-        </div>
-        <a routerLink="/letan/lich-hen" class="active">
-          <span class="material-icons-sharp">
-            dashboard
-          </span>
-          <h3>Lịch hẹn</h3>
-        </a>
-        <a routerLink="/letan/phong-cho">
-          <span class="material-icons-sharp">
-            person_outline
-          </span>
-          <h3>Phòng chờ</h3>
-        </a>
-        <a routerLink="/benhnhan/danhsach">
-          <span class="material-icons-sharp">
-            receipt_long
-          </span>
-          <h3>Bệnh nhân</h3>
-        </a>
-        <a routerLink="/letan/cham-cong">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Chấm công</h3>
-        </a>
-        <a (click)="signOut()" style="cursor:pointer;">
-          <span class="material-icons-sharp">
-            logout
-          </span>
-          <h3>Logout</h3>
-        </a>
-      </div>
-    </aside>
-    <!-- End of Sidebar Section -->
-
-    <!-- Main Content -->
-    <main>
-      <!-- Analyses -->
-
-      <div class="analyse">
-        <div class="sales">
-          <div class="status">
-            <div class="info">
-              <h3>Lịch hẹn</h3>
-              <h1 class="text-center">02</h1>
-            </div>
-            <div class="progresss">
-              <svg>
-                <circle cx="38" cy="38" r="36"></circle>
-              </svg>
-              <div class="percentage">
-                <i class="bi bi-calendar3"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="visits">
-          <div class="status">
-            <div class="info">
-              <h3>Phòng chờ</h3>
-              <h1 class="text-center">24</h1>
-            </div>
-            <div class="progresss">
-              <svg>
-                <circle cx="38" cy="38" r="36"></circle>
-              </svg>
-              <div class="percentage">
-                <i class="bi bi-houses"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="searches">
-          <div class="status">
-            <div class="info">
-              <h3>Bệnh nhân</h3>
-              <h1 class="text-center">23</h1>
-            </div>
-            <div class="progresss">
-              <svg>
-                <circle cx="38" cy="38" r="36"></circle>
-              </svg>
-              <div class="percentage">
-                <i class="bi bi-person-standing"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="profile">
-          <div class="icon">
-
-          </div>
-          <div class="info">
-            <p>Xin chào, <b>Linh</b></p>
-            <small class="text-muted">Lễ tân</small>
-          </div>
-          <div class="profile-photo">
-            <img src="../../../../assets/img/person.png">
-          </div>
-        </div>
-      </div>
-
-      <div class="recent-orders bg-white" style="border-radius: 15px;">
-        <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px; padding-top: 20px;">Hồ sơ bệnh nhân</h2>
-
-        <div class="content-wrapper">
-          <div class="row">
-            <div class="card-box">
-              <ul class="nav nav-tabs" style="padding: 0px 80px;
+  <div class="content-wrapper">
+    <div class="row">
+      <div class="card-box">
+        <ul class="nav nav-tabs" style="padding: 0px 80px;
               ">
-                <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
-                    (click)="navigateHref('/benhnhan/danhsach/tab/hosobenhnhan/')">Thông tin
-                    chung</a>
-                </li>
-                <li class="nav-item mr-2"><a class="nav-link active"
-                    (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')"
-                    style="padding: 10px; color: #7B4C50;">Khám và
-                    điều
-                    trị</a></li>
-                <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000;"
-                    routerLink="/benhnhan/danhsach/tab/lichhen">Lịch hẹn</a>
-                </li>
-                <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000;"
-                    routerLink="/benhnhan/danhsach/tab/thanhtoan">Thanh toán</a>
-                </li>
-              </ul>
-              <!-- <div class="tab-content">
-                <router-outlet></router-outlet>
-              </div> -->
-            </div>
-          </div>
-          <div class="tab-pane show active" id="TTCtab">
-            <div class="row" style="padding-right: 80px;">
-              <div class="col-12">
-                <button class="btn button-timekeeping float-end" data-bs-toggle="modal"
-                  data-bs-target="#AddTreatmentModal" (click)="addTreatmentCourse()"> <i
-                    class="bi bi-plus-circle-fill"></i> Thêm lịch trình</button>
-              </div>
-            </div>
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
+              (click)="navigateHref('/benhnhan/danhsach/tab/hosobenhnhan/')">Thông tin
+              chung</a>
+          </li>
+          <li class="nav-item mr-2"><a class="nav-link active"
+              (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')"
+              style="padding: 10px; color: #7B4C50;">Khám và
+              điều
+              trị</a></li>
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000;"
+              routerLink="/benhnhan/danhsach/tab/lichhen">Lịch hẹn</a>
+          </li>
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000;"
+              routerLink="/benhnhan/danhsach/tab/thanhtoan">Thanh toán</a>
+          </li>
+        </ul>
 
-            <div class="row" style="padding: 0px 80px 50px;">
-              <div class="col-md-12" id="accordion">
-                <div class="card" style="margin-top: 20px;" *ngFor="let course of ITreatmentCourse; let i = index">
-                  <div class="card-header" style="background-color: #7B4C50; color: aliceblue;">
-                    <div class="row">
-                      <div class="col">
-                        <a class="collapsed btn float-start"
-                          style="color: white; padding: 2px 8px 8px; padding-left: 20px;" data-bs-toggle="collapse"
-                          [attr.href]="'#collapse' + i" [attr.aria-controls]="'collapse' + i">
-                          Lịch trình: {{ course.name }}
-                        </a>
-                      </div>
-                      <div class="col">
-                        <i class="bi bi-trash3 float-end"
-                          style="padding-right: 20px; padding-top: 20px; font-size: 20px; cursor: pointer;"
-                          (click)="deleteTreatmentCourse(course.treatment_course_id)" title="Xóa Liệu trình"></i>
-                        <i class="bi bi-pencil-square float-end"
-                          style="padding-right: 20px; padding-top: 20px; font-size: 20px; cursor: pointer;"
-                          data-bs-toggle="modal" data-bs-target="#EditTreatmentModal"
-                          (click)="editTreatmentCourse(course)" title="Sửa liệu trình"></i>
-                        <i class="bi bi-patch-plus float-end"
-                          style="padding-right: 20px; padding-top: 20px; font-size: 20px; cursor: pointer;"
-                          (click)="navigateAddExamination(course.treatment_course_id)" title="Thêm lần khám">
+      </div>
+    </div>
+    <div class="tab-pane show active" id="TTCtab">
+      <div class="row" style="padding-top: 10px; padding-right: 80px;">
+        <div class="col-12">
+          <button class="btn button-timekeeping float-end" data-bs-toggle="modal" data-bs-target="#AddTreatmentModal"
+            (click)="addTreatmentCourse()"> <i class="bi bi-plus-circle-fill"></i> Thêm lịch trình</button>
+        </div>
+      </div>
 
-                        </i>
-                        <i class="bi bi-arrow-down-circle float-end"
-                          style="padding-right: 20px; padding-top: 20px; font-size: 20px; cursor: pointer;"
-                          data-bs-toggle="collapse" [attr.href]="'#collapse' + i" [attr.aria-controls]="'collapse' + i">
-                        </i>
-                      </div>
-                    </div>
-                  </div>
+      <div class="row" style="padding: 0px 80px 50px;">
+        <div class="col-md-12" id="accordion">
+          <div class="card" style="margin-top: 20px;" *ngFor="let course of ITreatmentCourse; let i = index">
+            <div class="card-header" style="background-color: #7B4C50; color: aliceblue;">
+              <div class="row">
+                <div class="col">
+                  <a class="collapsed btn float-start" style="color: white; padding: 2px 8px 8px; padding-left: 20px;"
+                    data-bs-toggle="collapse" [attr.href]="'#collapse' + i" [attr.aria-controls]="'collapse' + i">
+                    Lịch trình: {{ course.name }}
+                  </a>
+                </div>
+                <div class="col">
+                  <i class="bi bi-trash3 float-end"
+                    style="padding-right: 20px; padding-top: 20px; font-size: 20px; cursor: pointer;"
+                    (click)="deleteTreatmentCourse(course.treatment_course_id)" title="Xóa Liệu trình"></i>
+                  <i class="bi bi-pencil-square float-end"
+                    style="padding-right: 20px; padding-top: 20px; font-size: 20px; cursor: pointer;"
+                    data-bs-toggle="modal" data-bs-target="#EditTreatmentModal" (click)="editTreatmentCourse(course)"
+                    title="Sửa liệu trình"></i>
+                  <i class="bi bi-patch-plus float-end"
+                    style="padding-right: 20px; padding-top: 20px; font-size: 20px; cursor: pointer;"
+                    (click)="navigateAddExamination(course.treatment_course_id)" title="Thêm lần khám">
 
-                  <div [id]="'collapse' + i" class="collapse" [attr.data-parent]="'#accordion'"
-                    *ngFor="let courseDetail of ok; let i2 = index">
-                    <ng-container *ngIf="courseDetail.treatment_course_id === course.treatment_course_id; else noData">
-                    <div class="card-body"
-                      style="padding: 10px; background-color: rgb(233, 197, 199); border-bottom: 27px;">
-                      <div class="row">
-                        <div class="col">
-                          <p style="cursor: pointer;" (click)="navigateTreatmentCourse_Detail(courseDetail)"
-                            title="Xem chi tiết lần khám">Lần khám {{
-                            i2 + 1}}: <b>{{ courseDetail.created_date | VNdateTimeFormat}}</b></p>
-                        </div>
-                        <div class="col">
-                          <div class="action float-end" style="font-size: 20px; padding-right: 10px;">
-                            <i class="bi bi-trash3 float-end" style="cursor: pointer;"
-                              style="font-size: 20px; cursor: pointer;"
-                              title="Xóa lần khám" (click)="deleteExamination(courseDetail.examination_id)"></i>
-                            <i class="bi bi-pencil-square float-end" data-bs-toggle="modal" title="Sửa lần khám"
-                              style="padding-left: 25px; padding-right: 20px; font-size: 20px; cursor: pointer;"
-                              (click)="navigateEditExamination(courseDetail)"
-                              data-bs-target="#EditTreatmentModal"></i>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    </ng-container>
-                  </div>
-
-                  <ng-template #noData>
-                     <div class="card-body"
-                      style="padding: 10px; background-color: rgb(233, 197, 199); border-bottom: 27px;">
-                      Không có lần khám nào được tìm thấy.
-                    </div>
-                  </ng-template>
+                  </i>
+                  <i class="bi bi-arrow-down-circle float-end"
+                    style="padding-right: 20px; padding-top: 20px; font-size: 20px; cursor: pointer;"
+                    data-bs-toggle="collapse" [attr.href]="'#collapse' + i" [attr.aria-controls]="'collapse' + i">
+                  </i>
                 </div>
               </div>
             </div>
+
+            <div [id]="'collapse' + i" class="collapse" [attr.data-parent]="'#accordion'"
+              *ngFor="let courseDetail of ok; let i2 = index">
+              <ng-container *ngIf="courseDetail.treatment_course_id === course.treatment_course_id; else noData">
+                <div class="card-body"
+                  style="padding: 10px; background-color: rgb(233, 197, 199); border-bottom: 27px;">
+                  <div class="row">
+                    <div class="col">
+                      <p style="cursor: pointer;" (click)="navigateTreatmentCourse_Detail(courseDetail)"
+                        title="Xem chi tiết lần khám">Lần khám {{
+                        i2 + 1}}: <b>{{ courseDetail.created_date | VNdateTimeFormat}}</b></p>
+                    </div>
+                    <div class="col">
+                      <div class="action float-end" style="font-size: 20px; padding-right: 10px;">
+                        <i class="bi bi-trash3 float-end" style="cursor: pointer;"
+                          style="font-size: 20px; cursor: pointer;" title="Xóa lần khám"
+                          (click)="deleteExamination(courseDetail.examination_id)"></i>
+                        <i class="bi bi-pencil-square float-end" data-bs-toggle="modal" title="Sửa lần khám"
+                          style="padding-left: 25px; padding-right: 20px; font-size: 20px; cursor: pointer;"
+                          (click)="navigateEditExamination(courseDetail)" data-bs-target="#EditTreatmentModal"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+
+            <ng-template #noData>
+              <div class="card-body" style="padding: 10px; background-color: rgb(233, 197, 199); border-bottom: 27px;">
+                Không có lần khám nào được tìm thấy.
+              </div>
+            </ng-template>
           </div>
         </div>
-
-
       </div>
-
-      <!-- End of Recent Orders -->
-
-    </main>
-    <!-- End of Main Content -->
-
+    </div>
   </div>
 
+
 </div>
+
 
 
 <app-popup-add-treatmentcourse [Patient_Id]="Patient_Id"></app-popup-add-treatmentcourse>

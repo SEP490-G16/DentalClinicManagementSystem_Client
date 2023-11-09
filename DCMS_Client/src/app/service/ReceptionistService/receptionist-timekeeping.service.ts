@@ -9,6 +9,10 @@ import { Observable } from 'rxjs';
 export class ReceptionistTimekeepingService {
   private apiUrl = 'https://gg1spfr4gl.execute-api.ap-southeast-1.amazonaws.com/dev';
 
+  // status 1: lịch làm việc
+
+  // status 2: chấm công
+
   constructor(private http: HttpClient, private cognitoService:CognitoService) { }
 
   getTimekeeping(startTime:number, endTime:number):Observable<any> {
@@ -16,9 +20,8 @@ export class ReceptionistTimekeepingService {
 
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`,
-      'Accept':'application/json'
     });
-      return this.http.get(`${this.apiUrl}/timekeeping/${startTime}/${endTime}`, { headers });
+      return this.http.get(`${this.apiUrl}/timekeeping/${startTime}/${endTime}`, { headers});
   }
 
   postTimekeeping(PostTimekeeping:any): Observable<any> {

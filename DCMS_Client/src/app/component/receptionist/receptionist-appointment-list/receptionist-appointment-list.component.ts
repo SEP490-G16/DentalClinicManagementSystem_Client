@@ -10,7 +10,6 @@ import { PopupAddAppointmentComponent } from './popup-add-appointment/popup-add-
 
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment-timezone';
-import { ChatService } from 'src/app/service/Chat/chat.service';
 
 @Component({
   selector: 'app-receptionist-appointment-list',
@@ -25,8 +24,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   constructor(private appointmentService: ReceptionistAppointmentService,
     private cognitoService: CognitoService, private router: Router,
     private toastr: ToastrService,
-    private renderer: Renderer2,
-    private chatService: ChatService
+    private renderer: Renderer2
   ) {
     this.selectedAppointment = {
       appointment_id: '',

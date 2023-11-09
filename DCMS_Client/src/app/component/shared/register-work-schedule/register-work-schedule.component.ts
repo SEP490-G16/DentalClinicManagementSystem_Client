@@ -27,9 +27,8 @@ import {
 
 import { EventColor } from 'calendar-utils';
 
-
-
 import { ToastrService } from 'ngx-toastr';
+import { ReceptionistTimekeepingService } from 'src/app/service/ReceptionistService/receptionist-timekeeping.service';
 
 
 const colors: Record<string, EventColor> = {
@@ -67,6 +66,10 @@ export class RegisterWorkScheduleComponent implements OnInit {
     action: string;
     event: CalendarEvent;
   };
+
+  constructor(private modal: NgbModal,
+    private timekeepingService:ReceptionistTimekeepingService
+    ) { }
 
   actions: CalendarEventAction[] = [
     {
@@ -160,10 +163,6 @@ export class RegisterWorkScheduleComponent implements OnInit {
     }
   }
 
-
-
-
-  constructor(private modal: NgbModal) { }
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
@@ -232,6 +231,19 @@ export class RegisterWorkScheduleComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.getTimekeeping();
   }
+
+  timekeepingOnWeeks:any
+  getTimekeeping() {
+    // this.timekeepingService.getTimekeeping(this.currentDateTimeStamp, this.currentDateTimeStamp)
+    //   .subscribe(data => {
+    //       // this.timekeepingOnWeeks = ConvertJson.processApiResponse(data);
+    //       this.timekeepingOnWeeks = data;
+    //       console.log("this.timekeepingOnWeeks ", this.timekeepingOnWeeks);
+    //   })
+  }
+
+
 
 }
