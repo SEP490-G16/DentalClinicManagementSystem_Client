@@ -10,7 +10,7 @@ import { PopupAddAppointmentComponent } from './popup-add-appointment/popup-add-
 
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment-timezone';
-
+import 'moment/locale/vi';
 @Component({
   selector: 'app-receptionist-appointment-list',
   templateUrl: './receptionist-appointment-list.component.html',
@@ -41,7 +41,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   filteredAppointments: any;
   appointmentList: any;
   startDate: any;
-  endDate: string = "2024-01-01";
+  endDate: string = "2023-11-11";
 
   ngOnInit(): void {
     const today = new Date(); // Lấy ngày hôm nay
@@ -50,6 +50,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     const day = today.getDate().toString().padStart(2, '0');
     const hours = today.getHours().toString().padStart(2, '0');
     const minutes = today.getMinutes().toString().padStart(2, '0');
+
     // Format ngày thành chuỗi "YYYY-MM-DD" (hoặc theo định dạng bạn muốn)
     const defaultDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours}:${minutes}`;
     this.startDate = defaultDate;
@@ -66,7 +67,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     let endDateTimestamp = date1.getTime() / 1000;
 
     // console.log(startDateTimestamp);
-    this.appointmentService.getAppointmentList(startDateTimestamp, endDateTimestamp).subscribe(data => {
+    this.appointmentService.getAppointmentList(startDateTimestamp, startDateTimestamp).subscribe(data => {
       this.appointmentList = ConvertJson.processApiResponse(data);
       this.filteredAppointments = this.appointmentList;
       console.log("Appointment List: ", this.appointmentList);
@@ -76,8 +77,20 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   }
 
 
+
   datesDisabled: any;
   appointmentDateInvalid() {
+    //Get Date
+    // const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
+    // const currentDateTimeStamp = this.dateToTimestamp(currentDateGMT7);
+    // this.appointmentService.getAppointmentList(currentDateTimeStamp, currentDateTimeStamp).subscribe(data => {
+    //   this.appointmentList = ConvertJson.processApiResponse(data);
+    //   this.filteredAppointments = this.appointmentList;
+    //   console.log("Appointment List: ", this.appointmentList);
+
+    //   this.appointmentDateInvalid();
+    // })
+
     this.datesDisabled = this.appointmentList
       .filter((item: any) => {
         const totalProcedures = item.appointments.reduce((total: number, appointment: any) => total + appointment.procedure, 0);
@@ -145,7 +158,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
 
 
   openAddAppointmentModal() {
-    this.datesDisabled = this.datesDisabled;
+    // this.datesDisabled = this.datesDisabled;
   }
 
   //Convert Date

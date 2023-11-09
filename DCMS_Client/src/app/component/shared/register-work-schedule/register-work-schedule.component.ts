@@ -26,9 +26,11 @@ import {
 } from 'angular-calendar';
 
 import { EventColor } from 'calendar-utils';
-
+import * as moment from 'moment';
+import 'moment/locale/vi';
 import { ToastrService } from 'ngx-toastr';
 import { ReceptionistTimekeepingService } from 'src/app/service/ReceptionistService/receptionist-timekeeping.service';
+import { RequestBodyTimekeeping } from 'src/app/model/ITimekeeping';
 
 
 const colors: Record<string, EventColor> = {
@@ -67,10 +69,6 @@ export class RegisterWorkScheduleComponent implements OnInit {
     event: CalendarEvent;
   };
 
-  constructor(private modal: NgbModal,
-    private timekeepingService:ReceptionistTimekeepingService
-    ) { }
-
   actions: CalendarEventAction[] = [
     {
       label: '<i class="fas fa-fw fa-pencil-alt"></i>',
@@ -95,7 +93,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
     {
       start: subDays(startOfDay(new Date()), 1),
       end: addDays(new Date(), 1),
-      title: 'A 3 day event',
+      title: 'Lễ tân chấm công',
       color: { ...colors['red'] },
       actions: this.actions,
       allDay: true,
@@ -107,21 +105,22 @@ export class RegisterWorkScheduleComponent implements OnInit {
     },
     {
       start: startOfDay(new Date()),
-      title: 'An event with no end date',
+      end: addDays(endOfMonth(new Date()), 3),
+      title: 'Khám bệnh',
       color: { ...colors['yellow'] },
       actions: this.actions,
     },
     {
       start: subDays(endOfMonth(new Date()), 3),
       end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
+      title: 'Khám bệnh',
       color: { ...colors['blue'] },
       allDay: true,
     },
     {
       start: addHours(startOfDay(new Date()), 2),
       end: addHours(new Date(), 2),
-      title: 'A draggable and resizable event',
+      title: 'Khám bệnh 2',
       color: { ...colors['yellow'] },
       actions: this.actions,
       resizable: {
@@ -131,9 +130,6 @@ export class RegisterWorkScheduleComponent implements OnInit {
       draggable: true,
     },
   ];
-
-
-
 
   activeDayIsOpen: boolean = true;
 
@@ -197,28 +193,63 @@ export class RegisterWorkScheduleComponent implements OnInit {
 
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
-    this.modal.open(this.modalContent, { size: 'lg' });
+    // this.modal.open(this.modalContent, { size: 'lg' });
   }
 
   addEvent(): void {
-    this.events = [
-      ...this.events,
-      {
-        title: 'New event',
-        start: startOfDay(new Date()),
-        end: endOfDay(new Date()),
-        color: { ...colors['red'] },
-        draggable: true,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true,
+    let sub = sessionStorage.getItem("sub");
+    let name = sessionStorage.getItem("name");
+    if (sub !== null && name != null) {
+      this.events = [
+        ...this.events,
+        {
+          title: 'New event',
+          start: startOfDay(new Date()),
+          end: endOfDay(new Date()),
+          color: { ...colors['red'] },
+          draggable: true,
+          resizable: {
+            beforeStart: true,
+            afterEnd: true,
+          },
         },
-      },
-    ];
+      ];
+      this.Body.sub_id = sub;
+      this.Body.staff_name = name;
+      this.Body.epoch = this.currentDateTimeStamp;
+      this.Body.clock_in = this.currentTimeTimeStamp;
+      this.Body.clock_out = this.currentTimeTimeStamp;
+      this.timekeepingService.postTimekeeping(this.Body)
+        .subscribe((res) => {
+          this.showSuccessToast("Đăng ký lịch làm việc thành công");
+          //Set time Clockout
+          console.log("Body Đăng ký lịch làm việc", this.Body);
+        },
+          (err) => {
+            this.showErrorToast(err.error);
+          }
+        )
+    } else {
+      this.showErrorToast("Vui lòng đăng nhập để đăng ký lịch làm việc");
+    }
   }
 
   deleteEvent(eventToDelete: CalendarEvent) {
-    this.events = this.events.filter((event) => event !== eventToDelete);
+    let sub = sessionStorage.getItem("sub");
+    let name = sessionStorage.getItem("name");
+    if (sub !== null && name != null) {
+      this.timekeepingService.deleteTimekeeping(this.currentDateTimeStamp, this.currentDateTimeStamp)
+        .subscribe(() => {
+          this.showSuccessToast("Xóa lịch làm việc thành công");
+          this.events = this.events.filter((event) => event !== eventToDelete);
+          console.log("inside event: ", this.events);
+        }, (err) => {
+          this.showErrorToast(err.error);
+        }
+        )
+    } else {
+      this.showErrorToast("Vui lòng đăng nhập để thực hiện thao tác");
+    }
   }
 
   setView(view: CalendarView) {
@@ -230,20 +261,98 @@ export class RegisterWorkScheduleComponent implements OnInit {
   }
 
 
+  //Current
+  currentDateTimeStamp: number = 0;
+  currentTimeTimeStamp: number = 0;
+  currentDateGMT7: string = "";
+  currentTimeGMT7: string = "";
+
+
+  Body: RequestBodyTimekeeping;
+  constructor(private modal: NgbModal,
+    private timekeepingService: ReceptionistTimekeepingService,
+    private toastr: ToastrService,
+  ) {
+    //Get Date
+    this.currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
+    this.currentTimeGMT7 = moment.tz('Asia/Ho_Chi_Minh').format('HH:mm');
+    //Set epoch to body
+    this.currentDateTimeStamp = this.dateToTimestamp(this.currentDateGMT7);
+    this.currentTimeTimeStamp = this.timeAndDateToTimestamp(this.currentTimeGMT7, this.currentDateGMT7);
+
+
+    this.Body = {
+      epoch: 0,
+      sub_id: "",
+      staff_name: "",
+      staff_avt: "",
+      clock_in: 0,
+      clock_out: 0,
+      timekeeper_name: "",
+      timekeeper_avt: "",
+      status: 1
+    } as RequestBodyTimekeeping
+
+  }
+
   ngOnInit(): void {
     this.getTimekeeping();
   }
 
-  timekeepingOnWeeks:any
+  timekeepingOnWeeks: any
   getTimekeeping() {
-    // this.timekeepingService.getTimekeeping(this.currentDateTimeStamp, this.currentDateTimeStamp)
-    //   .subscribe(data => {
-    //       // this.timekeepingOnWeeks = ConvertJson.processApiResponse(data);
-    //       this.timekeepingOnWeeks = data;
-    //       console.log("this.timekeepingOnWeeks ", this.timekeepingOnWeeks);
-    //   })
+    this.timekeepingService.getTimekeeping(this.currentDateTimeStamp, this.currentDateTimeStamp)
+      .subscribe(data => {
+        // this.timekeepingOnWeeks = ConvertJson.processApiResponse(data);
+        this.timekeepingOnWeeks = data;
+        console.log("timekeepingOnWeeks ", this.timekeepingOnWeeks);
+      })
   }
 
+  //Convert Date
+  dateToTimestamp(dateStr: string): number {
+    const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng của chuỗi ngày
+    const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
+    const timestamp = moment.tz(dateStr, format, timeZone).valueOf();
+    return timestamp;
+  }
 
+  timestampToGMT7String(timestamp: number): string {
+    // Chuyển timestamp thành chuỗi ngày và thời gian dựa trên múi giờ GMT+7
+    const dateTimeString = moment.tz(timestamp * 1000, 'Asia/Ho_Chi_Minh').format('HH:mm:ss');
+    return dateTimeString;
+  }
+
+  timestampToGMT7Date(timestamp: number): string {
+    const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ GMT+7
+
+    // Sử dụng moment.tz để chuyển đổi timestamp sang đối tượng ngày với múi giờ GMT+7
+    const date = moment.tz(timestamp * 1000, timeZone);
+
+    // Định dạng ngày theo mong muốn
+    const formattedDate = date.format('YYYY-MM-DD'); // Định dạng ngày giờ
+
+    return formattedDate;
+  }
+
+  timeAndDateToTimestamp(timeStr: string, dateStr: string): number {
+    const format = 'YYYY-MM-DD HH:mm'; // Định dạng của chuỗi ngày và thời gian
+    const timeZone = 'Asia/Ho_Chi_Minh';
+    const dateTimeStr = `${dateStr} ${timeStr}`;
+    const timestamp = moment.tz(dateTimeStr, format, timeZone).valueOf();
+    return timestamp;
+  }
+
+  showSuccessToast(message: string) {
+    this.toastr.success(message, 'Thành công', {
+      timeOut: 3000, // Adjust the duration as needed
+    });
+  }
+
+  showErrorToast(message: string) {
+    this.toastr.error(message, 'Lỗi', {
+      timeOut: 3000, // Adjust the duration as needed
+    });
+  }
 
 }

@@ -44,6 +44,9 @@ export class ReceptionistTimekeepingComponent implements OnInit {
   currentDateGMT7: string = "";
   currentTimeGMT7: string = "";
 
+  //Week
+  weekTimestamps: number[] = [];
+
   thu: string = "";
   constructor(private cognitoService: CognitoService,
     private timekeepingService: ReceptionistTimekeepingService,
@@ -51,7 +54,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     private router: Router) {
 
     this.Body = {
-      epoch: 0,
+      epoch: 123,
       sub_id: "",
       staff_name: "",
       staff_avt: "",
@@ -73,6 +76,12 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     //Set epoch to body
     this.currentDateTimeStamp = this.dateToTimestamp(this.currentDateGMT7);
     this.currentTimeTimeStamp = this.timeAndDateToTimestamp(this.currentTimeGMT7, this.currentDateGMT7);
+
+    //Set week
+    for (let i = 0; i < 7; i++) {
+      this.weekTimestamps.push(moment().startOf('week').add(i, 'days').unix());
+    }
+    console.log("ok", this.weekTimestamps);
   }
 
   ngOnInit(): void {
@@ -83,13 +92,13 @@ export class ReceptionistTimekeepingComponent implements OnInit {
 
   }
 
-  timekeepingOnWeeks:any
+  timekeepingOnWeeks: any
   getTimekeeping() {
     this.timekeepingService.getTimekeeping(this.currentDateTimeStamp, this.currentDateTimeStamp)
       .subscribe(data => {
-          // this.timekeepingOnWeeks = ConvertJson.processApiResponse(data);
-          this.timekeepingOnWeeks = data;
-          console.log("this.timekeepingOnWeeks ", this.timekeepingOnWeeks);
+        // this.timekeepingOnWeeks = ConvertJson.processApiResponse(data);
+        this.timekeepingOnWeeks = data;
+        console.log("this.timekeepingOnWeeks ", this.timekeepingOnWeeks);
       })
   }
 

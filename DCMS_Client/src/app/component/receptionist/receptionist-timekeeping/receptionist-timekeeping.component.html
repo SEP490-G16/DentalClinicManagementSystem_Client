@@ -4,10 +4,9 @@
     <div class="col-6">
     </div>
     <div class="col-6">
-      <select class="form-select input-custom float-end" style="width: 12rem; margin-bottom: 10px;" aria-label="Default select example"
-      [(ngModel)]="selectedFilter"
-      (change)="filterStaff()">
-        <option value = "" selected>Tất cả nhân viên</option>
+      <select class="form-select input-custom float-end" style="width: 12rem; margin-bottom: 10px;"
+        aria-label="Default select example" [(ngModel)]="selectedFilter" (change)="filterStaff()">
+        <option value="" selected>Tất cả nhân viên</option>
         <option value="1">Bác sĩ</option>
         <option value="2">Y tá</option>
       </select>
@@ -48,14 +47,23 @@
       </tr>
 
       <tr *ngFor="let staff of StaffFilter">
-        <td  style="border-right: 1px solid #7B4C50;">
+        <td style="border-right: 1px solid #7B4C50;">
           <p style="color: brown;">{{staff.name}}</p>
         </td>
 
+        <td style="border-right: 1px solid #7B4C50;"></td>
+        <td style="border-right: 1px solid #7B4C50;"></td>
+
+        <td style="border-right: 1px solid #7B4C50;"></td>
+        <td style="border-right: 1px solid #7B4C50;"></td>
+
+        <td style="border-right: 1px solid #7B4C50;"></td>
+        <td style="border-right: 1px solid #7B4C50;"></td>
+
         <!--Thứ-->
         <td style="border-right: 1px solid #7B4C50;">
-          <button class="button-timekeeping"
-          (click)="onClockin(staff)" [disabled]="staff.isClockin" >{{staff.clockInStatus}}</button>
+          <button class="button-timekeeping" (click)="onClockin(staff)"
+            [disabled]="staff.isClockin">{{staff.clockInStatus}}</button>
           <p [class]="timeClockinColor">{{staff.timeClockin}}</p>
         </td>
 
@@ -66,14 +74,7 @@
 
         <td style="border-right: 1px solid #7B4C50;"></td>
         <td style="border-right: 1px solid #7B4C50;"></td>
-        <td style="border-right: 1px solid #7B4C50;"></td>
-        <td style="border-right: 1px solid #7B4C50;"></td>
-        <td style="border-right: 1px solid #7B4C50;"></td>
-        <td style="border-right: 1px solid #7B4C50;"></td>
-        <td style="border-right: 1px solid #7B4C50;"></td>
-        <td style="border-right: 1px solid #7B4C50;"></td>
-        <td style="border-right: 1px solid #7B4C50;"></td>
-        <td style="border-right: 1px solid #7B4C50;"></td>
+
         <td style="border-right: 1px solid #7B4C50;"></td>
         <td style="border-right: 1px solid #7B4C50;"></td>
       </tr>
