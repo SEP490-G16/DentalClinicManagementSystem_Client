@@ -6,17 +6,19 @@ import {FormsModule} from "@angular/forms";
 import { DoctorComponent } from './doctor.component';
 import { PatientModule } from '../patient/patient.module';
 import { ToastrModule } from 'ngx-toastr';
+import { DoctorRoutingModule } from './doctor-routing.module';
 
 
 
 @NgModule({
   declarations: [
-      DoctorComponent
+    DoctorComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
+    DoctorRoutingModule,
     PatientModule,
     SharedModule,
     ToastrModule.forRoot({

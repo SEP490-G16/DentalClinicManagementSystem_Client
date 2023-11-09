@@ -1,231 +1,96 @@
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
-<div class="web-wrapper">
-  <div class="container-custom">
-    <!-- Sidebar Section -->
-    <aside>
+<h2 class="text-center" style="font-family: Agbalumo; font-size: 29px;">Lịch hẹn</h2>
+<div class="recent-orders">
+  <section class="table__header">
+    <h1></h1>
+    <div class="input-group">
+      <input type="search" placeholder="Tìm kiếm theo tên, mã bệnh nhân..." [(ngModel)]="searchText"
+        (input)="searchAppointments()">
+    </div>
+    <div class="export__file">
+    </div>
+  </section>
 
-      <div class="sidebar">
-        <div class="toggle">
-          <div class="logo">
-            <img
-              src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
-            <p><span class="danger">Nguyen Tran</span> Clinic</p>
-          </div>
-          <div class="close" id="close-btn">
-            <span class="material-icons-sharp">
-              close
-            </span>
-          </div>
-        </div>
-        <a routerLink="/letan/lich-hen" class="active">
-          <span class="material-icons-sharp">
-            dashboard
-          </span>
-          <h3>Lịch hẹn</h3>
-        </a>
-        <a routerLink="/letan/phong-cho">
-          <span class="material-icons-sharp">
-            person_outline
-          </span>
-          <h3>Phòng chờ</h3>
-        </a>
-        <a routerLink="/benhnhan/danhsach">
-          <span class="material-icons-sharp">
-            receipt_long
-          </span>
-          <h3>Bệnh nhân</h3>
-        </a>
-        <a routerLink="/letan/cham-cong">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Chấm công</h3>
-        </a>
-        <a (click)="signOut()" style="cursor:pointer;">
-          <span class="material-icons-sharp">
-            logout
-          </span>
-          <h3>Logout</h3>
-        </a>
-      </div>
-    </aside>
-    <!-- End of Sidebar Section -->
+  <div class="row mt-5 mb-5">
+    <div class="col-6">
+      <button class="btn button-timekeeping" style="margin-right: 30px;" data-bs-toggle="modal"
+        data-bs-target="#myModal" (click)="openAddAppointmentModal()"><i class="bi bi-plus-circle"></i>
+        Thêm
+        lịch hẹn</button>
+      <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myBNModal"><i
+          class="bi bi-plus-circle"></i> Thêm
+        bệnh nhân</button>
+    </div>
+    <div class="col-6">
+      <input type="datetime-local" class="date-input-custom" [(ngModel)]="startDate" (change)="getAppointmentList()">
 
-    <!-- Main Content -->
-    <main>
-      <!-- Analyses -->
-      <div class="analyse">
-        <div class="sales">
-          <div class="status">
-            <div class="info">
-              <h3>Lịch hẹn</h3>
-              <h1 class="text-center">02</h1>
-            </div>
-            <div class="progresss">
-              <svg>
-                <circle cx="38" cy="38" r="36"></circle>
-              </svg>
-              <div class="percentage">
-                <i class="bi bi-calendar3"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="visits">
-          <div class="status">
-            <div class="info">
-              <h3>Phòng chờ</h3>
-              <h1 class="text-center">24</h1>
-            </div>
-            <div class="progresss">
-              <svg>
-                <circle cx="38" cy="38" r="36"></circle>
-              </svg>
-              <div class="percentage">
-                <i class="bi bi-houses"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="searches">
-          <div class="status">
-            <div class="info">
-              <h3>Bệnh nhân</h3>
-              <h1 class="text-center">23</h1>
-            </div>
-            <div class="progresss">
-              <svg>
-                <circle cx="38" cy="38" r="36"></circle>
-              </svg>
-              <div class="percentage">
-                <i class="bi bi-person-standing"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="profile">
-          <div class="icon">
-
-          </div>
-          <div class="info">
-            <p>Xin chào, <b>Linh</b></p>
-            <small class="text-muted">Lễ tân</small>
-          </div>
-          <div class="profile-photo">
-            <img src="../../../../assets/img/person.png">
-          </div>
-        </div>
-      </div>
-
-      <!-- End of Analyses -->
-
-      <!-- New Users Section -->
-      <!-- End of New Users Section -->
-
-      <!-- Recent Orders Table -->
-      <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px;">Lịch hẹn</h2>
-      <div class="recent-orders">
-        <section class="table__header">
-          <h1></h1>
-          <div class="input-group">
-            <input type="search" placeholder="Tìm kiếm theo tên, mã bệnh nhân..." [(ngModel)]="searchText"
-              (input)="searchAppointments()">
-          </div>
-          <div class="export__file">
-          </div>
-        </section>
-
-        <div class="row mt-5 mb-5">
-          <div class="col-6">
-            <button class="btn button-timekeeping"
-            style="margin-right: 30px;"
-            data-bs-toggle="modal" data-bs-target="#myModal"
-              (click)="openAddAppointmentModal()"><i class="bi bi-plus-circle"></i>
-              Thêm
-              lịch hẹn</button>
-            <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myBNModal"><i
-                class="bi bi-plus-circle"></i> Thêm
-              bệnh nhân</button>
-          </div>
-          <div class="col-6">
-            <input type="datetime-local" class="date-input-custom" [(ngModel)]="startDate"
-              (change)="getAppointmentList()">
-
-            <select class="form-select input-custom float-end" aria-label="Default select example"
-              [(ngModel)]="selectedProcedure" (change)="filterAppointments()">
-              <option selected value="">Phân loại điều trị</option>
-              <option value="1">Cạo vôi răng</option>
-              <option value="2">Nhổ Răng</option>
-              <option value="3">Niềng Răng</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="table-container">
-          <table>
-            <thead class="sticky-thead">
-              <tr>
-                <th>Mã bệnh nhân</th>
-                <th>Tên bệnh nhân</th>
-                <th>SĐT</th>
-                <th>Loại điều trị</th>
-                <th>Bác sĩ</th>
-                <th style="min-width: 110px;">Thời gian hẹn khám</th>
-                <th></th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <ng-container *ngFor="let a of filteredAppointments">
-                <ng-container *ngFor="let ap of a.appointments">
-                  <tr *ngFor="let detail of ap.details">
-                    <td>
-                      <!--HE153724-->
-                      {{detail.patient_id}}
-                    </td>
-                    <td>
-                      {{detail.patient_name}}
-                    </td>
-                    <td>
-                      {{detail.phone_number}}
-                    </td>
-                    <td>
-                      {{ (detail.procedure == 1) ? 'Cạo vôi răng' : ((detail.procedure == 2) ? 'Nhổ răng' : 'Niềng
-                      Răng') }}
-                    </td>
-                    <td>{{ detail.doctor }}</td>
-                    <td> {{ convertTimestampToDateString(a.date)}} {{convertTimestampToTimesString(detail.time)}}</td>
-                    <td>
-                      <button class="btn btn-edit-custom" data-bs-toggle="modal" data-bs-target="#editAppointmentModal"
-                        (click)="openEditModal(detail, a.date)">
-                        <i class="bi bi-pencil-square"></i>
-                      </button>
-                    </td>
-                    <td>
-                      <a routerLink="/letan/phong-cho" style="width: 100px; color: black;"
-                        class="btn btn-redirect">Đến hàng chờ</a>
-                    </td>
-                  </tr>
-                </ng-container>
-
-              </ng-container>
-
-            </tbody>
-          </table>
-
-        </div>
-      </div>
-      <!-- End of Recent Orders -->
-
-    </main>
-    <!-- End of Main Content -->
-
+      <select class="form-select input-custom float-end" aria-label="Default select example"
+        [(ngModel)]="selectedProcedure" (change)="filterAppointments()">
+        <option selected value="">Phân loại điều trị</option>
+        <option value="1">Cạo vôi răng</option>
+        <option value="2">Nhổ Răng</option>
+        <option value="3">Niềng Răng</option>
+      </select>
+    </div>
   </div>
 
+  <div class="table-container">
+    <table>
+      <thead class="sticky-thead">
+        <tr>
+          <th>Mã bệnh nhân</th>
+          <th>Tên bệnh nhân</th>
+          <th>SĐT</th>
+          <th>Loại điều trị</th>
+          <th>Bác sĩ</th>
+          <th style="min-width: 110px;">Thời gian hẹn khám</th>
+          <th></th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let a of filteredAppointments">
+          <ng-container *ngFor="let ap of a.appointments">
+            <tr *ngFor="let detail of ap.details">
+              <td>
+                <!--HE153724-->
+                {{detail.patient_id}}
+              </td>
+              <td>
+                {{detail.patient_name}}
+              </td>
+              <td>
+                {{detail.phone_number}}
+              </td>
+              <td>
+                {{ (detail.procedure == 1) ? 'Cạo vôi răng' : ((detail.procedure == 2) ? 'Nhổ răng' : 'Niềng
+                Răng') }}
+              </td>
+              <td>{{ detail.doctor }}</td>
+              <td> {{ convertTimestampToDateString(a.date)}} {{convertTimestampToTimesString(detail.time)}}</td>
+              <td>
+                <button class="btn btn-edit-custom" data-bs-toggle="modal" data-bs-target="#editAppointmentModal"
+                  (click)="openEditModal(detail, a.date)">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+              </td>
+              <td>
+                <a routerLink="/letan/phong-cho" style="width: 100px; color: black;" class="btn btn-redirect">Đến hàng
+                  chờ</a>
+              </td>
+            </tr>
+          </ng-container>
+
+        </ng-container>
+
+      </tbody>
+    </table>
+
+  </div>
 </div>
+<!-- End of Recent Orders -->
+
+
+
 
 <app-popup-add-appointment [datesDisabled]="datesDisabled"></app-popup-add-appointment>
 

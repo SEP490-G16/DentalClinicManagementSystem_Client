@@ -19,6 +19,10 @@ const routes: Routes = [
         path: 'yta',
         loadChildren: () => import('./component/nurse/nurse.module').then(m => m.NurseModule)
       },
+      {
+        path: 'letan',
+        loadChildren: () => import('./component/receptionist/receptionist.module').then(m => m.ReceptionistModule)
+      }
     ]
   },
   {
@@ -36,10 +40,6 @@ const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () => import('./component/admin/admin.module').then(m => m.AdminModule)
-  },
-  {
-    path: 'letan',
-    loadChildren: () => import('./component/receptionist/receptionist.module').then(m => m.ReceptionistModule)
   },
   {
     path: 'benhnhan',

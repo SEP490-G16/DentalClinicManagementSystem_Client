@@ -1,65 +1,50 @@
-<!--  <div class="container-layouts">
-  <div class="header">
-    <app-header></app-header>
-  </div>
-  <div class="sidebar">
-    <div class="slimScrollDiv" style="position: relative;overflow: hidden;width: 100%;height: 100%">
-      <div class="sidebar-inner slimscroll">
-        <app-sidebar></app-sidebar>
-      </div>
-    </div>
-  </div>
-  <div class="body-content">
-    <router-outlet></router-outlet>
-  </div>
-</div>-->
-<!--<app-header></app-header>
-<app-sidebar></app-sidebar>-->
-<!--<app-admin></app-admin> -->
-<!--<router-outlet></router-outlet>-->
-<!-- <app-profile-personal></app-profile-personal>-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
+
 <div class="web-wrapper">
   <div class="container-custom">
+    <!-- Sidebar Section -->
     <aside>
-      <div class="toggle">
-        <div class="logo">
-          <img
-            src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
-          <p><span class="danger">Nguyen Tran</span> Clinic</p>
-        </div>
-        <div class="close" id="close-btn">
-          <span class="material-icons-sharp">
-            close
-          </span>
-        </div>
-      </div>
 
       <div class="sidebar">
-        <a routerLink="/receptionist/appointment">
+        <div class="toggle">
+          <div class="logo">
+            <img
+              src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
+            <p><span class="danger">Nguyen Tran</span> Clinic</p>
+          </div>
+          <div class="close" id="close-btn">
+            <span class="material-icons-sharp">
+              close
+            </span>
+          </div>
+        </div>
+        <a routerLink="/letan/lich-hen">
           <span class="material-icons-sharp">
             dashboard
           </span>
           <h3>Lịch hẹn</h3>
         </a>
-        <a routerLink="/receptionist/waitingroom">
+        <a routerLink="/letan/phong-cho">
           <span class="material-icons-sharp">
             person_outline
           </span>
           <h3>Phòng chờ</h3>
         </a>
-        <a routerLink="/patient/records">
+        <a routerLink="/benhnhan/danhsach">
           <span class="material-icons-sharp">
             receipt_long
           </span>
           <h3>Bệnh nhân</h3>
         </a>
-        <a routerLink="/receptionist/timekeeping" class="active">
+        <a routerLink="/letan/cham-cong" class="active">
           <span class="material-icons-sharp">
             insights
           </span>
           <h3>Chấm công</h3>
         </a>
-        <a (click)="signOut()" style="cursor: pointer;">
+        <a (click)="signOut()" style="cursor:pointer;">
           <span class="material-icons-sharp">
             logout
           </span>
@@ -67,8 +52,12 @@
         </a>
       </div>
     </aside>
+    <!-- End of Sidebar Section -->
+
+    <!-- Main Content -->
     <main>
-     <!-- <div class="analyse">
+      <!-- Analyses -->
+      <div class="analyse">
         <div class="sales">
           <div class="status">
             <div class="info">
@@ -80,7 +69,7 @@
                 <circle cx="38" cy="38" r="36"></circle>
               </svg>
               <div class="percentage">
-                <p>+81%</p>
+                <i class="bi bi-calendar3"></i>
               </div>
             </div>
           </div>
@@ -96,7 +85,7 @@
                 <circle cx="38" cy="38" r="36"></circle>
               </svg>
               <div class="percentage">
-                <p>-48%</p>
+                <i class="bi bi-houses"></i>
               </div>
             </div>
           </div>
@@ -112,33 +101,16 @@
                 <circle cx="38" cy="38" r="36"></circle>
               </svg>
               <div class="percentage">
-                <p>+21%</p>
+                <i class="bi bi-person-standing"></i>
               </div>
             </div>
           </div>
         </div>
-      </div>-->
-      <div class="recent-orders">
-        <router-outlet></router-outlet>
-      </div>
-    </main>
-    <div class="right-section">
-      <div class="nav">
-        <button id="menu-btn">
-          <span class="material-icons-sharp">
-            menu
-          </span>
-        </button>
-       <!-- <div class="dark-mode">
-          <span class="material-icons-sharp active">
-            light_mode
-          </span>
-          <span class="material-icons-sharp">
-            dark_mode
-          </span>
-        </div>-->
 
         <div class="profile">
+          <div class="icon">
+
+          </div>
           <div class="info">
             <p>Xin chào, <b>Linh</b></p>
             <small class="text-muted">Lễ tân</small>
@@ -147,58 +119,42 @@
             <img src="../../../../assets/img/person.png">
           </div>
         </div>
-
       </div>
-      <!-- End of Nav -->
 
-      <!--<div class="reminders">
-        <div class="header">
-          <h2>Thông báo</h2>
-          <span class="material-icons-sharp">
-            notifications_none
-          </span>
-        </div>
 
-        <div class="notification">
-          <div class="icon">
-            <span class="material-icons-sharp">
-              volume_up
+      <router-outlet></router-outlet>
+
+      <!--Chat-->
+      <div>
+        <button class="open-btn" (click)="chatContainerVisible = true"><i class="bi bi-messenger"></i></button>
+      </div>
+
+      <div class="chat-popup" id="chat-form-container" [style.display]="chatContainerVisible ? 'block' : 'none'">
+        <form action="" class="form-container">
+          <div class="chat-window-head">
+            <h4>Chat</h4>
+            <span class="close-btn" (click)="chatContainerVisible = false">
+              <i class="bi bi-x-circle"></i>
             </span>
           </div>
-          <div class="content">
-            <div class="info">
-              <h3>Workshop</h3>
-              <small class="text_muted">
-                08:00 AM - 12:00 PM
-              </small>
+
+          <div class="msg-container">
+            <div class="msg">
+              <p>hello!!!!!</p>
+              <span>00:30 AM</span>
             </div>
-            <span class="material-icons-sharp">
-              more_vert
-            </span>
           </div>
-        </div>
 
-        <div class="notification deactive">
-          <div class="icon">
-            <span class="material-icons-sharp">
-              edit
-            </span>
-          </div>
-          <div class="content">
-            <div class="info">
-              <h3>Workshop</h3>
-              <small class="text_muted">
-                08:00 AM - 12:00 PM
-              </small>
+          <div class="chat-box-container">
+            <div class="chat-box">
+              <input type="text" placeholder="Nhập tin nhắn" name="msg" required>
+              <button type="submit" class="btn"><i class="bi bi-send" style="margin-right: 20px;"></i></button>
             </div>
-            <span class="material-icons-sharp">
-              more_vert
-            </span>
           </div>
-        </div>
+        </form>
+      </div>
 
-      </div>-->
+    </main>
+    <!-- End of Main Content -->
 
-    </div>
   </div>
-</div>

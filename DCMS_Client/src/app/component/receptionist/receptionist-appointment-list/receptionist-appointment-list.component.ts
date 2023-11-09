@@ -10,6 +10,7 @@ import { PopupAddAppointmentComponent } from './popup-add-appointment/popup-add-
 
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment-timezone';
+import { ChatService } from 'src/app/service/Chat/chat.service';
 
 @Component({
   selector: 'app-receptionist-appointment-list',
@@ -20,10 +21,12 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   model!: NgbDateStruct;
   placement = 'bottom';
 
+  chatContainerVisible = false;
   constructor(private appointmentService: ReceptionistAppointmentService,
     private cognitoService: CognitoService, private router: Router,
     private toastr: ToastrService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private chatService: ChatService
   ) {
     this.selectedAppointment = {
       appointment_id: '',
@@ -72,6 +75,10 @@ export class ReceptionistAppointmentListComponent implements OnInit {
 
       this.appointmentDateInvalid();
     })
+  }
+
+  toggleChat() {
+    this.chatService.toggleChat();
   }
 
   datesDisabled: any;
@@ -179,7 +186,6 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     const timestamp = moment.tz(dateTimeStr, format, timeZone).valueOf();
     return timestamp;
   }
-
 
 
   convertTimestampToDateString(timestamp: any): string {

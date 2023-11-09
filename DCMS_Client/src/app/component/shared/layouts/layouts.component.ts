@@ -10,7 +10,7 @@ import {Router} from "@angular/router";
 export class LayoutsComponent implements OnInit {
 
   constructor(private cognitoService: CognitoService, private router: Router,) { }
-
+  chatContainerVisible = false;
   ngOnInit(): void {
   }
   signOut() {
