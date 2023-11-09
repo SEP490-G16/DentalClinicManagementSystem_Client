@@ -40,34 +40,29 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   searchText: string = '';
   filteredAppointments: any;
   appointmentList: any;
+
   startDate: any;
-  endDate: string = "2023-11-11";
+  endDate: string = "2023-12-31";
 
+
+  startDateTimestamp: number = 0;
+  endDateTimestamp: number = 0;
   ngOnInit(): void {
-    const today = new Date(); // Lấy ngày hôm nay
-    const year = today.getFullYear();
-    const month = today.getMonth() + 1; // Lưu ý rằng tháng bắt đầu từ 0
-    const day = today.getDate().toString().padStart(2, '0');
-    const hours = today.getHours().toString().padStart(2, '0');
-    const minutes = today.getMinutes().toString().padStart(2, '0');
+    const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
+    this.startDate = currentDateGMT7;
 
-    // Format ngày thành chuỗi "YYYY-MM-DD" (hoặc theo định dạng bạn muốn)
-    const defaultDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours}:${minutes}`;
-    this.startDate = defaultDate;
+    this.startDateTimestamp = this.dateToTimestamp(currentDateGMT7);
+    this.endDateTimestamp = this.dateToTimestamp(this.endDate);
 
     this.getAppointmentList();
 
-    console.log(this.cognitoService.getUser());
+    // console.log(this.cognitoService.getUser());
   }
 
   getAppointmentList() {
-    let date = new Date(this.startDate);
-    let date1 = new Date(this.endDate);
-    let startDateTimestamp = date.getTime() / 1000;
-    let endDateTimestamp = date1.getTime() / 1000;
 
     // console.log(startDateTimestamp);
-    this.appointmentService.getAppointmentList(startDateTimestamp, startDateTimestamp).subscribe(data => {
+    this.appointmentService.getAppointmentList(this.startDateTimestamp, this.endDateTimestamp).subscribe(data => {
       this.appointmentList = ConvertJson.processApiResponse(data);
       this.filteredAppointments = this.appointmentList;
       console.log("Appointment List: ", this.appointmentList);
@@ -80,17 +75,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
 
   datesDisabled: any;
   appointmentDateInvalid() {
-    //Get Date
-    // const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
-    // const currentDateTimeStamp = this.dateToTimestamp(currentDateGMT7);
-    // this.appointmentService.getAppointmentList(currentDateTimeStamp, currentDateTimeStamp).subscribe(data => {
-    //   this.appointmentList = ConvertJson.processApiResponse(data);
-    //   this.filteredAppointments = this.appointmentList;
-    //   console.log("Appointment List: ", this.appointmentList);
-
-    //   this.appointmentDateInvalid();
-    // })
-
+    // Get Date
     this.datesDisabled = this.appointmentList
       .filter((item: any) => {
         const totalProcedures = item.appointments.reduce((total: number, appointment: any) => total + appointment.procedure, 0);
@@ -125,7 +110,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     console.log(searchText);
     if (searchText) {
       this.filteredAppointments = this.appointmentList
-      .map((a: any) => ({
+        .map((a: any) => ({
           ...a,
           appointments: a.appointments.map((ap: any) => ({
             ...ap,
@@ -137,7 +122,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
           })).filter((ap: any) => ap.details.length > 0)
         }))
         .filter((a: any) => a.appointments.length > 0);
-      } else {
+    } else {
       this.filteredAppointments = this.appointmentList;
     }
   }
@@ -147,13 +132,13 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   timeString: any;
   openEditModal(appointment: any, dateTimestamp: any) {
     console.log("DateTimestamp", dateTimestamp);
-    this.dateString = this.timestampToGMT7Date(dateTimestamp);
+    this.dateString = this.convertTimestampToDateString(dateTimestamp);
     console.log("DateString", this.dateString);
 
     //Set Appointment
     this.selectedAppointment = appointment;
-    this.timeString = this.timestampToGMT7String(1699500180);
-    console.log("Tiem, ", this.timeString);
+    this.timeString = this.timestampToGMT7String(appointment.time);
+    console.log("Time, ", this.timeString);
   }
 
 
@@ -171,21 +156,10 @@ export class ReceptionistAppointmentListComponent implements OnInit {
 
   timestampToGMT7String(timestamp: number): string {
     // Chuyển timestamp thành chuỗi ngày và thời gian dựa trên múi giờ GMT+7
-    const dateTimeString = moment.tz(timestamp * 1000, 'Asia/Ho_Chi_Minh').format('HH:mm:ss');
+    const dateTimeString = moment.tz(timestamp * 1000, 'Asia/Ho_Chi_Minh').format('HH:mm');
     return dateTimeString;
   }
 
-  timestampToGMT7Date(timestamp: number): string {
-    const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ GMT+7
-
-    // Sử dụng moment.tz để chuyển đổi timestamp sang đối tượng ngày với múi giờ GMT+7
-    const date = moment.tz(timestamp * 1000, timeZone);
-
-    // Định dạng ngày theo mong muốn
-    const formattedDate = date.format('YYYY-MM-DD'); // Định dạng ngày giờ
-
-    return formattedDate;
-  }
 
   timeAndDateToTimestamp(timeStr: string, dateStr: string): number {
     const format = 'YYYY-MM-DD HH:mm'; // Định dạng của chuỗi ngày và thời gian
@@ -195,43 +169,14 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     return timestamp;
   }
 
-
-  convertTimestampToDateString(timestamp: any): string {
-    const date = new Date(timestamp * 1000); // Nhân với 1000 để chuyển đổi từ giây sang mili giây
-    const day = this.padZero(date.getDate());
-    const month = this.padZero(date.getMonth() + 1);
-    const year = date.getFullYear();
-    const formattedDate = `${day}/${month}/${year}`;
-    return formattedDate;
-  }
-  convertTimestampToTimesString(timestamp: any): string {
-    const date = new Date(timestamp * 1000); // Nhân với 1000 để chuyển đổi từ giây sang mili giây
-    const hours = this.padZero(date.getHours());
-    const minutes = this.padZero(date.getMinutes());
-    const formattedDate = `${hours}:${minutes}`;
-    return formattedDate;
-  }
-  padZero(value: number): string {
-    if (value < 10) {
-      return `0${value}`;
-    }
-    return value.toString();
+  convertTimestampToDateString(timestamp: number): string {
+    return moment(timestamp).format('YYYY-MM-DD');
   }
 
-  formatDateToCustomString(date: Date): string {
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Thêm số 0 ở đầu nếu cần
-    const day = date.getDate().toString().padStart(2, '0'); // Thêm số 0 ở đầu nếu cần
-    return `${year}-${month}-${day}`;
+  convertTimestampToVNDateString(timestamp: number): string {
+    return moment(timestamp).tz('Asia/Ho_Chi_Minh').format('DD/MM/YYYY');
   }
 
-
-  convertTimestampToTimeString(timestamp: number): string {
-    const date = new Date(timestamp * 1000); // Nhân với 1000 để chuyển đổi từ giây sang mili giây
-    const hours = date.getHours().toString().padStart(2, '0'); // Lấy giờ và đảm bảo có 2 chữ số
-    const minutes = date.getMinutes().toString().padStart(2, '0'); // Lấy phút và đảm bảo có 2 chữ số
-    return `${hours}:${minutes}`;
-  }
 
   signOut() {
     this.cognitoService.signOut().then(() => {

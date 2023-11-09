@@ -22,6 +22,7 @@ import { PopupAddPatientComponent } from '../patient/patient-records/popup-add-p
 
 
 import { AddWaitingRoomComponent } from './receptionist-waiting-room/add-waiting-room/add-waiting-room.component';
+import { VNDateTimeFormatPipe } from '../shared/pipe/datetimeformat.pipe';
 @NgModule({
   declarations: [
    ReceptionistAppointmentListComponent,

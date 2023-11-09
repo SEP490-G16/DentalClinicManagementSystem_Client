@@ -224,7 +224,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     console.log(this.AppointmentBody.epoch);
     this.AppointmentBody.appointment.time = this.timeAndDateToTimestamp(this.appointmentTime, selectedDate);
 
-    console.log(this.AppointmentBody);
+    console.log("AppointmentBody: ", this.AppointmentBody);
     // Gọi API POST
     this.resetValidate();
     if (!this.AppointmentBody.appointment.procedure) {
@@ -288,21 +288,10 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
 
   timestampToGMT7String(timestamp: number): string {
     // Chuyển timestamp thành chuỗi ngày và thời gian dựa trên múi giờ GMT+7
-    const dateTimeString = moment.tz(timestamp * 1000, 'Asia/Ho_Chi_Minh').format('HH:mm:ss');
+    const dateTimeString = moment.tz(timestamp * 1000, 'Asia/Ho_Chi_Minh').format('HH:mm');
     return dateTimeString;
   }
 
-  timestampToGMT7Date(timestamp: number): string {
-    const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ GMT+7
-
-    // Sử dụng moment.tz để chuyển đổi timestamp sang đối tượng ngày với múi giờ GMT+7
-    const date = moment.tz(timestamp * 1000, timeZone);
-
-    // Định dạng ngày theo mong muốn
-    const formattedDate = date.format('YYYY-MM-DD'); // Định dạng ngày giờ
-
-    return formattedDate;
-  }
 
   timeAndDateToTimestamp(timeStr: string, dateStr: string): number {
     const format = 'YYYY-MM-DD HH:mm'; // Định dạng của chuỗi ngày và thời gian
@@ -310,6 +299,14 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     const dateTimeStr = `${dateStr} ${timeStr}`;
     const timestamp = moment.tz(dateTimeStr, format, timeZone).valueOf();
     return timestamp;
+  }
+
+  convertTimestampToDateString(timestamp: number): string {
+    return moment(timestamp).format('YYYY-MM-DD');
+  }
+
+  convertTimestampToVNDateString(timestamp: number): string {
+    return moment(timestamp).tz('Asia/Ho_Chi_Minh').format('DD/MM/YYYY');
   }
 
 

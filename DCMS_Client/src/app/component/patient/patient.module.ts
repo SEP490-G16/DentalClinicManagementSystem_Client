@@ -73,7 +73,8 @@ import { PopupEditExaminationComponent } from './patient-records/patient-lichtri
     MatTooltipModule
   ],
   exports: [
-    PopupAddPatientComponent
+    PopupAddPatientComponent,
+    VNDateTimeFormatPipe
   ],
 
   providers: [DatePipe]

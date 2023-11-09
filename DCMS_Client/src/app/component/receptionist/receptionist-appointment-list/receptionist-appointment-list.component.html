@@ -21,7 +21,7 @@
         bệnh nhân</button>
     </div>
     <div class="col-6">
-      <input type="datetime-local" class="date-input-custom" [(ngModel)]="startDate" (change)="getAppointmentList()">
+      <input type="date" class="date-input-custom" [(ngModel)]="startDate" (change)="getAppointmentList()">
 
       <select class="form-select input-custom float-end" aria-label="Default select example"
         [(ngModel)]="selectedProcedure" (change)="filterAppointments()">
@@ -66,7 +66,7 @@
                 Răng') }}
               </td>
               <td>{{ detail.doctor }}</td>
-              <td> {{ convertTimestampToDateString(a.date)}} {{convertTimestampToTimesString(detail.time)}}</td>
+              <td>{{timestampToGMT7String(detail.time)}} - {{convertTimestampToVNDateString(a.date)}}</td>
               <td>
                 <button class="btn btn-edit-custom" data-bs-toggle="modal" data-bs-target="#editAppointmentModal"
                   (click)="openEditModal(detail, a.date)">
