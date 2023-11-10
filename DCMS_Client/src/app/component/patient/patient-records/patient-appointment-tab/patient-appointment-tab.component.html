@@ -27,10 +27,9 @@
       </div>
     </div>
     <div class="tab-pane" id="LHtab" style="padding: 50px;">
-      <div class="row mt-4">
+      <div class="row">
         <div class="col-12 text-end mb-3">
-          <button class="btn btn-custom" data-bs-toggle="modal"
-          data-bs-target="#myModal">Đặt lịch tái khám</button>
+          <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#myModal">Đặt lịch tái khám</button>
         </div>
         <div class="col">
           <div class="table-responsive">
@@ -45,16 +44,21 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>08:00 AM</td>
-                  <td>Dr. Long</td>
-                  <td>Kiểm tra tổng quát</td>
-                  <td>Đã hoàn thành</td>
-                  <td>
-                    <button class="btn btn-primary">Chỉnh sửa</button>
-                    <button class="btn btn-danger">Xóa</button>
-                  </td>
-                </tr>
+                <ng-container *ngFor="let gf of patientAppointments">
+                  <ng-container *ngFor="let ap of gf.appointments">
+                    <tr *ngFor="let detail of ap.details">
+                      <td>{{timestampToGMT7String(detail.time)}} - {{convertTimestampToVNDateString(gf.date)}} and {{gf.date}}</td>
+                      <td>{{detail.doctor}}</td>
+                      <td>Khám tổng quát</td>
+                      <td>Đã hoàn thành</td>
+                      <td>
+                        <button class="btn btn-primary" data-bs-toggle="modal"
+                          data-bs-target="#editAppointmentModal" (click)="editAppointment(detail, gf.date)">Chỉnh sửa</button>
+                        <button class="btn btn-danger">Xóa</button>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </ng-container>
               </tbody>
             </table>
           </div>
@@ -65,4 +69,6 @@
 </div>
 
 <app-popup-datlichtaikham></app-popup-datlichtaikham>
-<!-- <app-popup-sualichtaikham></app-popup-sualichtaikham> -->
+<app-popup-sualichtaikham [EditAppointmentPatient]="EditAppointmentPatient" [dateString]="dateString"
+  [timeString]="timeString"
+></app-popup-sualichtaikham>

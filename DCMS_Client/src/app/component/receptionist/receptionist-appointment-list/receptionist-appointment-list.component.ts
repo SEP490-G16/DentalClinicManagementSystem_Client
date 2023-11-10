@@ -64,10 +64,12 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   getAppointmentList() {
 
     // console.log(startDateTimestamp);
+    this.startDateTimestamp = this.dateToTimestamp(this.startDate);
     this.appointmentService.getAppointmentList(this.startDateTimestamp, this.endDateTimestamp).subscribe(data => {
       this.appointmentList = ConvertJson.processApiResponse(data);
-      this.filteredAppointments = this.appointmentList;
+      this.filteredAppointments = this.appointmentList.filter(app => app.date === this.startDateTimestamp);
       console.log("Appointment List: ", this.appointmentList);
+      console.log("Filter List: ", this.filteredAppointments);
 
       this.appointmentDateInvalid();
     })
@@ -82,8 +84,8 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   appointmentDateInvalid() {
     // Get Date
     this.datesDisabled = this.appointmentList
-    .filter(item => item.appointments.some(appointment => appointment.count > 15))
-    .map(item => ({ date: item.date, procedure: item.appointments[0].procedure }));
+      .filter(item => item.appointments.some(appointment => appointment.count > 15))
+      .map(item => ({ date: item.date, procedure: item.appointments[0].procedure }));
 
     console.log("Date disabled: ", this.datesDisabled);
   }
@@ -156,8 +158,12 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   }
 
   timestampToGMT7String(timestamp: number): string {
+    // Kiểm tra xem timestamp có đơn vị giây hay mili giây
+    const timestampInMilliseconds = timestamp * (timestamp > 1e12 ? 1 : 1000);
+
     // Chuyển timestamp thành chuỗi ngày và thời gian dựa trên múi giờ GMT+7
-    const dateTimeString = moment.tz(timestamp * 1000, 'Asia/Ho_Chi_Minh').format('HH:mm');
+    const dateTimeString = moment.tz(timestampInMilliseconds, 'Asia/Ho_Chi_Minh').format('HH:mm');
+
     return dateTimeString;
   }
 

@@ -109,8 +109,8 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
       return this.dateDisabled.find((x: any) =>
         (new NgbDate(x.year, x.month, x.day).equals(date))
       )
-      ? true
-      : false;
+        ? true
+        : false;
     };
 
     this.AppointmentBody = {
@@ -262,47 +262,34 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
 
     console.log("AppointmentBody: ", this.AppointmentBody);
     // Gọi API POST
-    this.resetValidate();
-    if (!this.AppointmentBody.appointment.procedure) {
-      this.validateAppointment.procedure = "Vui lòng chọn loại điều trị!";
-      this.isSubmitted = true;
-    }
-    if (!this.appointmentTime) {
-      this.validateAppointment.appointmentTime = "Vui lòng chọn giờ khám!";
-      this.isSubmitted = true;
-    }
-    if (!this.appointmentDate) {
-      this.validateAppointment.appointmentDate = "Vui lòng chọn ngày khám!";
-      this.isSubmitted = true;
-    } else {
 
-      this.APPOINTMENT_SERVICE.postAppointment(this.AppointmentBody).subscribe(
-        (response) => {
-          console.log('Lịch hẹn đã được tạo:', response);
-          this.showSuccessToast('Lịch hẹn đã được tạo thành công!');
-          this.AppointmentBody = {
-            epoch: 0,    //x
-            appointment: {
-              patient_id: '',  //x
-              patient_name: '', //x
-              phone_number: '', //x
-              procedure: 1,  //x
-              doctor: '', //x
-              time: 0  //x
-            }
-          } as IAddAppointment;
-          this.procedure = '';
-          this.appointmentTime = '';
-          setTimeout(() => {
-            window.location.reload();
-          }, 3000);
-        },
-        (error) => {
-          console.error('Lỗi khi tạo lịch hẹn:', error);
-          this.showErrorToast('Lỗi khi tạo lịch hẹn!');
-        }
-      );
-    }
+    this.APPOINTMENT_SERVICE.postAppointment(this.AppointmentBody).subscribe(
+      (response) => {
+        console.log('Lịch hẹn đã được tạo:', response);
+        this.showSuccessToast('Lịch hẹn đã được tạo thành công!');
+        this.AppointmentBody = {
+          epoch: 0,    //x
+          appointment: {
+            patient_id: '',  //x
+            patient_name: '', //x
+            phone_number: '', //x
+            procedure: 1,  //x
+            doctor: '', //x
+            time: 0  //x
+          }
+        } as IAddAppointment;
+        this.procedure = '';
+        this.appointmentTime = '';
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+      },
+      (error) => {
+        console.error('Lỗi khi tạo lịch hẹn:', error);
+        this.showErrorToast('Lỗi khi tạo lịch hẹn!');
+      }
+    );
+
   }
 
   //Convert Date

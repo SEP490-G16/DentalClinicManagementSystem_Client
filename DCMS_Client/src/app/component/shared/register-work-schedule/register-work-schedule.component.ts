@@ -81,7 +81,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
       label: '<i class="fas fa-fw fa-trash-alt"></i>',
       a11yLabel: 'Delete',
       onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter((iEvent) => iEvent !== event);
+        this.worksRegister = this.worksRegister.filter((iEvent) => iEvent !== event);
         this.handleEvent('Deleted', event);
       },
     },
@@ -89,7 +89,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
 
   refresh = new Subject<void>();
 
-  events: CalendarEvent[] = [
+  worksRegister: CalendarEvent[] = [
     {
       start: subDays(startOfDay(new Date()), 1),
       end: addDays(new Date(), 1),
@@ -178,7 +178,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
     newStart,
     newEnd,
   }: CalendarEventTimesChangedEvent): void {
-    this.events = this.events.map((iEvent) => {
+    this.worksRegister = this.worksRegister.map((iEvent) => {
       if (iEvent === event) {
         return {
           ...event,
@@ -199,12 +199,13 @@ export class RegisterWorkScheduleComponent implements OnInit {
   addEvent(): void {
     let sub = sessionStorage.getItem("sub");
     let name = sessionStorage.getItem("name");
+
     if (sub !== null && name != null) {
-      this.events = [
-        ...this.events,
+      this.worksRegister = [
+        ...this.worksRegister,
         {
           title: 'New event',
-          start: startOfDay(new Date()),
+          start: startOfDay(new Date()), //Set lại cái này
           end: endOfDay(new Date()),
           color: { ...colors['red'] },
           draggable: true,
@@ -214,6 +215,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
           },
         },
       ];
+
       this.Body.sub_id = sub;
       this.Body.staff_name = name;
       this.Body.epoch = this.currentDateTimeStamp;
@@ -229,9 +231,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
             this.showErrorToast(err.error);
           }
         )
-    } else {
-      this.showErrorToast("Vui lòng đăng nhập để đăng ký lịch làm việc");
-    }
+        }
   }
 
   deleteEvent(eventToDelete: CalendarEvent) {
@@ -241,8 +241,8 @@ export class RegisterWorkScheduleComponent implements OnInit {
       this.timekeepingService.deleteTimekeeping(this.currentDateTimeStamp, this.currentDateTimeStamp)
         .subscribe(() => {
           this.showSuccessToast("Xóa lịch làm việc thành công");
-          this.events = this.events.filter((event) => event !== eventToDelete);
-          console.log("inside event: ", this.events);
+          this.worksRegister = this.worksRegister.filter((event) => event !== eventToDelete);
+          console.log("inside event: ", this.worksRegister);
         }, (err) => {
           this.showErrorToast(err.error);
         }
