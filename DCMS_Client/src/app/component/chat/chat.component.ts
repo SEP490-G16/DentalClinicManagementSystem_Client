@@ -15,6 +15,7 @@ export class ChatComponent implements OnInit {
     action: '',
     message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
   }
+  isHovered = false;
   constructor(private webSocketService: WebsocketService) { }
   ngOnInit(): void {
     this.webSocketService.connect();
@@ -41,5 +42,13 @@ export class ChatComponent implements OnInit {
   close(){
     this.webSocketService.closeConnection();
     this.chatContainerVisible = false;
+  }
+  setHover(value: boolean) {
+    this.isHovered = value;
+  }
+  isSentMessage(subId: string): boolean {
+    console.log(subId)
+    return subId === sessionStorage.getItem('sub-id');
+    console.log(subId);
   }
 }

@@ -186,4 +186,56 @@ body {
   opacity: 0.9;
 
 }
+.sent-message {
+  padding: 10px;
+  border: 1px solid #4CAF50;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+  float: right;
+}
 
+.received-message {
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+  float: left;
+}
+.hovered .sent-message {
+  background-color: #4CAF50;
+  color: white;
+}
+.timestamp {
+  float: right;
+  opacity: 0; /* Ẩn thời gian mặc định */
+  transition: opacity 0.3s ease;
+}
+
+.hovered .timestamp {
+  opacity: 1; /* Hiển thị thời gian khi hover */
+}
+.msg-container {
+  overflow-y: auto; /* Cho phép cuộn nếu nội dung nhiều hơn khung nhìn */
+  max-height: 450px; /* Giới hạn chiều cao để tránh quá trình cuộn lâu dựa trên nội dung */
+  scrollbar-width: none; /* Ẩn thanh cuộn trên trình duyệt hỗ trợ */
+  -ms-overflow-style: none;
+}
+.msg-container::-webkit-scrollbar {
+  width: 0; /* Ẩn thanh cuộn trên trình duyệt Webkit (Chrome, Safari, Opera) */
+}
+.hover-effect:hover {
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+.message-content {
+  word-wrap: break-word; /* Đảm bảo nội dung xuống dòng khi quá dài */
+}
+.msg {
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+}

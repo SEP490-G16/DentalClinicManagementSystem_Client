@@ -4,6 +4,7 @@ import { LayoutsComponent } from "./component/shared/layouts/layouts.component";
 import { ChatComponent } from './component/chat/chat.component';
 import { RegisterWorkScheduleComponent } from './component/shared/register-work-schedule/register-work-schedule.component';
 import { ProfilePersonalComponent } from './component/shared/profile-personal/profile-personal.component';
+import {ConfirmAppointmentComponent} from "./component/confirm-appointment/confirm-appointment.component";
 
 const routes: Routes = [
   {
@@ -49,7 +50,7 @@ const routes: Routes = [
     path: 'dangnhap',
     loadChildren: () => import('./component/auth/auth.module').then(m => m.AuthModule)
   },
-
+  {path:'xac-nhan-lich-hen',component:ConfirmAppointmentComponent}
 ];
 
 @NgModule({

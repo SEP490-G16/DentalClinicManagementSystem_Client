@@ -12,16 +12,30 @@
     </div>
 
     <div class="msg-container">
-      <div class="msg" *ngFor="let msg of receivedMessages" style="display: flex">
-        <div>
-          <b>{{msg.message.sender}}</b>
+      <div class="msg mt-2" *ngFor="let msg of receivedMessages" [ngClass]="{'sent-message': isSentMessage(msg.message['sub-id']), 'received-message': !isSentMessage(msg.message['sub-id'])}" style="display: flex" (mouseenter)="setHover(true)" (mouseleave)="setHover(false)">
+        <div [ngClass]="{'hovered': isHovered}" >
+          <div>
+            <b>{{msg.message.sender}}</b>
+          </div>
+          <div class="message-content">
+            <p>{{msg.message.content}}</p>
+          </div>
+            <span *ngIf="isHovered" class="timestamp">{{ msg.timestamp | date: 'hh:mm a' }}</span>
         </div>
-        <div>
-          <p>{{msg.message.content}}</p>
-        </div>
-        <span>{{ msg.timestamp | date: 'hh:mm a' }}</span>
       </div>
     </div>
+      <!--<div class="msg mt-2" style="display: flex;float: right" (mouseenter)="setHover(true)" (mouseleave)="setHover(false)">
+        <div [ngClass]="{'hovered': isHovered}" >
+          <div>
+            <b>abc</b>
+          </div>
+          <div>
+            <p>abc</p>
+          </div>
+          <span *ngIf="isHovered" class="timestamp">abc</span>
+        </div>
+      </div>
+    </div>-->
 
     <div class="chat-box-container">
       <div class="chat-box">

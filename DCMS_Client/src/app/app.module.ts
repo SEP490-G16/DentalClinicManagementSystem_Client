@@ -26,10 +26,12 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { RegisterWorkScheduleComponent } from './component/shared/register-work-schedule/register-work-schedule.component';
 //import {WebSocketSubject} from "rxjs/internal/observable/dom/WebSocketSubject";
 import { WebSocketSubject } from 'rxjs/webSocket';
+import { ConfirmAppointmentComponent } from './component/confirm-appointment/confirm-appointment.component';
 @NgModule({
   declarations: [
     AppComponent,
-    RegisterWorkScheduleComponent
+    RegisterWorkScheduleComponent,
+    ConfirmAppointmentComponent
   ],
   imports: [
     FormsModule,
