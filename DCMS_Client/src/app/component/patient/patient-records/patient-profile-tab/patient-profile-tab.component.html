@@ -4,20 +4,22 @@
   <div class="content-wrapper">
     <div class="row">
       <div class="card-box">
-        <ul class="nav nav-tabs" style="padding: 0px 80px;">
-          <li class="nav-item mr-2"><a class="nav-link active" style="padding: 10px; color: #7B4C50;"
-              routerLink="/benhnhan/danhsach/tab/hosobenhnhan">Thông tin
+        <ul class="nav nav-tabs" style="padding: 0px 80px;
+        ">
+          <li class="nav-item mr-2"><a class="nav-link active" style="padding: 10px; color: #7B4C50; cursor: pointer;"
+              (click)="navigateHref('/benhnhan/danhsach/tab/hosobenhnhan/')">Thông tin
               chung</a>
           </li>
-          <li class="nav-item mr-2"><a class="nav-link" (click)="setPatientId()"
-              routerLink="/benhnhan/danhsach/tab/lichtrinhdieutri" style="padding: 10px; color: #000;">Khám và
+          <li class="nav-item mr-2"><a class="nav-link"
+              (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')"
+              style="padding: 10px; color: #000; cursor: pointer;">Khám và
               điều
               trị</a></li>
-          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000;"
-              routerLink="/benhnhan/danhsach/tab/lichhen">Lịch hẹn</a>
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
+              (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
           </li>
-          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000;"
-              routerLink="/benhnhan/danhsach/tab/thanhtoan">Thanh toán</a>
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
+              (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/')">Thanh toán</a>
           </li>
         </ul>
         <!-- <div class="tab-content">
@@ -36,12 +38,12 @@
         <div class="col">
           <div class="form-group mb-3">
             <label for="maHoSo">Mã hồ sơ:</label>
-            <input [disabled]="!isEditing" id="maHoSo" class="form-control border-bottom-0">
+            <input [(ngModel)]="patient.patient_id" id="maHoSo" disabled class="form-control border-bottom-0">
           </div>
           <div class="form-group mb-3">
             <label for="dateCreated">Ngày tạo:</label>
-            <input type="datetime-local" [(ngModel)]="patient.created_date" [disabled]="!isEditing"
-              class="form-control border-bottom-0">
+            <input type="datetime-local" [(ngModel)]="patient.created_date"
+              class="form-control border-bottom-0" disabled>
             <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
               <p>
                 {{validatePatient.createDate}}

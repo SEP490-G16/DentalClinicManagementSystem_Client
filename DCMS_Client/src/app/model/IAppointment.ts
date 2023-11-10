@@ -19,6 +19,11 @@ export interface Detail {
   migrated: string;
 }
 
+export interface DateDisabledItem {
+  date: any;
+  procedure: number;
+}
+
 //Add Appointment
 export interface IAddAppointment {
   epoch: number

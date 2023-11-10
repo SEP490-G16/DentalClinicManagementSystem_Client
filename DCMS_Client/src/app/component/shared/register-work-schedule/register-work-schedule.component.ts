@@ -280,7 +280,6 @@ export class RegisterWorkScheduleComponent implements OnInit {
     this.currentDateTimeStamp = this.dateToTimestamp(this.currentDateGMT7);
     this.currentTimeTimeStamp = this.timeAndDateToTimestamp(this.currentTimeGMT7, this.currentDateGMT7);
 
-
     this.Body = {
       epoch: 0,
       sub_id: "",

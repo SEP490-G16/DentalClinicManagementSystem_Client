@@ -1,0 +1,115 @@
+.selected {
+  background-color: rgba(109, 27, 109, 0.5);
+}
+
+
+.list-group-item {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  transition: background-color 0.3s;
+}
+
+.list-group-item:hover {
+  background-color: lightgray;
+}
+
+.doctor-image {
+  max-width: 100px;
+  margin-right: 10px;
+}
+
+.doctor-info {
+  flex: 1;
+}
+
+.doctors-list {
+  max-height: 200px; /* Độ cao tối đa hiển thị trước khi có thanh cuộn */
+  overflow-y: auto; /* Hiển thị thanh cuộn dọc nếu danh sách dài hơn độ cao tối đa */
+}
+
+.modal-header {
+  background-color: #ddd;
+  color: #fff;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.modal-footer {
+  border-top: 1px solid #ddd;
+  padding: 10px;
+}
+
+.btn-close {
+  color: #fff;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+/* Cài đặt input text */
+.form-control {
+  border: 2px solid #007bff; /* Đường viền */
+  border-radius: 5px; /* Bo góc */
+  padding: 10px; /* Khoảng cách bên trong input */
+  font-size: 16px; /* Kích thước chữ */
+}
+
+/* Cài đặt input select */
+.form-control.select {
+  border: 2px solid #007bff;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+/* Cài đặt textarea */
+.form-control.textarea {
+  border: 2px solid #007bff;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+/* Tùy chỉnh màu chữ khi nhập liệu vào input */
+.form-control:focus {
+  color: #333; /* Màu chữ */
+}
+
+/* Tùy chỉnh màu chữ của select khi chọn giá trị */
+.form-control.select:focus {
+  color: #333;
+}
+
+/* Tùy chỉnh màu chữ của textarea khi nhập liệu */
+.form-control.textarea:focus {
+  color: #333;
+}
+
+
+.mat-calendar-body-disabled .mat-calendar-body-cell {
+  background-color: #ccc; /* Màu nền cho ngày bị vô hiệu hóa */
+  color: #888; /* Màu chữ cho ngày bị vô hiệu hóa */
+}
+
+.highlight-dates{
+  background: red;
+  border-radius: 100%;
+}
+
+button.example-custom-date-class {
+  background: orange;
+  border-radius: 100%;
+}

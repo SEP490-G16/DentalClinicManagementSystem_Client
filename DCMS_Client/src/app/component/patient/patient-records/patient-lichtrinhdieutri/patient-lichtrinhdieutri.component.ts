@@ -15,8 +15,6 @@ import { ITreatmentCourseDetail, TreatmentCourseDetail } from 'src/app/model/ITr
 export class PatientLichtrinhdieutriComponent implements OnInit {
   id: string = "";
 
-  href_profile = "/benhnhan/danhsach/tab/hosobenhnhan/";
-  href_treatment_course = "/benhnhan/danhsach/tab/lichtrinhdieutri"
   ITreatmentCourse: any;
 
   constructor(

@@ -1,49 +1,68 @@
-<h2 class="text-center">Hồ sơ bệnh nhân: </h2>
-
-<div class="row">
-  <div class="card-box">
-    <ul class="nav nav-tabs">
-      <li class="nav-item"><a class="nav-link" routerLink="/benhnhan/danhsach/tab/hosobenhnhan">Thông tin chung</a></li>
-      <li class="nav-item"><a class="nav-link" routerLink="/benhnhan/danhsach/tab/lichtrinhdieutri">Khám và điều trị</a></li>
-      <li class="nav-item"><a class="nav-link" routerLink="/benhnhan/danhsach/tab/lichhen">Lịch hẹn</a></li>
-      <li class="nav-item"><a class="nav-link" routerLink="/benhnhan/danhsach/tab/thanhtoan">Thanh toán</a></li>
-    </ul>
-    <div class="tab-content">
-      <router-outlet></router-outlet>
+<div class="recent-orders bg-white" style="border-radius: 15px;">
+  <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px; padding-top: 20px;">Hồ sơ bệnh nhân</h2>
+  <div class="content-wrapper">
+    <div class="row">
+      <div class="card-box">
+        <ul class="nav nav-tabs" style="padding: 0px 80px;
+        ">
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
+              (click)="navigateHref('/benhnhan/danhsach/tab/hosobenhnhan/')">Thông tin
+              chung</a>
+          </li>
+          <li class="nav-item mr-2"><a class="nav-link"
+              (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')"
+              style="padding: 10px; color: #000; cursor:pointer">Khám và
+              điều
+              trị</a></li>
+          <li class="nav-item mr-2"><a class="nav-link active" style="padding: 10px; cursor:pointer;color: #7B4C50;"
+              (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
+          </li>
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor:pointer"
+              (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/')">Thanh toán</a>
+          </li>
+        </ul>
+        <!-- <div class="tab-content">
+                <router-outlet></router-outlet>
+              </div> -->
+      </div>
     </div>
-  </div>
-</div>
-<div class="tab-pane" id="LHtab">
-  <div class="row mt-4">
-    <div class="col-12 text-end mb-3">
-      <button class="btn btn-custom">Đặt lịch tái khám</button>
-    </div>
-    <div class="col">
-      <div class="table-responsive">
-        <table class="table table-bordered">
-          <thead>
-          <tr>
-            <th scope="col">Thời gian</th>
-            <th scope="col">Bác sĩ</th>
-            <th scope="col">Lý do</th>
-            <th scope="col">Tình trạng</th>
-            <th scope="col">Option</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <td>08:00 AM</td>
-            <td>Dr. Long</td>
-            <td>Kiểm tra tổng quát</td>
-            <td>Đã hoàn thành</td>
-            <td>
-              <button class="btn btn-primary">Chỉnh sửa</button>
-              <button class="btn btn-danger">Xóa</button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+    <div class="tab-pane" id="LHtab" style="padding: 50px;">
+      <div class="row mt-4">
+        <div class="col-12 text-end mb-3">
+          <button class="btn btn-custom" data-bs-toggle="modal"
+          data-bs-target="#myModal">Đặt lịch tái khám</button>
+        </div>
+        <div class="col">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">Thời gian</th>
+                  <th scope="col">Bác sĩ</th>
+                  <th scope="col">Lý do</th>
+                  <th scope="col">Tình trạng</th>
+                  <th scope="col">Option</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>08:00 AM</td>
+                  <td>Dr. Long</td>
+                  <td>Kiểm tra tổng quát</td>
+                  <td>Đã hoàn thành</td>
+                  <td>
+                    <button class="btn btn-primary">Chỉnh sửa</button>
+                    <button class="btn btn-danger">Xóa</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+<app-popup-datlichtaikham></app-popup-datlichtaikham>
+<!-- <app-popup-sualichtaikham></app-popup-sualichtaikham> -->

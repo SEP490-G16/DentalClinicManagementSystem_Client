@@ -34,6 +34,8 @@ import { PopupAddTreatmentcourseComponent } from './patient-records/patient-lich
 import { PopupEditTreatmentcourseComponent } from './patient-records/patient-lichtrinhdieutri/popup-edit-treatmentcourse/popup-edit-treatmentcourse.component';
 import { PopupAddExaminationComponent } from './patient-records/patient-lichtrinhdieutri/popup-add-examination/popup-add-examination.component';
 import { PopupEditExaminationComponent } from './patient-records/patient-lichtrinhdieutri/popup-edit-examination/popup-edit-examination.component';
+import { PopupDatlichtaikhamComponent } from './patient-records/patient-appointment-tab/popup-datlichtaikham/popup-datlichtaikham.component';
+import { PopupSualichtaikhamComponent } from './patient-records/patient-appointment-tab/popup-sualichtaikham/popup-sualichtaikham.component';
 @NgModule({
   declarations: [
       PatientManagementComponent,
@@ -50,7 +52,9 @@ import { PopupEditExaminationComponent } from './patient-records/patient-lichtri
       PopupAddTreatmentcourseComponent,
       PopupEditTreatmentcourseComponent,
       PopupAddExaminationComponent,
-      PopupEditExaminationComponent
+      PopupEditExaminationComponent,
+      PopupDatlichtaikhamComponent,
+      PopupSualichtaikhamComponent
   ],
   imports: [
     CommonModule,

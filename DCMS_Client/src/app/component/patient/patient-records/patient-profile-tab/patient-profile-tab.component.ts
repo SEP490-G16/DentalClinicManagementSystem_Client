@@ -19,6 +19,7 @@ export class PatientProfileTabComponent implements OnInit {
   patient:any;
   id:any;
   patientBody:any={
+    patient_id: '',
     created_date: '',
     patient_name:'',
     gender:0,
@@ -39,12 +40,19 @@ export class PatientProfileTabComponent implements OnInit {
     createDate:''
   }
   isSubmitted:boolean = false;
+  isEditing: boolean = false;
+
 
 
   ngOnInit(): void {
     this.id=this.route.snapshot.params['id'];
     this.getPatient(this.id);
   }
+
+  navigateHref(href: string) {
+    this.router.navigate(['' + href + this.id]);
+  }
+
   imageURL: string | ArrayBuffer = '';
 
   onFileSelected(event: any) {
@@ -62,7 +70,6 @@ export class PatientProfileTabComponent implements OnInit {
   }
 
 
-  isEditing: boolean = false;
 
   setPatientId(){
     this.router.navigate(['/benhnhan/danhsach/tab/lichtrinhdieutri', this.id])
@@ -86,12 +93,9 @@ export class PatientProfileTabComponent implements OnInit {
       this.router.navigate(['/login']);
     })
   }
-
-
-
+  isOk:boolean = false;
   toggleEditing() {
     this.isEditing = !this.isEditing;
-
     if (this.isEditing==false){
       console.log(this.isEditing)
       this.resetValidate();
@@ -126,22 +130,28 @@ export class PatientProfileTabComponent implements OnInit {
       if (this.isSubmitted){
         return;
       }
-      this.patientBody = {
-        created_date: this.patient.created_date,
-        patient_name: this.patient.patient_name,
-        gender: this.patient.gender,
-        phone_number: this.patient.phone_number,
-        email: this.patient.email,
-        address: this.patient.address,
-        dental_medical_history: this.patient.dental_medical_history,
-        description: this.patient.description
+    }else {
+       this.isOk = true;
+      if(this.isEditing && this.isOk) {
+        this.patientBody = {
+          patient_id: this.patient.patient_id,
+          created_date: this.patient.created_date,
+          patient_name: this.patient.patient_name,
+          gender: this.patient.gender,
+          phone_number: this.patient.phone_number,
+          email: this.patient.email,
+          address: this.patient.address,
+          dental_medical_history: this.patient.dental_medical_history,
+          description: this.patient.description
+        }
+        this.patientService.updatePatient(this.patientBody, this.id).subscribe(data=>{
+          this.toastr.success('Cập nhật bệnh nhân thành công !')
+        },error => {
+          this.toastr.error('Cập nhật bệnh nhân thất bại!')
+        })
       }
-      this.patientService.updatePatient(this.patientBody, this.id).subscribe(data=>{
-        this.toastr.success('Cập nhật bệnh nhân thành công !')
-      },error => {
-        this.toastr.error('Cập nhật bệnh nhân thất bại!')
-      })
     }
+
 
   }
   getPatient(id:string){

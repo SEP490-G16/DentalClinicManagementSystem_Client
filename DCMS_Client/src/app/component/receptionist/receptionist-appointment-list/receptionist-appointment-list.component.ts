@@ -3,7 +3,7 @@ import { NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { ReceptionistAppointmentService } from "../../../service/ReceptionistService/receptionist-appointment.service";
 import { CognitoService } from "../../../service/cognito.service";
-import { Detail, ISelectedAppointment, RootObject } from "../../../model/IAppointment";
+import { DateDisabledItem, Detail, ISelectedAppointment, RootObject } from "../../../model/IAppointment";
 import { Router } from '@angular/router';
 import { ConvertJson } from "../../../service/Lib/ConvertJson";
 import { PopupAddAppointmentComponent } from './popup-add-appointment/popup-add-appointment.component';
@@ -20,7 +20,6 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   model!: NgbDateStruct;
   placement = 'bottom';
 
-  chatContainerVisible = false;
   constructor(private appointmentService: ReceptionistAppointmentService,
     private cognitoService: CognitoService, private router: Router,
     private toastr: ToastrService,
@@ -39,7 +38,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   selectedProcedure: string = '';
   searchText: string = '';
   filteredAppointments: any;
-  appointmentList: any;
+  appointmentList: RootObject[] = [];
 
   startDate: any;
   endDate: string = "2023-12-31";
@@ -73,16 +72,12 @@ export class ReceptionistAppointmentListComponent implements OnInit {
 
 
 
-  datesDisabled: any;
+  datesDisabled: DateDisabledItem[] = [];
   appointmentDateInvalid() {
     // Get Date
     this.datesDisabled = this.appointmentList
-      .filter((item: any) => {
-        const totalProcedures = item.appointments.reduce((total: number, appointment: any) => total + appointment.procedure, 0);
-        console.log("Totla procedure", totalProcedures);
-        return totalProcedures > 15;
-      })
-      .map((item: any) => item.date);
+    .filter(item => item.appointments.some(appointment => appointment.count > 15))
+    .map(item => ({ date: item.date, procedure: item.appointments[0].procedure }));
 
     console.log("Date disabled: ", this.datesDisabled);
   }
