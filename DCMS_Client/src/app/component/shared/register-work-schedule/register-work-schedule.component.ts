@@ -191,58 +191,142 @@ export class RegisterWorkScheduleComponent implements OnInit {
     this.handleEvent('Dropped or resized', event);
   }
 
+  editTitle: string = ""
+  editTimeStart: string = ""
+  editTimeEnd: string = ""
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
-    // this.modal.open(this.modalContent, { size: 'lg' });
+    this.modal.open(this.modalContent, { size: 'lg' });
+
+    this.editTitle = event.title;
+    this.editTimeStart = this.formatDate(event.start);
+    this.editTimeEnd = event.end ? this.formatDate(event.end) : "";
+
+  }
+  formatDate(date: Date): string {
+    const pad = (n: number) => (n < 10 ? `0${n}` : n);
+    const formattedDate = `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+    return formattedDate;
   }
 
+
+  editEvent() {
+    let sub = sessionStorage.getItem("sub");
+    let name = sessionStorage.getItem("name");
+
+    if (sub !== null && name != null) {
+      const editedEvent: CalendarEvent = {
+        ...this.modalData.event,
+        title: this.editTitle,
+        start: new Date(this.editTimeStart),
+        end: this.editTimeEnd ? new Date(this.editTimeEnd) : undefined,
+      };
+
+      const index = this.worksRegister.findIndex((event) => event === this.modalData.event);
+
+      if (index !== -1) {
+        this.worksRegister[index] = editedEvent;
+
+        const editedStartTimestamp = this.dateToTimestamp(this.editTimeStart);
+        const editedEndTimestamp = this.editTimeEnd ? this.dateToTimestamp(this.editTimeEnd) : undefined;
+
+        this.Body = {
+          sub_id: sub,
+          staff_name: name,
+          epoch: editedStartTimestamp as number,
+          clock_in: editedStartTimestamp as number,
+          clock_out: editedEndTimestamp as number,
+          timekeeper_name: "",
+          staff_avt: "",
+          timekeeper_avt: "",
+          status: 1
+        };
+
+        this.timekeepingService.postTimekeeping(this.Body as RequestBodyTimekeeping)
+          .subscribe(
+            (res) => {
+              this.showSuccessToast("Lịch làm việc đã được cập nhật.");
+              console.log("Body Sửa lịch làm việc", this.Body);
+            },
+            (err) => {
+              this.showErrorToast(err.error);
+            }
+          );
+      } else {
+        this.showErrorToast("Không thể tìm thấy sự kiện để cập nhật.");
+      }
+    }
+
+    // Close the modal after handling the edit
+    this.modal.dismissAll();
+  }
+
+
+
+  title: string = "Nhiệm vụ mới";
+  timeStart: string = "";
+  timeEnd: string = "";
   addEvent(): void {
     let sub = sessionStorage.getItem("sub");
     let name = sessionStorage.getItem("name");
 
     if (sub !== null && name != null) {
-      this.worksRegister = [
-        ...this.worksRegister,
-        {
-          title: 'New event',
-          start: startOfDay(new Date()), //Set lại cái này
-          end: endOfDay(new Date()),
-          color: { ...colors['red'] },
-          draggable: true,
-          resizable: {
-            beforeStart: true,
-            afterEnd: true,
-          },
+      const newEvent: CalendarEvent = {
+        title: this.title,
+        start: new Date(this.timeStart),
+        end: new Date(this.timeEnd),
+        color: { ...colors['red'] },
+        draggable: true,
+        resizable: {
+          beforeStart: true,
+          afterEnd: true,
         },
-      ];
+      };
 
-      this.Body.sub_id = sub;
-      this.Body.staff_name = name;
-      this.Body.epoch = this.currentDateTimeStamp;
-      this.Body.clock_in = this.currentTimeTimeStamp;
-      this.Body.clock_out = this.currentTimeTimeStamp;
+      this.worksRegister = [...this.worksRegister, newEvent];
+
+      const newStartTimestamp = this.dateToTimestamp(this.timeStart);
+      const newEndTimestamp = this.dateToTimestamp(this.timeEnd);
+
+      this.Body = {
+        sub_id: sub,
+        staff_name: name,
+        epoch: newStartTimestamp,
+        clock_in: newStartTimestamp,
+        clock_out: newEndTimestamp,
+        timekeeper_name: "",
+          staff_avt: "",
+          timekeeper_avt: "",
+          status: 1
+      };
+
       this.timekeepingService.postTimekeeping(this.Body)
-        .subscribe((res) => {
-          this.showSuccessToast("Đăng ký lịch làm việc thành công");
-          //Set time Clockout
-          console.log("Body Đăng ký lịch làm việc", this.Body);
-        },
+        .subscribe(
+          (res) => {
+            this.showSuccessToast("Đăng ký lịch làm việc thành công");
+            console.log("Body Đăng ký lịch làm việc", this.Body);
+          },
           (err) => {
             this.showErrorToast(err.error);
           }
-        )
-        }
+        );
+    }
   }
 
-  deleteEvent(eventToDelete: CalendarEvent) {
+
+  deleteEvent(event: CalendarEvent) {
     let sub = sessionStorage.getItem("sub");
     let name = sessionStorage.getItem("name");
     if (sub !== null && name != null) {
+
+      const startTimeStamp = event.start.getTime();
+      const endTimeStamp = event.end ? event.end.getTime() : null;
+
       this.timekeepingService.deleteTimekeeping(this.currentDateTimeStamp, this.currentDateTimeStamp)
         .subscribe(() => {
           this.showSuccessToast("Xóa lịch làm việc thành công");
-          this.worksRegister = this.worksRegister.filter((event) => event !== eventToDelete);
-          console.log("inside event: ", this.worksRegister);
+          // Delete event in worksRegister
+          this.worksRegister = this.worksRegister.filter((e) => e !== event);
         }, (err) => {
           this.showErrorToast(err.error);
         }

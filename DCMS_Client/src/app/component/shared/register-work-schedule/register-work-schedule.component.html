@@ -100,7 +100,7 @@
 
 <h3>
   Sửa lịch làm việc
-  <button class="btn btn-primary float-end" (click)="addEvent()">
+  <button class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#exampleModal">
     Thêm mới lịch làm việc
   </button>
   <div class="clearfix"></div>
@@ -180,7 +180,63 @@
   </table>
 </div>
 
-<!-- <ng-template #modalContent let-close="close">
+
+<div class="modal" id="exampleModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header color-main">
+        <h4 class="modal-title text-center w-100">Thêm lịch làm việc</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Tên nhiệm vụ</label>
+                <input type="text" [(ngModel)]="title" class="form-control" id="exampleInputEmail1"
+                aria-describedby="emailHelp">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Thời gian bắt đầu</label>
+                <input type="datetime-local" [(ngModel)]="timeStart" class="form-control" id="exampleInputEmail1"
+                aria-describedby="emailHelp">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Thời gian kết thúc</label>
+                <input type="datetime-local" [(ngModel)]="timeEnd" class="form-control" id="exampleInputEmail1"
+                aria-describedby="emailHelp">
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="button-conf float-end">
+            <button type="button" id="cancel" class="btn bg-white" data-bs-dismiss="modal">Hủy</button>
+            <button type="button" class="btn" style="background-color: rgba(139, 55, 19,.95); color:white" (click)="addEvent()">Lưu</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalContent let-close="close">
   <div class="modal-header">
     <h5 class="modal-title">Event action occurred</h5>
     <button type="button" class="close" (click)="close()">
@@ -188,19 +244,39 @@
     </button>
   </div>
   <div class="modal-body">
-    <div>
-      Action:
-      <pre>{{ modalData?.action }}</pre>
+    <div class="row">
+      <div class="col-12">
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Tên nhiệm vụ</label>
+          <input type="text" [(ngModel)]="editTitle" class="form-control" id="exampleInputEmail1"
+          aria-describedby="emailHelp">
+        </div>
+      </div>
     </div>
-    <div>
-      Event:
-      <pre>{{ modalData?.event | json }}</pre>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Thời gian bắt đầu</label>
+          <input type="datetime-local" [(ngModel)]="editTimeStart" class="form-control" id="exampleInputEmail1"
+          aria-describedby="emailHelp">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Thời gian kết thúc</label>
+          <input type="datetime-local" [(ngModel)]="editTimeEnd" class="form-control" id="exampleInputEmail1"
+          aria-describedby="emailHelp">
+        </div>
+      </div>
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="close()">
+    <button type="button" class="btn btn-outline-secondary" (click)="editEvent()">
       OK
     </button>
   </div>
-</ng-template> -->
-
+</ng-template>
