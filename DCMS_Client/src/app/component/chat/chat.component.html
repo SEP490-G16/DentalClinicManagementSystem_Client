@@ -6,22 +6,27 @@
   <form action="" class="form-container">
     <div class="chat-window-head">
       <h4>Chat</h4>
-      <span class="close-btn" (click)="chatContainerVisible = false">
+      <span class="close-btn" (click)="close()">
         <i class="bi bi-x-circle"></i>
       </span>
     </div>
 
     <div class="msg-container">
-      <div class="msg">
-        <p>hello!!!!!</p>
-        <span>00:30 AM</span>
+      <div class="msg" *ngFor="let msg of receivedMessages" style="display: flex">
+        <div>
+          <b>{{msg.message.sender}}</b>
+        </div>
+        <div>
+          <p>{{msg.message.content}}</p>
+        </div>
+        <span>{{ msg.timestamp | date: 'hh:mm a' }}</span>
       </div>
     </div>
 
     <div class="chat-box-container">
       <div class="chat-box">
-        <input type="text" placeholder="Nhập tin nhắn" name="msg" required>
-        <button type="submit" class="btn"><i class="bi bi-send" style="margin-right: 20px;"></i></button>
+        <input type="text"  placeholder="Nhập tin nhắn" [(ngModel)]="messageContent" name="msg" required> <!---->
+        <button type="submit" class="btn" (click)="sendMessage()"> <!----><i class="bi bi-send" style="margin-right: 20px;"></i></button>
       </div>
     </div>
   </form>

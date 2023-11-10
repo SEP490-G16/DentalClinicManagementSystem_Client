@@ -11,6 +11,7 @@ import { PopupAddAppointmentComponent } from './popup-add-appointment/popup-add-
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment-timezone';
 import 'moment/locale/vi';
+import {WebsocketService} from "../../../service/Chat/websocket.service";
 @Component({
   selector: 'app-receptionist-appointment-list',
   templateUrl: './receptionist-appointment-list.component.html',
@@ -23,7 +24,9 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   constructor(private appointmentService: ReceptionistAppointmentService,
     private cognitoService: CognitoService, private router: Router,
     private toastr: ToastrService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+
+              private webSocketService:WebsocketService
   ) {
     this.selectedAppointment = {
       appointment_id: '',
@@ -70,6 +73,9 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     })
   }
 
+  toggleChat() {
+    this.webSocketService.toggleChat();
+  }
 
 
   datesDisabled: DateDisabledItem[] = [];

@@ -24,10 +24,11 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { RegisterWorkScheduleComponent } from './component/shared/register-work-schedule/register-work-schedule.component';
+//import {WebSocketSubject} from "rxjs/internal/observable/dom/WebSocketSubject";
+import { WebSocketSubject } from 'rxjs/webSocket';
 @NgModule({
   declarations: [
     AppComponent,
-    ChatComponent,
     RegisterWorkScheduleComponent
   ],
   imports: [

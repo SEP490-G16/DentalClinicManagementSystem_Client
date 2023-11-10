@@ -9,6 +9,7 @@ import { ProfilePersonalComponent } from './profile-personal/profile-personal.co
 import { RegisterWorkScheduleComponent } from './register-work-schedule/register-work-schedule.component';
 import { AppModule } from 'src/app/app.module';
 import { FlatpickrModule } from 'angularx-flatpickr';
+import {ChatComponent} from "../chat/chat.component";
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { FlatpickrModule } from 'angularx-flatpickr';
     SidebarComponent,
     HeaderComponent,
     LayoutsComponent,
+    ChatComponent,
     ProfilePersonalComponent,
   ],
   imports: [

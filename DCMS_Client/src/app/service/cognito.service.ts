@@ -139,7 +139,8 @@ export class CognitoService {
       sessionStorage.setItem('locale', this.cognitoUser.locale);
       sessionStorage.setItem('sub', this.cognitoUser.sub);
       sessionStorage.setItem('name', this.cognitoUser.name);
-
+      sessionStorage.setItem('sub-id', this.cognitoUser.sub);
+      sessionStorage.setItem('username', this.cognitoUser.Username);
     });
   }
 
