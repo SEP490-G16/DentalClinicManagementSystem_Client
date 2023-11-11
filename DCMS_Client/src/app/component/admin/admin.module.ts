@@ -64,6 +64,7 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import {NgSelectModule} from "@ng-select/ng-select";
 import { PopupEditBillImportMaterialComponent } from './warehouse-import-material-management/popup-edit-bill-import-material/popup-edit-bill-import-material.component';
+import { FollowingTimekeepingComponent } from './following-timekeeping/following-timekeeping.component';
 
 @NgModule({
   declarations: [
@@ -112,7 +113,8 @@ import { PopupEditBillImportMaterialComponent } from './warehouse-import-materia
       PopupEditStaffComponent,
       PopupEditMaterialComponent,
       PopupEditMedicineComponent,
-      PopupEditBillImportMaterialComponent
+      PopupEditBillImportMaterialComponent,
+      FollowingTimekeepingComponent
   ],
     imports: [
         CommonModule,

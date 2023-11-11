@@ -15,7 +15,7 @@ export class TimeKeepingService {
 
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`,
-      'Access-Control-Allow-Origin': '*'
+      'Content-Type':'application/json',
     });
     return this.http.get(`${this.url}/timekeeping/${startTime}/${endTime}`,{headers});
   }
