@@ -1,5 +1,5 @@
 import { Component, NgModule, OnInit } from '@angular/core';
-import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
@@ -27,6 +27,7 @@ import { RegisterWorkScheduleComponent } from './component/shared/register-work-
 //import {WebSocketSubject} from "rxjs/internal/observable/dom/WebSocketSubject";
 import { WebSocketSubject } from 'rxjs/webSocket';
 import { ConfirmAppointmentComponent } from './component/confirm-appointment/confirm-appointment.component';
+import { AppRoutingModule } from './app-routing.module';
 @NgModule({
   declarations: [
     AppComponent,

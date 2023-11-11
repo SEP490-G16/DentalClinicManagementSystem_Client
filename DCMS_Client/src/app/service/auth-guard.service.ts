@@ -1,18 +1,29 @@
-import { Observable } from 'rxjs';
+// auth.guard.ts
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { CognitoService } from './cognito.service';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class AuthGuard implements CanActivate{
+export class AuthGuard implements CanActivate {
+  constructor(private router: Router) {}
 
-  constructor(private cognitService:CognitoService) { }
+  canActivate(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): boolean {
+    const allowedGroups = (next.data as { allowedGroups?: string[] })['allowedGroups'] || [];
 
-  canActivate(route:ActivatedRouteSnapshot, state:RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-      return this.cognitService.getRole().then((role) => {
-        return role?true:false;
-      })
+    const userGroupsString = sessionStorage.getItem('userGroups');
+    if (userGroupsString) {
+      const userGroups = JSON.parse(userGroupsString) as string[];
+
+      if (allowedGroups.some(group => userGroups.includes(group))) {
+        return true;
+      }
+    }
+    //unauthorized
+    this.router.navigate(['/dangnhap']);
+    return false;
   }
 }

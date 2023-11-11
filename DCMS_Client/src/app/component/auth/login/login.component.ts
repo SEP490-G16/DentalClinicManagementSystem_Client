@@ -1,5 +1,5 @@
 import { Component, OnInit, Renderer2, ElementRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IUser } from 'src/app/model/IUser';
 import { CognitoService } from 'src/app/service/cognito.service';
 // import { OAuthService, JwksValidationHandler } from 'angular-oauth2-oidc';
@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   loading: boolean;
   newPassword: string = '';
 
-  constructor(private renderer: Renderer2, private el: ElementRef, private router: Router, private cognitoService: CognitoService) {
+  constructor(private renderer: Renderer2, private el: ElementRef, private router: Router, private route:ActivatedRoute, private cognitoService: CognitoService) {
     this.User = {} as IUser;
     this.loading = false;
 
@@ -49,8 +49,9 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     if (this.User && this.User.userCredential && this.User.password) {
       this.cognitoService.signIn(this.User).then(() => {
-        this.router.navigate(['/letan/lich-hen'])
         this.loading = false;
+        // this.cognitoService.handlePostLoginRedirect(this.router.url);
+        this.router.navigate(['letan/lich-hen']);
       })
         .catch((err) => {
           this.loading = false;

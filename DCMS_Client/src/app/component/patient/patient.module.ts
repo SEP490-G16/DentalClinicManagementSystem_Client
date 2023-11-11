@@ -12,7 +12,6 @@ import { PatientManagementComponent } from './patient-management/patient-managem
 import { PatientRecordsComponent } from './patient-records/patient-records.component';
 import { SharedModule } from '../shared/shared.module';
 import { PatientRoutingModule } from './patient-routing.module';
-import { ChangeAppointmentComponent } from './change-appointment/change-appointment.component';
 import { PopupAddPatientComponent } from './patient-records/popup-add-patient/popup-add-patient.component';
 import { PatientProfileTabComponent } from './patient-records/patient-profile-tab/patient-profile-tab.component';
 import { PatientTreatmentCourseTabComponent } from './patient-records/patient-treatment-course-tab/patient-treatment-course-tab.component';
@@ -40,7 +39,6 @@ import { PopupSualichtaikhamComponent } from './patient-records/patient-appointm
   declarations: [
       PatientManagementComponent,
       PatientRecordsComponent,
-      ChangeAppointmentComponent,
       PopupAddPatientComponent,
       PatientProfileTabComponent,
       PatientTreatmentCourseTabComponent,

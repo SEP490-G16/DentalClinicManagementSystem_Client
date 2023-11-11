@@ -18,7 +18,6 @@ export class SidebarComponent implements OnInit {
   signOut() {
     this.cognitoService.signOut().then(() => {
       console.log("Logged out!");
-      this.cognitoService.notifyAuthStatus(false);
       this.router.navigate(['/dangnhap']);
     })
   }

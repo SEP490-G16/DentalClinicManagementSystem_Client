@@ -6,28 +6,37 @@ import { RegisterWorkScheduleComponent } from './component/shared/register-work-
 import { ProfilePersonalComponent } from './component/shared/profile-personal/profile-personal.component';
 import {ConfirmAppointmentComponent} from "./component/confirm-appointment/confirm-appointment.component";
 import {LayoutsAdminComponent} from "./component/shared/layouts-admin/layouts-admin.component";
+import { ConfirmAppointmentComponent } from "./component/confirm-appointment/confirm-appointment.component";
+import { AuthGuard } from './service/auth-guard.service';
+
 
 const routes: Routes = [
   {
 
-    path: '', component: LayoutsComponent, children: [
+    path: '', component: LayoutsComponent,
+    // canActivate: [AuthGuard],
+    children: [
 
       {
         path: 'bacsi',
-        loadChildren: () => import('./component/doctor/doctor.module').then(m => m.DoctorModule)
+        loadChildren: () => import('./component/doctor/doctor.module').then(m => m.DoctorModule),
+        // data: { allowedGroups: ['dev-dcms-doctor'] }
       },
 
       {
         path: 'yta',
-        loadChildren: () => import('./component/nurse/nurse.module').then(m => m.NurseModule)
+        loadChildren: () => import('./component/nurse/nurse.module').then(m => m.NurseModule),
+        // data: { allowedGroups: ['dev-dcms-nurse'] }
       },
       {
         path: 'letan',
-        loadChildren: () => import('./component/receptionist/receptionist.module').then(m => m.ReceptionistModule)
+        loadChildren: () => import('./component/receptionist/receptionist.module').then(m => m.ReceptionistModule),
+        // data: { allowedGroups: ['dev-dcms-receptionist'] }
       },
       {
         path: 'benhnhan',
-        loadChildren: () => import('./component/patient/patient.module').then(m => m.PatientModule)
+        loadChildren: () => import('./component/patient/patient.module').then(m => m.PatientModule),
+        // data: { allowedGroups: ['dev-dcms-patient'] }
       },
     ]
   },
@@ -40,7 +49,15 @@ const routes: Routes = [
 
 
   {
-    path:"suahoso",
+    path: 'benhnhan-zalo', component: LayoutsComponent, children: [
+      {
+        path: 'thay',
+        loadChildren: () => import('./component/patient/benhnhan.module').then(m => m.BenhnhanModule)
+      }
+    ]
+  },
+  {
+    path: "suahoso",
     component: ProfilePersonalComponent
   },
   {
@@ -48,7 +65,7 @@ const routes: Routes = [
     component: RegisterWorkScheduleComponent
   },
   {
-    path:'chat',
+    path: 'chat',
     component: ChatComponent
   },
 
@@ -56,7 +73,7 @@ const routes: Routes = [
     path: 'dangnhap',
     loadChildren: () => import('./component/auth/auth.module').then(m => m.AuthModule)
   },
-  {path:'xac-nhan-lich-hen',component:ConfirmAppointmentComponent}
+  { path: 'xac-nhan-lich-hen', component: ConfirmAppointmentComponent }
 ];
 
 @NgModule({

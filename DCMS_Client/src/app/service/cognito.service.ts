@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import * as AWS from 'aws-sdk';
 import { IStaff } from '../model/Staff';
+import { Router } from '@angular/router';
 
 
 
@@ -14,11 +15,10 @@ import { IStaff } from '../model/Staff';
 })
 export class CognitoService {
   private authenticationSubject: BehaviorSubject<any>;
-  public authNotifier: EventEmitter<any> = new EventEmitter<any>();
 
   cognitoUser: ICognitoUser;
 
-  constructor() {
+  constructor(private router:Router) {
     this.cognitoUser = {} as ICognitoUser;
 
     Amplify.configure({
@@ -34,8 +34,24 @@ export class CognitoService {
 
   }
 
-  notifyAuthStatus(status: boolean) {
-    this.authNotifier.next(status);
+  handlePostLoginRedirect(currentRoute: string): void {
+    const userGroupsString = sessionStorage.getItem('userGroups');
+    if (userGroupsString) {
+      const userGroups = JSON.parse(userGroupsString) as string[];
+
+      if (userGroups.includes('dev-dcms-doctor')) {
+        this.router.navigate(['/bacsi']);
+      } else if (userGroups.includes('dev-dcms-nurse')) {
+        this.router.navigate(['/yta']);
+      } else if (userGroups.includes('dev-dcms-receptionist')) {
+        this.router.navigate(['/letan']);
+      } else {
+        this.router.navigate(['/default-route']);
+      }
+    } else {
+      console.error('Không có thông tin về nhóm người dùng.');
+      this.router.navigate(['/default-route']);
+    }
   }
 
 
@@ -141,7 +157,7 @@ export class CognitoService {
       this.cognitoUser.sub = userResult.attributes.sub;
       console.log("CognitoUser: ", this.cognitoUser);
 
-      // Trích xuất thông tin nhóm từ JWT
+      //
       const groups = userResult.signInUserSession.idToken.payload['cognito:groups'];
       console.log('User Groups:', groups);
       sessionStorage.setItem('userGroups', JSON.stringify(groups));
@@ -155,6 +171,7 @@ export class CognitoService {
       sessionStorage.setItem('username', this.cognitoUser.Username);
     });
   }
+
 
   getRole(): Promise<any> {
     return this.getUser().then((user) => {
