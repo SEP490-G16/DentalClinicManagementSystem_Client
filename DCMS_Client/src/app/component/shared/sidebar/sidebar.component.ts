@@ -14,10 +14,12 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
   signOut() {
     this.cognitoService.signOut().then(() => {
       console.log("Logged out!");
-      this.router.navigate(['/login']);
+      this.cognitoService.notifyAuthStatus(false);
+      this.router.navigate(['/dangnhap']);
     })
   }
 }

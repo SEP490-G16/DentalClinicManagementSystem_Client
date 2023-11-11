@@ -6,5 +6,6 @@ export interface ICognitoUser {
   refreshToken:string,
   locale:string,
   sub:string,
-  name:string
+  name:string,
+  role:number
 }

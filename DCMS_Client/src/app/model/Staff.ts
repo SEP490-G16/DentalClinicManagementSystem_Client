@@ -3,7 +3,7 @@ export interface IStaff {
   email:string;
   phone: string;
   name:string;
-  role: string;
+  role: number;
   sub:string;
   password:string;
   DOB:string;

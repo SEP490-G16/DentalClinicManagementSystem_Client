@@ -1,5 +1,5 @@
 import { ICognitoUser } from './../model/ICognitoUser';
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Amplify, Auth } from 'aws-amplify';
 import { IUser } from '../model/IUser';
 import { BehaviorSubject } from 'rxjs';
@@ -14,6 +14,7 @@ import { IStaff } from '../model/Staff';
 })
 export class CognitoService {
   private authenticationSubject: BehaviorSubject<any>;
+  public authNotifier: EventEmitter<any> = new EventEmitter<any>();
 
   cognitoUser: ICognitoUser;
 
@@ -31,6 +32,10 @@ export class CognitoService {
 
     this.authenticationSubject = new BehaviorSubject<boolean>(false);
 
+  }
+
+  notifyAuthStatus(status: boolean) {
+    this.authNotifier.next(status);
   }
 
 
@@ -87,6 +92,7 @@ export class CognitoService {
       'custom:description': User.description,
       'custom:status': User.status,
       'custom:image': User.image,
+      'custom:role': User.role
     };
 
     return Auth.signUp({
@@ -135,6 +141,12 @@ export class CognitoService {
       this.cognitoUser.sub = userResult.attributes.sub;
       console.log("CognitoUser: ", this.cognitoUser);
 
+      // Trích xuất thông tin nhóm từ JWT
+      const groups = userResult.signInUserSession.idToken.payload['cognito:groups'];
+      console.log('User Groups:', groups);
+      sessionStorage.setItem('userGroups', JSON.stringify(groups));
+
+
       sessionStorage.setItem('id_Token', this.cognitoUser.idToken);
       sessionStorage.setItem('locale', this.cognitoUser.locale);
       sessionStorage.setItem('sub', this.cognitoUser.sub);
@@ -144,6 +156,11 @@ export class CognitoService {
     });
   }
 
+  getRole(): Promise<any> {
+    return this.getUser().then((user) => {
+      return user && user.attributes ? user.attribute['custom:role'] : '';
+    })
+  }
 
   // async listUsers() {
   //   const params = {
