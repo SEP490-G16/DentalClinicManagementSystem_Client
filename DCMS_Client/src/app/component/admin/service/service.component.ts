@@ -24,45 +24,71 @@ export class ServiceComponent implements OnInit {
   service:any;
   name:any;
   description:any;
+  loading:boolean = false;
+  searchTerm: string = '';
+  originalMedicalProcedureList: any[] = [];
   ngOnInit(): void {
-    this.getMedicalProcedureGroupList();
+     this.getMedicalProcedureGroupList();
+
   }
   getMedicalProcedureGroupList(){
+    this.loading = true;
     this.medicalProcedureGroupService.getMedicalProcedureGroupList().subscribe((res:any)=>{
       this.medicalProcedureGroups = res.data;
+      if (Array.isArray(this.medicalProcedureGroups) && this.medicalProcedureGroups.length > 0) {
+        // Lấy id của nhóm đầu tiên
+        const firstGroupId = this.medicalProcedureGroups[0].medical_procedure_group_id;
+
+        console.log(firstGroupId);
+
+        // Gọi hàm để hiển thị danh sách thủ thuật của nhóm đầu tiên
+        this.getMedicalProcedureList(firstGroupId);
+      }
+      this.loading = false;
       console.log(this.medicalProcedureGroups)
     })
   }
-  deleteMedicalProcedureGroup(id:string){
+  deleteMedicalProcedureGroup(id:string) {
     console.log(id);
-    this.medicalProcedureGroupService.deleteMedicalProcedureGroup(id).subscribe(data=>{
-        this.toastr.success('Xoá nhóm thủ thuật thành công !');
-        const index = this.medicalProcedureGroups.findIndex((medicalGroup:any) => medicalGroup.medical_procedure_group_id === id);
-        if (index !== -1) {
-          this.medicalProcedureGroups.splice(index, 1);
+    const cf = confirm("Bạn có muốn xóa nhóm thủ thuật này không?");
+    if (cf) {
+      this.loading = true;
+      this.medicalProcedureGroupService.deleteMedicalProcedureGroup(id).subscribe(data => {
+          this.toastr.success('Xoá nhóm thủ thuật thành công !');
+          const index = this.medicalProcedureGroups.findIndex((medicalGroup: any) => medicalGroup.medical_procedure_group_id === id);
+          if (index !== -1) {
+            this.medicalProcedureGroups.splice(index, 1);
+          }
+          this.loading = false;
+        },
+        error => {
+        this.loading = false;
+          this.toastr.error('Xoá nhóm thủ thuật thất bại!');
         }
-      },
-      error => {
-        this.toastr.error('Xoá nhóm thủ thuật thất bại!');
-      }
-    )
+      )
+    }
   }
 
-  deleteMedicalProcedure(id:string){
+  deleteMedicalProcedure(id:string) {
     console.log(id);
-    this.medicalProcedure.deleteMedicalProcedure(id).subscribe(data=>{
-        this.toastr.success('Xoá thủ thuật thành công !');
-        const index = this.medicalProcedureList.findIndex((medicalG:any) => medicalG.mp_id === id);
-        if (index !== -1) {
-          this.medicalProcedureList.splice(index, 1);
+    const cf = confirm("Bạn có muốn xóa thủ thuật này không?");
+    if (cf) {
+      this.loading = true;
+      this.medicalProcedure.deleteMedicalProcedure(id).subscribe(data => {
+          this.toastr.success('Xoá thủ thuật thành công !');
+          const index = this.medicalProcedureList.findIndex((medicalG: any) => medicalG.mp_id === id);
+          if (index !== -1) {
+            this.medicalProcedureList.splice(index, 1);
+          }
+          this.loading = false;
+        },
+        error => {
+        this.loading = false;
+          this.toastr.error('Xoá  thủ thuật thất bại!');
         }
-      },
-      error => {
-        this.toastr.error('Xoá  thủ thuật thất bại!');
-      }
-    )
+      )
+    }
   }
-
 
   openEditGroupService(id:any,name:any,description:any){
     this.id = id;
@@ -77,14 +103,28 @@ export class ServiceComponent implements OnInit {
     this.service = service;
   }
 
-  getMedicalProcedureList(id:string){
+  getMedicalProcedureList(id:string, searchTerm?: string){
+    this.loading = true;
     this.medicalProcedureGroupService.getMedicalProcedureList().subscribe(data=>{
       console.log(data);
-      this.medicalProcedureList = data.data.filter((item:any) => item.mg_id === id);
+      if (!searchTerm) {
+        const firstGroupId = this.medicalProcedureGroups.length > 0 ? this.medicalProcedureGroups[0].medical_procedure_group_id : '';
+        this.medicalProcedureList = data.data.filter((item:any) => item.mg_id === (id || firstGroupId));
+      }
+      else {
+        this.medicalProcedureList = data.data.filter((item:any) => item.mp_name.toLowerCase().includes(searchTerm.toLowerCase()));
+
+      }
+      //this.medicalProcedureList = data.data.filter((item:any) => item.mg_id === id);
+      this.loading = false;
       console.log(this.medicalProcedureList)
     })
   }
-
+  onSearchInputChange(): void {
+    // Gọi hàm để hiển thị danh sách thủ thuật dựa trên điều kiện tìm kiếm
+    const firstGroupId = this.medicalProcedureGroups.length > 0 ? this.medicalProcedureGroups[0].medical_procedure_group_id : '';
+    this.getMedicalProcedureList(firstGroupId, this.searchTerm);
+  }
   signOut() {
     this.cognitoService.signOut().then(() => {
       console.log("Logged out!");

@@ -1,4 +1,7 @@
-<div class="modal" id="myModal">
+<div *ngIf="loading" class="loading-overlay">
+  <div class="loading-spinner"></div>
+</div>
+<div *ngIf="!loading" class="modal" id="myModal">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
@@ -49,7 +52,7 @@
 
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-cancel" data-bs-dismiss="modal" (click)="close()">Hủy</button>
+          <button type="button" id="cancel-add-labo" class="btn btn-cancel" data-bs-dismiss="modal" (click)="close()">Hủy</button>
           <button type="button" class="btn btn-save" (click)="PostLabo()">
             <i class="bi bi-floppy2"></i> Lưu</button>
         </div>

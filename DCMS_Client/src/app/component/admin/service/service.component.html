@@ -1,7 +1,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
-
+<div *ngIf="loading" class="loading-overlay">
+  <div class="loading-spinner"></div>
+</div>
 <div class="recent-orders">
         <!-- <section class="table__header">
           <h1></h1>
@@ -27,7 +29,7 @@
             <section class="table__header">
               <h1></h1>
               <div class="input-group">
-                <input type="search search-custom" placeholder="Tìm kiếm">
+                <input type="search search-custom" placeholder="Tìm kiếm" [(ngModel)]="searchTerm" (input)="onSearchInputChange()">
               </div>
             </section>
           </div>
@@ -84,8 +86,8 @@
                 <tbody>
                 <tr *ngFor="let s of medicalProcedureList">
                   <td>{{s.mp_id}}</td>
-                  <td>
-                    <h2>{{s.mp_name}}</h2>
+                  <td class="truncate" data-bs-toggle="tooltip" title="{{s.mp_name}}">
+                    {{s.mp_name}}
                   </td>
                   <td>{{s.mg_name}}</td>
                   <td>{{s.mp_price}}</td>

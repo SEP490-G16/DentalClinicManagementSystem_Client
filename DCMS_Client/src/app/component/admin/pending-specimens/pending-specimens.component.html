@@ -2,9 +2,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
-
+<div *ngIf="loading" class="loading-overlay">
+  <div class="loading-spinner"></div>
+</div>
 <div class="recent-orders">
-        <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px;">Mẫu đang chờ duyệt</h2>
         <section class="table__header">
           <h1></h1>
           <div class="export__file">
@@ -13,10 +14,10 @@
 
         <div class="row" style="margin-bottom: 20px; margin-left: 10px">
           <div class="col-md-1">
-            <a routerLink="/admin/mau" class="page-title">Quản lý mẫu</a>
+            <a routerLink="/mau" routerLinkActive="active-link" class="page-title">Quản lý mẫu</a>
           </div>
           <div class="col-md-2">
-            <a routerLink="/admin/mau/mau-dang-cho" class="page-title">Mẫu đang chờ duyệt</a>
+            <a routerLink="/mau-dang-cho" routerLinkActive="active-link" class="page-title">Mẫu đang chờ duyệt</a>
           </div>
         </div>
         <div class="row filter-row m-t-30">
@@ -30,7 +31,7 @@
         <!-- <h2>Mẫu vật</h2> -->
         <div class="table-container">
           <table>
-            <thead>
+            <thead class="sticky-thead">
             <tr>
               <th style="padding: 20px;">Mã mẫu</th> <!--1-->
               <th style="min-width: 80px">Tên mẫu</th> <!--2-->
@@ -39,22 +40,20 @@
               <th style="min-width: 75px">Số lượng</th> <!--5-->
               <th style="min-width: 80px">Đơn giá</th> <!--6-->
               <th style="min-width: 90px">Ngày lắp</th> <!--7-->
-              <th style="min-width: 75px">Trạng thái duyệt</th> <!--8-->
               <th style="min-width: 75px">Thành tiền</th>
               <th style="min-width: 101px">Thao tác</th> <!--14-->
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let m of approveSpecimensList">
-              <td>{{m.ms_id}}</td>
-              <td>{{m.ms_name}}</td>
-              <td>{{m.p_patient_name}}</td>
-              <td>{{m.ms_type}}</td>
-              <td>{{m.ms_quantity}}</td>
-              <td>{{m.ms_unit_price}}</td>
-              <td>{{ m.ms_used_date | date:'yyyy-MM-dd' }}</td>
-              <td>{{m.ms_status === 1 ?'Chưa duyệt' : ''}}</td>
-              <td>{{ m.ms_quantity * m.ms_unit_price}}</td>
+              <td style="padding: 20px;">{{m.ms_id}}</td>
+              <td class="truncate" data-bs-toggle="tooltip" title="{{m.ms_name}}" style="padding: 20px;">{{m.ms_name}}</td>
+              <td style="padding: 20px;">{{m.p_patient_name}}</td>
+              <td style="padding: 20px;">{{m.ms_type}}</td>
+              <td style="padding: 20px;">{{m.ms_quantity}}</td>
+              <td style="padding: 20px;">{{m.ms_unit_price}}</td>
+              <td style="padding: 20px;">{{ m.ms_used_date | date:'yyyy-MM-dd' }}</td>
+              <td style="padding: 20px;">{{ m.ms_quantity * m.ms_unit_price}}</td>
               <td class="text-center" style="min-width: 150px">
                 <button href="#" class="btn btn-primary float-right btn-rounded" style="padding: 2px 5px; margin-right: 3px" (click)="approveSpecimens(m.ms_id,m)"><i class="bi bi-check-circle"></i></button>
                 <button href="#" class="btn btn-primary float-right btn-rounded"  style="padding: 2px 5px; margin-right: 3px" data-bs-toggle="modal" data-bs-target="#editApproveSpecimensModal" (click)="openEditApproveSpecimens(m.ms_id,m)"><i class="bi bi-pencil-square"></i></button>

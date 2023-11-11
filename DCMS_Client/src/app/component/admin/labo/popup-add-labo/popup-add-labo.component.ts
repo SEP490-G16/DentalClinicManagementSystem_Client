@@ -37,7 +37,7 @@ export class PopupAddLaboComponent implements OnInit {
       active: 1
     }
   }
-
+  loading: boolean = false;
   ngOnInit(): void {
 
   }
@@ -73,6 +73,8 @@ export class PopupAddLaboComponent implements OnInit {
 
 
     // Tiến hành gửi dữ liệu nếu không có lỗi
+    this.loading = true;
+    console.log(this.loading)
     this.PostLaboService.postLabo(this.Labo)
       .subscribe(
         (data) => {
@@ -86,11 +88,16 @@ export class PopupAddLaboComponent implements OnInit {
             description: "",
             active: 1
           };
-          setTimeout(() => {
+          //this.loading = false;
+          let ref = document.getElementById('cancel-add-labo');
+          ref?.click();
+          window.location.reload();
+         /* setTimeout(() => {
             window.location.reload();
-          }, 3000);
+          }, 3000);*/
         },
         (err) => {
+          this.loading = false;
           this.showErrorToast("Lỗi khi thêm Labo");
         }
       );

@@ -41,6 +41,7 @@ export class PopupEditServiceComponent implements OnChanges {
   }
   isSubmitted:boolean = false;
   medicalProcedureGroupList:any;
+  loading:boolean = false;
   constructor(private medicalProcedureService: MedicalProcedureService,
               private medicalProcedureGroupService:MedicalProcedureGroupService,
               private toastr:ToastrService) { }
@@ -129,19 +130,21 @@ export class PopupEditServiceComponent implements OnChanges {
       price:this.service.price,
       medical_procedure_group_id: this.service.serviceGroupName
     }
+    this.loading = true;
     this.medicalProcedureService.updateMedicalProcedure(this.id, this.serviceBody).subscribe(data=>{
       this.toastr.success('Cập nhật thủ thuật thành công');
-        let ref = document.getElementById('cancel-service');
-        ref?.click();
-        //window.location.reload();
-        this.updateServiceRes();
-        this.serviceRes.mp_id = this.id;
-        const index = this.medicalProcedureList.findIndex((service:any) => service.mp_id === this.id);
-        if (index !== -1) {
-          this.medicalProcedureList[index] = this.serviceRes;
-        }
+        // let ref = document.getElementById('cancel-service');
+        // ref?.click();
+        window.location.reload();
+        // this.updateServiceRes();
+        // this.serviceRes.mp_id = this.id;
+        // const index = this.medicalProcedureList.findIndex((service:any) => service.mp_id === this.id);
+        // if (index !== -1) {
+        //   this.medicalProcedureList[index] = this.serviceRes;
+        // }
     },
       error => {
+      this.loading = false;
       this.toastr.error('Cập nhật thủ thuật thất bại!');
       })
   }

@@ -118,6 +118,8 @@ aside {
   align-items: center;
   justify-content: space-between;
   margin-top: 1.4rem;
+  margin-left: 20px;
+  margin-bottom: 15px;
 }
 
 .toggle .logo {
@@ -125,7 +127,7 @@ aside {
   gap: 0.5rem;
 }
  .toggle .logo img {
-  padding-left: 5rem;
+  padding-left: 1rem;
   width: 2rem;
   height: 2rem;
 }

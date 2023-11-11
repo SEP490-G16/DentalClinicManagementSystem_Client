@@ -377,7 +377,6 @@ table tbody tr:last-child td {
   text-align: start;
   display: block;
   margin: 1rem auto;
-  color: var(--custom-color-primary);
 }
 
 .profile {
@@ -569,7 +568,6 @@ table tbody tr td:first-child {
   padding: 10px 20px;
   border: 1px solid #664FC3;
   border-radius: 10px;
-  margin-right: 10px;
 }
 
 .btn-redirect {
@@ -723,4 +721,68 @@ button:active{
 }
 .bi-pencil-square{
   color: #ffffff;
+}
+.page-title.active-link {
+  color: blue; /* hoặc màu khác bạn muốn sử dụng cho đường dẫn được chọn */
+}
+.page-title:hover {
+  color: blue; /* Màu khi di chuột vào liên kết không được chọn */
+}
+.page-title {
+  color: black; /* Màu mặc định cho liên kết không được chọn */
+  text-decoration: none; /* Loại bỏ gạch chân mặc định của liên kết */
+  transition: color 0.3s; /* Hiệu ứng chuyển đổi màu sắc */
+}
+.table-container{
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #c0c0c0 #f0f0f0;
+  border-radius: 10px;
+  -ms-overflow-style: none;
+}
+.sticky-thead {
+  position: sticky;
+  top: 0; /* Giữ phần thead ở vị trí trên cùng khi cuộn */
+  background-color: white;
+  z-index: 1; /* Đảm bảo phần thead nằm trên cùng của bảng */
+}
+.table-container {
+  position: relative;
+}
+.truncate {
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer; /* Thêm dòng này để biểu thị rằng nội dung có thể bị cắt và hiển thị khi di chuột qua */
+  padding: 10px
+}
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.loading-spinner {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

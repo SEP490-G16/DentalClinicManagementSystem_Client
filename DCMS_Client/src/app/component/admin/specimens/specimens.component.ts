@@ -27,7 +27,7 @@ export class SpecimensComponent implements OnInit {
 
   filteredSpecimens: any;
   labo_id: any = "";
-
+  loading:boolean=false;
 
   constructor(
     private SpecimensService: SpecimensService,
@@ -90,10 +90,12 @@ export class SpecimensComponent implements OnInit {
 
 
   getAllSpecimens() {
+    this.loading = true;
     this.SpecimensService.getSpecimens(this.paging)
       .subscribe((sRoot) => {
         this.SpecimensRoot = sRoot;
         this.filteredSpecimens = sRoot.data;
+        this.loading = false;
       })
 
     // try {
@@ -130,14 +132,14 @@ export class SpecimensComponent implements OnInit {
   deleteSpecimens(id:string) {
     const cf = confirm("Bạn có muốn xóa mẫu vật này không?");
     if(cf) {
+      this.loading = true;
       this.SpecimensService.deleteSpecimens(id)
       .subscribe((res) => {
         this.showSuccessToast('Xóa mẫu vật thành công');
-        setTimeout(() => {
-          window.location.reload();
-        }, 3000);
+        window.location.reload();
       },
       (err) => {
+        this.loading = false;
         this.showErrorToast('Xóa mẫu vật thất bại');
       }
       )

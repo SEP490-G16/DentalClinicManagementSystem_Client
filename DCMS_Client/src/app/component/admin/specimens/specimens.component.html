@@ -2,8 +2,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
 
+<div *ngIf="loading" class="loading-overlay">
+  <div class="loading-spinner"></div>
+</div>
+
 <div class="recent-orders">
-        <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px;">Mẫu</h2>
         <section class="table__header">
           <h1></h1>
           <div class="export__file">
@@ -12,10 +15,10 @@
 
         <div class="row" style="margin-bottom: 20px; margin-left: 10px">
           <div class="col-md-1 col-1">
-            <a routerLink="/admin/mau" class="page-title">Quản lý mẫu</a>
+            <a routerLink="/mau" class="page-title" routerLinkActive="active-link">Quản lý mẫu</a>
           </div>
           <div class="col-md-2 col-2">
-            <a routerLink="/admin/mau/mau-dang-cho" class="page-title">Mẫu đang chờ duyệt</a>
+            <a routerLink="/mau-dang-cho" class="page-title" routerLinkActive="active-link">Mẫu đang chờ duyệt</a>
           </div>
         </div>
 
@@ -24,24 +27,24 @@
 
           </div>
           <div class="col-sm-3 col-md-2">
-            <div class="input-group" style="margin-left: 3px">
-              <label class="ml-2">Ngày đặt</label>
+            <div class="input-group" style="margin-left: 12px">
+              <label>Ngày đặt</label>
             </div>
           </div>
           <div class="col-sm-3 col-md-2 ">
-            <div class="input-group" style="margin-left: 21px">
-              <label class="ml-2">Ngày nhận</label>
+            <div class="input-group" style="margin-left: 11px">
+              <label>Ngày nhận</label>
             </div>
           </div>
           <div class="col-sm-3 col-md-2">
-            <div class="input-group" style="margin-left: 17px">
-              <label class="ml-2" style="margin-left: 45px;">Ngày lắp</label>
+            <div class="input-group" style="margin-left: 14px">
+              <label>Ngày lắp</label>
             </div>
           </div>
         </div>
 
         <div class="row">
-          <div class="col-sm-3 col-md-2 mr-2 ">
+          <div class="col-sm-3 col-md-2" style="padding: 0 10px">
             <div class="input-group">
               <select class="form-select p-2" style="margin-left: 10px; width: 45%; border: 1px solid #664FC3;
               border-radius: 10px;"
@@ -53,23 +56,23 @@
               </select>
             </div>
           </div>
-          <div class="col-sm-3 col-md-2 mr-2">
+          <div class="col-sm-3 col-md-2" style="padding: 0 10px">
             <div class="input-group">
               <input type="date" class="form-control input-custom  p-2" [(ngModel)]="SpecimensFilter.ms_order_date">
             </div>
           </div>
-          <div class="col-sm-3 col-md-2 mr-2">
+          <div class="col-sm-3 col-md-2" style="padding: 0 10px">
             <div class="input-group">
               <input type="date" class="form-control input-custom  p-2" [(ngModel)]="SpecimensFilter.ms_received_date">
             </div>
           </div>
-          <div class="col-sm-3 col-md-2 mr-2">
+          <div class="col-sm-3 col-md-2" style="padding: 0 10px">
             <div class="input-group">
               <input type="date" class="form-control input-custom  p-2">
             </div>
           </div>
-          <div class="col-sm-3 col-md-3 mr-2">
-            <select class="form-select p-2" style="margin-left: 10px; width: 50%; border: 1px solid #664FC3;
+          <div class="col-sm-2 col-md-2" style="padding: 0 10px">
+            <select class="form-select p-2" style="width: 60%; border: 1px solid #664FC3;
             border-radius: 10px;"
               aria-label="Default select example">
               <option value="" selected>Trạng thái</option>
@@ -78,9 +81,7 @@
               <option value="3">Trả lại</option>
             </select>
           </div>
-        </div>
-        <div class="row mt-3 mr-2">
-          <div class="col-md-12">
+          <div class="col-sm-2 col-md-2" style="padding: 0 10px">
             <button (click)="onFilterMS()" class="btn button-timekeeping p-2" style="margin-left: 8px;">
               Hiển thị
             </button>
@@ -94,43 +95,44 @@
             </span>
           </div>
         </div>
+        <!--<div class="row mt-3 mr-2">
+
+        </div>-->
         <!-- <h2>Mẫu vật</h2> -->
-        <div style="overflow-y: auto; height: 300px;" style="margin-top: 30px;">
+        <div class="table-container" style="margin-top: 10px;">
           <table>
-            <thead>
+            <thead class="sticky-thead">
               <tr>
-                <th style="padding: 20px;">Răng/Hàm</th> <!--1-->
-                <th style="min-width: 80px">Tên mẫu</th> <!--2-->
-                <th style="min-width: 82px">Chất liệu</th> <!--3-->
-                <th style="min-width: 85px">Số lượng</th> <!--4-->
-                <th style="min-width: 75px">Đơn giá</th> <!--5-->
-                <th style="min-width: 80px">Labo</th> <!--6-->
-                <th style="min-width: 90px">Trạng thái</th> <!--7-->
-                <th style="min-width: 75px">Ngày đặt</th> <!--8-->
-                <th style="min-width: 90px">Người đặt</th> <!--9-->
-                <th style="min-width: 95px">Ngày nhận</th> <!--10-->
-                <th style="min-width: 105px">Người nhận</th> <!--11-->
-                <th style="min-width: 90px">Ngày lắp</th> <!--12-->
-                <th style="min-width: 90px">Bảo hành</th> <!--13-->
-                <th style="min-width: 101px">Thao tác</th> <!--14-->
+                <th style="min-width: 80px;padding: 10px">Tên mẫu</th> <!--2-->
+                <th style="min-width: 82px;padding: 10px">Chất liệu</th> <!--3-->
+                <th style="min-width: 85px;padding: 10px">Số lượng</th> <!--4-->
+                <th style="min-width: 75px;padding: 10px">Đơn giá</th> <!--5-->
+                <th style="min-width: 80px;padding: 10px">Labo</th> <!--6-->
+                <th style="min-width: 90px;padding: 10px">Trạng thái</th> <!--7-->
+                <th style="min-width: 75px;padding: 10px">Ngày đặt</th> <!--8-->
+                <th style="min-width: 90px;padding: 10px">Người đặt</th> <!--9-->
+                <th style="min-width: 95px;padding: 10px">Ngày nhận</th> <!--10-->
+                <th style="min-width: 105px;padding: 10px">Người nhận</th> <!--11-->
+                <th style="min-width: 90px;padding: 10px">Ngày lắp</th> <!--12-->
+                <th style="min-width: 90px;padding: 10px">Bảo hành</th> <!--13-->
+                <th style="min-width: 101px;padding: 10px">Thao tác</th> <!--14-->
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let specimens of filteredSpecimens">
-                <td>{{specimens.ms_type}}</td> <!--1-->
-                <td style="min-width: 80px">{{specimens.ms_name}}</td> <!--2-->
-                <td style="min-width: 82px">{{specimens.ms_type}}</td> <!--3-->
-                <td style="min-width: 85px">{{specimens.ms_quantity}}</td> <!--4-->
-                <td style="min-width: 75px">{{specimens.ms_unit_price}}</td> <!--5-->
-                <td style="min-width: 90px"></td> <!--6-->
-                <td style="min-width: 80px">{{specimens.lb_id? "Đã nhận": "Chờ Duyệt"}}</td> <!--7-->
-                <td style="min-width: 75px">{{specimens.ms_order_date}}</td> <!--8-->
-                <td style="min-width: 120px">{{specimens.ms_orderer}}</td> <!--9-->
-                <td style="min-width: 95px">{{specimens.ms_received_date}}</td> <!--10-->
-                <td style="min-width: 105px">{{specimens.ms_receiver}}</td> <!--11-->
-                <td style="min-width: 95px"></td> <!--12-->
-                <td style="min-width: 90px">{{specimens.ms_warranty}}</td> <!--13-->
-                <td class="text-center" style="min-width: 101px"> <!--14-->
+                <td class="truncate" data-bs-toggle="tooltip" title="{{specimens.ms_name}}">{{specimens.ms_name}}</td> <!--2-->
+                <td style="min-width: 82px;padding: 10px">{{specimens.ms_type}}</td> <!--3-->
+                <td style="min-width: 85px;padding: 10px">{{specimens.ms_quantity}}</td> <!--4-->
+                <td style="min-width: 75px;padding: 10px">{{specimens.ms_unit_price}}</td> <!--5-->
+                <td style="min-width: 90px;padding: 10px"></td> <!--6-->
+                <td style="min-width: 80px;padding: 10px">{{specimens.lb_id? "Đã nhận": "Chờ Duyệt"}}</td> <!--7-->
+                <td style="min-width: 75px;padding: 10px">{{specimens.ms_order_date}}</td> <!--8-->
+                <td style="min-width: 120px;padding: 10px">{{specimens.ms_orderer}}</td> <!--9-->
+                <td style="min-width: 95px;padding: 10px">{{specimens.ms_received_date}}</td> <!--10-->
+                <td style="min-width: 105px;padding: 10px">{{specimens.ms_receiver}}</td> <!--11-->
+                <td style="min-width: 95px;padding: 10px"></td> <!--12-->
+                <td style="min-width: 90px;padding: 10px">{{specimens.ms_warranty}}</td> <!--13-->
+                <td class="text-center" style="min-width: 101px;padding: 10px"> <!--14-->
                   <button class="btn btn-primary p-1 m-2"><i class="bi bi-pencil-square"
                     data-bs-toggle="modal" data-bs-target="#editSpecimensModal"
                     (click)="openEditSpecimen(specimens)"></i></button>

@@ -30,6 +30,7 @@ export class PopupEditGroupServiceComponent implements OnChanges {
     name:'',
     description:''
   }
+  loading:boolean = false;
   ngOnInit(): void {
     /*this.serviceGroup={
       serviceGroupName: this.name,
@@ -47,17 +48,18 @@ export class PopupEditGroupServiceComponent implements OnChanges {
       name: this.serviceGroup.serviceGroupName,
       description: this.serviceGroup.description
     }
+    this.loading = true;
      this.medicalProcedureGroupService.updateMedicalProcedureGroup(this.serviceGroupBody, this.id).subscribe(data=>{
        console.log(data);
        this.toastr.success('Cập nhật nhóm thủ thuật thành công!');
-        let ref = document.getElementById('cancel');
-         ref?.click();
-        //window.location.reload();
-         this.serviceGroupBody.medical_procedure_group_id = this.id;
+        /*let ref = document.getElementById('cancel');
+         ref?.click();*/
+        window.location.reload();
+         /*this.serviceGroupBody.medical_procedure_group_id = this.id;
          const index = this.medicalProcedureGroups.findIndex((serviceGroup:any) => serviceGroup.medical_procedure_group_id === this.id);
          if (index !== -1) {
            this.medicalProcedureGroups[index] = this.serviceGroupBody;
-         }
+         }*/
      },
        error => {
 

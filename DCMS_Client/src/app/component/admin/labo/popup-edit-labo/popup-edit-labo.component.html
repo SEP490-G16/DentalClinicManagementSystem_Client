@@ -1,4 +1,8 @@
-<div class="modal" id="myEditModal">
+<div *ngIf="loading" class="loading-overlay">
+  <div class="loading-spinner"></div>
+</div>
+
+<div *ngIf="!loading" class="modal" id="myEditModal">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
@@ -48,7 +52,7 @@
 
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
+          <button type="button" id="cancel-edit-labo" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
           <button type="button" class="btn btn-save" (click)="PutLaboAPI()">
             <i class="bi bi-floppy2"></i> Lưu</button>
         </div>

@@ -166,13 +166,15 @@
       <!-- End of New Users Section -->
 
       <!-- Recent Orders Table -->
+      <div *ngIf="loading" class="loading-overlay">
+        <div class="loading-spinner"></div>
+      </div>
       <div class="recent-orders">
         <section class="table__header">
           <h1></h1>
           <div class="export__file">
           </div>
         </section>
-        <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px;">Labo</h2>
         <div class="row mt-5">
           <div class="col-6">
             <div class="form-group form-group-filter">
@@ -182,26 +184,26 @@
             </div>
           </div>
         </div>
-        <div style="overflow-y: auto; height: 500px;">
+        <div class="table-container">
           <table>
-            <thead>
+            <thead class="sticky-thead">
               <tr>
-                <th style="padding-top: 10px;padding-bottom: 10px;">Mã labo</th>
-                <th style="padding-top: 10px;padding-bottom: 10px;">Tên labo</th>
-                <th style="padding-top: 10px;padding-bottom: 10px;">Địa chỉ</th>
-                <th style="padding-top: 10px;padding-bottom: 10px;">Số điện thoại</th>
-                <th style="padding-top: 10px;padding-bottom: 10px;">Email</th>
-                <th style="padding-top: 10px;padding-bottom: 10px;" class="text-center">Thao tác</th>
+                <th style="padding: 10px">Mã labo</th>
+                <th style="padding: 10px" class="truncate">Tên labo</th>
+                <th style="padding: 10px">Địa chỉ</th>
+                <th style="padding: 10px">Số điện thoại</th>
+                <th style="padding: 10px">Email</th>
+                <th style="padding: 10px" class="text-center">Thao tác</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let labo of Labos">
-                <td>{{labo.labo_id}}</td>
-                <td>{{labo.name}}</td>
-                <td>{{labo.address}}</td>
-                <td>{{labo.phone_number}}</td>
-                <td>{{labo.email}}</td>
-                <td>
+                <td style="padding: 10px">{{labo.labo_id}}</td>
+                <td class="truncate" data-bs-toggle="tooltip" title="{{ labo.name }}">{{labo.name}}</td>
+                <td style="padding: 10px">{{labo.address}}</td>
+                <td style="padding: 10px">{{labo.phone_number}}</td>
+                <td style="padding: 10px">{{labo.email}}</td>
+                <td style="padding: 10px">
                   <button class="btn btn-primary p-1 m-r-3" style="padding: 2px 3px; margin-right: 3px" data-bs-toggle="modal" data-bs-target="#myEditModal"
                     (click)="openEditModal(labo)">
                     <i class="bi bi-pencil-square"></i></button>

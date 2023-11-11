@@ -30,8 +30,8 @@ const adminRoutes: Routes = [
     ]},
   {path: 'thuoc', component: MedicineComponent},
   {path: 'thu-thuat', component: ServiceComponent},
-  {path: 'mau', children:[
-      {path: '',component: SpecimensComponent},
+  {path: '', children:[
+      {path: 'mau',component: SpecimensComponent},
       {path: 'mau-dang-cho',component: PendingSpecimensComponent}
     ]},
   {

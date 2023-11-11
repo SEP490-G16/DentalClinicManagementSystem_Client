@@ -39,7 +39,7 @@ const routes: Routes = [
       },
     ]
   },
-  {path:'admin',component:LayoutsAdminComponent,children:[
+  {path:'',component:LayoutsAdminComponent,children:[
       {
         path: '',
         loadChildren: () => import('./component/admin/admin.module').then(m => m.AdminModule)

@@ -60,6 +60,7 @@ export class PopupAddSpecimensComponent implements OnInit {
   patients:any[]=[];
   patientId:any;
   isSubmitted:boolean = false;
+  loading:boolean = false;
   constructor(private medicalSupplyService: MedicalSupplyService,
               private toastr: ToastrService,
               private patientSerivce:PatientService) { }
@@ -167,16 +168,18 @@ export class PopupAddSpecimensComponent implements OnInit {
       patient_id:this.patientId,
       facility_id: 'F-01',
     }
+    this.loading = true;
     this.medicalSupplyService.addMedicalSupply(this.specimenBody).subscribe(data=>{
       this.toastr.success('Thêm mới mẫu thành công !');
-      let ref = document.getElementById('cancel-specimen');
-      ref?.click();
-      //window.location.reload();
-      this.updateSpecimensRes();
+      /*let ref = document.getElementById('cancel-specimen');
+      ref?.click();*/
+      window.location.reload();
+     /* this.updateSpecimensRes();
       this.specimensRes.medical_supply_id = data.data.medical_supply_id;
-      this.approveSpecimensList.unshift(this.specimensRes);
+      this.approveSpecimensList.unshift(this.specimensRes);*/
     },
       error => {
+      this.loading = false;
       this.toastr.error('Thêm mới thất bại !');
       })
   }

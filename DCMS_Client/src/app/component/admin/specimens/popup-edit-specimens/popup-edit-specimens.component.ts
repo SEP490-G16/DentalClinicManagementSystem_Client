@@ -12,7 +12,7 @@ import { CognitoService } from 'src/app/service/cognito.service';
 })
 export class PopupEditSpecimensComponent implements OnInit {
   @Input() PutSpecimen: any;
-
+  loading:boolean = false;
   IPutSpecimens: PutSpecimen;
   id:string = "";
   status: string = "0";
@@ -60,17 +60,17 @@ export class PopupEditSpecimensComponent implements OnInit {
   }
 
   EditSpecimen() {
+    this.loading = true;
     this.SpecimensService.putSpecimens(this.id, this.IPutSpecimens)
     .subscribe((res) => {
         this.showSuccessToast('Chỉnh sửa mẫu vật thành công!');
-        setTimeout(() => {
-          window.location.reload();
-        }, 3000);
+        window.location.reload();
     },
 
     (err) => {
       // this.showErrorToast("Chỉnh sửa mẫu vật thất bại")
-      this.showSuccessToast('Chỉnh sửa mẫu vật thành công!');
+      this.loading = false;
+      this.showSuccessToast('Chỉnh sửa mẫu vật thất bại!');
     }
     )
   }

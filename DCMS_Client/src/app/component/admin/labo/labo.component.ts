@@ -13,7 +13,7 @@ import { CognitoService } from 'src/app/service/cognito.service';
 export class LaboComponent implements OnInit {
 
   Labos: ILabos[] = [];
-
+  loading:boolean=false;
   LaboId: string = '';
   constructor(
     private LaboService: LaboService,
@@ -44,12 +44,15 @@ export class LaboComponent implements OnInit {
   // }
 
   getLabos() {
+    this.loading=true;
     this.LaboService.getLabos()
       .subscribe((res) => {
         this.Labos = res.data;
+        this.loading=false;
         console.log("Labos", res.data);
       },
         (err) => {
+        this.loading=false;
           this.showErrorToast('Lỗi khi lấy dữ liệu cho Labo')
         }
       )
@@ -62,21 +65,19 @@ export class LaboComponent implements OnInit {
     console.log(this.LaboId);
     const conf = confirm("Bạn có chắc chắn xóa Labo số " + laboId + " không?");
     if(conf == true) {
+      this.loading=true;
       this.LaboService.deleteLabo(laboId).subscribe((res) => {
         this.showSuccessToast("Xóa Labo thành công!");
-        setTimeout(() => {
           window.location.reload();
-        }, 3000)
       },
         (err) => {
           console.log(err);
           if (err.status === 0) {
             this.showSuccessToast("Xóa Labo thành công!");
-            setTimeout(() => {
-              window.location.reload();
-            }, 3000)
+            window.location.reload();
           }
             if(err.status === 404) {
+              this.loading=false;
               this.showErrorToast("Không tìm thấy Labo có Id: " + laboId);
             }
 

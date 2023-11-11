@@ -118,6 +118,8 @@ aside {
   align-items: center;
   justify-content: space-between;
   margin-top: 1.4rem;
+  margin-left: 20px;
+  margin-bottom: 15px;
 }
 
 .toggle .logo {
@@ -125,7 +127,7 @@ aside {
   gap: 0.5rem;
 }
 .toggle .logo img {
-  padding-left: 5rem;
+  padding-left: 1rem;
   width: 2rem;
   height: 2rem;
 }
@@ -183,7 +185,7 @@ aside .sidebar a.active {
 aside .sidebar a.active::before {
   content: '';
   width: 6px;
-  height: 18px;
+  height: 30px;
   background-color: var(--custom-color-primary);
 }
 
@@ -213,10 +215,9 @@ aside .sidebar .message-count {
 } */
 
 main .analyse {
- /* display: grid;*/
+  display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.6rem;
-  height: 10%;
 }
 
 main .analyse>div {

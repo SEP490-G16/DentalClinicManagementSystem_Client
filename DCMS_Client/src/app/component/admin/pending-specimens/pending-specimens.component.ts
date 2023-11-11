@@ -37,6 +37,7 @@ export class PendingSpecimensComponent implements OnInit {
 
   }
   id:any
+  loading:boolean = false;
   approveSpecimens(id:any,medical:any){
     this.id = id;
     this.specimensBody={
@@ -54,22 +55,27 @@ export class PendingSpecimensComponent implements OnInit {
       patient_id:medical.p_patient_id,
       status:'2',
     }
+    this.loading = true;
     this.medicalSupplyService.approveSpecimens(this.id, this.specimensBody).subscribe(data=>{
       this.toastr.success('Duyệt mẫu thành công !');
         const index = this.approveSpecimensList.findIndex((medical:any) => medical.ms_id === this.id);
         if (index !== -1) {
           this.approveSpecimensList.splice(index, 1);
         }
+        this.loading = false;
     },
       error => {
+      this.loading = false;
       this.toastr.error('Duyệt mẫu thất bại !');
       }
     )
   }
 
   getApproveSpecimensList(status:any, paging:any){
+    this.loading = true;
     this.medicalSupplyService.getApproveSpecimensList(status, paging).subscribe(data=>{
       this.approveSpecimensList = data.data;
+      this.loading = false;
       console.log(this.approveSpecimensList);
     })
   }
@@ -77,14 +83,17 @@ export class PendingSpecimensComponent implements OnInit {
     console.log(id);
     const isConfirmed = window.confirm('Bạn có chắc muốn xoá mẫu này?');
     if (isConfirmed){
+      this.loading = true;
       this.medicalSupplyService.deleteApproveSpecimens(id).subscribe(data=>{
           this.toastr.success('Xoá thủ thuật thành công !');
           const index = this.approveSpecimensList.findIndex((specimens:any) => specimens.ms_id === id);
           if (index !== -1) {
             this.approveSpecimensList.splice(index, 1);
           }
+          this.loading = false;
         },
         error => {
+        this.loading = false;
           this.toastr.error('Xoá  thủ thuật thất bại!');
         }
       )

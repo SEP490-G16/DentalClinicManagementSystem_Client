@@ -13,7 +13,7 @@ export class PopupEditLaboComponent implements OnInit, OnChanges {
   @Input() LaboEdit: any;
 
   PutLabo:ILabos;
-
+  loading: boolean = false;
   EditLaboErrors: {
     labo_name: string,
     address: string,
@@ -92,6 +92,7 @@ export class PopupEditLaboComponent implements OnInit, OnChanges {
     //   this.showErrorToast("Vui lòng kiểm tra và điền đầy đủ thông tin cần thiết.");
     // } else {
       console.log(this.LaboEdit);
+      this.loading = true;
       this.EditLaboService.putLabo(this.LaboEdit.labo_id, this.PutLabo)
         .subscribe(
           (res) => {
@@ -105,11 +106,12 @@ export class PopupEditLaboComponent implements OnInit, OnChanges {
               description: "",
               active: 1
             };
-            setTimeout(() => {
-              window.location.reload();
-            }, 3000);
+            let ref = document.getElementById('cancel-edit-labo');
+            ref?.click();
+            window.location.reload();
           },
           () => {
+            this.loading=false;
             this.showErrorToast("Sửa Labo thất bại");
           }
         );

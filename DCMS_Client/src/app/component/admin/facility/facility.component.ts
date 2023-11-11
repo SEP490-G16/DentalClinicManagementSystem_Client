@@ -10,6 +10,7 @@ import {ToastrService} from "ngx-toastr";
 export class FacilityComponent implements OnInit {
   facilityList:any[]=[];
   facility:any;
+  loading: boolean = false;
   constructor(private facilityService:FacilityService,
               private toastr:ToastrService) { }
 
@@ -17,9 +18,13 @@ export class FacilityComponent implements OnInit {
     this.getFacilityList();
   }
   getFacilityList(){
+    this.loading = true;
     this.facilityService.getFacilityList().subscribe(data=>{
       console.log(data);
       this.facilityList = data.data;
+      this.loading = false;
+    },error => {
+      this.loading = false;
     })
   }
   openEditFacility(facility:any){

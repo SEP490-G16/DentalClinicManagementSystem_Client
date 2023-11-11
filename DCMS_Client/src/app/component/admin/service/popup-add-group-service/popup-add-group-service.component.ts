@@ -22,6 +22,7 @@ export class PopupAddGroupServiceComponent implements OnInit {
     description:'',
   }
   isCheckName:boolean=false;
+  loading:boolean = false;
   constructor(private medicalProcedureGroupService: MedicalProcedureGroupService,
               private toastr:ToastrService) { }
 
@@ -37,12 +38,14 @@ export class PopupAddGroupServiceComponent implements OnInit {
       name: this.serviceGroup.serviceGroupName,
       description: this.serviceGroup.description
     }
+    this.loading = true;
     this.medicalProcedureGroupService.addMedicalProcedureGroup(this.serviceGroupBody).subscribe(data=>{
       this.toastr.success('Thêm mới thành công!')
-      let ref = document.getElementById('cancel-medical');
+      window.location.reload();
+      /*let ref = document.getElementById('cancel-medical');
       ref?.click();
       this.serviceGroupBody.medical_procedure_group_id = data.data.medical_procedure_group_id;
-      this.medicalProcedureGroups.unshift(this.serviceGroupBody);
+      this.medicalProcedureGroups.unshift(this.serviceGroupBody);*/
       /*this.serviceGroupBody.isNew = true;
       this.serviceGroupBody.isPulsing = true;
       setTimeout(() => {
@@ -51,6 +54,7 @@ export class PopupAddGroupServiceComponent implements OnInit {
       }, 2000);*/
     },
       error => {
+      this.loading =false;
       this.toastr.error('Thêm mới thất bại!')
       })
   }
