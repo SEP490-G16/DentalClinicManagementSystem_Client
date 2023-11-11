@@ -26,7 +26,7 @@
           </span>
           <h3>Lịch hẹn</h3>
         </a>
-        <a routerLink="/thu-thuat">
+        <a routerLink="/thu-thuat" [class.active]="currentRoute === '/thu-thuat'">
           <span>
             <i class="bi bi-clipboard2-pulse"></i>
           </span>
@@ -38,43 +38,43 @@
           </span>
           <h3>Bệnh nhân</h3>
         </a>
-        <a routerLink="/theo-doi-cham-cong">
+        <a routerLink="/theo-doi-cham-cong" [class.active]="currentRoute === '/theo-doi-cham-cong'">
           <span class="material-icons-sharp">
              receipt_long
           </span>
           <h3> Chấm công</h3>
         </a>
-        <a routerLink="/nhan-vien">
+        <a routerLink="/nhan-vien" [class.active]="currentRoute === '/nhan-vien'">
           <span class="material-icons-sharp">
             person_outline
           </span>
           <h3>Nhân viên</h3>
         </a>
-        <a routerLink="/labo" >
+        <a routerLink="/labo" [class.active]="currentRoute === '/labo'">
           <span>
             <i class="bi bi-house-door"></i>
           </span>
           <h3>Labo</h3>
         </a>
-        <a routerLink="/mau">
+        <a routerLink="/mau" [class.active]="currentRoute === '/mau'">
           <span>
             <i class="bi bi-file-medical"></i>
           </span>
           <h3>Mẫu</h3>
         </a>
-        <a routerLink="/vat-lieu">
+        <a routerLink="/vat-lieu" [class.active]="currentRoute === '/vat-lieu'">
           <span>
            <i class="bi bi-prescription2"></i>
           </span>
           <h3>Vật liệu</h3>
         </a>
-        <a routerLink="/thuoc">
+        <a routerLink="/thuoc" [class.active]="currentRoute === '/thuoc'">
           <span>
             <i class="bi bi-capsule"></i>
           </span>
           <h3>Thuốc</h3>
         </a>
-        <a routerLink="/co-so">
+        <a routerLink="/co-so" [class.active]="currentRoute === '/co-so'">
           <span>
             <i class="bi bi-houses"></i>
           </span>
