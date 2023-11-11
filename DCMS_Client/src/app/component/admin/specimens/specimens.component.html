@@ -1,197 +1,40 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
-<div class="web-wrapper">
-  <div class="container-custom">
-    <!-- Sidebar Section -->
-    <aside>
 
-      <div class="sidebar">
-        <div class="toggle">
-          <div class="logo">
-            <img
-              src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
-            <p><span class="danger">Nguyen Tran</span> Clinic</p>
-          </div>
-          <div class="close" id="close-btn">
-            <span class="material-icons-sharp">
-              close
-            </span>
-          </div>
-        </div>
-        <a routerLink="/admin/appointment">
-          <span class="material-icons-sharp">
-            dashboard
-          </span>
-          <h3>Lịch hẹn</h3>
-        </a>
-        <a routerLink="/receptionist/waitingroom">
-          <span class="material-icons-sharp">
-            person_outline
-          </span>
-          <h3>Thủ thuật</h3>
-        </a>
-        <a routerLink="/patient/records">
-          <span class="material-icons-sharp">
-            receipt_long
-          </span>
-          <h3>Bệnh nhân</h3>
-        </a>
-        <a routerLink="/receptionist/timekeeping">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Bảng theo dõi chấm công</h3>
-        </a>
-        <a routerLink="/receptionist/timekeeping">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Nhân viên</h3>
-        </a>
-        <a routerLink="/admin/labo">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Labo</h3>
-        </a>
-        <a routerLink="/admin/specimens" class="active">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Mẫu</h3>
-        </a>
-        <a routerLink="/receptionist/timekeeping">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Vật liệu</h3>
-        </a>
-        <a routerLink="/receptionist/timekeeping">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Thuốc</h3>
-        </a>
-        <a routerLink="/receptionist/timekeeping">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Cơ sở</h3>
-        </a>
-        <a (click)="signOut()" style="cursor:pointer;">
-          <span class="material-icons-sharp">
-            logout
-          </span>
-          <h3>Logout</h3>
-        </a>
-      </div>
-    </aside>
-    <!-- End of Sidebar Section -->
-
-    <!-- Main Content -->
-    <main>
-      <!-- Analyses -->
-       <!-- Analyses -->
-       <div class="analyse">
-        <div class="sales">
-          <div class="status">
-            <div class="info">
-              <h3>Lịch hẹn</h3>
-              <h1 class="text-center">02</h1>
-            </div>
-            <div class="progresss">
-              <svg>
-                <circle cx="38" cy="38" r="36"></circle>
-              </svg>
-              <div class="percentage">
-                <i class="bi bi-calendar3"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="visits">
-          <div class="status">
-            <div class="info">
-              <h3>Phòng chờ</h3>
-              <h1 class="text-center">24</h1>
-            </div>
-            <div class="progresss">
-              <svg>
-                <circle cx="38" cy="38" r="36"></circle>
-              </svg>
-              <div class="percentage">
-                <i class="bi bi-houses"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="searches">
-          <div class="status">
-            <div class="info">
-              <h3>Bệnh nhân</h3>
-              <h1 class="text-center">23</h1>
-            </div>
-            <div class="progresss">
-              <svg>
-                <circle cx="38" cy="38" r="36"></circle>
-              </svg>
-              <div class="percentage">
-                <i class="bi bi-person-standing"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="profile">
-          <div class="icon">
-
-          </div>
-          <div class="info">
-            <p>Xin chào, <b>Long</b></p>
-            <small class="text-muted">Admin</small>
-          </div>
-          <div class="profile-photo">
-            <img src="../../../../assets/img/person.png">
-          </div>
-        </div>
-      </div>
-      <!-- End of Analyses -->
-
-      <!-- New Users Section -->
-      <!-- End of New Users Section -->
-
-      <!-- Recent Orders Table -->
-      <div class="recent-orders">
-        <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px;">Labo</h2>
+<div class="recent-orders">
+        <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px;">Mẫu</h2>
         <section class="table__header">
           <h1></h1>
           <div class="export__file">
           </div>
         </section>
 
-        <div class="row" style="margin-bottom: 20px;">
-          <div class="col-md-2">
-            <a routerLink="/admin/specimens" class="page-title">Quản lý mẫu</a>
+        <div class="row" style="margin-bottom: 20px; margin-left: 10px">
+          <div class="col-md-1 col-1">
+            <a routerLink="/admin/mau" class="page-title">Quản lý mẫu</a>
           </div>
-          <div class="col-md-2">
-            <a routerLink="/admin/specimens/approve-specimens" class="page-title">Mẫu đang chờ duyệt</a>
+          <div class="col-md-2 col-2">
+            <a routerLink="/admin/mau/mau-dang-cho" class="page-title">Mẫu đang chờ duyệt</a>
           </div>
         </div>
 
         <div class="row filter-row m-b-1">
           <div class="col-sm-3 col-md-2">
-            <div class="input-group">
+
+          </div>
+          <div class="col-sm-3 col-md-2">
+            <div class="input-group" style="margin-left: 3px">
               <label class="ml-2">Ngày đặt</label>
             </div>
           </div>
           <div class="col-sm-3 col-md-2 ">
-            <div class="input-group">
+            <div class="input-group" style="margin-left: 21px">
               <label class="ml-2">Ngày nhận</label>
             </div>
           </div>
           <div class="col-sm-3 col-md-2">
-            <div class="input-group">
+            <div class="input-group" style="margin-left: 17px">
               <label class="ml-2" style="margin-left: 45px;">Ngày lắp</label>
             </div>
           </div>
@@ -225,8 +68,8 @@
               <input type="date" class="form-control input-custom  p-2">
             </div>
           </div>
-          <div class="col-sm-3 col-md-2 mr-2">
-            <select class="form-select p-2" style="margin-left: 10px; width: 45%; border: 1px solid #664FC3;
+          <div class="col-sm-3 col-md-3 mr-2">
+            <select class="form-select p-2" style="margin-left: 10px; width: 50%; border: 1px solid #664FC3;
             border-radius: 10px;"
               aria-label="Default select example">
               <option value="" selected>Trạng thái</option>
@@ -238,8 +81,7 @@
         </div>
         <div class="row mt-3 mr-2">
           <div class="col-md-12">
-            <button (click)="onFilterMS()" class="btn button-timekeeping p-2" s
-            tyle="margin-left: 10px;">
+            <button (click)="onFilterMS()" class="btn button-timekeeping p-2" style="margin-left: 8px;">
               Hiển thị
             </button>
             <span *ngIf="showCheckboxes" style="margin-left: 20px;">
@@ -289,10 +131,10 @@
                 <td style="min-width: 95px"></td> <!--12-->
                 <td style="min-width: 90px">{{specimens.ms_warranty}}</td> <!--13-->
                 <td class="text-center" style="min-width: 101px"> <!--14-->
-                  <button class="btn button-cus p-1 m-2"><i class="bi bi-pencil-square"
+                  <button class="btn btn-primary p-1 m-2"><i class="bi bi-pencil-square"
                     data-bs-toggle="modal" data-bs-target="#editSpecimensModal"
                     (click)="openEditSpecimen(specimens)"></i></button>
-                  <button class="btn button-cus p-1" (click)="deleteSpecimens(specimens.ms_id)"><i
+                  <button class="btn btn-danger p-1" (click)="deleteSpecimens(specimens.ms_id)"><i
                       class="bi bi-trash"></i></button>
                 </td>
               </tr>
@@ -302,11 +144,5 @@
 
         </div>
       </div>
-      <!-- End of Recent Orders -->
-    </main>
-    <!-- End of Main Content -->
-
-  </div>
-</div>
 
 <app-popup-edit-specimens [PutSpecimen]="PutSpecimen"></app-popup-edit-specimens>

@@ -2,167 +2,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
 
-<div class="web-wrapper">
-  <div class="container-custom">
-    <!-- Sidebar Section -->
-    <aside>
-
-      <div class="sidebar">
-        <div class="toggle">
-          <div class="logo">
-            <img
-              src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
-            <p><span class="danger">Nguyen Tran</span> Clinic</p>
-          </div>
-          <div class="close" id="close-btn">
-            <span class="material-icons-sharp">
-              close
-            </span>
-          </div>
-        </div>
-        <a routerLink="/admin/appointment">
-          <span class="material-icons-sharp">
-            dashboard
-          </span>
-          <h3>Lịch hẹn</h3>
-        </a>
-        <a routerLink="/admin/service" class="active">
-          <span class="material-icons-sharp">
-            person_outline
-          </span>
-          <h3>Thủ thuật</h3>
-        </a>
-        <a routerLink="/patient/records">
-          <span class="material-icons-sharp">
-            receipt_long
-          </span>
-          <h3>Bệnh nhân</h3>
-        </a>
-        <a routerLink="/receptionist/timekeeping">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Bảng theo dõi chấm công</h3>
-        </a>
-        <a routerLink="/admin/staff">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Nhân viên</h3>
-        </a>
-        <a routerLink="/receptionist/timekeeping">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Labo</h3>
-        </a>
-        <a routerLink="/admin/specimens">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Mẫu</h3>
-        </a>
-        <a routerLink="/admin/material">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Vật liệu</h3>
-        </a>
-        <a routerLink="/receptionist/timekeeping">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Thuốc</h3>
-        </a>
-        <a routerLink="/receptionist/timekeeping">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Cơ sở</h3>
-        </a>
-        <a (click)="signOut()" style="cursor:pointer;">
-          <span class="material-icons-sharp">
-            logout
-          </span>
-          <h3>Logout</h3>
-        </a>
-      </div>
-    </aside>
-    <!-- End of Sidebar Section -->
-
-    <!-- Main Content -->
-    <main>
-      <!-- Analyses -->
-      <div class="analyse">
-        <div class="sales">
-          <div class="status">
-            <div class="info">
-              <h3>Lịch hẹn</h3>
-              <h1 class="text-center">02</h1>
-            </div>
-            <div class="progresss">
-              <svg>
-                <circle cx="38" cy="38" r="36"></circle>
-              </svg>
-              <div class="percentage">
-                <i class="bi bi-calendar3"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="visits">
-          <div class="status">
-            <div class="info">
-              <h3>Phòng chờ</h3>
-              <h1 class="text-center">24</h1>
-            </div>
-            <div class="progresss">
-              <svg>
-                <circle cx="38" cy="38" r="36"></circle>
-              </svg>
-              <div class="percentage">
-                <i class="bi bi-houses"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="searches">
-          <div class="status">
-            <div class="info">
-              <h3>Bệnh nhân</h3>
-              <h1 class="text-center">23</h1>
-            </div>
-            <div class="progresss">
-              <svg>
-                <circle cx="38" cy="38" r="36"></circle>
-              </svg>
-              <div class="percentage">
-                <i class="bi bi-person-standing"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="profile">
-          <div class="icon">
-
-          </div>
-          <div class="info">
-            <p>Xin chào, <b>Long</b></p>
-            <small class="text-muted">Admin</small>
-          </div>
-          <div class="profile-photo">
-            <img src="../../../../assets/img/person.png">
-          </div>
-        </div>
-      </div>
-      <!-- End of Analyses -->
-
-      <!-- New Users Section -->
-      <!-- End of New Users Section -->
-
-      <!-- Recent Orders Table -->
-      <div class="recent-orders">
+<div class="recent-orders">
         <!-- <section class="table__header">
           <h1></h1>
           <div class="input-group">
@@ -171,7 +11,7 @@
           <div class="export__file">
           </div>
         </section> -->
-        <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px;">Thủ thuật</h2>
+        <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px; margin-bottom: 20px">Thủ thuật</h2>
 
         <div class="row">
           <div class="col-2" style="margin-top: 10px;">
@@ -218,7 +58,7 @@
                     <button href="#" class="btn btn-primary float-right btn-rounded" data-bs-toggle="modal"
                       data-bs-target="#editGroupModal"
                       (click)="openEditGroupService(t.medical_procedure_group_id,t.name,t.description)"
-                      style="padding: 2px 5px;"><i class="bi bi-pencil-square"></i></button>
+                      style="padding: 2px 5px; margin-right: 3px"><i class="bi bi-pencil-square"></i></button>
                     <button href="#" class="btn btn-danger float-right btn-rounded"
                       (click)="deleteMedicalProcedureGroup(t.medical_procedure_group_id)" style="padding: 2px 5px;"><i
                         class="bi bi-trash"></i></button>
@@ -228,7 +68,7 @@
             </table>
           </div>
 
-          <div class="col-7 table-container" style="margin-left: 6rem;">
+          <div class="col-8 table-container" style="padding: 0 10px">
 
               <table>
                 <thead class="sticky-thead">
@@ -251,10 +91,10 @@
                   <td>{{s.mp_price}}</td>
                   <td>{{s.mp_description}}</td>
                   <td class="text-center">
-                    <button href="#" class="btn btn-primary float-right btn-rounded" data-bs-toggle="modal"
+                    <button href="#" class="btn btn-primary float-right btn-rounded" style="padding: 2px 5px; margin-right: 3px" data-bs-toggle="modal"
                             data-bs-target="#editServiceModal" (click)="openEditService(s.mp_id,s)"><i
                       class="bi bi-pencil-square"></i></button>
-                    <button href="#" class="btn btn-danger float-right btn-rounded"
+                    <button href="#" style="padding: 2px 5px" class="btn btn-danger float-right btn-rounded"
                             (click)="deleteMedicalProcedure(s.mp_id)">
                       <!--data-bs-toggle="modal" data-bs-target="#delete_service"--> <i
                       class="bi bi-trash"></i></button>
@@ -267,9 +107,6 @@
         </div>
       </div>
 
-    </main>
-  </div>
-</div>
 <app-popup-add-group-service [medicalProcedureGroups]="medicalProcedureGroups"></app-popup-add-group-service>
 <app-popup-delete-group-service></app-popup-delete-group-service>
 <app-popup-add-service [medicalProcedureList]="medicalProcedureList" [medicalProcedureGroups] = "medicalProcedureGroups" ></app-popup-add-service>

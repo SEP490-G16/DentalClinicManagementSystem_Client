@@ -1,292 +1,39 @@
-<!--<div class="page-wrapper bg-wrapper">
-  <div class="content">
-    <div class="buy-form">
-      <div class="row">
-        <div class="col-md-2">
-          <a routerLink="/admin/material" class="page-title">Quản lý vật liệu</a>
-        </div>
-        <div class="col-md-2">
-          <a routerLink="/admin/material/approve-material" class="page-title">Vật liệu đang chờ duyệt</a>
-        </div>
-        <div class="col-md-2">
-          <a routerLink="/admin/material/import-material" class="page-title">Quản lý nhập</a>
-        </div>
-        <div class="col-md-2">
-          <a routerLink="/admin/material/export-material" class="page-title">Quản lý xuất</a>
-        </div>
-      </div>
-      <div class="row filter-row m-t-30">
-        <div class="col-md-4">
-          <div class="form-group form-group-filter">
-            <button href="add-employee.html" class="btn btn-custom float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus-circle"></i> Thêm mới phiếu
-            </button>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <select class="form-select" aria-label="Default select example">
-            <option selected>Chọn người nhập</option>
-          </select>
-        </div>
-        <div class="col-sm-6 col-md-3">
-          &lt;!&ndash;<div class="row row-date">
-            <div class="col-md-4">
-              <label class="focus-label p-2" style="font-weight: bold">Ngày lập</label>
-            </div>
-            <div class="col-md-8">
-              <input type="date" class="form-control">
-            </div>
-          </div>&ndash;&gt;
-          <div class="input-group">
-            <input
-              class="form-control"
-              placeholder="Ngày lập"
-              name="dp"
-              [(ngModel)]="model"
-              ngbDatepicker
-              #d="ngbDatepicker"
-            />
-            <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
-          </div>
-        </div>
 
-
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="table-responsive">
-            <table class="table table-bordered text-center rounded-3 overflow-hidden">
-              <thead>
-              <tr>
-                <th>#</th>
-                <th>Ngày lập phiếu</th>
-                <th>Người lập</th>
-                <th>Ghi chú</th>
-                <th style="min-width: 200px">Tổng tiền</th>
-                <th class="text-center">Thao tác</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-                <td></td>
-                <td><a href="#" data-bs-toggle="modal" data-bs-target="#detailModal">10/10/2023</a></td>
-                <td>Nguyễn Văn A</td>
-                <td>abc</td>
-                <td>25.000.000</td>
-                <td class="text-center">
-                  <button href="#" class="btn btn-primary float-right btn-rounded"><i class="bi bi-pencil-square"></i></button>
-                  <button href="#" class="btn btn-danger float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#delete_bill_import"><i class="bi bi-trash"></i></button>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
 
-<div class="web-wrapper">
-  <div class="container-custom">
-    <!-- Sidebar Section -->
-    <aside>
-
-      <div class="sidebar">
-
-        <div class="toggle">
-          <div class="logo">
-            <img
-              src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
-            <p><span class="danger">Nguyen Tran</span> Clinic</p>
-          </div>
-          <div class="close" id="close-btn">
-            <span class="material-icons-sharp">
-              close
-            </span>
-          </div>
-        </div>
-
-        <a routerLink="/admin/appointment">
-          <span class="material-icons-sharp">
-            dashboard
-          </span>
-          <h3>Lịch hẹn</h3>
-        </a>
-        <a routerLink="/receptionist/waitingroom">
-          <span class="material-icons-sharp">
-            person_outline
-          </span>
-          <h3>Thủ thuật</h3>
-        </a>
-        <a routerLink="/patient/records">
-          <span class="material-icons-sharp">
-            receipt_long
-          </span>
-          <h3>Bệnh nhân</h3>
-        </a>
-        <a routerLink="/receptionist/timekeeping">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Bảng theo dõi chấm công</h3>
-        </a>
-        <a routerLink="/receptionist/timekeeping">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Nhân viên</h3>
-        </a>
-        <a routerLink="/receptionist/timekeeping" class="active">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Labo</h3>
-        </a>
-        <a routerLink="/admin/specimens">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Mẫu</h3>
-        </a>
-        <a routerLink="/receptionist/timekeeping">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Vật liệu</h3>
-        </a>
-        <a routerLink="/receptionist/timekeeping">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Thuốc</h3>
-        </a>
-        <a routerLink="/receptionist/timekeeping">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Cơ sở</h3>
-        </a>
-        <!--<a (click)="signOut()" style="cursor:pointer;">
-          <span class="material-icons-sharp">
-            logout
-          </span>
-          <h3>Logout</h3>
-        </a>-->
-      </div>
-    </aside>
-    <!-- End of Sidebar Section -->
-
-    <!-- Main Content -->
-    <main>
-      <!-- Analyses -->
-      <div class="analyse">
-        <div class="sales">
-          <div class="status">
-            <div class="info">
-              <h3>Lịch hẹn</h3>
-              <h1 class="text-center">02</h1>
-            </div>
-            <div class="progresss">
-              <svg>
-                <circle cx="38" cy="38" r="36"></circle>
-              </svg>
-              <div class="percentage">
-                <i class="bi bi-calendar3"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="visits">
-          <div class="status">
-            <div class="info">
-              <h3>Phòng chờ</h3>
-              <h1 class="text-center">24</h1>
-            </div>
-            <div class="progresss">
-              <svg>
-                <circle cx="38" cy="38" r="36"></circle>
-              </svg>
-              <div class="percentage">
-                <i class="bi bi-houses"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="searches">
-          <div class="status">
-            <div class="info">
-              <h3>Bệnh nhân</h3>
-              <h1 class="text-center">23</h1>
-            </div>
-            <div class="progresss">
-              <svg>
-                <circle cx="38" cy="38" r="36"></circle>
-              </svg>
-              <div class="percentage">
-                <i class="bi bi-person-standing"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="profile">
-          <div class="icon">
-
-          </div>
-          <div class="info">
-            <p>Xin chào, <b>Long</b></p>
-            <small class="text-muted">Admin</small>
-          </div>
-          <div class="profile-photo">
-            <img src="../../../../assets/img/person.png">
-          </div>
-        </div>
-      </div>
-
-      <!-- Analyses -->
-      <!-- End of Analyses -->
-
-      <!-- New Users Section -->
-      <!-- End of New Users Section -->
-
-      <!-- Recent Orders Table -->
-      <div class="recent-orders">
+<div class="recent-orders">
         <section class="table__header">
           <h1></h1>
           <div class="export__file">
           </div>
         </section>
         <div class="row">
-          <div class="col-md-2">
-            <a routerLink="/admin/material" class="page-title">Quản lý vật liệu</a>
+          <div class="col-md-2 col-xl-1">
+            <a routerLink="/admin/vat-lieu" class="page-title">Quản lý vật liệu</a>
           </div>
-          <div class="col-md-2">
-            <a routerLink="#" class="page-title" >Quản lý kho</a>
+          <div class="col-md-2 col-xl-1" style="margin-left: 10px">
+            <a routerLink="/admin/vat-lieu/quan-ly-nhap" class="page-title" >Quản lý nhập</a>
           </div>
-          <div class="col-md-2">
-            <a routerLink="/admin/material/import-material" class="page-title" >Quản lý nhập</a>
-          </div>
-          <div class="col-md-2">
+         <!-- <div class="col-md-2">
             <a routerLink="/admin/material/export-material" class="page-title">Quản lý xuất</a>
-          </div>
+          </div>-->
         </div>
         <!--<h2 class="text-center mt-3" style="font-family: Agbalumo; font-size: 29px;">Quản lý nhập</h2>-->
         <div class="row filter-row m-t-30">
-          <div class="col-md-3">
+          <div class="col-md-3 col-xl-2">
             <div class="form-group form-group-filter">
               <button href="add-employee.html" class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus-circle"></i> Thêm mới phiếu
               </button>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-3 col-xl-2">
             <select class="form-select" aria-label="Default select example" style="padding: 10px;">
               <option selected>Chọn người nhập</option>
             </select>
           </div>
-          <div class="col-sm-6 col-md-3">
+          <div class="col-sm-6 col-md-3 col-xl-2">
             <div class="input-group" style="margin-left: 15px">
               <input
                 class="form-control"
@@ -304,9 +51,9 @@
 
         </div>
 
-        <div style="overflow-y: auto; height: 500px;">
+        <div class="table-container">
           <table>
-            <thead>
+            <thead class="sticky-thead">
             <tr>
             <tr>
               <th style="padding-top: 10px;padding-bottom: 10px;">#</th>
@@ -332,20 +79,11 @@
             </tbody>
           </table>
         </div>
-        <div class="row mt-5" style="float:right;">
+        <div class="row mt-2" style="float:left;">
           <ngb-pagination [collectionSize]="pagingBill.total" [(page)]="pagingBill.paging" [boundaryLinks]="true"  (pageChange)="pageChanged($event)"></ngb-pagination>
         </div>
       </div>
-      <!-- End of Recent Orders -->
 
-    </main>
-    <!-- End of Main Content -->
-
-
-
-  </div>
-
-</div>
 <app-popup-add-bill-import-material></app-popup-add-bill-import-material>
 <app-popup-detail-bill-import-material></app-popup-detail-bill-import-material>
 <app-popup-delete-bill-import-material></app-popup-delete-bill-import-material>

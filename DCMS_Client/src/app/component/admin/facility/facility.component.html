@@ -1,57 +1,55 @@
-<div class="page-wrapper bg-wrapper">
-  <div class="content">
-    <div class="buy-form">
-      <div class="row">
-        <div class="col-md-2">
-          <a href="#" class="page-title">Quản lý cơ sở </a>
-        </div>
-        <div class="col-md-2">
-          <a href="#" class="page-title">Thống kê</a>
-        </div>
-      </div>
-      <div class="row filter-row m-t-30">
-        <div class="col-sm-6 col-md-3">
-          <div class="form-group form-group-filter">
-            <button href="#" class="btn btn-custom float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus-circle"></i> Thêm cơ sở
-              </button>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="table-responsive">
-            <table class="table table-bordered text-center rounded-3 overflow-hidden">
-              <thead>
-              <tr>
-                <th>Mã cơ sở</th>
-                <th>Cơ sở</th>
-                <th>Người đại diện</th>
-                <th>SĐT Phòng khám</th>
-                <th>SĐT Người đại diện</th>
-                <th>Địa chỉ</th>
-                <th class="text-center">Thao tác</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr *ngFor="let f of facilityList">
-                <td>{{f.facility_id}}</td>
-                <td><h2>{{f.name}}</h2></td>
-                <td>{{f.manager_name}}</td>
-                <td>{{f.facility_phone_number}}</td>
-                <td>{{f.manager_phone_number}}</td>
-                <td>{{f.address}}</td>
-                <td class="text-center">
-                  <button href="#" class="btn btn-primary float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#editFacilityModal" (click)="openEditFacility(f)"><i class="bi bi-pencil-square"></i></button>
-                  <button href="#" class="btn btn-danger float-right btn-rounded" (click)="deleteFacility(f.facility_id)"><i class="bi bi-trash"></i></button>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+
+<div class="recent-orders">
+  <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px;">Cơ sở</h2>
+  <div class="row">
+  <div class="col-md-2 col-xl-1">
+    <a routerLink="/admin/co-so" class="page-title">Quản lý cơ sở </a>
+  </div>
+  <div class="col-md-2 col-xl-1">
+    <a href="#" class="page-title">Thống kê</a>
+  </div>
+</div>
+<div class="row filter-row m-t-30">
+  <div class="col-sm-6 col-md-3">
+    <div class="form-group form-group-filter">
+      <button href="#" class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus-circle"></i> Thêm cơ sở
+      </button>
     </div>
   </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="table-container">
+      <table>
+        <thead class="sticky-thead">
+        <tr>
+          <th>Mã cơ sở</th>
+          <th>Cơ sở</th>
+          <th>Người đại diện</th>
+          <th>SĐT Phòng khám</th>
+          <th>SĐT Người đại diện</th>
+          <th>Địa chỉ</th>
+          <th class="text-center">Thao tác</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let f of facilityList">
+          <td>{{f.facility_id}}</td>
+          <td><h2>{{f.name}}</h2></td>
+          <td>{{f.manager_name}}</td>
+          <td>{{f.facility_phone_number}}</td>
+          <td>{{f.manager_phone_number}}</td>
+          <td>{{f.address}}</td>
+          <td class="text-center">
+            <button href="#" class="btn btn-primary float-right btn-rounded" style="padding: 2px 3px;margin-right: 3px" data-bs-toggle="modal" data-bs-target="#editFacilityModal" (click)="openEditFacility(f)"><i class="bi bi-pencil-square"></i></button>
+            <button href="#" class="btn btn-danger float-right btn-rounded" style="padding: 2px 3px" (click)="deleteFacility(f.facility_id)"><i class="bi bi-trash"></i></button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 </div>
 <app-popup-add-facility [facilityList] = "facilityList"></app-popup-add-facility>
 <app-popup-delete-facility></app-popup-delete-facility>

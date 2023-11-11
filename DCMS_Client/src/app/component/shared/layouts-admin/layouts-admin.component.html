@@ -1,0 +1,120 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
+
+<div class="web-wrapper">
+  <div class="container-custom">
+    <!-- Sidebar Section -->
+    <aside>
+
+      <div class="sidebar">
+        <div class="toggle">
+          <div class="logo">
+            <img
+              src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
+            <p><span class="danger">Nguyen Tran</span> Clinic</p>
+          </div>
+          <div class="close" id="close-btn">
+            <span class="material-icons-sharp">
+              close
+            </span>
+          </div>
+        </div>
+        <a routerLink="/admin/appointment">
+          <span class="material-icons-sharp">
+            dashboard
+          </span>
+          <h3>Lịch hẹn</h3>
+        </a>
+        <a routerLink="/admin/thu-thuat">
+          <span class="material-icons-sharp">
+            person_outline
+          </span>
+          <h3>Thủ thuật</h3>
+        </a>
+        <a routerLink="/patient/records">
+          <span class="material-icons-sharp">
+            receipt_long
+          </span>
+          <h3>Bệnh nhân</h3>
+        </a>
+        <a routerLink="/admin/theo-doi-cham-cong">
+          <span class="material-icons-sharp">
+            insights
+          </span>
+          <h3>Bảng theo dõi chấm công</h3>
+        </a>
+        <a routerLink="/admin/nhan-vien">
+          <span class="material-icons-sharp">
+            insights
+          </span>
+          <h3>Nhân viên</h3>
+        </a>
+        <a routerLink="/admin/labo" class="active">
+          <span class="material-icons-sharp">
+            insights
+          </span>
+          <h3>Labo</h3>
+        </a>
+        <a routerLink="/admin/mau">
+          <span class="material-icons-sharp">
+            insights
+          </span>
+          <h3>Mẫu</h3>
+        </a>
+        <a routerLink="/admin/vat-lieu">
+          <span class="material-icons-sharp">
+            insights
+          </span>
+          <h3>Vật liệu</h3>
+        </a>
+        <a routerLink="/admin/thuoc">
+          <span class="material-icons-sharp">
+            insights
+          </span>
+          <h3>Thuốc</h3>
+        </a>
+        <a routerLink="/admin/co-so">
+          <span class="material-icons-sharp">
+            insights
+          </span>
+          <h3>Cơ sở</h3>
+        </a>
+        <a (click)="signOut()" style="cursor:pointer;">
+          <span class="material-icons-sharp">
+            logout
+          </span>
+          <h3>Logout</h3>
+        </a>
+      </div>
+    </aside>
+    <!-- End of Sidebar Section -->
+
+    <!-- Main Content -->
+    <main>
+      <!-- Analyses -->
+      <div class="analyse">
+        <div class="profile">
+          <div class="icon">
+
+          </div>
+          <div class="info">
+            <p>Xin chào, <b>Linh</b></p>
+            <small class="text-muted">Lễ tân</small>
+          </div>
+          <div class="profile-photo">
+            <img src="../../../../assets/img/person.png">
+          </div>
+        </div>
+      </div>
+
+
+      <router-outlet></router-outlet>
+      <app-chat></app-chat>
+
+    </main>
+    <!-- End of Main Content -->
+
+  </div>
+</div>
+

@@ -337,15 +337,15 @@ main .new-users .user-list .user img {
   border-radius: 50%;
 }
 
-main .recent-orders {
+.recent-orders {
   margin-top: 1.3rem;
 }
 
-main .recent-orders h2 {
+.recent-orders h2 {
   margin-bottom: 0.8rem;
 }
 
-main .recent-orders table {
+.recent-orders table {
   background-color: var(--custom-color-white);
   width: 100%;
   padding: var(--custom-card-padding);
@@ -355,25 +355,25 @@ main .recent-orders table {
   transition: all 0.3s ease;
 }
 
-main .recent-orders table:hover {
+.recent-orders table:hover {
   box-shadow: none;
 }
 
-main table thead th {
+table thead th {
   height: 2.8rem;
   color: var(--custom-color-dark-variant);
 }
 
-main table tbody td {
+table tbody td {
   height: 2.8rem;
   color: var(--custom-color-dark-variant);
 }
 
-main table tbody tr:last-child td {
+table tbody tr:last-child td {
   border: none;
 }
 
-main .recent-orders a {
+.recent-orders a {
   text-align: center;
   display: block;
   margin: 1rem auto;
@@ -434,7 +434,7 @@ main .recent-orders a {
     flex-basis: 40%;
   }
 
-  main .recent-orders {
+.recent-orders {
     width: 94%;
     position: absolute;
     left: 50%;
@@ -442,17 +442,17 @@ main .recent-orders a {
     margin: 2rem 0 0 0.8rem;
   }
 
-  main .recent-orders table {
+.recent-orders table {
     width: 83vw;
   }
 
-  main table thead tr th:last-child,
-  main table thead tr th:first-child {
+table thead tr th:last-child,
+table thead tr th:first-child {
     display: none;
   }
 
-  main table tbody tr td:last-child,
-  main table tbody tr td:first-child {
+table tbody tr td:last-child,
+table tbody tr td:first-child {
     display: none;
   }
 
@@ -519,13 +519,13 @@ main .recent-orders a {
     flex-basis: 35%;
   }
 
-  main .recent-orders {
+.recent-orders {
     position: relative;
     margin: 3rem 0 0 0;
     width: 100%;
   }
 
-  main .recent-orders table {
+.recent-orders table {
     width: 100%;
     margin: 0;
   }

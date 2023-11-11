@@ -5,6 +5,7 @@ import { ChatComponent } from './component/chat/chat.component';
 import { RegisterWorkScheduleComponent } from './component/shared/register-work-schedule/register-work-schedule.component';
 import { ProfilePersonalComponent } from './component/shared/profile-personal/profile-personal.component';
 import {ConfirmAppointmentComponent} from "./component/confirm-appointment/confirm-appointment.component";
+import {LayoutsAdminComponent} from "./component/shared/layouts-admin/layouts-admin.component";
 
 const routes: Routes = [
   {
@@ -30,6 +31,14 @@ const routes: Routes = [
       },
     ]
   },
+  {path:'admin',component:LayoutsAdminComponent,children:[
+      {
+        path: '',
+        loadChildren: () => import('./component/admin/admin.module').then(m => m.AdminModule)
+      },
+    ]},
+
+
   {
     path:"suahoso",
     component: ProfilePersonalComponent
@@ -42,10 +51,7 @@ const routes: Routes = [
     path:'chat',
     component: ChatComponent
   },
-  {
-    path: 'admin',
-    loadChildren: () => import('./component/admin/admin.module').then(m => m.AdminModule)
-  },
+
   {
     path: 'dangnhap',
     loadChildren: () => import('./component/auth/auth.module').then(m => m.AuthModule)

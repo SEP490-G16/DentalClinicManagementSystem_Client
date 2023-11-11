@@ -221,13 +221,13 @@ aside .sidebar .message-count {
   margin-top: 1.4rem;
 } */
 
-main .analyse {
+.analyse {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.6rem;
 }
 
-main .analyse>div {
+.analyse>div {
   background-color: var(--custom-color-white);
   padding: var(--custom-card-padding);
   border-radius: var(--custom-card-border-radius);
@@ -237,59 +237,59 @@ main .analyse>div {
   transition: all 0.3s ease;
 }
 
-main .analyse>div:hover {
+.analyse>div:hover {
   box-shadow: none;
 }
 
-main .analyse>div .status {
+.analyse>div .status {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-main .analyse h3 {
+.analyse h3 {
   margin-left: 0.8rem;
   font-size: .8rem;
 }
 
-main .analyse .progresss {
+.analyse .progresss {
   position: relative;
   width: 92px;
   height: 92px;
   border-radius: 50%;
 }
 
-main .analyse svg {
+.analyse svg {
   width: 7rem;
   height: 7rem;
 }
 
-main .analyse svg circle {
+.analyse svg circle {
   fill: none;
   stroke-width: 10;
   stroke-linecap: round;
   transform: translate(5px, 5px);
 }
 
-main .analyse .sales svg circle {
+.analyse .sales svg circle {
   stroke: #0085a1;
   stroke-dashoffset: -30;
   stroke-dasharray: 200;
 }
 
-main .analyse .visits svg circle {
+.analyse .visits svg circle {
   stroke: 	#d67e73;
   stroke-dashoffset: -30;
   stroke-dasharray: 200;
 }
 
-main .analyse .searches svg circle {
+.analyse .searches svg circle {
   stroke: #f6e5e3;
   stroke-dashoffset: -30;
   stroke-dasharray: 200;
 }
 
-main .analyse .progresss .percentage {
+.analyse .progresss .percentage {
   position: absolute;
   top: -3px;
   left: -1px;
@@ -301,11 +301,11 @@ main .analyse .progresss .percentage {
   font-size: 2rem;
 }
 
-main .new-users {
+.new-users {
   margin-top: 1.3rem;
 }
 
-main .new-users .user-list {
+.new-users .user-list {
   background-color: var(--custom-color-white);
   padding: var(--custom-card-padding);
   border-radius: var(--custom-card-border-radius);
@@ -319,33 +319,33 @@ main .new-users .user-list {
   transition: all 0.3s ease;
 }
 
-main .new-users .user-list:hover {
+.new-users .user-list:hover {
   box-shadow: none;
 }
 
-main .new-users .user-list .user {
+.new-users .user-list .user {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-main .new-users .user-list .user img {
+.new-users .user-list .user img {
   width: 5rem;
   height: 5rem;
   margin-bottom: 0.4rem;
   border-radius: 50%;
 }
 
-main .recent-orders {
+.recent-orders {
   margin-top: 1.3rem;
 }
 
-main .recent-orders h2 {
+.recent-orders h2 {
   margin-bottom: 0.8rem;
 }
 
-main .recent-orders table {
+.recent-orders table {
   background-color: var(--custom-color-white);
   width: 100%;
   padding: var(--custom-card-padding);
@@ -355,25 +355,25 @@ main .recent-orders table {
   transition: all 0.3s ease;
 }
 
-main .recent-orders table:hover {
+.recent-orders table:hover {
   box-shadow: none;
 }
 
-main table thead th {
+table thead th {
   height: 2.8rem;
   color: var(--custom-color-dark-variant);
 }
 
-main table tbody td {
+table tbody td {
   height: 2.8rem;
   color: var(--custom-color-dark-variant);
 }
 
-main table tbody tr:last-child td {
+table tbody tr:last-child td {
   border: none;
 }
 
-main .recent-orders a {
+.recent-orders a {
   text-align: center;
   display: block;
   margin: 1rem auto;
@@ -434,7 +434,7 @@ main .recent-orders a {
     flex-basis: 40%;
   }
 
-  main .recent-orders {
+.recent-orders {
     width: 94%;
     position: absolute;
     left: 50%;
@@ -442,17 +442,17 @@ main .recent-orders a {
     margin: 2rem 0 0 0.8rem;
   }
 
-  main .recent-orders table {
+.recent-orders table {
     width: 83vw;
   }
 
-  main table thead tr th:last-child,
-  main table thead tr th:first-child {
+table thead tr th:last-child,
+table thead tr th:first-child {
     display: none;
   }
 
-  main table tbody tr td:last-child,
-  main table tbody tr td:first-child {
+table tbody tr td:last-child,
+table tbody tr td:first-child {
     display: none;
   }
 
@@ -525,7 +525,7 @@ main .recent-orders a {
     width: 100%;
   }
 
-  main .recent-orders table {
+.recent-orders table {
     width: 100%;
     margin: 0;
   }

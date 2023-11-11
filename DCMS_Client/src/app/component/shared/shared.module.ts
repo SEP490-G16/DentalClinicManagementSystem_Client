@@ -10,6 +10,7 @@ import { RegisterWorkScheduleComponent } from './register-work-schedule/register
 import { AppModule } from 'src/app/app.module';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import {ChatComponent} from "../chat/chat.component";
+import { LayoutsAdminComponent } from './layouts-admin/layouts-admin.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import {ChatComponent} from "../chat/chat.component";
     LayoutsComponent,
     ChatComponent,
     ProfilePersonalComponent,
+    LayoutsAdminComponent,
   ],
   imports: [
     CommonModule,

@@ -2,9 +2,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
 
-<div class="web-wrapper">
+<!--<div class="web-wrapper">
   <div class="container-custom">
-    <!-- Sidebar Section -->
+    &lt;!&ndash; Sidebar Section &ndash;&gt;
     <aside>
 
       <div class="sidebar">
@@ -40,7 +40,7 @@
           </span>
           <h3>Bệnh nhân</h3>
         </a>
-        <a routerLink="/receptionist/timekeeping">
+        <a routerLink="/admin/theo-doi-cham-cong">
           <span class="material-icons-sharp">
             insights
           </span>
@@ -90,13 +90,13 @@
         </a>
       </div>
     </aside>
-    <!-- End of Sidebar Section -->
+    &lt;!&ndash; End of Sidebar Section &ndash;&gt;
 
-    <!-- Main Content -->
+    &lt;!&ndash; Main Content &ndash;&gt;
     <main>
-      <!-- Analyses -->
-      <!--<div class="analyse">
-        <div class="sales">
+      &lt;!&ndash; Analyses &ndash;&gt;
+      <div class="analyse">
+        &lt;!&ndash;<div class="sales">
           <div class="status">
             <div class="info">
               <h3>Lịch hẹn</h3>
@@ -143,7 +143,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div>&ndash;&gt;
 
         <div class="profile">
           <div class="icon">
@@ -172,8 +172,8 @@
           <div class="export__file">
           </div>
         </section>
-
-        <div class="row mt-5 mb-5">
+        <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px;">Labo</h2>
+        <div class="row mt-5">
           <div class="col-6">
             <div class="form-group form-group-filter">
               <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myModal"><i
@@ -182,7 +182,6 @@
             </div>
           </div>
         </div>
-        <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px;">Labo</h2>
         <div style="overflow-y: auto; height: 500px;">
           <table>
             <thead>
@@ -203,10 +202,10 @@
                 <td>{{labo.phone_number}}</td>
                 <td>{{labo.email}}</td>
                 <td>
-                  <button class="btn button-cus p-1 m-r-3" data-bs-toggle="modal" data-bs-target="#myEditModal"
+                  <button class="btn btn-primary p-1 m-r-3" style="padding: 2px 3px; margin-right: 3px" data-bs-toggle="modal" data-bs-target="#myEditModal"
                     (click)="openEditModal(labo)">
                     <i class="bi bi-pencil-square"></i></button>
-                  <button class="btn button-cus p-1"
+                  <button class="btn btn-danger p-1" style="padding: 2px 5px"
 
                   (click)="deleteLabo(labo.labo_id)"> <i
                       class="bi bi-trash"></i></button>
@@ -219,14 +218,14 @@
       </div>
       <!-- End of Recent Orders -->
 
-    </main>
-    <!-- End of Main Content -->
+    <!--</main>
+    &lt;!&ndash; End of Main Content &ndash;&gt;
 
 
 
   </div>
 
-</div>
+</div>-->
 
 <app-popup-add-labo></app-popup-add-labo>
 <app-popup-edit-labo [LaboEdit]="LaboEdit"></app-popup-edit-labo>
