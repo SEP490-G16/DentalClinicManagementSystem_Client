@@ -17,6 +17,7 @@ import {
 import {
   WarehouseExportMaterialManagementComponent
 } from "./warehouse-export-material-management/warehouse-export-material-management.component";
+import {FollowingTimekeepingComponent} from "./following-timekeeping/following-timekeeping.component";
 
 
 const adminRoutes: Routes = [
@@ -38,7 +39,8 @@ const adminRoutes: Routes = [
       {path: '', component: StaffComponent},
       {path: 'chi-tiet-nhan-vien', component: StaffDetailComponent}
     ]
-  }
+  },
+  {path:'theo-doi-cham-cong',component:FollowingTimekeepingComponent}
 ]
 
 @NgModule({
