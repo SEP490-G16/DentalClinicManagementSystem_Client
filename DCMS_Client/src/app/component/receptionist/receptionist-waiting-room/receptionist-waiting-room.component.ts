@@ -16,7 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 export class ReceptionistWaitingRoomComponent implements OnInit {
 
   waitingRoomData: any;
-
+  loading:boolean = false;
   procedure: string = '0';
 
   status: string = '1';

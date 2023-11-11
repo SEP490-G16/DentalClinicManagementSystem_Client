@@ -22,6 +22,9 @@ import {
 })
 
 export class PopupEditAppointmentComponent implements OnInit, OnChanges {
+
+  loading:boolean = false;
+
   @Input() selectedAppointment: any;
   @Input() dateString: any;
   @Input() timeString: any;

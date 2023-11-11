@@ -6,7 +6,6 @@ import { RegisterWorkScheduleComponent } from './component/shared/register-work-
 import { ProfilePersonalComponent } from './component/shared/profile-personal/profile-personal.component';
 import {ConfirmAppointmentComponent} from "./component/confirm-appointment/confirm-appointment.component";
 import {LayoutsAdminComponent} from "./component/shared/layouts-admin/layouts-admin.component";
-import { ConfirmAppointmentComponent } from "./component/confirm-appointment/confirm-appointment.component";
 import { AuthGuard } from './service/auth-guard.service';
 
 

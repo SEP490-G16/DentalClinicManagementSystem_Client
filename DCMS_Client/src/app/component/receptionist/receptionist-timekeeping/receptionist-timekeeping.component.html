@@ -1,5 +1,8 @@
+<div *ngIf="loading" class="loading-overlay">
+  <div class="loading-spinner"></div>
+</div>
+
 <div class="recent-orders">
-  <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px;">Chấm công</h2>
   <div class="row mt-5">
     <div class="col-6">
     </div>
@@ -14,8 +17,9 @@
 
   </div>
 
-  <table class="table table-bordered custom-table">
-    <thead>
+  <div class="table-container">
+    <table>
+      <thead class="sticky-thead">
       <tr class="text-center">
         <th>Tên nhân viên</th>
         <th colspan="2">Thứ 2</th>

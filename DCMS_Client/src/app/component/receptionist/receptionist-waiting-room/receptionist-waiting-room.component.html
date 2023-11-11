@@ -1,8 +1,9 @@
-
-
-      <!-- Recent Orders Table -->
-      <div class="recent-orders">
-        <!-- <section class="table__header">
+<!-- Recent Orders Table -->
+<div *ngIf="loading" class="loading-overlay">
+  <div class="loading-spinner"></div>
+</div>
+<div class="recent-orders">
+  <!-- <section class="table__header">
           <h1></h1>
           <div class="input-group">
             <input type="search search-custom" placeholder="Tìm kiếm theo tên, mã bệnh nhân...">
@@ -10,60 +11,59 @@
           <div class="export__file">
           </div>
         </section> -->
-        <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px;">Phòng chờ</h2>
-        <div class="row mt-5 mb-5">
-          <div class="col-6">
-            <button class="btn button-timekeeping" style="margin-right: 30px;" data-bs-toggle="modal"
-              data-bs-target="#wrModal"><i class="bi bi-plus-circle"></i>
-              Thêm hàng chờ</button>
-            <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myModal"><i
-                class="bi bi-plus-circle"></i> Thêm
-              bệnh nhân</button>
-          </div>
-          <div class="col-6">
-            <select class="form-select input-custom float-end" aria-label="Default select example"
-              [(ngModel)]="procedure" (change)="filterProcedure()">
-              <option selected value="0">Tất cả loại điều trị</option>
-              <option value="1">Cạo vôi răng</option>
-              <option value="2">Niềng răng</option>
-              <option value="3">Nhổ răng</option>
+  <div class="row mt-5 mb-5">
+    <div class="col-6">
+      <button class="btn button-timekeeping" style="margin-right: 30px;" data-bs-toggle="modal"
+        data-bs-target="#wrModal"><i class="bi bi-plus-circle"></i>
+        Thêm hàng chờ</button>
+      <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myModal"><i
+          class="bi bi-plus-circle"></i> Thêm
+        bệnh nhân</button>
+    </div>
+    <div class="col-6">
+      <select class="form-select input-custom float-end" aria-label="Default select example" [(ngModel)]="procedure"
+        (change)="filterProcedure()">
+        <option selected value="0">Tất cả loại điều trị</option>
+        <option value="1">Cạo vôi răng</option>
+        <option value="2">Niềng răng</option>
+        <option value="3">Nhổ răng</option>
+      </select>
+    </div>
+  </div>
+  <div class="table-container">
+    <table>
+      <thead class="sticky-thead">
+        <tr>
+          <th>STT</th>
+          <th>Mã bệnh nhân</th>
+          <th>Tên bệnh nhân</th>
+          <th>Lý do khám</th>
+          <th>Loại điều trị</th>
+          <th>Trạng thái</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let wtr of filteredWaitingRoomData; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ wtr.patient_id }}</td>
+          <td>{{ wtr.patient_name }}</td>
+          <td>{{ wtr.reason }}</td>
+          <td>{{ wtr.produce }}</td>
+          <td>
+            <select class="text-center" [(ngModel)]="wtr.status" (change)="onPutStatus(wtr, wtr.epoch)">
+              <option value="1">Đang chờ</option>
+              <option value="2">Đang khám</option>
+              <option value="3">Khám xong</option>
+              <option value="4">Xóa hàng chờ</option>
             </select>
-          </div>
-        </div>
-        <div class="table-container">
-          <table>
-            <thead class="sticky-thead">
-            <tr>
-              <th>STT</th>
-              <th>Mã bệnh nhân</th>
-              <th>Tên bệnh nhân</th>
-              <th>Lý do khám</th>
-              <th>Loại điều trị</th>
-              <th>Trạng thái</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let wtr of filteredWaitingRoomData; let i = index">
-              <td>{{ i + 1 }}</td>
-              <td>{{ wtr.patient_id }}</td>
-              <td>{{ wtr.patient_name }}</td>
-              <td>{{ wtr.reason }}</td>
-              <td>{{ wtr.produce }}</td>
-              <td>
-                <select class="text-center" [(ngModel)]="wtr.status" (change)="onPutStatus(wtr, wtr.epoch)">
-                  <option value="1">Đang chờ</option>
-                  <option value="2">Đang khám</option>
-                  <option value="3">Khám xong</option>
-                  <option value="4">Xóa hàng chờ</option>
-                </select>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-      </div>
-      <!-- End of Recent Orders -->
+</div>
+<!-- End of Recent Orders -->
 
 
 

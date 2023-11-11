@@ -13,7 +13,7 @@ import { CognitoService } from 'src/app/service/cognito.service';
   styleUrls: ['./receptionist-timekeeping.component.css']
 })
 export class ReceptionistTimekeepingComponent implements OnInit {
-
+  loading: boolean = false;
   Body: RequestBodyTimekeeping;
   Staff: Staff[] = [{
     name: 'Trần Văn Thế',
@@ -94,12 +94,19 @@ export class ReceptionistTimekeepingComponent implements OnInit {
 
   timekeepingOnWeeks: any
   getTimekeeping() {
+    this.loading = true;
     this.timekeepingService.getTimekeeping(this.currentDateTimeStamp, this.currentDateTimeStamp)
       .subscribe(data => {
+        this.loading = false;
         // this.timekeepingOnWeeks = ConvertJson.processApiResponse(data);
         this.timekeepingOnWeeks = data;
         console.log("this.timekeepingOnWeeks ", this.timekeepingOnWeeks);
-      })
+      },
+        (err) => {
+          this.loading = false;
+
+        }
+      )
   }
 
   StaffFilter: any;
@@ -117,6 +124,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
 
   //Thời gian vào làm: 16:00
   onClockin(staff: Staff) {
+    this.loading = true;
     this.Body.epoch = this.currentDateTimeStamp;
     this.Body.clock_in = this.currentTimeTimeStamp;
     this.Body.sub_id = staff.sub;
@@ -137,8 +145,12 @@ export class ReceptionistTimekeepingComponent implements OnInit {
         staff.isClockin = true;
         staff.clockInStatus = "Đã chấm"
         staff.timeClockin = this.currentTimeGMT7;
+
+        this.loading = false;
+
       },
         (err) => {
+          this.loading = false;
           this.showErrorToast(err.error);
         }
       )
@@ -147,6 +159,8 @@ export class ReceptionistTimekeepingComponent implements OnInit {
   //Thời gian tan làm 20:00
   timeClockoutColor: string = "onTime";
   onClockout(staff: Staff) {
+    this.loading = true;
+
     staff.isClockout = !staff.isClockout;
     console.log("Clockout: ", staff.isClockout);
 
@@ -163,11 +177,13 @@ export class ReceptionistTimekeepingComponent implements OnInit {
         .subscribe((res) => {
           this.showSuccessToast("Chấm công về thành công");
           //Set time Clockout
+          this.loading = false;
           console.log("Body clockout", this.Body);
           staff.clockOutStatus = "Đã chấm"
           staff.timeClockout = this.currentTimeGMT7;
         },
           (err) => {
+            this.loading = false;
             this.showErrorToast(err.error);
           }
         )
@@ -176,6 +192,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
       this.Body.clock_out = 0;
       this.timekeepingService.postTimekeeping(this.Body)
         .subscribe((res) => {
+          this.loading = false;
           this.showSuccessToast("Hủy chấm thành công");
           //Set time Clockout
           console.log("Cancel clockout", this.Body);
@@ -183,6 +200,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
           staff.timeClockout = "";
         },
           (err) => {
+            this.loading = false;
             this.showErrorToast(err.error);
           }
         )

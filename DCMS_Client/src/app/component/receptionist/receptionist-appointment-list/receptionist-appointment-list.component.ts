@@ -18,6 +18,9 @@ import {WebsocketService} from "../../../service/Chat/websocket.service";
   styleUrls: ['./receptionist-appointment-list.component.css']
 })
 export class ReceptionistAppointmentListComponent implements OnInit {
+
+  loading:boolean = false;
+
   model!: NgbDateStruct;
   placement = 'bottom';
 
@@ -62,7 +65,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   }
 
   getAppointmentList() {
-
+    this.loading = true;
     // console.log(startDateTimestamp);
     this.startDateTimestamp = this.dateToTimestamp(this.startDate);
     this.appointmentService.getAppointmentList(this.startDateTimestamp, this.endDateTimestamp).subscribe(data => {
@@ -71,7 +74,11 @@ export class ReceptionistAppointmentListComponent implements OnInit {
       console.log("Appointment List: ", this.appointmentList);
       console.log("Filter List: ", this.filteredAppointments);
 
+      this.loading = false;
       this.appointmentDateInvalid();
+    },
+    () => {
+      this.loading = false;
     })
   }
 
@@ -184,12 +191,5 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     return moment(timestamp).tz('Asia/Ho_Chi_Minh').format('DD/MM/YYYY');
   }
 
-
-  signOut() {
-    this.cognitoService.signOut().then(() => {
-      console.log("Logged out!");
-      this.router.navigate(['/dangnhap']);
-    })
-  }
 
 }

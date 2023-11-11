@@ -27,6 +27,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   procedure: string = "1";
   isPatientInfoEditable: boolean = false;
 
+  loading:boolean = false;
 
   @Input() datesDisabled: any;
   AppointmentBody: IAddAppointment;
@@ -177,22 +178,25 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
       .test(number);
   }
   phoneErr: string = "";
+  isPhoneInput:boolean = false;
   onPhoneInput() {
-
+    this.loading = true;
     if (this.AppointmentBody.appointment.phone_number === "") {
       this.phoneErr = "Vui lòng nhập số điện thoại";
     } else if (!this.isVietnamesePhoneNumber(this.AppointmentBody.appointment.phone_number)) {
       this.phoneErr = "Số điện thoại không đúng định dạng. Vui lòng kiểm tra lại";
     } else {
       this.phoneErr = "";
+      this.isPhoneInput = true;
       console.log(this.AppointmentBody.appointment.phone_number);
       this.PATIENT_SERVICE.getPatientPhoneNumber(this.AppointmentBody.appointment.phone_number).subscribe((data) => {
         this.AppointmentBody.appointment.patient_id = data[0].patient_id;
         this.AppointmentBody.appointment.patient_name = data[0].patient_name;
-
+        this.loading = false;
         console.log(data)
       },
         (err) => {
+          this.loading = false;
           this.showErrorToast("Không tìm thấy số điện thoại");
           this.phoneErr = "";
         }
@@ -210,7 +214,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
 
   appointmentDate: string = '';
   onPostAppointment() {
-
+    this.loading = true;
     //Convert model to string
     const selectedYear = this.model.year;
     const selectedMonth = this.model.month.toString().padStart(2, '0'); // Đảm bảo có 2 chữ số
@@ -230,27 +234,33 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     if (!this.AppointmentBody.appointment.procedure) {
       this.validateAppointment.procedure = "Vui lòng chọn loại điều trị!";
       this.isSubmitted = true;
+      this.loading = false;
     }
     if (!this.appointmentTime) {
       this.validateAppointment.appointmentTime = "Vui lòng chọn giờ khám!";
       this.isSubmitted = true;
+      this.loading = false;
     }
     if (!this.appointmentDate) {
       this.validateAppointment.appointmentDate = "Vui lòng chọn ngày khám!";
       this.isSubmitted = true;
+      this.loading = false;
     }
     if (!this.AppointmentBody.appointment.phone_number) {
       this.validateAppointment.phoneNumber = "Vui lòng nhập số điện thoại";
       this.isSubmitted = true;
+      this.loading = false;
     } else if (!this.isVietnamesePhoneNumber(this.AppointmentBody.appointment.phone_number)) {
       this.validateAppointment.phoneNumber = "Số điện thoại không đúng định dạng. Vui lòng kiểm tra lại";
       this.isSubmitted = true;
+      this.loading = false;
     }
     else {
       this.phoneErr = "";
 
       this.APPOINTMENT_SERVICE.postAppointment(this.AppointmentBody).subscribe(
         (response) => {
+          this.loading = false;
           console.log('Lịch hẹn đã được tạo:', response);
           this.showSuccessToast('Lịch hẹn đã được tạo thành công!');
           this.AppointmentBody = {
@@ -271,6 +281,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
           }, 3000);
         },
         (error) => {
+          this.loading = false;
           console.error('Lỗi khi tạo lịch hẹn:', error);
           this.showErrorToast('Lỗi khi tạo lịch hẹn!');
         }

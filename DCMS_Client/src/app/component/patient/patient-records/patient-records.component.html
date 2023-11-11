@@ -1,5 +1,4 @@
 <div class="recent-orders">
-  <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px;">Danh sách bệnh nhân</h2>
   <section class="table__header">
     <div class="col-4">
       <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myBNModal"><i
@@ -49,7 +48,7 @@
     </table>
 
   </div>
-  <div class="row mt-5" style="float:right;">
+  <div class="row mt-4">
     <ngb-pagination [collectionSize]="pagingSearch.total" [(page)]="pagingSearch.paging" [boundaryLinks]="true"
       (pageChange)="pageChanged($event)"></ngb-pagination>
   </div>
