@@ -8,8 +8,6 @@ import * as AWS from 'aws-sdk';
 import { IStaff } from '../model/Staff';
 import { Router } from '@angular/router';
 
-
-
 @Injectable({
   providedIn: 'root'
 })
