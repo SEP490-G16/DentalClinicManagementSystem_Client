@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {CognitoService} from "../../../service/cognito.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 
 @Component({
   selector: 'app-layouts',
@@ -9,9 +9,20 @@ import {Router} from "@angular/router";
 })
 export class LayoutsComponent implements OnInit {
 
-  constructor(private cognitoService: CognitoService, private router: Router,) { }
+  constructor(private cognitoService: CognitoService, private router: Router, private activatedRoute: ActivatedRoute) { }
   chatContainerVisible = false;
+  currentRoute: string='';
   ngOnInit(): void {
+
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.currentRoute = this.router.url;
+      }
+    });
+
+    this.activatedRoute.url.subscribe(urlSegments => {
+      this.currentRoute = urlSegments.map(segment => segment.path).join('/');
+    });
   }
   signOut() {
     this.cognitoService.signOut().then(() => {

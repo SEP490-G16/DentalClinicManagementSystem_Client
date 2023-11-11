@@ -127,6 +127,7 @@ table tbody td {
   position: sticky;
   top: 0; /* Giữ phần thead ở vị trí trên cùng khi cuộn */
   background-color: white;
+  border: 1px solid #7B4C50;
   z-index: 1; /* Đảm bảo phần thead nằm trên cùng của bảng */
 }
 .table-container {

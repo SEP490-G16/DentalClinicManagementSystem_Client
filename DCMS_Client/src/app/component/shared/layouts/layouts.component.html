@@ -20,30 +20,31 @@
             </span>
           </div>
         </div>
-        <a routerLink="/letan/lich-hen">
-          <span class="material-icons-sharp">
-            dashboard
+        <a routerLink="/letan/lich-hen" routerLinkActive="active">
+          <span>
+            <i class="bi bi-calendar-check"></i>
           </span>
           <h3>Lịch hẹn</h3>
         </a>
-        <a routerLink="/letan/phong-cho">
-          <span class="material-icons-sharp">
-            person_outline
+        <a routerLink="/letan/phong-cho" routerLinkActive="active">
+          <span>
+            <i class="bi bi-house-heart"></i>
           </span>
           <h3>Phòng chờ</h3>
         </a>
-        <a routerLink="/benhnhan/danhsach">
-          <span class="material-icons-sharp">
-            receipt_long
+        <a routerLink="/benhnhan/danhsach" routerLinkActive="active">
+          <span>
+            <i class="bi bi-person-lines-fill"></i>
           </span>
           <h3>Bệnh nhân</h3>
         </a>
-        <a routerLink="/letan/cham-cong" class="active">
-          <span class="material-icons-sharp">
-            insights
+        <a routerLink="/letan/cham-cong" routerLinkActive="active">
+          <span>
+            <i class="bi bi-calendar3"></i>
           </span>
           <h3>Chấm công</h3>
         </a>
+
         <a (click)="signOut()" style="cursor:pointer;">
           <span class="material-icons-sharp">
             logout
@@ -125,7 +126,7 @@
       <router-outlet></router-outlet>
 
       <!--Chat-->
-     <!-- <div>
+      <!-- <div>
         <button class="open-btn" (click)="chatContainerVisible = true"><i class="bi bi-messenger"></i></button>
       </div>
 
