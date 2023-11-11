@@ -28,9 +28,8 @@
             <div class="col-6">
               <div class="form-group">
                 <label for="phone">Loại điều trị</label>
-                <select [(ngModel)]="POST_WAITTINGROOM.produce"
+                <select [(ngModel)]="POST_WAITTINGROOM.produce_id"
                   class="form-select">
-                  <option value="">Loại điều trị</option>
                   <option value="1">Cạo vôi răng</option>
                   <option value="2">Niềng răng</option>
                   <option value="3">Nhổ răng</option>
@@ -49,7 +48,7 @@
             <div class="col-6">
               <label for="fullName">Họ và tên:</label>
               <input type="text" class="form-control" [(ngModel)]="POST_WAITTINGROOM.patient_name" id="fullName"
-                name="fullName" readonly>
+                name="fullName" disabled>
             </div>
 
             <div class="col-6">
@@ -57,7 +56,6 @@
                 <label for="phone">Trạng thái</label>
                 <select [(ngModel)]="POST_WAITTINGROOM.status"
                   class="form-select">
-                  <option value="">Trạng thái</option>
                   <option value="1">Đang chờ</option>
                   <option value="2">Đang khám</option>
                   <option value="3">Khám xong</option>
@@ -77,7 +75,7 @@
             <div class="col-6">
                 <label for="patientID">Mã bệnh nhân:</label>
                 <input type="text" class="form-control" [(ngModel)]="POST_WAITTINGROOM.patient_id"
-                  id="patientID" name="patientID" readonly>
+                  id="patientID" name="patientID" disabled>
             </div>
             <!--<div class="col-6">
               <div class="form-group bg-hover select-focus">

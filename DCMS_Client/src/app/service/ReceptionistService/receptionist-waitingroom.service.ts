@@ -16,8 +16,7 @@ export class ReceptionistWaitingRoomService {
     let idToken = sessionStorage.getItem("id_Token");
 
     const headers = new HttpHeaders({
-      'Authorization': `${idToken}`,
-      'Access-Control-Allow-Origin': '*'
+      'Authorization': `${idToken}`
     });
       return this.http.get(`${this.apiUrl}/waiting-room`, { headers });
   }

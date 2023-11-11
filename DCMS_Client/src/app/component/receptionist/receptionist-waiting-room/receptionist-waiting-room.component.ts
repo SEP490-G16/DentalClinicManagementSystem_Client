@@ -16,7 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 export class ReceptionistWaitingRoomComponent implements OnInit {
 
   waitingRoomData: any;
-  loading:boolean = false;
+  loading: boolean = false;
   procedure: string = '0';
 
   status: string = '1';
@@ -30,7 +30,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
 
     this.PUT_WAITINGROOM = {
       epoch: 0,
-      produce: 1,
+      produce_id: "1",
       patient_id: '',
       patient_name: '',
       reason: '',
@@ -40,75 +40,18 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
 
   ngOnInit(): void {
     this.getWaitingRoomData();
-    this.waitingRoomData = [
-      {
-        epoch: 1698765209,
-        patient_id: 'HE153724',
-        patient_name: 'Pham Thanh Long',
-        produce: 1,
-        status: 1,
-        reason: 'Đau răng',
-      },
-      {
-        epoch: 1698768809,
-        patient_id: 'HE121321',
-        patient_name: 'Keke',
-        produce: 2,
-        status: 2,
-        reason: 'Đau răng',
-      },
-      {
-        epoch: 1698772409,
-        patient_id: 'HE113233',
-        patient_name: 'kiki',
-        produce: 3,
-        status: 3,
-        reason: 'Đau răng',
-      },
-    ]
-    // console.log(this.waitingRoomData);
-    this.filteredWaitingRoomData = this.waitingRoomData;
   }
 
 
   getWaitingRoomData() {
+    this.loading = true;
     this.waitingRoomService.getWaitingRooms().subscribe(
       data => {
         this.waitingRoomData = data;
-        console.log(this.waitingRoomData);
-        if (this.waitingRoomData.length == 0) {
-          this.waitingRoomData.push({
-            epoch: 1698765209,
-            patient_id: 'HE153724',
-            patient_name: 'Pham Thanh Long',
-            produce: 1,
-            status: 1,
-            reason: 'Đau răng',
-          });
-
-          this.waitingRoomData.push(
-            {
-              epoch: 1698768809,
-              patient_id: 'HE121321',
-              patient_name: 'Keke',
-              produce: 2,
-              status: 2,
-              reason: 'Đau răng',
-            });
-
-          this.waitingRoomData.push(
-            {
-              epoch: 1698772409,
-              patient_id: 'HE113233',
-              patient_name: 'kiki',
-              produce: 3,
-              status: 3,
-              reason: 'Đau răng',
-            }
-          )
-        }
         this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
         console.log(this.waitingRoomData);
+        this.filteredWaitingRoomData = this.waitingRoomData;
+        this.loading = false;
       }
     );
   }
@@ -118,41 +61,64 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
     if (this.procedure === '0') {
       this.filteredWaitingRoomData = [...this.waitingRoomData];
     } else {
-      this.filteredWaitingRoomData = this.waitingRoomData.filter((item: IPostWaitingRoom) => item.produce.toString() === this.procedure);
+      this.filteredWaitingRoomData = this.waitingRoomData.filter((item: IPostWaitingRoom) => item.produce_id === this.procedure);
     }
   }
 
+  selectedColor: string = '#000';
   onPutStatus(wtr: any, epoch: number) {
+    // switch (wtr.status) {
+    //   case 1:
+    //     this.selectedColor = '#cfe7f3'; // Màu chữ cho trạng thái 1
+    //     break;
+    //   case 2:
+    //     this.selectedColor = '#ffeb3b'; // Màu chữ cho trạng thái 2
+    //     break;
+    //   case 3:
+    //     this.selectedColor = '#d1c4e9'; // Màu chữ cho trạng thái 3
+    //     break;
+    //   case 4:
+    //     this.selectedColor = '#000'; // Màu chữ cho trạng thái 4
+    //     break;
+    //   default:
+    //     this.selectedColor = '#000'; // Màu chữ mặc định
+    //     break;
+    // }
+
     this.PUT_WAITINGROOM = {
       epoch: epoch,
-      produce: Number(wtr.produce),
+      produce_id: wtr.produce,
       patient_id: wtr.patient_id,
       patient_name: wtr.patient_name,
       reason: wtr.reason,
       status: Number(wtr.status)
     } as IPostWaitingRoom
-
+    this.loading = true;
     if (this.PUT_WAITINGROOM.status == 4) {
       this.waitingRoomService.deleteWaitingRooms(this.PUT_WAITINGROOM)
         .subscribe((data) => {
+          this.loading = false;
           this.showSuccessToast('Xóa hàng chờ thành công');
           setTimeout(() => {
             window.location.reload();
           }, 3000);
         },
           () => {
+            this.loading = false;
             this.showErrorToast('Xóa hàng chờ thất bại');
           }
         )
-    }else {
+    } else {
       this.waitingRoomService.putWaitingRoom(this.PUT_WAITINGROOM)
         .subscribe(data => {
+          this.loading = false;
           this.showSuccessToast('Chỉnh sửa hàng chờ thành công');
           setTimeout(() => {
             window.location.reload();
           }, 3000);
         },
           () => {
+            this.loading = false;
             this.showErrorToast('Chỉnh sửa hàng chờ thất bại');
           }
         )

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from "@angular/router";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from '@angular/common/http';
@@ -65,6 +65,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import {NgSelectModule} from "@ng-select/ng-select";
 import { PopupEditBillImportMaterialComponent } from './warehouse-import-material-management/popup-edit-bill-import-material/popup-edit-bill-import-material.component';
 import { FollowingTimekeepingComponent } from './following-timekeeping/following-timekeeping.component';
+import { vnDateTimeFormatPipe } from '../shared/pipe/VNdateformat.pipe';
 
 @NgModule({
   declarations: [
@@ -114,7 +115,8 @@ import { FollowingTimekeepingComponent } from './following-timekeeping/following
       PopupEditMaterialComponent,
       PopupEditMedicineComponent,
       PopupEditBillImportMaterialComponent,
-      FollowingTimekeepingComponent
+      FollowingTimekeepingComponent,
+      vnDateTimeFormatPipe
   ],
     imports: [
         CommonModule,
@@ -138,6 +140,7 @@ import { FollowingTimekeepingComponent } from './following-timekeeping/following
             useFactory: adapterFactory,
         }),
         NgSelectModule,
-    ]
+    ],
+    providers: [DatePipe]
 })
 export class AdminModule { }

@@ -27,7 +27,14 @@ export class SpecimensComponent implements OnInit {
 
   filteredSpecimens: any;
   labo_id: any = "";
+  status: any = "";
   loading:boolean=false;
+
+  pagingSearch = {
+    paging:1,
+    total:0
+  }
+  count:number=1;
 
   constructor(
     private SpecimensService: SpecimensService,
@@ -68,7 +75,7 @@ export class SpecimensComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllSpecimens();
+    this.getAllSpecimens(this.pagingSearch.paging);
     console.log(this.dateToTimestamp("2023-11-03 10:49:43"));
   }
 
@@ -87,14 +94,37 @@ export class SpecimensComponent implements OnInit {
     }
   }
 
+  filterStatus() {
+    let selectedStatus = this.status;
+    if (selectedStatus === '') {
+      this.filteredSpecimens = this.SpecimensRoot.data;
+    } else {
+      this.filteredSpecimens = this.SpecimensRoot.data.filter(specimen => {
+        if (selectedStatus === 'null') {
+          return specimen.ms_status === null;
+        } else {
+          return specimen.ms_status === parseInt(selectedStatus);
+        }
+      });
+    }
+  }
 
-
-  getAllSpecimens() {
+  getAllSpecimens(paging:number) {
     this.loading = true;
-    this.SpecimensService.getSpecimens(this.paging)
+    this.SpecimensService.getSpecimens(paging)
       .subscribe((sRoot) => {
         this.SpecimensRoot = sRoot;
         this.filteredSpecimens = sRoot.data;
+        if (this.filteredSpecimens.length < 11){
+          this.pagingSearch.total+=this.filteredSpecimens.length;
+        }
+        else
+        {
+          this.pagingSearch.total=this.filteredSpecimens.length;
+        }
+        console.log(this.pagingSearch.total)
+        console.log(this.filteredSpecimens)
+
         this.loading = false;
       })
 
@@ -108,10 +138,6 @@ export class SpecimensComponent implements OnInit {
     // }
   }
 
-  showCheckboxes: boolean = false;
-  onFilterMS() {
-    this.showCheckboxes = !this.showCheckboxes;
-  }
 
   // const orderDate = this.dateToTimestamp(this.SpecimensFilter.ms_order_date);
   // const receivedDate = this.dateToTimestamp(this.SpecimensFilter.ms_received_date);
@@ -128,6 +154,26 @@ export class SpecimensComponent implements OnInit {
     this.PutSpecimen = specimens;
   }
 
+  pageChanged(event: number) {
+    this.pagingSearch.paging = event;
+    console.log(this.pagingSearch.paging)
+    this.getAllSpecimens(this.pagingSearch.paging);
+  }
+
+  showPopup: boolean = false;
+  checkbox1: boolean = false;
+  checkbox2: boolean = false;
+  togglePopup(): void {
+    this.showPopup = !this.showPopup;
+  }
+
+  toggleColumn(columnNumber: number): void {
+    if (columnNumber === 12) {
+      this.checkbox1 = !this.checkbox1;
+    } else if (columnNumber === 13) {
+      this.checkbox2 = !this.checkbox2;
+    }
+  }
 
   deleteSpecimens(id:string) {
     const cf = confirm("Bạn có muốn xóa mẫu vật này không?");

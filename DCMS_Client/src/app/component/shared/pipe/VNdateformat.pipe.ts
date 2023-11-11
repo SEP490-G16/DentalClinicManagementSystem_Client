@@ -2,10 +2,23 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
 @Pipe({
-  name: 'vnDateFormat'
+  name: 'vnDateTimeFormat'
 })
-export class VnDateFormatPipe extends DatePipe implements PipeTransform {
-  override transform(value: any, args?: any): any {
-    return super.transform(value, 'dd/MM/yyyy');
+export class vnDateTimeFormatPipe implements PipeTransform {
+
+  constructor(private datePipe: DatePipe) {}
+
+  transform(value: string, includeTime: boolean = true): string {
+    if (!value || value === 'Invalid Date') {
+      return value;
+    }
+
+    const date = new Date(value);
+
+    if (includeTime) {
+      return this.datePipe.transform(date, 'HH:mm dd/MM/yyyy') || value;
+    } else {
+      return this.datePipe.transform(date, 'dd/MM/yyyy') || value;
+    }
   }
 }

@@ -3,14 +3,6 @@
   <div class="loading-spinner"></div>
 </div>
 <div class="recent-orders">
-  <!-- <section class="table__header">
-          <h1></h1>
-          <div class="input-group">
-            <input type="search search-custom" placeholder="Tìm kiếm theo tên, mã bệnh nhân...">
-          </div>
-          <div class="export__file">
-          </div>
-        </section> -->
   <div class="row mt-5 mb-5">
     <div class="col-6">
       <button class="btn button-timekeeping" style="margin-right: 30px;" data-bs-toggle="modal"
@@ -47,14 +39,15 @@
           <td>{{ i + 1 }}</td>
           <td>{{ wtr.patient_id }}</td>
           <td>{{ wtr.patient_name }}</td>
-          <td>{{ wtr.reason }}</td>
+          <td class="truncate" data-bs-toggle="tooltip" title="{{wtr.reason}}">{{wtr.reason }}</td>
           <td>{{ wtr.produce }}</td>
           <td>
-            <select class="text-center" [(ngModel)]="wtr.status" (change)="onPutStatus(wtr, wtr.epoch)">
-              <option value="1">Đang chờ</option>
-              <option value="2">Đang khám</option>
-              <option value="3">Khám xong</option>
-              <option value="4">Xóa hàng chờ</option>
+            <select class="text-center" [(ngModel)]="wtr.status" (change)="onPutStatus(wtr, wtr.epoch)"
+              [ngStyle]="{'color': selectedColor}">
+              <option value="1" style="background-color: #cfe7f3;">Đang chờ</option>
+              <option value="2" style="background-color: #ffeb3b;">Đang khám</option>
+              <option value="3" style="background-color: #d1c4e9;">Khám xong</option>
+              <option value="4" style="background-color: #ef9a9a;">Xóa hàng chờ</option>
             </select>
           </td>
         </tr>

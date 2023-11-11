@@ -27,7 +27,7 @@ export class AddWaitingRoomComponent implements OnInit {
 
     this.POST_WAITTINGROOM = {
       epoch: 0,
-      produce: 1,
+      produce_id: "1",
       patient_id: '',
       patient_name: '',
       reason: '',
@@ -82,7 +82,7 @@ export class AddWaitingRoomComponent implements OnInit {
         this.validateWatingRoom.phone = "Số điện thoại không hợp lệ!";
         this.isSubmitted = true;
       }
-      if (!this.POST_WAITTINGROOM.produce){
+      if (!this.POST_WAITTINGROOM.produce_id){
         this.validateWatingRoom.procedure="Vui lòng chọn loại điều trị!";
         this.isSubmitted = true;
       }
@@ -104,7 +104,7 @@ export class AddWaitingRoomComponent implements OnInit {
         this.phone_number = '';
         this.POST_WAITTINGROOM = {
           epoch: 0,
-          produce: 1,
+          produce_id: "1",
           patient_id: '',
           patient_name: '',
           reason: '',
@@ -150,7 +150,7 @@ export class AddWaitingRoomComponent implements OnInit {
   close() {
     this.POST_WAITTINGROOM = {
       epoch: 0,
-      produce: 0,
+      produce_id: "1",
       patient_id: '',
       patient_name: '',
       reason: '',

@@ -51,6 +51,8 @@ export class PopupEditSpecimensComponent implements OnInit {
     if (changes['PutSpecimen'].currentValue) {
       console.log(changes['PutSpecimen']);
       this.IPutSpecimens = this.PutSpecimen;
+      this.IPutSpecimens.ms_order_date = this.IPutSpecimens.ms_order_date?.split(" ")[0];
+      this.IPutSpecimens.ms_received_date = this.IPutSpecimens.ms_received_date?.split(" ")[0];
       if (this.IPutSpecimens.ms_quantity !== undefined && this.IPutSpecimens.ms_unit_price !== undefined) {
         this.total = this.IPutSpecimens.ms_quantity * this.IPutSpecimens.ms_unit_price;
       }
@@ -63,6 +65,7 @@ export class PopupEditSpecimensComponent implements OnInit {
     this.loading = true;
     this.SpecimensService.putSpecimens(this.id, this.IPutSpecimens)
     .subscribe((res) => {
+      this.loading = false;
         this.showSuccessToast('Chỉnh sửa mẫu vật thành công!');
         window.location.reload();
     },
