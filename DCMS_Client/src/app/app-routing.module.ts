@@ -62,6 +62,7 @@ const routes: Routes = [
       },
     ]
   },
+
   {
     path: '', component: LayoutsAdminComponent, children: [
       {
@@ -80,13 +81,6 @@ const routes: Routes = [
     loadChildren: () => import('./component/patient/benhnhan.module').then(m => m.BenhnhanModule)
   },
 
-  {
-    path: "suahoso",
-    component: ProfilePersonalComponent,
-    data: {
-      allowedGroups: ['dev-dcms-doctor', 'dev-dcms-nurse', 'dev-dcms-receptionist', 'dev-dcms-patient']
-    }
-  },
 
   {
     path: 'dangkilichlamviec',

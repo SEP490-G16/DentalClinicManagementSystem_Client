@@ -2,7 +2,7 @@ import { IEditAppointmentBody, RootObject } from './../../../model/IAppointment'
 import { ConvertJson } from './../../../service/Lib/ConvertJson';
 import { IPatient } from './../../../model/IPatient';
 import { Component, OnInit, OnChanges, SimpleChanges, DoCheck } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbCalendar, NgbDate, NgbDateStruct, NgbDatepickerConfig } from "@ng-bootstrap/ng-bootstrap";
 import { PatientService } from 'src/app/service/PatientService/patient.service';
 import { ReceptionistAppointmentService } from 'src/app/service/ReceptionistService/receptionist-appointment.service';
@@ -37,7 +37,8 @@ export class ChangeAppointmentComponent implements OnInit {
     private appointmentService: ReceptionistAppointmentService,
     private toastr: ToastrService,
     private config: NgbDatepickerConfig,
-    private calendar: NgbCalendar
+    private calendar: NgbCalendar,
+    private router:Router
   ) {
     this.EDIT_APPOINTMENT_BODY = {
       epoch: 0,    //x
@@ -199,6 +200,7 @@ export class ChangeAppointmentComponent implements OnInit {
     this.appointmentService.putAppointment(this.EDIT_APPOINTMENT_BODY, this.appointmentId_Pathparam)
       .subscribe((res) => {
         this.showSuccessToast("Sửa lịch hẹn thành công");
+        this.router.navigate(['/xac-nhan-lich-hen']);
       },
         (err) => {
           this.showErrorToast("Sửa lịch hẹn thất bại");

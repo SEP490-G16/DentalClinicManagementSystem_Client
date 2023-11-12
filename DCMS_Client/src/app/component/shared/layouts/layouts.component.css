@@ -348,10 +348,12 @@ main .new-users .user-list .user img {
 
 .profile .icon {
   border-radius: 23px;
-  padding-right: 90px;
+  padding-right: 10px;
   justify-items: flex-start;
   font-size: 20px;
 }
+
+
 
 @media screen and (max-width: 1200px) {
   .container-custom {
