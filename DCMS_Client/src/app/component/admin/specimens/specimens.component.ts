@@ -161,6 +161,27 @@ export class SpecimensComponent implements OnInit {
   //   .subscribe((res) => {
   //     console.log(res);
   //   })
+
+  filterDate() {
+    this.loading = true;
+    this.SpecimensService.filterSpecimens(2, this.SpecimensFilter.ms_order_date, this.SpecimensFilter.ms_received_date, this.pagingSearch.paging)
+      .subscribe((sRoot) => {
+        this.SpecimensRoot = sRoot;
+        this.filteredSpecimens = sRoot.data;
+        if (this.filteredSpecimens.length < 11){
+          this.pagingSearch.total+=this.filteredSpecimens.length;
+        }
+        else
+        {
+          this.pagingSearch.total=this.filteredSpecimens.length;
+        }
+        console.log(this.pagingSearch.total)
+        console.log(this.filteredSpecimens)
+
+        this.loading = false;
+      })
+  }
+
   AllLabos:any;
   PutSpecimen:any;
   openEditSpecimen(specimens:any) {

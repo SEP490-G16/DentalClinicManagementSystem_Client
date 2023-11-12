@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'DCMS_Client';
+  title = 'Nha khoa Nguyên Trần';
 
   constructor() { }
 

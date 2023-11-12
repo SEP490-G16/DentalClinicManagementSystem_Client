@@ -38,7 +38,7 @@ export class SpecimensService {
     }
   }
 
-  filterSpecimens(type:number, startDate:number, endDate:number, paging:number):Observable<any> {
+  filterSpecimens(type:number, startDate:string, endDate:string, paging:number):Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
 
     const headers = new HttpHeaders({

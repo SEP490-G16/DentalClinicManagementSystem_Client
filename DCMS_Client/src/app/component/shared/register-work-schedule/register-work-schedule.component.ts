@@ -195,12 +195,16 @@ export class RegisterWorkScheduleComponent implements OnInit {
   editTimeStart: string = ""
   editTimeEnd: string = ""
   handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
-    this.modal.open(this.modalContent, { size: 'lg' });
+    if (action === 'Edited') {
+      this.modalData = { event, action };
+      this.modal.open(this.modalContent, { size: 'lg' });
 
-    this.editTitle = event.title;
-    this.editTimeStart = this.formatDate(event.start);
-    this.editTimeEnd = event.end ? this.formatDate(event.end) : "";
+      this.editTitle = event.title;
+      this.editTimeStart = this.formatDate(event.start);
+      this.editTimeEnd = event.end ? this.formatDate(event.end) : "";
+    }else {
+        this.deleteEvent(event);
+    }
 
   }
   formatDate(date: Date): string {
@@ -295,9 +299,9 @@ export class RegisterWorkScheduleComponent implements OnInit {
         clock_in: newStartTimestamp,
         clock_out: newEndTimestamp,
         timekeeper_name: "",
-          staff_avt: "",
-          timekeeper_avt: "",
-          status: 1
+        staff_avt: "",
+        timekeeper_avt: "",
+        status: 1
       };
 
       this.timekeepingService.postTimekeeping(this.Body)

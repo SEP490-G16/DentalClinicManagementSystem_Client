@@ -152,27 +152,6 @@
 
               </div>
             </div>
-            <div class="col-md-6 mt-3">
-              <div class="form-group row">
-                <div class="col-md-3 name-title">
-                  <label for="role">Tình trạng làm việc</label>
-                </div>
-                <div class="col-md-9">
-                  <select id="role"
-                  class="form-select" aria-label="Default select example">
-                    <option value="1" selected>Đang làm</option>
-                    <option value="2">Lễ tân</option>
-                    <option value="3">Y tá</option>
-                    <option value="4">Y tá trưởng</option>
-                  </select>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
-                    <p>
-                      {{vailidateStaff.role}}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
 
           </div>
           <div class="account-staff mt-5">
