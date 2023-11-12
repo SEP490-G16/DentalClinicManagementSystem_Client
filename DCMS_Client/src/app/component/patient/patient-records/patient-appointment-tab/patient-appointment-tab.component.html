@@ -20,9 +20,6 @@
               (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/')">Thanh toán</a>
           </li>
         </ul>
-        <!-- <div class="tab-content">
-                <router-outlet></router-outlet>
-              </div> -->
       </div>
     </div>
     <div class="tab-pane" id="LHtab" style="padding: 50px;">
@@ -30,37 +27,37 @@
         <div class="col-12 text-end mb-3">
           <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#myModal">Đặt lịch tái khám</button>
         </div>
-        <div class="col">
-          <div class="table-container">
-            <table>
-              <thead class="sticky-thead">
-                <tr>
-                  <th scope="col">Thời gian</th>
-                  <th scope="col">Bác sĩ</th>
-                  <th scope="col">Lý do</th>
-                  <th scope="col">Tình trạng</th>
-                  <th scope="col">Option</th>
-                </tr>
-              </thead>
-              <tbody>
-                <ng-container *ngFor="let gf of patientAppointments">
-                  <ng-container *ngFor="let ap of gf.appointments">
-                    <tr *ngFor="let detail of ap.details">
-                      <td>{{timestampToGMT7String(detail.time)}} - {{convertTimestampToVNDateString(gf.date)}}</td>
-                      <td>{{detail.doctor}}</td>
-                      <td>Khám tổng quát</td>
-                      <td>Đã hoàn thành</td>
-                      <td>
-                        <button class="btn btn-primary" data-bs-toggle="modal"
-                          data-bs-target="#editAppointmentModal" (click)="editAppointment(detail, gf.date)">Chỉnh sửa</button>
-                        <button class="btn btn-danger" (click)="deleteAppointment(detail, gf.date)">Xóa</button>
-                      </td>
-                    </tr>
-                  </ng-container>
+      </div>
+
+      <div class="row">
+        <div class="table-container">
+          <table>
+            <thead class="sticky-thead">
+              <tr>
+                <th scope="col">Thời gian</th>
+                <th scope="col">Bác sĩ</th>
+                <th scope="col">Lý do</th>
+                <th scope="col">Tình trạng</th>
+                <th scope="col">Option</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let gf of patientAppointments">
+                <ng-container *ngFor="let ap of gf.appointments">
+                  <tr *ngFor="let detail of ap.details">
+                    <td>{{timestampToGMT7String(detail.time)}} - {{convertTimestampToVNDateString(gf.date)}}</td>
+                    <td>{{detail.doctor}}</td>
+                    <td>Khám tổng quát</td>
+                    <td>Đã hoàn thành</td>
+                    <td>
+                      <button class="btn" data-bs-toggle="modal" data-bs-target="#editAppointmentModal"
+                        (click)="editAppointment(detail, gf.date)"><i class="bi bi-pencil-square"></i></button>
+                    </td>
+                  </tr>
                 </ng-container>
-              </tbody>
-            </table>
-          </div>
+              </ng-container>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -69,5 +66,4 @@
 
 <app-popup-datlichtaikham></app-popup-datlichtaikham>
 <app-popup-sualichtaikham [EditAppointmentPatient]="EditAppointmentPatient" [dateString]="dateString"
-  [timeString]="timeString"
-></app-popup-sualichtaikham>
+  [timeString]="timeString"></app-popup-sualichtaikham>
