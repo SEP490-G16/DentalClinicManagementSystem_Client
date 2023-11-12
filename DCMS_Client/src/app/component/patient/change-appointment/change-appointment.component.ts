@@ -38,7 +38,7 @@ export class ChangeAppointmentComponent implements OnInit {
     private toastr: ToastrService,
     private config: NgbDatepickerConfig,
     private calendar: NgbCalendar,
-    private router:Router
+    private router: Router
   ) {
     this.EDIT_APPOINTMENT_BODY = {
       epoch: 0,    //x
@@ -68,19 +68,19 @@ export class ChangeAppointmentComponent implements OnInit {
   }
 
 
-   //config ng bootstrap
-   isDisabled: any;
-   model!: NgbDateStruct;
-   datePickerJson = {};
-   markDisabled: any;
-   json = {
-     disable: [6, 7],
-     disabledDates: [
-       { year: 2020, month: 8, day: 13 },
-       { year: 2020, month: 8, day: 19 },
-       { year: 2020, month: 8, day: 25 }
-     ]
-   };
+  //config ng bootstrap
+  isDisabled: any;
+  model!: NgbDateStruct;
+  datePickerJson = {};
+  markDisabled: any;
+  json = {
+    disable: [6, 7],
+    disabledDates: [
+      { year: 2020, month: 8, day: 13 },
+      { year: 2020, month: 8, day: 19 },
+      { year: 2020, month: 8, day: 25 }
+    ]
+  };
 
   ngOnInit(): void {
     this.fetchAPI();
@@ -127,7 +127,7 @@ export class ChangeAppointmentComponent implements OnInit {
           day: parseInt(this.selectedDate.split('-')[2])
         };
 
-         this.timeString = this.timestampToGMT7HourString(appointmentChild.time);
+        this.timeString = this.timestampToGMT7HourString(appointmentChild.time);
         console.log("timeString: ", this.timeString);
         this.isMigrated = false;
         console.log(this.isMigrated);
@@ -184,9 +184,17 @@ export class ChangeAppointmentComponent implements OnInit {
 
   EDIT_APPOINTMENT_BODY: IEditAppointmentBody
   onPutAppointment() {
+
+    //Convert model to string
+    const selectedYear = this.model.year;
+    const selectedMonth = this.model.month.toString().padStart(2, '0'); // Đảm bảo có 2 chữ số
+    const selectedDay = this.model.day.toString().padStart(2, '0'); // Đảm bảo có 2 chữ số
+    const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
+    console.log(selectedDate); // Đây là ngày dưới dạng "YYYY-MM-DD"
+
     this.EDIT_APPOINTMENT_BODY = {
       epoch: this.epoch_PathParam,    //x
-      new_epoch: this.dateToTimestamp(this.selectedDate),
+      new_epoch: this.dateToTimestamp(selectedDate),
       appointment: {
         patient_id: this.appointment.patient_id,  //x
         patient_name: this.appointment.patient_name, //x
