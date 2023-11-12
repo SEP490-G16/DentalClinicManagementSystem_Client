@@ -1,15 +1,14 @@
 
 <div class="recent-orders">
-  <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px;">Cơ sở</h2>
   <div class="row">
   <div class="col-md-2 col-xl-1">
-    <a routerLink="/admin/co-so" class="page-title">Quản lý cơ sở </a>
+    <a routerLink="/co-so" routerLinkActive="active-link" class="page-title">Quản lý cơ sở </a>
   </div>
   <div class="col-md-2 col-xl-1">
     <a href="#" class="page-title">Thống kê</a>
   </div>
 </div>
-<div class="row filter-row m-t-30">
+<div class="row filter-row">
   <div class="col-sm-6 col-md-3">
     <div class="form-group form-group-filter">
       <button href="#" class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus-circle"></i> Thêm cơ sở
@@ -35,7 +34,7 @@
         <tbody>
         <tr *ngFor="let f of facilityList">
           <td>{{f.facility_id}}</td>
-          <td><h2>{{f.name}}</h2></td>
+          <td class="truncate" data-bs-toggle="tooltip" title="{{f.name}}">{{f.name}}</td>
           <td>{{f.manager_name}}</td>
           <td>{{f.facility_phone_number}}</td>
           <td>{{f.manager_phone_number}}</td>

@@ -66,3 +66,21 @@
   transform: translateY(40%);
   right: 10px;
 }
+@media only screen and (min-width: 2000px){
+  .container{
+    max-width: 85%;
+    margin-top: 15rem;
+  }
+  .select-status{
+    margin-left: 5.2rem !important;
+  }
+  .custom-btn{
+    padding: 0 12.5rem !important;
+  }
+}
+.select-status{
+  margin-left: 53px;
+}
+.custom-btn{
+  padding: 0 35px;
+}

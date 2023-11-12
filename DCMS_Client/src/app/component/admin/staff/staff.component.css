@@ -565,7 +565,7 @@ table tbody tr td:first-child {
 }
 
 .input-custom {
-  width: 53%;
+  width: 60%;
   padding: 10px 20px;
   border: 1px solid #7B4C50;
   border-radius: 10px;
@@ -687,6 +687,7 @@ table tbody tr td:first-child {
   justify-content: center;
   align-items: center;
   transition: .2s;
+  margin-top: 1.1rem;
 }
 
 .table__header .input-group:hover {
@@ -754,4 +755,86 @@ button:active{
 .ml-2 {
   margin-left: 17px;
   margin-bottom: 5px;
+}
+.table-container{
+  max-height: 450px;
+  overflow-y: auto;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #c0c0c0 #f0f0f0;
+  border-radius: 10px;
+  -ms-overflow-style: none;
+}
+.sticky-thead {
+  position: sticky;
+  top: 0; /* Giữ phần thead ở vị trí trên cùng khi cuộn */
+  background-color: white;
+  z-index: 1; /* Đảm bảo phần thead nằm trên cùng của bảng */
+}
+.table-container {
+  position: relative;
+}
+@media only screen and (min-width: 2000px) {
+  .table-container{
+    max-height: 700px;
+    overflow-y: auto;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #c0c0c0 #f0f0f0;
+    border-radius: 10px;
+    -ms-overflow-style: none;
+  }
+  .sticky-thead {
+    position: sticky;
+    top: 0; /* Giữ phần thead ở vị trí trên cùng khi cuộn */
+    background-color: white;
+    z-index: 1; /* Đảm bảo phần thead nằm trên cùng của bảng */
+  }
+  .table-container {
+    position: relative;
+  }
+  .bi-trash{
+    color: #ffffff;
+  }
+  .bi-pencil-square{
+    color: #ffffff;
+  }
+  .recent-orders{
+    margin-top: 9.3rem;
+  }
+  .table__header .input-group {
+    width: 60%;
+    height: 3vh;
+    background-color: #fff5;
+    padding: 0 .8rem;
+    border-radius: 2rem;
+    border: 1px solid #7B4C50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .2s;
+    margin-top: 1.1rem;
+  }
+  .truncate {
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer; /* Thêm dòng này để biểu thị rằng nội dung có thể bị cắt và hiển thị khi di chuột qua */
+    padding: 20px 0px;
+  }
+}
+.bi-trash{
+  color: #ffffff;
+}
+.bi-pencil-square{
+  color: #ffffff;
+}
+.truncate {
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer; /* Thêm dòng này để biểu thị rằng nội dung có thể bị cắt và hiển thị khi di chuột qua */
+  padding: 20px 0px;
 }

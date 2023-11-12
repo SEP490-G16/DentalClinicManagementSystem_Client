@@ -53,6 +53,13 @@ const routes: Routes = [
         //   allowedGroups: ['dev-dcms-doctor', 'dev-dcms-nurse', 'dev-dcms-receptionist']
         // }
       },
+      {
+        path: "suahoso",
+        component: ProfilePersonalComponent,
+        data: {
+          allowedGroups: ['dev-dcms-doctor', 'dev-dcms-nurse', 'dev-dcms-receptionist', 'dev-dcms-patient']
+        }
+      },
     ]
   },
   {
@@ -76,13 +83,7 @@ const routes: Routes = [
       }
     ]
   },
-  {
-    path: "suahoso",
-    component: ProfilePersonalComponent,
-    data: {
-      allowedGroups: ['dev-dcms-doctor', 'dev-dcms-nurse', 'dev-dcms-receptionist', 'dev-dcms-patient']
-    }
-  },
+
   {
     path: 'dangkilichlamviec',
     component: RegisterWorkScheduleComponent,

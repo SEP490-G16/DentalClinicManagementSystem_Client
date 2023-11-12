@@ -23,8 +23,8 @@ import {FollowingTimekeepingComponent} from "./following-timekeeping/following-t
 const adminRoutes: Routes = [
   {path: 'co-so', component: FacilityComponent},
   {path: 'labo', component: LaboComponent},
-  {path: 'vat-lieu',children:[
-      {path: '', component: MaterialComponent},
+  {path: '',children:[
+      {path: 'vat-lieu', component: MaterialComponent},
       {path: 'quan-ly-nhap', component: WarehouseImportMaterialManagementComponent},
       {path: 'quan-ly-xuat', component: WarehouseExportMaterialManagementComponent}
     ]},
