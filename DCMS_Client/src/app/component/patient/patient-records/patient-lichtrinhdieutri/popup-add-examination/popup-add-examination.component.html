@@ -34,7 +34,7 @@
             <div class="col-md-4">
               <div class="form-group mb-3">
                 <label for="">Bác sĩ khám và điều trị:</label>
-                <select class="form-select input-cus" style="width: 60%;" id="doctorSelect" [(ngModel)]="staff_id">
+                <select class="form-select" style="width: 60%;" id="doctorSelect" [(ngModel)]="staff_id">
                   <!-- Binding giá trị được chọn -->
 
                   <option *ngFor="let doctor of doctors" [value]="doctor.doctorid">
@@ -46,13 +46,13 @@
 
             <div class="col-md-4">
               <label for="">Ngày khám</label>
-              <input type="date" class="form-control input-cus" style="width: 60%;"
+              <input type="date" class="form-control" style="width: 60%;"
                 [(ngModel)]="examination.created_date">
             </div>
 
             <div class="col-md-4">
               <label for="">Lịch trình điều trị</label>
-              <select class="form-select input-cus" style="width: 60%;" aria-label="Chọn lịch trình điều trị"
+              <select class="form-select" style="width: 60%;" aria-label="Chọn lịch trình điều trị"
                 id="treatmentCourseSelect" [(ngModel)]="treatmentCourse_Id"> <!-- Binding giá trị được chọn -->
                 <option *ngFor="let course of treatmentCourse" [value]="course.treatment_course_id">
                   {{ course.name }}
@@ -96,7 +96,7 @@
               <!-- <img width="100%" height="100%" [src]="TreatmentCourseDetail.xRayImage" alt="ảnh nếu có"> -->
               <i class="text-center" style="font-size: 12px;">Bấm vào ô vuông này để thêm ảnh X-quang</i>
               <div class="image-container" style="border: 3px dotted #ccc;" (click)="fileInput.click()">
-                <img [src]="imageURL" alt="ẢNH" class="text-center">
+                <img [src]="imageURL" alt="ẢNH" class="text-center" style="cursor: pointer;">
                 <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput style="display: none;">
               </div>
               <input type="text" placeholder="Hoặc nhập đường dẫn vào đây"

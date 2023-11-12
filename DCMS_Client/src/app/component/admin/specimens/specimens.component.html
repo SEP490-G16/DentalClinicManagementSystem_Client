@@ -50,8 +50,7 @@
               border-radius: 10px;"
                 aria-label="Default select example" [(ngModel)]="labo_id" (change)="filterByLabo()">
                 <option value="" selected>Labo</option>
-                <option value="1">Xưởng A</option>
-                <option value="2">Xưởng B</option>
+                <option *ngFor="let labo of labos" [value]="labo.labo_id">{{labo.name}}</option>
                 <option value="null">Không có Labo</option>
               </select>
             </div>
@@ -147,4 +146,4 @@
           (pageChange)="pageChanged($event)"></ngb-pagination>
       </div>
 
-<app-popup-edit-specimens [PutSpecimen]="PutSpecimen"></app-popup-edit-specimens>
+<app-popup-edit-specimens [PutSpecimen]="PutSpecimen" [AllLabos]="AllLabos"></app-popup-edit-specimens>

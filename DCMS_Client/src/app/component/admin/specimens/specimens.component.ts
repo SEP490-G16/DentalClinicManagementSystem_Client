@@ -7,6 +7,7 @@ import { CognitoService } from 'src/app/service/cognito.service';
 import * as moment from 'moment-timezone';
 import { SpecimensRoot } from 'src/app/model/ISpecimens';
 import { ToastrService } from 'ngx-toastr';
+import { LaboService } from 'src/app/service/LaboService/Labo.service';
 @Component({
   selector: 'app-specimens',
   templateUrl: './specimens.component.html',
@@ -18,6 +19,7 @@ export class SpecimensComponent implements OnInit {
 
   paging: number = 1;
 
+  labos:any;
   laboFilter: any = null;
 
   SpecimensFilter = {
@@ -38,6 +40,7 @@ export class SpecimensComponent implements OnInit {
 
   constructor(
     private SpecimensService: SpecimensService,
+    private laboService:LaboService,
     private cognitoService: CognitoService,
     private toastr:ToastrService,
     private router: Router
@@ -75,8 +78,16 @@ export class SpecimensComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getAllLabo();
     this.getAllSpecimens(this.pagingSearch.paging);
-    console.log(this.dateToTimestamp("2023-11-03 10:49:43"));
+    // console.log(this.dateToTimestamp("2023-11-03 10:49:43"));
+  }
+
+  getAllLabo() {
+    this.laboService.getLabos().subscribe((data) => {
+      this.labos = data.data;
+      console.log("Get all Labo: ", this.labos);
+    })
   }
 
   filterByLabo() {
@@ -88,7 +99,9 @@ export class SpecimensComponent implements OnInit {
         if (selectedLabo === 'null') {
           return specimen.lb_id === null;
         } else {
-          return specimen.lb_id === parseInt(selectedLabo);
+          // console.log("specimen.lb_id: ", specimen.lb_id)
+          // console.log("selected labo: ", typeof selectedLabo)
+          return specimen.lb_id === selectedLabo;
         }
       });
     }
@@ -148,10 +161,11 @@ export class SpecimensComponent implements OnInit {
   //   .subscribe((res) => {
   //     console.log(res);
   //   })
-
+  AllLabos:any;
   PutSpecimen:any;
   openEditSpecimen(specimens:any) {
     this.PutSpecimen = specimens;
+    this.AllLabos = this.labos;
   }
 
   pageChanged(event: number) {

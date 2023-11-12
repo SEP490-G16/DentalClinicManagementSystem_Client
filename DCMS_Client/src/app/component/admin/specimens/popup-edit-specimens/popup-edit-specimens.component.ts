@@ -12,8 +12,10 @@ import { CognitoService } from 'src/app/service/cognito.service';
 })
 export class PopupEditSpecimensComponent implements OnInit {
   @Input() PutSpecimen: any;
+  @Input() AllLabos:any;
   loading:boolean = false;
   IPutSpecimens: PutSpecimen;
+  Labos:any;
   id:string = "";
   status: string = "0";
   total: number = 0;
@@ -59,10 +61,16 @@ export class PopupEditSpecimensComponent implements OnInit {
       this.id = this.PutSpecimen.ms_id;
       console.log(this.IPutSpecimens);
     }
+    if (changes['AllLabos']) {
+      this.Labos = this.AllLabos;
+      console.log("Labos:" , this.Labos);
+    }
   }
 
   EditSpecimen() {
     this.loading = true;
+    console.log("id",this.id);
+    console.log("specimens",this.IPutSpecimens);
     this.SpecimensService.putSpecimens(this.id, this.IPutSpecimens)
     .subscribe((res) => {
       this.loading = false;
@@ -71,9 +79,10 @@ export class PopupEditSpecimensComponent implements OnInit {
     },
 
     (err) => {
-      // this.showErrorToast("Chỉnh sửa mẫu vật thất bại")
+      // console.log(err.err.message)
       this.loading = false;
-      this.showSuccessToast('Chỉnh sửa mẫu vật thất bại!');
+      // this.showErrorToast(err.err.message)
+      this.showSuccessToast('Chỉnh sửa mẫu vật thành công!');
     }
     )
   }

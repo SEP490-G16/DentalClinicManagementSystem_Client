@@ -102,8 +102,7 @@
                 <select class="form-select p-2" style="margin-left: 10px; width: 45%; border: 1px solid #664FC3;
               border-radius: 10px;" aria-label="Default select example" [(ngModel)]="IPutSpecimens.lb_id"
                  >
-                  <option value="1">Xưởng A</option>
-                  <option value="2">Xưởng B</option>
+                 <option *ngFor="let labo of Labos" [value]="labo.labo_id">{{labo.name}}</option>
                   <option value="null">Không có Labo</option>
                 </select>
               </div>
