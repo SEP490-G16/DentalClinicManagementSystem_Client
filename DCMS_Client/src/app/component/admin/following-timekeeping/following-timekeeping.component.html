@@ -3,7 +3,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
 
 <div class="recent-orders">
-        <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px;">Bảng theo dõi chấm công</h2>
+  <div class="row" style="margin-bottom: 20px; margin-left: 10px">
+    <div class="col-md-1">
+      <a routerLink="/cham-cong" routerLinkActive="active-link" class="page-title">Chấm công</a>
+    </div>
+    <div class="col-md-2">
+      <a routerLink="/dangkilichlamviec" routerLinkActive="active-link" class="page-title">Đăng kí lịch làm việc</a>
+    </div>
+    <div class="col-md-2">
+      <a routerLink="/theo-doi-cham-cong" routerLinkActive="active-link" class="page-title">Theo dõi chấm công</a>
+    </div>
+  </div>
         <div class="row mt-5">
           <div class="col-1 mb-5">
             <div style="display: flex">
@@ -37,12 +47,30 @@
             </div>
 
           </div>
-          <div class="col-7 mb-5">
-            <input type="date" class="form-control input-custom  p-2">
+          <div class="col-3 mb-5">
+            <input type="month" style="width: 55%" class="form-control input-custom  p-2">
+          </div>
+          <div class="col-3 mb-5 row">
+            <div class="col-3">
+              <label for="fromDate" class="form-label">Từ ngày:</label>
+            </div>
+            <div class="col-9">
+              <input type="date" style="width: 65%" id="fromDate" class="form-control input-custom  p-2">
+            </div>
+          </div>
+
+          <div class="col-3 mb-5 row">
+            <div class="col-3">
+              <label for="toDate" class="form-label">Đến ngày:</label>
+            </div>
+            <div class="col-9">
+              <input type="date" style="width: 65%" id="toDate" class="form-control input-custom  p-2">
+            </div>
           </div>
           </div>
+      <div class="scrollable-col">
         <table class="table table-bordered custom-table">
-          <thead>
+          <thead class="sticky-thead">
           <tr class="text-center">
             <th style="border: 1px solid #7B4C50">Tên nhân viên</th>
             <th style="border: 1px solid #7B4C50"> Chức vụ</th>
@@ -97,5 +125,7 @@
           </tr>
           </tbody>
         </table>
+      </div>
+
       </div>
 

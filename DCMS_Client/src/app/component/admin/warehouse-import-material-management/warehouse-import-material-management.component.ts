@@ -35,15 +35,17 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
   materialListByImportMaterialId:any[]=[];
   materialList:any[]=[];
   totalAmount: number = 0;
-
+  loading:boolean = false;
   ngOnInit(): void {
     this.getImportMaterialBills(this.pagingBill.paging);
     this.getMaterials(this.pagingBill.paging);
   }
 
   getImportMaterialBills(paging: number) {
+    this.loading = true;
     this.importMaterialService.getImportMaterials(paging).subscribe(data => {
       this.importBills = data.data;
+      this.loading = false;
       this.importBills.forEach((p: any) => {
         let total = 0;
         this.materialWarehouseService.getMaterialsByImportMaterialBill(p.id).subscribe(data => {
@@ -72,7 +74,6 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
           }
         })
       })
-      console.log("VỪA LÀM",this.displayWarehouse);
     })
   }
   getMaterials(paging:number){
@@ -125,16 +126,19 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
   deleteImportMaterial(id:any){
     const cf = confirm("Bạn có muốn xóa phiếu nhập này không?");
     if(cf) {
+      this.loading = true;
       this.getMaterialsImportMaterialBills(id);
       this.importMaterialService.deleteImportBill(id)
         .subscribe((res) => {
             this.toastr.success('Xóa phiếu nhập thành công!');
-            const index = this.importBills.findIndex((importMaterial:any) => importMaterial.id === id);
+            /*const index = this.importBills.findIndex((importMaterial:any) => importMaterial.id === id);
             if (index !== -1) {
               this.importBills.splice(index, 1);
-            }
+            }*/
+            window.location.reload();
           },
           (err) => {
+          this.loading = false;
             this.toastr.error('Xóa phiếu nhập thất bại!');
           }
         )

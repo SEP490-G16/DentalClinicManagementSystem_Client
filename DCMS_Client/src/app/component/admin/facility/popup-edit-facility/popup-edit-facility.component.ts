@@ -36,6 +36,7 @@ export class PopupEditFacilityComponent implements OnChanges {
   }
   isSubmited:boolean= false;
   isChange:boolean = false;
+  loading:boolean = false;
   constructor(private facilityService:FacilityService,
               private toastr: ToastrService) { }
 
@@ -111,19 +112,20 @@ export class PopupEditFacilityComponent implements OnChanges {
     }
 
 
-
+    this.loading = true;
     this.facilityService.updateFacility(this.id, this.facilityBody).subscribe(data=>{
       this.toastr.success('Cập nhật thành công !');
-      let ref = document.getElementById('cancel-edit-facility');
-      ref?.click();
-      /*window.location.reload();*/
-        this.facilityBody.facility_id = this.id;
-        const index = this.facilityList.findIndex((facility:any) => facility.facility_id === this.id);
-        if (index !== -1) {
-          this.facilityList[index] = this.facilityBody;
-        }
+      // let ref = document.getElementById('cancel-edit-facility');
+      // ref?.click();
+      window.location.reload();
+        // this.facilityBody.facility_id = this.id;
+        // const index = this.facilityList.findIndex((facility:any) => facility.facility_id === this.id);
+        // if (index !== -1) {
+        //   this.facilityList[index] = this.facilityBody;
+        // }
     },
       error => {
+      this.loading = false;
       this.toastr.error('Cập nhật thất bại !');
       }
     )

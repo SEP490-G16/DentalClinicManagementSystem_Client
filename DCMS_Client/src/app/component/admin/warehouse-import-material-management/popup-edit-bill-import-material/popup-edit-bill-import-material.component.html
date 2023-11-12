@@ -1,4 +1,7 @@
-<div class="modal" id="editImportBillModal">
+<div *ngIf="loading" class="loading-overlay">
+  <div class="loading-spinner"></div>
+</div>
+<div *ngIf="!loading" class="modal" id="editImportBillModal">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
 
@@ -75,7 +78,7 @@
 
                       <td *ngIf="!isAdd" >
                         <!--<input type="text" *ngIf="isAdd" [disabled]="!isAdd" [(ngModel)]="m.material_id" class="form-control value-staff">-->
-                        <ng-select *ngIf="!isAdd && materialList" [items]="materialList" [(ngModel)]="m.material_id" [searchable] = "true" bindLabel="tenVatLieu" bindValue="id" (ngModelChange)="updateTemporaryName(m, $event)">
+                        <ng-select *ngIf="!isAdd && materialList" disabled [items]="materialList" [(ngModel)]="m.material_id" [searchable] = "true" bindLabel="tenVatLieu" bindValue="id" (ngModelChange)="updateTemporaryName(m, $event)">
                         </ng-select>
                       </td>
                      <!-- <td *ngIf="!isAdd">{{m.donVi}}</td>-->
@@ -90,6 +93,11 @@
                       <td *ngIf="!isAdd" ><input type="date" *ngIf="!isAdd" [(ngModel)]="m.warranty" class="form-control value-staff"></td>
                      <!-- <td *ngIf="!isAdd">{{m.discount}}</td>-->
                       <td *ngIf="!isAdd" ><input type="text" *ngIf="!isAdd" [(ngModel)]="m.discount" class="form-control value-staff"></td>
+                      <td *ngIf="!isAdd" class="delete-cell">
+                        <button *ngIf="!isAdd" class="delete-button" (click)="deleteMaterialWareHouse()">
+                          x
+                        </button>
+                      </td>
                     </tr>
                   </ng-container>
                   <!--<ng-container *ngIf="isAdd" >

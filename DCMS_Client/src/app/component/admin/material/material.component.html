@@ -2,7 +2,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
 
-
+<div *ngIf="loading" class="loading-overlay">
+  <div class="loading-spinner"></div>
+</div>
 <div class="recent-orders">
         <section class="table__header">
           <h1></h1>
@@ -51,7 +53,7 @@
               <td>{{v.quantity_import}}</td>
               <td>{{v.price}}</td>
               <td>{{v.unit}}</td>
-              <td>{{v.warranty}}</td>
+              <td>{{v.warranty | date:'dd-MM-yyyy'}}</td>
               <td></td>
               <td>
                 <button class="btn btn-primary p-1 m-r-3" style="margin-right: 3px" data-bs-toggle="modal" data-bs-target="#editMaterialModal" (click)="openEditMaterial(v)">

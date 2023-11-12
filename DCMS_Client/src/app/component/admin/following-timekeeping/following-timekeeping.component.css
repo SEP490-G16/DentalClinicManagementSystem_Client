@@ -377,7 +377,6 @@ table tbody tr:last-child td {
   text-align: center;
   display: block;
   margin: 1rem auto;
-  color: var(--custom-color-primary);
 }
 
 .profile {
@@ -758,7 +757,6 @@ button:active{
 
 .custom-table thead tr {
   background-color: var(--custom-color-background);
-  border-radius: 10px;
   border: 1px solid #7B4C50;
 }
 
@@ -909,4 +907,33 @@ button:active{
   border-radius: 30%;
   width: 20px;
   margin-right: 5px;
+}
+.scrollable-col{
+  max-height: 450px;
+  overflow-y: auto;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #c0c0c0 #f0f0f0;
+  border-radius: 10px;
+  -ms-overflow-style: none;
+}
+.sticky-thead {
+  position: sticky;
+  top: 0; /* Giữ phần thead ở vị trí trên cùng khi cuộn */
+  background-color: white;
+  z-index: 1; /* Đảm bảo phần thead nằm trên cùng của bảng */
+}
+.scrollable-col {
+  position: relative;
+}
+.page-title.active-link {
+  color: blue; /* hoặc màu khác bạn muốn sử dụng cho đường dẫn được chọn */
+}
+.page-title:hover {
+  color: blue; /* Màu khi di chuột vào liên kết không được chọn */
+}
+.page-title {
+  color: black; /* Màu mặc định cho liên kết không được chọn */
+  text-decoration: none; /* Loại bỏ gạch chân mặc định của liên kết */
+  transition: color 0.3s; /* Hiệu ứng chuyển đổi màu sắc */
 }

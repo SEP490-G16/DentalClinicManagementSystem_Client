@@ -58,6 +58,7 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
   materials: any[] = [];
   phieuLapId:any;
   totalAmount: number = 0;
+  loading:boolean = false;
   addImportBill(){
     let createDate = new Date(this.importBill.createDate);
     let createDateTimestamp = (createDate.getTime()/1000).toString();
@@ -103,10 +104,13 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
       this.materials.push(this.importMaterialBody);
     })
     console.log(this.materials);
+    this.loading = true;
     this.materialWarehouseService.ImportMaterial(this.materials).subscribe(data =>{
       this.toastr.success('Import vật liệu thành công !');
+      window.location.reload();
     },
       error => {
+      this.loading = false;
       this.toastr.error('Import vật liệu thất bại !');
       }
       )

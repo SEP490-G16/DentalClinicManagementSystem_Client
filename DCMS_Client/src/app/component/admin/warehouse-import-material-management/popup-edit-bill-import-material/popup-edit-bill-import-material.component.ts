@@ -63,6 +63,7 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
   temporaryName: string='';
   paging:number=1;
   selectedMaterial: boolean = false;
+  loading:boolean = false;
   ngOnInit(): void {
   }
   updateImportBill(){
@@ -163,10 +164,13 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
         remaining: '0'
       }
       console.log("abc")
+        this.loading = true;
         this.materialWarehouseService.updateMaterialImportMaterial(this.materialWareHouseId,this.importMaterialBody).subscribe(data=>{
             this.toastr.success('Cập nhật thành công !');
+            window.location.reload();
           },
           error => {
+            this.loading = false;
             this.toastr.error('Cập nhật thất bại !');
           }
         )
@@ -248,5 +252,15 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
       this.importBill.creator = this.importMaterialBill.CreateBy;
       this.importBill.totalAmount = this.importMaterialBill.TotalAmount;
     }
+  }
+
+  deleteMaterialWareHouse(){
+
+    this.materialWarehouseService.deleteMaterialImportMaterial(this.materialWareHouseId).subscribe(data=>{
+      this.toastr.success('Xoá thành công!');
+    },
+      error => {
+      this.toastr.error('Xoá thất bại!');
+      })
   }
 }

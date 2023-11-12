@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {MedicalSupplyService} from "../../../../service/MedicalSupplyService/medical-supply.service";
 import {ToastrService} from "ngx-toastr";
 import {PatientService} from "../../../../service/PatientService/patient.service";
+import {LaboService} from "../../../../service/LaboService/Labo.service";
 
 @Component({
   selector: 'app-popup-add-specimens',
@@ -32,7 +33,8 @@ export class PopupAddSpecimensComponent implements OnInit {
     totalPrice: '',
     orderDate:'',
     receiver:'',
-    total:''
+    total:'',
+    labo:''
   }
   specimenBody={
     name:'',
@@ -45,6 +47,7 @@ export class PopupAddSpecimensComponent implements OnInit {
     order_date:'',
     patient_id:'',
     facility_id:'',
+    lb_id:''
   }
   specimensRes = {
     medical_supply_id:'',
@@ -56,16 +59,18 @@ export class PopupAddSpecimensComponent implements OnInit {
     ms_used_date:'',
     ms_status:0
   }
-
+  labos:any;
   patients:any[]=[];
   patientId:any;
   isSubmitted:boolean = false;
   loading:boolean = false;
   constructor(private medicalSupplyService: MedicalSupplyService,
               private toastr: ToastrService,
-              private patientSerivce:PatientService) { }
+              private patientSerivce:PatientService,
+              private laboService:LaboService) { }
 
   ngOnInit(): void {
+    this.getAllLabo();
   }
   calculateTotal() {
     const total = parseInt(this.specimen.quantity) * parseInt(this.specimen.price);
@@ -167,7 +172,9 @@ export class PopupAddSpecimensComponent implements OnInit {
       order_date: orderDateTimestamp,
       patient_id:this.patientId,
       facility_id: 'F-01',
+      lb_id: this.specimen.labo
     }
+    console.log(this.specimenBody)
     this.loading = true;
     this.medicalSupplyService.addMedicalSupply(this.specimenBody).subscribe(data=>{
       this.toastr.success('Thêm mới mẫu thành công !');
@@ -212,5 +219,11 @@ export class PopupAddSpecimensComponent implements OnInit {
   }
   private checkNumber(number:any):boolean{
     return /^[1-9]\d*$/.test(number);
+  }
+  getAllLabo() {
+    this.laboService.getLabos().subscribe((data) => {
+      this.labos = data.data;
+      console.log("Get all Labo: ", this.labos);
+    })
   }
 }

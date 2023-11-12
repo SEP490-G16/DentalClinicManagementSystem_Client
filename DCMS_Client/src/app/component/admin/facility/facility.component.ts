@@ -34,12 +34,14 @@ export class FacilityComponent implements OnInit {
     console.log(id);
     const isConfirmed = window.confirm('Bạn có chắc muốn xoá cơ sở này?');
     if (isConfirmed){
+      this.loading = true;
       this.facilityService.deleteFacility(id).subscribe(data=>{
           this.toastr.success('Xoá cơ sở thành công !');
           const index = this.facilityList.findIndex((facility:any) => facility.facility_id === id);
           if (index !== -1) {
             this.facilityList.splice(index, 1);
           }
+          this.loading = false;
         },
         error => {
           this.toastr.error('Xoá cơ sở thất bại!');

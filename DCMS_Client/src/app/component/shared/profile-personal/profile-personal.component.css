@@ -84,3 +84,11 @@
 .custom-btn{
   padding: 0 35px;
 }
+.container{
+  background-color: #FFFFFF;
+  margin-top: 30px;
+  border-radius: 30px;
+}
+.custom-content{
+  padding: 25px;
+}
