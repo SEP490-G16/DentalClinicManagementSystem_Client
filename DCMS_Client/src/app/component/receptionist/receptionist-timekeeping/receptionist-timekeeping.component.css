@@ -109,6 +109,7 @@ table tbody td {
   border-bottom: 1px solid #7B4C50;
   color: var(--custom-color-dark-variant);
   border-right: 1px solid #7B4C50;
+  border-left: 1px solid #7B4C50;
 }
 
 .table-container{
@@ -317,7 +318,6 @@ a {
   /*font-size: 24px;*/
   outline: 0px;
   padding: 10px 20px;
-  margin-bottom: 15px;
 /* box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset; */
 }
 button:hover{
@@ -334,4 +334,15 @@ button:active{
 
 .lateTime {
   color: red;
+}
+.page-title.active-link {
+  color: blue; /* hoặc màu khác bạn muốn sử dụng cho đường dẫn được chọn */
+}
+.page-title:hover {
+  color: blue; /* Màu khi di chuột vào liên kết không được chọn */
+}
+.page-title {
+  color: black; /* Màu mặc định cho liên kết không được chọn */
+  text-decoration: none; /* Loại bỏ gạch chân mặc định của liên kết */
+  transition: color 0.3s; /* Hiệu ứng chuyển đổi màu sắc */
 }

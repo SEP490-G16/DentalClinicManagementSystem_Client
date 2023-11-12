@@ -60,6 +60,13 @@ const routes: Routes = [
           allowedGroups: ['dev-dcms-doctor', 'dev-dcms-nurse', 'dev-dcms-receptionist', 'dev-dcms-patient']
         }
       },
+      {
+        path: 'dangkilichlamviec',
+        component: RegisterWorkScheduleComponent,
+        data: {
+          allowedGroups: ['dev-dcms-doctor', 'dev-dcms-nurse', 'dev-dcms-receptionist']
+        }
+      },
     ]
   },
 
@@ -81,14 +88,6 @@ const routes: Routes = [
     loadChildren: () => import('./component/patient/benhnhan.module').then(m => m.BenhnhanModule)
   },
 
-
-  {
-    path: 'dangkilichlamviec',
-    component: RegisterWorkScheduleComponent,
-    data: {
-      allowedGroups: ['dev-dcms-doctor', 'dev-dcms-nurse', 'dev-dcms-receptionist']
-    }
-  },
   {
     path: 'chat',
     component: ChatComponent

@@ -3,6 +3,17 @@
 </div>
 
 <div class="recent-orders">
+  <div class="row" style="margin-bottom: 20px; margin-left: 10px">
+    <div class="col-md-1">
+      <a routerLink="/letan/cham-cong" routerLinkActive="active-link" class="page-title">Chấm công</a>
+    </div>
+    <div class="col-md-2">
+      <a routerLink="/dangkilichlamviec" routerLinkActive="active-link" class="page-title">Đăng kí lịch làm việc</a>
+    </div>
+    <div class="col-md-2">
+      <a routerLink="/theo-doi-cham-cong" routerLinkActive="active-link" class="page-title">Theo dõi chấm công</a>
+    </div>
+  </div>
   <div class="row mt-5">
     <div class="col-6">
     </div>
@@ -72,16 +83,18 @@
 
         <td style="border-right: 1px solid #7B4C50;"></td>
         <td style="border-right: 1px solid #7B4C50;"></td>
-        <td style="border-right: 1px solid #7B4C50;">
+        <td style="border-right: 1px solid #7B4C50;padding: 8px">
           <button class="button-timekeeping" (click)="onClockin(staff)"
             [disabled]="staff.isClockin">{{staff.clockInStatus}}</button>
           <p [class]="timeClockinColor">{{staff.timeClockin}}</p>
         </td>
 
-        <td style="border-right: 1px solid #7B4C50;">
+        <td style="border-right: 1px solid #7B4C50; padding: 8px">
           <button class="button-timekeeping" (click)="onClockout(staff)">{{staff.clockOutStatus}}</button>
           <p [class]="timeClockoutColor">{{staff.timeClockout}}</p>
         </td>
+        <td style="border-right: 1px solid #7B4C50;"></td>
+        <td style="border-right: 1px solid #7B4C50;"></td>
       </tr>
     </tbody>
   </table>
