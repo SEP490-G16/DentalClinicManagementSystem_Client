@@ -25,10 +25,8 @@
               <div class="form-group row">
                 <label for="fullName" class="col-3">Họ và tên:</label>
                 <div class="col-9">
-                  <input type="text" class="form-control"
-                  [(ngModel)]="staff.name"
-                  id="fullName" name="fullName">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <input type="text" class="form-control" [(ngModel)]="staff.name" id="fullName" name="fullName">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
                     <p>
                       {{vailidateStaff.name}}
                     </p>
@@ -39,10 +37,8 @@
               <div class="form-group row mt-3">
                 <label for="dob" class="col-3">Ngày sinh:</label>
                 <div class="col-9">
-                  <input type="date"
-                  [(ngModel)]="staff.DOB"
-                  class="form-control date-input-custom" id="dob" name="dob">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <input type="date" [(ngModel)]="staff.DOB" class="form-control date-input-custom" id="dob" name="dob">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
                     <p>
                       {{vailidateStaff.dob}}
                     </p>
@@ -52,10 +48,8 @@
               <div class="form-group row mt-3">
                 <label for="address" class="col-3">Địa chỉ:</label>
                 <div class="col-9">
-                  <input type="text"
-                  [(ngModel)]="staff.address"
-                  class="form-control" id="address" name="address">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <input type="text" [(ngModel)]="staff.address" class="form-control" id="address" name="address">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
                     <p>
                       {{vailidateStaff.address}}
                     </p>
@@ -65,9 +59,8 @@
               <div class="form-group row mt-3">
                 <label for="note" class="col-3">Ghi chú:</label>
                 <div class="col-9">
-                  <textarea type="text"
-                  [(ngModel)]="staff.description"
-                  class="form-control" id="note" name="address"></textarea>
+                  <textarea type="text" [(ngModel)]="staff.description" class="form-control" id="note"
+                    name="address"></textarea>
                 </div>
               </div>
             </div>
@@ -80,10 +73,8 @@
                   <label for="email">Email</label>
                 </div>
                 <div class="col-md-9">
-                  <input type="email"
-                  [(ngModel)]="staff.email"
-                  class="form-control" id="email" name="email">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <input type="email" [(ngModel)]="staff.email" class="form-control" id="email" name="email">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
                     <p>
                       {{vailidateStaff.email}}
                     </p>
@@ -98,10 +89,8 @@
                   <label for="phone">Số điện thoại</label>
                 </div>
                 <div class="col-md-9">
-                  <input type="tel"
-                  [(ngModel)]="staff.phone"
-                  class="form-control" id="phone" name="phone">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <input type="tel" [(ngModel)]="staff.phone" class="form-control" id="phone" name="phone">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
                     <p>
                       {{vailidateStaff.phone}}
                     </p>
@@ -115,9 +104,7 @@
                   <label for="role">Vai trò</label>
                 </div>
                 <div class="col-md-9">
-                  <select id="role"
-                  [(ngModel)]="role"
-                  class="form-select" aria-label="Default select example" disabled>
+                  <select id="role" [(ngModel)]="role" class="form-select" aria-label="Default select example" disabled>
                     <option value="1" selected>Bác sĩ</option>
                     <option value="2">Lễ tân</option>
                     <option value="3">Y tá</option>
@@ -131,12 +118,10 @@
                 <div class="col-md-3 name-title">
                   <label for="phone">Giới tính</label>
                 </div>
-                <div class="col-md-9">
-                  <label for="male">Nam</label>
-                  <input type="radio" class="radio m-2" [(ngModel)]="staff.gender" id="male" name="male">
-                  <label for="female">Nữ</label>
-                  <input type="radio" class="radio m-2" id="female" name="female">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                <div class="form-group col-md-9">
+                  <input type="radio" class="radio m-2" [(ngModel)]="staff.gender"  [value]="1" id="male" name="male">Nam
+                  <input type="radio" class="radio m-2" [(ngModel)]="staff.gender" [value]="0" id="female" name="female"> Nữ
+                  <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
                     <p>
                       {{vailidateStaff.gender}}
                     </p>
@@ -145,35 +130,14 @@
               </div>
             </div>
           </div>
+        </div>
 
-          <div class="row mt-3">
-            <div class="col-3">
-              <label for="phone">Tình trạng</label>
-            </div>
-            <div class="col-3">
-              <select id="role"
-              [(ngModel)]="status"
-              class="form-select float-start" aria-label="Default select example">
-                <option value="1" selected>Đang làm</option>
-                <option value="2">Nghỉ phép</option>
-                <option value="3">Nghỉ việc</option>
-              </select>
-            </div>
-
-            <div class="col-md-3 name-title">
-              <label for="phone"></label>
-            </div>
-            <div class="col-md-9">
-
-            </div>
-          </div>
-      </div>
-
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-save" data-bs-dismiss="modal" (click)="saveEditedStaff()"><i class="bi bi-floppy2"></i> Lưu</button>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
+          <button type="button" class="btn btn-save" data-bs-dismiss="modal" (click)="saveEditedStaff()"><i
+              class="bi bi-floppy2"></i> Lưu</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
