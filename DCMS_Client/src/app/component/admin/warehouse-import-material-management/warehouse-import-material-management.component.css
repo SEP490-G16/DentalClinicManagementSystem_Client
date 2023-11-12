@@ -730,13 +730,11 @@ table tbody tr:last-child td {
   text-align: start;
   display: block;
   margin: 1rem auto;
-  color: #1E1E1E;
 }
 .recent-orders a:active {
   text-align: start;
   display: block;
   margin: 1rem auto;
-  color: var(--custom-color-primary);
 }
 .profile {
   display: flex;
@@ -1083,14 +1081,12 @@ button:active{
   max-height: 430px;
   overflow-y: auto;
   overflow-x: auto;
-  scrollbar-width: none;
+  scrollbar-width: thin;
   scrollbar-color: #c0c0c0 #f0f0f0;
   border-radius: 10px;
   -ms-overflow-style: none;
 }
-.table-container::-webkit-scrollbar {
-  width: 0; /* Ẩn thanh cuộn trên trình duyệt Webkit (Chrome, Safari, Opera) */
-}
+
 .sticky-thead {
   position: sticky;
   top: 0; /* Giữ phần thead ở vị trí trên cùng khi cuộn */
@@ -1105,13 +1101,10 @@ button:active{
     max-height: 700px;
     overflow-y: auto;
     overflow-x: auto;
-    scrollbar-width: none;
+    scrollbar-width: thin;
     scrollbar-color: #c0c0c0 #f0f0f0;
     border-radius: 10px;
     -ms-overflow-style: none;
-  }
-  .table-container::-webkit-scrollbar {
-    width: 0; /* Ẩn thanh cuộn trên trình duyệt Webkit (Chrome, Safari, Opera) */
   }
   .sticky-thead {
     position: sticky;
@@ -1122,4 +1115,52 @@ button:active{
   .table-container {
     position: relative;
   }
+  .truncate {
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer; /* Thêm dòng này để biểu thị rằng nội dung có thể bị cắt và hiển thị khi di chuột qua */
+  }
+  .page-title.active-link {
+    color: blue; /* hoặc màu khác bạn muốn sử dụng cho đường dẫn được chọn */
+  }
+  .page-title:hover {
+    color: blue; /* Màu khi di chuột vào liên kết không được chọn */
+  }
+  .page-title {
+    color: black; /* Màu mặc định cho liên kết không được chọn */
+    text-decoration: none; /* Loại bỏ gạch chân mặc định của liên kết */
+    transition: color 0.3s; /* Hiệu ứng chuyển đổi màu sắc */
+  }
+  .recent-orders{
+    margin-top: 9.3rem;
+  }
+  .filter-row{
+    margin-top: 6rem !important;
+  }
+}
+.filter-row{
+  margin-top: 1.5rem;
+}
+.truncate {
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer; /* Thêm dòng này để biểu thị rằng nội dung có thể bị cắt và hiển thị khi di chuột qua */
+}
+.page-title.active-link {
+  color: blue; /* hoặc màu khác bạn muốn sử dụng cho đường dẫn được chọn */
+}
+.page-title:hover {
+  color: blue; /* Màu khi di chuột vào liên kết không được chọn */
+}
+.page-title {
+  color: black; /* Màu mặc định cho liên kết không được chọn */
+  text-decoration: none; /* Loại bỏ gạch chân mặc định của liên kết */
+  transition: color 0.3s; /* Hiệu ứng chuyển đổi màu sắc */
+}
+.a-custom{
+  text-align: center;
 }

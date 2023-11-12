@@ -3,7 +3,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
 
 <div class="recent-orders">
-  <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px;">Quản lý nhân viên</h2>
         <div class="row mt-5 mb-5">
           <div class="col-3">
             <select class="form-select input-custom" aria-label="Default select example">
@@ -30,7 +29,7 @@
           </div>
         </div>
 
-        <div style="overflow-y: auto; height: 300px;">
+        <div class="table-container">
           <table>
             <thead>
               <tr>
@@ -47,19 +46,22 @@
             </thead>
             <tbody>
                   <tr>
-                    <td><!--HE153724--></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                      <button class="btn" style="margin-right: 20px;" data-bs-toggle="modal" data-bs-target="#editAppointmentModal">
+                    <td class="truncate" data-bs-toggle="tooltip"><!--HE153724--></td>
+                    <td style="padding: 20px 0px;"></td>
+                    <td style="padding: 20px 0px;"></td>
+                    <td style="padding: 20px 0px;"></td>
+                    <td style="padding: 20px 0px;"></td>
+                    <td style="padding: 20px 0px;"></td>
+                    <td style="padding: 20px 0px;"></td>
+                    <td style="padding: 20px 0px;"></td>
+                    <td style="padding: 20px 0px;">
+                      <button class="btn btn-primary" style="margin-right: 20px; padding: 2px 3px" data-bs-toggle="modal" data-bs-target="#editAppointmentModal">
                         <i class="bi bi-pencil-square"></i>
                       </button>
-                      <i class="bi bi-trash3"></i>
+                      <button class="btn btn-danger" style="padding: 2px 3px">
+                        <i class="bi bi-trash3"></i>
+                      </button>
+
                     </td>
                   </tr>
             </tbody>

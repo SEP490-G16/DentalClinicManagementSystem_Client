@@ -1,7 +1,5 @@
 <div class="container">
-  <h4 class="text-center">Chỉnh sửa nhân viên</h4>
-
-  <div class="row">
+  <div class="row mt-5">
       <div class="col-md-3">
           <div class="image-container" (click)="fileInput.click()">
               <img [src]="imageURL" alt="Ảnh nhân viên">
@@ -10,7 +8,7 @@
       </div>
 
       <div class="col-md-9">
-          <div class="form-group row">
+          <div class="form-group row mb-3">
               <label for="fullName" class="col-3">Họ và tên:</label>
               <div class="col-9">
                   <input type="text" class="form-control" [(ngModel)]="staff.name" id="fullName" name="fullName">
@@ -20,7 +18,7 @@
               </div>
           </div>
 
-          <div class="form-group row">
+          <div class="form-group row mb-3">
               <label for="dob" class="col-3">Ngày sinh:</label>
               <div class="col-9">
                   <input type="date" [(ngModel)]="staff.DOB" class="form-control date-input-custom" id="dob" name="dob">
@@ -30,7 +28,7 @@
               </div>
           </div>
 
-          <div class="form-group row">
+          <div class="form-group row mb-3">
               <label for="address" class="col-3">Địa chỉ:</label>
               <div class="col-9">
                   <input type="text" [(ngModel)]="staff.address" class="form-control" id="address" name="address">
@@ -106,10 +104,10 @@
   </div>
 
   <div class="row mt-3">
-      <div class="col-3">
+      <div class="col-1">
           <label for="status">Tình trạng:</label>
       </div>
-      <div class="col-3">
+      <div class="col-3 select-status">
           <select id="status" [(ngModel)]="status" class="form-select float-start" aria-label="Default select example">
               <option value="1" selected>Đang làm</option>
               <option value="2">Nghỉ phép</option>
@@ -119,7 +117,7 @@
   </div>
 </div>
 
-<div class="text-center mt-3">
-  <button type="button" class="btn btn-cancel">Hủy</button>
+<div class="text-end custom-btn mt-5">
   <button type="button" class="btn btn-save" (click)="saveEditedStaff()"><i class="bi bi-floppy2"></i> Lưu</button>
+  <button type="button"  style="margin-left: 10px" class="btn btn-cancel">Hủy</button>
 </div>

@@ -11,17 +11,16 @@
         </section>
         <div class="row">
           <div class="col-md-2 col-xl-1">
-            <a routerLink="/admin/vat-lieu" class="page-title">Quản lý vật liệu</a>
+            <a routerLink="/vat-lieu" routerLinkActive="active-link" class="page-title">Quản lý vật liệu</a>
           </div>
           <div class="col-md-2 col-xl-1">
-            <a routerLink="/admin/vat-lieu/quan-ly-nhap" class="page-title" >Quản lý nhập</a>
+            <a routerLink="/quan-ly-nhap" routerLinkActive="active-link" class="page-title" >Quản lý nhập</a>
           </div>
           <!--<div class="col-md-2">
             <a routerLink="/admin/material/export-material" class="page-title">Quản lý xuất</a>
           </div>-->
         </div>
-        <h2 class="text-center mt-3" style="font-family: Agbalumo; font-size: 29px;">Vật liệu</h2>
-        <div class="row mt-5 mb-2">
+        <div class="row custom-row mb-2">
           <div class="col-6">
             <div class="form-group form-group-filter">
               <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myModal"><i
@@ -48,7 +47,7 @@
             <tbody>
             <tr *ngFor="let v of materialList">
               <td>{{v.material_id}}</td>
-              <td>{{v.material_name}}</td>
+              <td class="truncate" data-bs-toggle="tooltip" title="{{v.material_name}}">{{v.material_name}}</td>
               <td>{{v.quantity_import}}</td>
               <td>{{v.price}}</td>
               <td>{{v.unit}}</td>
@@ -63,7 +62,7 @@
             </tbody>
           </table>
         </div>
-        <div class="row mt-2" style="float:start;">
+        <div class="row mt-3" style="float:start;">
           <ngb-pagination [collectionSize]="pagingMaterial.total" [(page)]="pagingMaterial.paging" [boundaryLinks]="true"  (pageChange)="pageChanged($event)"></ngb-pagination>
         </div>
       </div>
