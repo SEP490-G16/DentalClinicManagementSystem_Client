@@ -3,21 +3,22 @@
   <div class="content-wrapper">
     <div class="row">
       <div class="card-box">
-        <ul class="nav nav-tabs">
-          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000;"
-              routerLink="/benhnhan/danhsach/tab/hosobenhnhan">Thông tin
+        <ul class="nav nav-tabs" style="padding: 0px 80px;
+        ">
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
+              (click)="navigateHref('/benhnhan/danhsach/tab/hosobenhnhan/')">Thông tin
               chung</a>
           </li>
-          <li class="nav-item mr-2"><a class="nav-link active" routerLink="/benhnhan/danhsach/tab/lichtrinhdieutri"
-              style="padding: 10px; color: #7B4C50;">Lịch
-              trình
+          <li class="nav-item mr-2"><a class="nav-link active"
+              (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')"
+              style="padding: 10px; color: #7B4C50; cursor: pointer;">Khám và
               điều
               trị</a></li>
-          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000;"
-              routerLink="/benhnhan/danhsach/tab/lichhen">Lịch hẹn</a>
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
+              (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
           </li>
-          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000;"
-              routerLink="/benhnhan/danhsach/tab/thanhtoan">Thanh toán</a>
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
+              (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/')">Thanh toán</a>
           </li>
         </ul>
         <!-- <div class="tab-content">
@@ -93,11 +94,11 @@
           <div class="row mt-3 content-child">
             <div class="col-md-3">
               <!-- <img width="100%" height="100%" [src]="TreatmentCourseDetail.xRayImage" alt="ảnh nếu có"> -->
+              <i class="text-center" style="font-size: 12px;">Bấm vào ô vuông này để thêm ảnh X-quang</i>
               <div class="image-container" style="border: 3px dotted #ccc;" (click)="fileInput.click()">
                 <img [src]="imageURL" alt="ẢNH" class="text-center">
                 <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput style="display: none;">
               </div>
-              <i class="text-center" style="font-size: 12px;">Bấm vào ô vuông này để thêm ảnh X-quang</i>
               <input type="text" placeholder="Hoặc nhập đường dẫn vào đây"
                 style="border-bottom: 1px solid #746d6d00; width: 100%;" [(ngModel)]="this.examination.xRayImage">
             </div>

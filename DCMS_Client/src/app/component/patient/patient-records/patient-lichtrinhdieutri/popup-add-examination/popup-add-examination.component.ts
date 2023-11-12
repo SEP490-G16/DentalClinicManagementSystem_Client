@@ -54,6 +54,9 @@ export class PopupAddExaminationComponent implements OnInit {
     this.examination.created_date = new Date().toISOString().substring(0, 10);
   }
 
+  navigateHref(href: string) {
+    this.router.navigate(['' + href + this.patient_Id]);
+  }
   ngOnInit(): void {
     this.patient_Id = this.route.snapshot.params['id'];
     this.treatmentCourse_Id = this.route.snapshot.params['tcId'];

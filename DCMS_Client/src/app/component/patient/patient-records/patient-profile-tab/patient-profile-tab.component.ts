@@ -93,11 +93,13 @@ export class PatientProfileTabComponent implements OnInit {
       this.router.navigate(['/login']);
     })
   }
-  isOk:boolean = false;
+
+  clickCount: number = 0;
   toggleEditing() {
-    this.isEditing = !this.isEditing;
-    if (this.isEditing==false){
+    this.clickCount++;
+    if (this.clickCount % 2 !== 0){
       console.log(this.isEditing)
+      this.isEditing = true;
       this.resetValidate();
       if (!this.patient.patient_name){
         this.validatePatient.name = "Vui lòng nhập tên bệnh nhân!";
@@ -131,8 +133,6 @@ export class PatientProfileTabComponent implements OnInit {
         return;
       }
     }else {
-       this.isOk = true;
-      if(this.isEditing && this.isOk) {
         this.patientBody = {
           patient_id: this.patient.patient_id,
           created_date: this.patient.created_date,
@@ -144,14 +144,13 @@ export class PatientProfileTabComponent implements OnInit {
           dental_medical_history: this.patient.dental_medical_history,
           description: this.patient.description
         }
+        this.isEditing = false;
         this.patientService.updatePatient(this.patientBody, this.id).subscribe(data=>{
           this.toastr.success('Cập nhật bệnh nhân thành công !')
         },error => {
           this.toastr.error('Cập nhật bệnh nhân thất bại!')
         })
-      }
     }
-
 
   }
   getPatient(id:string){

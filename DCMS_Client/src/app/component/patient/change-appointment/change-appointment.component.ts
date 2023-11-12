@@ -3,11 +3,9 @@ import { ConvertJson } from './../../../service/Lib/ConvertJson';
 import { IPatient } from './../../../model/IPatient';
 import { Component, OnInit, OnChanges, SimpleChanges, DoCheck } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbCalendar, NgbDate, NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import { NgbCalendar, NgbDate, NgbDateStruct, NgbDatepickerConfig } from "@ng-bootstrap/ng-bootstrap";
 import { PatientService } from 'src/app/service/PatientService/patient.service';
 import { ReceptionistAppointmentService } from 'src/app/service/ReceptionistService/receptionist-appointment.service';
-
-import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment-timezone';
 
@@ -38,6 +36,8 @@ export class ChangeAppointmentComponent implements OnInit {
     private route: ActivatedRoute,
     private appointmentService: ReceptionistAppointmentService,
     private toastr: ToastrService,
+    private config: NgbDatepickerConfig,
+    private calendar: NgbCalendar
   ) {
     this.EDIT_APPOINTMENT_BODY = {
       epoch: 0,    //x
@@ -53,36 +53,33 @@ export class ChangeAppointmentComponent implements OnInit {
     } as IEditAppointmentBody;
 
     this.mindate = new Date();
+    this.isDisabled = (
+      date: NgbDateStruct
+      //current: { day: number; month: number; year: number }
+    ) => {
+      return this.json.disabledDates.find(x =>
+        (new NgbDate(x.year, x.month, x.day).equals(date))
+        || (this.json.disable.includes(calendar.getWeekday(new NgbDate(date.year, date.month, date.day))))
+      )
+        ? true
+        : false;
+    };
   }
 
-  myHolidayDates = [
-    new Date("10/30/2023"),
-    new Date("11/06/2023"),
-    new Date("11/08/2023"),
-    new Date("11/10/2023"),
-    new Date("11/14/2023"),
-    new Date("11/17/2023")
-  ];
 
-  myHolidayFilter = (d: Date | null): boolean => {
-    if (d) {
-      const time = d.getTime();
-      return !this.myHolidayDates.some(date => date.getTime() === time);
-    }
-    return true;
-  }
-
-  dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
-    // Only highligh dates inside the month view.
-    if (view === 'month') {
-      const date = cellDate.getDate();
-
-      // Highlight the 1st and 20th day of each month.
-      return date === 1 || date === 20 ? 'example-custom-date-class' : '';
-    }
-
-    return '';
-  };
+   //config ng bootstrap
+   isDisabled: any;
+   model!: NgbDateStruct;
+   datePickerJson = {};
+   markDisabled: any;
+   json = {
+     disable: [6, 7],
+     disabledDates: [
+       { year: 2020, month: 8, day: 13 },
+       { year: 2020, month: 8, day: 19 },
+       { year: 2020, month: 8, day: 25 }
+     ]
+   };
 
   ngOnInit(): void {
     this.fetchAPI();
@@ -123,6 +120,11 @@ export class ChangeAppointmentComponent implements OnInit {
 
         this.selectedDate = this.timestampToDate(AppointmentParent[0].date);
         console.log("selectedDate: ", this.selectedDate);
+        this.model = {
+          year: parseInt(this.selectedDate.split('-')[0]),
+          month: parseInt(this.selectedDate.split('-')[1]),
+          day: parseInt(this.selectedDate.split('-')[2])
+        };
 
          this.timeString = this.timestampToGMT7HourString(appointmentChild.time);
         console.log("timeString: ", this.timeString);

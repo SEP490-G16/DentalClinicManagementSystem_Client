@@ -1,23 +1,23 @@
 <div class="recent-orders bg-white" style="border-radius: 15px;">
-
   <div class="content-wrapper">
     <div class="row">
       <div class="card-box">
-        <ul class="nav nav-tabs">
-          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000;"
-              routerLink="/benhnhan/danhsach/tab/hosobenhnhan">Thông tin
+        <ul class="nav nav-tabs" style="padding: 0px 80px;
+        ">
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
+              (click)="navigateHref('/benhnhan/danhsach/tab/hosobenhnhan/')">Thông tin
               chung</a>
           </li>
-          <li class="nav-item mr-2"><a class="nav-link active" routerLink="/benhnhan/danhsach/tab/lichtrinhdieutri"
-              style="padding: 10px; color: #7B4C50;">Lịch
-              trình
+          <li class="nav-item mr-2"><a class="nav-link active"
+              (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')"
+              style="padding: 10px; color: #7B4C50; cursor: pointer;">Khám và
               điều
               trị</a></li>
-          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000;"
-              routerLink="/benhnhan/danhsach/tab/lichhen">Lịch hẹn</a>
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
+              (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
           </li>
-          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000;"
-              routerLink="/benhnhan/danhsach/tab/thanhtoan">Thanh toán</a>
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
+              (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/')">Thanh toán</a>
           </li>
         </ul>
         <!-- <div class="tab-content">
@@ -33,7 +33,7 @@
             <div class="col-md-4">
               <div class="form-group mb-3">
                 <label for="">Bác sĩ khám và điều trị:</label>
-                <select class="form-select input-cus" style="width: 60%;" id="doctorSelect" [(ngModel)]="staff_id">
+                <select class="form-select" style="width: 60%;" id="doctorSelect" [(ngModel)]="staff_id">
                   <!-- Binding giá trị được chọn -->
 
                   <option *ngFor="let doctor of doctors" [value]="doctor.doctorid">
@@ -45,13 +45,13 @@
 
             <div class="col-md-4">
               <label for="">Ngày khám</label>
-              <input type="date" class="form-control input-cus" style="width: 60%;"
+              <input type="date" class="form-control" style="width: 60%;"
                 [(ngModel)]="examination.created_date">
             </div>
 
             <div class="col-md-4">
               <label for="">Lịch trình điều trị</label>
-              <select class="form-select input-cus" style="width: 60%;" aria-label="Chọn lịch trình điều trị"
+              <select class="form-select" style="width: 60%;" aria-label="Chọn lịch trình điều trị"
                 id="treatmentCourseSelect" [(ngModel)]="treatmentCourse_Id"> <!-- Binding giá trị được chọn -->
                 <option *ngFor="let course of treatmentCourse" [value]="course.treatment_course_id">
                   {{ course.name }}
@@ -73,15 +73,13 @@
             <div class="col content-child">
               <textarea style="width: 100%;
                         text-align: justify;
-                        border: 1px solid #000;
                         height: 100px;
                         " [(ngModel)]="examination.description"></textarea>
             </div>
             <div class="col content-child">
               <textarea style="width: 100%;
                         text-align: justify;
-                        height: 100px;
-                        border: 1px solid #000;" [(ngModel)]="examination.diagnosis"></textarea>
+                        height: 100px;" [(ngModel)]="examination.diagnosis"></textarea>
             </div>
           </div>
 
@@ -89,11 +87,11 @@
           <div class="row mt-3 content-child">
             <div class="col-md-3">
               <!-- <img width="100%" height="100%" [src]="TreatmentCourseDetail.xRayImage" alt="ảnh nếu có"> -->
+              <i class="text-center" style="font-size: 12px;">Bấm vào ô vuông này để thêm ảnh X-quang</i>
               <div class="image-container" style="border: 3px dotted #ccc;" (click)="fileInput.click()">
                 <img [src]="imageURL" alt="ẢNH" class="text-center">
                 <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput style="display: none;">
               </div>
-              <i class="text-center" style="font-size: 12px;">Bấm vào ô vuông này để thêm ảnh X-quang</i>
               <input type="text" placeholder="Hoặc nhập đường dẫn vào đây"
                 style="border-bottom: 1px solid #746d6d00; width: 100%;" [(ngModel)]="this.examination.xRayImage">
             </div>
@@ -102,7 +100,7 @@
 
             </div>
             <div class="col-md-8">
-              <textarea class="form-control" style="border: 1px solid #000;
+              <textarea class="form-control" style="
                     height: 200px;
                     " [(ngModel)]="examination.xRayImageDes"
                 placeholder="Nhận xét về ảnh x-quang(nếu có ảnh)"></textarea>
@@ -121,7 +119,7 @@
           <div class="row mt-3">
             <div class="col-sm-12">
               <div class="table-responsive">
-                <table  class="table table-bordered text-center">
+                <table class="table table-bordered text-center">
                   <thead>
                     <tr>
                       <th>Răng</th>

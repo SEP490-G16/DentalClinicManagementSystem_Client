@@ -6,16 +6,9 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ChangeAppointmentComponent } from './change-appointment/change-appointment.component';
-
-import { MatCalendar, MatDatepickerModule } from '@angular/material/datepicker';
-import { MatButtonModule } from '@angular/material/button';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
-
-import {MatInputModule} from '@angular/material/input';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { BenhnhanRoutingModule } from './benhnhan-routing.module';
 
 @NgModule({
   declarations: [
@@ -26,17 +19,14 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     RouterModule,
     FormsModule,
     HttpClientModule,
+    BenhnhanRoutingModule,
     ToastrModule.forRoot({
       preventDuplicates: true,
       timeOut: 3000,
       closeButton: true,
       progressBar: true,
     }),
-    MatMomentDateModule,
-    MatDatepickerModule,
-    MatInputModule,
-    MatNativeDateModule,
-    MatTooltipModule
+    NgbModule,
   ],
 
   providers: [DatePipe]

@@ -144,34 +144,6 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     }
   }
 
-  myHolidayDates = [
-    new Date("10/30/2023"),
-    new Date("11/06/2023"),
-    new Date("11/08/2023"),
-    new Date("11/10/2023"),
-    new Date("11/14/2023"),
-    new Date("11/17/2023")
-  ];
-
-  myHolidayFilter = (d: Date | null): boolean => {
-    if (d) {
-      const time = d.getTime();
-      return !this.myHolidayDates.some(date => date.getTime() === time);
-    }
-    return true;
-  }
-
-  dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
-    // Only highligh dates inside the month view.
-    if (view === 'month') {
-      const date = cellDate.getDate();
-
-      // Highlight the 1st and 20th day of each month.
-      return date === 1 || date === 20 ? 'example-custom-date-class' : '';
-    }
-
-    return '';
-  };
   selectedDoctor: any = null;
   selectDoctor(doctor: any) {
     this.selectedDoctor = doctor;

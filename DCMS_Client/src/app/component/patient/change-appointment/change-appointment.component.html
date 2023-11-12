@@ -29,13 +29,32 @@
       >Ngày đổi:</label>
 
       <div class="col-9 value-staff">
-        <mat-form-field  style="vertical-align: middle;width: 100%;">
-          <input matInput [matDatepicker]="picker" [matDatepickerFilter]="myHolidayFilter" placeholder="Chọn ngày đổi"
-            [(ngModel)]="selectedDate" [min]="mindate">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-          <mat-datepicker [dateClass]="dateClass" #picker></mat-datepicker>
-        </mat-form-field>
+        <form class="form-inline">
+          <div class="form-group">
+            <div class="input-group">
+              <input
+                class="form-control"
+                placeholder="yyyy-mm-dd"
+                [markDisabled]="isDisabled"
+                name="dp"
+                [(ngModel)]="model"
+                [min]="mindate"
+                ngbDatepicker
+                #d="ngbDatepicker"
+                [placement]="'center'"
+                placeholder="Chọn ngày hẹn"
+                >
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar"
+                style="height: 48px;"
+                (click)="d.toggle()" type="button">
+                <i class="bi bi-calendar3"></i>
+              </button>
+              </div>
+            </div>
+            <!-- <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.appointmentDate}}</p> -->
+          </div>
+        </form>
       </div>
     </div>
 

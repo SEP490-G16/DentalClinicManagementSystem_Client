@@ -18,14 +18,6 @@ import { PatientTreatmentCourseTabComponent } from './patient-records/patient-tr
 import { PatientAppointmentTabComponent } from './patient-records/patient-appointment-tab/patient-appointment-tab.component';
 import { PatientPaymentTabComponent } from './patient-records/patient-payment-tab/patient-payment-tab.component';
 
-
-import { MatCalendar, MatDatepickerModule } from '@angular/material/datepicker';
-import { MatButtonModule } from '@angular/material/button';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
-
-import {MatInputModule} from '@angular/material/input';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { PopupDeletePatientComponent } from './patient-records/popup-delete-patient/popup-delete-patient.component';
 import { PatientLichtrinhdieutriComponent } from './patient-records/patient-lichtrinhdieutri/patient-lichtrinhdieutri.component';
 import { VNDateTimeFormatPipe } from '../shared/pipe/datetimeformat.pipe';
@@ -68,11 +60,6 @@ import { PopupSualichtaikhamComponent } from './patient-records/patient-appointm
       progressBar: true,
     }),
     NgbModule,
-    MatMomentDateModule,
-    MatDatepickerModule,
-    MatInputModule,
-    MatNativeDateModule,
-    MatTooltipModule
   ],
   exports: [
     PopupAddPatientComponent,

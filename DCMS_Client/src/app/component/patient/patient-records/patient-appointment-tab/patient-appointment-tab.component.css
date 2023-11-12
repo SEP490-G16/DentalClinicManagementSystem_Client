@@ -254,8 +254,26 @@ table tbody td {
 }
 
 
-table tbody tr:last-child td {
-  /* border: none; */
+.table-container{
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: auto;
+  scrollbar-width: none;
+  scrollbar-color: #c0c0c0 #f0f0f0;
+  border-radius: 10px;
+  -ms-overflow-style: none;
+}
+.table-container::-webkit-scrollbar {
+  width: 0; /* Ẩn thanh cuộn trên trình duyệt Webkit (Chrome, Safari, Opera) */
+}
+.sticky-thead {
+  position: sticky;
+  top: 0; /* Giữ phần thead ở vị trí trên cùng khi cuộn */
+  background-color: white;
+  z-index: 1; /* Đảm bảo phần thead nằm trên cùng của bảng */
+}
+.table-container {
+  position: relative;
 }
 
 a {

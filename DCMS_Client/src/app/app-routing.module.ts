@@ -69,13 +69,10 @@ const routes: Routes = [
   },
 
   {
-    path: 'benhnhan-zalo', component: LayoutsComponent, children: [
-      {
-        path: 'thay',
-        loadChildren: () => import('./component/patient/benhnhan.module').then(m => m.BenhnhanModule)
-      }
-    ]
+    path: 'benhnhan-zalo',
+    loadChildren: () => import('./component/patient/benhnhan.module').then(m => m.BenhnhanModule)
   },
+
   {
     path: "suahoso",
     component: ProfilePersonalComponent,

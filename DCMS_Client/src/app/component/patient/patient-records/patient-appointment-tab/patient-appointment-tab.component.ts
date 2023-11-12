@@ -72,6 +72,10 @@ export class PatientAppointmentTabComponent implements OnInit {
     console.log("TimeString: ", this.timeString);
   }
 
+  deleteAppointment(detail:any,  dateTimestamp:any) {
+
+  }
+
   //Convert Date
   dateToTimestamp(dateStr: string): number {
     const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng của chuỗi ngày

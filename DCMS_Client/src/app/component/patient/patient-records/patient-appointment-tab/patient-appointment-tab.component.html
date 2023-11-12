@@ -1,5 +1,4 @@
 <div class="recent-orders bg-white" style="border-radius: 15px;">
-  <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px; padding-top: 20px;">Hồ sơ bệnh nhân</h2>
   <div class="content-wrapper">
     <div class="row">
       <div class="card-box">
@@ -32,9 +31,9 @@
           <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#myModal">Đặt lịch tái khám</button>
         </div>
         <div class="col">
-          <div class="table-responsive">
-            <table class="table table-bordered">
-              <thead>
+          <div class="table-container">
+            <table>
+              <thead class="sticky-thead">
                 <tr>
                   <th scope="col">Thời gian</th>
                   <th scope="col">Bác sĩ</th>
@@ -47,14 +46,14 @@
                 <ng-container *ngFor="let gf of patientAppointments">
                   <ng-container *ngFor="let ap of gf.appointments">
                     <tr *ngFor="let detail of ap.details">
-                      <td>{{timestampToGMT7String(detail.time)}} - {{convertTimestampToVNDateString(gf.date)}} and {{gf.date}}</td>
+                      <td>{{timestampToGMT7String(detail.time)}} - {{convertTimestampToVNDateString(gf.date)}}</td>
                       <td>{{detail.doctor}}</td>
                       <td>Khám tổng quát</td>
                       <td>Đã hoàn thành</td>
                       <td>
                         <button class="btn btn-primary" data-bs-toggle="modal"
                           data-bs-target="#editAppointmentModal" (click)="editAppointment(detail, gf.date)">Chỉnh sửa</button>
-                        <button class="btn btn-danger">Xóa</button>
+                        <button class="btn btn-danger" (click)="deleteAppointment(detail, gf.date)">Xóa</button>
                       </td>
                     </tr>
                   </ng-container>
