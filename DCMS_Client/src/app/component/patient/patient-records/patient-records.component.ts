@@ -60,7 +60,24 @@ export class PatientRecordsComponent implements OnInit {
   }
 
   detail(id: any) {
-    this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', id])
+    const userGroupsString = sessionStorage.getItem('userGroups');
+
+    if (userGroupsString) {
+      const userGroups = JSON.parse(userGroupsString) as string[];
+
+      if (userGroups.includes('dev-dcms-doctor')) {
+        this.router.navigate(['nhanvien/benhnhan/danhsach/tab/hosobenhnhan', id])
+      } else if (userGroups.includes('dev-dcms-nurse')) {
+        this.router.navigate(['nhanvien/benhnhan/danhsach/tab/hosobenhnhan', id])
+      } else if (userGroups.includes('dev-dcms-receptionist')) {
+        this.router.navigate(['nhanvien/benhnhan/danhsach/tab/hosobenhnhan', id])
+      } else if(userGroups.includes('dev-dcms-admin')){
+        this.router.navigate(['admin/benhnhan/danhsach/tab/hosobenhnhan', id])
+      }
+    } else {
+      console.error('Không có thông tin về nhóm người dùng.');
+      this.router.navigate(['/default-route']);
+    }
   }
 
   signOut() {

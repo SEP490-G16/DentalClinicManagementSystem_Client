@@ -41,9 +41,9 @@ export class PopupAddTreatmentcourseComponent implements OnInit, OnChanges {
     this.treatmentCourseService.postTreatmentCourse(this.Add_TreatmentCourse).
       subscribe((res) => {
         this.showSuccessToast("Thêm lịch trình điều trị thành công");
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
+
+        window.location.reload();
+
       },
         (err) => {
           this.showErrorToast("Thêm lịch trình điều trị thất bại");

@@ -55,15 +55,15 @@ export class LoginComponent implements OnInit {
       if (userGroupsString) {
         const userGroups = JSON.parse(userGroupsString) as string[];
 
-        // if (userGroups.includes('dev-dcms-doctor')) {
-        //   this.router.navigate(['/bacsi']);
-        // } else if (userGroups.includes('dev-dcms-nurse')) {
-        //   this.router.navigate(['/yta']);
-        // } else if (userGroups.includes('dev-dcms-receptionist')) {
-        //   this.router.navigate(['/letan']);
-        // } else {
-          this.router.navigate(['']);
-        // }
+        if (userGroups.includes('dev-dcms-doctor')) {
+          this.router.navigate(['nhanvien/bacsi']);
+        } else if (userGroups.includes('dev-dcms-nurse')) {
+          this.router.navigate(['nhanvien/yta']);
+        } else if (userGroups.includes('dev-dcms-receptionist')) {
+          this.router.navigate(['nhanvien/letan']);
+        } else if(userGroups.includes('dev-dcms-admin')){
+          this.router.navigate(['admin']);
+        }
       } else {
         console.error('Không có thông tin về nhóm người dùng.');
         this.router.navigate(['/default-route']);

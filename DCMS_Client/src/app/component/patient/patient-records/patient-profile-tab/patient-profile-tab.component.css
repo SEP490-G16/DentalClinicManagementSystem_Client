@@ -119,11 +119,13 @@ table tbody td {
 .equal-width-list {
   padding: 0;
   list-style-position: inside;
-  text-align: justify; /* Áp dụng kiểu "justify" cho văn bản bên trong danh sách */
+  text-align: justify;
+  /* Áp dụng kiểu "justify" cho văn bản bên trong danh sách */
 }
 
 .equal-width-list li {
-  width: 100%; /* Đặt chiều rộng bằng nhau cho mỗi mục danh sách */
+  width: 100%;
+  /* Đặt chiều rộng bằng nhau cho mỗi mục danh sách */
   box-sizing: border-box;
 }
 
@@ -146,7 +148,8 @@ table tbody td {
   border-top: 16px solid #3498db;
   width: 120px;
   height: 120px;
-  -webkit-animation: spin 2s linear infinite; /* Safari */
+  -webkit-animation: spin 2s linear infinite;
+  /* Safari */
   animation: spin 2s linear infinite;
 }
 
@@ -154,17 +157,61 @@ table tbody tr:last-child td {
   /* border: none; */
 }
 
-a {
-  text-align: center;
-  display: block;
-  margin: 1rem auto;
-  color: var(--custom-color-primary);
+.image-container {
+  max-width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-left: 100px;
 }
 
+/* Phần thông tin bệnh nhân */
+.patient-info {
+  max-width: 400px; /* Điều chỉnh chiều rộng tối đa của phần thông tin */
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-control[disabled] {
+  background-color: #f9f9f9;
+  cursor: not-allowed;
+}
+
+.btn.button-timekeeping {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Các cảnh báo lỗi */
+.alert-danger-custom {
+  font-size: 14px;
+  margin-top: 5px;
+}
 
 @media screen and (max-width: 1200px) {
 
- .recent-orders {
+  .recent-orders {
     width: 94%;
     position: absolute;
     left: 50%;
@@ -176,13 +223,13 @@ a {
     width: 83vw;
   }
 
- table thead tr th:last-child,
- table thead tr th:first-child {
+  table thead tr th:last-child,
+  table thead tr th:first-child {
     display: none;
   }
 
- table tbody tr td:last-child,
- table tbody tr td:first-child {
+  table tbody tr td:last-child,
+  table tbody tr td:first-child {
     display: none;
   }
 
@@ -196,7 +243,7 @@ a {
     }
   }
 
- .recent-orders {
+  .recent-orders {
     position: relative;
     margin: 3rem 0 0 0;
     width: 100%;
@@ -246,11 +293,11 @@ a {
 }
 
 .custom-table thead tr th {
-	font-weight: 600
+  font-weight: 600
 }
 
 .custom-table tr {
-	background-color: #7B4C50;
+  background-color: #7B4C50;
   border: 1px solid #7B4C50;
 }
 
@@ -264,8 +311,8 @@ a {
 .table.custom-table>tfoot>tr>th,
 .table.custom-table>thead>tr>td,
 .table.custom-table>thead>tr>th {
-	padding: 14px 8px;
-	vertical-align: middle
+  padding: 14px 8px;
+  vertical-align: middle
 }
 
 .dp-hidden {
@@ -274,6 +321,7 @@ a {
   border: none;
   padding: 0;
 }
+
 .custom-day {
   text-align: center;
   padding: 0.185rem 0.25rem;
@@ -281,14 +329,17 @@ a {
   height: 2rem;
   width: 2rem;
 }
+
 .custom-day.focused {
   background-color: #e6e6e6;
 }
+
 .custom-day.range,
 .custom-day:hover {
   background-color: rgb(2, 117, 216);
   color: white;
 }
+
 .custom-day.faded {
   background-color: rgba(2, 117, 216, 0.5);
 }
@@ -299,6 +350,7 @@ a {
   border: none;
   padding: 0;
 }
+
 .custom-day {
   text-align: center;
   padding: 0.185rem 0.25rem;
@@ -310,11 +362,13 @@ a {
 .custom-day.focused {
   background-color: #e6e6e6;
 }
+
 .custom-day.range,
 .custom-day:hover {
   background-color: rgb(2, 117, 216);
   color: white;
 }
+
 .custom-day.faded {
   background-color: rgba(2, 117, 216, 0.5);
 }
@@ -370,7 +424,7 @@ a {
   margin-right: 30px;
 }
 
-.button-timekeeping{
+.button-timekeeping {
   font-family: "Poppins", sans-serif;
   background: #FEDDCC;
   text-align: center;
@@ -382,12 +436,14 @@ a {
   outline: 0px;
   padding: 10px 20px;
   margin-bottom: 15px;
-/* box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset; */
+  /* box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset; */
 }
-button:hover{
+
+button:hover {
   opacity: 0.9;
 }
-button:active{
+
+button:active {
   transform: translateY(4px);
   box-shadow: 0px -1px -1px #fff;
 }
@@ -408,5 +464,3 @@ button:active{
   margin-left: 17px;
   margin-bottom: 5px;
 }
-
-

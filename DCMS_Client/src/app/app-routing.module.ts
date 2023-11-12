@@ -11,47 +11,48 @@ import { AuthGuard } from './service/auth-guard.service';
 
 const routes: Routes = [
 
+  { path: '',   redirectTo: '/dangnhap', pathMatch: 'full' },
   {
     path: 'dangnhap',
     loadChildren: () => import('./component/auth/auth.module').then(m => m.AuthModule)
   },
 
   {
-    path: '', component: LayoutsComponent,
+    path: 'nhanvien', component: LayoutsComponent,
     children: [
 
       {
         path: 'bacsi',
         loadChildren: () => import('./component/doctor/doctor.module').then(m => m.DoctorModule),
-        // canActivate: [AuthGuard], // Áp dụng AuthGuard ở đây
-        // data: {
-        //   allowedGroups: ['dev-dcms-doctor'] // Cung cấp thông tin về nhóm nếu cần thiết
-        // }
+        canActivate: [AuthGuard], // Áp dụng AuthGuard ở đây
+        data: {
+          allowedGroups: ['dev-dcms-doctor'] // Cung cấp thông tin về nhóm nếu cần thiết
+        }
       },
 
       {
         path: 'yta',
         loadChildren: () => import('./component/nurse/nurse.module').then(m => m.NurseModule),
-        // canActivate: [AuthGuard],
-        // data: {
-        //   allowedGroups: ['dev-dcms-nurse']
-        // }
+        canActivate: [AuthGuard],
+        data: {
+          allowedGroups: ['dev-dcms-nurse']
+        }
       },
       {
         path: 'letan',
         loadChildren: () => import('./component/receptionist/receptionist.module').then(m => m.ReceptionistModule),
-        // canActivate: [AuthGuard],
-        // data: {
-        //   allowedGroups: ['dev-dcms-receptionist']
-        // }
+        canActivate: [AuthGuard],
+        data: {
+          allowedGroups: ['dev-dcms-receptionist']
+        }
       },
       {
         path: 'benhnhan',
         loadChildren: () => import('./component/patient/patient.module').then(m => m.PatientModule),
-        // canActivate: [AuthGuard],
-        // data: {
-        //   allowedGroups: ['dev-dcms-doctor', 'dev-dcms-nurse', 'dev-dcms-receptionist']
-        // }
+        canActivate: [AuthGuard],
+        data: {
+          allowedGroups: ['dev-dcms-doctor', 'dev-dcms-nurse', 'dev-dcms-receptionist', 'dev-dcms-admin']
+        }
       },
       {
         path: "suahoso",
@@ -71,15 +72,15 @@ const routes: Routes = [
   },
 
   {
-    path: '', component: LayoutsAdminComponent, children: [
+    path: 'admin', component: LayoutsAdminComponent, children: [
       {
         path: '',
         loadChildren: () => import('./component/admin/admin.module').then(m => m.AdminModule),
-        // canActivate: [AuthGuard],
-        // data: {
-        //   allowedGroups: ['admin']
-        // }
-      },
+        canActivate: [AuthGuard],
+        data: {
+          allowedGroups: ['dev-dcms-admin']
+        }
+      }
     ]
   },
 

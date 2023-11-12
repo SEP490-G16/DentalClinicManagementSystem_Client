@@ -193,9 +193,7 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     this.APPOINTMENT_SERVICE.putAppointment(this.EDIT_APPOINTMENT_BODY, this.selectedAppointment.appointment_id).subscribe(response => {
       console.log("Cập nhật thành công");
       this.showSuccessToast('Sửa Lịch hẹn thành công!');
-      setTimeout(() => {
         window.location.reload();
-      }, 3000);
     }, error => {
       this.showErrorToast("Lỗi khi cập nhật");
     });

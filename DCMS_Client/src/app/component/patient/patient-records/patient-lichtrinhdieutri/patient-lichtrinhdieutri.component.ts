@@ -26,7 +26,24 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
   ) { }
 
   navigateHref(href: string) {
-    this.router.navigate(['' + href + this.id]);
+    const userGroupsString = sessionStorage.getItem('userGroups');
+
+    if (userGroupsString) {
+      const userGroups = JSON.parse(userGroupsString) as string[];
+
+      if (userGroups.includes('dev-dcms-doctor')) {
+        this.router.navigate(['nhanvien' + href + this.id]);
+      } else if (userGroups.includes('dev-dcms-nurse')) {
+        this.router.navigate(['nhanvien' + href + this.id]);
+      } else if (userGroups.includes('dev-dcms-receptionist')) {
+        this.router.navigate(['nhanvien' + href + this.id]);
+      } else if (userGroups.includes('dev-dcms-admin')) {
+        this.router.navigate(['admin' + href + this.id]);
+      }
+    } else {
+      console.error('Không có thông tin về nhóm người dùng.');
+      this.router.navigate(['/default-route']);
+    }
   }
 
   ngOnInit(): void {
@@ -112,12 +129,12 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     this.router.navigate(['/benhnhan/danhsach/tab/lichtrinhdieutri/' + this.id + '/chitiet/' + examination.examination_id]);
   }
 
-  navigateAddExamination(tcId:string) {
-    this.router.navigate(['/benhnhan/danhsach/tab/lichtrinhdieutri/' + this.id + '/themlankham/' + tcId]);
+  navigateAddExamination(tcId: string) {
+    this.router.navigate([ 'nhanvien' + '/benhnhan/danhsach/tab/lichtrinhdieutri/' + this.id + '/themlankham/' + tcId]);
   }
 
   navigateEditExamination(examination: any) {
-    this.router.navigate(['/benhnhan/danhsach/tab/lichtrinhdieutri/' + this.id + '/sualankham/' + examination.treatment_course_id + '/' + examination.examination_id]);
+    this.router.navigate(['nhanvien' + '/benhnhan/danhsach/tab/lichtrinhdieutri/' + this.id + '/sualankham/' + examination.treatment_course_id + '/' + examination.examination_id]);
   }
 
   showSuccessToast(message: string) {

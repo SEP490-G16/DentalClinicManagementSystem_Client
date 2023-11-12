@@ -6,10 +6,7 @@ import { ReceptionistAppointmentListComponent } from './receptionist-appointment
 import { ReceptionistComponent } from './receptionist.component';
 
 const authRoutes: Routes = [
-  {
-    path: '',
-    component: ReceptionistComponent
-  },
+  { path: '',   redirectTo: '/nhanvien/letan/lich-hen', pathMatch: 'full' },
 
   {
     path: 'phong-cho',

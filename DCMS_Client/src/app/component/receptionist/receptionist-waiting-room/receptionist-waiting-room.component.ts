@@ -53,7 +53,10 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
         this.filteredWaitingRoomData = this.waitingRoomData;
         this.loading = false;
       }
-    );
+    ),
+    () => {
+      this.loading = false;
+    };
   }
 
   filteredWaitingRoomData: any[] = [];

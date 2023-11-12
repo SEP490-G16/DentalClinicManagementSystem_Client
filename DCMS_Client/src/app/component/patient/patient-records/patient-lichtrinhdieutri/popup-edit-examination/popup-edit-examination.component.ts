@@ -55,7 +55,24 @@ export class PopupEditExaminationComponent implements OnInit {
   }
 
   navigateHref(href: string) {
-    this.router.navigate(['' + href + this.patient_Id]);
+    const userGroupsString = sessionStorage.getItem('userGroups');
+
+    if (userGroupsString) {
+      const userGroups = JSON.parse(userGroupsString) as string[];
+
+      if (userGroups.includes('dev-dcms-doctor')) {
+        this.router.navigate(['nhanvien' + href + this.patient_Id]);
+      } else if (userGroups.includes('dev-dcms-nurse')) {
+        this.router.navigate(['nhanvien' + href + this.patient_Id]);
+      } else if (userGroups.includes('dev-dcms-receptionist')) {
+        this.router.navigate(['nhanvien' + href + this.patient_Id]);
+      } else if (userGroups.includes('dev-dcms-admin')) {
+        this.router.navigate(['admin' + href + this.patient_Id]);
+      }
+    } else {
+      console.error('Không có thông tin về nhóm người dùng.');
+      this.router.navigate(['/default-route']);
+    }
   }
   ngOnInit(): void {
     this.patient_Id = this.route.snapshot.params['id'];
