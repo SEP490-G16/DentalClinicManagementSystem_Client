@@ -98,7 +98,7 @@ export class PopupAddExaminationComponent implements OnInit {
     this.examination.treatment_course_id = this.treatmentCourse_Id;
     this.examination.staff_id = this.staff_id;
     const facility: string | null = sessionStorage.getItem('locale');
-    this.examination.facility_id = facility || ""; // Sử dụng toán tử '||' để gán giá trị mặc định nếu facility là null
+    this.examination.facility_id = "F-14"; // Sử dụng toán tử '||' để gán giá trị mặc định nếu facility là null
     console.log("post", this.examination);
     this.tcDetailService.postExamination(this.examination)
       .subscribe(() => {

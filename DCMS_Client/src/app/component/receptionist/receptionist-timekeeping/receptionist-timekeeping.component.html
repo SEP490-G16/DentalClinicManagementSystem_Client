@@ -66,7 +66,16 @@
         <td style="border-right: 1px solid #7B4C50;">
           <p style="color: brown;">{{staff.name}}</p>
         </td>
+        <td style="border-right: 1px solid #7B4C50;padding: 8px">
+          <button class="button-timekeeping" (click)="onClockin(staff)"
+            [disabled]="staff.isClockin">{{staff.clockInStatus}}</button>
+          <p [class]="timeClockinColor">{{staff.timeClockin}}</p>
+        </td>
 
+        <td style="border-right: 1px solid #7B4C50; padding: 8px">
+          <button class="button-timekeeping" (click)="onClockout(staff)">{{staff.clockOutStatus}}</button>
+          <p [class]="timeClockoutColor">{{staff.timeClockout}}</p>
+        </td>
         <td style="border-right: 1px solid #7B4C50;"></td>
         <td style="border-right: 1px solid #7B4C50;"></td>
 
@@ -83,16 +92,6 @@
 
         <td style="border-right: 1px solid #7B4C50;"></td>
         <td style="border-right: 1px solid #7B4C50;"></td>
-        <td style="border-right: 1px solid #7B4C50;padding: 8px">
-          <button class="button-timekeeping" (click)="onClockin(staff)"
-            [disabled]="staff.isClockin">{{staff.clockInStatus}}</button>
-          <p [class]="timeClockinColor">{{staff.timeClockin}}</p>
-        </td>
-
-        <td style="border-right: 1px solid #7B4C50; padding: 8px">
-          <button class="button-timekeeping" (click)="onClockout(staff)">{{staff.clockOutStatus}}</button>
-          <p [class]="timeClockoutColor">{{staff.timeClockout}}</p>
-        </td>
         <td style="border-right: 1px solid #7B4C50;"></td>
         <td style="border-right: 1px solid #7B4C50;"></td>
       </tr>

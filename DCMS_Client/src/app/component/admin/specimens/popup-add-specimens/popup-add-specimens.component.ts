@@ -1,8 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {MedicalSupplyService} from "../../../../service/MedicalSupplyService/medical-supply.service";
-import {ToastrService} from "ngx-toastr";
-import {PatientService} from "../../../../service/PatientService/patient.service";
-import {LaboService} from "../../../../service/LaboService/Labo.service";
+import { Component, Input, OnInit } from '@angular/core';
+import { MedicalSupplyService } from "../../../../service/MedicalSupplyService/medical-supply.service";
+import { ToastrService } from "ngx-toastr";
+import { PatientService } from "../../../../service/PatientService/patient.service";
+import { LaboService } from "../../../../service/LaboService/Labo.service";
 
 @Component({
   selector: 'app-popup-add-specimens',
@@ -10,71 +10,71 @@ import {LaboService} from "../../../../service/LaboService/Labo.service";
   styleUrls: ['./popup-add-specimens.component.css']
 })
 export class PopupAddSpecimensComponent implements OnInit {
-  @Input() approveSpecimensList:any;
+  @Input() approveSpecimensList: any;
   validateSpecimens = {
-    name:'',
-    type:'',
-    receiverDate:'',
-    orderer:'',
-    usedDate:'',
-    quantity:'',
-    price:'',
-    orderDate:'',
-    receiver:'',
+    name: '',
+    type: '',
+    receiverDate: '',
+    orderer: '',
+    usedDate: '',
+    quantity: '',
+    price: '',
+    orderDate: '',
+    receiver: '',
   }
-  specimen={
-    name:'',
-    type:'',
-    receiverDate:'',
-    orderer:'',
-    usedDate:'',
-    quantity:'',
-    price:'',
+  specimen = {
+    name: '',
+    type: '',
+    receiverDate: '',
+    orderer: '',
+    usedDate: '',
+    quantity: '',
+    price: '',
     totalPrice: '',
-    orderDate:'',
-    receiver:'',
-    total:'',
-    labo:''
+    orderDate: '',
+    receiver: '',
+    total: '',
+    labo: ''
   }
-  specimenBody={
-    name:'',
-    type:'',
-    received_date:'',
-    orderer:'',
-    used_date:'',
-    quantity:'',
-    unit_price:'',
-    order_date:'',
-    patient_id:'',
-    facility_id:'',
-    lb_id:''
+  specimenBody = {
+    name: '',
+    type: '',
+    received_date: '',
+    orderer: '',
+    used_date: '',
+    quantity: '',
+    unit_price: '',
+    order_date: '',
+    patient_id: '',
+    facility_id: '',
+    lb_id: ''
   }
   specimensRes = {
-    medical_supply_id:'',
-    ms_name:'',
-    ms_type:'',
-    p_patient_name:'',
-    ms_quantity:'',
-    ms_unit_price:'',
-    ms_used_date:'',
-    ms_status:0
+    medical_supply_id: '',
+    ms_name: '',
+    ms_type: '',
+    p_patient_name: '',
+    ms_quantity: '',
+    ms_unit_price: '',
+    ms_used_date: '',
+    ms_status: 0
   }
-  labos:any;
-  patients:any[]=[];
-  patientId:any;
-  isSubmitted:boolean = false;
-  loading:boolean = false;
+  labos: any;
+  patients: any[] = [];
+  patientId: any;
+  isSubmitted: boolean = false;
+  loading: boolean = false;
   constructor(private medicalSupplyService: MedicalSupplyService,
-              private toastr: ToastrService,
-              private patientSerivce:PatientService,
-              private laboService:LaboService) { }
+    private toastr: ToastrService,
+    private patientSerivce: PatientService,
+    private laboService: LaboService) { }
 
   ngOnInit(): void {
     this.getAllLabo();
   }
   calculateTotal() {
     const total = parseInt(this.specimen.quantity) * parseInt(this.specimen.price);
-   this.specimen.total = total.toString();
+    this.specimen.total = total.toString();
   }
   convertTimestampToDateString(timestamp: any): string {
     const date = new Date(timestamp * 1000); // Nhân với 1000 để chuyển đổi từ giây sang mili giây
@@ -92,10 +92,10 @@ export class PopupAddSpecimensComponent implements OnInit {
     }
     return value.toString();
   }
-  updateSpecimensRes(){
+  updateSpecimensRes() {
     let usedDate = this.convertTimestampToDateString(this.specimenBody.used_date);
-    this.specimensRes={
-      medical_supply_id:'',
+    this.specimensRes = {
+      medical_supply_id: '',
       ms_name: this.specimenBody.name,
       ms_type: this.specimenBody.type,
       p_patient_name: this.specimen.receiver,
@@ -106,62 +106,62 @@ export class PopupAddSpecimensComponent implements OnInit {
     }
 
   }
-  addMedicalSupply(){
+  addMedicalSupply() {
     this.resetValidate();
-    if (!this.specimen.name){
+    if (!this.specimen.name) {
       this.validateSpecimens.name = 'Vui lòng nhập tên mẫu!';
       this.isSubmitted = true;
     }
-    if (!this.specimen.type){
+    if (!this.specimen.type) {
       this.validateSpecimens.type = 'Vui lòng nhập chất liệu!';
       this.isSubmitted = true;
     }
-    if (!this.specimen.receiverDate){
+    if (!this.specimen.receiverDate) {
       this.validateSpecimens.receiverDate = 'Vui lòng nhập ngày nhận!';
       this.isSubmitted = true;
     }
-    if (!this.specimen.orderer){
+    if (!this.specimen.orderer) {
       this.validateSpecimens.orderer = 'Vui lòng nhập người dặt!';
       this.isSubmitted = true;
     }
-    if(!this.specimen.usedDate){
+    if (!this.specimen.usedDate) {
       this.validateSpecimens.usedDate = 'Vui lòng nhập ngày lắp!';
       this.isSubmitted = true;
     }
-    if (!this.specimen.quantity){
+    if (!this.specimen.quantity) {
       this.validateSpecimens.quantity = 'Vui lòng nhập số lượng!';
       this.isSubmitted = true;
     }
-    else if (!this.checkNumber(this.specimen.quantity)){
+    else if (!this.checkNumber(this.specimen.quantity)) {
       this.validateSpecimens.quantity = 'Vui lòng nhập số dương!';
       this.isSubmitted = true;
     }
-    if (!this.specimen.price){
+    if (!this.specimen.price) {
       this.validateSpecimens.price = 'Vui lòng nhập đơn giá!';
       this.isSubmitted = true;
     }
-    else if (!this.checkNumber(this.specimen.price)){
+    else if (!this.checkNumber(this.specimen.price)) {
       this.validateSpecimens.price = 'Vui lòng nhập số dương!'
       this.isSubmitted = true;
     }
-    if (!this.specimen.orderDate){
+    if (!this.specimen.orderDate) {
       this.validateSpecimens.orderDate = 'Vui lòng nhập ngày đặt!';
       this.isSubmitted = true;
     }
-    if (!this.specimen.receiver){
+    if (!this.specimen.receiver) {
       this.validateSpecimens.receiver = 'Vui lòng nhập bệnh nhân';
       this.isSubmitted = true;
     }
-    if (this.isSubmitted){
+    if (this.isSubmitted) {
       return;
     }
     let orderDate = new Date(this.specimen.orderDate);
     let receivedDate = new Date(this.specimen.receiverDate);
     let usedDate = new Date(this.specimen.usedDate);
-    let orderDateTimestamp = (orderDate.getTime()/1000).toString();
-    let receivedDateTimestamp = (receivedDate.getTime()/1000).toString();
-    let userDateTimestamp = (usedDate.getTime()/1000).toString();
-    this.specimenBody={
+    let orderDateTimestamp = (orderDate.getTime() / 1000).toString();
+    let receivedDateTimestamp = (receivedDate.getTime() / 1000).toString();
+    let userDateTimestamp = (usedDate.getTime() / 1000).toString();
+    this.specimenBody = {
       name: this.specimen.name,
       type: this.specimen.type,
       received_date: receivedDateTimestamp,
@@ -170,54 +170,54 @@ export class PopupAddSpecimensComponent implements OnInit {
       quantity: this.specimen.quantity,
       unit_price: this.specimen.price,
       order_date: orderDateTimestamp,
-      patient_id:this.patientId,
+      patient_id: this.patientId,
       facility_id: 'F-01',
       lb_id: this.specimen.labo
     }
     console.log(this.specimenBody)
     this.loading = true;
-    this.medicalSupplyService.addMedicalSupply(this.specimenBody).subscribe(data=>{
+    this.medicalSupplyService.addMedicalSupply(this.specimenBody).subscribe(data => {
       this.toastr.success('Thêm mới mẫu thành công !');
       /*let ref = document.getElementById('cancel-specimen');
       ref?.click();*/
       window.location.reload();
-     /* this.updateSpecimensRes();
-      this.specimensRes.medical_supply_id = data.data.medical_supply_id;
-      this.approveSpecimensList.unshift(this.specimensRes);*/
+      /* this.updateSpecimensRes();
+       this.specimensRes.medical_supply_id = data.data.medical_supply_id;
+       this.approveSpecimensList.unshift(this.specimensRes);*/
     },
       error => {
-      this.loading = false;
-      this.toastr.error('Thêm mới thất bại !');
+        this.loading = false;
+        this.toastr.error('Thêm mới thất bại !');
       })
   }
-  onsearch(){
-    this.patientSerivce.getPatientPhoneNumber(this.specimen.receiver).subscribe(data=>{
+  onsearch() {
+    this.patientSerivce.getPatientPhoneNumber(this.specimen.receiver).subscribe(data => {
       this.patients = data;
       console.log(this.patients);
     })
   }
-  selectPatient(patient:any) {
+  selectPatient(patient: any) {
     // Thiết lập giá trị của input và ID của bệnh nhân
     this.specimen.receiver = patient.patient_name;
     this.patientId = patient.patient_id;
     // Xóa danh sách kết quả
     this.patients = [];
   }
-  private resetValidate(){
+  private resetValidate() {
     this.validateSpecimens = {
-      name:'',
-      type:'',
-      receiverDate:'',
-      orderer:'',
-      usedDate:'',
-      quantity:'',
-      price:'',
-      orderDate:'',
-      receiver:'',
+      name: '',
+      type: '',
+      receiverDate: '',
+      orderer: '',
+      usedDate: '',
+      quantity: '',
+      price: '',
+      orderDate: '',
+      receiver: '',
     }
     this.isSubmitted = false;
   }
-  private checkNumber(number:any):boolean{
+  private checkNumber(number: any): boolean {
     return /^[1-9]\d*$/.test(number);
   }
   getAllLabo() {

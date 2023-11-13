@@ -1,6 +1,6 @@
 <!--Add Waiting Modal -->
 <div class="modal" id="wrModal">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-xl" style="height: 80%;">
     <div class="modal-content">
 
       <!-- Modal Header -->
@@ -16,10 +16,10 @@
           <!-- Hàng 2: 2 thanh input mỗi thanh chiếm 50% -->
           <div class="row">
             <div class="col-6">
-                <label for="sdt">Số điện thoại:</label>
-                <input type="text" class="form-control" id="fullName" name="sdt" [(ngModel)]="phone_number"
-                  (keydown.enter)="onPhoneInput()">
-              <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+              <label for="sdt">Số điện thoại:</label>
+              <input type="text" class="form-control" id="fullName" name="sdt" [(ngModel)]="phone_number"
+                (keydown.enter)="onPhoneInput()">
+              <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
                 <p>
                   {{validateWatingRoom.phone}}
                 </p>
@@ -28,13 +28,12 @@
             <div class="col-6">
               <div class="form-group">
                 <label for="phone">Loại điều trị</label>
-                <select [(ngModel)]="POST_WAITTINGROOM.produce_id"
-                  class="form-select">
+                <select [(ngModel)]="POST_WAITTINGROOM.produce_id" class="form-select">
                   <option value="1">Cạo vôi răng</option>
                   <option value="2">Niềng răng</option>
                   <option value="3">Nhổ răng</option>
                 </select>
-                <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
                   <p>
                     {{validateWatingRoom.procedure}}
                   </p>
@@ -50,51 +49,17 @@
               <input type="text" class="form-control" [(ngModel)]="POST_WAITTINGROOM.patient_name" id="fullName"
                 name="fullName" disabled>
             </div>
-
             <div class="col-6">
-              <div class="form-group bg-hover select-focus">
-                <label for="phone">Trạng thái</label>
-                <select [(ngModel)]="POST_WAITTINGROOM.status"
-                  class="form-select">
-                  <option value="1">Đang chờ</option>
-                  <option value="2">Đang khám</option>
-                  <option value="3">Khám xong</option>
-                  <option value="4">Không đến khám</option>
-                </select>
-                <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
-                  <p>
-                    {{validateWatingRoom.status}}
-                  </p>
-                </div>
-              </div>
+              <label for="patientID">Mã bệnh nhân:</label>
+              <input type="text" class="form-control" [(ngModel)]="POST_WAITTINGROOM.patient_id" id="patientID"
+                name="patientID" disabled>
             </div>
           </div>
 
-          <!-- Hàng 2: 2 thanh input mỗi thanh chiếm 50% -->
-          <div class="row">
-            <div class="col-6">
-                <label for="patientID">Mã bệnh nhân:</label>
-                <input type="text" class="form-control" [(ngModel)]="POST_WAITTINGROOM.patient_id"
-                  id="patientID" name="patientID" disabled>
-            </div>
-            <!--<div class="col-6">
-              <div class="form-group bg-hover select-focus">
-                <label for="phone">Trạng thái</label>
-                <select [(ngModel)]="POST_WAITTINGROOM.status"
-                  class="form-control form-select form-control-sm mb-3 mx-auto text-center dropdown-custom">
-                  <option value="1">Đang chờ</option>
-                  <option value="2">Đang khám</option>
-                  <option value="3">Khám xong</option>
-                  <option value="4">Không đến khám</option>
-                </select>
-              </div>
-            </div>
-          </div>-->
-
           <div class="row mt-3">
             <div class="col-12">
-              <textarea [(ngModel)]="POST_WAITTINGROOM.reason" class="form-control w-100" placeholder="Lý do khám"></textarea>
-              <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+              <textarea [(ngModel)]="POST_WAITTINGROOM.reason" class="form-control" placeholder="Lý do khám"></textarea>
+              <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
                 <p>
                   {{validateWatingRoom.reason}}
                 </p>
@@ -102,14 +67,14 @@
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Modal footer -->
-      <div class="button-conf float-end">
-        <button type="button" id="cancel" class="btn bg-white" data-bs-dismiss="modal" (click)="close()">Hủy</button>
-        <button type="button" class="btn"  style="background-color: rgba(139, 55, 19,.95); color:white" (click)="onPostWaitingRoom()">Xác
-          nhận</button>
+        <!-- Modal footer -->
+        <div class="button-conf float-end">
+          <button type="button" id="cancel" class="btn bg-white" data-bs-dismiss="modal" (click)="close()">Hủy</button>
+          <button type="button" class="btn" style="background-color: rgba(139, 55, 19,.95); color:white"
+            (click)="onPostWaitingRoom()">Xác
+            nhận</button>
+        </div>
       </div>
     </div>
   </div>
-</div>

@@ -276,9 +276,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
           } as IAddAppointment;
           this.procedure = '';
           this.appointmentTime = '';
-          setTimeout(() => {
             window.location.reload();
-          }, 3000);
         },
         (error) => {
           this.loading = false;

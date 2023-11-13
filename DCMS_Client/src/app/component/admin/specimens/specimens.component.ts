@@ -216,6 +216,7 @@ export class SpecimensComponent implements OnInit {
       this.loading = true;
       this.SpecimensService.deleteSpecimens(id)
       .subscribe((res) => {
+        this.loading = false;
         this.showSuccessToast('Xóa mẫu vật thành công');
         window.location.reload();
       },
@@ -273,11 +274,5 @@ showErrorToast(message: string) {
     timeOut: 3000, // Adjust the duration as needed
   });
 }
-  signOut() {
-    this.cognitoService.signOut().then(() => {
-      console.log("Logged out!");
-      this.router.navigate(['/login']);
-    })
-  }
 
 }

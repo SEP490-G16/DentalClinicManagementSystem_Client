@@ -45,7 +45,7 @@ export class PopupEditExaminationComponent implements OnInit {
       diagnosis: "",
       xRayImage: "",
       created_date: "",
-      facility_id: "",
+      facility_id: "F-14",
       description: "",
       staff_id: "",
       xRayImageDes: "",
@@ -96,6 +96,7 @@ export class PopupEditExaminationComponent implements OnInit {
   }
 
   getExamination() {
+    this.examination.facility_id = "F-14";
     this.tcDetailService.getExamination(this.examinationId)
       .subscribe((data) => {
         console.log("data: ", data);

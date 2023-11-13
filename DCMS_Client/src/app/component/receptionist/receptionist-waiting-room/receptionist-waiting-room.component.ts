@@ -54,17 +54,19 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
         this.loading = false;
       }
     ),
-    () => {
-      this.loading = false;
-    };
+      () => {
+        this.loading = false;
+      };
   }
 
   filteredWaitingRoomData: any[] = [];
   filterProcedure() {
     if (this.procedure === '0') {
       this.filteredWaitingRoomData = [...this.waitingRoomData];
+      this.loading = false;
     } else {
       this.filteredWaitingRoomData = this.waitingRoomData.filter((item: IPostWaitingRoom) => item.produce_id === this.procedure);
+      this.loading = false;
     }
   }
 
@@ -102,9 +104,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
         .subscribe((data) => {
           this.loading = false;
           this.showSuccessToast('Xóa hàng chờ thành công');
-          setTimeout(() => {
-            window.location.reload();
-          }, 3000);
+          window.location.reload();
         },
           () => {
             this.loading = false;
@@ -115,10 +115,9 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
       this.waitingRoomService.putWaitingRoom(this.PUT_WAITINGROOM)
         .subscribe(data => {
           this.loading = false;
+          this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
           this.showSuccessToast('Chỉnh sửa hàng chờ thành công');
-          setTimeout(() => {
-            window.location.reload();
-          }, 3000);
+          window.location.reload();
         },
           () => {
             this.loading = false;

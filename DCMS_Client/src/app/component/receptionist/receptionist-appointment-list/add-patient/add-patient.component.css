@@ -201,22 +201,3 @@
 .btn-addNew:hover{
   background-color: #FEDDCC;
 }
-
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7); /* Một màu đen có độ trong suốt để tạo hiệu ứng overlay */
-}
-
-.modal-content {
-  width: 50%;
-  height: 80%;
-  margin: auto;
-  background-color: #fff;
-  padding: 20px;
-  overflow: auto;
-}

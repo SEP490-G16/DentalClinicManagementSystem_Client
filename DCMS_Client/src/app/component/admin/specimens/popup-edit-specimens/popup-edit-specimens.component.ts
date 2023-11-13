@@ -12,19 +12,19 @@ import { CognitoService } from 'src/app/service/cognito.service';
 })
 export class PopupEditSpecimensComponent implements OnInit {
   @Input() PutSpecimen: any;
-  @Input() AllLabos:any;
-  loading:boolean = false;
+  @Input() AllLabos: any;
+  loading: boolean = false;
   IPutSpecimens: PutSpecimen;
-  Labos:any;
-  id:string = "";
+  Labos: any;
+  id: string = "";
   status: string = "0";
   total: number = 0;
   constructor(
     private toastr: ToastrService,
-    private cognitoService:CognitoService,
+    private cognitoService: CognitoService,
     private SpecimensService: SpecimensService,
 
-    private router:Router
+    private router: Router
 
   ) {
     this.IPutSpecimens = {
@@ -63,28 +63,28 @@ export class PopupEditSpecimensComponent implements OnInit {
     }
     if (changes['AllLabos']) {
       this.Labos = this.AllLabos;
-      console.log("Labos:" , this.Labos);
+      console.log("Labos:", this.Labos);
     }
   }
 
   EditSpecimen() {
     this.loading = true;
-    console.log("id",this.id);
-    console.log("specimens",this.IPutSpecimens);
+    console.log("id", this.id);
+    console.log("specimens", this.IPutSpecimens);
     this.SpecimensService.putSpecimens(this.id, this.IPutSpecimens)
-    .subscribe((res) => {
-      this.loading = false;
+      .subscribe((res) => {
+        this.loading = false;
         this.showSuccessToast('Chỉnh sửa mẫu vật thành công!');
         window.location.reload();
-    },
+      },
 
-    (err) => {
-      // console.log(err.err.message)
-      this.loading = false;
-      // this.showErrorToast(err.err.message)
-      this.showSuccessToast('Chỉnh sửa mẫu vật thành công!');
-    }
-    )
+        (err) => {
+          // console.log(err.err.message)
+          this.loading = false;
+          // this.showErrorToast(err.err.message)
+          this.showSuccessToast('Chỉnh sửa mẫu vật thành công!');
+        }
+      )
   }
 
   showSuccessToast(message: string) {
@@ -98,12 +98,5 @@ export class PopupEditSpecimensComponent implements OnInit {
     this.toastr.error(message, 'Lỗi', {
       timeOut: 3000, // Adjust the duration as needed
     });
-  }
-
-  signOut() {
-    this.cognitoService.signOut().then(() => {
-      console.log("Logged out!");
-      this.router.navigate(['/login']);
-    })
   }
 }
