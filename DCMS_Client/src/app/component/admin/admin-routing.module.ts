@@ -26,6 +26,9 @@ import { PatientTreatmentCourseTabComponent } from '../patient/patient-records/p
 import { PatientAppointmentTabComponent } from '../patient/patient-records/patient-appointment-tab/patient-appointment-tab.component';
 import { PatientPaymentTabComponent } from '../patient/patient-records/patient-payment-tab/patient-payment-tab.component';
 import { PatientProfileTabComponent } from '../patient/patient-records/patient-profile-tab/patient-profile-tab.component';
+import {
+  ReceptionistAppointmentListComponent
+} from "../receptionist/receptionist-appointment-list/receptionist-appointment-list.component";
 
 
 const adminRoutes: Routes = [
@@ -51,31 +54,9 @@ const adminRoutes: Routes = [
   },
   {path:'theo-doi-cham-cong',component:FollowingTimekeepingComponent},
   {
-    path: 'danhsach', children:[
-      {
-      path:'', component:PatientRecordsComponent,
-      },
-      {
-        path: 'tab/lichtrinhdieutri/:id', children: [
-          {path: '',  component:PatientLichtrinhdieutriComponent},
-          {path: 'themlankham/:tcId', component:PopupAddExaminationComponent},
-          {path: 'sualankham/:tcId/:examinationId', component:PopupEditExaminationComponent},
-          {path: 'chitiet/:examinationId', component: PatientTreatmentCourseTabComponent}
-        ]
-      },
-      {
-        path: 'tab/lichhen/:id',
-        component: PatientAppointmentTabComponent
-      },
-      {
-        path: 'tab/thanhtoan/:id',
-        component: PatientPaymentTabComponent
-      },
-      // {path:'tab/profile/:id', component:PatientProfileTabComponent}
-      {path:'tab/hosobenhnhan/:id', component:PatientProfileTabComponent}
-
-      ]
-  }
+    path: 'lich-hen',
+    component: ReceptionistAppointmentListComponent
+  },
 ]
 
 @NgModule({

@@ -80,7 +80,15 @@ const routes: Routes = [
         data: {
           allowedGroups: ['dev-dcms-admin']
         }
-      }
+      },
+      {
+        path: 'benhnhan',
+        loadChildren: () => import('./component/patient/patient.module').then(m => m.PatientModule),
+        canActivate: [AuthGuard],
+        data: {
+          allowedGroups: ['dev-dcms-doctor', 'dev-dcms-nurse', 'dev-dcms-receptionist', 'dev-dcms-admin']
+        }
+      },
     ]
   },
 
