@@ -31,6 +31,7 @@ import 'moment/locale/vi';
 import { ToastrService } from 'ngx-toastr';
 import { ReceptionistTimekeepingService } from 'src/app/service/ReceptionistService/receptionist-timekeeping.service';
 import { RequestBodyTimekeeping } from 'src/app/model/ITimekeeping';
+import {Router} from "@angular/router";
 
 
 const colors: Record<string, EventColor> = {
@@ -360,6 +361,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
   constructor(private modal: NgbModal,
     private timekeepingService: ReceptionistTimekeepingService,
     private toastr: ToastrService,
+    private router: Router
   ) {
     //Get Date
     this.currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
@@ -441,5 +443,24 @@ export class RegisterWorkScheduleComponent implements OnInit {
       timeOut: 3000, // Adjust the duration as needed
     });
   }
+  navigateHref(href: string) {
+    const userGroupsString = sessionStorage.getItem('userGroups');
 
+    if (userGroupsString) {
+      const userGroups = JSON.parse(userGroupsString) as string[];
+
+      if (userGroups.includes('dev-dcms-doctor')) {
+        this.router.navigate(['nhanvien' + href]);
+      } else if (userGroups.includes('dev-dcms-nurse')) {
+        this.router.navigate(['nhanvien' + href]);
+      } else if (userGroups.includes('dev-dcms-receptionist')) {
+        this.router.navigate(['nhanvien' + href]);
+      } else if (userGroups.includes('dev-dcms-admin')) {
+        this.router.navigate(['admin' + href]);
+      }
+    } else {
+      console.error('Không có thông tin về nhóm người dùng.');
+      this.router.navigate(['/default-route']);
+    }
+  }
 }

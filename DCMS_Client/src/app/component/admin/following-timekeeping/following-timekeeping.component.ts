@@ -3,6 +3,7 @@ import {TimeKeepingService} from "../../../service/Follow-TimeKeepingService/tim
 import {count} from "rxjs";
 import * as moment from "moment-timezone";
 import {RequestBodyTimekeeping} from "../../../model/ITimekeeping";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-following-timekeeping',
@@ -11,7 +12,7 @@ import {RequestBodyTimekeeping} from "../../../model/ITimekeeping";
 })
 export class FollowingTimekeepingComponent implements OnInit {
   followingTimekeepings:any[]=[];
-  constructor(private timekeepingService: TimeKeepingService) { }
+  constructor(private timekeepingService: TimeKeepingService, private router: Router,) { }
 
   ngOnInit(): void {
    this.getFollowingTimekeeping();
@@ -101,4 +102,26 @@ export class FollowingTimekeepingComponent implements OnInit {
     const timestamp = new Date(this.currentYear, this.currentMonth, day).getTime();
     return this.isSameDay(1699462800000, new Date(timestamp));
   }
+
+  navigateHref(href: string) {
+    const userGroupsString = sessionStorage.getItem('userGroups');
+
+    if (userGroupsString) {
+      const userGroups = JSON.parse(userGroupsString) as string[];
+
+      if (userGroups.includes('dev-dcms-doctor')) {
+        this.router.navigate(['nhanvien' + href]);
+      } else if (userGroups.includes('dev-dcms-nurse')) {
+        this.router.navigate(['nhanvien' + href]);
+      } else if (userGroups.includes('dev-dcms-receptionist')) {
+        this.router.navigate(['nhanvien' + href]);
+      } else if (userGroups.includes('dev-dcms-admin')) {
+        this.router.navigate(['admin' + href]);
+      }
+    } else {
+      console.error('Không có thông tin về nhóm người dùng.');
+      this.router.navigate(['/default-route']);
+    }
+  }
 }
+

@@ -29,6 +29,12 @@ import { PatientProfileTabComponent } from '../patient/patient-records/patient-p
 import {
   ReceptionistAppointmentListComponent
 } from "../receptionist/receptionist-appointment-list/receptionist-appointment-list.component";
+import {
+  ReceptionistWaitingRoomComponent
+} from "../receptionist/receptionist-waiting-room/receptionist-waiting-room.component";
+import {
+  ReceptionistTimekeepingComponent
+} from "../receptionist/receptionist-timekeeping/receptionist-timekeeping.component";
 
 
 const adminRoutes: Routes = [
@@ -52,10 +58,18 @@ const adminRoutes: Routes = [
       {path: 'chi-tiet-nhan-vien', component: StaffDetailComponent}
     ]
   },
-  {path:'theo-doi-cham-cong',component:FollowingTimekeepingComponent},
+  {path:'letan/theo-doi-cham-cong',component:FollowingTimekeepingComponent},
   {
     path: 'lich-hen',
     component: ReceptionistAppointmentListComponent
+  },
+  {
+    path: 'phong-cho',
+    component: ReceptionistWaitingRoomComponent
+  },
+  {
+    path: 'letan/cham-cong',
+    component: ReceptionistTimekeepingComponent
   },
 ]
 
