@@ -8,7 +8,7 @@
       <!-- Modal Header -->
       <div class="modal-header color-header">
         <h4 class="modal-title text-center w-100">Cập nhật thủ thuật</h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="resetValidate()"></button>
       </div>
 
       <!-- Modal body -->
@@ -53,7 +53,7 @@
 
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" id="cancel-service" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
+          <button type="button" id="cancel-service" class="btn btn-cancel" data-bs-dismiss="modal" (click)="resetValidate()">Hủy</button>
           <button type="button" class="btn btn-save" (click)="updateMedicalProcedure()"><i class="bi bi-floppy2"></i> Lưu</button>
         </div>
 

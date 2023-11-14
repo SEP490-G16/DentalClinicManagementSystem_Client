@@ -9,9 +9,10 @@ import {ToastrService} from "ngx-toastr";
 })
 export class MaterialComponent implements OnInit {
 
-  materialList:any;
+  materialList:any = [];
   material:any;
   loading:boolean = false;
+  enableNextPageButton: boolean = false;
   constructor(private materialService:MaterialService,
               private toastr: ToastrService) { }
 
@@ -19,25 +20,29 @@ export class MaterialComponent implements OnInit {
     paging:1,
     total:0
   };
+
   ngOnInit(): void {
     this.getMaterials(this.pagingMaterial.paging);
   }
   getMaterials(paging:number){
     this.loading = true;
     this.materialService.getMaterials(paging).subscribe(data=>{
-      this.materialList = data.data;
+      //this.materialList = data.data;
+      //this.loading = false;
+      if (paging > 1 && this.materialList.length > 10){
+        const dataNextPage = [this.materialList[10]];
+        this.materialList = dataNextPage.concat(data.data);
+      } else {
+        this.materialList = data.data;
+      }
+      //this.pagingMaterial.total = paging === 1 ? this.materialList.length : this.pagingMaterial.total+data.data.length;
+      this.enableNextPageButton = this.materialList.length > 10;
       this.loading = false;
-      if (this.materialList.length < 11){
-        this.pagingMaterial.total+=this.materialList.length;
-      }
-      else
-      {
-        this.pagingMaterial.total=this.materialList.length;
-      }
     })
   }
-  pageChanged(event: number) {
-    this.pagingMaterial.paging = event;
+  pageChanged(paging: number) {
+    this.pagingMaterial.paging = paging;
+    console.log("paging:",this.pagingMaterial.paging);
     this.getMaterials(this.pagingMaterial.paging);
   }
   deleteMaterial(id:string){
@@ -60,5 +65,19 @@ export class MaterialComponent implements OnInit {
   }
   openEditMaterial(material:any){
     this.material = material;
+  }
+
+  dataTable(): any[] {
+    let results = [];
+    if (this.materialList) {
+      if (this.materialList.length > 10) {
+        for (let i = 0; i < 10; i++) {
+          results.push(this.materialList[i]);
+        }
+      } else {
+        results = this.materialList;
+      }
+    }
+    return results;
   }
 }

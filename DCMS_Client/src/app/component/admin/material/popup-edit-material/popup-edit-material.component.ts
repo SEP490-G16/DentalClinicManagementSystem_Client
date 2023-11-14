@@ -76,7 +76,7 @@ export class PopupEditMaterialComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['material']){
+    if (changes['material'] && this.material){
       this.id = this.material.material_id;
       this.materialInput.name = this.material.material_name;
       this.materialInput.unit = this.material.unit;

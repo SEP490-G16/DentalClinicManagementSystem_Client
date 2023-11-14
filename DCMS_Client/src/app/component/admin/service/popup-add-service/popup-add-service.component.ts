@@ -121,7 +121,7 @@ export class PopupAddServiceComponent implements OnChanges {
       this.medicalProcedureGroups = res.data;
     })
   }*/
-  private resetValidate(){
+   resetValidate(){
     this.validateService={
       serviceName:'',
       price:'',

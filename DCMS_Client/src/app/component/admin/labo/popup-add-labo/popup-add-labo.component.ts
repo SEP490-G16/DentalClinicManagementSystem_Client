@@ -104,7 +104,7 @@ export class PopupAddLaboComponent implements OnInit {
 
   }
 
-  private resetErrors() {
+   resetErrors() {
     this.LaboErrors = {
       labo_name: '',
       address: '',

@@ -118,7 +118,7 @@ export class PopupEditLaboComponent implements OnInit, OnChanges {
     // }
   }
 
-  private resetErrors() {
+   resetErrors() {
     this.EditLaboErrors = {
       labo_name: '',
       address: '',

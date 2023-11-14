@@ -30,6 +30,9 @@ export class PopupEditGroupServiceComponent implements OnChanges {
     name:'',
     description:''
   }
+  validate={
+    serviceGroupName:''
+  }
   loading:boolean = false;
   ngOnInit(): void {
     /*this.serviceGroup={
@@ -39,8 +42,12 @@ export class PopupEditGroupServiceComponent implements OnChanges {
   }
 
   updateServiceGroup(){
+    this.resetValidate();
     if (!this.serviceGroup.serviceGroupName) {
+      this.validate.serviceGroupName = 'Tên nhóm thủ thuật không được bỏ trống!'
       this.isCheckName = true;
+    }
+    if (this.isCheckName){
       return;
     }
     this.serviceGroupBody={
@@ -76,5 +83,10 @@ export class PopupEditGroupServiceComponent implements OnChanges {
       this.serviceGroup.serviceGroupName = this.name;
     }
   }
-
+  resetValidate(){
+    this.validate={
+      serviceGroupName: ''
+    }
+    this.isCheckName = false;
+  }
 }
