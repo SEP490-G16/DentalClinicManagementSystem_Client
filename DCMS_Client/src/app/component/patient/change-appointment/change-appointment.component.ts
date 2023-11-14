@@ -47,7 +47,7 @@ export class ChangeAppointmentComponent implements OnInit {
         patient_id: '',  //x
         patient_name: '', //x
         phone_number: '', //x
-        procedure: 1,  //x
+        procedure_id: "",  //x
         doctor: '', //x
         time: 0  //x
       }
@@ -199,7 +199,7 @@ export class ChangeAppointmentComponent implements OnInit {
         patient_id: this.appointment.patient_id,  //x
         patient_name: this.appointment.patient_name, //x
         phone_number: this.appointment.phone_number, //x
-        procedure: this.appointment.procedure,  //x
+        procedure_id: this.appointment.procedure,  //x
         doctor: this.appointment.doctor, //x
         time: this.dateTimeToGMT7Timestamp(this.selectedDate, this.timeString).timeTimestamp //x
       }

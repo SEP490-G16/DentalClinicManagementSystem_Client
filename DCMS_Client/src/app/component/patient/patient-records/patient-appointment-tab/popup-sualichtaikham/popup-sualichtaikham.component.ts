@@ -74,7 +74,7 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
         patient_id: '',  //x
         patient_name: '', //x
         phone_number: '', //x
-        procedure: 1,  //x
+        procedure_id: "",  //x
         doctor: '', //x
         time: 0  //x
       }
@@ -109,7 +109,7 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
         appointment: {
           patient_id: this.EditAppointmentPatient.patient_id,
           patient_name: this.EditAppointmentPatient.patient_name,
-          procedure: this.EditAppointmentPatient.procedure,
+          procedure_id: this.EditAppointmentPatient.procedure,
           phone_number: this.EditAppointmentPatient.phone_number,
           doctor: this.EditAppointmentPatient.doctor,
           time: this.EditAppointmentPatient.time
@@ -169,7 +169,7 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
     console.log("Time: ", this.EDIT_APPOINTMENT_BODY.appointment.time)
     console.log(this.EDIT_APPOINTMENT_BODY);
     this.resetValidate();
-    if (!this.EDIT_APPOINTMENT_BODY.appointment.procedure) {
+    if (!this.EDIT_APPOINTMENT_BODY.appointment.procedure_id) {
       this.validateAppointment.procedure = "Vui lòng chọn loại điều trị!";
       this.isSubmitted = true;
     }

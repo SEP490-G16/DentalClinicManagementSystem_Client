@@ -12,11 +12,17 @@ import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment-timezone';
 import 'moment/locale/vi';
 import {WebsocketService} from "../../../service/Chat/websocket.service";
+import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureService/medical-procedure-group.service';
+import { ReceptionistWaitingRoomService } from 'src/app/service/ReceptionistService/receptionist-waitingroom.service';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+
 @Component({
   selector: 'app-receptionist-appointment-list',
   templateUrl: './receptionist-appointment-list.component.html',
   styleUrls: ['./receptionist-appointment-list.component.css']
 })
+
 export class ReceptionistAppointmentListComponent implements OnInit {
 
   loading:boolean = false;
@@ -28,8 +34,9 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     private cognitoService: CognitoService, private router: Router,
     private toastr: ToastrService,
     private renderer: Renderer2,
-
-              private webSocketService:WebsocketService
+    private webSocketService:WebsocketService, 
+    private medicaoProcedureGroupService:MedicalProcedureGroupService, 
+    private receptionistWaitingRoom: ReceptionistWaitingRoomService
   ) {
     this.selectedAppointment = {
       appointment_id: '',
@@ -45,6 +52,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   searchText: string = '';
   filteredAppointments: any;
   appointmentList: RootObject[] = [];
+  listGroupService: any[] = [];
 
   startDate: any;
   endDate: string = "2023-12-31";
@@ -60,18 +68,34 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     this.endDateTimestamp = this.dateToTimestamp(this.endDate);
 
     this.getAppointmentList();
-
+    this.getListGroupService();
     // console.log(this.cognitoService.getUser());
   }
 
+  getListGroupService() {
+    this.medicaoProcedureGroupService.getMedicalProcedureGroupList().subscribe((res:any) => {
+      this.listGroupService = res.data;
+    })
+  }
+ 
+  abcd: any[] = [];
+  dateEpoch: string = "";
+  ePoch: string ="";
+
   getAppointmentList() {
     this.loading = true;
-    // console.log(startDateTimestamp);
     this.startDateTimestamp = this.dateToTimestamp(this.startDate);
     this.appointmentService.getAppointmentList(this.startDateTimestamp, this.endDateTimestamp).subscribe(data => {
       this.appointmentList = ConvertJson.processApiResponse(data);
       this.filteredAppointments = this.appointmentList.filter(app => app.date === this.startDateTimestamp);
-      console.log("Appointment List: ", this.appointmentList);
+      this.filteredAppointments.forEach((a:any) => { 
+        this.dateEpoch = this.convertTimestampToVNDateString(a.date);
+        this.ePoch = a.date;
+        a.appointments.forEach((b: any) => {
+          this.abcd = b.details.sort((a: any, b: any) => a.time - b.time);
+        })
+      })
+      console.log("Appointment List: ", this.abcd);
       console.log("Filter List: ", this.filteredAppointments);
 
       this.loading = false;
@@ -91,7 +115,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   appointmentDateInvalid() {
     // Get Date
     this.datesDisabled = this.appointmentList
-      .filter(item => item.appointments.some(appointment => appointment.count > 15))
+      .filter(item => item.appointments.some(appointment => appointment.count > 1))
       .map(item => ({ date: item.date, procedure: item.appointments[0].procedure }));
 
     console.log("Date disabled: ", this.datesDisabled);
@@ -144,11 +168,48 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     console.log("DateTimestamp", dateTimestamp);
     this.dateString = this.convertTimestampToDateString(dateTimestamp);
     console.log("DateString", this.dateString);
-
-    //Set Appointment
+  
     this.selectedAppointment = appointment;
     this.timeString = this.timestampToGMT7String(appointment.time);
     console.log("Time, ", this.timeString);
+  }
+
+  Exchange = {
+      epoch: 0,
+      produce_id: "0",
+      produce_name: '',
+      patient_id: '',
+      patient_name: '',
+      reason: '',
+      status: 1
+  }
+
+  postExchangeAppointmentToWaitingRoom(a:any, b:any) {
+    this.Exchange.epoch = a;
+    this.Exchange.patient_id = b.patient_id;
+    this.Exchange.produce_id = b.procedure_id;
+    this.Exchange.produce_name = b.procedure_name;
+    this.Exchange.reason= '';
+    this.receptionistWaitingRoom.postWaitingRoom(this.Exchange).subscribe(
+      (data) => {
+        alert('Đã chuyển qua hàng đợi:');
+        this.Exchange = {
+            epoch: 0, 
+            produce_id: "0",
+            produce_name: '',
+            patient_id: '',
+            patient_name: '',
+            reason: '',
+            status: 1
+        } 
+        window.location.href="/letan/phong-cho";
+      },
+      (error) => {
+        this.loading = false;
+        alert("lỗi");
+        //this.showErrorToast('Lỗi khi tạo lịch hẹn!');
+      }
+    );
   }
 
 
@@ -191,5 +252,11 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     return moment(timestamp).tz('Asia/Ho_Chi_Minh').format('DD/MM/YYYY');
   }
 
-
+  addItem(newItem: any) {   
+    this.filteredAppointments.push({appointment_id: '', attribute_name: '', 
+    doctor: newItem.appointment.doctor, epoch: newItem.epoch,  migrated: false, patient_id: newItem.appointment.patient_id, patient_name : newItem.appointment.patient_name, phone_number: newItem.appointment.phone_number, 
+    procedure_id: newItem.appointment.procedure_id, procedure_name: newItem.appointment.procedure_name, time: newItem.appointment.time});
+    alert("đã vô đây");
+    console.log(this.filteredAppointments);
+  }
 }

@@ -15,6 +15,7 @@ import {
   NgbDate,
   NgbDateStruct
 } from "@ng-bootstrap/ng-bootstrap";
+import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureService/medical-procedure-group.service';
 @Component({
   selector: 'app-popup-edit-appointment',
   templateUrl: './popup-edit-appointment.component.html',
@@ -37,6 +38,7 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
   isPatientInfoEditable: boolean = false;
 
   //config ng bootstrap
+  listGroupService: any[] = [];
   model!: NgbDateStruct;
   datePickerJson = {};
   markDisabled: any;
@@ -54,6 +56,7 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     { name: 'Bác sĩ A. Nguyễn', specialty: 'Nha khoa', image: 'https://th.bing.com/th/id/OIP.62F1Fz3e5gRZ1d-PAK1ihQAAAA?pid=ImgDet&rs=1' },
     { name: 'Bác sĩ B. Trần', specialty: 'Nha khoa', image: 'https://gamek.mediacdn.vn/133514250583805952/2020/6/8/873302766563216418622655364023183338578077n-15915865604311972647945.jpg' },
     { name: 'Bác sĩ C. Lê', specialty: 'Nha khoa', image: 'https://img.verym.com/group1/M00/03/3F/wKhnFlvQGeCAZgG3AADVCU1RGpQ414.jpg' },
+    { name: 'Không Chọn Bác Sĩ', specialty: '', image: 'https://png.pngtree.com/png-clipart/20190904/original/pngtree-user-cartoon-girl-avatar-png-image_4492903.jpg' }
   ];
   validateAppointment = {
     phoneNumber: '',
@@ -67,7 +70,8 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     private PATIENT_SERVICE: PatientService,
     private toastr: ToastrService,
     private config: NgbDatepickerConfig,
-    private calendar: NgbCalendar
+    private calendar: NgbCalendar,
+    private medicaoProcedureGroupService:MedicalProcedureGroupService
   ) {
     this.EDIT_APPOINTMENT_BODY = {
       epoch: 0,    //x
@@ -76,7 +80,7 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
         patient_id: '',  //x
         patient_name: '', //x
         phone_number: '', //x
-        procedure: 1,  //x
+        procedure_id: "1",  //x
         doctor: '', //x
         time: 0  //x
       }
@@ -99,6 +103,13 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    this.getListGroupService();
+  }
+
+  getListGroupService() {
+    this.medicaoProcedureGroupService.getMedicalProcedureGroupList().subscribe((res:any) => {
+      this.listGroupService = res.data;
+    })
   }
 
   oldDate: string = ''
@@ -111,13 +122,14 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
         appointment: {
           patient_id: this.selectedAppointment.patient_id,
           patient_name: this.selectedAppointment.patient_name,
-          procedure: this.selectedAppointment.procedure,
+          procedure_id: this.selectedAppointment.procedure_id,
+          procedure_name: this.selectedAppointment.procedure_name,
           phone_number: this.selectedAppointment.phone_number,
           doctor: this.selectedAppointment.doctor,
           time: this.selectedAppointment.time
         }
+        
       } as IEditAppointmentBody;
-
       this.selectedDoctor = this.selectedAppointment.doctor;
     }
     if (changes['dateString']) {
@@ -167,9 +179,14 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     //console.log(this.dateString, this.timeString);
     this.EDIT_APPOINTMENT_BODY.appointment.time = this.timeAndDateToTimestamp(this.timeString, selectedDate);
 
+    this.listGroupService.forEach(e => {
+      if(e.medical_procedure_group_id == this.EDIT_APPOINTMENT_BODY.appointment.procedure_id) {
+        this.EDIT_APPOINTMENT_BODY.appointment.procedure_name = e.name;
+      }
+    })   
     console.log(this.EDIT_APPOINTMENT_BODY);
     this.resetValidate();
-    if (!this.EDIT_APPOINTMENT_BODY.appointment.procedure) {
+    if (!this.EDIT_APPOINTMENT_BODY.appointment.procedure_id) {
       this.validateAppointment.procedure = "Vui lòng chọn loại điều trị!";
       this.isSubmitted = true;
     }
