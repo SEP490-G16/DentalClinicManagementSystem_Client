@@ -62,7 +62,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
             console.log("Data tra ve tu examination: ", data.data);
             this.ok = data.data;
             console.log("Data nhan", this.ok);
-            // console.log("Treatment Course detail: ", this.TreatmentCourseDetail.data);
+
           })
       }
       )
