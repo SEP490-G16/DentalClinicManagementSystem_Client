@@ -20,31 +20,74 @@
             </span>
           </div>
         </div>
-        <a routerLink="/nhanvien/letan/lich-hen" routerLinkActive="active">
+        <a routerLink="/letan/lich-hen" routerLinkActive="active">
           <span>
             <i class="bi bi-calendar-check"></i>
           </span>
           <h3>Lịch hẹn</h3>
         </a>
-        <a routerLink="/nhanvien/letan/phong-cho" routerLinkActive="active">
+        <a routerLink="/letan/phong-cho" routerLinkActive="active">
           <span>
             <i class="bi bi-house-heart"></i>
           </span>
           <h3>Phòng chờ</h3>
         </a>
-        <a routerLink="/nhanvien/benhnhan/danhsach" routerLinkActive="active">
+        <a routerLink="/benhnhan/danhsach" routerLinkActive="active">
           <span>
             <i class="bi bi-person-lines-fill"></i>
           </span>
           <h3>Bệnh nhân</h3>
         </a>
-        <a routerLink="/nhanvien/letan/cham-cong" routerLinkActive="active">
+        <a routerLink="/letan/cham-cong" routerLinkActive="active">
           <span>
             <i class="bi bi-calendar3"></i>
           </span>
           <h3>Chấm công</h3>
         </a>
-
+        <span *ngIf="userGroupString === compareUserGroup">
+          <a routerLink="/admin/thu-thuat" routerLinkActive="active">
+            <span>
+              <i class="bi bi-clipboard2-pulse"></i>
+            </span>
+            <h3>Thủ thuật</h3>
+          </a>
+          <a routerLink="/letan/theo-doi-cham-cong" routerLinkActive="active">
+            <span class="material-icons-sharp">
+              receipt_long
+            </span>
+            <h3> Theo dõi chấm công</h3>
+          </a>
+          <a routerLink="/admin/nhan-vien" routerLinkActive="active">
+            <span class="material-icons-sharp">
+              person_outline
+            </span>
+            <h3>Nhân viên</h3>
+          </a>
+          <a routerLink="/admin/labo" routerLinkActive="active">
+            <span>
+              <i class="bi bi-house-door"></i>
+            </span>
+            <h3>Labo</h3>
+          </a>
+          <a routerLink="/admin/mau" routerLinkActive="active">
+            <span>
+              <i class="bi bi-file-medical"></i>
+            </span>
+            <h3>Mẫu</h3>
+          </a>
+          <a routerLink="/admin/vat-lieu" routerLinkActive="active">
+            <span>
+              <i class="bi bi-prescription2"></i>
+            </span>
+            <h3>Vật liệu</h3>
+          </a>
+          <a routerLink="/admin/co-so" routerLinkActive="active">
+            <span>
+              <i class="bi bi-houses"></i>
+            </span>
+            <h3>Cơ sở</h3>
+          </a>
+        </span>
         <a (click)="signOut()" style="cursor:pointer;">
           <span class="material-icons-sharp">
             logout
@@ -126,8 +169,9 @@
         </div>
       </div>
 
-
-      <router-outlet></router-outlet>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
 
       <!--Chat-->
       <!-- <div>

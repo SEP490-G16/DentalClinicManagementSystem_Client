@@ -7,7 +7,7 @@ import { ReceptionistComponent } from './receptionist.component';
 import {FollowingTimekeepingComponent} from "../admin/following-timekeeping/following-timekeeping.component";
 
 const authRoutes: Routes = [
-  { path: '',   redirectTo: '/nhanvien/letan/lich-hen', pathMatch: 'full' },
+  { path: '',   redirectTo: 'lich-hen', pathMatch: 'full' },
 
   {
     path: 'phong-cho',
