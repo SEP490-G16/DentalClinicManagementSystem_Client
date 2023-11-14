@@ -1,226 +1,59 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
-
-<!--<div class="web-wrapper">
-  <div class="container-custom">
-    &lt;!&ndash; Sidebar Section &ndash;&gt;
-    <aside>
-
-      <div class="sidebar">
-
-        <div class="toggle">
-          <div class="logo">
-            <img
-              src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
-            <p><span class="danger">Nguyen Tran</span> Clinic</p>
-          </div>
-          <div class="close" id="close-btn">
-            <span class="material-icons-sharp">
-              close
-            </span>
-          </div>
-        </div>
-
-        <a routerLink="/admin/appointment">
-          <span class="material-icons-sharp">
-            dashboard
-          </span>
-          <h3>Lịch hẹn</h3>
-        </a>
-        <a routerLink="/receptionist/waitingroom">
-          <span class="material-icons-sharp">
-            person_outline
-          </span>
-          <h3>Thủ thuật</h3>
-        </a>
-        <a routerLink="/patient/records">
-          <span class="material-icons-sharp">
-            receipt_long
-          </span>
-          <h3>Bệnh nhân</h3>
-        </a>
-        <a routerLink="/admin/theo-doi-cham-cong">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Bảng theo dõi chấm công</h3>
-        </a>
-        <a routerLink="/receptionist/timekeeping">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Nhân viên</h3>
-        </a>
-        <a routerLink="/receptionist/timekeeping" class="active">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Labo</h3>
-        </a>
-        <a routerLink="/admin/specimens">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Mẫu</h3>
-        </a>
-        <a routerLink="/receptionist/timekeeping">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Vật liệu</h3>
-        </a>
-        <a routerLink="/receptionist/timekeeping">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Thuốc</h3>
-        </a>
-        <a routerLink="/receptionist/timekeeping">
-          <span class="material-icons-sharp">
-            insights
-          </span>
-          <h3>Cơ sở</h3>
-        </a>
-        <a (click)="signOut()" style="cursor:pointer;">
-          <span class="material-icons-sharp">
-            logout
-          </span>
-          <h3>Logout</h3>
-        </a>
+<div *ngIf="loading" class="loading-overlay">
+  <div class="loading-spinner"></div>
+</div>
+<div class="recent-orders">
+  <section class="table__header">
+    <h1></h1>
+    <div class="export__file">
+    </div>
+  </section>
+  <div class="row mt-5">
+    <div class="col-6">
+      <div class="form-group form-group-filter">
+        <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myModal"><i
+            class="bi bi-plus-circle"></i> Thêm mới
+          labo</button>
       </div>
-    </aside>
-    &lt;!&ndash; End of Sidebar Section &ndash;&gt;
+    </div>
+  </div>
+  <div class="table-container">
+    <table>
+      <thead class="sticky-thead">
+        <tr>
+          <th style="padding: 10px">Mã labo</th>
+          <th style="padding: 10px" class="truncate">Tên labo</th>
+          <th style="padding: 10px">Địa chỉ</th>
+          <th style="padding: 10px">Số điện thoại</th>
+          <th style="padding: 10px">Email</th>
+          <th style="padding: 10px" class="text-center">Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let labo of Labos">
+          <td style="padding: 10px">{{labo.labo_id}}</td>
+          <td class="truncate" data-bs-toggle="tooltip" title="{{ labo.name }}">{{labo.name}}</td>
+          <td style="padding: 10px">{{labo.address}}</td>
+          <td style="padding: 10px">{{labo.phone_number}}</td>
+          <td style="padding: 10px">{{labo.email}}</td>
+          <td style="padding: 10px">
+            <button class="btn btn-primary p-1 m-r-3" style="padding: 2px 3px; margin-right: 3px" data-bs-toggle="modal"
+              data-bs-target="#myEditModal" (click)="openEditModal(labo)">
+              <i class="bi bi-pencil-square"></i></button>
+            <button class="btn btn-danger p-1" style="padding: 2px 5px" (click)="deleteLabo(labo.labo_id)"> <i
+                class="bi bi-trash"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-    &lt;!&ndash; Main Content &ndash;&gt;
-    <main>
-      &lt;!&ndash; Analyses &ndash;&gt;
-      <div class="analyse">
-        &lt;!&ndash;<div class="sales">
-          <div class="status">
-            <div class="info">
-              <h3>Lịch hẹn</h3>
-              <h1 class="text-center">02</h1>
-            </div>
-            <div class="progresss">
-              <svg>
-                <circle cx="38" cy="38" r="36"></circle>
-              </svg>
-              <div class="percentage">
-                <i class="bi bi-calendar3"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="visits">
-          <div class="status">
-            <div class="info">
-              <h3>Phòng chờ</h3>
-              <h1 class="text-center">24</h1>
-            </div>
-            <div class="progresss">
-              <svg>
-                <circle cx="38" cy="38" r="36"></circle>
-              </svg>
-              <div class="percentage">
-                <i class="bi bi-houses"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="searches">
-          <div class="status">
-            <div class="info">
-              <h3>Bệnh nhân</h3>
-              <h1 class="text-center">23</h1>
-            </div>
-            <div class="progresss">
-              <svg>
-                <circle cx="38" cy="38" r="36"></circle>
-              </svg>
-              <div class="percentage">
-                <i class="bi bi-person-standing"></i>
-              </div>
-            </div>
-          </div>
-        </div>&ndash;&gt;
+  </div>
+</div>
+<!-- End of Recent Orders -->
 
-        <div class="profile">
-          <div class="icon">
-
-          </div>
-          <div class="info">
-            <p>Xin chào, <b>Long</b></p>
-            <small class="text-muted">Admin</small>
-          </div>
-          <div class="profile-photo">
-            <img src="../../../../assets/img/person.png">
-          </div>
-        </div>
-      </div>-->
-
-      <!-- Analyses -->
-      <!-- End of Analyses -->
-
-      <!-- New Users Section -->
-      <!-- End of New Users Section -->
-
-      <!-- Recent Orders Table -->
-      <div *ngIf="loading" class="loading-overlay">
-        <div class="loading-spinner"></div>
-      </div>
-      <div class="recent-orders">
-        <section class="table__header">
-          <h1></h1>
-          <div class="export__file">
-          </div>
-        </section>
-        <div class="row mt-5">
-          <div class="col-6">
-            <div class="form-group form-group-filter">
-              <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myModal"><i
-                  class="bi bi-plus-circle"></i> Thêm mới
-                labo</button>
-            </div>
-          </div>
-        </div>
-        <div class="table-container">
-          <table>
-            <thead class="sticky-thead">
-              <tr>
-                <th style="padding: 10px">Mã labo</th>
-                <th style="padding: 10px" class="truncate">Tên labo</th>
-                <th style="padding: 10px">Địa chỉ</th>
-                <th style="padding: 10px">Số điện thoại</th>
-                <th style="padding: 10px">Email</th>
-                <th style="padding: 10px" class="text-center">Thao tác</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let labo of Labos">
-                <td style="padding: 10px">{{labo.labo_id}}</td>
-                <td class="truncate" data-bs-toggle="tooltip" title="{{ labo.name }}">{{labo.name}}</td>
-                <td style="padding: 10px">{{labo.address}}</td>
-                <td style="padding: 10px">{{labo.phone_number}}</td>
-                <td style="padding: 10px">{{labo.email}}</td>
-                <td style="padding: 10px">
-                  <button class="btn btn-primary p-1 m-r-3" style="padding: 2px 3px; margin-right: 3px" data-bs-toggle="modal" data-bs-target="#myEditModal"
-                    (click)="openEditModal(labo)">
-                    <i class="bi bi-pencil-square"></i></button>
-                  <button class="btn btn-danger p-1" style="padding: 2px 5px"
-
-                  (click)="deleteLabo(labo.labo_id)"> <i
-                      class="bi bi-trash"></i></button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-        </div>
-      </div>
-      <!-- End of Recent Orders -->
-
-    <!--</main>
+<!--</main>
     &lt;!&ndash; End of Main Content &ndash;&gt;
 
 

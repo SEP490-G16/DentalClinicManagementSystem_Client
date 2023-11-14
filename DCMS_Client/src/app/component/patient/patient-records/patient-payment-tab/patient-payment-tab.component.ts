@@ -30,13 +30,13 @@ export class PatientPaymentTabComponent implements OnInit {
       const userGroups = JSON.parse(userGroupsString) as string[];
 
       if (userGroups.includes('dev-dcms-doctor')) {
-        this.router.navigate(['nhanvien' + href + this.id]);
+        this.router.navigate([href + this.id]);
       } else if (userGroups.includes('dev-dcms-nurse')) {
-        this.router.navigate(['nhanvien' + href + this.id]);
+        this.router.navigate([href + this.id]);
       } else if (userGroups.includes('dev-dcms-receptionist')) {
-        this.router.navigate(['nhanvien' + href + this.id]);
+        this.router.navigate([href + this.id]);
       } else if (userGroups.includes('dev-dcms-admin')) {
-        this.router.navigate(['admin' + href + this.id]);
+        this.router.navigate([href + this.id]);
       }
     } else {
       console.error('Không có thông tin về nhóm người dùng.');

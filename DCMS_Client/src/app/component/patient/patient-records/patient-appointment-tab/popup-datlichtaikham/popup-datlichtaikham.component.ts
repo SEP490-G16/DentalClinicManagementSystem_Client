@@ -280,9 +280,7 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
         } as IAddAppointment;
         this.procedure = '';
         this.appointmentTime = '';
-        setTimeout(() => {
           window.location.reload();
-        }, 3000);
       },
       (error) => {
         console.error('Lỗi khi tạo lịch hẹn:', error);

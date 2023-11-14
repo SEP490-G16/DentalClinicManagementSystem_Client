@@ -39,9 +39,9 @@
                   </p>
                 </div>
                 <div class="form-group text-center pt-3">
-                  <input type="radio" [(ngModel)]="patient1.Gender" [value]="1" class="radio m-2" id="male" name="gender">
+                  <input type="radio" [(ngModel)]="patient1.Gender" class="radio m-2" id="male" name="gender" value="1">
                   <label for="male">Nam</label>
-                  <input type="radio" [(ngModel)]="patient1.Gender"  [value]="0" class="radio m-2" id="female" name="gender">
+                  <input type="radio" [(ngModel)]="patient1.Gender" class="radio m-2" id="female" name="gender" value="0" >
                   <label for="female">Nữ</label>
                   <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
                     <p>

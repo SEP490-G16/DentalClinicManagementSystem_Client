@@ -7,6 +7,7 @@ import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/T
 import { CognitoService } from 'src/app/service/cognito.service';
 import { treatementCourseDSService } from './../../../../service/Data-Sharing/Treatment-Course-Detail.service';
 import { ITreatmentCourseDetail, TreatmentCourseDetail } from 'src/app/model/ITreatmentCourseDetail';
+import { CommonService } from 'src/app/service/commonMethod/common.service';
 @Component({
   selector: 'app-patient-lichtrinhdieutri',
   templateUrl: './patient-lichtrinhdieutri.component.html',
@@ -14,7 +15,7 @@ import { ITreatmentCourseDetail, TreatmentCourseDetail } from 'src/app/model/ITr
 })
 export class PatientLichtrinhdieutriComponent implements OnInit {
   id: string = "";
-
+  examinations: any;
   ITreatmentCourse: any;
 
   constructor(
@@ -22,28 +23,12 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     private route: ActivatedRoute,
     private toastr: ToastrService,
     private treatmentCourseService: TreatmentCourseService,
+    private commonService: CommonService,
     private TreatmentCourseDetailService: TreatmentCourseDetailService,
   ) { }
 
   navigateHref(href: string) {
-    const userGroupsString = sessionStorage.getItem('userGroups');
-
-    if (userGroupsString) {
-      const userGroups = JSON.parse(userGroupsString) as string[];
-
-      if (userGroups.includes('dev-dcms-doctor')) {
-        this.router.navigate(['nhanvien' + href + this.id]);
-      } else if (userGroups.includes('dev-dcms-nurse')) {
-        this.router.navigate(['nhanvien' + href + this.id]);
-      } else if (userGroups.includes('dev-dcms-receptionist')) {
-        this.router.navigate(['nhanvien' + href + this.id]);
-      } else if (userGroups.includes('dev-dcms-admin')) {
-        this.router.navigate(['admin' + href + this.id]);
-      }
-    } else {
-      console.error('Không có thông tin về nhóm người dùng.');
-      this.router.navigate(['/default-route']);
-    }
+    this.commonService.navigateHref(href, this.id);
   }
 
   ngOnInit(): void {
@@ -64,30 +49,31 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
   }
 
 
-  ok: any;
   getTreatmentCourse() {
     this.treatmentCourseService.getTreatmentCourse(this.id)
       .subscribe((data) => {
-        console.log("Data tra ve tu treatment api: ", data);
+        console.log("Treatment course: ", data);
         this.ITreatmentCourse = data;
         console.log("Data nhan", this.ITreatmentCourse)
-
-        this.TreatmentCourseDetailService.getTreatmentCourseDetail(this.ITreatmentCourse[0].treatment_course_id)
-          .subscribe(data => {
-            console.log("Data tra ve tu examination: ", data.data);
-            this.ok = data.data;
-            console.log("Data nhan", this.ok);
-            // console.log("Treatment Course detail: ", this.TreatmentCourseDetail.data);
-          })
+        this.ITreatmentCourse.sort((a: any, b: any) => {
+          const dateA = new Date(a.created_date).getTime();
+          const dateB = new Date(b.created_date).getTime();
+          return dateB - dateA;
+        });
       }
       )
   }
 
-  Patient_Id: string = "";
-  addTreatmentCourse() {
-    this.Patient_Id = this.ITreatmentCourse[0].patient_id;
+  getExamination(courseId: string) {
+    if (this.ITreatmentCourse.length > 0) {
+      this.TreatmentCourseDetailService.getTreatmentCourseDetail(courseId)
+        .subscribe(data => {
+          console.log("Examination: ", data.data);
+          this.examinations = data.data;
+          console.log("Data nhan", this.examinations);
+        })
+    }
   }
-
 
   TreatmentCourse: any;
   editTreatmentCourse(course: any) {
@@ -99,14 +85,12 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     const cf = confirm('Bạn có muốn xóa lộ trình này không?');
     if (cf) {
       this.treatmentCourseService.deleteTreatmentCourse(treatment_course_id)
-        .subscribe(() => {
-          this.showSuccessToast('Xóa liệu trình thành công');
-          setTimeout(() => {
-            window.location.reload();
-          }, 1000);
+        .subscribe((res) => {
+          this.toastr.success(res.message, 'Xóa liệu trình thành công');
+          window.location.reload();
         },
-          () => {
-            this.showErrorToast('Xóa liệu trình thất bại');
+          (err) => {
+            this.toastr.error(err.error.message, 'Xóa liệu trình thất bại');
           }
         )
     }
@@ -117,8 +101,12 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     if (cf) {
       this.TreatmentCourseDetailService.deleteExamination(examination_id)
         .subscribe(() => {
-          this.showSuccessToast('Xóa Lần khám thành công!');
-        })
+          this.toastr.success('Xóa Lần khám thành công!');
+          window.location.reload();
+        },
+          (err) => {
+            this.toastr.error(err.error.message, "Xóa lần khám thất bại!");
+          })
     }
   }
 
@@ -130,30 +118,11 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
   }
 
   navigateAddExamination(tcId: string) {
-    this.router.navigate([ 'nhanvien' + '/benhnhan/danhsach/tab/lichtrinhdieutri/' + this.id + '/themlankham/' + tcId]);
+    this.router.navigate(['/benhnhan/danhsach/tab/lichtrinhdieutri/' + this.id + '/themlankham/' + tcId]);
   }
 
   navigateEditExamination(examination: any) {
-    this.router.navigate(['nhanvien' + '/benhnhan/danhsach/tab/lichtrinhdieutri/' + this.id + '/sualankham/' + examination.treatment_course_id + '/' + examination.examination_id]);
-  }
-
-  showSuccessToast(message: string) {
-    this.toastr.success(message, 'Thành công', {
-      timeOut: 3000, // Adjust the duration as needed
-    });
-  }
-
-  showErrorToast(message: string) {
-    this.toastr.error(message, 'Lỗi', {
-      timeOut: 3000, // Adjust the duration as needed
-    });
-  }
-
-  signOut() {
-    this.cognitoService.signOut().then(() => {
-      console.log("Logged out!");
-      this.router.navigate(['dangnhap']);
-    })
+    this.router.navigate(['/benhnhan/danhsach/tab/lichtrinhdieutri/' + this.id + '/sualankham/' + examination.treatment_course_id + '/' + examination.examination_id]);
   }
 
 }

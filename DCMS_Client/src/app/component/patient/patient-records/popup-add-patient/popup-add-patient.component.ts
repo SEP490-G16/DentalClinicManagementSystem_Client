@@ -12,7 +12,7 @@ export class PopupAddPatientComponent implements OnInit {
   patient1:any={
     patientName:'',
     Email:'',
-    Gender:null,
+    Gender:"1",
     phone_Number:'',
     Address:'',
     full_medical_History:'',
@@ -33,7 +33,7 @@ export class PopupAddPatientComponent implements OnInit {
   patientBody:any={
     patient_name:'',
     email:'',
-    gender:null,
+    gender: 1,
     phone_number:'',
     address:'',
     full_medical_history:'',
@@ -80,7 +80,7 @@ export class PopupAddPatientComponent implements OnInit {
         patient_id:null,
         patient_name:this.patient1.patientName,
         email:this.patient1.Email,
-        gender:this.patient1.Gender,
+        gender:Number(this.patient1.Gender),
         phone_number:this.patient1.phone_Number,
         address:this.patient1.Address,
         full_medical_history:this.patient1.full_medical_History,

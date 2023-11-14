@@ -42,28 +42,13 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
     console.log(this.Edit_TreatmentCourse);
     this.treatmentCourseService.putTreatmentCourse(this.TreatmentCourse.treatment_course_id, this.Edit_TreatmentCourse)
     .subscribe((res) => {
-        this.showSuccessToast("Sửa Lịch trình điều trị thành công");
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
+        this.toastr.success(res.message, "Sửa Lịch trình điều trị");
+        window.location.reload();
     },
     (err) => {
-      this.showErrorToast("Sửa Lịch trình điều trị thất bại");
-
+      this.toastr.error(err.error.message, "Sửa Lịch trình điều trị thất bại");
     }
     )
-  }
-
-  showSuccessToast(message: string) {
-    this.toastr.success(message, 'Thành công', {
-      timeOut: 3000, // Adjust the duration as needed
-    });
-  }
-
-  showErrorToast(message: string) {
-    this.toastr.error(message, 'Lỗi', {
-      timeOut: 3000, // Adjust the duration as needed
-    });
   }
 
 }

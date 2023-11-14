@@ -1,4 +1,3 @@
-import { PatientTreatmentCourseTabComponent } from './patient-records/patient-treatment-course-tab/patient-treatment-course-tab.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PatientManagementComponent } from './patient-management/patient-management.component';
@@ -24,8 +23,7 @@ const authRoutes: Routes = [
         path: 'tab/lichtrinhdieutri/:id', children: [
           {path: '',  component:PatientLichtrinhdieutriComponent},
           {path: 'themlankham/:tcId', component:PopupAddExaminationComponent},
-          {path: 'sualankham/:tcId/:examinationId', component:PopupEditExaminationComponent},
-          {path: 'chitiet/:examinationId', component: PatientTreatmentCourseTabComponent}
+          {path: 'sualankham/:tcId/:examinationId', component:PopupEditExaminationComponent}
         ]
       },
       {

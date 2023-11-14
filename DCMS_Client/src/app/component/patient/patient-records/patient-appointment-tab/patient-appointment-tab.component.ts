@@ -8,6 +8,7 @@ import * as moment from 'moment-timezone';
 import 'moment/locale/vi';
 import { ConvertJson } from 'src/app/service/Lib/ConvertJson';
 import { RootObject } from 'src/app/model/IAppointment';
+import { CommonService } from 'src/app/service/commonMethod/common.service';
 @Component({
   selector: 'app-patient-appointment-tab',
   templateUrl: './patient-appointment-tab.component.html',
@@ -29,6 +30,7 @@ export class PatientAppointmentTabComponent implements OnInit {
     private patientService: PatientService,
     private route: ActivatedRoute,
     private cognitoService: CognitoService,
+    private commonService:CommonService,
     private router: Router,
     private toastr: ToastrService) {
 
@@ -42,25 +44,8 @@ export class PatientAppointmentTabComponent implements OnInit {
   }
 
   navigateHref(href: string) {
-    const userGroupsString = sessionStorage.getItem('userGroups');
-
-    if (userGroupsString) {
-      const userGroups = JSON.parse(userGroupsString) as string[];
-
-      if (userGroups.includes('dev-dcms-doctor')) {
-        this.router.navigate(['nhanvien' + href + this.id]);
-      } else if (userGroups.includes('dev-dcms-nurse')) {
-        this.router.navigate(['nhanvien' + href + this.id]);
-      } else if (userGroups.includes('dev-dcms-receptionist')) {
-        this.router.navigate(['nhanvien' + href + this.id]);
-      } else if (userGroups.includes('dev-dcms-admin')) {
-        this.router.navigate(['admin' + href + this.id]);
-      }
-    } else {
-      console.error('Không có thông tin về nhóm người dùng.');
-      this.router.navigate(['/default-route']);
-    }
-  }
+    this.commonService.navigateHref(href, this.id);
+   }
 
   getAppointment() {
     this.APPOINTMENT_SERVICE.getAppointmentList(1696925134, this.endDateTimestamp).subscribe(data => {
