@@ -16,9 +16,7 @@
       <select class="form-select input-custom float-end" aria-label="Default select example" [(ngModel)]="procedure"
         (change)="filterProcedure()">
         <option selected value="0">Tất cả loại điều trị</option>
-        <option value="1">Cạo vôi răng</option>
-        <option value="2">Niềng răng</option>
-        <option value="3">Nhổ răng</option>
+        <option *ngFor="let a of listGroupService" value={{a.medical_procedure_group_id}}>{{a.name}}</option>
       </select>
     </div>
   </div>
@@ -40,14 +38,14 @@
           <td>{{ wtr.patient_id }}</td>
           <td>{{ wtr.patient_name }}</td>
           <td class="truncate" data-bs-toggle="tooltip" title="{{wtr.reason}}">{{wtr.reason }}</td>
-          <td>{{ wtr.produce }}</td>
+          <td>{{ wtr.produce_name }}</td>
           <td>
-            <select class="text-center" [(ngModel)]="wtr.status" (change)="onPutStatus(wtr, wtr.epoch)"
+            <select class="text-center status-selector" [(ngModel)]="wtr.status" (change)="onPutStatus(wtr, wtr.epoch)"
               [ngStyle]="{'color': selectedColor}">
-              <option value="1" style="background-color: #cfe7f3;">Đang chờ</option>
-              <option value="2" style="background-color: #ffeb3b;">Đang khám</option>
-              <option value="3" style="background-color: #d1c4e9;">Khám xong</option>
-              <option value="4" style="background-color: #ef9a9a;">Xóa hàng chờ</option>
+              <option value="1" class="status-option waiting">Đang chờ</option>
+              <option value="2" class="status-option in-progress">Đang khám</option>
+              <option value="3" class="status-option completed">Khám xong</option>
+              <option value="4" class="status-option remove">Xóa hàng chờ</option>
             </select>
           </td>
         </tr>
@@ -56,9 +54,5 @@
   </div>
 
 </div>
-<!-- End of Recent Orders -->
-
-
-
 <app-add-waiting-room></app-add-waiting-room>
 <app-add-patient></app-add-patient>
