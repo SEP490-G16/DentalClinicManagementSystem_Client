@@ -7,7 +7,7 @@ import {WebsocketService} from "../../service/Chat/websocket.service";
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit,OnDestroy  {
 
   messageContent:string='';
   receivedMessages:any[]=[];
@@ -24,6 +24,10 @@ export class ChatComponent implements OnInit {
       this.receivedMessages.push({ message: parsedMessage, timestamp: new Date() });
       console.log(this.receivedMessages)
     })
+  }
+  ngOnDestroy() {
+    // Lifecycle hook này được gọi khi component sắp bị hủy
+    this.close();
   }
   chatContainerVisible = false;
 

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {
   MedicalProcedureGroupService
 } from "../../../../service/MedicalProcedureService/medical-procedure-group.service";
@@ -25,12 +25,18 @@ export class PopupAddGroupServiceComponent implements OnInit {
   loading:boolean = false;
   constructor(private medicalProcedureGroupService: MedicalProcedureGroupService,
               private toastr:ToastrService) { }
-
+  validate={
+    serviceGroupName:''
+  }
   ngOnInit(): void {
   }
   addMedicalProcedureGroup(){
+    this.resetValidate();
     if (!this.serviceGroup.serviceGroupName) {
+      this.validate.serviceGroupName = 'Tên nhóm thủ thuật không được bỏ trống!'
       this.isCheckName = true;
+    }
+    if (this.isCheckName){
       return;
     }
     this.serviceGroupBody={
@@ -58,4 +64,11 @@ export class PopupAddGroupServiceComponent implements OnInit {
       this.toastr.error('Thêm mới thất bại!')
       })
   }
+  resetValidate(){
+    this.validate={
+      serviceGroupName: ''
+    }
+    this.isCheckName = false;
+  }
+
 }

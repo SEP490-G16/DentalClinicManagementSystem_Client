@@ -71,6 +71,7 @@ export class PopupAddSpecimensComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllLabo();
+    this.specimen.quantity = '1';
   }
   calculateTotal() {
     const total = parseInt(this.specimen.quantity) * parseInt(this.specimen.price);

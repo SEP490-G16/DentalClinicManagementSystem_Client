@@ -148,7 +148,7 @@ export class PopupEditServiceComponent implements OnChanges {
       this.toastr.error('Cập nhật thủ thuật thất bại!');
       })
   }
-  private resetValidate(){
+   resetValidate(){
     this.validateService={
       serviceName:'',
       price:'',

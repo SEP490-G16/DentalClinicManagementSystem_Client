@@ -10,7 +10,7 @@
       <div class="modal-header color-header">
         <h4 class="modal-title text-center w-100">Sửa labo</h4>
         <button type="button" class="btn-close"
-        data-bs-dismiss="modal"></button>
+        data-bs-dismiss="modal" (click)="resetErrors()"></button>
       </div>
 
       <!-- Modal body -->
@@ -52,7 +52,7 @@
 
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" id="cancel-edit-labo" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
+          <button type="button" id="cancel-edit-labo" class="btn btn-cancel" data-bs-dismiss="modal" (click)="resetErrors()">Hủy</button>
           <button type="button" class="btn btn-save" (click)="PutLaboAPI()">
             <i class="bi bi-floppy2"></i> Lưu</button>
         </div>
