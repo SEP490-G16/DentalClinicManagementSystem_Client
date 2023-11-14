@@ -119,7 +119,8 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
         patient_id: '',  //x
         patient_name: '', //x
         phone_number: '', //x
-        procedure: 1,  //x
+        procedure_id: "",  
+        procedure_name: '',
         doctor: '', //x
         time: 0  //x
       }
@@ -273,7 +274,8 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
             patient_id: '',  //x
             patient_name: '', //x
             phone_number: '', //x
-            procedure: 1,  //x
+            procedure_id: "1", 
+            procedure_name:'',
             doctor: '', //x
             time: 0  //x
           }
@@ -343,7 +345,8 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
         patient_id: '',  //x
         patient_name: '', //x
         phone_number: '', //x
-        procedure: 1,  //x
+        procedure_id: "", 
+        procedure_name: '',
         doctor: '', //x
         time: 0  //x
       }

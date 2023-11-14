@@ -38,11 +38,9 @@
             <div class="col-12 col-md-6">
               <div class="form-group">
                 <label for="treatment">Loại điều trị</label>
-                <select class="form-control" id="treatment" [(ngModel)]="EDIT_APPOINTMENT_BODY.appointment.procedure">
-                  <option value="">Tất cả</option>
-                  <option value="1">Niềng Răng</option>
-                  <option value="2">Nhổ Răng</option>
-                  <option value="3">Cạo vôi răng</option>
+                <select class="form-control" id="treatment" [(ngModel)]="EDIT_APPOINTMENT_BODY.appointment.procedure_id">
+                  <option value="1">Phân loại điều trị</option>
+                  <option *ngFor="let a of listGroupService" value={{a.medical_procedure_group_id}}>{{a.name}}</option>
                 </select>
                 <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.procedure}}</p>
               </div>
