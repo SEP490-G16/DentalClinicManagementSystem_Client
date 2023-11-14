@@ -3,6 +3,7 @@ import {PatientService} from "../../../../service/PatientService/patient.service
 import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import { CognitoService } from 'src/app/service/cognito.service';
+import { CommonService } from 'src/app/service/commonMethod/common.service';
 
 @Component({
   selector: 'app-patient-profile-tab',
@@ -15,6 +16,7 @@ export class PatientProfileTabComponent implements OnInit {
               private route:ActivatedRoute,
               private cognitoService:CognitoService,
               private router:Router,
+              private commonService:CommonService,
               private toastr: ToastrService) { }
   patient:any;
   id:any;
@@ -50,24 +52,7 @@ export class PatientProfileTabComponent implements OnInit {
   }
 
   navigateHref(href: string) {
-    const userGroupsString = sessionStorage.getItem('userGroups');
-
-    if (userGroupsString) {
-      const userGroups = JSON.parse(userGroupsString) as string[];
-
-      if (userGroups.includes('dev-dcms-doctor')) {
-        this.router.navigate(['nhanvien' + href + this.id]);
-      } else if (userGroups.includes('dev-dcms-nurse')) {
-        this.router.navigate(['nhanvien' + href + this.id]);
-      } else if (userGroups.includes('dev-dcms-receptionist')) {
-        this.router.navigate(['nhanvien' + href + this.id]);
-      } else if (userGroups.includes('dev-dcms-admin')) {
-        this.router.navigate(['admin' + href + this.id]);
-      }
-    } else {
-      console.error('Không có thông tin về nhóm người dùng.');
-      this.router.navigate(['/default-route']);
-    }
+   this.commonService.navigateHref(href, this.id);
   }
 
   imageURL: string | ArrayBuffer = '';
@@ -90,25 +75,6 @@ export class PatientProfileTabComponent implements OnInit {
 
   setPatientId(){
     this.router.navigate(['/benhnhan/danhsach/tab/lichtrinhdieutri', this.id])
-  }
-
-  showSuccessToast(message: string) {
-    this.toastr.success(message, 'Thành công', {
-      timeOut: 3000, // Adjust the duration as needed
-    });
-  }
-
-  showErrorToast(message: string) {
-    this.toastr.error(message, 'Lỗi', {
-      timeOut: 3000, // Adjust the duration as needed
-    });
-  }
-
-  signOut() {
-    this.cognitoService.signOut().then(() => {
-      console.log("Logged out!");
-      this.router.navigate(['/login']);
-    })
   }
 
   clickCount: number = 0;
@@ -163,9 +129,9 @@ export class PatientProfileTabComponent implements OnInit {
         }
         this.isEditing = false;
         this.patientService.updatePatient(this.patientBody, this.id).subscribe(data=>{
-          this.toastr.success('Cập nhật bệnh nhân thành công !')
-        },error => {
-          this.toastr.error('Cập nhật bệnh nhân thất bại!')
+          this.toastr.success("",'Cập nhật bệnh nhân thành công !');
+        },(error) => {
+          this.toastr.error(error.error.message,'Cập nhật bệnh nhân thất bại!')
         })
     }
 

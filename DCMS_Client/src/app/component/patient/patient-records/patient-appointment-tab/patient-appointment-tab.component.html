@@ -11,8 +11,7 @@
           <li class="nav-item mr-2"><a class="nav-link"
               (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')"
               style="padding: 10px; color: #000; cursor:pointer">Khám và
-              điều
-              trị</a></li>
+              điều trị</a></li>
           <li class="nav-item mr-2"><a class="nav-link active" style="padding: 10px; cursor:pointer;color: #7B4C50;"
               (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
           </li>
@@ -47,8 +46,8 @@
                   <tr *ngFor="let detail of ap.details">
                     <td>{{timestampToGMT7String(detail.time)}} - {{convertTimestampToVNDateString(gf.date)}}</td>
                     <td>{{detail.doctor}}</td>
-                    <td>Khám tổng quát</td>
-                    <td>Đã hoàn thành</td>
+                    <td></td>
+                    <td></td>
                     <td>
                       <button class="btn" data-bs-toggle="modal" data-bs-target="#editAppointmentModal"
                         (click)="editAppointment(detail, gf.date)"><i class="bi bi-pencil-square"></i></button>

@@ -1,6 +1,8 @@
 import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/TreatmentCourse.service';
 import { ITreatmentCourse, TreatmentCourse } from './../../../../../model/ITreatment-Course';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { CommonService } from 'src/app/service/commonMethod/common.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -8,59 +10,43 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './popup-add-treatmentcourse.component.html',
   styleUrls: ['./popup-add-treatmentcourse.component.css']
 })
-export class PopupAddTreatmentcourseComponent implements OnInit, OnChanges {
-  @Input() Patient_Id: any;
-  TreatmentCourse: TreatmentCourse = {} as TreatmentCourse
+export class PopupAddTreatmentcourseComponent implements OnInit {
 
-
+  Add_TreatmentCourse = {
+    patient_id: "",
+    description: "",
+    name: "",
+  };
+  Patient_Id :string = "";
   constructor(
     private treatmentCourseService: TreatmentCourseService,
-    private toastr: ToastrService
+    private methodService:CommonService,
+    private toastr:ToastrService,
+    private route:ActivatedRoute
   ) {
-    this.Add_TreatmentCourse = {
-      patient_id: "",
-      description: "",
-      name: "",
-    }
   }
 
 
-  Add_TreatmentCourse: any;
   ngOnInit(): void {
-  }
+    this.Patient_Id = this.route.snapshot.params['id'];
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['Patient_Id']) {
-      this.Add_TreatmentCourse.patient_id = this.Patient_Id;
-    }
   }
 
 
   addTreatmentCourse() {
     console.log(this.Add_TreatmentCourse);
+    this.Add_TreatmentCourse.patient_id = this.Patient_Id;
     this.treatmentCourseService.postTreatmentCourse(this.Add_TreatmentCourse).
       subscribe((res) => {
-        this.showSuccessToast("Thêm lịch trình điều trị thành công");
-
+        console.log(res);
+        this.toastr.success(res.message, "Thêm liệu trình thành công");
         window.location.reload();
-
       },
         (err) => {
-          this.showErrorToast("Thêm lịch trình điều trị thất bại");
-
+          this.methodService.showToast(err.error.message, "Thêm liệu trình thất bại", 2);
+          console.log(err.error.message);
         }
       )
   }
 
-  showSuccessToast(message: string) {
-    this.toastr.success(message, 'Thành công', {
-      timeOut: 3000, // Adjust the duration as needed
-    });
-  }
-
-  showErrorToast(message: string) {
-    this.toastr.error(message, 'Lỗi', {
-      timeOut: 3000, // Adjust the duration as needed
-    });
-  }
 }

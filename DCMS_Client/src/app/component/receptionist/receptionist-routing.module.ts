@@ -4,10 +4,10 @@ import { ReceptionistWaitingRoomComponent } from './receptionist-waiting-room/re
 import { ReceptionistTimekeepingComponent } from './receptionist-timekeeping/receptionist-timekeeping.component';
 import { ReceptionistAppointmentListComponent } from './receptionist-appointment-list/receptionist-appointment-list.component';
 import { ReceptionistComponent } from './receptionist.component';
-import {FollowingTimekeepingComponent} from "../admin/following-timekeeping/following-timekeeping.component";
+import { FollowingTimekeepingComponent } from "../admin/following-timekeeping/following-timekeeping.component";
 
 const authRoutes: Routes = [
-  { path: '',   redirectTo: 'lich-hen', pathMatch: 'full' },
+  { path: '', redirectTo: 'lich-hen', pathMatch: 'full' },
 
   {
     path: 'phong-cho',
@@ -23,7 +23,7 @@ const authRoutes: Routes = [
     path: 'lich-hen',
     component: ReceptionistAppointmentListComponent
   },
-  {path:'theo-doi-cham-cong',component:FollowingTimekeepingComponent},
+  { path: 'theo-doi-cham-cong', component: FollowingTimekeepingComponent },
 ];
 
 @NgModule({

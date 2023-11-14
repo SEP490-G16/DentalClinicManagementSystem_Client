@@ -61,13 +61,13 @@ export class PopupEditExaminationComponent implements OnInit {
       const userGroups = JSON.parse(userGroupsString) as string[];
 
       if (userGroups.includes('dev-dcms-doctor')) {
-        this.router.navigate(['nhanvien' + href + this.patient_Id]);
+        this.router.navigate([href + this.patient_Id]);
       } else if (userGroups.includes('dev-dcms-nurse')) {
-        this.router.navigate(['nhanvien' + href + this.patient_Id]);
+        this.router.navigate([href + this.patient_Id]);
       } else if (userGroups.includes('dev-dcms-receptionist')) {
-        this.router.navigate(['nhanvien' + href + this.patient_Id]);
+        this.router.navigate([href + this.patient_Id]);
       } else if (userGroups.includes('dev-dcms-admin')) {
-        this.router.navigate(['admin' + href + this.patient_Id]);
+        this.router.navigate([href + this.patient_Id]);
       }
     } else {
       console.error('Không có thông tin về nhóm người dùng.');
@@ -108,7 +108,7 @@ export class PopupEditExaminationComponent implements OnInit {
 
       },
         (err) => {
-          this.showErrorToast('Lỗi khi lấy dữ liệu lần khám');
+          this.toastr.error(err.error.message,'Lỗi khi lấy dữ liệu lần khám');
         })
   }
 
@@ -119,15 +119,15 @@ export class PopupEditExaminationComponent implements OnInit {
     console.log("Put Examination: ", this.examination);
     this.examination.staff_id = this.staff_id;
     this.tcDetailService.putExamination(this.examinationId, this.examination)
-      .subscribe(() => {
-        this.showSuccessToast('Sửa lần khám thành công');
+      .subscribe((res) => {
+        this.toastr.success(res.message,'Sửa lần khám thành công');
 
         // setTimeout(() => {
         //   this.router.navigate([''])
         // }, 3000);
       },
         (err) => {
-          this.showErrorToast('Sửa lần khám thất bại');
+          this.toastr.error(err.error.message,'Sửa lần khám thất bại');
         })
 
   }
@@ -149,23 +149,5 @@ export class PopupEditExaminationComponent implements OnInit {
     }
   }
 
-  showSuccessToast(message: string) {
-    this.toastr.success(message, 'Thành công', {
-      timeOut: 3000, // Adjust the duration as needed
-    });
-  }
-
-  showErrorToast(message: string) {
-    this.toastr.error(message, 'Lỗi', {
-      timeOut: 3000, // Adjust the duration as needed
-    });
-  }
-
-  signOut() {
-    this.cognitoService.signOut().then(() => {
-      console.log("Logged out!");
-      this.router.navigate(['dangnhap']);
-    })
-  }
 
 }

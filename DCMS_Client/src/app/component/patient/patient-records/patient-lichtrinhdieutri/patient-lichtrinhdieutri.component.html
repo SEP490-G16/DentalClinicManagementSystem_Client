@@ -12,13 +12,14 @@
           </li>
           <li class="nav-item mr-2"><a class="nav-link active"
               (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')"
-              style="padding: 10px; color: #7B4C50;">Khám và
+              style="padding: 10px; color: #7B4C50;cursor: pointer;">Khám và
               điều
               trị</a></li>
-          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000;"
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
               (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
           </li>
-          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000;"
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000;cursor: pointer;
+          "
               (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/')">Thanh toán</a>
           </li>
         </ul>
@@ -29,7 +30,7 @@
       <div class="row" style="padding-top: 10px; padding-right: 80px;">
         <div class="col-12">
           <button class="btn button-timekeeping float-end" data-bs-toggle="modal" data-bs-target="#AddTreatmentModal"
-            (click)="addTreatmentCourse()"> <i class="bi bi-plus-circle-fill"></i> Thêm lịch trình</button>
+            > <i class="bi bi-plus-circle-fill"></i> Thêm lịch trình</button>
         </div>
       </div>
 
@@ -103,6 +104,5 @@
 </div>
 
 
-
-<app-popup-add-treatmentcourse [Patient_Id]="Patient_Id"></app-popup-add-treatmentcourse>
+<app-popup-add-treatmentcourse></app-popup-add-treatmentcourse>
 <app-popup-edit-treatmentcourse [TreatmentCourse]="TreatmentCourse"></app-popup-edit-treatmentcourse>

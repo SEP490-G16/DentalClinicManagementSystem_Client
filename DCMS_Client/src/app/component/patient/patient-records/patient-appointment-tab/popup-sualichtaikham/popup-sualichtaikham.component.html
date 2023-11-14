@@ -37,9 +37,9 @@
                 <label for="treatment">Loại điều trị</label>
                 <select class="form-control" id="treatment" [(ngModel)]="EDIT_APPOINTMENT_BODY.appointment.procedure">
                   <option value="">Tất cả</option>
-                  <option value="1">Niềng Răng</option>
-                  <option value="2">Nhổ Răng</option>
-                  <option value="3">Cạo vôi răng</option>
+                  <option value="1"></option>
+                  <option value="2"></option>
+                  <option value="3"></option>
                 </select>
                 <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.procedure}}</p>
               </div>
