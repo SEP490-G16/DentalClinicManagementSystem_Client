@@ -13,7 +13,7 @@ import { ReceptionistAppointmentService } from 'src/app/service/ReceptionistServ
 @Component({
   selector: 'app-popup-datlichtaikham',
   templateUrl: './popup-datlichtaikham.component.html',
-  styleUrls: ['./popup-datlichtaikham.component.css']
+  styleUrls: ['../../../../shared/Popup/popup.component.css']
 })
 export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
 

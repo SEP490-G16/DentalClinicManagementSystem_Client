@@ -91,7 +91,11 @@ export class PopupAddExaminationComponent implements OnInit {
         console.log("data treatment: ", data);
         this.treatmentCourse = data;
         console.log("treatment course: ", this.treatmentCourse);
-      })
+      },
+      (res) => {
+        this.toastr.error(res.error.message, "Tải danh sách liệu trình thất bại");
+      }
+      )
   }
 
   postExamination() {
@@ -101,11 +105,12 @@ export class PopupAddExaminationComponent implements OnInit {
     this.examination.facility_id = "F-14"; // Sử dụng toán tử '||' để gán giá trị mặc định nếu facility là null
     console.log("post", this.examination);
     this.tcDetailService.postExamination(this.examination)
-      .subscribe(() => {
-        this.showSuccessToast('Thêm lần khám thành công');
+      .subscribe((res) => {
+        this.toastr.success(res.message,'Thêm lần khám thành công');
+        this.router.navigate(['/benhnhan/danhsach/tab/lichtrinhdieutri/' + this.patient_Id]);
       },
         (err) => {
-          this.showErrorToast('Thêm lần khám thất bại');
+          this.toastr.error(err.error.message,'Thêm lần khám thất bại');
         })
 
   }
@@ -127,23 +132,5 @@ export class PopupAddExaminationComponent implements OnInit {
     }
   }
 
-  showSuccessToast(message: string) {
-    this.toastr.success(message, 'Thành công', {
-      timeOut: 3000, // Adjust the duration as needed
-    });
-  }
-
-  showErrorToast(message: string) {
-    this.toastr.error(message, 'Lỗi', {
-      timeOut: 3000, // Adjust the duration as needed
-    });
-  }
-
-  signOut() {
-    this.cognitoService.signOut().then(() => {
-      console.log("Logged out!");
-      this.router.navigate(['dangnhap']);
-    })
-  }
 
 }

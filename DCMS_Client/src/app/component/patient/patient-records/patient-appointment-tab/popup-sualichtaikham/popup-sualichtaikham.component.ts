@@ -19,7 +19,7 @@ import {
 @Component({
   selector: 'app-popup-sualichtaikham',
   templateUrl: './popup-sualichtaikham.component.html',
-  styleUrls: ['./popup-sualichtaikham.component.css']
+  styleUrls: ['../../../../shared/Popup/popup.component.css']
 })
 export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
 

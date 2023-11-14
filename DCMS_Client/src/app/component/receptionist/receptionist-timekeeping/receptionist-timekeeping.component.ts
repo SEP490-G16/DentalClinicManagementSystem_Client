@@ -38,6 +38,13 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     isClockout: false
   }];
 
+  sampleData = {
+    "0": { "M": { "clock_in": { "N": '1699958700000' }, "clock_out": { "N": '1699958700000' }, "staff_avt": { "S": '' }, "staff_name": { "S": 'Dũng' }, "status": { "N": '2' }, "timekeeper_avt": { "S": '' }, "timekeeper_name": { "S": 'Long' } } },
+    "ad2879dd-626c-4ade-8c95-da187af572ad": { "M": { "clock_in": { "N": '1699958640000' }, "clock_out": { "N": '1699958640000' }, "staff_avt": { "S": '' }, "staff_name": { "S": 'Trần Văn Thế' }, "status": { "N": '2' }, "timekeeper_avt": { "S": '' }, "timekeeper_name": { "S": 'Long' } } },
+    "epoch": { "N": "1699894800000" },
+    "type": { "S": "t" }
+  };
+
   //Current
   currentDateTimeStamp: number = 0;
   currentTimeTimeStamp: number = 0;
@@ -52,6 +59,8 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     private timekeepingService: ReceptionistTimekeepingService,
     private toastr: ToastrService,
     private router: Router) {
+
+
 
     this.Body = {
       epoch: 123,
@@ -83,12 +92,6 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     }
     console.log("ok", this.weekTimestamps);
 
-    let sampleData = {
-      "0": { "M": { "clock_in": { "N": '1699958700000' }, "clock_out": { "N": '1699958700000' }, "staff_avt": { "S": '' }, "staff_name": { "S": 'Dũng' }, "status": { "N": '2' }, "timekeeper_avt": { "S": '' }, "timekeeper_name": { "S": 'Long' } } },
-      "ad2879dd-626c-4ade-8c95-da187af572ad": { "M": { "clock_in": { "N": '1699958640000' }, "clock_out": { "N": '1699958640000' }, "staff_avt": { "S": '' }, "staff_name": { "S": 'Trần Văn Thế' }, "status": { "N": '2' }, "timekeeper_avt": { "S": '' }, "timekeeper_name": { "S": 'Long' } } },
-      "epoch": { "N": "1699894800000" },
-      "type": { "S": "t" }
-    };
   }
 
   ngOnInit(): void {
@@ -108,7 +111,6 @@ export class ReceptionistTimekeepingComponent implements OnInit {
         // this.timekeepingOnWeeks = ConvertJson.processApiResponse(data);
         this.timekeepingOnWeeks = data;
         console.log("TimekeepingOnWeeks: ", this.timekeepingOnWeeks);
-
       },
         (err) => {
           this.loading = false;

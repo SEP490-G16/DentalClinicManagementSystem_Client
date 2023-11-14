@@ -1,16 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 .web-wrapper {
-  --custom-color-primary: #6C9BCF;
-  --custom-color-danger: #FF0060;
-  --custom-color-success: #1B9C85;
-  --custom-color-warning: #F7D060;
-  --custom-color-white: #fff;
-  --custom-color-info-dark: #7d8da1;
-  --custom-color-dark: #363949;
-  --custom-color-light: rgba(132, 139, 200, 0.18);
-  --custom-color-dark-variant: #677483;
-  --custom-color-background: #f6f6f9;
+  --custom-color-primary: #507DBC;
+  --custom-color-danger: #E56B6F;
+  --custom-color-success: #48A9A6;
+  --custom-color-warning: #ECA400;
+  --custom-color-white: #FFFFFF;
+  --custom-color-info-dark: #324D67;
+  --custom-color-dark: #273238;
+  --custom-color-light: #B8C5D3;
+  --custom-color-dark-variant: #1F2A36;
+  --custom-color-background: #F4F7FA;
 
   --custom-card-border-radius: 2rem;
   --custom-border-radius-1: 0.4rem;
@@ -19,7 +19,28 @@
   --custom-card-padding: .8rem;
   --custom-padding-1: 1.2rem;
 
-  --custom-box-shadow: 0 2rem 3rem var(--custom-color-light);
+  --custom-box-shadow: 0 2rem 3rem rgba(184, 197, 211, 0.5);
+
+  /* Button colors */
+  --button-bg-color: #507DBC;
+  --button-text-color: #FFFFFF;
+  --button-hover-bg-color: #3B5A8F;
+  --button-active-bg-color: #2E4971;
+  --button-border-color: #7B4C50;
+
+  /* Other CSS properties */
+  --custom-card-border-radius: 2rem;
+  --custom-border-radius-1: 0.4rem;
+  --custom-border-radius-2: 1.2rem;
+
+  --custom-card-padding: .8rem;
+  --custom-padding-1: 1.2rem;
+
+  --custom-box-shadow: 0 2rem 3rem rgba(184, 197, 211, 0.5);
+
+  --progress-appointment: #4C9AFF;
+  --progress-waiting: #FFAB76;
+  --progress-patient: #6DD47E;
 }
 
 * {
@@ -126,13 +147,13 @@ aside {
   display: flex;
   gap: 0.5rem;
 }
- .toggle .logo img {
-  padding-left: 1rem;
+
+.toggle .logo img {
   width: 2rem;
   height: 2rem;
 }
 
- .toggle .close {
+.toggle .close {
   padding-right: 1rem;
   display: none;
 }
@@ -143,7 +164,7 @@ aside .sidebar {
   background-color: var(--custom-color-white);
   box-shadow: var(--custom-box-shadow);
   border-radius: 15px;
-  height: 96vh;
+  height: 105vh;
   position: relative;
   top: .9rem;
   transition: all 0.3s ease;
@@ -185,7 +206,7 @@ aside .sidebar a.active {
 aside .sidebar a.active::before {
   content: '';
   width: 6px;
-  height: 18px;
+  height: 30px;
   background-color: var(--custom-color-primary);
 }
 
@@ -265,19 +286,19 @@ main .analyse svg circle {
 }
 
 main .analyse .sales svg circle {
-  stroke: #664FC3;
+  stroke: var(--progress-appointment);
   stroke-dashoffset: -30;
   stroke-dasharray: 200;
 }
 
 main .analyse .visits svg circle {
-  stroke: rgb(151, 68, 68);
+  stroke: var(--progress-waiting);
   stroke-dashoffset: -30;
   stroke-dasharray: 200;
 }
 
 main .analyse .searches svg circle {
-  stroke: rgb(18, 18, 104);
+  stroke: var(--progress-patient);
   stroke-dashoffset: -30;
   stroke-dasharray: 200;
 }
@@ -334,7 +355,7 @@ main .new-users .user-list .user img {
 .profile {
   display: flex;
   align-items: center;
-  gap:2rem;
+  gap: 2rem;
   text-align: center;
 }
 
@@ -348,12 +369,10 @@ main .new-users .user-list .user img {
 
 .profile .icon {
   border-radius: 23px;
-  padding-right: 10px;
+  padding-right: 90px;
   justify-items: flex-start;
   font-size: 20px;
 }
-
-
 
 @media screen and (max-width: 1200px) {
   .container-custom {
@@ -503,7 +522,7 @@ main .new-users .user-list .user img {
   }
 
 
- .profile .info {
+  .profile .info {
     display: none;
   }
 
@@ -546,12 +565,12 @@ main .new-users .user-list .user img {
 }
 
 .custom-table thead tr th {
-	color: #7B4C50;
-	font-weight: 600
+  color: #7B4C50;
+  font-weight: 600
 }
 
 .custom-table tr {
-	background-color: #7B4C50;
+  background-color: #7B4C50;
   border: 1px solid #7B4C50;
 }
 
@@ -565,8 +584,8 @@ main .new-users .user-list .user img {
 .table.custom-table>tfoot>tr>th,
 .table.custom-table>thead>tr>td,
 .table.custom-table>thead>tr>th {
-	padding: 14px 8px;
-	vertical-align: middle
+  padding: 14px 8px;
+  vertical-align: middle
 }
 
 .dp-hidden {
@@ -575,6 +594,7 @@ main .new-users .user-list .user img {
   border: none;
   padding: 0;
 }
+
 .custom-day {
   text-align: center;
   padding: 0.185rem 0.25rem;
@@ -582,14 +602,17 @@ main .new-users .user-list .user img {
   height: 2rem;
   width: 2rem;
 }
+
 .custom-day.focused {
   background-color: #e6e6e6;
 }
+
 .custom-day.range,
 .custom-day:hover {
   background-color: rgb(2, 117, 216);
   color: white;
 }
+
 .custom-day.faded {
   background-color: rgba(2, 117, 216, 0.5);
 }
@@ -600,6 +623,7 @@ main .new-users .user-list .user img {
   border: none;
   padding: 0;
 }
+
 .custom-day {
   text-align: center;
   padding: 0.185rem 0.25rem;
@@ -611,11 +635,13 @@ main .new-users .user-list .user img {
 .custom-day.focused {
   background-color: #e6e6e6;
 }
+
 .custom-day.range,
 .custom-day:hover {
   background-color: rgb(2, 117, 216);
   color: white;
 }
+
 .custom-day.faded {
   background-color: rgba(2, 117, 216, 0.5);
 }
@@ -634,7 +660,7 @@ main .new-users .user-list .user img {
   margin-right: 30px;
 }
 
-.button-timekeeping{
+.button-timekeeping {
   font-family: "Poppins", sans-serif;
   background: #664FC3;
   text-align: center;
@@ -646,12 +672,14 @@ main .new-users .user-list .user img {
   outline: 0px;
   padding: 10px 20px;
   margin-bottom: 15px;
-/* box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset; */
+  /* box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset; */
 }
-button:hover{
+
+button:hover {
   opacity: 0.9;
 }
-button:active{
+
+button:active {
   transform: translateY(4px);
   box-shadow: 0px -1px -1px #fff;
 }
@@ -663,6 +691,7 @@ button:active{
 .time-clockout {
   color: red;
 }
+
 .table-container {
   position: relative;
 }
@@ -733,7 +762,7 @@ button:active{
 }
 
 .form-container {
-  display:  flex;
+  display: flex;
   flex-direction: column;
   align-items: stretch;
   max-width: 400px;
@@ -839,9 +868,25 @@ button:active{
 
 
 .btn:hover,
-.open-btn:hover
-{
+.open-btn:hover {
   opacity: 0.9;
 
 }
 
+.profile {
+  float: right;
+}
+
+@media only screen and (min-width: 2000px) {
+  aside .sidebar {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--custom-color-white);
+    box-shadow: var(--custom-box-shadow);
+    border-radius: 15px;
+    height: 100vh;
+    position: relative;
+    top: .9rem;
+    transition: all 0.3s ease;
+  }
+}

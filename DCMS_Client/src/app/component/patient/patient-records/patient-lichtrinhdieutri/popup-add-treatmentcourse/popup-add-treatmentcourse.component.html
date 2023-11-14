@@ -1,4 +1,4 @@
-<div class="modal" id="AddTreatmentModal">
+<div class="modal" #AddTreatmentModal id="AddTreatmentModal">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
@@ -34,18 +34,6 @@
             </div>
           </div>
 
-          <!-- <div class="row">
-            <div class="col-12">
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Created Date</label>
-                <input type="date" class="form-control" id="exampleInputEmail1"
-                [(ngModel)]="Add_TreatmentCourse.created_date"
-                aria-describedby="emailHelp">
-
-              </div>
-            </div>
-          </div> -->
-
           <div class="row">
             <div class="col-12">
               <div class="mb-3">
@@ -60,7 +48,7 @@
           <!-- Modal footer -->
           <div class="button-conf float-end">
             <button type="button" id="cancel" class="btn bg-white" data-bs-dismiss="modal">Hủy</button>
-            <button type="button" class="btn" style="background-color: rgba(139, 55, 19,.95); color:white" (click)="addTreatmentCourse()">Lưu</button>
+            <button type="button" class="btn" style="background-color: rgba(139, 55, 19,.95); color:white" data-bs-dismiss="modal" (click)="addTreatmentCourse()">Lưu</button>
           </div>
 
         </div>
