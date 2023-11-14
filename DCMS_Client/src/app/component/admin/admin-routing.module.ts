@@ -18,27 +18,10 @@ import {
   WarehouseExportMaterialManagementComponent
 } from "./warehouse-export-material-management/warehouse-export-material-management.component";
 import {FollowingTimekeepingComponent} from "./following-timekeeping/following-timekeeping.component";
-import { PatientRecordsComponent } from '../patient/patient-records/patient-records.component';
-import { PatientLichtrinhdieutriComponent } from '../patient/patient-records/patient-lichtrinhdieutri/patient-lichtrinhdieutri.component';
-import { PopupAddExaminationComponent } from '../patient/patient-records/patient-lichtrinhdieutri/popup-add-examination/popup-add-examination.component';
-import { PopupEditExaminationComponent } from '../patient/patient-records/patient-lichtrinhdieutri/popup-edit-examination/popup-edit-examination.component';
-import { PatientTreatmentCourseTabComponent } from '../patient/patient-records/patient-treatment-course-tab/patient-treatment-course-tab.component';
-import { PatientAppointmentTabComponent } from '../patient/patient-records/patient-appointment-tab/patient-appointment-tab.component';
-import { PatientPaymentTabComponent } from '../patient/patient-records/patient-payment-tab/patient-payment-tab.component';
-import { PatientProfileTabComponent } from '../patient/patient-records/patient-profile-tab/patient-profile-tab.component';
-import {
-  ReceptionistAppointmentListComponent
-} from "../receptionist/receptionist-appointment-list/receptionist-appointment-list.component";
-import {
-  ReceptionistWaitingRoomComponent
-} from "../receptionist/receptionist-waiting-room/receptionist-waiting-room.component";
-import {
-  ReceptionistTimekeepingComponent
-} from "../receptionist/receptionist-timekeeping/receptionist-timekeeping.component";
 
 
 const adminRoutes: Routes = [
-  { path: '',   redirectTo: '/admin/co-so', pathMatch: 'full' },
+  { path: '',   redirectTo: 'co-so', pathMatch: 'full' },
   {path: 'co-so', component: FacilityComponent},
   {path: 'labo', component: LaboComponent},
   {path: '',children:[
@@ -59,18 +42,6 @@ const adminRoutes: Routes = [
     ]
   },
   {path:'letan/theo-doi-cham-cong',component:FollowingTimekeepingComponent},
-  {
-    path: 'lich-hen',
-    component: ReceptionistAppointmentListComponent
-  },
-  {
-    path: 'phong-cho',
-    component: ReceptionistWaitingRoomComponent
-  },
-  {
-    path: 'letan/cham-cong',
-    component: ReceptionistTimekeepingComponent
-  },
 ]
 
 @NgModule({

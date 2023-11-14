@@ -47,23 +47,27 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     this.loading = true;
+    console.log("User groups: ");
+
     if (this.User && this.User.userCredential && this.User.password) {
       this.cognitoService.signIn(this.User).then(() => {
         this.loading = false;
         const userGroupsString = sessionStorage.getItem('userGroups');
 
+        console.log("User groups: ", userGroupsString);
       if (userGroupsString) {
         const userGroups = JSON.parse(userGroupsString) as string[];
-
         if (userGroups.includes('dev-dcms-doctor')) {
-          this.router.navigate(['nhanvien/bacsi']);
+          this.router.navigate(['bacsi']);
         } else if (userGroups.includes('dev-dcms-nurse')) {
-          this.router.navigate(['nhanvien/yta']);
+          this.router.navigate(['yta']);
         } else if (userGroups.includes('dev-dcms-receptionist')) {
-          this.router.navigate(['nhanvien/letan']);
+          this.router.navigate(['letan']);
         } else if(userGroups.includes('dev-dcms-admin')){
           this.router.navigate(['admin']);
         }
+        console.log("User groups: ", userGroupsString);
+
       } else {
         console.error('Không có thông tin về nhóm người dùng.');
         this.router.navigate(['/default-route']);
