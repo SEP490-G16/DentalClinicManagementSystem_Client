@@ -1,7 +1,7 @@
 import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/TreatmentCourse.service';
 import { ITreatmentCourse, TreatmentCourse } from './../../../../../model/ITreatment-Course';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonService } from 'src/app/service/commonMethod/common.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -22,14 +22,14 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     private treatmentCourseService: TreatmentCourseService,
     private methodService:CommonService,
     private toastr:ToastrService,
-    private route:ActivatedRoute
+    private route:ActivatedRoute,
+    private router:Router
   ) {
   }
 
 
   ngOnInit(): void {
     this.Patient_Id = this.route.snapshot.params['id'];
-
   }
 
 
@@ -40,7 +40,8 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
       subscribe((res) => {
         console.log(res);
         this.toastr.success(res.message, "Thêm liệu trình thành công");
-        window.location.reload();
+        this.router.navigate(['/benhnhan/danhsach/tab/lichtrinhdieutri/' + this.Patient_Id + '/themlankham/' + res.treatment_course_id])
+        // window.location.reload();
       },
         (err) => {
           this.methodService.showToast(err.error.message, "Thêm liệu trình thất bại", 2);

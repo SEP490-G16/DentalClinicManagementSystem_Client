@@ -82,6 +82,13 @@ export class ReceptionistTimekeepingComponent implements OnInit {
       this.weekTimestamps.push(moment().startOf('week').add(i, 'days').unix());
     }
     console.log("ok", this.weekTimestamps);
+
+    let sampleData = {
+      "0": { "M": { "clock_in": { "N": '1699958700000' }, "clock_out": { "N": '1699958700000' }, "staff_avt": { "S": '' }, "staff_name": { "S": 'Dũng' }, "status": { "N": '2' }, "timekeeper_avt": { "S": '' }, "timekeeper_name": { "S": 'Long' } } },
+      "ad2879dd-626c-4ade-8c95-da187af572ad": { "M": { "clock_in": { "N": '1699958640000' }, "clock_out": { "N": '1699958640000' }, "staff_avt": { "S": '' }, "staff_name": { "S": 'Trần Văn Thế' }, "status": { "N": '2' }, "timekeeper_avt": { "S": '' }, "timekeeper_name": { "S": 'Long' } } },
+      "epoch": { "N": "1699894800000" },
+      "type": { "S": "t" }
+    };
   }
 
   ngOnInit(): void {
@@ -100,14 +107,17 @@ export class ReceptionistTimekeepingComponent implements OnInit {
         this.loading = false;
         // this.timekeepingOnWeeks = ConvertJson.processApiResponse(data);
         this.timekeepingOnWeeks = data;
-        console.log("this.timekeepingOnWeeks ", this.timekeepingOnWeeks);
+        console.log("TimekeepingOnWeeks: ", this.timekeepingOnWeeks);
+
       },
         (err) => {
           this.loading = false;
-
+          this.toastr.error(err.error.message, "Chấm công về thành công");
         }
       )
   }
+
+
 
   StaffFilter: any;
   selectedFilter: string = "";
@@ -140,18 +150,18 @@ export class ReceptionistTimekeepingComponent implements OnInit {
 
     this.timekeepingService.postTimekeeping(this.Body)
       .subscribe((res) => {
-        this.showSuccessToast(res);
+        this.toastr.success(res.message, "Chấm công về thành công");
         //Set time Clockin
         staff.isClockin = true;
         staff.clockInStatus = "Đã chấm"
         staff.timeClockin = this.currentTimeGMT7;
 
         this.loading = false;
-
       },
         (err) => {
           this.loading = false;
-          this.showErrorToast(err.error);
+          this.toastr.error(err.error.message, "Chấm công thất bại");
+
         }
       )
   }
@@ -175,7 +185,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
       }
       this.timekeepingService.postTimekeeping(this.Body)
         .subscribe((res) => {
-          this.showSuccessToast("Chấm công về thành công");
+          this.toastr.success(res.message, "Chấm công về thành công");
           //Set time Clockout
           this.loading = false;
           console.log("Body clockout", this.Body);
@@ -184,7 +194,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
         },
           (err) => {
             this.loading = false;
-            this.showErrorToast(err.error);
+            this.toastr.error(err.error.message, "Chấm công thất bại");
           }
         )
 
@@ -193,7 +203,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
       this.timekeepingService.postTimekeeping(this.Body)
         .subscribe((res) => {
           this.loading = false;
-          this.showSuccessToast("Hủy chấm thành công");
+          this.toastr.success(res.mmessage, "Hủy chấm thành công");
           //Set time Clockout
           console.log("Cancel clockout", this.Body);
           staff.clockOutStatus = "Chưa chấm"
@@ -201,7 +211,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
         },
           (err) => {
             this.loading = false;
-            this.showErrorToast(err.error);
+            this.toastr.error(err.error.message, "Chấm công thất bại");
           }
         )
     }
@@ -242,17 +252,6 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     return timestamp;
   }
 
-  showSuccessToast(message: string) {
-    this.toastr.success(message, 'Thành công', {
-      timeOut: 3000, // Adjust the duration as needed
-    });
-  }
-
-  showErrorToast(message: string) {
-    this.toastr.error(message, 'Lỗi', {
-      timeOut: 3000, // Adjust the duration as needed
-    });
-  }
   navigateHref(href: string) {
     const userGroupsString = sessionStorage.getItem('userGroups');
 

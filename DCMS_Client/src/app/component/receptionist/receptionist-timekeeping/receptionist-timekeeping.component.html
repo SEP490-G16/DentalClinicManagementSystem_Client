@@ -8,10 +8,12 @@
       <a (click)="navigateHref('/letan/cham-cong')" routerLinkActive="active-link" class="page-title">Chấm công</a>
     </div>
     <div class="col-md-2">
-      <a (click)="navigateHref('/dangkilichlamviec')" routerLinkActive="active-link" class="page-title">Đăng kí lịch làm việc</a>
+      <a (click)="navigateHref('/dangkilichlamviec')" routerLinkActive="active-link" class="page-title">Đăng kí lịch làm
+        việc</a>
     </div>
     <div class="col-md-2">
-      <a (click)="navigateHref('/letan/theo-doi-cham-cong')" routerLinkActive="active-link" class="page-title">Theo dõi chấm công</a>
+      <a (click)="navigateHref('/letan/theo-doi-cham-cong')" routerLinkActive="active-link" class="page-title">Theo dõi
+        chấm công</a>
     </div>
   </div>
   <div class="row mt-5">
@@ -29,73 +31,76 @@
   </div>
 
   <div class="table-container">
-  <table>
-    <thead class="sticky-thead">
+    <table>
+      <thead class="sticky-thead">
 
-      <tr class="text-center">
-        <th>Tên nhân viên</th>
-        <th colspan="2">Thứ 2</th>
-        <th colspan="2">Thứ 3</th>
-        <th colspan="2">Thứ 4</th>
-        <th colspan="2">Thứ 5</th>
-        <th colspan="2">Thứ 6</th>
-        <th colspan="2">Thứ 7</th>
-        <th colspan="2">Chủ nhật</th>
-      </tr>
-    </thead>
-    <tbody class="text-center">
-      <tr>
-        <td></td>
-        <td>Clockin</td>
-        <td>Clockout</td>
-        <td>Clockin</td>
-        <td>Clockout</td>
-        <td>Clockin</td>
-        <td>Clockout</td>
-        <td>Clockin</td>
-        <td>Clockout</td>
-        <td>Clockin</td>
-        <td>Clockout</td>
-        <td>Clockin</td>
-        <td>Clockout</td>
-        <td>Clockin</td>
-        <td>Clockout</td>
-      </tr>
+        <tr class="text-center">
+          <th>Tên nhân viên</th>
+          <th colspan="2">Thứ 2</th>
+          <th colspan="2">Thứ 3</th>
+          <th colspan="2">Thứ 4</th>
+          <th colspan="2">Thứ 5</th>
+          <th colspan="2">Thứ 6</th>
+          <th colspan="2">Thứ 7</th>
+          <th colspan="2">Chủ nhật</th>
+        </tr>
+      </thead>
+      <tbody class="text-center">
+        <tr>
+          <td></td>
+          <td>Clockin</td>
+          <td>Clockout</td>
+          <td>Clockin</td>
+          <td>Clockout</td>
+          <td>Clockin</td>
+          <td>Clockout</td>
+          <td>Clockin</td>
+          <td>Clockout</td>
+          <td>Clockin</td>
+          <td>Clockout</td>
+          <td>Clockin</td>
+          <td>Clockout</td>
+          <td>Clockin</td>
+          <td>Clockout</td>
+        </tr>
 
-      <tr *ngFor="let staff of StaffFilter">
-        <td style="border-right: 1px solid #7B4C50;">
-          <p style="color: brown;">{{staff.name}}</p>
-        </td>
-        <td style="border-right: 1px solid #7B4C50;padding: 8px">
-          <button class="button-timekeeping" (click)="onClockin(staff)"
-            [disabled]="staff.isClockin">{{staff.clockInStatus}}</button>
-          <p [class]="timeClockinColor">{{staff.timeClockin}}</p>
-        </td>
+        <tr *ngFor="let staff of StaffFilter">
+          <td style="border-right: 1px solid #7B4C50;">
+            <p style="color: brown;">{{staff.name}}</p>
+          </td>
+          <td style="border-right: 1px solid #7B4C50;padding: 18px">
+            <button class="button-timekeeping" (click)="onClockin(staff)"
+              [disabled]="staff.isClockin">{{staff.clockInStatus}}</button> <br/>
+            <input type="time" [(ngModel)]="staff.timeClockin" [class]="timeClockinColor"
+             (change)="onClockin(staff)">
+          </td>
 
-        <td style="border-right: 1px solid #7B4C50; padding: 8px">
-          <button class="button-timekeeping" (click)="onClockout(staff)">{{staff.clockOutStatus}}</button>
-          <p [class]="timeClockoutColor">{{staff.timeClockout}}</p>
-        </td>
-        <td style="border-right: 1px solid #7B4C50;"></td>
-        <td style="border-right: 1px solid #7B4C50;"></td>
+          <td style="border-right: 1px solid #7B4C50; padding: 18px">
+            <button class="button-timekeeping" (click)="onClockout(staff)"
+              >{{staff.clockOutStatus}}</button> <br/>
+            <input type="time" [(ngModel)]="staff.timeClockout" [class]="timeClockoutColor"
+             (change)="onClockout(staff)">
+          </td>
+          <td style="border-right: 1px solid #7B4C50;"></td>
+          <td style="border-right: 1px solid #7B4C50;"></td>
 
-        <td style="border-right: 1px solid #7B4C50;"></td>
-        <td style="border-right: 1px solid #7B4C50;"></td>
+          <td style="border-right: 1px solid #7B4C50;"></td>
+          <td style="border-right: 1px solid #7B4C50;"></td>
 
-        <td style="border-right: 1px solid #7B4C50;"></td>
-        <td style="border-right: 1px solid #7B4C50;"></td>
+          <td style="border-right: 1px solid #7B4C50;"></td>
+          <td style="border-right: 1px solid #7B4C50;"></td>
 
-        <!--Thứ-->
+          <!--Thứ-->
 
-        <td style="border-right: 1px solid #7B4C50;"></td>
-        <td style="border-right: 1px solid #7B4C50;"></td>
+          <td style="border-right: 1px solid #7B4C50;"></td>
+          <td style="border-right: 1px solid #7B4C50;"></td>
 
-        <td style="border-right: 1px solid #7B4C50;"></td>
-        <td style="border-right: 1px solid #7B4C50;"></td>
-        <td style="border-right: 1px solid #7B4C50;"></td>
-        <td style="border-right: 1px solid #7B4C50;"></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<!-- End of Recent Orders -->
+          <td style="border-right: 1px solid #7B4C50;"></td>
+          <td style="border-right: 1px solid #7B4C50;"></td>
+          <td style="border-right: 1px solid #7B4C50;"></td>
+          <td style="border-right: 1px solid #7B4C50;"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- End of Recent Orders -->

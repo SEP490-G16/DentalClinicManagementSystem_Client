@@ -14,7 +14,7 @@ import { CognitoService } from 'src/app/service/cognito.service';
 })
 export class PopupEditExaminationComponent implements OnInit {
 
-  imageURL: string | ArrayBuffer = 'https://www.cignodental.com/wp-content/uploads/2021/03/are_dental_x_rays_safe_greenfield_wi.jpeg';
+  imageURL: string | ArrayBuffer = 'https://th.bing.com/th/id/R.df048393f74396d1e2903f99bda94026?rik=bD%2fA%2fJjz1TPv7A&riu=http%3a%2f%2fsignandpop.com%2fwp-content%2fuploads%2f2018%2f03%2fNo.-Image.jpg&ehk=xT6TKXDwVpoZL96QE2d%2bV%2fEJ8q6THIYjUFO3NfI4LZU%3d&risl=&pid=ImgRaw&r=0';
 
 
   patient_Id: string = "";

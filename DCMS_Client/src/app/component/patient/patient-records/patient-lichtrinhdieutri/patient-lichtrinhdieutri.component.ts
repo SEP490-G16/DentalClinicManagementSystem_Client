@@ -15,7 +15,7 @@ import { CommonService } from 'src/app/service/commonMethod/common.service';
 })
 export class PatientLichtrinhdieutriComponent implements OnInit {
   id: string = "";
-
+  examinations: any;
   ITreatmentCourse: any;
 
   constructor(
@@ -49,26 +49,31 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
   }
 
 
-  ok: any;
   getTreatmentCourse() {
     this.treatmentCourseService.getTreatmentCourse(this.id)
       .subscribe((data) => {
-        console.log("Data tra ve tu treatment api: ", data);
+        console.log("Treatment course: ", data);
         this.ITreatmentCourse = data;
         console.log("Data nhan", this.ITreatmentCourse)
-
-        this.TreatmentCourseDetailService.getTreatmentCourseDetail(this.ITreatmentCourse[0].treatment_course_id)
-          .subscribe(data => {
-            console.log("Data tra ve tu examination: ", data.data);
-            this.ok = data.data;
-            console.log("Data nhan", this.ok);
-
-          })
+        this.ITreatmentCourse.sort((a: any, b: any) => {
+          const dateA = new Date(a.created_date).getTime();
+          const dateB = new Date(b.created_date).getTime();
+          return dateB - dateA;
+        });
       }
       )
   }
 
-
+  getExamination(courseId: string) {
+    if (this.ITreatmentCourse.length > 0) {
+      this.TreatmentCourseDetailService.getTreatmentCourseDetail(courseId)
+        .subscribe(data => {
+          console.log("Examination: ", data.data);
+          this.examinations = data.data;
+          console.log("Data nhan", this.examinations);
+        })
+    }
+  }
 
   TreatmentCourse: any;
   editTreatmentCourse(course: any) {
