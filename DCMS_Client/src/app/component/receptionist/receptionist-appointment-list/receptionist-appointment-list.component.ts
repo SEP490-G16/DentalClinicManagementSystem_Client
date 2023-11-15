@@ -201,11 +201,11 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   timeString: any;
   openEditModal(appointment: any, dateTimestamp: any) {
     console.log("DateTimestamp", dateTimestamp);
-    this.dateString = this.convertTimestampToDateString(dateTimestamp);
+    this.dateString = this.timestampToDate(dateTimestamp);
     console.log("DateString", this.dateString);
   
     this.selectedAppointment = appointment;
-    this.timeString = this.timestampToGMT7String(appointment.time);
+    this.timeString = this.timestampToTime(appointment.time);
     console.log("Time, ", this.timeString);
   }
 

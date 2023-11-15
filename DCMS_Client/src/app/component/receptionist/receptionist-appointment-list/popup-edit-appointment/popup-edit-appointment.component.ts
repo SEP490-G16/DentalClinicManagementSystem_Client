@@ -237,7 +237,7 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
       this.isSubmitted = true;
       this.loading = false;
       return;
-    } else if (this.timeString != '' && selectedDate < currentDate) {
+    } else if (this.timeString != '' && selectedDate <= currentDate) {
       if ((currentDate+" "+this.timeString) < (currentDate+" "+currentTime)) {
         this.validateAppointment.appointmentTime = "Vui lòng chọn giờ khám lớn hơn!";
         this.isSubmitted = true;

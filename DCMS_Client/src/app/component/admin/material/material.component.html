@@ -91,12 +91,14 @@
                   <tbody>
                     <tr *ngFor="let detail of item.expiry">
                       <td style="padding-top: 10px;padding-bottom: 10px;"></td>
-                      <td style="padding-top: 10px;padding-bottom: 10px;" class="truncate" data-bs-toggle="tooltip"></td>
+                      <td style="padding-top: 10px;padding-bottom: 10px;" class="truncate" data-bs-toggle="tooltip">{{ item.materialName
+                      }}</td>
                       <td style="padding-top: 10px;padding-bottom: 10px;">{{ detail.quantity }}</td>
-                      <td style="padding-top: 10px;padding-bottom: 10px;"></td>
-                      <td style="padding-top: 10px;padding-bottom: 10px;"></td>
+                      <td style="padding-top: 10px;padding-bottom: 10px;">{{ item.unitPrice }}</td>
+                      <td style="padding-top: 10px;padding-bottom: 10px;">{{ item.unit }}</td>
                       <td style="padding-top: 10px;padding-bottom: 10px;">{{ detail.expiryDate }}</td>
-                      <td style="padding-top: 10px;padding-bottom: 10px;"></td>
+                      <td></td>
+                      <td style="padding-top: 10px;padding-bottom: 10px;" *ngIf="detail.quantity == 0"><p style="color: red;"><b>Hết Hàng</b></p></td>
                       <td style="padding-top: 10px;padding-bottom: 10px;">
                         <button class="btn btn-primary p-1 m-r-3" style="margin-right: 3px" data-bs-toggle="modal"
                           data-bs-target="#editMaterialModal">
