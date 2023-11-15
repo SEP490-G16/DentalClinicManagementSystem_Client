@@ -149,8 +149,6 @@ table tbody td {
   box-sizing: border-box;
 }
 
-
-
 a {
   text-align: center;
   display: block;
@@ -205,36 +203,6 @@ a {
   }
 
 }
-
-.btn-add-custom {
-  padding: 10px 20px;
-  border-radius: 27px;
-  background-color: #FEDDCC;
-  border: 1px solid #7B4C50;
-  margin-right: 10px;
-}
-
-.input-custom {
-  width: 25%;
-  padding: 10px 20px;
-  border: 1px solid #677483;
-  border-radius: 10px;
-  margin-right: 10px;
-}
-
-.btn-redirect {
-  font-size: 10px;
-  padding: 6px;
-  border: 1px solid #7B4C50;
-  border-radius: 10px;
-}
-
-.date-input-custom {
-  padding: 10px 20px;
-  border: 1px solid #664FC3;
-  border-radius: 10px;
-}
-
 
 .custom-table thead tr {
   background-color: var(--custom-color-background);
@@ -316,20 +284,6 @@ a {
   background-color: rgba(2, 117, 216, 0.5);
 }
 
-
-.date-input-cus {
-  padding: 10px;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
-}
-
-.btn-date-cus {
-  padding: 14px;
-  border: 1px solid #000;
-  border-radius: 0.25rem;
-  margin-right: 30px;
-}
-
 .button-timekeeping{
   font-family: "Poppins", sans-serif;
   background: #664FC3;
@@ -352,14 +306,6 @@ button:active{
   box-shadow: 0px -1px -1px #fff;
 }
 
-.time-clockin {
-  color: #1B9C85;
-}
-
-.time-clockout {
-  color: red;
-}
-
 .mr-2 {
   margin-right: 20px;
 }
@@ -379,4 +325,54 @@ button:active{
 
 .input-cus {
   border-bottom: 1px solid #000;
+}
+
+.popup {
+  position: absolute;
+  top: 40%;
+  left: 0;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  z-index: 10;
+  width: auto;
+}
+
+.fadeIn {
+  animation: fadeInAnimation 0.5s;
+}
+
+@keyframes fadeInAnimation {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.image-container {
+  border: 3px dotted #ccc;
+  position: relative;
+  width: 100%;
+  height: 300px;
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  cursor: pointer;
+  align-items: flex-start;
+  gap: 5px;
+  background-image: url(https://b2bbucket.s3.amazonaws.com/2465/products/broken-img.png);
+}
+
+.image-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.delete-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: red;
+  color: white;
+  border: none;
+  cursor: pointer;
 }

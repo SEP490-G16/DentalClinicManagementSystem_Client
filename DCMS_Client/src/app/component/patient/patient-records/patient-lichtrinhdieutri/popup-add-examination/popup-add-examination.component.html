@@ -46,8 +46,7 @@
 
             <div class="col-md-4">
               <label for="">Ngày khám</label>
-              <input type="date" class="form-control" style="width: 60%;"
-                [(ngModel)]="examination.created_date">
+              <input type="date" class="form-control" style="width: 60%;" [(ngModel)]="examination.created_date">
             </div>
 
             <div class="col-md-4">
@@ -92,15 +91,30 @@
 
           <h2>Hình ảnh</h2>
           <div class="row mt-3 content-child">
-            <div class="col-md-3">
-              <!-- <img width="100%" height="100%" [src]="TreatmentCourseDetail.xRayImage" alt="ảnh nếu có"> -->
+            <div class="col-md-3" #containerRef>
               <i class="text-center" style="font-size: 12px;">Bấm vào ô vuông này để thêm ảnh X-quang</i>
-              <div class="image-container" style="border: 3px dotted #ccc;" (click)="fileInput.click()">
-                <img [src]="imageURL" alt="ẢNH" class="text-center" style="cursor: pointer;">
-                <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput style="display: none;">
+              <div class="image-container" (click)="togglePopup()" alt="">
+                <div *ngFor="let url of imageUrls">
+                  <div class="image-wrapper">
+                    <img [src]="url" style="cursor: pointer; width: 100px; height: 100px; object-fit: contain;"
+                      alt="Ảnh đã chọn">
+                    <button class="delete-button" (click)="removeImage(url); $event.stopPropagation()">X</button>
+                  </div>
+                </div>
+                <!-- Popup -->
+                <div class="popup" [ngStyle]="{ 'display': showPopup ? 'block' : 'none' }"
+                  (click)="$event.stopPropagation()">
+                  <button (click)="fileInput.click(); showPopup=false">Chọn ảnh</button>
+                  <button (click)="showInput = true; showPopup = false">Nhập đường dẫn</button>
+                  <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput multiple
+                    style="display: none;">
+                </div>
               </div>
-              <input type="text" placeholder="Hoặc nhập đường dẫn vào đây"
-                style="border-bottom: 1px solid #746d6d00; width: 100%;" [(ngModel)]="this.examination.xRayImage">
+              <div *ngIf="showInput" class="fadeIn">
+                <input type="text" placeholder="Hoặc nhập đường dẫn vào đây"
+                  style="border-bottom: 1px solid #746d6d00; width: 100%;"
+                  ngbTooltip="Nhập đường dẫn ảnh của bạn tại đây" [(ngModel)]="this.examination.xRayImage">
+              </div>
             </div>
             <div class="col-md-1">
 

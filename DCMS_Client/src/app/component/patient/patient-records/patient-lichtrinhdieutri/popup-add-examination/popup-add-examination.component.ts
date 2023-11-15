@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ITreatmentCourse } from 'src/app/model/ITreatment-Course';
@@ -13,13 +13,14 @@ import { CognitoService } from 'src/app/service/cognito.service';
   styleUrls: ['./popup-add-examination.component.css']
 })
 export class PopupAddExaminationComponent implements OnInit {
-
-
-  imageURL: string | ArrayBuffer = 'https://th.bing.com/th/id/R.df048393f74396d1e2903f99bda94026?rik=bD%2fA%2fJjz1TPv7A&riu=http%3a%2f%2fsignandpop.com%2fwp-content%2fuploads%2f2018%2f03%2fNo.-Image.jpg&ehk=xT6TKXDwVpoZL96QE2d%2bV%2fEJ8q6THIYjUFO3NfI4LZU%3d&risl=&pid=ImgRaw&r=0';
-
+  imageURL: string | ArrayBuffer = '';
+  imageUrls: string[] = [];
+  showPopup = false;
+  showInput = false;
 
   patient_Id: string = "";
   treatmentCourse_Id: string = "";
+  @ViewChild('containerRef', { static: true }) containerRef!: ElementRef;
 
   examination: Examination = {} as Examination;
   treatmentCourse: ITreatmentCourse = [];
@@ -37,6 +38,7 @@ export class PopupAddExaminationComponent implements OnInit {
     private route: ActivatedRoute,
     private tcService: TreatmentCourseService,
     private tcDetailService: TreatmentCourseDetailService,
+    private eRef: ElementRef
   ) {
     this.examination = {
       treatment_course_id: "",
@@ -53,6 +55,7 @@ export class PopupAddExaminationComponent implements OnInit {
 
     this.examination.created_date = new Date().toISOString().substring(0, 10);
   }
+
 
   navigateHref(href: string) {
     const userGroupsString = sessionStorage.getItem('userGroups');
@@ -99,51 +102,50 @@ export class PopupAddExaminationComponent implements OnInit {
     this.examination.staff_id = this.staff_id;
     const facility: string | null = sessionStorage.getItem('locale');
     this.examination.facility_id = "F-14"; // Sử dụng toán tử '||' để gán giá trị mặc định nếu facility là null
+    this.examination.xRayImage = this.imageUrls.join(' ');
     console.log("post", this.examination);
     this.tcDetailService.postExamination(this.examination)
-      .subscribe(() => {
-        this.showSuccessToast('Thêm lần khám thành công');
+      .subscribe((res) => {
+        this.toastr.success(res.message, 'Thêm lần khám thành công');
       },
         (err) => {
-          this.showErrorToast('Thêm lần khám thất bại');
+          this.toastr.error(err.error.message, 'Thêm lần khám thất bại');
         })
 
   }
 
+  //Xử lý với ảnh
 
-  onFileSelected(event: any) {
-    const fileInput = event.target;
-    if (fileInput.files && fileInput.files[0]) {
-      const file = fileInput.files[0];
-      const reader = new FileReader();
-
-      reader.onload = (e: any) => {
-        this.imageURL = e.target.result;
-        this.examination.xRayImage = this.imageURL; // Di chuyển dòng này vào đây
-        console.log("xRayImage: ", this.examination.xRayImage);
-      };
-
-      reader.readAsDataURL(file);
+  @HostListener('document:click', ['$event'])
+  clickout(event: any) {
+    if (this.showPopup && !this.containerRef.nativeElement.contains(event.target)) {
+      this.showPopup = false;
     }
   }
 
-  showSuccessToast(message: string) {
-    this.toastr.success(message, 'Thành công', {
-      timeOut: 3000, // Adjust the duration as needed
-    });
+  togglePopup() {
+    this.showPopup = !this.showPopup;
+  }
+  onFileSelected(event: any) {
+    const files = event.target.files;
+    if (files.length > 0) {
+      // Xử lý ảnh đầu tiên
+      const reader = new FileReader();
+      reader.onload = (e: any) => { this.imageURL = e.target.result; };
+      reader.readAsDataURL(files[0]);
+
+      // Xử lý các ảnh tiếp theo (nếu có)
+      this.imageUrls = [];
+      for (let i = 1; i < files.length; i++) {
+        const fileReader = new FileReader();
+        fileReader.onload = (e: any) => { this.imageUrls.push(e.target.result); };
+        fileReader.readAsDataURL(files[i]);
+      }
+    }
   }
 
-  showErrorToast(message: string) {
-    this.toastr.error(message, 'Lỗi', {
-      timeOut: 3000, // Adjust the duration as needed
-    });
-  }
-
-  signOut() {
-    this.cognitoService.signOut().then(() => {
-      console.log("Logged out!");
-      this.router.navigate(['dangnhap']);
-    })
+  removeImage(urlToRemove: string) {
+    this.imageUrls = this.imageUrls.filter(url => url !== urlToRemove);
   }
 
 }
