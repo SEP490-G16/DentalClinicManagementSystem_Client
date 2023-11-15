@@ -23,7 +23,7 @@
                 <label for="phone">Nhập số điện thoại</label>
                 <input type="text" class="form-control" id="phone"
                   [(ngModel)]="AppointmentBody.appointment.phone_number"
-                  (keydown.enter)="onPhoneInput()"
+                  (input)="onPhoneInput()"
                   >
                   <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.phoneNumber}}</p>
               </div>
