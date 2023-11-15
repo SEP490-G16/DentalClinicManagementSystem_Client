@@ -6,6 +6,7 @@ import { PatientService } from 'src/app/service/PatientService/patient.service';
 
 import * as moment from 'moment-timezone';
 import { ReceptionistWaitingRoomService } from 'src/app/service/ReceptionistService/receptionist-waitingroom.service';
+import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureService/medical-procedure-group.service';
 @Component({
   selector: 'app-add-waiting-room',
   templateUrl: './add-waiting-room.component.html',
@@ -22,12 +23,14 @@ export class AddWaitingRoomComponent implements OnInit {
     private PATIENT_SERVICE: PatientService,
     private renderer: Renderer2,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private medicaoProcedureGroupService:MedicalProcedureGroupService
   ) {
 
     this.POST_WAITTINGROOM = {
       epoch: 0,
-      produce_id: "1",
+      produce_id: "0",
+      produce_name: '',
       patient_id: '',
       patient_name: '',
       reason: '',
@@ -41,8 +44,11 @@ export class AddWaitingRoomComponent implements OnInit {
     status: '',
     reason: ''
   }
+  listGroupService : any[] = [];
   isSubmitted: boolean = false;
   ngOnInit(): void {
+    
+    this.getListGroupService();
   }
 
 
@@ -68,11 +74,35 @@ export class AddWaitingRoomComponent implements OnInit {
     }
 
   }
-
+  onProcedureChange(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    const selectedValue = selectElement.value;
+  
+    // Logic to get the name from the selected ID
+    const selectedProcedure = this.listGroupService.find(
+      (procedure) => procedure.medical_procedure_group_id === selectedValue
+    );
+  
+    if (selectedProcedure) {
+      this.POST_WAITTINGROOM.produce_id = selectedProcedure.medical_procedure_group_id;
+      this.POST_WAITTINGROOM.produce_name = selectedProcedure.name;
+    }
+  }
+  
+  getListGroupService() {
+    this.medicaoProcedureGroupService.getMedicalProcedureGroupList().subscribe((res: any) => {
+      this.listGroupService = res.data;
+      
+      if (this.listGroupService.length > 0) {
+        this.POST_WAITTINGROOM.produce_id = this.listGroupService[0].medical_procedure_group_id;
+        this.POST_WAITTINGROOM.produce_name = this.listGroupService[0].name; // Thêm dòng này
+      }
+    });
+  }
   onPostWaitingRoom() {
     //Convert date to timestamp:
-    const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
-    this.POST_WAITTINGROOM.epoch = this.dateToTimestamp(currentDateGMT7);
+    const currentDateTimeGMT7 = moment().tz('Asia/Ho_Chi_Minh');
+      this.POST_WAITTINGROOM.epoch = Math.floor(currentDateTimeGMT7.valueOf()/1000);
     this.resetValidate();
     if (!this.phone_number) {
       this.validateWatingRoom.phone = "Vui lòng nhập số điện thoại!";
@@ -102,6 +132,7 @@ export class AddWaitingRoomComponent implements OnInit {
         this.POST_WAITTINGROOM = {
           epoch: 0,
           produce_id: "1",
+          produce_name: '',
           patient_id: '',
           patient_name: '',
           reason: '',
@@ -139,6 +170,7 @@ export class AddWaitingRoomComponent implements OnInit {
     this.POST_WAITTINGROOM = {
       epoch: 0,
       produce_id: "1",
+      produce_name: "1",
       patient_id: '',
       patient_name: '',
       reason: '',

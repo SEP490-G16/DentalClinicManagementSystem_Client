@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { ReceptionistWaitingRoomService } from 'src/app/service/ReceptionistService/receptionist-waitingroom.service';
 import { IPostWaitingRoom } from 'src/app/model/IWaitingRoom';
 import { ToastrService } from 'ngx-toastr';
+import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureService/medical-procedure-group.service';
 
 @Component({
   selector: 'app-receptionist-waiting-room',
@@ -18,19 +19,21 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
   waitingRoomData: any;
   loading: boolean = false;
   procedure: string = '0';
-
+  listGroupService : any[] = [];
   status: string = '1';
   PUT_WAITINGROOM: IPostWaitingRoom;
 
   constructor(private waitingRoomService: ReceptionistWaitingRoomService,
     private cognitoService: CognitoService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private medicaoProcedureGroupService:MedicalProcedureGroupService
   ) {
 
     this.PUT_WAITINGROOM = {
       epoch: 0,
       produce_id: "1",
+      produce_name:'',
       patient_id: '',
       patient_name: '',
       reason: '',
@@ -39,6 +42,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getListGroupService();
     this.getWaitingRoomData();
   }
 
@@ -49,8 +53,10 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
       data => {
         this.waitingRoomData = data;
         this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
-        console.log(this.waitingRoomData);
-        this.filteredWaitingRoomData = this.waitingRoomData;
+        this.filteredWaitingRoomData = this.waitingRoomData
+        console.log("filterwaittingroom", this.filteredWaitingRoomData = this.waitingRoomData
+          );
+
         this.loading = false;
       }
     ),
@@ -58,7 +64,11 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
         this.loading = false;
       };
   }
-
+  getListGroupService() {
+    this.medicaoProcedureGroupService.getMedicalProcedureGroupList().subscribe((res:any) => {
+      this.listGroupService = res.data;
+    })
+  }
   filteredWaitingRoomData: any[] = [];
   filterProcedure() {
     if (this.procedure === '0') {
@@ -92,7 +102,8 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
 
     this.PUT_WAITINGROOM = {
       epoch: epoch,
-      produce_id: wtr.produce,
+      produce_id: wtr.produce_id,
+      produce_name: wtr.produce_name,
       patient_id: wtr.patient_id,
       patient_name: wtr.patient_name,
       reason: wtr.reason,
@@ -103,8 +114,9 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
       this.waitingRoomService.deleteWaitingRooms(this.PUT_WAITINGROOM)
         .subscribe((data) => {
           this.loading = false;
+          this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
           this.showSuccessToast('Xóa hàng chờ thành công');
-          window.location.reload();
+          this.getWaitingRoomData();
         },
           () => {
             this.loading = false;
@@ -117,7 +129,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           this.loading = false;
           this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
           this.showSuccessToast('Chỉnh sửa hàng chờ thành công');
-          window.location.reload();
+          this.getWaitingRoomData();
         },
           () => {
             this.loading = false;

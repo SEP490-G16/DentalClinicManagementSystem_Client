@@ -332,3 +332,33 @@ button:active{
 .time-clockout {
   color: red;
 }
+.status-selector {
+  width: 50%; /* Hoặc kích thước cố định theo yêu cầu của bạn */
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 15px; /* Kích thước font theo yêu cầu của bạn */
+}
+
+.status-option {
+  padding: 5px;
+  font-size: 15px; /* Kích thước font theo yêu cầu của bạn */
+}
+
+.status-option.waiting {
+  background-color: #cfe7f3;
+}
+
+.status-option.in-progress {
+  background-color: #ffeb3b;
+}
+
+.status-option.completed {
+  background-color: #d1c4e9;
+}
+
+.status-option.remove {
+  background-color: #ef9a9a;
+}
