@@ -22,6 +22,11 @@
   --custom-box-shadow: 0 2rem 3rem var(--custom-color-light);
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
 a {
   color: var(--custom-color-dark);
 }
@@ -375,4 +380,28 @@ button:active{
   color: white;
   border: none;
   cursor: pointer;
+}
+
+.bi-plus-circle {
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+
+.bi-plus-circle:hover {
+  opacity: 1;
+}
+
+@keyframes clickAnimation {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.5); }
+  100% { transform: scale(1); }
+}
+
+@keyframes rowAnimation {
+  0% { opacity: 0; transform: translateY(-20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.new-row-animation {
+  animation: rowAnimation 0.5s ease-out;
 }

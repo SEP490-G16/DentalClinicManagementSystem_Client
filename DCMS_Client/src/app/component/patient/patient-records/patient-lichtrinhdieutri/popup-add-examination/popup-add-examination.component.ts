@@ -6,17 +6,63 @@ import { Examination, TreatmentCourseDetail } from 'src/app/model/ITreatmentCour
 import { TreatmentCourseDetailService } from 'src/app/service/ITreatmentCourseDetail/treatmentcoureDetail.service';
 import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/TreatmentCourse.service';
 import { CognitoService } from 'src/app/service/cognito.service';
-
+import { trigger, state, style, transition, animate } from '@angular/animations';
+import { MedicalProcedureService } from 'src/app/service/MedicalProcedureService/medical-procedure.service';
+import { MedicalSupplyService } from 'src/app/service/MedicalSupplyService/medical-supply.service';
 @Component({
   selector: 'app-popup-add-examination',
   templateUrl: './popup-add-examination.component.html',
-  styleUrls: ['./popup-add-examination.component.css']
+  styleUrls: ['./popup-add-examination.component.css'],
+  animations: [
+    trigger('rowAnimation', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(-10px)' }),
+        animate('0.5s ease-out', style({ opacity: 1, transform: 'translateY(0)' })),
+      ]),
+      transition(':leave', [
+        animate('0.5s ease-in', style({ opacity: 0, transform: 'translateY(-10px)' })),
+      ])
+    ]),
+  ]
 })
 export class PopupAddExaminationComponent implements OnInit {
   imageURL: string | ArrayBuffer = '';
   imageUrls: string[] = [];
   showPopup = false;
   showInput = false;
+
+  Body_Medical_Procedure = {
+    medical_procedure_group_id: '',
+    name: '',
+    price: '',
+    description: ''
+  }
+
+  Body_Medical_Supply = {
+    type: "",
+    quantity: 0,
+    unit_price: 0,
+    order_date: 0,
+    received_date: 0,
+    receiver: "",
+    warranty: 0,
+    description: "",
+    facility_id: "",
+    labo_id: "",
+    used_date: "",
+    patient_id: "",
+  }
+
+  tableRows: any[] = [
+    { tooth: '', condition: '', procedure_name: '', khdongy: '', dongia: '', thanhtien: '', datra: '', conlai: '', tinhtrang: '' }
+  ];
+
+  supplyOrderRows: any[] = [
+    { tooth: '', material: '', supply: '', amount: '', dongia: '', total: '', discount: '', order_date: '', order: '', status: '' }
+  ]
+  materialUsageRows: any[] = [
+    { material_name: '', amount: 0, usage_date: '', adder: '' }
+  ]
 
   patient_Id: string = "";
   treatmentCourse_Id: string = "";
@@ -38,6 +84,9 @@ export class PopupAddExaminationComponent implements OnInit {
     private route: ActivatedRoute,
     private tcService: TreatmentCourseService,
     private tcDetailService: TreatmentCourseDetailService,
+    private medicalProcedureService: MedicalProcedureService,
+    private medicalSupplyService: MedicalSupplyService,
+
     private eRef: ElementRef
   ) {
     this.examination = {
@@ -84,6 +133,13 @@ export class PopupAddExaminationComponent implements OnInit {
     console.log("Patient Id", this.patient_Id);
     console.log("TreatmentCourse Id", this.treatmentCourse_Id);
     this.staff_id = this.doctors[0].doctorid;
+
+    this.Body_Medical_Supply.patient_id = this.patient_Id;
+
+    const facitlityId = sessionStorage.getItem('locale');
+    if (facitlityId != undefined) {
+      this.Body_Medical_Supply.patient_id = facitlityId;
+    }
     this.getTreatmentCourse();
 
   }
@@ -112,7 +168,33 @@ export class PopupAddExaminationComponent implements OnInit {
           this.toastr.error(err.error.message, 'Thêm lần khám thất bại');
         })
 
+    // this.medicalProcedureService.addMedicalProcedure()
+
+    this.Body_Medical_Supply.type = "1",
+    this.Body_Medical_Supply.quantity = this.supplyOrderRows[0].amount,
+    this.Body_Medical_Supply.unit_price = this.supplyOrderRows[0].dongia,
+    this.Body_Medical_Supply.order_date = this.supplyOrderRows[0].order_date,
+
+    this.medicalSupplyService.addMedicalSupply(this.Body_Medical_Supply)
+    .subscribe((res) => {
+
+    },
+    (err) => {
+      this.toastr.error(err.error.message, "Thêm Xưởng và vật tư thất bại");
+    })
+
+
+
+
+
   }
+  // supplyOrderRows: any[] = [
+  //   { tooth: '', material: '', supply: '', amount: '', dongia: '', total: '', discount: '', order_date: '', order: '', status: '' }
+  // ]
+
+  // materialUsageRows: any[] = [
+  //   { material_name: '', amount: 0, usage_date: '', adder: '' }
+  // ]
 
   //Xử lý với ảnh
 
@@ -148,4 +230,57 @@ export class PopupAddExaminationComponent implements OnInit {
     this.imageUrls = this.imageUrls.filter(url => url !== urlToRemove);
   }
 
+  //Xử lý với bảng
+  addNewRow(status: number) {
+    switch (status) {
+      case 2:
+        this.supplyOrderRows.push({ tooth: '', material: '', supply: '', amount: '', dongia: '', total: '', discount: '', order_date: '', order: '', status: '' });
+        console.log("Table row", this.supplyOrderRows);
+        this.supplyOrderRows[this.supplyOrderRows.length - 1].animationClass = 'new-row-animation';
+        break;
+      case 3:
+        this.materialUsageRows.push({ material_name: '', amount: 0, usage_date: '', adder: '' });
+        console.log("Table row", this.materialUsageRows);
+        this.materialUsageRows[this.materialUsageRows.length - 1].animationClass = 'new-row-animation';
+        break;
+      default:
+        this.tableRows.push({ tooth: '', condition: '', procedure_name: '', khdongy: '', dongia: '', thanhtien: '', datra: '', conlai: '', tinhtrang: '' });
+        console.log("Table row", this.tableRows);
+        this.tableRows[this.tableRows.length - 1].animationClass = 'new-row-animation';
+        break;
+    }
+  }
+
+  removeRow(index: number, status: number) {
+    switch (status) {
+      case 2:
+        this.supplyOrderRows.splice(index, 1);
+        break;
+      case 3:
+        this.materialUsageRows.splice(index, 1);
+        break;
+      default:
+        this.tableRows.splice(index, 1);
+        break;
+    }
+  }
+
+  isHovering: boolean = false;
+  animateIcon(event: Event) {
+    const target = event.target as HTMLElement;
+    target.style.animation = 'clickAnimation 0.5s';
+    target.addEventListener('animationend', () => {
+      target.style.animation = '';
+    });
+  }
+}
+
+interface material_usage_body {
+  material_warehouse_id: string,
+  treatment_course_id: string,
+  examination_id: string,
+  quantity: string,
+  price: number,
+  total_paid: number,
+  description: string
 }
