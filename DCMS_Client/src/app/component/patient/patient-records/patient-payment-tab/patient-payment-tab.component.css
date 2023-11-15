@@ -22,168 +22,6 @@
   animation: spin 2s linear infinite;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-
-.web-wrapper {
-  --custom-color-primary: #6C9BCF;
-  --custom-color-danger: #FF0060;
-  --custom-color-success: #1B9C85;
-  --custom-color-warning: #F7D060;
-  --custom-color-white: #fff;
-  --custom-color-info-dark: #7d8da1;
-  --custom-color-dark: #363949;
-  --custom-color-light: rgba(132, 139, 200, 0.18);
-  --custom-color-dark-variant: #677483;
-  --custom-color-background: #f6f6f9;
-
-  --custom-card-border-radius: 2rem;
-  --custom-border-radius-1: 0.4rem;
-  --custom-border-radius-2: 1.2rem;
-
-  --custom-card-padding: .8rem;
-  --custom-padding-1: 1.2rem;
-
-  --custom-box-shadow: 0 2rem 3rem var(--custom-color-light);
-}
-
-
-a {
-  color: var(--custom-color-dark);
-}
-
-img {
-  display: block;
-  width: 100%;
-  object-fit: cover;
-}
-
-h1 {
-  font-weight: 800;
-  font-size: 1.8rem;
-}
-
-h2 {
-  font-weight: 600;
-  font-size: 1.2rem;
-}
-
-h3 {
-  font-weight: 500;
-  font-size: 0.87rem;
-}
-
-small {
-  font-size: 0.76rem;
-}
-
-p {
-  color: var(--custom-color-dark-variant);
-}
-
-b {
-  color: var(--custom-color-dark);
-}
-
-.text-muted {
-  color: var(--custom-color-info-dark);
-}
-
-.primary {
-  color: var(--custom-color-primary);
-}
-
-.danger {
-  color: var(--custom-color-danger);
-}
-
-.success {
-  color: var(--custom-color-success);
-}
-
-.warning {
-  color: var(--custom-color-warning);
-}
-
-.recent-orders {
-  margin-top: 1.3rem;
-  background-color: var(--custom-color-white);
-  width: 100%;
-  padding: var(--custom-card-padding);
-  text-align: center;
-  box-shadow: var(--custom-box-shadow);
-  border-radius: var(--custom-card-border-radius);
-  transition: all 0.3s ease;
-}
-
-.recent-orders h2 {
-  margin-bottom: 0.8rem;
-}
-
-.table-container{
-  max-height: 400px;
-  overflow-y: auto;
-  overflow-x: auto;
-  scrollbar-width: none;
-  scrollbar-color: #c0c0c0 #f0f0f0;
-  border-radius: 10px;
-  -ms-overflow-style: none;
-}
-/* .table-container::-webkit-scrollbar {
-  width: 0;
-} */
-.sticky-thead {
-  position: sticky;
-  top: 0; /* Giữ phần thead ở vị trí trên cùng khi cuộn */
-  background-color: white;
-  z-index: 1; /* Đảm bảo phần thead nằm trên cùng của bảng */
-}
-.table-container {
-  position: relative;
-}
-
-
-a {
-  text-align: center;
-  display: block;
-  margin: 1rem auto;
-  color: var(--custom-color-primary);
-}
-
-
-@media screen and (max-width: 1200px) {
-
- .recent-orders {
-    width: 94%;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    margin: 2rem 0 0 0.8rem;
-  }
-
-
-}
-
-@media screen and (max-width: 768px) {
-
-  @keyframes showMenu {
-    to {
-      left: 0;
-    }
-  }
-
- .recent-orders {
-    position: relative;
-    margin: 3rem 0 0 0;
-    width: 100%;
-  }
-
-  table {
-    width: 100%;
-    margin: 0;
-  }
-
-}
-
 .payment-table {
   width: 100%;
   border-collapse: collapse;
@@ -202,4 +40,31 @@ a {
   text-align: center;
   font-size: 24px;
   padding-top: 20px;
+}
+
+.payment-button {
+  background-color: #4CAF50; /* Green background */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 5px;
+  box-shadow: 0 9px #999;
+}
+
+.payment-button:hover {
+  background-color: #45a049; /* Darker green */
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.payment-button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
 }

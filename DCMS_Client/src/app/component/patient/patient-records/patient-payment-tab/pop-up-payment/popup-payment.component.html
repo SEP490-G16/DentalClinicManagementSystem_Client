@@ -1,0 +1,65 @@
+<ng-template #modalRef let-modal>
+  <div class="modal-header">
+    <h5 class="text-center w-100">Thanh toán</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <div class="row mt-3 mb-3">
+      <div class="col-sm-3">
+        Ngày điều trị: <h4 style="border-bottom: 1px solid #1E1E1E;">{{PatientPayment.created_date | VNdateTimeFormat}}
+        </h4>
+      </div>
+    </div>
+    <div class="row mb-5">
+      <div class="col">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">Tình trạng</th>
+                <th scope="col">Răng số</th>
+                <th scope="col">Tên thủ thuật</th>
+                <th scope="col">Nội dung thủ thuật</th>
+                <th scope="col">Bác sĩ</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Chi phí</th>
+                <th scope="col">Trả</th>
+                <th scope="col">Tổng</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{PatientPayment.status == 1 ? "Tình trạng 1": ""}}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                  <!-- {{staff_name}} -->
+                  <!-- {{MaterialUsage[0].material_usage_id}} -->
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col"></div>
+      <div class="col-3 text-end">
+        <p style="border-bottom: 1px dotted #000;">Chi phí theo thủ thuật: </p>
+        <p>Giảm giá: </p>
+        <p>Tổng chi phí: </p>
+        <p>Đã thanh toán: </p>
+        <p>Còn lại: </p>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-light" (click)="modal.close('Close click')">Hủy bỏ</button>
+    <button class="btn btn-success">Thanh toán</button>
+  </div>
+</ng-template>

@@ -26,6 +26,7 @@ import { PopupAddExaminationComponent } from './patient-records/patient-lichtrin
 import { PopupEditExaminationComponent } from './patient-records/patient-lichtrinhdieutri/popup-edit-examination/popup-edit-examination.component';
 import { PopupDatlichtaikhamComponent } from './patient-records/patient-appointment-tab/popup-datlichtaikham/popup-datlichtaikham.component';
 import { PopupSualichtaikhamComponent } from './patient-records/patient-appointment-tab/popup-sualichtaikham/popup-sualichtaikham.component';
+import {PopupPaymentComponent} from './patient-records/patient-payment-tab/pop-up-payment/popup-payment.component'
 @NgModule({
   declarations: [
       PatientManagementComponent,
@@ -42,7 +43,8 @@ import { PopupSualichtaikhamComponent } from './patient-records/patient-appointm
       PopupAddExaminationComponent,
       PopupEditExaminationComponent,
       PopupDatlichtaikhamComponent,
-      PopupSualichtaikhamComponent
+      PopupSualichtaikhamComponent,
+      PopupPaymentComponent
   ],
   imports: [
     CommonModule,

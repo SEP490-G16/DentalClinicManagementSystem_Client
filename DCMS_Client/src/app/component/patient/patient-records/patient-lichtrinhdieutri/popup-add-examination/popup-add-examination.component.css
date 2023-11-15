@@ -337,11 +337,33 @@ button:active{
   top: 40%;
   left: 0;
   right: 0;
-  background-color: white;
-  border: 1px solid #ccc;
-  padding: 10px;
+  width: 300px; /* hoặc một giá trị khác */
+  padding: 20px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   z-index: 10;
   width: auto;
+}
+
+.popup button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #7d72e4;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.popup button:hover {
+  background-color: #0056b3;
+}
+
+.popup input[type="file"] {
+  display: none;
 }
 
 .fadeIn {

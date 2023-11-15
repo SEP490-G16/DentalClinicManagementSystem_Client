@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,  ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { forkJoin, switchMap } from 'rxjs';
+import { TreatmentCourseDetailService } from 'src/app/service/ITreatmentCourseDetail/treatmentcoureDetail.service';
+import { MaterialUsageService } from 'src/app/service/MaterialUsage/MaterialUsageService.component';
 import { PatientService } from 'src/app/service/PatientService/patient.service';
 import { PaidMaterialUsageService } from 'src/app/service/PatientService/patientPayment.service';
 import { CognitoService } from 'src/app/service/cognito.service';
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PopupPaymentComponent } from './pop-up-payment/popup-payment.component';
 @Component({
   selector: 'app-patient-payment-tab',
   templateUrl: './patient-payment-tab.component.html',
@@ -14,17 +18,20 @@ export class PatientPaymentTabComponent implements OnInit {
   id: string = "";
   PaidMaterialUsage: any;
   facility: any;
-
   TotalPaid: number = 0;
 
   PMU: any;
-
+  Examination: any;
+  Material_Usage: any;
   constructor(
     private patientService: PatientService,
     private route: ActivatedRoute,
     private cognitoService: CognitoService,
     private router: Router,
     private paidMaterialUsage: PaidMaterialUsageService,
+    private examinationService:TreatmentCourseDetailService,
+    private materialUsage:MaterialUsageService,
+    private modalService: NgbModal,
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
@@ -82,7 +89,26 @@ export class PatientPaymentTabComponent implements OnInit {
       )
   }
 
-  thanhtoan(pmu:any) {
+  async thanhtoan(pmu: any) {
+    try {
       this.PMU = pmu;
+      const examinationResponse = await this.examinationService.getExamination(this.PMU.examination_id).toPromise();
+      this.Examination = examinationResponse.data[0];
+
+      const materialUsageResponse = await this.materialUsage.getMaterialUsage_By_TreatmentCourse(this.Examination.treatment_course_id).toPromise();
+      this.Material_Usage = materialUsageResponse.data;
+      console.log("Oki", this.Material_Usage);
+      const modalRef = this.modalService.open(PopupPaymentComponent, { size: 'lg' });
+      modalRef.componentInstance.PMU = this.PMU;
+      modalRef.componentInstance.Ex = this.Examination;
+      modalRef.componentInstance.MU = this.Material_Usage;
+
+      modalRef.result.then((result) => {
+      }, (reason) => {
+
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 }
