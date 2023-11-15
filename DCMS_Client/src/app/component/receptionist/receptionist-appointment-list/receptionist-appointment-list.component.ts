@@ -103,13 +103,12 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     this.appointmentList = ConvertJson.processApiResponse(data);
     this.filteredAppointments = this.appointmentList.filter(app => app.date === this.startDateTimestamp);
       this.filteredAppointments.forEach((a: any) => {
-        this.dateEpoch = this.convertTimestampToVNDateString(a.date);
+        this.dateEpoch = this.timestampToDate(a.date);
         this.ePoch = a.date;
         a.appointments.forEach((b: any) => {
           b.details = b.details.sort((a: any, b: any) => a.time - b.time);
         })
       })
-      console.log("Appointment List: ", this.filteredAppointments);
       this.loading = false;
       this.appointmentDateInvalid();
     },
@@ -139,21 +138,21 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     var endTime = this.dateToTimestamp(today.getFullYear()+' - '+(today.getMonth()+1) + ' - '+(today.getDate() + 4)+' '+"23:59:59");
     this.appointmentService.getAppointmentList(startTime, endTime).subscribe(data => {
       this.listDate = ConvertJson.processApiResponse(data);
+      this.listDate.forEach((a: any) => {
+        a.appointments.forEach((b: any) => {
+          this.dateDis.date = a.date;
+          this.dateDis.procedure = b.procedure_id;
+          this.dateDis.count = b.count;
+          this.datesDisabled.push(this.dateDis);
+          this.dateDis = {
+            date: 0,
+            procedure: '',
+            count: 0,
+          }
+        })  
+      })
     },
     () => {
-    })
-    this.listDate.forEach((a: any) => {
-      a.appointments.forEach((b: any) => {
-        this.dateDis.date = a.date;
-        this.dateDis.procedure = b.procedure_id;
-        this.dateDis.count = b.count;
-        this.datesDisabled.push(this.dateDis);
-        this.dateDis = {
-          date: 0,
-          procedure: '', 
-          count: 0,
-        }
-      })
     })
   }
 
@@ -163,7 +162,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
       this.filteredAppointments = this.appointmentList
         .map((a: any) => {
           const filteredAppointments = a.appointments
-            .filter((appointment: any) => appointment.procedure_id === parseInt(this.selectedProcedure));
+            .filter((appointment: any) => appointment.procedure_id === this.selectedProcedure);
           // Chỉ giữ lại các "appointment" có "details"
           return { ...a, appointments: filteredAppointments };
         })
@@ -227,7 +226,6 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     } as IEditAppointmentBody;
     this.appointmentService.putAppointment(this.DELETE_APPOINTMENT_BODY, appointment.appointment_id).subscribe(response => {
       console.log("Cập nhật thành công");
-      alert("");
       this.showSuccessToast('Xóa lịch hẹn thành công!');
         window.location.reload();
     }, error => {
@@ -285,26 +283,12 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     return timestamp;
   }
 
-  timestampToGMT7String(timestamp: number): string {
-    // Kiểm tra xem timestamp có đơn vị giây hay mili giây
-    const timestampInMilliseconds = timestamp * (timestamp > 1e12 ? 1 : 1000);
-
-    // Chuyển timestamp thành chuỗi ngày và thời gian dựa trên múi giờ GMT+7
-    const dateTimeString = moment.tz(timestampInMilliseconds, 'Asia/Ho_Chi_Minh').format('HH:mm');
-
-    return dateTimeString;
-  }
-
   timeAndDateToTimestamp(timeStr: string, dateStr: string): number {
     const format = 'YYYY-MM-DD HH:mm'; // Định dạng của chuỗi ngày và thời gian
     const timeZone = 'Asia/Ho_Chi_Minh';
     const dateTimeStr = `${dateStr} ${timeStr}`;
     const timestamp = moment.tz(dateTimeStr, format, timeZone).valueOf() / 1000;
     return timestamp;
-  }
-
-  convertTimestampToDateString(timestamp: number): string {
-    return moment(timestamp).format('YYYY-MM-DD');
   }
 
   timestampToTime(timestamp: number): string {
@@ -325,10 +309,6 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     const date = moment.unix(timestamp);
     const dateStr = date.format('YYYY-MM-DD');
     return dateStr;
-  }
-
-  convertTimestampToVNDateString(timestamp: number): string {
-    return moment(timestamp).tz('Asia/Ho_Chi_Minh').format('DD/MM/YYYY');
   }
 
   addItem(newItem: any) {   

@@ -191,21 +191,6 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
         return date.toISOString().slice(0, 10); // Lấy phần yyyy-MM-dd
       });
       console.log("Date Parse: ", this.datesDisabled);
-      const selectedYear = this.model.year;
-      const selectedMonth = this.model.month.toString().padStart(2, '0'); // Đảm bảo có 2 chữ số
-      const selectedDay = this.model.day.toString().padStart(2, '0'); // Đảm bảo có 2 chữ số
-
-      const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
-      if (this.procedure != "1") {
-        this.datesDisabled.forEach((date: any) => {
-          if (this.timestampToDate(date.date) == selectedDate)
-            if (date.procedure_id == this.procedure) {
-              if (date.count > 15) {
-                this.isCheckProcedure = false;
-              }
-            }
-        })
-    }
   }
 
   }
@@ -305,6 +290,15 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     const currentDate = moment().format('YYYY-MM-DD');
     console.log("Heree",currentDate);
 
+    if (this.procedure != "1") {
+      this.datesDisabled.forEach((date: any) => {
+        if (this.timestampToDate(date.date) == selectedDate && this.procedure == date.procedure)
+          if (date.count >=8) {
+            this.isCheckProcedure = false;
+          }
+      })
+    }
+
     if (selectedDate == '') {
       this.validateAppointment.appointmentDate = "Vui lòng chọn ngày khám!";
       this.isSubmitted = true;
@@ -316,10 +310,10 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
       this.loading = false;
       return;
     } else if (!this.isCheckProcedure) {
-      this.validateAppointment.appointmentDate = "Ngày hiện tại đã quá 8 người trong thủ thuật bạn chọn";
-      this.isSubmitted = true;
-      this.loading = false;
-      return;
+      if (!window.confirm("Thủ thuật mà bạn chọn đã có đủ 8 người trong trong ngày đó. Bạn có muốn tiếp tục?")) {
+        this.validateAppointment.appointmentDate = "Vui lòng chọn ngày khác";
+        return;
+      }
     }
 
     if (this.appointmentTime == '') {
