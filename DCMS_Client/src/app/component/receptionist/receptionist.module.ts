@@ -24,6 +24,7 @@ import { PopupAddPatientComponent } from '../patient/patient-records/popup-add-p
 import { AddWaitingRoomComponent } from './receptionist-waiting-room/add-waiting-room/add-waiting-room.component';
 import { VNDateTimeFormatPipe } from '../shared/pipe/datetimeformat.pipe';
 import { AddPatientComponent } from './receptionist-appointment-list/add-patient/add-patient.component';
+import { PopupConfirmServiceComponent } from './receptionist-appointment-list/popup-confirm-service/popup-confirm-service.component';
 @NgModule({
   declarations: [
    ReceptionistAppointmentListComponent,
@@ -33,7 +34,8 @@ import { AddPatientComponent } from './receptionist-appointment-list/add-patient
    PopupAddAppointmentComponent,
    PopupEditAppointmentComponent,
    AddWaitingRoomComponent,
-   AddPatientComponent
+   AddPatientComponent,
+   PopupConfirmServiceComponent
   ],
   imports: [
     CommonModule,

@@ -19,6 +19,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureService/medical-procedure-group.service';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs'
+import {PopupConfirmServiceComponent} from "../popup-confirm-service/popup-confirm-service.component";
 
 @Component({
   selector: 'app-popup-add-appointment',
@@ -31,7 +32,7 @@ import { BehaviorSubject } from 'rxjs'
 })
 export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   phoneRegex = /^[0-9]{10}$|^[0-9]{4}\s[0-9]{3}\s[0-9]{3}$/;
-  
+  //@Input() id: string;
 
   private itemsSource = new BehaviorSubject<any[]>([]);
   items = this.itemsSource.asObservable();
@@ -128,7 +129,8 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     private router: Router,
     private config: NgbDatepickerConfig,
     private calendar: NgbCalendar,
-    private medicaoProcedureGroupService:MedicalProcedureGroupService
+    private medicaoProcedureGroupService:MedicalProcedureGroupService,
+              private modalService: NgbModal
   ) {
     this.isDisabled = (
       date: NgbDateStruct
@@ -148,7 +150,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
         patient_id: '',  //x
         patient_name: '', //x
         phone_number: '', //x
-        procedure_id: "1", 
+        procedure_id: "1",
         procedure_name: '', //x
         doctor: '', //x
         time: 0  //x
@@ -191,10 +193,10 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
       console.log("Date Parse: ", this.datesDisabled);
     this.intervalId = setInterval(() => {
       if (this.isCheck) {
-        
+
       }
-    }, 3000); 
-    
+    }, 3000);
+
 
   }
 
@@ -261,7 +263,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   }
 
   appointmentDate: string = '';
-  
+
   addItem(newItem: any) {
     this.itemsSource.next([...this.itemsSource.value, newItem]);
   }
@@ -326,15 +328,15 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
           this.newItemEvent.emit(this.AppointmentBody);
           //this.dataService.addItem(response);
           this.AppointmentBody = {
-            epoch: 0,    
+            epoch: 0,
             appointment: {
-              patient_id: '',  
-              patient_name: '', 
-              phone_number: '', 
+              patient_id: '',
+              patient_name: '',
+              phone_number: '',
               procedure_id: "1",
-              procedure_name: '', 
-              doctor: '', 
-              time: 0 
+              procedure_name: '',
+              doctor: '',
+              time: 0
             }
           } as IAddAppointment;
         },
@@ -422,4 +424,8 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     }
     this.isSubmitted = true;
   }
+ /* openSecondModal() {
+    // Sử dụng NgbModal để mở modal thứ hai
+    this.modalService.open(PopupConfirmServiceComponent, { windowClass: 'modal-second-level' });
+  }*/
 }

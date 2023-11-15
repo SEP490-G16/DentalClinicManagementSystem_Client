@@ -11,7 +11,7 @@ import { CommonService } from 'src/app/service/commonMethod/common.service';
   styleUrls: ['./patient-profile-tab.component.css']
 })
 export class PatientProfileTabComponent implements OnInit {
-
+  protected readonly window = window;
   constructor(private patientService:PatientService,
               private route:ActivatedRoute,
               private cognitoService:CognitoService,
@@ -82,6 +82,9 @@ export class PatientProfileTabComponent implements OnInit {
     this.clickCount++;
     if (this.clickCount % 2 !== 0){
       console.log(this.isEditing)
+
+
+    }else {
       this.isEditing = true;
       this.resetValidate();
       if (!this.patient.patient_name){
@@ -115,7 +118,7 @@ export class PatientProfileTabComponent implements OnInit {
       if (this.isSubmitted){
         return;
       }
-    }else {
+      else {
         this.patientBody = {
           patient_id: this.patient.patient_id,
           created_date: this.patient.created_date,
@@ -133,13 +136,15 @@ export class PatientProfileTabComponent implements OnInit {
         },(error) => {
           this.toastr.error(error.error.message,'Cập nhật bệnh nhân thất bại!')
         })
+      }
+
     }
 
   }
   getPatient(id:string){
     this.patientService.getPatientById(id).subscribe(data=>{
       this.patient = data;
-      console.log(data);
+      console.log(this.patient);
     })
   }
   private resetValidate(){

@@ -66,6 +66,10 @@ import {NgSelectModule} from "@ng-select/ng-select";
 import { PopupEditBillImportMaterialComponent } from './warehouse-import-material-management/popup-edit-bill-import-material/popup-edit-bill-import-material.component';
 import { FollowingTimekeepingComponent } from './following-timekeeping/following-timekeeping.component';
 import { vnDateTimeFormatPipe } from '../shared/pipe/VNdateformat.pipe';
+import { RevenueChartComponent } from './revenue-chart/revenue-chart.component';
+import {NgChartsModule} from "ng2-charts";
+import { ReportHighIncomeAndExpenditureComponent } from './report-high-income-and-expenditure/report-high-income-and-expenditure.component';
+import { ReportExpenditureComponent } from './report-expenditure/report-expenditure.component';
 
 @NgModule({
   declarations: [
@@ -116,31 +120,35 @@ import { vnDateTimeFormatPipe } from '../shared/pipe/VNdateformat.pipe';
       PopupEditMedicineComponent,
       PopupEditBillImportMaterialComponent,
       FollowingTimekeepingComponent,
-      vnDateTimeFormatPipe
+      vnDateTimeFormatPipe,
+      RevenueChartComponent,
+      ReportHighIncomeAndExpenditureComponent,
+      ReportExpenditureComponent
   ],
-    imports: [
-        CommonModule,
-        RouterModule,
-        FormsModule,
-        SharedModule,
-        NgbModule,
-        HttpClientModule,
-        ToastrModule.forRoot({
-            preventDuplicates: true,
-            timeOut: 3000,
-            closeButton: true,
-            progressBar: true,
-        }),
-        NgbModule,
-        AdminRoutingModule,
-        NgbModalModule,
-        FlatpickrModule.forRoot(),
-        CalendarModule.forRoot({
-            provide: DateAdapter,
-            useFactory: adapterFactory,
-        }),
-        NgSelectModule,
-    ],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    SharedModule,
+    NgbModule,
+    HttpClientModule,
+    ToastrModule.forRoot({
+      preventDuplicates: true,
+      timeOut: 3000,
+      closeButton: true,
+      progressBar: true,
+    }),
+    NgbModule,
+    AdminRoutingModule,
+    NgbModalModule,
+    FlatpickrModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
+    NgSelectModule,
+    NgChartsModule,
+  ],
     providers: [DatePipe]
 })
 export class AdminModule { }

@@ -1,0 +1,17 @@
+.title-link{
+  text-decoration: none;
+  color: #1E1E1E;
+  cursor: pointer;
+
+}
+.title-link .title-name{
+  background-color: #d67e73;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #1E1E1E;
+}
+.title-link .title-name-patient{
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #1E1E1E;
+}

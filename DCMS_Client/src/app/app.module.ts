@@ -28,6 +28,7 @@ import { RegisterWorkScheduleComponent } from './component/shared/register-work-
 import { WebSocketSubject } from 'rxjs/webSocket';
 import { ConfirmAppointmentComponent } from './component/confirm-appointment/confirm-appointment.component';
 import { AppRoutingModule } from './app-routing.module';
+import {NgChartsModule} from "ng2-charts";
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,6 +56,7 @@ import { AppRoutingModule } from './app-routing.module';
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
+    NgChartsModule
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

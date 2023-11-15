@@ -11,7 +11,7 @@
       <!-- Modal Header -->
       <div class="modal-header">
         <h4 class="modal-title">Thêm lịch hẹn</h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" aria-label="Close"></button>
       </div>
 
       <!-- Modal body -->
@@ -112,6 +112,7 @@
                     </div>
                     <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.appointmentDate}}</p>
                   </div>
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmServiceModal">Xác nhận thêm lịch hẹn</button>
                 </form>
             </div>
           </div>
@@ -119,7 +120,7 @@
           <div class="row">
             <div class="col">
               <div class="float-end">
-                <button type="button" class="btn btn-danger m-3" data-bs-dismiss="modal" (click)="close()">Đóng</button>
+                <button type="button" class="btn btn-danger m-3" (click)="close()">Đóng</button>
                 <!-- <button type="button" class="btn btn-primary" (click)="onPostAppointment()" [disabled]="!isPatientInfoEditable">Xác nhận</button> -->
                 <button type="button" class="btn btn-primary" (click)="onPostAppointment()">Xác nhận</button>
               </div>
@@ -131,3 +132,4 @@
     </div>
   </div>
 </div>
+<app-popup-confirm-service></app-popup-confirm-service>
