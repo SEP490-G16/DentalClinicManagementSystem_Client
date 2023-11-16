@@ -102,7 +102,7 @@ export class PopupAddPatientComponent implements OnInit {
         this.patientBody.isNew = false;
       }, 2000);
       console.log(this.searchPatientsList);
-      /*window.location.reload();*/
+      // window.location.reload();
 
     },error => {
       this.toastr.error('Thêm mới bệnh nhân thất bại!');

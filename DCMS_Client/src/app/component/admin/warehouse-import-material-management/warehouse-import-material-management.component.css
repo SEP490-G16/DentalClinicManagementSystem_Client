@@ -1055,7 +1055,6 @@ button:hover{
 }
 button:active{
   transform: translateY(4px);
-  box-shadow: 0px -1px -1px #fff;
 }
 
 .time-clockin {
@@ -1071,14 +1070,8 @@ button:active{
 .page-title:active:hover{
   color: #1c42af;
 }
-.bi-trash{
-  color: #ffffff;
-}
-.bi-pencil-square{
-  color: #ffffff;
-}
 .table-container{
-  max-height: 430px;
+  max-height: 580px;
   overflow-y: auto;
   overflow-x: auto;
   scrollbar-width: thin;
@@ -1134,14 +1127,11 @@ button:active{
     transition: color 0.3s; /* Hiệu ứng chuyển đổi màu sắc */
   }
   .recent-orders{
-    margin-top: 9.3rem;
+    margin-top: 6rem;
   }
   .filter-row{
-    margin-top: 6rem !important;
+    margin-top: 1.5rem !important;
   }
-}
-.filter-row{
-  margin-top: 1.5rem;
 }
 .truncate {
   max-width: 200px;
@@ -1190,4 +1180,44 @@ button:active{
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+.pagination {
+  display: inline-block;
+  justify-content: center;
+}
+
+.pagination a {
+  background-color: #ffffff;
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  border: 1px solid #ddd;
+}
+
+.pagination a.active {
+  background-color: #4CAF50;
+  color: white;
+  border: 1px solid #4CAF50;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
+
+.pagination a:first-child {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.pagination a:last-child {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}.btn.btn-outline-primary.bi.bi-calendar3:hover {
+  background-color: initial; /* Giá trị mặc định cho background-color */
+  color: initial; /* Giá trị mặc định cho color */
+}
+.datetime{
+  margin-left: 10px;
+}
+.datetime label{
+  margin-right: 5px;
 }

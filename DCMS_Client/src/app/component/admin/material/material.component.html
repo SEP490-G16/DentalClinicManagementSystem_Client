@@ -55,7 +55,10 @@
       </thead>
       <tbody>
         <ng-container *ngFor="let item of results">
-          <tr (click)="toggleExpand(item)">
+          <tr *ngIf="totalMaterial == 0" rolspan="8" style="justify-content: center;">
+                                Không có dữ liệu
+          </tr>
+          <tr (click)="toggleExpand(item)" *ngIf="totalMaterial > 0">
             <td style="padding-top: 10px;padding-bottom: 10px;">
               <i class="bi" [ngClass]="{'bi-chevron-down': !item.expanded, 'bi-chevron-up': item.expanded}"></i> {{
               item.materialId }}
@@ -67,16 +70,16 @@
             <td style="padding-top: 10px;padding-bottom: 10px;">{{ item.unit }}</td>
             <td style="padding-top: 10px;padding-bottom: 10px;"></td>
             <td style="padding-top: 10px;padding-bottom: 10px;"></td>
-            <td style="padding-top: 10px;padding-bottom: 10px;">
+            <!-- <td style="padding-top: 10px;padding-bottom: 10px;">
               <button class="btn btn-primary p-1 m-r-3" style="margin-right: 3px" data-bs-toggle="modal"
                 data-bs-target="#editMaterialModal">
                 <i class="bi bi-pencil-square"></i></button>
               <button class="btn btn-danger p-1"> <i class="bi bi-trash"></i></button>
-            </td>
+            </td> -->
           </tr>
           <tr *ngIf="item.expanded">
             <td style="padding-top: 10px;padding-bottom: 10px;" colspan="8">
-              <div class="table-container">
+              <div class="table">
                 <table>
                   <colgroup>
                     <col style="width: 10%;">
@@ -101,17 +104,15 @@
                       <td style="padding-top: 10px;padding-bottom: 10px;" *ngIf="detail.quantity == 0"><p style="color: red;"><b>Hết Hàng</b></p></td>
                       <td style="padding-top: 10px;padding-bottom: 10px;">
                         <button class="btn btn-primary p-1 m-r-3" style="margin-right: 3px" data-bs-toggle="modal"
-                          data-bs-target="#editMaterialModal">
+                          data-bs-target="#editMaterialModal" (click)="openEditMaterial(detail, item)">
                           <i class="bi bi-pencil-square"></i></button>
-                        <button class="btn btn-danger p-1"> <i class="bi bi-trash"></i></button>
+                        <button class="btn btn-danger p-1" (click)="deleteMaterial(detail.mw_material_warehouse_id)"> <i class="bi bi-trash"></i></button>
                       </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-              
             </td>
-
           </tr>
         </ng-container>
       </tbody>
@@ -143,4 +144,4 @@
 
 <app-popup-add-material [materialList]="materialList"></app-popup-add-material>
 <app-popup-delete-material></app-popup-delete-material>
-<app-popup-edit-material [material]="material" [materialList]="materialList"></app-popup-edit-material>
+<app-popup-edit-material [material]="material" [detail]="detail" [materialList]="materialList"></app-popup-edit-material>

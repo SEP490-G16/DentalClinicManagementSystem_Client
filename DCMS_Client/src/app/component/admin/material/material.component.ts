@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MaterialService } from "../../../service/MaterialService/material.service";
 import { ToastrService } from "ngx-toastr";
+import { MaterialWarehouseService } from 'src/app/service/MaterialService/material-warehouse.service';
 
 @Component({
   selector: 'app-material',
@@ -49,9 +50,11 @@ export class MaterialComponent implements OnInit {
 
   materialList: any = [];
   material: any;
+  detail: any;
   loading: boolean = false;
   enableNextPageButton: boolean = false;
   constructor(private materialService: MaterialService,
+    private matMaterialWarehouseService: MaterialWarehouseService,
     private toastr: ToastrService) { }
 
   pagingMaterial = {
@@ -63,6 +66,7 @@ export class MaterialComponent implements OnInit {
     this.getMaterials(this.pagingMaterial.paging);
     //this.dataTable();
   }
+  totalMaterial: number = 1;
   getMaterials(paging: number) {
     this.loading = true;
     this.materialService.getMaterials(paging).subscribe(data => {
@@ -78,26 +82,25 @@ export class MaterialComponent implements OnInit {
       // this.enableNextPageButton = this.materialList.length > 10;
       this.loading = false;
        if (this.materialList) {
-        if (this.materialList.length >= 8) {
-          for (let i = 0; i < 10; i++) {
+        if (this.materialList.length >= 1 ){
+          for (let i = 0; i < this.materialList.length -1; i++) {
             const currentNumber = this.materialList[i];
-            if (!this.uniqueList.includes(currentNumber.material_id)) {
-              this.uniqueList.push(currentNumber.material_id);
+            if (!this.uniqueList.includes(currentNumber.m_material_id)) {
+              this.uniqueList.push(currentNumber.m_material_id);
               let newExpiryObject = {
-                quantity: currentNumber.quantity_import,
-                expiryDate: currentNumber.warranty,
+                mw_material_warehouse_id: currentNumber.mw_material_warehouse_id,
+                quantity: currentNumber.mw_quantity_import,
+                expiryDate: currentNumber.mw_warranty,
                 expanded: false,
               };
-              //this.wareHouseMaterial = {
-              this.wareHouseMaterial.materialId = currentNumber.material_id,
-                this.wareHouseMaterial.materialName = currentNumber.material_name,
-                this.wareHouseMaterial.quantity = currentNumber.quantity_import,
-                this.wareHouseMaterial.unitPrice = currentNumber.price,
-                this.wareHouseMaterial.unit = currentNumber.unit,
-                //this.wareHouseMaterial.expiry: [] as ExpiryObject[]
-                //}
+                this.wareHouseMaterial.materialId = currentNumber.m_material_id,
+                this.wareHouseMaterial.materialName = currentNumber.m_material_name,
+                this.wareHouseMaterial.quantity = currentNumber.mw_quantity_import,
+                this.wareHouseMaterial.unitPrice = currentNumber.mw_price,
+                this.wareHouseMaterial.unit = currentNumber.m_unit,
                 this.wareHouseMaterial.expiry.push(newExpiryObject);
               newExpiryObject = {
+                mw_material_warehouse_id: '',
                 quantity: 0,
                 expiryDate: '',
                 expanded: false,
@@ -114,15 +117,17 @@ export class MaterialComponent implements OnInit {
               }
             } else {
               this.results.forEach((e: any) => {
-                if (e.materialId == currentNumber.material_id) {
-                  e.quantity += currentNumber.quantity_import;
+                if (e.materialId == currentNumber.m_material_id) {
+                  e.quantity += currentNumber.mw_quantity_import;
                   let newExpiryObject = {
-                    quantity: currentNumber.quantity_import,
-                    expiryDate: currentNumber.warranty,
+                    mw_material_warehouse_id: currentNumber.mw_material_warehouse_id,
+                    quantity: currentNumber.mw_quantity_import,
+                    expiryDate: currentNumber.mw_warranty,
                     expanded: false,
                   };
                   e.expiry.push(newExpiryObject);
                   newExpiryObject = {
+                    mw_material_warehouse_id: currentNumber.mw_material_warehouse_id,
                     quantity: 0,
                     expiryDate: '',
                     expanded: false,
@@ -131,6 +136,8 @@ export class MaterialComponent implements OnInit {
               })
             }
           }
+        } else {
+          this.totalMaterial = this.materialList.length;
         }
       }
     })
@@ -144,7 +151,7 @@ export class MaterialComponent implements OnInit {
     const isConfirmed = window.confirm('Bạn có chắc muốn xoá vật liệu này không ?');
     if (isConfirmed) {
       this.loading = true;
-      this.materialService.deleteMaterial(id).subscribe(data => {
+      this.matMaterialWarehouseService.deleteMaterialImportMaterial(id).subscribe(data => {
         this.toastr.success('Xoá vật liệu thành công !');
         const index = this.materialList.findIndex((material: any) => material.material_id === id);
         if (index !== -1) {
@@ -158,8 +165,9 @@ export class MaterialComponent implements OnInit {
       )
     }
   }
-  openEditMaterial(material: any) {
-    this.material = material;
+  openEditMaterial(id: any, detail:any) {
+    this.material = detail;
+    this.detail = id;
   }
   //Đang test nên chưa chuyển đối tượng mới tạo lên
   wareHouseMaterial = {
@@ -180,7 +188,7 @@ export class MaterialComponent implements OnInit {
   // dataTable(): any[] {
   //  let results = [];
   //   if (this.materialList) {
-  //     if (this.materialList.length >= 8) {
+  //     if (this.materialList.length >= 😎 {
   //       for (let i = 0; i < 10; i++) {
   //         //const currentNumber = this.materialList[i];
   //         // if (!this.uniqueList.includes(currentNumber.material_id)) {
@@ -244,6 +252,7 @@ export class MaterialComponent implements OnInit {
 }
 
 interface ExpiryObject {
+  mw_material_warehouse_id: string;
   quantity: number;
   expiryDate: string;
   expanded: boolean;
