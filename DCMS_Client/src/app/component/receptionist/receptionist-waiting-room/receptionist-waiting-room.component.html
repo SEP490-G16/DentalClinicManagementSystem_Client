@@ -1,7 +1,7 @@
 <!-- Recent Orders Table -->
-<div *ngIf="loading" class="loading-overlay">
+<!-- <div *ngIf="loading" class="loading-overlay">
   <div class="loading-spinner"></div>
-</div>
+</div> -->
 <div class="recent-orders">
   <div class="row mt-5 mb-5">
     <div class="col-6">
@@ -35,7 +35,7 @@
       <tbody>
         <tr *ngFor="let wtr of filteredWaitingRoomData; let i = index">
           <td>{{ i + 1 }}</td>
-          <td>{{ wtr.patient_id }}</td>
+          <td>{{ wtr.patient_id }}<td>
           <td>{{ wtr.patient_name }}</td>
           <td class="truncate" data-bs-toggle="tooltip" title="{{wtr.reason}}">{{wtr.reason }}</td>
           <td>{{ wtr.produce_name }}</td>
