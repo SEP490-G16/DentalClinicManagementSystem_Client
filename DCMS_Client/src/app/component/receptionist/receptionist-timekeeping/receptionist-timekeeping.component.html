@@ -23,8 +23,10 @@
       <select class="form-select input-custom float-end" style="width: 12rem; margin-bottom: 10px;"
         aria-label="Default select example" [(ngModel)]="selectedFilter" (change)="filterStaff()">
         <option value="" selected>Tất cả nhân viên</option>
-        <option value="1"></option>
-        <option value="2"></option>
+        <option value="1">Bác sĩ</option>
+        <option value="2">Y tá</option>
+        <option value="3">Y tá trưởng</option>
+        <option value="4">Lễ tân</option>
       </select>
     </div>
 
@@ -68,38 +70,29 @@
           <td style="border-right: 1px solid #7B4C50;">
             <p style="color: brown;">{{staff.name}}</p>
           </td>
-          <td style="border-right: 1px solid #7B4C50;padding: 18px">
-            <button class="button-timekeeping" (click)="onClockin(staff)"
-              [disabled]="staff.isClockin">{{staff.clockInStatus}}</button> <br/>
-            <input type="time" [(ngModel)]="staff.timeClockin" [class]="timeClockinColor"
-             (change)="onClockin(staff)">
-          </td>
 
-          <td style="border-right: 1px solid #7B4C50; padding: 18px">
-            <button class="button-timekeeping" (click)="onClockout(staff)"
-              >{{staff.clockOutStatus}}</button> <br/>
-            <input type="time" [(ngModel)]="staff.timeClockout" [class]="timeClockoutColor"
-             (change)="onClockout(staff)">
-          </td>
-          <td style="border-right: 1px solid #7B4C50;"></td>
-          <td style="border-right: 1px solid #7B4C50;"></td>
-
-          <td style="border-right: 1px solid #7B4C50;"></td>
-          <td style="border-right: 1px solid #7B4C50;"></td>
-
-          <td style="border-right: 1px solid #7B4C50;"></td>
-          <td style="border-right: 1px solid #7B4C50;"></td>
-
-          <!--Thứ-->
-
-          <td style="border-right: 1px solid #7B4C50;"></td>
-          <td style="border-right: 1px solid #7B4C50;"></td>
-
-          <td style="border-right: 1px solid #7B4C50;"></td>
-          <td style="border-right: 1px solid #7B4C50;"></td>
-          <td style="border-right: 1px solid #7B4C50;"></td>
-          <td style="border-right: 1px solid #7B4C50;"></td>
+          <ng-container *ngFor="let timestamp of weekTimestamps; let dayIndex = index">
+            <ng-container *ngIf="timestamp === currentDateTimeStamp">
+              <td style="border-right: 1px solid #7B4C50;padding: 18px">
+                <button class="button-timekeeping" (click)="onClockin(staff)"
+                        [disabled]="staff.isClockin">{{staff.clockInStatus}}</button> <br />
+                <input type="time" [(ngModel)]="staff.timeClockin" [class]="timeClockinColor"
+                       (change)="onClockin(staff)">
+              </td>
+              <td style="border-right: 1px solid #7B4C50;padding: 18px">
+                <button class="button-timekeeping" (click)="onClockout(staff)"
+                        [disabled]="staff.isClockout">{{staff.clockOutStatus}}</button> <br />
+                <input type="time" [(ngModel)]="staff.timeClockout" [class]="timeClockoutColor"
+                       (change)="onClockout(staff)">
+              </td>
+            </ng-container>
+            <ng-container *ngIf="timestamp !== currentDateTimeStamp">
+              <td style="border-right: 1px solid #7B4C50;"></td>
+              <td style="border-right: 1px solid #7B4C50;"></td>
+            </ng-container>
+          </ng-container>
         </tr>
+
       </tbody>
     </table>
   </div>

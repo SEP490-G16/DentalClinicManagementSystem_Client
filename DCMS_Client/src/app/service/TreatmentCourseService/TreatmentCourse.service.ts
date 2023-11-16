@@ -14,7 +14,6 @@ export class TreatmentCourseService {
 
   getTreatmentCourse(id:string):Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
-    console.log("id token", idToken);
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`,
       'Accept':'application/json'
@@ -51,6 +50,5 @@ export class TreatmentCourseService {
     });
       return this.http.delete(`${this.apiUrl}/treatment-course/${id}`, { headers });
   }
-
 
 }

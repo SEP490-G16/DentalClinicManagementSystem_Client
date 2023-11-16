@@ -18,4 +18,14 @@ export class MaterialUsageService {
     });
     return this.http.get(`${this.url}/material-usage/treatment-course/${id}`,{headers});
   }
+
+  postMaterialUsage(MaterialUsage:any): Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      "Content-Type": "application/json; charset=utf8"
+    });
+    const requestBody = JSON.stringify(MaterialUsage);
+    return this.http.post(`${this.url}/material-usage`, requestBody, { headers });
+  }
 }

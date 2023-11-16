@@ -26,8 +26,9 @@
               </div> -->
       </div>
     </div>
+
     <div class="tab-pane" id="KvDTtab">
-      <div class="KvDTtab-container mt-3" >
+      <div class="KvDTtab-container mt-3">
         <h2>Khám tổng quát</h2>
         <div class="row content-child">
           <div class="col-md-4">
@@ -143,29 +144,17 @@
                 <table>
                   <thead>
                     <tr>
-                      <th>Răng</th>
-                      <th>Tình trạng răng</th>
                       <th>Tên thủ thuật</th>
-                      <th>KH đồng ý</th>
                       <th>Đơn giá</th>
                       <th>Thành tiền</th>
-                      <th>Đã trả</th>
-                      <th>Còn lại</th>
-                      <th>Tình trạng</th>
                       <th>Thao tác</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let row of tableRows; let i = index" [ngClass]="row.animationClass" @rowAnimation>
-                      <td><input [(ngModel)]="row.tooth" type="text" class="form-control" /></td>
-                      <td><input [(ngModel)]="row.condition" type="text" class="form-control" /></td>
                       <td><input [(ngModel)]="row.procedure_name" type="text" class="form-control" /></td>
-                      <td><input [(ngModel)]="row.khdongy" type="text" class="form-control" /></td>
-                      <td><input [(ngModel)]="row.dongia" type="text" class="form-control" /></td>
-                      <td><input [(ngModel)]="row.thanhtien" type="text" class="form-control" /></td>
-                      <td><input [(ngModel)]="row.datra" type="text" class="form-control" /></td>
-                      <td><input [(ngModel)]="row.conlai" type="text" class="form-control" /></td>
-                      <td><input [(ngModel)]="row.tinhtrang" type="text" class="form-control" /></td>
+                      <td><input [(ngModel)]="row.unit_price" type="number" class="form-control" /></td>
+                      <td><input [(ngModel)]="row.total" type="number" class="form-control" /></td>
                       <td>
                         <i class="bi bi-trash" style="cursor: pointer;" (click)="removeRow(i, 1)"></i>
                       </td>
@@ -190,13 +179,12 @@
             <div class="table-custom">
               <div style="position: relative;">
                 <i [ngStyle]="{ 'opacity': isHovering ? '1' : '0.5', 'cursor': 'pointer', 'font-size': '25px' }"
-                (mouseover)="isHovering = true" (mouseout)="isHovering = false"
-                (click)="addNewRow(1); animateIcon($event)"
-                style="position: absolute; left: 0; transform: translate(-100%, 130%);" class="bi bi-plus-circle"></i>
+                  (mouseover)="isHovering = true" (mouseout)="isHovering = false"
+                  (click)="addNewRow(1); animateIcon($event)"
+                  style="position: absolute; left: 0; transform: translate(-100%, 130%);" class="bi bi-plus-circle"></i>
                 <table>
                   <thead>
                     <tr>
-                      <th>Răng</th>
                       <th>Vật liệu</th>
                       <th>Đơn vị cung cấp</th>
                       <th>Số lượng</th>
@@ -205,22 +193,21 @@
                       <th>Giảm giá</th>
                       <th>Ngày đặt</th>
                       <th>Người đặt</th>
-                      <th>Tình trạng</th>
+                      <th>Ngày lắp</th>
                       <th>Thao tác</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let row of supplyOrderRows; let i = index" [ngClass]="row.animationClass" @rowAnimation>
-                      <td><input [(ngModel)]="row.tooth" type="text" class="form-control" /></td>
-                      <td><input [(ngModel)]="row.material" type="text" class="form-control" /></td>
-                      <td><input [(ngModel)]="row.supply" type="text" class="form-control" /></td>
-                      <td><input [(ngModel)]="row.amount" type="text" class="form-control" /></td>
-                      <td><input [(ngModel)]="row.dongia" type="text" class="form-control" /></td>
-                      <td><input [(ngModel)]="row.total" type="text" class="form-control" /></td>
-                      <td><input [(ngModel)]="row.discount" type="text" class="form-control" /></td>
+                      <td><input [(ngModel)]="row.type" type="text" class="form-control" /></td>
+                      <td><input [(ngModel)]="row.supplyName" type="text" class="form-control" /></td>
+                      <td><input [(ngModel)]="row.quantity" type="number" class="form-control" /></td>
+                      <td><input [(ngModel)]="row.unit_price" type="number" class="form-control" /></td>
+                      <td><input [(ngModel)]="row.total" type="number" class="form-control" /></td>
+                      <td><input [(ngModel)]="row.discount" type="number" class="form-control" /></td>
                       <td><input [(ngModel)]="row.order_date" type="text" class="form-control" /></td>
                       <td><input [(ngModel)]="row.order" type="text" class="form-control" /></td>
-                      <td><input [(ngModel)]="row.status" type="text" class="form-control" /></td>
+                      <td><input [(ngModel)]="row.used_date" type="text" class="form-control" /></td>
                       <td>
                         <i class="bi bi-trash" style="cursor: pointer;" (click)="removeRow(i, 2)"></i>
                       </td>
@@ -252,6 +239,8 @@
                       <th>#</th>
                       <th>Tên vật liệu</th>
                       <th>Số lượng</th>
+                      <th>Đơn giá</th>
+                      <th>Thành tiền</th>
                       <th>Ngày dùng</th>
                       <th>Người thêm</th>
                       <th>Thao tác</th>
@@ -262,7 +251,9 @@
                       @rowAnimation>
                       <td>{{i+1}}</td>
                       <td><input [(ngModel)]="row.material_name" type="text" class="form-control" /></td>
-                      <td><input [(ngModel)]="row.amount" type="text" class="form-control" /></td>
+                      <td><input [(ngModel)]="row.quantity" type="text" class="form-control" /></td>
+                      <td><input [(ngModel)]="row.unit_price" type="text" class="form-control" /></td>
+                      <td><input [(ngModel)]="row.total" type="text" class="form-control" /></td>
                       <td><input [(ngModel)]="row.usage_date" type="text" class="form-control" /></td>
                       <td><input [(ngModel)]="row.adder" type="text" class="form-control" /></td>
                       <td>

@@ -53,4 +53,15 @@ export class MedicalSupplyService {
     const requestBody = JSON.stringify(specimen);
     return this.http.put(`${this.url}/medical-supply/${id}`,requestBody,{headers});
   }
+
+  getMedicalSupplyByPatientId(patientId:string) {
+    let idToken = sessionStorage.getItem("id_Token");
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      'Accept':'application/json'
+    });
+
+    return this.http.get(`${this.url}/medical-supply/patient/${patientId}`, { headers });
+
+  }
 }

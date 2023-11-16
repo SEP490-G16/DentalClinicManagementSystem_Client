@@ -1,4 +1,4 @@
-<div class="recent-orders" style="border-radius: 15px;">
+<div class="recent-orders bg-white" style="border-radius: 15px;">
   <div class="content-wrapper">
     <div class="row">
       <div class="card-box">
@@ -35,11 +35,11 @@
           <th>Còn lại</th>
         </tr>
         <tr>
-          <td>{{TotalPaid}}</td>
+          <td>{{Total}}</td>
           <td></td>
-          <td>{{TotalPaid}}</td>
-          <td>{{TotalPaid}}</td>
-          <td></td>
+          <td>{{Total}}</td>
+          <td>{{Total_Paid}}</td>
+          <td>{{Total_Paid - Total}}</td>
         </tr>
       </table>
 
@@ -59,17 +59,18 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let pmu of PaidMaterialUsage">
-            <td>{{pmu.created_date |VNdateTimeFormat}}</td>
-            <td>{{facility}}</td>
-            <td>{{pmu.total_paid}}</td>
-            <td></td>
-            <td>{{pmu.total_paid}}</td>
-            <td>{{pmu.total_paid}}</td>
-            <td></td>
-            <td><button class="payment-button"
-                (click)="thanhtoan(pmu)">Thanh toán</button></td>
-          </tr>
+          <ng-container *ngFor="let mu of Material_Usage">
+          <tr *ngFor="let tc of TreatmentCourse">
+              <td>{{tc.created_date |VNdateTimeFormat}}</td>
+              <td>{{facility}}</td>
+              <td>{{mu.total}}</td>
+              <td></td>
+              <td>{{mu.total}}</td>
+              <td>{{mu.total_paid}}</td>
+              <td>{{mu.total_paid - mu.total}}</td>
+              <td><button class="payment-button" (click)="thanhtoan(tc)">Thanh toán</button></td>
+            </tr>
+          </ng-container>
         </tbody>
       </table>
     </div>
@@ -78,7 +79,7 @@
 
 </div>
 
-<app-popup-payment-tab [PMU]="PMU"
+<!-- <app-popup-payment-tab [PMU]="PMU"
                        [Ex]="Examination"
                        [MU]="Material_Usage"
-></app-popup-payment-tab>
+></app-popup-payment-tab> -->

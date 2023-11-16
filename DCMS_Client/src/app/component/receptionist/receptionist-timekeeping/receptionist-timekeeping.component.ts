@@ -12,6 +12,7 @@ import { CognitoService } from 'src/app/service/cognito.service';
   templateUrl: './receptionist-timekeeping.component.html',
   styleUrls: ['./receptionist-timekeeping.component.css']
 })
+
 export class ReceptionistTimekeepingComponent implements OnInit {
   loading: boolean = false;
   Body: RequestBodyTimekeeping;
@@ -46,8 +47,14 @@ export class ReceptionistTimekeepingComponent implements OnInit {
 
   //Week
   weekTimestamps: number[] = [];
-
+  startTime:number = 0;
+  endTime:number = 0;
+  todayTimekeeping:any;
+  //SubId
+  SubId_Arr: string[] = [];
   thu: string = "";
+  timekeepingOnWeeks: any
+
   constructor(private cognitoService: CognitoService,
     private timekeepingService: ReceptionistTimekeepingService,
     private toastr: ToastrService,
@@ -65,7 +72,6 @@ export class ReceptionistTimekeepingComponent implements OnInit {
       status: 2
     } as RequestBodyTimekeeping
 
-
     //Get Thứ
     moment.locale('vi');
     this.thu = moment().format('dddd');
@@ -75,20 +81,16 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     this.currentTimeGMT7 = moment.tz('Asia/Ho_Chi_Minh').format('HH:mm');
     //Set epoch to body
     this.currentDateTimeStamp = this.dateToTimestamp(this.currentDateGMT7);
+    console.log("Current Date Timestamp: ", this.currentDateTimeStamp);
     this.currentTimeTimeStamp = this.timeAndDateToTimestamp(this.currentTimeGMT7, this.currentDateGMT7);
 
     //Set week
     for (let i = 0; i < 7; i++) {
       this.weekTimestamps.push(moment().startOf('week').add(i, 'days').unix());
     }
-    console.log("ok", this.weekTimestamps);
-
-    let sampleData = {
-      "0": { "M": { "clock_in": { "N": '1699958700000' }, "clock_out": { "N": '1699958700000' }, "staff_avt": { "S": '' }, "staff_name": { "S": 'Dũng' }, "status": { "N": '2' }, "timekeeper_avt": { "S": '' }, "timekeeper_name": { "S": 'Long' } } },
-      "ad2879dd-626c-4ade-8c95-da187af572ad": { "M": { "clock_in": { "N": '1699958640000' }, "clock_out": { "N": '1699958640000' }, "staff_avt": { "S": '' }, "staff_name": { "S": 'Trần Văn Thế' }, "status": { "N": '2' }, "timekeeper_avt": { "S": '' }, "timekeeper_name": { "S": 'Long' } } },
-      "epoch": { "N": "1699894800000" },
-      "type": { "S": "t" }
-    };
+    console.log("WeekTimes: ", this.weekTimestamps);
+    this.startTime = this.weekTimestamps[0];
+    this.endTime = this.weekTimestamps[6];
   }
 
   ngOnInit(): void {
@@ -99,16 +101,19 @@ export class ReceptionistTimekeepingComponent implements OnInit {
 
   }
 
-  timekeepingOnWeeks: any
   getTimekeeping() {
     this.loading = true;
-    this.timekeepingService.getTimekeeping(this.currentDateTimeStamp, this.currentDateTimeStamp)
+    console.log("Thứ 2: ", this.timestampToGMT7Date(this.startTime));
+    console.log("Chủ nhật: ", this.timestampToGMT7Date(this.endTime));
+    this.timekeepingService.getTimekeeping(this.startTime, this.endTime)
       .subscribe(data => {
         this.loading = false;
         // this.timekeepingOnWeeks = ConvertJson.processApiResponse(data);
+        console.log("data: ", data);
         this.timekeepingOnWeeks = data;
         console.log("TimekeepingOnWeeks: ", this.timekeepingOnWeeks);
-
+        this.timekeepingOnWeeks = this.organizeData(this.timekeepingOnWeeks);
+        console.log("TimekeepingOnWeeks: ", this.timekeepingOnWeeks);
       },
         (err) => {
           this.loading = false;
@@ -117,7 +122,32 @@ export class ReceptionistTimekeepingComponent implements OnInit {
       )
   }
 
+  //Tổ chức mảng:
+  organizeData(data: any[]): TimekeepingRecord[] {
+    return data.map((item): TimekeepingRecord => {
+      const timekeepingEntry: TimekeepingRecord = {
+        epoch: item.epoch?.N,
+        type: item.type?.S,
+        records: []
+      };
 
+      Object.keys(item).forEach((key: string) => {
+        if (key !== 'epoch' && key !== 'type') {
+          const details: TimekeepingDetail = {
+            clock_in: item[key]?.M?.clock_in?.N,
+            clock_out: item[key]?.M?.clock_out?.N,
+            staff_name: item[key]?.M?.staff_name?.S,
+          };
+          timekeepingEntry.records.push({
+            subId: key,
+            details: details
+          });
+        }
+      });
+
+      return timekeepingEntry;
+    });
+  }
 
   StaffFilter: any;
   selectedFilter: string = "";
@@ -142,12 +172,6 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     this.Body.timekeeper_name = "Long";
     console.log("Body", this.Body);
 
-    const clinicTimeIn = this.timeAndDateToTimestamp("16:00", this.currentDateGMT7);
-    if (this.Body.clock_in > clinicTimeIn) {
-      //add Class Red
-      this.timeClockinColor = "lateTime";
-    }
-
     this.timekeepingService.postTimekeeping(this.Body)
       .subscribe((res) => {
         this.toastr.success(res.message, "Chấm công về thành công");
@@ -161,12 +185,10 @@ export class ReceptionistTimekeepingComponent implements OnInit {
         (err) => {
           this.loading = false;
           this.toastr.error(err.error.message, "Chấm công thất bại");
-
         }
       )
   }
 
-  //Thời gian tan làm 20:00
   timeClockoutColor: string = "onTime";
   onClockout(staff: Staff) {
     this.loading = true;
@@ -178,11 +200,6 @@ export class ReceptionistTimekeepingComponent implements OnInit {
       this.Body.epoch = this.currentDateTimeStamp;
       this.Body.clock_out = this.currentTimeTimeStamp;
 
-      const clinicTimeOut = this.timeAndDateToTimestamp("20:00", this.currentDateGMT7);
-      if (this.Body.clock_out > clinicTimeOut) {
-        //add Class Red
-        this.timeClockoutColor = "lateTime";
-      }
       this.timekeepingService.postTimekeeping(this.Body)
         .subscribe((res) => {
           this.toastr.success(res.message, "Chấm công về thành công");
@@ -217,13 +234,12 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     }
   }
 
-
   //Convert Date
   dateToTimestamp(dateStr: string): number {
     const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng của chuỗi ngày
     const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
     const timestamp = moment.tz(dateStr, format, timeZone).valueOf();
-    return timestamp;
+    return timestamp /1000;
   }
 
   timestampToGMT7String(timestamp: number): string {
@@ -249,7 +265,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     const timeZone = 'Asia/Ho_Chi_Minh';
     const dateTimeStr = `${dateStr} ${timeStr}`;
     const timestamp = moment.tz(dateTimeStr, format, timeZone).valueOf();
-    return timestamp;
+    return timestamp / 1000;
   }
 
   navigateHref(href: string) {
@@ -272,4 +288,19 @@ export class ReceptionistTimekeepingComponent implements OnInit {
       this.router.navigate(['/default-route']);
     }
   }
+}
+interface TimekeepingDetail {
+  clock_in?: string;
+  clock_out?: string;
+  staff_name?: string;
+}
+interface TimekeepingSubRecord {
+  subId: string;
+  details: TimekeepingDetail;
+}
+
+interface TimekeepingRecord {
+  epoch: string;
+  type?: string;
+  records: TimekeepingSubRecord[];
 }

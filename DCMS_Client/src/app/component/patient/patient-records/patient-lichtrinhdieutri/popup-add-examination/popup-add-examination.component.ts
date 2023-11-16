@@ -9,6 +9,7 @@ import { CognitoService } from 'src/app/service/cognito.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { MedicalProcedureService } from 'src/app/service/MedicalProcedureService/medical-procedure.service';
 import { MedicalSupplyService } from 'src/app/service/MedicalSupplyService/medical-supply.service';
+import { MaterialUsageService } from 'src/app/service/MaterialUsage/MaterialUsageService.component';
 @Component({
   selector: 'app-popup-add-examination',
   templateUrl: './popup-add-examination.component.html',
@@ -26,47 +27,55 @@ import { MedicalSupplyService } from 'src/app/service/MedicalSupplyService/medic
   ]
 })
 export class PopupAddExaminationComponent implements OnInit {
+  //Pathparam
+  patient_Id: string = "";
+  treatmentCourse_Id: string = "";
+  //Image
   imageURL: string | ArrayBuffer = '';
   imageUrls: string[] = [];
   showPopup = false;
   showInput = false;
-
+  facility: string = "";
+  @ViewChild('containerRef', { static: true }) containerRef!: ElementRef;
+  //Thủ thuật
   Body_Medical_Procedure = {
     medical_procedure_group_id: '',
     name: '',
     price: '',
     description: ''
   }
-
+  //Đặt xưởng vật tư
   Body_Medical_Supply = {
     type: "",
+    name: "",
     quantity: 0,
     unit_price: 0,
     order_date: 0,
+    orderer: "",
     received_date: 0,
     receiver: "",
     warranty: 0,
     description: "",
     facility_id: "",
-    labo_id: "",
+    labo_id: null,
     used_date: "",
     patient_id: "",
+    status: "",
   }
+  //Vật liệu sử dụng
+  Body_Material_Usage: material_usage_body[] = [];
 
+  //Data Table
   tableRows: any[] = [
-    { tooth: '', condition: '', procedure_name: '', khdongy: '', dongia: '', thanhtien: '', datra: '', conlai: '', tinhtrang: '' }
+    { procedure_name: '', unit_price: 0, total: 0 }
   ];
 
   supplyOrderRows: any[] = [
-    { tooth: '', material: '', supply: '', amount: '', dongia: '', total: '', discount: '', order_date: '', order: '', status: '' }
+    { type: '', supplyName: '', quantity: 0, unit_price: 0, total: 0, discount: 0, order_date: '', order: '', used_date: '' }
   ]
   materialUsageRows: any[] = [
-    { material_name: '', amount: 0, usage_date: '', adder: '' }
+    { material_name: '', quantity: 0, usage_date: '', adder: '' }
   ]
-
-  patient_Id: string = "";
-  treatmentCourse_Id: string = "";
-  @ViewChild('containerRef', { static: true }) containerRef!: ElementRef;
 
   examination: Examination = {} as Examination;
   treatmentCourse: ITreatmentCourse = [];
@@ -77,7 +86,6 @@ export class PopupAddExaminationComponent implements OnInit {
       doctorName: "Thế"
     }
   ]
-
   constructor(
     private cognitoService: CognitoService, private router: Router,
     private toastr: ToastrService,
@@ -86,7 +94,7 @@ export class PopupAddExaminationComponent implements OnInit {
     private tcDetailService: TreatmentCourseDetailService,
     private medicalProcedureService: MedicalProcedureService,
     private medicalSupplyService: MedicalSupplyService,
-
+    private materialUsageService: MaterialUsageService,
     private eRef: ElementRef
   ) {
     this.examination = {
@@ -99,33 +107,16 @@ export class PopupAddExaminationComponent implements OnInit {
       staff_id: "",
       xRayImageDes: "",
       medicine: ""
-
     } as Examination;
 
     this.examination.created_date = new Date().toISOString().substring(0, 10);
-  }
 
-
-  navigateHref(href: string) {
-    const userGroupsString = sessionStorage.getItem('userGroups');
-
-    if (userGroupsString) {
-      const userGroups = JSON.parse(userGroupsString) as string[];
-
-      if (userGroups.includes('dev-dcms-doctor')) {
-        this.router.navigate([href + this.patient_Id]);
-      } else if (userGroups.includes('dev-dcms-nurse')) {
-        this.router.navigate([href + this.patient_Id]);
-      } else if (userGroups.includes('dev-dcms-receptionist')) {
-        this.router.navigate([href + this.patient_Id]);
-      } else if (userGroups.includes('dev-dcms-admin')) {
-        this.router.navigate([href + this.patient_Id]);
-      }
-    } else {
-      console.error('Không có thông tin về nhóm người dùng.');
-      this.router.navigate(['/default-route']);
+    const facility = sessionStorage.getItem("locale");
+    if (facility) {
+      this.facility = facility;
     }
   }
+
   ngOnInit(): void {
     this.patient_Id = this.route.snapshot.params['id'];
     this.treatmentCourse_Id = this.route.snapshot.params['tcId'];
@@ -134,14 +125,7 @@ export class PopupAddExaminationComponent implements OnInit {
     console.log("TreatmentCourse Id", this.treatmentCourse_Id);
     this.staff_id = this.doctors[0].doctorid;
 
-    this.Body_Medical_Supply.patient_id = this.patient_Id;
-
-    const facitlityId = sessionStorage.getItem('locale');
-    if (facitlityId != undefined) {
-      this.Body_Medical_Supply.patient_id = facitlityId;
-    }
     this.getTreatmentCourse();
-
   }
 
   getTreatmentCourse() {
@@ -150,16 +134,22 @@ export class PopupAddExaminationComponent implements OnInit {
         console.log("data treatment: ", data);
         this.treatmentCourse = data;
         console.log("treatment course: ", this.treatmentCourse);
-      })
+      },
+        (error) => {
+          this.toastr.error(error.error.message, "Lấy danh sách Liệu trình thất bại");
+        })
   }
 
+  // tableRows: any[] = [
+  //   { procedure_name: '', unit_price: 0, total: 0}
+  // ];
   postExamination() {
     this.examination.treatment_course_id = this.treatmentCourse_Id;
     this.examination.staff_id = this.staff_id;
     const facility: string | null = sessionStorage.getItem('locale');
-    this.examination.facility_id = "F-14"; // Sử dụng toán tử '||' để gán giá trị mặc định nếu facility là null
+    this.examination.facility_id = this.facility;
     this.examination.xRayImage = this.imageUrls.join(' ');
-    console.log("post", this.examination);
+    console.log("Post", this.examination);
     this.tcDetailService.postExamination(this.examination)
       .subscribe((res) => {
         this.toastr.success(res.message, 'Thêm lần khám thành công');
@@ -167,37 +157,80 @@ export class PopupAddExaminationComponent implements OnInit {
         (err) => {
           this.toastr.error(err.error.message, 'Thêm lần khám thất bại');
         })
+    if (this.tableRows.length > 1) {
+      this.tableRows.forEach((procedure) => {
+        this.Body_Medical_Procedure.name = procedure.procedure_name;
+        this.Body_Medical_Procedure.price = procedure.total;
+        this.medicalProcedureService.addMedicalProcedure(this.Body_Medical_Procedure)
+          .subscribe((res) => {
 
-    // this.medicalProcedureService.addMedicalProcedure()
+          },
+            (err) => {
+              console.log("Thêm thủ thuật: ", err.error.message);
+              this.toastr.error(err.error.message, "Thêm thủ thuật thất bại");
+            })
+      })
+    }
+    // supplyOrderRows: any[] = [
+    //   { type: '', supplyName: '', quantity: 0, unit_price: 0, total: 0, discount: 0, order_date: '', order: '', used_date: '' }
+    // ]
+    console.log("Supply Row: ", this.supplyOrderRows);
+    if (this.supplyOrderRows.length > 1) {
+      this.supplyOrderRows.forEach((supply) => {
+        console.log("Supply: ", supply);
+        this.Body_Medical_Supply.type = supply.type,
+          this.Body_Medical_Supply.name = supply.supplyName;
+        this.Body_Medical_Supply.quantity = supply.quantity;
+        this.Body_Medical_Supply.unit_price = supply.unit_price;
+        this.Body_Medical_Supply.orderer = supply.order;
+        this.Body_Medical_Supply.used_date = supply.used_date;
+        this.Body_Medical_Supply.facility_id = this.facility;
+        this.Body_Medical_Supply.patient_id = this.patient_Id;
+        console.log("Medical Supply: ", this.Body_Medical_Supply);
+        this.medicalSupplyService.addMedicalSupply(this.Body_Medical_Supply)
+          .subscribe((res) => {
+            console.log("Thành công thêm xưởng và vật tư: ", res);
+            // this.toastr.success(res.message, "Thêm xưởng và vật tư thành công");
+          },
+            (err) => {
+              console.log("Thêm xưởng vật tư: ", err.error.message);
+              this.toastr.error(err.error.message, "Thêm Xưởng và vật tư thất bại");
+            })
+      })
+    }
+    // materialUsageRows: any[] = [
+    //   { material_name: '', quantity: 0, usage_date: '', adder: '' }
+    // ]
+    console.log("Material usage: ", this.materialUsageRows);
+    if (this.materialUsageRows.length > 1) {
+      this.materialUsageRows.forEach((material) => {
+        this.Body_Material_Usage.push({
+          material_warehouse_id: "",
+          treatment_course_id: this.treatmentCourse_Id,
+          examination_id: "",
+          description: "",
+          price: material.unit_price,
+          quantity: material.quantity,
+          total_paid: material.total,
+        })
+      })
+      this.materialUsageService.getMaterialUsage_By_TreatmentCourse(this.materialUsageRows)
+        .subscribe((res) => {
 
-    this.Body_Medical_Supply.type = "1",
-    this.Body_Medical_Supply.quantity = this.supplyOrderRows[0].amount,
-    this.Body_Medical_Supply.unit_price = this.supplyOrderRows[0].dongia,
-    this.Body_Medical_Supply.order_date = this.supplyOrderRows[0].order_date,
-
-    this.medicalSupplyService.addMedicalSupply(this.Body_Medical_Supply)
-    .subscribe((res) => {
-
-    },
-    (err) => {
-      this.toastr.error(err.error.message, "Thêm Xưởng và vật tư thất bại");
-    })
-
-
-
-
-
+        },
+          (err) => {
+            console.log("Thêm vật liệu: ", err.error.message);
+            this.toastr.error(err.error.message, "Thêm vật liệu sử dụng thất bại");
+          })
+    }
+    // this.materialUsageService.
   }
-  // supplyOrderRows: any[] = [
-  //   { tooth: '', material: '', supply: '', amount: '', dongia: '', total: '', discount: '', order_date: '', order: '', status: '' }
-  // ]
 
   // materialUsageRows: any[] = [
   //   { material_name: '', amount: 0, usage_date: '', adder: '' }
   // ]
 
   //Xử lý với ảnh
-
   @HostListener('document:click', ['$event'])
   clickout(event: any) {
     if (this.showPopup && !this.containerRef.nativeElement.contains(event.target)) {
@@ -272,6 +305,27 @@ export class PopupAddExaminationComponent implements OnInit {
     target.addEventListener('animationend', () => {
       target.style.animation = '';
     });
+  }
+
+  navigateHref(href: string) {
+    const userGroupsString = sessionStorage.getItem('userGroups');
+
+    if (userGroupsString) {
+      const userGroups = JSON.parse(userGroupsString) as string[];
+
+      if (userGroups.includes('dev-dcms-doctor')) {
+        this.router.navigate([href + this.patient_Id]);
+      } else if (userGroups.includes('dev-dcms-nurse')) {
+        this.router.navigate([href + this.patient_Id]);
+      } else if (userGroups.includes('dev-dcms-receptionist')) {
+        this.router.navigate([href + this.patient_Id]);
+      } else if (userGroups.includes('dev-dcms-admin')) {
+        this.router.navigate([href + this.patient_Id]);
+      }
+    } else {
+      console.error('Không có thông tin về nhóm người dùng.');
+      this.router.navigate(['/default-route']);
+    }
   }
 }
 

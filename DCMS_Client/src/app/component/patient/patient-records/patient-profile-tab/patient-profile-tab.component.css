@@ -22,7 +22,6 @@
   --custom-box-shadow: 0 2rem 3rem var(--custom-color-light);
 }
 
-
 a {
   color: var(--custom-color-dark);
 }
@@ -151,10 +150,6 @@ table tbody td {
   -webkit-animation: spin 2s linear infinite;
   /* Safari */
   animation: spin 2s linear infinite;
-}
-
-table tbody tr:last-child td {
-  /* border: none; */
 }
 
 .image-container {

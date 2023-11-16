@@ -120,7 +120,6 @@ table {
   width: 100%;
   padding: var(--custom-card-padding);
   text-align: center;
-  box-shadow: var(--custom-box-shadow);
   border-radius: var(--custom-card-border-radius);
   transition: all 0.3s ease;
   border: 1px solid #000;
@@ -289,6 +288,44 @@ a {
   background-color: rgba(2, 117, 216, 0.5);
 }
 
+.form-group {
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  margin-bottom: .5rem;
+  color: #333;
+}
+
+.form-select, .form-control {
+  display: block;
+  width: 100%;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.form-select:focus, .form-control:focus {
+  color: #495057;
+  background-color: #fff;
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
+}
+
+textarea.form-control {
+  height: auto;
+  min-height: 100px;
+}
+
 .button-timekeeping{
   font-family: "Poppins", sans-serif;
   background: #664FC3;
@@ -303,12 +340,53 @@ a {
   margin-bottom: 15px;
 /* box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset; */
 }
+
 button:hover{
   opacity: 0.9;
 }
+
 button:active{
   transform: translateY(4px);
   box-shadow: 0px -1px -1px #fff;
+}
+
+.btn.button-timekeeping:hover {
+  color: #fff;
+  background-color: #0069d9;
+  border-color: #0062cc;
+}
+
+/* Responsive spacing and alignment */
+@media (min-width: 768px) {
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+  }
+
+  .col-md-4, .col-md-8, .col-md-12 {
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+
+  /* Set width for columns */
+  .col-md-4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+  }
+
+  .col-md-8 {
+    flex: 0 0 66.666667%;
+    max-width: 66.666667%;
+  }
+
+  .col-md-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
 }
 
 .mr-2 {
@@ -387,6 +465,7 @@ button:active{
   align-items: flex-start;
   gap: 5px;
   background-image: url(https://b2bbucket.s3.amazonaws.com/2465/products/broken-img.png);
+  background-repeat: no-repeat;
 }
 
 .image-wrapper {
