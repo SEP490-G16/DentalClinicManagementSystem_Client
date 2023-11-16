@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ElementRef, ViewChild} from '@angular/core';
 import {PatientService} from "../../../../service/PatientService/patient.service";
 import {ToastrService} from "ngx-toastr";
 
@@ -89,6 +89,7 @@ export class PopupAddPatientComponent implements OnInit {
     }
     this.patientService.addPatient(this.patientBody).subscribe((data:any)=>{
       this.toastr.success('Thêm mới bệnh nhân thành công!');
+      localStorage.setItem("patient",JSON.stringify(this.patientBody))
       let ref = document.getElementById('cancel');
       ref?.click();
       const newPatientId = data.data.patient_id;

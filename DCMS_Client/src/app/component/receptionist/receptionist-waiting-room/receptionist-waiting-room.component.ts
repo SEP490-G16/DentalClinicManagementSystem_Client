@@ -21,8 +21,10 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
   procedure: string = '0';
   listGroupService : any[] = [];
   status: string = '1';
+  filteredWaitingRoomData: any[] = [];
+  listPatientId: any[] = [];
   PUT_WAITINGROOM: IPostWaitingRoom;
-
+  dataStorage: string ='';
   constructor(private waitingRoomService: ReceptionistWaitingRoomService,
     private cognitoService: CognitoService,
     private router: Router,
@@ -45,31 +47,33 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
     this.getListGroupService();
     this.getWaitingRoomData();
   }
-
-
   getWaitingRoomData() {
     this.loading = true;
     this.waitingRoomService.getWaitingRooms().subscribe(
       data => {
         this.waitingRoomData = data;
-        this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
-        this.filteredWaitingRoomData = this.waitingRoomData
-        console.log("filterwaittingroom", this.filteredWaitingRoomData = this.waitingRoomData
-          );
-
+        const statusOrder: {[key: number]: number} = {2: 1, 3: 2, 1: 3, 4: 4};
+        this.waitingRoomData.sort((a:any, b:any) => {
+          const orderA = statusOrder[a.status] ?? Number.MAX_VALUE; // Fallback if status is not a valid key
+          const orderB = statusOrder[b.status] ?? Number.MAX_VALUE; // Fallback if status is not a valid key
+          return orderA - orderB;
+        });
+        this.listPatientId = this.waitingRoomData.map((item:any) => item.patient_id);
+        localStorage.setItem('listPatientId', JSON.stringify(this.listPatientId));
+        this.filteredWaitingRoomData = [...this.waitingRoomData]; // Update the filtered list as well
         this.loading = false;
-      }
-    ),
+      },
       () => {
         this.loading = false;
-      };
+      }
+    );
   }
+  
   getListGroupService() {
     this.medicaoProcedureGroupService.getMedicalProcedureGroupList().subscribe((res:any) => {
       this.listGroupService = res.data;
     })
   }
-  filteredWaitingRoomData: any[] = [];
   filterProcedure() {
     if (this.procedure === '0') {
       this.filteredWaitingRoomData = [...this.waitingRoomData];
@@ -137,7 +141,6 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           }
         )
     }
-
   }
 
   showSuccessToast(message: string) {
@@ -155,9 +158,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
 
   signOut() {
     this.cognitoService.signOut().then(() => {
-      console.log("Logged out!");
       this.router.navigate(['dangnhap']);
     })
   }
-
 }
