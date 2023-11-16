@@ -19,9 +19,6 @@
         data-bs-target="#myModal" (click)="openAddAppointmentModal()"><i class="bi bi-plus-circle"></i>
         Thêm
         lịch hẹn</button>
-      <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myBNModal"><i
-          class="bi bi-plus-circle"></i> Thêm
-        bệnh nhân</button>
     </div>
     <div class="col-6">
       <input type="date" class="date-input-custom" [(ngModel)]="startDate" (change)="getAppointmentList()">
@@ -44,7 +41,7 @@
           <th>Loại điều trị</th>
           <th>Bác sĩ</th>
           <th style="min-width: 110px;">Thời gian hẹn khám</th>
-          <th></th>
+          <th>Thao tắc</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -66,20 +63,29 @@
                {{detail.procedure_name}}
               </td>
               <td>{{ detail.doctor }}</td>
-              <td>{{timestampToGMT7String(detail.time)}} - {{convertTimestampToVNDateString(a.date)}}</td>
+              <td>{{timestampToTime(detail.time)}} - {{timestampToDate(a.date)}}</td>
+              <!-- <td>{{convertTimestampToVNDateString(a.date)}}</td> -->
               <td>
                 <button class="btn btn-edit-custom" data-bs-toggle="modal" data-bs-target="#editAppointmentModal"
                   (click)="openEditModal(detail, a.date)">
                   <i class="bi bi-pencil-square"></i>
                 </button>
+                <button (click)="deleteAppointment(detail, a.date)"> <i class="bi bi-trash"></i></button>
               </td>
-              <td>
+              <td *ngIf="detail.status == 2 && checkDate(a.date)">
                 <button class="btn btn-redirect" (click)="postExchangeAppointmentToWaitingRoom(a.date, detail)" style="width: 100px; color: black;">
                   Đến phòng chờ
                 </button>
-                <!-- <a style="width: 100px; color: black;" class="btn btn-redirect">Đến hàng
-                  chờ</a> -->
               </td>
+              <td *ngIf="detail.status == 2 && !checkDate(a.date)">    
+                <button class="btn btn-redirect" style="width: 100px; color: red;">
+                  <b>Trễ lịch hẹn</b>
+                </button>
+              </td>
+              <td *ngIf="detail.status == 1">
+                <p style="color: green;"><b>Đã khám</b></p>
+              </td>
+              
             </tr>
           </ng-container>
 
@@ -92,10 +98,8 @@
 </div>
 <!-- End of Recent Orders -->
 
-
-
-<app-add-patient></app-add-patient>
-<app-popup-add-appointment (newItemEvent)="addItem($event)"></app-popup-add-appointment>
-<app-popup-edit-appointment [datesDisabled]="datesDisabled" [selectedAppointment]="selectedAppointment"
-  [dateString]="dateString" [timeString]="timeString"></app-popup-edit-appointment>
+<!-- <app-popup-add-appointment (newItemEvent)="addItem($event)"></app-popup-add-appointment> -->
+<app-popup-add-appointment [datesDisabled]="datesDisabled"></app-popup-add-appointment>
+<app-popup-edit-appointment [datesDisabled]="datesDisabled" [selectedAppointment]="selectedAppointment" 
+[dateString]="dateString" [timeString]="timeString"></app-popup-edit-appointment>
 

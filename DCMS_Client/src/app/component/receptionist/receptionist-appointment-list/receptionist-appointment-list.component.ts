@@ -3,7 +3,7 @@ import { NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { ReceptionistAppointmentService } from "../../../service/ReceptionistService/receptionist-appointment.service";
 import { CognitoService } from "../../../service/cognito.service";
-import { DateDisabledItem, Detail, ISelectedAppointment, RootObject } from "../../../model/IAppointment";
+import { DateDisabledItem, Detail, IEditAppointmentBody, ISelectedAppointment, RootObject } from "../../../model/IAppointment";
 import { Router } from '@angular/router';
 import { ConvertJson } from "../../../service/Lib/ConvertJson";
 import { PopupAddAppointmentComponent } from './popup-add-appointment/popup-add-appointment.component';
@@ -29,6 +29,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
 
   model!: NgbDateStruct;
   placement = 'bottom';
+  DELETE_APPOINTMENT_BODY: IEditAppointmentBody
 
   constructor(private appointmentService: ReceptionistAppointmentService,
     private cognitoService: CognitoService, private router: Router,
@@ -38,6 +39,19 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     private medicaoProcedureGroupService:MedicalProcedureGroupService, 
     private receptionistWaitingRoom: ReceptionistWaitingRoomService
   ) {
+    this.DELETE_APPOINTMENT_BODY = {
+      epoch: 0,    //x
+      new_epoch: 0,
+      appointment: {
+        patient_id: '',  //x
+        patient_name: '', //x
+        phone_number: '', //x
+        procedure_id: "1",  //x
+        doctor: '',
+        status: 2, //x
+        time: 0  //x
+      }
+    } as IEditAppointmentBody;
     this.selectedAppointment = {
       appointment_id: '',
       patient_id: '',
@@ -86,18 +100,15 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     this.loading = true;
     this.startDateTimestamp = this.dateToTimestamp(this.startDate);
     this.appointmentService.getAppointmentList(this.startDateTimestamp, this.endDateTimestamp).subscribe(data => {
-      this.appointmentList = ConvertJson.processApiResponse(data);
-      this.filteredAppointments = this.appointmentList.filter(app => app.date === this.startDateTimestamp);
-      this.filteredAppointments.forEach((a:any) => { 
-        this.dateEpoch = this.convertTimestampToVNDateString(a.date);
+    this.appointmentList = ConvertJson.processApiResponse(data);
+    this.filteredAppointments = this.appointmentList.filter(app => app.date === this.startDateTimestamp);
+      this.filteredAppointments.forEach((a: any) => {
+        this.dateEpoch = this.timestampToDate(a.date);
         this.ePoch = a.date;
         a.appointments.forEach((b: any) => {
-          this.abcd = b.details.sort((a: any, b: any) => a.time - b.time);
+          b.details = b.details.sort((a: any, b: any) => a.time - b.time);
         })
       })
-      console.log("Appointment List: ", this.abcd);
-      console.log("Filter List: ", this.filteredAppointments);
-
       this.loading = false;
       this.appointmentDateInvalid();
     },
@@ -110,25 +121,48 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     this.webSocketService.toggleChat();
   }
 
-
-  datesDisabled: DateDisabledItem[] = [];
+  dateDis = {
+    date: 0, 
+    procedure:'', 
+    count: 0,
+  }
+  //datesDisabled: DateDisabledItem[] = [];
+  datesDisabled: any[] = [];
+  listDate: any [] = [];
   appointmentDateInvalid() {
-    // Get Date
-    this.datesDisabled = this.appointmentList
-      .filter(item => item.appointments.some(appointment => appointment.count > 1))
-      .map(item => ({ date: item.date, procedure: item.appointments[0].procedure }));
-
-    console.log("Date disabled: ", this.datesDisabled);
+    var today = new Date();
+    var date = today.getFullYear()+' - '+(today.getMonth()+1) + ' - '+today.getDate();
+    var time = today.getHours()+':'+today.getMinutes()+ ':'+today.getSeconds();
+    var dateTime = date+ ' '+"00:00:00";
+    var startTime = this.dateToTimestamp(dateTime);
+    var endTime = this.dateToTimestamp(today.getFullYear()+' - '+(today.getMonth()+1) + ' - '+(today.getDate() + 4)+' '+"23:59:59");
+    this.appointmentService.getAppointmentList(startTime, endTime).subscribe(data => {
+      this.listDate = ConvertJson.processApiResponse(data);
+      this.listDate.forEach((a: any) => {
+        a.appointments.forEach((b: any) => {
+          this.dateDis.date = a.date;
+          this.dateDis.procedure = b.procedure_id;
+          this.dateDis.count = b.count;
+          this.datesDisabled.push(this.dateDis);
+          this.dateDis = {
+            date: 0,
+            procedure: '',
+            count: 0,
+          }
+        })  
+      })
+    },
+    () => {
+    })
   }
 
 
   filterAppointments() {
     if (this.selectedProcedure) {
-      // Lọc danh sách appointments dựa trên selectedProcedure
       this.filteredAppointments = this.appointmentList
         .map((a: any) => {
           const filteredAppointments = a.appointments
-            .filter((appointment: any) => appointment.procedure === parseInt(this.selectedProcedure));
+            .filter((appointment: any) => appointment.procedure_id === this.selectedProcedure);
           // Chỉ giữ lại các "appointment" có "details"
           return { ...a, appointments: filteredAppointments };
         })
@@ -166,12 +200,37 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   timeString: any;
   openEditModal(appointment: any, dateTimestamp: any) {
     console.log("DateTimestamp", dateTimestamp);
-    this.dateString = this.convertTimestampToDateString(dateTimestamp);
+    this.dateString = this.timestampToDate(dateTimestamp);
     console.log("DateString", this.dateString);
   
     this.selectedAppointment = appointment;
-    this.timeString = this.timestampToGMT7String(appointment.time);
+    this.timeString = this.timestampToTime(appointment.time);
     console.log("Time, ", this.timeString);
+  }
+
+  deleteAppointment(appointment: any, dateTimestamp: any) {
+    this.DELETE_APPOINTMENT_BODY = {
+      epoch: dateTimestamp,
+      new_epoch: 0,
+      appointment: {
+        patient_id: ' ',
+        patient_name: ' ',
+        procedure_id: ' ',
+        procedure_name: ' ',
+        phone_number: ' ',
+        doctor: ' ',
+        status: 2,
+        time: 0
+      }
+      
+    } as IEditAppointmentBody;
+    this.appointmentService.putAppointment(this.DELETE_APPOINTMENT_BODY, appointment.appointment_id).subscribe(response => {
+      console.log("Cập nhật thành công");
+      this.showSuccessToast('Xóa lịch hẹn thành công!');
+        window.location.reload();
+    }, error => {
+      this.showErrorToast("Lỗi khi cập nhật");
+    });
   }
 
   Exchange = {
@@ -185,14 +244,14 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   }
 
   postExchangeAppointmentToWaitingRoom(a:any, b:any) {
-    this.Exchange.epoch = a;
+    const currentDateTimeGMT7 = moment().tz('Asia/Ho_Chi_Minh');
+    this.Exchange.epoch = Math.floor(currentDateTimeGMT7.valueOf()/1000);
     this.Exchange.patient_id = b.patient_id;
+    this.Exchange.patient_name = b.patient_name;
     this.Exchange.produce_id = b.procedure_id;
     this.Exchange.produce_name = b.procedure_name;
-    this.Exchange.reason= '';
     this.receptionistWaitingRoom.postWaitingRoom(this.Exchange).subscribe(
       (data) => {
-        alert('Đã chuyển qua hàng đợi:');
         this.Exchange = {
             epoch: 0, 
             produce_id: "0",
@@ -206,7 +265,6 @@ export class ReceptionistAppointmentListComponent implements OnInit {
       },
       (error) => {
         this.loading = false;
-        alert("lỗi");
         //this.showErrorToast('Lỗi khi tạo lịch hẹn!');
       }
     );
@@ -219,44 +277,57 @@ export class ReceptionistAppointmentListComponent implements OnInit {
 
   //Convert Date
   dateToTimestamp(dateStr: string): number {
-    const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng của chuỗi ngày
+    const format = 'YYYY-MM-DD HH:mm'; // Định dạng của chuỗi ngày
     const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
-    const timestamp = moment.tz(dateStr, format, timeZone).valueOf();
+    const timestamp = moment.tz(dateStr, format, timeZone).valueOf() /1000;
     return timestamp;
   }
-
-  timestampToGMT7String(timestamp: number): string {
-    // Kiểm tra xem timestamp có đơn vị giây hay mili giây
-    const timestampInMilliseconds = timestamp * (timestamp > 1e12 ? 1 : 1000);
-
-    // Chuyển timestamp thành chuỗi ngày và thời gian dựa trên múi giờ GMT+7
-    const dateTimeString = moment.tz(timestampInMilliseconds, 'Asia/Ho_Chi_Minh').format('HH:mm');
-
-    return dateTimeString;
-  }
-
 
   timeAndDateToTimestamp(timeStr: string, dateStr: string): number {
     const format = 'YYYY-MM-DD HH:mm'; // Định dạng của chuỗi ngày và thời gian
     const timeZone = 'Asia/Ho_Chi_Minh';
     const dateTimeStr = `${dateStr} ${timeStr}`;
-    const timestamp = moment.tz(dateTimeStr, format, timeZone).valueOf();
+    const timestamp = moment.tz(dateTimeStr, format, timeZone).valueOf() / 1000;
     return timestamp;
   }
 
-  convertTimestampToDateString(timestamp: number): string {
-    return moment(timestamp).format('YYYY-MM-DD');
+  timestampToTime(timestamp: number): string {
+    const time = moment.unix(timestamp);
+    const timeStr = time.format('HH:mm');
+    return timeStr;
   }
 
-  convertTimestampToVNDateString(timestamp: number): string {
-    return moment(timestamp).tz('Asia/Ho_Chi_Minh').format('DD/MM/YYYY');
+  checkDate(date:any) {
+    const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
+    if (this.timestampToDate(date) < currentDateGMT7) {
+      return false;
+    } 
+    return true;
+  }
+
+  timestampToDate(timestamp: number): string {
+    const date = moment.unix(timestamp);
+    const dateStr = date.format('YYYY-MM-DD');
+    return dateStr;
   }
 
   addItem(newItem: any) {   
     this.filteredAppointments.push({appointment_id: '', attribute_name: '', 
     doctor: newItem.appointment.doctor, epoch: newItem.epoch,  migrated: false, patient_id: newItem.appointment.patient_id, patient_name : newItem.appointment.patient_name, phone_number: newItem.appointment.phone_number, 
     procedure_id: newItem.appointment.procedure_id, procedure_name: newItem.appointment.procedure_name, time: newItem.appointment.time});
-    alert("đã vô đây");
+  
     console.log(this.filteredAppointments);
+  }
+
+  showSuccessToast(message: string) {
+    this.toastr.success(message, 'Thành công', {
+      timeOut: 3000, // Adjust the duration as needed
+    });
+  }
+
+  showErrorToast(message: string) {
+    this.toastr.error(message, 'Lỗi', {
+      timeOut: 3000, // Adjust the duration as needed
+    });
   }
 }

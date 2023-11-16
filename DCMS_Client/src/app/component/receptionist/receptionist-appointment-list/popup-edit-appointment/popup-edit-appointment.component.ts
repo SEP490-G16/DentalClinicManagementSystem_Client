@@ -25,6 +25,7 @@ import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureSe
 export class PopupEditAppointmentComponent implements OnInit, OnChanges {
 
   loading:boolean = false;
+  isCheckProcedure : boolean = true;
 
   @Input() selectedAppointment: any;
   @Input() dateString: any;
@@ -81,7 +82,8 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
         patient_name: '', //x
         phone_number: '', //x
         procedure_id: "1",  //x
-        doctor: '', //x
+        doctor: '',
+        status: 2, //x
         time: 0  //x
       }
     } as IEditAppointmentBody;
@@ -126,6 +128,7 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
           procedure_name: this.selectedAppointment.procedure_name,
           phone_number: this.selectedAppointment.phone_number,
           doctor: this.selectedAppointment.doctor,
+          status: 2,
           time: this.selectedAppointment.time
         }
         
@@ -177,7 +180,7 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     //console.log(this.oldDate, this.oldTime);
     this.EDIT_APPOINTMENT_BODY.new_epoch = this.dateToTimestamp(selectedDate);;
     //console.log(this.dateString, this.timeString);
-    this.EDIT_APPOINTMENT_BODY.appointment.time = this.timeAndDateToTimestamp(this.timeString, selectedDate);
+    this.EDIT_APPOINTMENT_BODY.appointment.time = this.timeToTimestamp(this.timeString);
 
     this.listGroupService.forEach(e => {
       if(e.medical_procedure_group_id == this.EDIT_APPOINTMENT_BODY.appointment.procedure_id) {
@@ -186,26 +189,66 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     })   
     console.log(this.EDIT_APPOINTMENT_BODY);
     this.resetValidate();
-    if (!this.EDIT_APPOINTMENT_BODY.appointment.procedure_id) {
+    if (this.EDIT_APPOINTMENT_BODY.appointment.procedure_id == "1") {
       this.validateAppointment.procedure = "Vui lòng chọn loại điều trị!";
       this.isSubmitted = true;
+      this.loading = false;
+      return;
     }
-    if (!this.timeString) {
-      this.validateAppointment.appointmentTime = "Vui lòng chọn giờ khám!";
-      this.isSubmitted = true;
+    const currentTime = new Date().toTimeString();
+    const currentDate = moment().format('YYYY-MM-DD');
+
+    if (this.EDIT_APPOINTMENT_BODY.appointment.procedure_id != "1") {
+      this.datesDisabled.forEach((date: any) => {
+        if (this.timestampToDate(date.date) == selectedDate && this.EDIT_APPOINTMENT_BODY.appointment.procedure_id == date.procedure)
+          if (date.count >= 8) {
+            this.isCheckProcedure = false;
+          }
+      })
     }
-    if (!this.dateString) {
-      console.log("abc")
+
+    if (selectedDate == '') {
       this.validateAppointment.appointmentDate = "Vui lòng chọn ngày khám!";
       this.isSubmitted = true;
+      this.loading = false;
+      return;
+    } else if (selectedDate < currentDate) {
+      this.validateAppointment.appointmentDate = "Vui lòng chọn ngày lớn hơn ngày hiện tại";
+      this.isSubmitted = true;
+      this.loading = false;
+      return;
+    } else if (!this.isCheckProcedure) {
+      if (!window.confirm("Thủ thuật mà bạn chọn đã có đủ 8 người trong trong ngày đó. Bạn có muốn tiếp tục?")) {
+        this.validateAppointment.appointmentDate = "Vui lòng chọn ngày khác";
+        return;
+      }
     }
+
+    if (this.timeString == '') {
+      this.validateAppointment.appointmentTime = "Vui lòng chọn giờ khám!";
+      this.isSubmitted = true;
+      this.loading = false;
+      return;
+    } else if (this.timeString != '' && selectedDate <= currentDate) {
+      if ((currentDate+" "+this.timeString) < (currentDate+" "+currentTime)) {
+        this.validateAppointment.appointmentTime = "Vui lòng chọn giờ khám lớn hơn!";
+        this.isSubmitted = true;
+        this.loading = false;
+        return;
+      }
+    }
+
     if (!this.EDIT_APPOINTMENT_BODY.appointment.phone_number) {
       this.validateAppointment.phoneNumber = "Vui lòng nhập số điện thoại";
       this.isSubmitted = true;
+      this.loading = false;
+      return;
     } else if (!this.isVietnamesePhoneNumber(this.EDIT_APPOINTMENT_BODY.appointment.phone_number)) {
       this.validateAppointment.phoneNumber = "Số điện thoại không đúng định dạng. Vui lòng kiểm tra lại";
       this.isSubmitted = true;
-    }
+      this.loading = false;
+      return;
+    } 
     // console.log("AppointmentId",this.selectedAppointment.appointment_id);
     this.APPOINTMENT_SERVICE.putAppointment(this.EDIT_APPOINTMENT_BODY, this.selectedAppointment.appointment_id).subscribe(response => {
       console.log("Cập nhật thành công");
@@ -220,7 +263,7 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
    dateToTimestamp(dateStr: string): number {
     const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng của chuỗi ngày
     const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
-    const timestamp = moment.tz(dateStr, format, timeZone).valueOf();
+    const timestamp = moment.tz(dateStr, format, timeZone).valueOf() / 1000;
     return timestamp;
   }
 
@@ -248,6 +291,18 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     const dateTimeStr = `${dateStr} ${timeStr}`;
     const timestamp = moment.tz(dateTimeStr, format, timeZone).valueOf();
     return timestamp;
+  }
+
+  timeToTimestamp(timeStr: string): number {
+    const time = moment(timeStr, "HH:mm:ss");
+    const timestamp = time.unix(); // Lấy timestamp tính bằng giây
+    return timestamp;
+  }
+
+  timestampToDate(timestamp: number): string {
+    const date = moment.unix(timestamp);
+    const dateStr = date.format('YYYY-MM-DD');
+    return dateStr;
   }
 
 
