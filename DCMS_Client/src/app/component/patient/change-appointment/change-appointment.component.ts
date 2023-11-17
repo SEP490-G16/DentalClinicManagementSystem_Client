@@ -67,7 +67,6 @@ export class ChangeAppointmentComponent implements OnInit {
     };
   }
 
-
   //config ng bootstrap
   isDisabled: any;
   model!: NgbDateStruct;
@@ -145,6 +144,7 @@ export class ChangeAppointmentComponent implements OnInit {
 
 
   findAppointmentById(appointment: any) {
+    console.log("Appointment find by Id: ", appointment);
     const filteredAppointments = ConvertJson.processApiResponse(appointment);
     //console.log(filteredAppointments);
     const rawData = filteredAppointments as RootObject[];
@@ -236,9 +236,6 @@ export class ChangeAppointmentComponent implements OnInit {
 
     return { dateTimestamp, timeTimestamp };
   }
-
-
-
 
   timeToGMT7Timestamp(time: string): number {
     const timeParts = time.split(':');
