@@ -50,7 +50,7 @@ export class MaterialComponent implements OnInit {
 
   materialList: any = [];
   material: any;
-  detail: any;
+  item: any;
   loading: boolean = false;
   enableNextPageButton: boolean = false;
   constructor(private materialService: MaterialService,
@@ -91,6 +91,7 @@ export class MaterialComponent implements OnInit {
                 mw_material_warehouse_id: currentNumber.mw_material_warehouse_id,
                 quantity: currentNumber.mw_quantity_import,
                 expiryDate: currentNumber.mw_warranty,
+                discount: currentNumber.mw_discount,
                 expanded: false,
               };
                 this.wareHouseMaterial.materialId = currentNumber.m_material_id,
@@ -98,11 +99,13 @@ export class MaterialComponent implements OnInit {
                 this.wareHouseMaterial.quantity = currentNumber.mw_quantity_import,
                 this.wareHouseMaterial.unitPrice = currentNumber.mw_price,
                 this.wareHouseMaterial.unit = currentNumber.m_unit,
+                this.wareHouseMaterial.expiryDate = currentNumber.mw_warranty,
                 this.wareHouseMaterial.expiry.push(newExpiryObject);
               newExpiryObject = {
                 mw_material_warehouse_id: '',
                 quantity: 0,
                 expiryDate: '',
+                discount:0,
                 expanded: false,
               };
               this.results.push(this.wareHouseMaterial);
@@ -112,6 +115,7 @@ export class MaterialComponent implements OnInit {
                 quantity: 0,
                 unitPrice: 0,
                 unit: '',
+                expiryDate: '',
                 expiry: [] as ExpiryObject[],
                 expanded: false,
               }
@@ -123,6 +127,7 @@ export class MaterialComponent implements OnInit {
                     mw_material_warehouse_id: currentNumber.mw_material_warehouse_id,
                     quantity: currentNumber.mw_quantity_import,
                     expiryDate: currentNumber.mw_warranty,
+                    discount: currentNumber.mw_discount,
                     expanded: false,
                   };
                   e.expiry.push(newExpiryObject);
@@ -130,6 +135,7 @@ export class MaterialComponent implements OnInit {
                     mw_material_warehouse_id: currentNumber.mw_material_warehouse_id,
                     quantity: 0,
                     expiryDate: '',
+                    discount:0,
                     expanded: false,
                   };
                 }
@@ -167,7 +173,7 @@ export class MaterialComponent implements OnInit {
   }
   openEditMaterial(id: any, detail:any) {
     this.material = detail;
-    this.detail = id;
+    this.item = id;
   }
   //Đang test nên chưa chuyển đối tượng mới tạo lên
   wareHouseMaterial = {
@@ -176,6 +182,7 @@ export class MaterialComponent implements OnInit {
     quantity: 0,
     unitPrice: 0,
     unit: '',
+    expiryDate: '',
     expiry: [] as ExpiryObject[], 
     expanded: false
   }
@@ -255,5 +262,6 @@ interface ExpiryObject {
   mw_material_warehouse_id: string;
   quantity: number;
   expiryDate: string;
+  discount: 0,
   expanded: boolean;
 }

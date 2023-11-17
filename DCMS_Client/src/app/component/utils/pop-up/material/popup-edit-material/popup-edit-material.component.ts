@@ -9,7 +9,7 @@ import { MaterialWarehouseService } from 'src/app/service/MaterialService/materi
   styleUrls: ['./popup-edit-material.component.css']
 })
 export class PopupEditMaterialComponent implements OnChanges {
-  @Input() detail:any;
+  @Input() item:any;
   @Input() material:any;
   @Input() materialList:any;
   materialInput = {
@@ -18,10 +18,12 @@ export class PopupEditMaterialComponent implements OnChanges {
     quantity: 0
   }
   materialBody={
-    material_id:'',
-    material_name:'',
-    unit:'',
-    quantity: 0
+    //material_warehouse_id:'',
+    quantity_import: 0, 
+    remaining: 0, 
+    price: 0, 
+    warranty: '',
+    discount: ''
   }
   validateMaterial={
     id: '',
@@ -51,21 +53,24 @@ export class PopupEditMaterialComponent implements OnChanges {
       return;
     }
     this.materialBody = {
-      material_id:this.detail.mw_material_warehouse_id,
-      material_name: this.materialInput.name,
-      unit: this.materialInput.unit,
-      quantity: this.materialInput.quantity,
+      discount: this.item.discount,
+      quantity_import: this.materialInput.quantity,
+      remaining: this.item.quantity, 
+      price: this.material.unitPrice,
+      warranty: this.item.expiryDate, 
     }
-    this.matMaterialWarehouseService.updateMaterialImportMaterial(this.detail.mw_material_warehouse_id,this.materialBody).subscribe(data=>{
+    console.log(this.materialBody);
+    //return;
+    this.matMaterialWarehouseService.updateMaterialImportMaterial(this.item.mw_material_warehouse_id,this.materialBody).subscribe(data=>{
         this.toastr.success('Cập nhật vật liệu thành công!');
-        //window.location.reload();
+        window.location.reload();
         let ref = document.getElementById('cancel-editMaterial');
-        ref?.click();
-        this.materialBody.material_id = this.detail;
-        const index = this.materialList.findIndex((material:any) => material.material_id === this.detail.mw_material_warehouse_id);
-        if (index !== -1) {
-          this.materialList[index] = this.materialBody;
-        }
+        //ref?.click();
+        // this.materialBody.material_warehouse_id = this.item.mw_material_warehouse_id;
+        // const index = this.materialList.findIndex((material:any) => material.material_id === this.item.mw_material_warehouse_id);
+        // if (index !== -1) {
+        //   this.materialList[index] = this.materialBody;
+        // }
       },
       error => {
         this.toastr.error('Cập nhật vật liệu thất bại!');
@@ -89,7 +94,7 @@ export class PopupEditMaterialComponent implements OnChanges {
     if (changes['material'] && this.material){
       this.materialInput.name = this.material.materialName;
       this.materialInput.unit = this.material.unit;
-      this.materialInput.quantity = this.detail.quantity;
+      this.materialInput.quantity = this.item.quantity;
     }
   }
 }
