@@ -1086,7 +1086,6 @@ button:active{
   max-height: 415px;
   overflow-y: auto;
   overflow-x: auto;
-  scrollbar-width: thin;
   scrollbar-color: #c0c0c0 #f0f0f0;
   border-radius: 10px;
   -ms-overflow-style: none;

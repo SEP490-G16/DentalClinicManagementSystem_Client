@@ -74,12 +74,8 @@
                   <tbody>
                   <ng-container *ngFor="let record of records; let i = index">
                     <tr>
-
                       <td>{{ i + 1 }}</td>
                       <td>
-<!--
-                        <input type="text" [(ngModel)]="record.tenVatLieu" *ngIf="isAdd" [disabled]="!isAdd" class="form-control value-staff">
--->
                         <ng-select *ngIf="isAdd && materialList" [items]="materialList" [(ngModel)]="record.tenVatLieu" [searchable] = "true" bindLabel="tenVatLieu" bindValue="id" (ngModelChange)="updateTemporaryName(record, $event)">
                         </ng-select>
                         <p *ngIf="!isAdd">{{ temporaryName}}</p>

@@ -17,6 +17,14 @@ export class ImportMaterialService {
     });
     return this.http.get(`${this.url}/import-material/page/${paging}`, {headers});
   }
+  getImportMaterialsFromDateToDate(startDate:string,endDate:string,paging:number):Observable<any>{
+    let idToken = sessionStorage.getItem("id_Token");
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      'Content-Type':'application/json'
+    });
+    return this.http.get(`${this.url}/import-material/date/${startDate}/${endDate}/${paging}`, {headers});
+  }
   addImportBill(importBill:any):Observable<any>{
     let idToken = sessionStorage.getItem("id_Token");
     const headers = new HttpHeaders({
