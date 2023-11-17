@@ -51,8 +51,6 @@ export class PatientPaymentTabComponent implements OnInit {
     this.getMaterialUsage_By_TreatmentCourse();
   }
 
-
-
   getMaterialUsage_By_TreatmentCourse() {
     this.treatmentCourse_PatientService.getTreatmentCourse(this.id)
       .subscribe((data) => {

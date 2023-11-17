@@ -152,11 +152,10 @@ export class ReceptionistTimekeepingComponent implements OnInit {
           });
         });
         console.log("Staff sort: ", this.Staff);
-        this.Staff
       },
         (err) => {
           this.loading = false;
-          this.toastr.error(err.error.message, "Chấm công về thành công");
+          this.toastr.error(err.error.message, "Lấy danh sách chấm công thất bại");
         }
       )
   }
@@ -211,7 +210,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
 
     this.timekeepingService.postTimekeeping(this.Body)
       .subscribe((res) => {
-        this.toastr.success(res.message, "Chấm công về thành công");
+        this.toastr.success(res.message, "Chấm công vào thành công");
         //Set time Clockin lên UI
         staff.isClockin = true;
         staff.clockInStatus = "Đã chấm"
@@ -222,7 +221,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
       },
         (err) => {
           this.loading = false;
-          this.toastr.error(err.error.message, "Chấm công thất bại");
+          this.toastr.error(err.error.message, "Chấm công vào thất bại");
         }
       )
   }
@@ -230,10 +229,10 @@ export class ReceptionistTimekeepingComponent implements OnInit {
   onClockout(staff: Staff) {
     this.loading = true;
 
-    staff.isClockout = false;
+    staff.isClockout = !staff.isClockout;
     console.log("OnClickout: ", staff);
 
-    if (staff.isClockout) {
+    if (!staff.isClockout) {
       this.Body.epoch = this.currentDateTimeStamp;
       this.Body.clock_out = (this.Body.clock_out) ? this.currentTimeTimeStamp : this.timeAndDateToTimestamp(staff.timeClockout, this.currentDateGMT7);
 
