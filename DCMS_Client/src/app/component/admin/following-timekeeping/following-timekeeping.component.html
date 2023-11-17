@@ -3,7 +3,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
 
 <div class="recent-orders">
-  <div class="row" style="margin-bottom: 20px; margin-left: 10px">
+  <div class="row" style="margin-bottom: 20px">
     <div class="col-md-1">
       <a (click)="navigateHref('/letan/cham-cong')" routerLinkActive="active-link" class="page-title">Chấm công</a>
     </div>
@@ -14,30 +14,30 @@
       <a (click)="navigateHref('/theo-doi-cham-cong')" routerLinkActive="active-link" class="page-title">Theo dõi chấm công</a>
     </div>
   </div>
-        <div class="row mt-5">
-          <div class="col-1 mb-5">
+        <div class="row mt-5" style="width: 85%">
+          <div class="col-1 mb-5 check">
             <div style="display: flex">
               <div class="check-in">
               </div>
               <div>
-                <p>Check-in</p>
+                <p>Clock-in</p>
               </div>
             </div>
 
             </div>
 
-          <div class="col-1 mb-5">
+          <div class="col-1 mb-5 check">
             <div style="display: flex">
               <div class="check-out">
               </div>
               <div>
-                <p>Check-out</p>
+                <p>Clock-out</p>
               </div>
             </div>
 
           </div>
 
-          <div class="col-1 mb-5">
+          <div class="col-1 mb-5 check">
             <div style="display: flex">
               <div class="nghi">
               </div>
@@ -48,11 +48,11 @@
 
           </div>
           <div class="col-3 mb-5">
-            <input type="month" style="width: 55%" class="form-control input-custom  p-2">
+            <input type="month" [(ngModel)]="selectedMonth" (change)="updateStartAndEndTime()" style="width: 55%" class="form-control input-custom  p-2">
           </div>
           <div class="col-3 mb-5 row">
             <div class="col-3">
-              <label for="fromDate" class="form-label">Từ ngày:</label>
+              <label for="fromDate" class="form-label" style="padding: 10px">Từ ngày:</label>
             </div>
             <div class="col-9">
               <input type="date" style="width: 65%" id="fromDate" class="form-control input-custom  p-2">
@@ -61,7 +61,7 @@
 
           <div class="col-3 mb-5 row">
             <div class="col-3">
-              <label for="toDate" class="form-label">Đến ngày:</label>
+              <label for="toDate" class="form-label" style="padding: 10px 0">Đến ngày:</label>
             </div>
             <div class="col-9">
               <input type="date" style="width: 65%" id="toDate" class="form-control input-custom  p-2">
@@ -70,59 +70,45 @@
           </div>
       <div class="scrollable-col">
         <table class="table table-bordered custom-table">
-          <thead class="sticky-thead">
+          <thead>
           <tr class="text-center">
-            <th style="border: 1px solid #7B4C50">Tên nhân viên</th>
-            <th style="border: 1px solid #7B4C50"> Chức vụ</th>
+            <th style="border: 1px solid #7B4C50; min-width: 120px">Tên nhân viên</th>
+            <th style="border: 1px solid #7B4C50; min-width: 80px"> Chức vụ</th>
             <th colspan="30" style="border: 1px solid #7B4C50"> Ngày</th>
-            <th style="border: 1px solid #7B4C50"> Ngày đi làm</th>
+            <th style="border: 1px solid #7B4C50; min-width: 120px"> Ngày đi làm</th>
           </tr>
           </thead>
           <tbody class="text-center">
           <tr>
             <td style="border: 1px solid #7B4C50"></td>
             <td style="border: 1px solid #7B4C50"></td>
-            <td *ngFor="let day of daysInMonth" style="border: 1px solid #7B4C50">{{ day }}</td>
+            <td *ngFor="let day of daysInMonth" style="border: 1px solid #7B4C50" >{{ day }}</td>
             <td style="border: 1px solid #7B4C50"></td>
           </tr>
-          <tr *ngFor="let p of followingTimekeepings">
-
-            <td style="border: 1px solid #7B4C50">{{p['8f659cff-f8d2-4326-9c34-de12d997442c'].M.staff_name.S}}</td>
-            <td style="border: 1px solid #7B4C50">Lế tân</td>
-            <!--<ng-container *ngFor="let n of listNgaylamviec">
-              <td style="border: 1px solid #7B4C50" *ngIf="n.nghi == '1'">Không</td>
-              <td style="border: 1px solid #7B4C50" *ngIf="n.nghi !='1'">Có</td>
-            </ng-container>-->
-            <!--<ng-container *ngFor="let s of date">
-
-              <ng-container *ngFor="let n of ngaylamviec">
-                <td *ngIf="n !== s && count == 0">
-                  Không{{countChange()}}
-                </td>
-                <td *ngIf="n===s && count ==1 ">Có{{countChange2()}}</td>
-              </ng-container>
-              &lt;!&ndash;<ng-template #notEqual><td>Không</td></ng-template>&ndash;&gt;
-
-            </ng-container>-->
-
-            <td style="border: 1px solid #7B4C50" *ngFor="let day of daysInMonth" style="border: 1px solid #7B4C50">
-              <div style="display: flex" *ngIf="isClockInDay(day)">
-                <div class="check-in-custom">
+          <ng-container *ngFor="let timekeeping of followingTimekeepings">
+            <tr *ngFor="let p of timekeeping.records">
+              <td style="border: 1px solid #7B4C50">{{p.details.staff_name}}</td>
+              <td style="border: 1px solid #7B4C50">Lế tân</td>
+              <td style="border: 1px solid #7B4C50" *ngFor="let day of daysInMonth" style="border: 1px solid #7B4C50">
+                <div style="display: flex" *ngIf="isClockInDay(day,timekeeping.epoch)">
+                  <div class="check-in-custom">
+                  </div>
+                  <div>
+                    <p>{{timestampToGMT7String(p.details.clock_in)}}</p>
+                  </div>
                 </div>
-                <div>
-                  <p>{{timestampToGMT7String(p['8f659cff-f8d2-4326-9c34-de12d997442c'].M.clock_in.N)}}</p>
+                <div style="display: flex" *ngIf="isClockOutDay(day,timekeeping.epoch)">
+                  <div class="check-out-custom">
+                  </div>
+                  <div>
+                    <p>{{timestampToGMT7String(p.details.clock_out)}}</p>
+                  </div>
                 </div>
-              </div>
-              <div style="display: flex" *ngIf="isClockOutDay(day)">
-                <div class="check-out-custom">
-                </div>
-                <div>
-                  <p>{{timestampToGMT7String(p['8f659cff-f8d2-4326-9c34-de12d997442c'].M.clock_out.N)}}</p>
-                </div>
-              </div>
-            </td>
+              </td>
 
-          </tr>
+            </tr>
+          </ng-container>
+
           </tbody>
         </table>
       </div>

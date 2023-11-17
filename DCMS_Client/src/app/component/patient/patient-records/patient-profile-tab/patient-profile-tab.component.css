@@ -467,9 +467,6 @@ button:active {
 .img-account-profile {
   height: 20rem;
 }
-.rounded-circle {
-  border-radius: 50% !important;
-}
 .card {
   box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
 }

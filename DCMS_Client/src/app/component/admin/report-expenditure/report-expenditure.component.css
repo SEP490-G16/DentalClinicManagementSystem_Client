@@ -300,7 +300,6 @@ button:active{
   overflow-x: auto;
   scrollbar-width: thin;
   scrollbar-color: #c0c0c0 #f0f0f0;
-  border-radius: 10px;
   -ms-overflow-style: none;
 }
 .sticky-thead {
@@ -397,6 +396,7 @@ button:active{
 }
 .custom-table thead tr {
   background-color: var(--custom-color-background);
+  background-color: #1c42af;
   /*border-radius: 10px;*/
   border: 1px solid #7B4C50;
 }
@@ -422,4 +422,8 @@ button:active{
 .table.custom-table>thead>tr>th {
   padding: 14px 8px;
   vertical-align: middle
+}
+.total{
+  float: right;
+  padding: 10px;
 }

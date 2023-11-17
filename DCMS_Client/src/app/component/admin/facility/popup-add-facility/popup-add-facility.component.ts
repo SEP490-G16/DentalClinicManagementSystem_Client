@@ -108,7 +108,7 @@ export class PopupAddFacilityComponent implements OnInit {
       }
     )
   }
-  private error(){
+   error(){
     this.errorFacility ={
       name:'',
       address:'',

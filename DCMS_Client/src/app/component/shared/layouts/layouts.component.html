@@ -44,12 +44,7 @@
           </span>
           <h3>Chấm công</h3>
         </a>
-        <a (click)="signOut()" style="cursor:pointer;">
-          <span class="material-icons-sharp">
-            logout
-          </span>
-          <h3>Logout</h3>
-        </a>
+
         <span *ngIf="userGroupString === compareUserGroup">
           <a routerLink="/admin/thu-thuat" routerLinkActive="active">
             <span>
@@ -93,14 +88,13 @@
             </span>
             <h3>Cơ sở</h3>
           </a>
-          <a (click)="signOut()" style="cursor:pointer;">
+        </span>
+        <a (click)="signOut()" style="cursor:pointer;">
           <span class="material-icons-sharp">
             logout
           </span>
           <h3>Logout</h3>
         </a>
-        </span>
-
       </div>
     </aside>
     <!-- End of Sidebar Section -->

@@ -1,12 +1,14 @@
 <div>
-  <button class="open-btn" (click)="chatContainerVisible = true"><i class="bi bi-messenger"></i></button>
+  <button class="open-btn" (click)="connectWebSocket()"><i class="bi bi-messenger"></i>
+    <span *ngIf="unreadMessagesCount > 0" class="notification-badge">{{ unreadMessagesCount }}</span>
+  </button>
 </div>
 
 <div class="chat-popup" id="chat-form-container" [style.display]="chatContainerVisible ? 'block' : 'none'">
   <form action="" class="form-container">
     <div class="chat-window-head">
       <h4>Chat</h4>
-      <span class="close-btn" (click)="close()">
+      <span class="close-btn" (click)="chatContainerVisible = false">
         <i class="bi bi-x-circle"></i>
       </span>
     </div>
@@ -14,7 +16,7 @@
     <div class="msg-container">
       <div class="msg mt-2" *ngFor="let msg of receivedMessages" [ngClass]="{'sent-message': isSentMessage(msg.message['sub-id']), 'received-message': !isSentMessage(msg.message['sub-id'])}" style="display: flex" (mouseenter)="setHover(true)" (mouseleave)="setHover(false)">
         <div [ngClass]="{'hovered': isHovered}" >
-          <div>
+          <div class="message-name">
             <b>{{msg.message.sender}}</b>
           </div>
           <div class="message-content">

@@ -104,10 +104,13 @@
     <div class="col-md-4 mt-5">
       <div class="card mb-4 mb-xl-0">
         <div class="card-body text-center">
-          <img class="img-account-profile rounded-circle mb-2" [src]="imageURL" alt="Ảnh nhân viên">
+          <img class="img-account-profile mb-2" [src]="imageURL" alt="Ảnh nhân viên" onerror="this.onerror=null;this.src='https://static.vecteezy.com/system/resources/thumbnails/004/141/669/small/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg';">
           <input type="file" accept="image/*" (change)="onFileSelected($event)" #fileInput style="display: none;">
-          <button class="btn btn-primary" type="button" (click)="fileInput.click()">Thêm ảnh</button>
+          <div>
+            <button class="btn btn-primary" type="button" (click)="fileInput.click()">Chọn ảnh</button>
+          </div>
         </div>
+
       </div>
     </div>
     <div class="col-md-8 mt-5">

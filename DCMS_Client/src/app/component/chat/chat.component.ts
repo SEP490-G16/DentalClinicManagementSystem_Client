@@ -16,17 +16,20 @@ export class ChatComponent implements OnInit,OnDestroy  {
     message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
   }
   isHovered = false;
+  unreadMessagesCount = 0;
   constructor(private webSocketService: WebsocketService) { }
   ngOnInit(): void {
     this.webSocketService.connect();
     this.webSocketService.messageReceived.subscribe((message:any)=>{
       const parsedMessage = JSON.parse(message);
       this.receivedMessages.push({ message: parsedMessage, timestamp: new Date() });
+      if (!this.chatContainerVisible) {
+        this.unreadMessagesCount++;
+      }
       console.log(this.receivedMessages)
     })
   }
   ngOnDestroy() {
-    // Lifecycle hook này được gọi khi component sắp bị hủy
     this.close();
   }
   chatContainerVisible = false;
@@ -54,5 +57,9 @@ export class ChatComponent implements OnInit,OnDestroy  {
     console.log(subId)
     return subId === sessionStorage.getItem('sub-id');
     console.log(subId);
+  }
+  connectWebSocket() {
+    this.unreadMessagesCount = 0;
+    this.chatContainerVisible = true;
   }
 }

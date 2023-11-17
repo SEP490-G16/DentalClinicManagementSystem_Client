@@ -2,7 +2,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
 <div class="recent-orders">
-  <div class="row text-white p-3 mb-4 mt-5">
+  <div class="row text-white p-3 mb-3 mt-3">
     <div class="col-md-4">
     </div>
     <div class="col-md-8">
@@ -12,19 +12,22 @@
       </div>
     </div>
   </div>
-  <div class="row text-white p-3 mb-2 mt-5">
-    <div class="col-md-6" style="padding: 0">
-      <a class="title-link"><h2 class="title-name">Doanh thu</h2></a>
+  <div class="main-content">
+    <div class= "text-white mb-2 mt-1" style="display: flex">
+      <div class="link-main" style="padding: 0">
+        <a class="title-link"><h2 class="title-name">Doanh thu</h2></a>
+      </div>
+      <div class="link-main" style="padding: 0">
+        <a class="title-link"><h2 class="title-name-patient">Bệnh nhân</h2></a>
+      </div>
     </div>
-    <div class="col-md-6" style="padding: 0">
-      <a class="title-link"><h2 class="title-name-patient">Bệnh nhân</h2></a>
+    <div style="display: block; width: 70%;margin: auto">
+      <canvas baseChart
+              [data]="barChartConfiguration.data"
+              [options]="barChartConfiguration.options"
+              [type]="barChartConfiguration.type">
+      </canvas>
     </div>
   </div>
-  <div style="display: block;">
-    <canvas baseChart
-            [data]="barChartConfiguration.data"
-            [options]="barChartConfiguration.options"
-            [type]="barChartConfiguration.type">
-    </canvas>
-  </div>
+
 </div>
