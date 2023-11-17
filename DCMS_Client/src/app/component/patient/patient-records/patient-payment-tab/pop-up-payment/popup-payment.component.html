@@ -43,7 +43,7 @@
                 <td>{{MU.quantity}}</td>
                 <td>{{MU.total}}</td>
                 <td>{{MU.total_paid}}</td>
-                <td>{{MU.total_paid - MU.total}}</td>
+                <td>{{getAbsoluteValue(MU.total_paid - MU.total)}}</td>
               </tr>
             </tbody>
           </table>
@@ -60,7 +60,7 @@
       <p>Giảm giá: </p>
       <p>Tổng chi phí: <b>{{MU.total}}</b></p>
       <p>Đã thanh toán: <b> {{MU.total_paid}}</b></p>
-      <p>Còn lại: <b>{{MU.total_paid - MU.total}}</b></p>
+      <p>Còn lại: <b>{{getAbsoluteValue(MU.total_paid - MU.total)}}</b></p>
     </div>
   </div>
 </div>

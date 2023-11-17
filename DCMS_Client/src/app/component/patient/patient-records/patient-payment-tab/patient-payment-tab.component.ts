@@ -149,6 +149,10 @@ export class PatientPaymentTabComponent implements OnInit {
     }
   }
 
+  getAbsoluteValue(value: number): number {
+    return Math.abs(value);
+  }
+
   navigateHref(href: string) {
     const userGroupsString = sessionStorage.getItem('userGroups');
 

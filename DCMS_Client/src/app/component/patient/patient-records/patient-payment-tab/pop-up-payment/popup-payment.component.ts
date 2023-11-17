@@ -59,6 +59,10 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
   }
 
+  getAbsoluteValue(value: number): number {
+    return Math.abs(value);
+  }
+
   close() {
     this.modalService.dismissAll('Modal closed');
   }
