@@ -70,6 +70,7 @@ import { RevenueChartComponent } from './revenue-chart/revenue-chart.component';
 import {NgChartsModule} from "ng2-charts";
 import { ReportHighIncomeAndExpenditureComponent } from './report-high-income-and-expenditure/report-high-income-and-expenditure.component';
 import { ReportExpenditureComponent } from './report-expenditure/report-expenditure.component';
+import { PopupAddReportExpenditureComponent } from './report-expenditure/popup-add-report-expenditure/popup-add-report-expenditure.component';
 
 @NgModule({
   declarations: [
@@ -123,7 +124,8 @@ import { ReportExpenditureComponent } from './report-expenditure/report-expendit
       vnDateTimeFormatPipe,
       RevenueChartComponent,
       ReportHighIncomeAndExpenditureComponent,
-      ReportExpenditureComponent
+      ReportExpenditureComponent,
+      PopupAddReportExpenditureComponent
   ],
   imports: [
     CommonModule,

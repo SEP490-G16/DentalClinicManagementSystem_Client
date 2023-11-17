@@ -263,4 +263,8 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
       this.toastr.error('Xoá thất bại!');
       })
   }
+  onAddNewMaterial() {
+    // Logic để thêm mới một vật liệu
+    // Có thể là mở một modal form, hoặc chuyển hướng đến trang thêm mới vật liệu
+  }
 }

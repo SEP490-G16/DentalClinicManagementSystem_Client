@@ -41,6 +41,8 @@ export class FollowingTimekeepingComponent implements OnInit {
   selectedMonth: string='';
   startTime:string='';
   endTime:string='';
+  fromDate: string = '';
+  toDate: string = '';
   date:number[] = [1,2,3,4,5,6,7,8,9,10]
   ngaylamviec:number[]=[2,4,6,8,10]
   listNgaylamviec:any[]=[]
@@ -96,14 +98,23 @@ export class FollowingTimekeepingComponent implements OnInit {
     return dateTimeString;
   }
   getFollowingTimekeeping(){
-    const startTime = this.dateToTimestamp(this.startTime);
-    console.log(startTime);
-    const endTime = this.dateToTimestamp(this.endTime);
-    console.log(endTime)
-    this.timekeepingService.getFollowingTimekeeping(startTime,endTime).subscribe(data=>{
-      this.followingTimekeepings = this.organizeData(data);
-      console.log("67",this.followingTimekeepings)
-    })
+    if (this.fromDate && this.toDate){
+      const startTime = this.dateToTimestamp(this.fromDate + ' 00:00:00');
+      const endTime = this.dateToTimestamp(this.toDate + ' 23:59:59');
+      this.timekeepingService.getFollowingTimekeeping(startTime, endTime).subscribe(data => {
+        this.followingTimekeepings = this.organizeData(data);
+      });
+    }
+    else {
+      const startTime = this.dateToTimestamp(this.startTime);
+      console.log(startTime);
+      const endTime = this.dateToTimestamp(this.endTime);
+      console.log(endTime)
+      this.timekeepingService.getFollowingTimekeeping(startTime,endTime).subscribe(data=>{
+        this.followingTimekeepings = this.organizeData(data);
+        console.log("67",this.followingTimekeepings)
+      })
+    }
   }
   organizeData(data: any[]): TimekeepingRecord[] {
     return data.map((item): TimekeepingRecord => {

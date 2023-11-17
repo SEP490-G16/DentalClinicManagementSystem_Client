@@ -26,3 +26,14 @@
 .link-main{
   width: 50%;
 }
+.page-title.active-link {
+  color: blue; /* hoặc màu khác bạn muốn sử dụng cho đường dẫn được chọn */
+}
+.page-title:hover {
+  color: blue; /* Màu khi di chuột vào liên kết không được chọn */
+}
+.page-title {
+  color: black; /* Màu mặc định cho liên kết không được chọn */
+  text-decoration: none; /* Loại bỏ gạch chân mặc định của liên kết */
+  transition: color 0.3s; /* Hiệu ứng chuyển đổi màu sắc */
+}

@@ -182,4 +182,8 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
   deleteRecord(index: number) {
     this.records.splice(index, 1);
   }
+  onAddNewMaterial() {
+    // Logic để thêm mới một vật liệu
+    // Có thể là mở một modal form, hoặc chuyển hướng đến trang thêm mới vật liệu
+  }
 }

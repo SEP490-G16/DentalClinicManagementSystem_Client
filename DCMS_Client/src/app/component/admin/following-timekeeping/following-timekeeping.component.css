@@ -368,11 +368,6 @@ table tbody td {
   height: 2.8rem;
   color: var(--custom-color-dark-variant);
 }
-
-table tbody tr:last-child td {
-  border: none;
-}
-
 .recent-orders a {
   text-align: start;
   display: block;
@@ -584,26 +579,6 @@ table tbody tr td:first-child {
   border-radius: 10px;
 }
 
-
-.custom-table thead tr {
-  background-color: var(--custom-color-background);
-  border-radius: 10px;
-  border: 1px solid #7B4C50;
-}
-
-.custom-table thead tr th {
-  font-weight: 600
-}
-
-.custom-table tr {
-  background-color: #7B4C50;
-  border: 1px solid #7B4C50;
-}
-
-.custom-table tr td {
-  border-bottom: 1px solid #7B4C50;
-}
-
 .table.custom-table>tbody>tr>td,
 .table.custom-table>tbody>tr>th,
 .table.custom-table>tfoot>tr>td,
@@ -755,25 +730,6 @@ button:active{
 }
 
 
-.custom-table thead tr {
-  background-color: var(--custom-color-background);
-  border: 1px solid #7B4C50;
-}
-
-.custom-table thead tr th {
-  color: #7B4C50;
-  font-weight: 600
-}
-
-.custom-table tr {
-  background-color: #7B4C50;
-  border: 1px solid #7B4C50;
-}
-
-.custom-table tr td {
-  border-bottom: 1px solid #7B4C50;
-}
-
 .table.custom-table>tbody>tr>td,
 .table.custom-table>tbody>tr>th,
 .table.custom-table>tfoot>tr>td,
@@ -909,7 +865,7 @@ button:active{
   margin-right: 5px;
 }
 .scrollable-col{
-  width: 85%;
+  max-width: 100%;
   max-height: 450px;
   overflow-y: auto;
   overflow-x: auto;
@@ -917,6 +873,27 @@ button:active{
   scrollbar-color: #c0c0c0 #f0f0f0;
   border-radius: 10px;
   -ms-overflow-style: none;
+}
+.scrollable-col::-webkit-scrollbar {
+  width: 5px; /* Thay đổi kích thước thanh cuộn ngang */
+  height: 5px; /* Thay đổi kích thước thanh cuộn dọc */
+}
+
+.scrollable-col::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Màu nền của track */
+}
+
+.scrollable-col::-webkit-scrollbar-thumb {
+  background: #bebdbd; /* Màu của thumb */
+  border-radius: 10px; /* Bo tròn góc của thumb */
+}
+
+.scrollable-col::-webkit-scrollbar-thumb:hover {
+  background: #8c8a8a; /* Màu của thumb khi hover */
+}
+.scrollable-col {
+  scrollbar-width: thin; /* 'auto' hoặc 'thin' */
+  scrollbar-color: #888 #f1f1f1; /* thumb và track */
 }
 .sticky-thead {
   position: sticky;
@@ -939,5 +916,73 @@ button:active{
   transition: color 0.3s; /* Hiệu ứng chuyển đổi màu sắc */
 }
 .check{
-  padding: 10px 0;
+  padding: 10px 10px;
 }
+.custom-table {
+  width: 100%;
+
+  border-collapse: collapse;
+}
+
+.custom-table th, .custom-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.custom-table th {
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+.custom-table td {
+  background-color: #fff;
+  color: #666;
+}
+
+.custom-table tr:nth-child(even){background-color: #f9f9f9;}
+
+.custom-table tr:hover {
+  background-color: #eaeaea;
+  cursor: pointer;
+}
+
+.check-in-custom, .check-out-custom {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+}
+@media screen and (max-width: 600px) {
+  .custom-table thead {
+    display: none;
+  }
+
+  .custom-table, .custom-table tbody, .custom-table tr, .custom-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .custom-table tr {
+    margin-bottom: 15px;
+  }
+
+  .custom-table td {
+    text-align: right;
+    padding-left: 50%;
+    text-align: right;
+    position: relative;
+  }
+
+  .custom-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 50%;
+    padding-left: 15px;
+    font-weight: bold;
+    text-align: left;
+  }
+}
+

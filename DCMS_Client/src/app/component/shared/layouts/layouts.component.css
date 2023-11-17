@@ -844,4 +844,8 @@ button:active{
   opacity: 0.9;
 
 }
-
+@media screen and (max-width: 1550px) {
+  main{
+    max-width: 1200px;
+  }
+}

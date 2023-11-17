@@ -80,7 +80,17 @@
 <!--
                         <input type="text" [(ngModel)]="record.tenVatLieu" *ngIf="isAdd" [disabled]="!isAdd" class="form-control value-staff">
 -->
-                        <ng-select *ngIf="isAdd && materialList" [items]="materialList" [(ngModel)]="record.tenVatLieu" [searchable] = "true" bindLabel="tenVatLieu" bindValue="id" (ngModelChange)="updateTemporaryName(record, $event)">
+                        <ng-select *ngIf="isAdd && materialList" [items]="materialList" [(ngModel)]="record.tenVatLieu" [searchable] = "true" bindLabel="tenVatLieu" bindValue="id" (ngModelChange)="updateTemporaryName(record, $event)"
+                                   [notFoundText]="'Không tìm thấy vật liệu'">
+                          <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
+                            <div class="not-found">
+                              <span>Không tìm thấy vật liệu!</span>
+                              <div class="add-materials">
+                                <button class="btn button-timekeeping" (click)="onAddNewMaterial()"><i class="bi bi-plus-circle"> Thêm mới</i></button>
+                              </div>
+
+                            </div>
+                          </ng-template>
                         </ng-select>
                         <p *ngIf="!isAdd">{{ temporaryName}}</p>
                       </td>
