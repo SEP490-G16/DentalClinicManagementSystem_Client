@@ -4,7 +4,7 @@ import {IPatient} from "../../../model/IPatient";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {PopupAddPatientComponent} from "./popup-add-patient/popup-add-patient.component";
+import {PopupAddPatientComponent} from "../../utils/pop-up/patient/popup-add-patient/popup-add-patient.component";
 import { CognitoService } from 'src/app/service/cognito.service';
 
 @Component({

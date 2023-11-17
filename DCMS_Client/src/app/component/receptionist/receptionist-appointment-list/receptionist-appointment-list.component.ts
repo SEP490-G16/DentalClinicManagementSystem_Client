@@ -6,7 +6,7 @@ import { CognitoService } from "../../../service/cognito.service";
 import { DateDisabledItem, Detail, IEditAppointmentBody, ISelectedAppointment, RootObject } from "../../../model/IAppointment";
 import { Router } from '@angular/router';
 import { ConvertJson } from "../../../service/Lib/ConvertJson";
-import { PopupAddAppointmentComponent } from './popup-add-appointment/popup-add-appointment.component';
+import { PopupAddAppointmentComponent } from '../../utils/pop-up/appointment/popup-add-appointment/popup-add-appointment.component';
 
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment-timezone';

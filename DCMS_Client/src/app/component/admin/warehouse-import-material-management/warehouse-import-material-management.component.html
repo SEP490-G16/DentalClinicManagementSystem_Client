@@ -1,7 +1,3 @@
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
-
 <div class="recent-orders">
   <section class="table__header">
     <h1></h1>
@@ -74,8 +70,8 @@
             <button href="#" style="padding: 2px 5px;" class="btn btn-primary float-right btn-rounded"
               data-bs-toggle="modal" data-bs-target="#editImportBillModal" (click)="openEditImportMaterial(p.Id, p)"><i
                 class="bi bi-pencil-square"></i></button>
-            <button href="#" style="padding: 2px 5px; margin-left: 3px" class="btn btn-danger float-right btn-rounded"
-              (click)="deleteImportMaterial(p.id)"><i class="bi bi-trash"></i></button>
+                <button href="#" style="padding: 2px 5px; margin-left: 3px" class="btn btn-danger float-right btn-rounded"
+                (click)="deleteImportMaterial(p.Id)"><i class="bi bi-trash"></i></button>
           </td>
         </tr>
       </tbody>
@@ -87,9 +83,6 @@
     <a>{{currentPage}}</a>
     <a (click)="pageChanged(currentPage + 1)" *ngIf="hasNextPage">&raquo;</a>
   </div>
-
-
-
 </div>
 
 <app-popup-add-bill-import-material></app-popup-add-bill-import-material>
