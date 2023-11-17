@@ -39,7 +39,7 @@ export class PopupAddExaminationComponent implements OnInit {
   @ViewChild('containerRef', { static: true }) containerRef!: ElementRef;
   //Thủ thuật
   Body_Medical_Procedure = {
-    medical_procedure_group_id: '',
+    medical_procedure_group_id: null,
     name: '',
     price: '',
     description: ''
@@ -143,6 +143,21 @@ export class PopupAddExaminationComponent implements OnInit {
   // tableRows: any[] = [
   //   { procedure_name: '', unit_price: 0, total: 0}
   // ];
+
+  allowedEmptyFields: string[] = ['adder', 'discount'];
+
+  areRequiredFieldsFilled(array: any[]): boolean {
+    return array.every(item => {
+      return Object.entries(item).every(([key, value]) => {
+        if (this.allowedEmptyFields.includes(key)) {
+          return true;
+        }
+
+        return value !== null && value !== '';
+      });
+    });
+  }
+
   postExamination() {
     this.examination.treatment_course_id = this.treatmentCourse_Id;
     this.examination.staff_id = this.staff_id;
@@ -152,13 +167,15 @@ export class PopupAddExaminationComponent implements OnInit {
     console.log("Post", this.examination);
     this.tcDetailService.postExamination(this.examination)
       .subscribe((res) => {
-        this.toastr.success(res.message, 'Thêm lần khám thành công');
+        // this.toastr.success(res.message, 'Thêm lần khám thành công');
+        console.log(res.message + "");
       },
         (err) => {
           this.toastr.error(err.error.message, 'Thêm lần khám thất bại');
         })
-    if (this.tableRows.length > 1) {
+    if (this.areRequiredFieldsFilled(this.tableRows)) {
       this.tableRows.forEach((procedure) => {
+        this.Body_Medical_Procedure.medical_procedure_group_id = null;
         this.Body_Medical_Procedure.name = procedure.procedure_name;
         this.Body_Medical_Procedure.price = procedure.total;
         this.medicalProcedureService.addMedicalProcedure(this.Body_Medical_Procedure)
@@ -170,12 +187,14 @@ export class PopupAddExaminationComponent implements OnInit {
               this.toastr.error(err.error.message, "Thêm thủ thuật thất bại");
             })
       })
+    }else {
+      this.toastr.error("Vui lòng nhập đầy đủ các thông tin", "Thêm thủ thuật")
     }
     // supplyOrderRows: any[] = [
     //   { type: '', supplyName: '', quantity: 0, unit_price: 0, total: 0, discount: 0, order_date: '', order: '', used_date: '' }
     // ]
     console.log("Supply Row: ", this.supplyOrderRows);
-    if (this.supplyOrderRows.length > 1) {
+    if (this.areRequiredFieldsFilled(this.supplyOrderRows)) {
       this.supplyOrderRows.forEach((supply) => {
         console.log("Supply: ", supply);
         this.Body_Medical_Supply.type = supply.type,
@@ -197,15 +216,17 @@ export class PopupAddExaminationComponent implements OnInit {
               this.toastr.error(err.error.message, "Thêm Xưởng và vật tư thất bại");
             })
       })
+    }else {
+      this.toastr.error("Vui lòng nhập đầy đủ các thông tin", "Thêm Xưởng và Vật tư")
     }
     // materialUsageRows: any[] = [
     //   { material_name: '', quantity: 0, usage_date: '', adder: '' }
     // ]
     console.log("Material usage: ", this.materialUsageRows);
-    if (this.materialUsageRows.length > 1) {
+    if (this.areRequiredFieldsFilled(this.materialUsageRows)) {
       this.materialUsageRows.forEach((material) => {
         this.Body_Material_Usage.push({
-          material_warehouse_id: "",
+          material_warehouse_id: null,
           treatment_course_id: this.treatmentCourse_Id,
           examination_id: "",
           description: "",
@@ -222,6 +243,8 @@ export class PopupAddExaminationComponent implements OnInit {
             console.log("Thêm vật liệu: ", err.error.message);
             this.toastr.error(err.error.message, "Thêm vật liệu sử dụng thất bại");
           })
+    }else {
+      this.toastr.error("Vui lòng nhập đầy đủ các thông tin", "Thêm vật tư đã sử dụng thất bại")
     }
     // this.materialUsageService.
   }
@@ -330,7 +353,7 @@ export class PopupAddExaminationComponent implements OnInit {
 }
 
 interface material_usage_body {
-  material_warehouse_id: string,
+  material_warehouse_id: any,
   treatment_course_id: string,
   examination_id: string,
   quantity: string,

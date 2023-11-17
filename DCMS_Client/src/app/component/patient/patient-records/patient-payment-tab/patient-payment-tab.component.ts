@@ -130,20 +130,17 @@ export class PatientPaymentTabComponent implements OnInit {
       )
   }
 
-  async thanhtoan(pmu: any) {
+  async thanhtoan(mu: any) {
     try {
-      this.PMU = pmu;
-      const examinationResponse = await this.examinationService.getExamination(this.PMU.examination_id).toPromise();
+      // this.PMU = pmu;
+      const examinationResponse = await this.examinationService.getExamination(mu.examination_id).toPromise();
       this.Examination = examinationResponse.data[0];
       console.log("Examination", this.Examination);
 
-      const materialUsageResponse = await this.materialUsageService.getMaterialUsage_By_TreatmentCourse(this.Examination).toPromise();
-      this.Material_Usage = materialUsageResponse.data;
-      console.log("Oki", this.Material_Usage);
+      console.log("", mu);
       const modalRef = this.modalService.open(PopupPaymentComponent, { size: 'xl' });
-      modalRef.componentInstance.PMU = this.PMU;
       modalRef.componentInstance.Ex = this.Examination;
-      modalRef.componentInstance.MU = this.Material_Usage;
+      modalRef.componentInstance.MU = mu;
 
       modalRef.result.then((result) => {
       }, (reason) => {

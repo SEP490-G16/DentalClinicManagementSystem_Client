@@ -192,8 +192,8 @@
                       <th>Thành tiền</th>
                       <th>Giảm giá</th>
                       <th>Ngày đặt</th>
-                      <th>Người đặt</th>
                       <th>Ngày lắp</th>
+                      <th>Người đặt</th>
                       <th>Thao tác</th>
                     </tr>
                   </thead>
@@ -206,8 +206,8 @@
                       <td><input [(ngModel)]="row.total" type="number" class="form-control" /></td>
                       <td><input [(ngModel)]="row.discount" type="number" class="form-control" /></td>
                       <td><input [(ngModel)]="row.order_date" type="text" class="form-control" /></td>
-                      <td><input [(ngModel)]="row.order" type="text" class="form-control" /></td>
                       <td><input [(ngModel)]="row.used_date" type="text" class="form-control" /></td>
+                      <td><input [(ngModel)]="row.order" type="text" class="form-control" /></td>
                       <td>
                         <i class="bi bi-trash" style="cursor: pointer;" (click)="removeRow(i, 2)"></i>
                       </td>
@@ -251,9 +251,9 @@
                       @rowAnimation>
                       <td>{{i+1}}</td>
                       <td><input [(ngModel)]="row.material_name" type="text" class="form-control" /></td>
-                      <td><input [(ngModel)]="row.quantity" type="text" class="form-control" /></td>
-                      <td><input [(ngModel)]="row.unit_price" type="text" class="form-control" /></td>
-                      <td><input [(ngModel)]="row.total" type="text" class="form-control" /></td>
+                      <td><input [(ngModel)]="row.quantity" type="number" class="form-control" /></td>
+                      <td><input [(ngModel)]="row.unit_price" type="number" class="form-control" /></td>
+                      <td><input [(ngModel)]="row.total" type="number" class="form-control" /></td>
                       <td><input [(ngModel)]="row.usage_date" type="text" class="form-control" /></td>
                       <td><input [(ngModel)]="row.adder" type="text" class="form-control" /></td>
                       <td>

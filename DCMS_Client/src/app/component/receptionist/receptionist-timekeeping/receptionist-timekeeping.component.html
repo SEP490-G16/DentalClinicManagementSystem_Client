@@ -1,11 +1,7 @@
-<div *ngIf="loading" class="loading-overlay">
-  <div class="loading-spinner"></div>
-</div>
-
 <div class="recent-orders">
-  <div class="row" style="margin-bottom: 20px; margin-left: 10px">
+  <div class="row" style="margin-left: 10px">
     <div class="col-md-1">
-      <a (click)="navigateHref('/letan/cham-cong')" routerLinkActive="active-link" class="page-title">Chấm công</a>
+      <a (click)="navigateHref('/letan/cham-cong')" routerLinkActive="active-link" class="page-title active-link">Chấm công</a>
     </div>
     <div class="col-md-2">
       <a (click)="navigateHref('/dangkilichlamviec')" routerLinkActive="active-link" class="page-title">Đăng kí lịch làm
@@ -16,84 +12,84 @@
         chấm công</a>
     </div>
   </div>
-  <div class="row mt-5">
-    <div class="col-6">
+
+  <div class="timekeeping-container">
+    <div class="row">
+      <div class="col-6">
+      </div>
+      <div class="col-6">
+        <select class="form-select input-custom float-end" style="width: 12rem; margin-bottom: 10px;"
+          aria-label="Default select example" [(ngModel)]="selectedFilter" (change)="filterStaff()">
+          <option value="" selected>Tất cả nhân viên</option>
+          <option value="1">Bác sĩ</option>
+          <option value="2">Y tá</option>
+          <option value="3">Y tá trưởng</option>
+          <option value="4">Lễ tân</option>
+        </select>
+      </div>
     </div>
-    <div class="col-6">
-      <select class="form-select input-custom float-end" style="width: 12rem; margin-bottom: 10px;"
-        aria-label="Default select example" [(ngModel)]="selectedFilter" (change)="filterStaff()">
-        <option value="" selected>Tất cả nhân viên</option>
-        <option value="1">Bác sĩ</option>
-        <option value="2">Y tá</option>
-        <option value="3">Y tá trưởng</option>
-        <option value="4">Lễ tân</option>
-      </select>
-    </div>
-
-  </div>
-
-  <div class="table-container">
-    <table>
-      <thead class="sticky-thead">
-
-        <tr class="text-center">
-          <th>Tên nhân viên</th>
-          <th colspan="2">Thứ 2</th>
-          <th colspan="2">Thứ 3</th>
-          <th colspan="2">Thứ 4</th>
-          <th colspan="2">Thứ 5</th>
-          <th colspan="2">Thứ 6</th>
-          <th colspan="2">Thứ 7</th>
-          <th colspan="2">Chủ nhật</th>
-        </tr>
-      </thead>
-      <tbody class="text-center">
-        <tr>
-          <td></td>
-          <td>Clockin</td>
-          <td>Clockout</td>
-          <td>Clockin</td>
-          <td>Clockout</td>
-          <td>Clockin</td>
-          <td>Clockout</td>
-          <td>Clockin</td>
-          <td>Clockout</td>
-          <td>Clockin</td>
-          <td>Clockout</td>
-          <td>Clockin</td>
-          <td>Clockout</td>
-          <td>Clockin</td>
-          <td>Clockout</td>
-        </tr>
-
-        <tr *ngFor="let staff of StaffFilter">
-          <td style="border-right: 1px solid #7B4C50;">
-            <p style="color: brown;">{{staff.name}}</p>
-          </td>
-
-          <ng-container *ngFor="let timestamp of weekTimestamps; let dayIndex = index">
-            <ng-container *ngIf="timestamp === currentDateTimeStamp">
-              <td style="border-right: 1px solid #7B4C50;padding: 18px">
-                <button class="button-timekeeping" (click)="onClockin(staff)"
-                        [disabled]="staff.isClockin">{{staff.clockInStatus}}</button> <br />
-                <input type="time" [(ngModel)]="staff.timeClockin" [class]="timeClockinColor"
-                       (change)="onClockin(staff)">
-              </td>
-              <td style="border-right: 1px solid #7B4C50;padding: 18px">
-                <button class="button-timekeeping" (click)="onClockout(staff)"
-                        [disabled]="staff.isClockout">{{staff.clockOutStatus}}</button> <br />
-                <input type="time" [(ngModel)]="staff.timeClockout" [class]="timeClockoutColor"
-                       (change)="onClockout(staff)">
-              </td>
+      <table>
+        <thead>
+          <tr>
+            <th>Tên nhân viên</th>
+            <th colspan="2">Thứ 2</th>
+            <th colspan="2">Thứ 3</th>
+            <th colspan="2">Thứ 4</th>
+            <th colspan="2">Thứ 5</th>
+            <th colspan="2">Thứ 6</th>
+            <th colspan="2">Thứ 7</th>
+            <th colspan="2">Chủ nhật</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td></td>
+            <td>Clockin</td>
+            <td>Clockout</td>
+            <td>Clockin</td>
+            <td>Clockout</td>
+            <td>Clockin</td>
+            <td>Clockout</td>
+            <td>Clockin</td>
+            <td>Clockout</td>
+            <td>Clockin</td>
+            <td>Clockout</td>
+            <td>Clockin</td>
+            <td>Clockout</td>
+            <td>Clockin</td>
+            <td>Clockout</td>
+          </tr>
+          <tr *ngFor="let staff of StaffFilter">
+            <td>
+              <p>{{staff.name}}</p>
+            </td>
+            <ng-container *ngFor="let timestamp of weekTimestamps; let dayIndex = index">
+              <ng-container *ngIf="timestamp === currentDateTimeStamp">
+                <td>
+                  <button class="button-timekeeping" (click)="onClockin(staff)"
+                          [disabled]="staff.isClockin">{{staff.clockInStatus}}</button> <br />
+                  <input type="time" [(ngModel)]="staff.timeClockin" [class]="timeClockinColor"
+                         (change)="onClockin(staff)">
+                </td>
+                <td>
+                  <button class="button-timekeeping" (click)="onClockout(staff)"
+                          [disabled]="staff.isClockout">{{staff.clockOutStatus}}</button> <br />
+                  <input type="time" [(ngModel)]="staff.timeClockout" [class]="timeClockoutColor"
+                         (change)="onClockout(staff)">
+                </td>
+              </ng-container>
+              <ng-container *ngIf="timestamp !== currentDateTimeStamp">
+                <td>
+                  {{ staff.weekTimekeeping[timestamp]?.clockIn || '' }}
+                </td>
+                <td>
+                  {{ staff.weekTimekeeping[timestamp]?.clockOut || '' }}
+                </td>
+              </ng-container>
             </ng-container>
-            <ng-container *ngIf="timestamp !== currentDateTimeStamp">
-              <td style="border-right: 1px solid #7B4C50;"></td>
-              <td style="border-right: 1px solid #7B4C50;"></td>
-            </ng-container>
-          </ng-container>
-        </tr>
+          </tr>
 
-      </tbody>
-    </table>
+        </tbody>
+      </table>
   </div>
   <!-- End of Recent Orders -->

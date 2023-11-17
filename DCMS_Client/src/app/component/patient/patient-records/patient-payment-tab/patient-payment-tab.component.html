@@ -59,18 +59,16 @@
           </tr>
         </thead>
         <tbody>
-          <ng-container *ngFor="let mu of Material_Usage">
-          <tr *ngFor="let tc of TreatmentCourse">
-              <td>{{tc.created_date |VNdateTimeFormat}}</td>
-              <td>{{facility}}</td>
-              <td>{{mu.total}}</td>
-              <td></td>
-              <td>{{mu.total}}</td>
-              <td>{{mu.total_paid}}</td>
-              <td>{{mu.total_paid - mu.total}}</td>
-              <td><button class="payment-button" (click)="thanhtoan(tc)">Thanh toán</button></td>
-            </tr>
-          </ng-container>
+          <tr *ngFor="let mu of Material_Usage">
+            <td>{{mu.created_date |VNdateTimeFormat}}</td>
+            <td>{{facility}}</td>
+            <td>{{mu.total}}</td>
+            <td></td>
+            <td>{{mu.total}}</td>
+            <td>{{mu.total_paid}}</td>
+            <td>{{mu.total_paid - mu.total}}</td>
+            <td><button class="payment-button" (click)="thanhtoan(mu)">Thanh toán</button></td>
+          </tr>
         </tbody>
       </table>
     </div>

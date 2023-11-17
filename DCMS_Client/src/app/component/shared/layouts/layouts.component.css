@@ -22,7 +22,7 @@
   --custom-box-shadow: 0 2rem 3rem rgba(184, 197, 211, 0.5);
 
   /* Button colors */
-  --button-bg-color: #507DBC;
+  --button-bg-color: #7B4C50;
   --button-text-color: #FFFFFF;
   --button-hover-bg-color: #3B5A8F;
   --button-active-bg-color: #2E4971;
@@ -163,7 +163,7 @@ aside .sidebar {
   background-color: var(--custom-color-white);
   box-shadow: var(--custom-box-shadow);
   border-radius: 15px;
-  height: 96vh;
+  min-height: 97vh;
   position: relative;
   top: .9rem;
   transition: all 0.3s ease;
@@ -350,7 +350,6 @@ main .new-users .user-list .user img {
   border-radius: 50%;
 }
 
-
 .profile {
   display: flex;
   align-items: center;
@@ -372,8 +371,6 @@ main .new-users .user-list .user img {
   justify-items: flex-start;
   font-size: 20px;
 }
-
-
 
 @media screen and (max-width: 1200px) {
   .container-custom {

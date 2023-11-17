@@ -6,11 +6,10 @@
 </div>
 <div class="modal-body">
 
-  <ng-container *ngFor="let mu of MaterialUsage">
 
     <div class="row mt-3 mb-3">
       <div class="col-sm-3">
-        Thời gian điều trị: <h4 style="border-bottom: 1px solid #1E1E1E;">{{mu.created_date| VNdateTimeFormat}}
+        Thời gian điều trị: <h4 style="border-bottom: 1px solid #1E1E1E;">{{MU.created_date| VNdateTimeFormat}}
         </h4>
       </div>
     </div>
@@ -34,17 +33,17 @@
             </thead>
             <tbody>
               <tr>
-                <td>{{mu.status}}</td>
+                <td>{{MU.status}}</td>
                 <td></td>
                 <td></td>
-                <td>{{mu.description}}</td>
+                <td>{{MU.description}}</td>
                 <td>
                   {{staff_name}}
                 </td>
-                <td>{{mu.quantity}}</td>
-                <td>{{mu.total}}</td>
-                <td>{{mu.total_paid}}</td>
-                <td>{{mu.total_paid - mu.total}}</td>
+                <td>{{MU.quantity}}</td>
+                <td>{{MU.total}}</td>
+                <td>{{MU.total_paid}}</td>
+                <td>{{MU.total_paid - MU.total}}</td>
               </tr>
             </tbody>
           </table>
@@ -52,7 +51,6 @@
       </div>
     </div>
 
-  </ng-container>
 
 
   <div class="row mb-3">
@@ -60,9 +58,9 @@
     <div class="col-3 text-end">
       <p>Chi phí theo thủ thuật: <b>{{totalSum}}</b></p>
       <p>Giảm giá: </p>
-      <p>Tổng chi phí: <b>{{totalSum}}</b></p>
-      <p>Đã thanh toán: <b> {{totalPaid}}</b></p>
-      <p>Còn lại: <b>{{totalPaid - totalSum}}</b></p>
+      <p>Tổng chi phí: <b>{{MU.total}}</b></p>
+      <p>Đã thanh toán: <b> {{MU.total_paid}}</b></p>
+      <p>Còn lại: <b>{{MU.total_paid - MU.total}}</b></p>
     </div>
   </div>
 </div>

@@ -14,14 +14,14 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
   @Input() PMU:any
   @Input() Ex:any
   @Input() MU:any
-  PatientPayment = {
-    created_date: "",
-    examination_id: "",
-    material_usage_id: "",
-    paid_material_usage_id: "",
-    status: 1,
-    total_paid: 0
-  }
+  // PatientPayment = {
+  //   created_date: "",
+  //   examination_id: "",
+  //   material_usage_id: "",
+  //   paid_material_usage_id: "",
+  //   status: 1,
+  //   total_paid: 0
+  // }
   MaterialUsage: MaterialUsage [];
   staff_name = "";
   totalSum:number = 0;
@@ -35,8 +35,8 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.PatientPayment = this.PMU;
-    this.staff_name = this.Ex.staff_id;
+    // this.PatientPayment = this.PMU;
+    // this.staff_name = this.Ex.staff_id;
     this.MaterialUsage = this.MU;
 
     this.MaterialUsage.sort((a:any, b:any) => {

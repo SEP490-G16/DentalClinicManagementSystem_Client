@@ -25,7 +25,8 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     timeClockin: "",
     timeClockout: "",
     isClockin: false,
-    isClockout: false
+    isClockout: true,
+    weekTimekeeping: {}
   },
   {
     name: 'Dũng',
@@ -36,7 +37,8 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     timeClockin: "",
     timeClockout: "",
     isClockin: false,
-    isClockout: false
+    isClockout: true,
+    weekTimekeeping: {}
   }];
 
   //Current
@@ -47,14 +49,15 @@ export class ReceptionistTimekeepingComponent implements OnInit {
 
   //Week
   weekTimestamps: number[] = [];
-  startTime:number = 0;
-  endTime:number = 0;
-  todayTimekeeping:any;
+  startTime: number = 0;
+  endTime: number = 0;
+  todayTimekeeping: any;
   //SubId
   SubId_Arr: string[] = [];
-  thu: string = "";
-  timekeepingOnWeeks: any
 
+  timekeepingOnWeeks: any
+  timeClockinColor: string = "onTime";
+  timeClockoutColor: string = "onTime";
   constructor(private cognitoService: CognitoService,
     private timekeepingService: ReceptionistTimekeepingService,
     private toastr: ToastrService,
@@ -72,9 +75,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
       status: 2
     } as RequestBodyTimekeeping
 
-    //Get Thứ
     moment.locale('vi');
-    this.thu = moment().format('dddd');
 
     //Get Date
     this.currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
@@ -86,7 +87,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
 
     //Set week
     for (let i = 0; i < 7; i++) {
-      this.weekTimestamps.push(moment().startOf('week').add(i, 'days').unix());
+      this.weekTimestamps.push(moment.tz('Asia/Ho_Chi_Minh').startOf('week').add(i, 'days').unix());
     }
     console.log("WeekTimes: ", this.weekTimestamps);
     this.startTime = this.weekTimestamps[0];
@@ -109,11 +110,49 @@ export class ReceptionistTimekeepingComponent implements OnInit {
       .subscribe(data => {
         this.loading = false;
         // this.timekeepingOnWeeks = ConvertJson.processApiResponse(data);
-        console.log("data: ", data);
         this.timekeepingOnWeeks = data;
-        console.log("TimekeepingOnWeeks: ", this.timekeepingOnWeeks);
+        // console.log("Api: ", this.timekeepingOnWeeks);
         this.timekeepingOnWeeks = this.organizeData(this.timekeepingOnWeeks);
         console.log("TimekeepingOnWeeks: ", this.timekeepingOnWeeks);
+
+        this.Staff.forEach(staff => {
+          staff.weekTimekeeping = {};
+
+          this.weekTimestamps.forEach(weekTimestamp => {
+            staff.weekTimekeeping[weekTimestamp] = { clockIn: '', clockOut: '' };
+
+            this.timekeepingOnWeeks.forEach((record: any) => {
+              if (record.records && record.records.length > 0) {
+                let detail = record.records.find((r: any) => r.subId === staff.sub);
+                if (detail && detail.details) {
+                  if (record.epoch === weekTimestamp.toString()) {
+                    staff.weekTimekeeping[weekTimestamp].clockIn = this.timestampToGMT7String(detail.details.clock_in) || '';
+                    staff.weekTimekeeping[weekTimestamp].clockOut = this.timestampToGMT7String(detail.details.clock_out) || '';
+                  }
+                }
+              }
+              const foundRecord = record.records.find((record: any) => record.subId === staff.sub);
+              if (foundRecord) {
+                const details = foundRecord.details;
+                staff.clockInStatus = details.clock_in ? 'Đã chấm' : 'Chưa chấm';
+                staff.clockOutStatus = details.clock_out ? 'Đã chấm' : 'Chưa chấm';
+                staff.timeClockin = details.clock_in ? this.timestampToGMT7String(+details.clock_in) : '';
+                staff.timeClockout = details.clock_out ? this.timestampToGMT7String(+details.clock_out) : '';
+                staff.isClockin = !!details.clock_in;
+                staff.isClockout = !!details.clock_out;
+              } else {
+                staff.clockInStatus = 'Chưa chấm';
+                staff.clockOutStatus = 'Chưa chấm';
+                staff.timeClockin = '';
+                staff.timeClockout = '';
+                staff.isClockin = false;
+                staff.isClockout = false;
+              }
+            });
+          });
+        });
+        console.log("Staff sort: ", this.Staff);
+        this.Staff
       },
         (err) => {
           this.loading = false;
@@ -160,26 +199,25 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     }
   }
 
-  timeClockinColor: string = "onTime";
-
   //Thời gian vào làm: 16:00
   onClockin(staff: Staff) {
     this.loading = true;
     this.Body.epoch = this.currentDateTimeStamp;
-    this.Body.clock_in = this.currentTimeTimeStamp;
+    this.Body.clock_in = (staff.timeClockin == "") ? this.currentTimeTimeStamp : this.timeAndDateToTimestamp(staff.timeClockin, this.currentDateGMT7);
     this.Body.sub_id = staff.sub;
     this.Body.staff_name = staff.name;
     this.Body.timekeeper_name = "Long";
-    console.log("Body", this.Body);
+    console.log("OnClick Body: ", this.Body);
 
     this.timekeepingService.postTimekeeping(this.Body)
       .subscribe((res) => {
         this.toastr.success(res.message, "Chấm công về thành công");
-        //Set time Clockin
+        //Set time Clockin lên UI
         staff.isClockin = true;
         staff.clockInStatus = "Đã chấm"
-        staff.timeClockin = this.currentTimeGMT7;
-
+        if (staff.timeClockin == "") {
+          staff.timeClockin = this.currentTimeGMT7;
+        }
         this.loading = false;
       },
         (err) => {
@@ -189,29 +227,30 @@ export class ReceptionistTimekeepingComponent implements OnInit {
       )
   }
 
-  timeClockoutColor: string = "onTime";
   onClockout(staff: Staff) {
     this.loading = true;
 
-    staff.isClockout = !staff.isClockout;
-    console.log("Clockout: ", staff.isClockout);
+    staff.isClockout = false;
+    console.log("OnClickout: ", staff);
 
     if (staff.isClockout) {
       this.Body.epoch = this.currentDateTimeStamp;
-      this.Body.clock_out = this.currentTimeTimeStamp;
+      this.Body.clock_out = (this.Body.clock_out) ? this.currentTimeTimeStamp : this.timeAndDateToTimestamp(staff.timeClockout, this.currentDateGMT7);
 
       this.timekeepingService.postTimekeeping(this.Body)
         .subscribe((res) => {
           this.toastr.success(res.message, "Chấm công về thành công");
-          //Set time Clockout
+          //Set time Clockout lên UI
           this.loading = false;
-          console.log("Body clockout", this.Body);
+          console.log("Body clockout: ", this.Body);
           staff.clockOutStatus = "Đã chấm"
-          staff.timeClockout = this.currentTimeGMT7;
+          if (staff.timeClockout == "") {
+            staff.timeClockout = this.currentTimeGMT7;
+          }
         },
           (err) => {
             this.loading = false;
-            this.toastr.error(err.error.message, "Chấm công thất bại");
+            this.toastr.error(err.error.message, "Chấm công về thất bại");
           }
         )
 
@@ -239,12 +278,16 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng của chuỗi ngày
     const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
     const timestamp = moment.tz(dateStr, format, timeZone).valueOf();
-    return timestamp /1000;
+    return timestamp / 1000;
   }
 
   timestampToGMT7String(timestamp: number): string {
+    // Kiểm tra xem timestamp có đơn vị giây hay mili giây
+    const timestampInMilliseconds = timestamp * (timestamp > 1e12 ? 1 : 1000);
+
     // Chuyển timestamp thành chuỗi ngày và thời gian dựa trên múi giờ GMT+7
-    const dateTimeString = moment.tz(timestamp * 1000, 'Asia/Ho_Chi_Minh').format('HH:mm:ss');
+    const dateTimeString = moment.tz(timestampInMilliseconds, 'Asia/Ho_Chi_Minh').format('HH:mm');
+
     return dateTimeString;
   }
 
