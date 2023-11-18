@@ -7,7 +7,7 @@
   --size: 10px;
   /*background style*/
   --background-color: #f6f6f9;
-  
+
   /*component style*/
   --component-background-color: #ffffff;
 
@@ -246,7 +246,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   border-radius: 10px;
   background: var(--component-background-color);
   font-size: 1.75em;
-  line-height: 60px;
+  line-height: 3rem;
   border: 6px solid transparent;
 }
 
