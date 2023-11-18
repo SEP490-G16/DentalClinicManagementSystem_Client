@@ -68,10 +68,6 @@ const routes: Routes = [
         component: ChatComponent
       },
       {
-        path: 'xac-nhan-lich-hen',
-        component: ConfirmAppointmentComponent
-      },
-      {
         path: 'admin',
         loadChildren: () => import('./component/admin/admin.module').then(m => m.AdminModule),
         canActivate: [AuthGuard],
@@ -85,6 +81,10 @@ const routes: Routes = [
   {
     path: 'benhnhan-zalo',
     loadChildren: () => import('./component/patient/benhnhan.module').then(m => m.BenhnhanModule)
+  },
+  {
+    path: 'xac-nhan-lich-hen',
+    component: ConfirmAppointmentComponent
   },
 ];
 

@@ -11,7 +11,7 @@ import { CommonService } from 'src/app/service/commonMethod/common.service';
   styleUrls: ['./patient-profile-tab.component.css']
 })
 export class PatientProfileTabComponent implements OnInit {
-
+  protected readonly window = window;
   constructor(private patientService:PatientService,
               private route:ActivatedRoute,
               private cognitoService:CognitoService,

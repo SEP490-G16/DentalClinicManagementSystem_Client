@@ -24,7 +24,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let p of searchPatientsList" [ngClass]="{'new-record': p.isNew,'pulse': p.isPulsing}">
+      <tr class="hover-patient" *ngFor="let p of searchPatientsList" [ngClass]="{'new-record': p.isNew,'pulse': p.isPulsing}" style="cursor: pointer;" (click)="detail(p.patient_id)">
           <td>
             <!--HE153724-->{{p.patient_id}}
           </td>

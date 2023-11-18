@@ -1,0 +1,85 @@
+<div class="recent-orders">
+  <div class="row" style="margin-bottom: 20px; margin-left: 10px">
+    <div class="col-md-2 col-1">
+      <a routerLink="/admin/doanh-thu" class="page-title" routerLinkActive="active-link">Tổng doanh thu</a>
+    </div>
+    <div class="col-md-2 col-1">
+      <a routerLink="/admin/bao-cao-thu" class="page-title" routerLinkActive="active-link">Báo cáo thu</a>
+    </div>
+    <div class="col-md-2 col-2">
+      <a routerLink="/admin/bao-cao-chi" class="page-title" routerLinkActive="active-link">Báo cáo chi</a>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col-md-12">
+      <h3>Báo cáo chi</h3>
+    </div>
+  </div>
+  <div class="row row-filter mt-5 mb-5">
+    <div class="col-md-6 row">
+      <div class="col-md-6 row row-title">
+        <div class="col-md-2" style="padding: 10px 0; text-align: center">
+          <label>Từ:</label>
+        </div>
+        <div class="col-md-10" style="padding: 0">
+          <input style="width: 70%" type="date" class="form-control input-custom  p-2">
+        </div>
+      </div>
+      <div class="col-md-6 row row-title">
+        <div class="col-md-2"  style="padding: 10px 0; text-align: center">
+          <label>Đến:</label>
+        </div>
+        <div class="col-md-10" style="padding: 0">
+          <input style="width: 70%" type="date" class="form-control input-custom  p-2">
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group form-group-filter" style="float: right">
+        <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#addReportExpenditureModal"><i
+          class="bi bi-plus-circle"></i> Thêm mới
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row row-content">
+
+    <!--<div class="col-md-3 text-center mt-2">
+      <p>Tổng tiền chi:</p>
+      <p>30.000.000</p>
+    </div>-->
+    <div class="col-md-12">
+
+      <div class="table-container" style="margin-top: 10px;">
+        <table>
+          <thead class="sticky-thead">
+          <tr>
+            <th>Ngày tạo</th>
+            <th>Người chi</th>
+            <th>Loại chi</th>
+            <th>Ghi chú</th>
+            <th>Số tiền</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>23-10-2023</td>
+            <td>Nguyễn Văn A</td>
+            <td>abc</td>
+            <td>abc</td>
+            <td>20.000.000</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><b style="font-size: 15px">Tổng tiền chi: </b></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<app-popup-add-report-expenditure></app-popup-add-report-expenditure>
