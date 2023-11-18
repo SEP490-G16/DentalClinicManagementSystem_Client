@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {CognitoService} from "../../../service/cognito.service";
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 
@@ -7,7 +7,28 @@ import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
   templateUrl: './layouts.component.html',
   styleUrls: ['./layouts.component.css']
 })
-export class LayoutsComponent implements OnInit {
+export class LayoutsComponent implements OnInit,AfterViewInit {
+  ngAfterViewInit(): void {
+    const menuToggle = document.querySelector('.sep-menuToggle') as HTMLElement;
+    const navigation = document.querySelector('.sep-navigation') as HTMLElement;
+    const sepMain = document.querySelector('.sep-main') as HTMLElement;
+    menuToggle.onclick = function () {
+      navigation.classList.toggle('active');
+      if (navigation.classList.contains('active')) {
+        sepMain.classList.toggle('active');
+      } else {
+        sepMain.classList.toggle('active');
+      }
+    }
+
+    const list = document.querySelectorAll('.list') as NodeListOf<HTMLElement>;
+    function activeLink(this: HTMLElement) {
+      list.forEach((item) =>
+        item.classList.remove('active'));
+        this.classList.add('active');
+    }
+    list.forEach((item) => item.addEventListener('click', activeLink));
+  }
   userGroupString: string = ''; // Declare the variable
 
   compareUserGroup:string = "";

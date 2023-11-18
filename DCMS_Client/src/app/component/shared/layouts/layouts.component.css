@@ -225,7 +225,7 @@ main .analyse>div {
   padding: var(--custom-card-padding);
   border-radius: var(--custom-card-border-radius);
   margin-top: 1rem;
-  box-shadow: var(--custom-box-shadow);
+  /* box-shadow: var(--custom-box-shadow); */
   cursor: pointer;
   transition: all 0.3s ease;
 }
