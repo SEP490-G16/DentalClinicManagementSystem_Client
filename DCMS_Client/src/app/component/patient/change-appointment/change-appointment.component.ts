@@ -67,7 +67,6 @@ export class ChangeAppointmentComponent implements OnInit {
     };
   }
 
-
   //config ng bootstrap
   isDisabled: any;
   model!: NgbDateStruct;
@@ -135,6 +134,26 @@ export class ChangeAppointmentComponent implements OnInit {
     }
   }
 
+  findAppointmentById(appointments: any) {
+    console.log("Appointment find by Id: ", appointments);
+    const filteredAppointments = ConvertJson.processApiResponse(appointments);
+    console.log(filteredAppointments);
+    const rawData = filteredAppointments as RootObject[];
+    let result: any;
+    if (rawData && rawData.length > 0) {
+      for (const appointmentBlock of rawData) {
+        for (const detail of appointmentBlock.appointments.flatMap(a => a.details)) {
+          if (detail.appointment_id === this.appointmentId_Pathparam) {
+            result = detail;
+            break;
+          }
+        }
+        if (result) break;
+      }
+    }
+    return result;
+  }
+
 
   timestampToDate(timestamp: number): string {
     const format = 'YYYY-MM-DD'; // Định dạng cho chuỗi ngày đầu ra
@@ -142,21 +161,6 @@ export class ChangeAppointmentComponent implements OnInit {
     const dateStr = moment.tz(timestamp, timeZone).format(format);
     return dateStr;
   }
-
-
-  findAppointmentById(appointment: any) {
-    const filteredAppointments = ConvertJson.processApiResponse(appointment);
-    //console.log(filteredAppointments);
-    const rawData = filteredAppointments as RootObject[];
-    let res: any;
-    if (rawData && rawData.length > 0) {
-      const appointments = rawData[0].appointments;
-      console.log("Appointments: ", appointments);
-      res = appointments[0].details.find(detail => detail.appointment_id == this.appointmentId_Pathparam);
-    }
-    return res;
-  }
-
 
   formatDateToCustomString(date: Date): string {
     const year = date.getFullYear();
@@ -191,7 +195,7 @@ export class ChangeAppointmentComponent implements OnInit {
     const selectedDay = this.model.day.toString().padStart(2, '0'); // Đảm bảo có 2 chữ số
     const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
     console.log(selectedDate); // Đây là ngày dưới dạng "YYYY-MM-DD"
-
+    console.log(this.timeString);
     this.EDIT_APPOINTMENT_BODY = {
       epoch: this.epoch_PathParam,    //x
       new_epoch: this.dateToTimestamp(selectedDate),
@@ -201,7 +205,7 @@ export class ChangeAppointmentComponent implements OnInit {
         phone_number: this.appointment.phone_number, //x
         procedure_id: this.appointment.procedure,  //x
         doctor: this.appointment.doctor, //x
-        time: this.dateTimeToGMT7Timestamp(this.selectedDate, this.timeString).timeTimestamp //x
+        time: this.timeAndDateToTimestamp(this.timeString, this.selectedDate) //x
       }
     } as IEditAppointmentBody;
     console.log("EDIT_Appointment: ", this.EDIT_APPOINTMENT_BODY);
@@ -216,43 +220,32 @@ export class ChangeAppointmentComponent implements OnInit {
       )
   }
 
+  cancelAppointment() {
+    this.appointmentService.deleteAppointment(this.epoch_PathParam, this.epoch_PathParam)
+      .subscribe((res) => {
+        this.toastr.success(res.messgae, "Xóa lịch hẹn thành công")
+      },
+        (err) => {
+          this.toastr.error(err.error.message, "Xóa lịch hẹn thất bại");
+        })
+  }
   dateToTimestamp(dateStr: string): number {
     const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng của chuỗi ngày
     const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
     const timestamp = moment.tz(dateStr, format, timeZone).valueOf();
+    return timestamp / 1000;
+  }
+
+  timeAndDateToTimestamp(time: string, date: string): number {
+    // Assuming date is in 'YYYY-MM-DD' format and time is in 'HH:mm A' format
+    const format = 'YYYY-MM-DD HH:mm A';
+    const dateTimeString = `${date} ${time}`;
+
+    // Use moment-timezone to handle the conversion
+    const timestamp = moment.tz(dateTimeString, format, 'Asia/Ho_Chi_Minh').unix();
+
     return timestamp;
   }
-
-  dateTimeToGMT7Timestamp(date: Date, time: string): { dateTimestamp: number, timeTimestamp: number } {
-    const gmt7Date = new Date(date);
-    const timeParts = time.split(':');
-    gmt7Date.setHours(gmt7Date.getHours() - 7);
-    gmt7Date.setMinutes(gmt7Date.getMinutes() + parseInt(timeParts[1], 10));
-
-    const dateTimestamp = Math.floor(gmt7Date.getTime() / 1000);
-
-    // Chuyển đổi thời gian thành timestamp
-    const timeTimestamp = this.timeToGMT7Timestamp(time);
-
-    return { dateTimestamp, timeTimestamp };
-  }
-
-
-
-
-  timeToGMT7Timestamp(time: string): number {
-    const timeParts = time.split(':');
-    const hours = parseInt(timeParts[0], 10);
-    const minutes = parseInt(timeParts[1], 10);
-
-    // Tính timestamp của thời gian với múi giờ GMT+7
-    const gmt7Time = new Date();
-    gmt7Time.setHours(hours - 7);
-    gmt7Time.setMinutes(minutes);
-
-    return Math.floor(gmt7Time.getTime() / 1000);
-  }
-
 
   showSuccessToast(message: string) {
     this.toastr.success(message, 'Thành công', {
@@ -266,5 +259,3 @@ export class ChangeAppointmentComponent implements OnInit {
     });
   }
 }
-
-

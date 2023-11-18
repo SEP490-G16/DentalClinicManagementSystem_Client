@@ -28,6 +28,12 @@ import { RegisterWorkScheduleComponent } from './component/shared/register-work-
 import { WebSocketSubject } from 'rxjs/webSocket';
 import { ConfirmAppointmentComponent } from './component/confirm-appointment/confirm-appointment.component';
 import { AppRoutingModule } from './app-routing.module';
+import { LOCALE_ID} from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeVi from '@angular/common/locales/vi';
+
+// Register the Vietnamese locale data
+registerLocaleData(localeVi);
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,7 +62,7 @@ import { AppRoutingModule } from './app-routing.module';
       useFactory: adapterFactory,
     }),
   ],
-  providers: [CookieService],
+  providers: [CookieService,{ provide: LOCALE_ID, useValue: 'vi' }],
   bootstrap: [AppComponent]
 })
 export class AppModule implements OnInit {

@@ -16,7 +16,9 @@ import { ReceptionistRoutingModule } from './receptionist-routing.module';
 import { PopupAddAppointmentComponent } from '../utils/pop-up/appointment/popup-add-appointment/popup-add-appointment.component';
 import { PopupEditAppointmentComponent } from '../utils/pop-up/appointment/popup-edit-appointment/popup-edit-appointment.component';
 import { PatientModule } from '../patient/patient.module';
+
 import { PopupAddPatientComponent } from '../utils/pop-up/patient/popup-add-patient/popup-add-patient.component';
+
 import { AddWaitingRoomComponent } from './receptionist-waiting-room/add-waiting-room/add-waiting-room.component';
 import { VNDateTimeFormatPipe } from '../shared/pipe/datetimeformat.pipe';
 @NgModule({
@@ -33,8 +35,8 @@ import { VNDateTimeFormatPipe } from '../shared/pipe/datetimeformat.pipe';
     CommonModule,
     RouterModule,
     FormsModule,
-    SharedModule,
     PatientModule,
+    SharedModule,
     ReceptionistRoutingModule,
     NgbModule,
     HttpClientModule,

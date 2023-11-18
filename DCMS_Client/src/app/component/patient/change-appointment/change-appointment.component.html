@@ -1,68 +1,40 @@
-<div class="absolute">
-  <div class="absolute inset-0 justify-content">
-    <div class="bg-shape1 bg-teal opacity-50 bg-blur"></div>
-    <div class="bg-shape2 bg-primary opacity-50 bg-blur"></div>
-    <div class="bg-shape1 bg-purple opacity-50 bg-blur"></div>
-  </div>
+<div class="web-wrapper">
   <div class="container" style="z-index: 999;">
 
     <h2>Nha Khoa Nguyên Trần</h2>
 
-    <div class="text-center">Xin chào, {{EDIT_APPOINTMENT_BODY.appointment.patient_name}}
-          <p class="text-center">{{EDIT_APPOINTMENT_BODY.appointment.phone_number}}</p>
-    </div>
-    <h3></h3>
+    <h5 class="text-center header-font" class="text-center">Xin chào, {{appointment.patient_name}}
+    </h5>
+    <p class="text-center cursive-font">{{appointment.phone_number}}</p>
 
-    <div class="form-group row mt-5">
-      <label for="appointmentdate" class="col-3 name-title"
-      style="padding: 8px; vertical-align: middle;">Ngày
-        hẹn:</label>
-      <div class="col-9 value-staff">
-        <p class="date-display">{{appointmentDate | date}}<i class="bi bi-calendar3 float-end"></i></p>
+    <div class="form-group row mt-5 align-items-center">
+      <label for="appointmentdate" class="col-3 col-form-label">Ngày hẹn:</label>
+      <div class="col-9 d-flex align-items-center">
+        <p class="date-display mb-0">{{appointmentDate | date:'dd/MM/yyyy'}}<i class="bi bi-calendar3 float-end"></i></p>
       </div>
-
     </div>
 
-    <div class="form-group row mt-3">
-      <label for="changedate" class="col-3 name-title"
-      style=" padding:8px; line-height: 39px;"
-      >Ngày đổi:</label>
+    <div class="form-group row mt-3 align-items-center">
+      <label for="changedate" class="col-3 col-form-label">Ngày đổi:</label>
 
-      <div class="col-9 value-staff">
-        <form class="form-inline">
-          <div class="form-group">
-            <div class="input-group">
-              <input
-                class="form-control"
-                placeholder="yyyy-mm-dd"
-                [markDisabled]="isDisabled"
-                name="dp"
-                [(ngModel)]="model"
-                [min]="mindate"
-                ngbDatepicker
-                #d="ngbDatepicker"
-                [placement]="'center'"
-                placeholder="Chọn ngày hẹn"
-                >
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary calendar"
-                style="height: 48px;"
-                (click)="d.toggle()" type="button">
-                <i class="bi bi-calendar3"></i>
-              </button>
-              </div>
-            </div>
-            <!-- <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.appointmentDate}}</p> -->
+      <div class="col-9">
+        <div class="input-group">
+          <input class="form-control"  placeholder="dd/MM/yyyy" [markDisabled]="isDisabled" name="dp" [(ngModel)]="model"
+            [min]="mindate" ngbDatepicker #d="ngbDatepicker" [placement]="'center'" placeholder="Chọn ngày hẹn">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" style="height: 48px;" (click)="d.toggle()" type="button">
+              <i class="bi bi-calendar3"></i>
+            </button>
           </div>
-        </form>
+        </div>
+        <!-- <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.appointmentDate}}</p> -->
       </div>
     </div>
 
 
-    <div class="form-group row mt-3">
-      <label for="appointmentdate" class="col-3 name-title" style="padding: 8px; vertical-align: middle;">Giờ
-        hẹn:</label>
-      <div class="col-9 value-staff">
+    <div class="form-group row mt-3 align-items-center">
+      <label for="time" class="col-3 col-form-label">Giờ hẹn:</label>
+      <div class="col-9">
         <input type="time" class="form-control date-input-custom" id="time" name="time" [(ngModel)]="timeString"
           style="vertical-align: middle;">
       </div>
@@ -70,8 +42,32 @@
 
     <div class="row mt-5">
       <div class="col-sm-12 text-center">
-        <button class="btn btn-secondary" style="margin-right: 10px;">Huỷ lịch hẹn</button>
-        <button class="btn btn-primary" (click)="onPutAppointment()">Xác nhận</button>
+        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#cancelModal">Huỷ lịch hẹn</button>
+        <button class="btn btn-custom" (click)="onPutAppointment()">Xác nhận</button>
       </div>
     </div>
   </div>
+
+</div>
+
+<!-- Modal HTML -->
+<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header flex-column">
+        <h5 class="modal-title w-100" id="modalTitle">Xác nhận hủy lịch hẹn</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="icon-box mx-auto">
+          <i class="material-icons">&#xE5CD;</i>
+        </div>
+        <p>Bạn có thực sự muốn xóa lịch hẹn vào ngày <b>{{selectedDate | date:'dd/MM/yyyy'}}</b> không?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn" (click)="cancelAppointment()">Đồng ý</button>
+      </div>
+    </div>
+  </div>
+</div>

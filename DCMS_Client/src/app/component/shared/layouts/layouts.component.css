@@ -1,16 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 .web-wrapper {
-  --custom-color-primary: #6C9BCF;
-  --custom-color-danger: #FF0060;
-  --custom-color-success: #1B9C85;
-  --custom-color-warning: #F7D060;
-  --custom-color-white: #fff;
-  --custom-color-info-dark: #7d8da1;
-  --custom-color-dark: #363949;
-  --custom-color-light: rgba(132, 139, 200, 0.18);
-  --custom-color-dark-variant: #677483;
-  --custom-color-background: #f6f6f9;
+  --custom-color-primary: #507DBC;
+  --custom-color-danger: #E56B6F;
+  --custom-color-success: #48A9A6;
+  --custom-color-warning: #ECA400;
+  --custom-color-white: #FFFFFF;
+  --custom-color-info-dark: #324D67;
+  --custom-color-dark: #273238;
+  --custom-color-light: #B8C5D3;
+  --custom-color-dark-variant: #1F2A36;
+  --custom-color-background: #F4F7FA;
 
   --custom-card-border-radius: 2rem;
   --custom-border-radius-1: 0.4rem;
@@ -19,7 +19,28 @@
   --custom-card-padding: .8rem;
   --custom-padding-1: 1.2rem;
 
-  --custom-box-shadow: 0 2rem 3rem var(--custom-color-light);
+  --custom-box-shadow: 0 2rem 3rem rgba(184, 197, 211, 0.5);
+
+  /* Button colors */
+  --button-bg-color: #7B4C50;
+  --button-text-color: #FFFFFF;
+  --button-hover-bg-color: #3B5A8F;
+  --button-active-bg-color: #2E4971;
+  --button-border-color: #7B4C50;
+
+  /* Other CSS properties */
+  --custom-card-border-radius: 2rem;
+  --custom-border-radius-1: 0.4rem;
+  --custom-border-radius-2: 1.2rem;
+
+  --custom-card-padding: .8rem;
+  --custom-padding-1: 1.2rem;
+
+  --custom-box-shadow: 0 2rem 3rem rgba(184, 197, 211, 0.5);
+
+  --progress-appointment: #4C9AFF;
+  --progress-waiting: #FFAB76;
+  --progress-patient: #6DD47E;
 }
 
 * {
@@ -127,7 +148,6 @@ aside {
   gap: 0.5rem;
 }
  .toggle .logo img {
-  padding-left: 1rem;
   width: 2rem;
   height: 2rem;
 }
@@ -143,7 +163,7 @@ aside .sidebar {
   background-color: var(--custom-color-white);
   box-shadow: var(--custom-box-shadow);
   border-radius: 15px;
-  height: 96vh;
+  min-height: 97vh;
   position: relative;
   top: .9rem;
   transition: all 0.3s ease;
@@ -330,7 +350,6 @@ main .new-users .user-list .user img {
   border-radius: 50%;
 }
 
-
 .profile {
   display: flex;
   align-items: center;
@@ -352,8 +371,6 @@ main .new-users .user-list .user img {
   justify-items: flex-start;
   font-size: 20px;
 }
-
-
 
 @media screen and (max-width: 1200px) {
   .container-custom {

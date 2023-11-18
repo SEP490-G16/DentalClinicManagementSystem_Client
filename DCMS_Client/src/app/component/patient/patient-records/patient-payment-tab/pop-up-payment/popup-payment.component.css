@@ -1,0 +1,58 @@
+/* General Modal Styling */
+.modal-content {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.modal-header {
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.modal-header h5 {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Table Styling */
+.table {
+    margin-bottom: 0;
+}
+
+.table thead th {
+    background-color: #eaeaea;
+    font-weight: bold;
+}
+
+.table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+/* Footer Styling */
+.modal-footer {
+    background-color: #f7f7f7;
+    border-top: 1px solid #eaeaea;
+    padding: 1rem;
+    justify-content: center; /* Center the buttons */
+}
+
+.btn-light {
+    border: 1px solid #ddd;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .modal-xl {
+        max-width: 95%;
+    }
+}

@@ -15,17 +15,19 @@ import { PatientRoutingModule } from './patient-routing.module';
 import { PopupAddPatientComponent } from '../utils/pop-up/patient/popup-add-patient/popup-add-patient.component';
 import { PatientProfileTabComponent } from './patient-records/patient-profile-tab/patient-profile-tab.component';
 import { PatientAppointmentTabComponent } from './patient-records/patient-appointment-tab/patient-appointment-tab.component';
-import { PatientPaymentTabComponent } from './patient-records/patient-payment-tab/patient-payment-tab.component';
 
 import { PopupDeletePatientComponent } from '../utils/pop-up/patient/popup-delete-patient/popup-delete-patient.component';
 import { PatientLichtrinhdieutriComponent } from './patient-records/patient-lichtrinhdieutri/patient-lichtrinhdieutri.component';
 import { VNDateTimeFormatPipe } from '../shared/pipe/datetimeformat.pipe';
+import {PopupPaymentComponent} from './patient-records/patient-payment-tab/pop-up-payment/popup-payment.component'
+
 import { PopupAddTreatmentcourseComponent } from '../utils/pop-up/patient/popup-add-treatmentcourse/popup-add-treatmentcourse.component';
 import { PopupEditTreatmentcourseComponent } from '../utils/pop-up/patient/popup-edit-treatmentcourse/popup-edit-treatmentcourse.component';
 import { PopupAddExaminationComponent } from '../utils/pop-up/patient/popup-add-examination/popup-add-examination.component';
 import { PopupEditExaminationComponent } from '../utils/pop-up/patient/popup-edit-examination/popup-edit-examination.component';
 import { PopupDatlichtaikhamComponent } from '../utils/pop-up/patient/popup-datlichtaikham/popup-datlichtaikham.component';
 import { PopupSualichtaikhamComponent } from '../utils/pop-up/patient/popup-sualichtaikham/popup-sualichtaikham.component';
+import { PatientPaymentTabComponent } from './patient-records/patient-payment-tab/patient-payment-tab.component';
 @NgModule({
   declarations: [
       PatientManagementComponent,
@@ -33,7 +35,6 @@ import { PopupSualichtaikhamComponent } from '../utils/pop-up/patient/popup-sual
       PopupAddPatientComponent,
       PatientProfileTabComponent,
       PatientAppointmentTabComponent,
-      PatientPaymentTabComponent,
       PopupDeletePatientComponent,
       PatientLichtrinhdieutriComponent,
       VNDateTimeFormatPipe,
@@ -42,7 +43,9 @@ import { PopupSualichtaikhamComponent } from '../utils/pop-up/patient/popup-sual
       PopupAddExaminationComponent,
       PopupEditExaminationComponent,
       PopupDatlichtaikhamComponent,
-      PopupSualichtaikhamComponent
+      PopupSualichtaikhamComponent,
+      PopupPaymentComponent,
+      PatientPaymentTabComponent
   ],
   imports: [
     CommonModule,

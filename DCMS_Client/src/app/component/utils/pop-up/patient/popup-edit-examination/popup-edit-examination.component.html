@@ -85,153 +85,189 @@
 
           <h2>Hình ảnh</h2>
           <div class="row mt-3 content-child">
-            <div class="col-md-3">
-              <!-- <img width="100%" height="100%" [src]="TreatmentCourseDetail.xRayImage" alt="ảnh nếu có"> -->
+            <div class="col-md-3" #containerRef>
               <i class="text-center" style="font-size: 12px;">Bấm vào ô vuông này để thêm ảnh X-quang</i>
-              <div class="image-container" style="border: 3px dotted #ccc;" (click)="fileInput.click()">
-                <img [src]="imageURL" alt="ẢNH" class="text-center">
-                <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput style="display: none;">
+              <div class="image-container" (click)="togglePopup()" alt="">
+                <div *ngFor="let url of imageUrls">
+                  <div class="image-wrapper">
+                    <img [src]="url" style="cursor: pointer; width: 100px; height: 100px; object-fit: contain;"
+                      alt="Ảnh đã chọn">
+                    <button class="delete-button" (click)="removeImage(url); $event.stopPropagation()">X</button>
+                  </div>
+                </div>
+                <!-- Popup -->
+                <div class="popup" [ngStyle]="{ 'display': showPopup ? 'block' : 'none' }"
+                  (click)="$event.stopPropagation()">
+                  <button (click)="fileInput.click(); showPopup=false">Chọn ảnh</button>
+                  <button (click)="showInput = true; showPopup = false">Nhập đường dẫn</button>
+                  <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput multiple
+                    style="display: none;">
+                </div>
               </div>
-              <input type="text" placeholder="Hoặc nhập đường dẫn vào đây"
-                style="border-bottom: 1px solid #746d6d00; width: 100%;" [(ngModel)]="this.examination.xRayImage">
+              <div *ngIf="showInput" class="fadeIn">
+                <input type="text" placeholder="Hoặc nhập đường dẫn vào đây"
+                  style="border-bottom: 1px solid #746d6d00; width: 100%;"
+                  ngbTooltip="Nhập đường dẫn ảnh của bạn tại đây" [(ngModel)]="this.examination.xRayImage">
+              </div>
             </div>
-
             <div class="col-md-1">
 
             </div>
             <div class="col-md-8">
-              <textarea class="form-control" style="
-                    height: 200px;margin-top: 16px;
-                    " [(ngModel)]="examination.xRayImageDes"
+              <textarea class="form-control" style="border: 1px solid #000; margin-top: 14px;
+                      height: 100%;" [(ngModel)]="examination.xRayImageDes"
                 placeholder="Nhận xét về ảnh x-quang(nếu có ảnh)"></textarea>
             </div>
           </div>
 
           <div class="row mt-4">
-            <div class="col-sm-6">
-              <h2>Lịch trình điều trị</h2>
-            </div>
-            <div class="col-sm-6">
-              <button class="btn button-timekeeping float-end">Thêm mới</button>
+            <div class="col-md-12">
+              <h2>Thủ thuật</h2>
             </div>
           </div>
 
           <div class="row mt-3">
-            <div class="col-sm-12">
-              <div class="table-responsive">
-                <table class="table table-bordered text-center">
-                  <thead>
-                    <tr>
-                      <th>Răng</th>
-                      <th>Tình trạng răng</th>
-                      <th>Tên thủ thuật</th>
-                      <th>KH đồng ý</th>
-                      <th>Đơn giá</th>
-                      <th>Thành tiền</th>
-                      <th>Đã trả</th>
-                      <th>Còn lại</th>
-                      <th>Tình trạng</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </table>
+            <div class="col-md-12">
+              <div class="table-custom">
+                <div style="position: relative;">
+                  <i [ngStyle]="{ 'opacity': isHovering ? '1' : '0.5', 'cursor': 'pointer', 'font-size': '25px' }"
+                    (mouseover)="isHovering = true" (mouseout)="isHovering = false"
+                    (click)="addNewRow(1); animateIcon($event)"
+                    style="position: absolute; left: 0; transform: translate(-100%, 130%);"
+                    class="bi bi-plus-circle"></i>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Tình trạng răng</th>
+                        <th>Tên thủ thuật</th>
+                        <th>KH đồng ý</th>
+                        <th>Đơn giá</th>
+                        <th>Thành tiền</th>
+                        <th>Đã trả</th>
+                        <th>Còn lại</th>
+                        <th>Tình trạng</th>
+                        <th>Thao tác</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of tableRows; let i = index" [ngClass]="row.animationClass" @rowAnimation>
+                        <td><input [(ngModel)]="row.tooth" type="text" class="form-control" /></td>
+                        <td><input [(ngModel)]="row.procedure_name" type="text" class="form-control" /></td>
+                        <td><input [(ngModel)]="row.khdongy" type="text" class="form-control" /></td>
+                        <td><input [(ngModel)]="row.unit_price" type="text" class="form-control" /></td>
+                        <td><input [(ngModel)]="row.total" type="text" class="form-control" /></td>
+                        <td><input [(ngModel)]="row.total_paid" type="text" class="form-control" /></td>
+                        <td><input [(ngModel)]="row.remain" type="text" class="form-control" /></td>
+                        <td><input [(ngModel)]="row.status" type="text" class="form-control" /></td>
+                        <td>
+                          <i class="bi bi-trash" style="cursor: pointer;" (click)="removeRow(i, 1)"></i>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
 
           <div class="row mt-3">
-            <div class="col-sm-6">
+            <div class="col-md-12">
               <h2>Đặt xưởng/vật tư</h2>
             </div>
-            <div class="col-sm-6">
-              <button class="btn button-timekeeping float-end">Thêm mới</button>
-            </div>
           </div>
 
           <div class="row">
             <div class="col-sm-12">
-              <div class="table-responsive">
-                <table class="table table-bordered text-center">
-                  <thead>
-                    <tr>
-                      <th>Răng</th>
-                      <th>Vật liệu</th>
-                      <th>Đơn vị cung cấp</th>
-                      <th>Số lượng</th>
-                      <th>Đơn giá</th>
-                      <th>Thành tiền</th>
-                      <th>Giảm giá</th>
-                      <th>Ngày đặt</th>
-                      <th>Người đặt</th>
-                      <th>Tình trạng</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div class="table-custom">
+                <div style="position: relative;">
+                  <i [ngStyle]="{ 'opacity': isHovering ? '1' : '0.5', 'cursor': 'pointer', 'font-size': '25px' }"
+                    (mouseover)="isHovering = true" (mouseout)="isHovering = false"
+                    (click)="addNewRow(1); animateIcon($event)"
+                    style="position: absolute; left: 0; transform: translate(-100%, 130%);"
+                    class="bi bi-plus-circle"></i>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Vật liệu</th>
+                        <th>Đơn vị cung cấp</th>
+                        <th>Số lượng</th>
+                        <th>Đơn giá</th>
+                        <th>Thành tiền</th>
+                        <th>Giảm giá</th>
+                        <th>Ngày đặt</th>
+                        <th>Người đặt</th>
+                        <th>Tình trạng</th>
+                        <th>Thao tác</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of supplyOrderRows; let i = index" [ngClass]="row.animationClass"
+                        @rowAnimation>
+                        <td><input [(ngModel)]="row.type" type="text" class="form-control" /></td>
+                        <td><input [(ngModel)]="row.supplyName" type="text" class="form-control" /></td>
+                        <td><input [(ngModel)]="row.quantity" type="number" class="form-control" /></td>
+                        <td><input [(ngModel)]="row.unit_price" type="number" class="form-control" /></td>
+                        <td><input [(ngModel)]="row.total" type="number" class="form-control" /></td>
+                        <td><input [(ngModel)]="row.discount" type="number" class="form-control" /></td>
+                        <td><input [(ngModel)]="row.order_date" type="text" class="form-control" /></td>
+                        <td><input [(ngModel)]="row.order" type="text" class="form-control" /></td>
+                        <td><input [(ngModel)]="row.status" type="text" class="form-control" /></td>
+                        <td>
+                          <i class="bi bi-trash" style="cursor: pointer;" (click)="removeRow(i, 2)"></i>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
 
 
+
           <div class="row mt-3">
-            <div class="col-sm-6">
+            <div class="col-md-12">
               <h2>Vật liệu sử dụng</h2>
-            </div>
-            <div class="col-sm-6">
-              <button class="btn button-timekeeping float-end">Thêm mới</button>
             </div>
           </div>
           <div class="row">
             <div class="col-sm-12">
-              <div class="table-responsive">
-                <table class="table table-bordered text-center">
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Tên vật liệu</th>
-                      <th>Số lượng</th>
-                      <th>Ngày dùng</th>
-                      <th>Người thêm</th>
-                      <th>Thao tác</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div class="table-custom">
+                <div style="position: relative;">
+                  <i [ngStyle]="{ 'opacity': isHovering ? '1' : '0.5', 'cursor': 'pointer', 'font-size': '25px' }"
+                    (mouseover)="isHovering = true" (mouseout)="isHovering = false"
+                    (click)="addNewRow(1); animateIcon($event)"
+                    style="position: absolute; left: 0; transform: translate(-100%, 130%);"
+                    class="bi bi-plus-circle"></i>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Tên vật liệu</th>
+                        <th>Số lượng</th>
+                        <th>Ngày dùng</th>
+                        <th>Người thêm</th>
+                        <th>Thao tác</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of materialUsageRows; let i = index" [ngClass]="row.animationClass"
+                        @rowAnimation>
+                        <td>{{i+1}}</td>
+                        <td><input [(ngModel)]="row.material_name" type="text" class="form-control" /></td>
+                        <td><input [(ngModel)]="row.quantity" type="text" class="form-control" /></td>
+                        <td><input [(ngModel)]="row.usage_date" type="text" class="form-control" /></td>
+                        <td><input [(ngModel)]="row.adder" type="text" class="form-control" /></td>
+                        <td>
+                          <i class="bi bi-trash" style="cursor: pointer;" (click)="removeRow(i, 3)"></i>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
             <div class="save float-end" style="padding: 10px 0px;">

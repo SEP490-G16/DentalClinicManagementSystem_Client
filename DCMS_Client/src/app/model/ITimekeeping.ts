@@ -20,5 +20,6 @@ export interface Staff {
   timeClockin: string,
   timeClockout: string,
   isClockin: boolean,
-  isClockout: boolean
+  isClockout: boolean,
+  weekTimekeeping: { [key: number]: { clockIn: string, clockOut: string } };
 }

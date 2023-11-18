@@ -1,4 +1,4 @@
-<div class="recent-orders" style="border-radius: 15px;">
+<div class="recent-orders bg-white" style="border-radius: 15px;">
   <div class="content-wrapper">
     <div class="row">
       <div class="card-box">
@@ -23,136 +23,61 @@
       </div>
     </div>
 
-      <div class="tab-pane" id="TTtab" style="padding: 30px;">
-        <h2 class="text-center mt-5 mb-5">Thông tin thanh toán</h2>
-        <table class="cus-table">
-          <thead>
-            <tr>
-              <th style="border-left:none; border-top: none;">Tổng tiền điều trị</th>
-              <th style="border-top: none;">Giảm giá</th>
-              <th style="border-top: none;">Phải thanh toán</th>
-              <th style="border-top: none;">Đã thu</th>
-              <th style="border-right:none; border-top: none;">Còn lại</th>
-            </tr>
-          </thead>
+    <div class="tab-pane" id="TTtab" style="padding: 30px;">
+      <div class="title mb-3">Thông tin thanh toán</div>
 
-          <tbody>
-            <tr class="no-top-border">
-              <td style="border-left:none; border-top: none;">30.000.000</td>
-              <td style="border-top: none;">1.500.000</td>
-              <td style="border-top: none;">28.500.000</td>
-              <td style="border-top: none;">28.000.000</td>
-              <td style="border-right:none; border-top: none;">500.000</td>
-            </tr>
-          </tbody>
-        </table>
+      <table class="payment-table">
+        <tr>
+          <th>Tổng tiền điều trị</th>
+          <th>Giảm giá</th>
+          <th>Phải thanh toán</th>
+          <th>Đã thu</th>
+          <th>Còn lại</th>
+        </tr>
+        <tr>
+          <td>{{Total}}</td>
+          <td></td>
+          <td>{{Total}}</td>
+          <td>{{Total_Paid}}</td>
+          <td>{{getAbsoluteValue(Total_Paid - Total)}}</td>
+        </tr>
+      </table>
 
-        <div class="row" style="margin-top: 200px;">
-          <div class="col">
-            <h2 class="text-center">Hoá đơn điều trị</h2>
-            <button class="btn-cus float-end mb-3">In hóa đơn tổng</button>
-          </div>
-        </div>
-        <table class="table table-bordered" style="border-color: #7B4C50;">
-          <thead>
-            <tr>
-              <th>Ngày điều trị</th>
-              <th>Cơ sở</th>
-              <th>Thành tiền</th>
-              <th>Giảm giá</th>
-              <th>Tổng chi phí</th>
-              <th>Đã thanh toán</th>
-              <th>Còn lại</th>
-              <th>Thanh toán</th>
+      <div class="title mb-3">Hóa đơn điều trị</div>
 
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr>
-              <td>11/9/2023</td>
-              <td>Cơ sở 1</td>
-              <td>300.000.000</td>
-              <td>1.500.000</td>
-              <td>28.500.000</td>
-              <td>28.000.000</td>
-              <td>500.000</td>
-              <td><button class="btn-cus" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Thanh toán</button></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-  </div>
-
-
-  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="text-center w-100" id="staticBackdropLabel">Thanh toán</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="row mt-3 mb-3">
-            <div class="col-sm-3">
-              Ngày điều trị: <h4 style="border-bottom: 1px solid #1E1E1E;">14-10-2023</h4>
-            </div>
-          </div>
-          <div class="row mb-5">
-            <div class="col">
-              <div class="table-responsive">
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th scope="col">Tình trạng</th>
-                      <th scope="col">Răng số</th>
-                      <th scope="col">Tên thủ thuật</th>
-                      <th scope="col">Nội dung thủ thuật</th>
-                      <th scope="col">Bác sĩ</th>
-                      <th scope="col">Số lượng</th>
-                      <th scope="col">Chi phí</th>
-                      <th scope="col">Trả</th>
-                      <th scope="col">Tổng</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Fine</td>
-                      <td>5 và 2</td>
-                      <td>Thay Răng</td>
-                      <td>zcczcz</td>
-                      <td>
-                        Dr.Long
-                      </td>
-                      <td>2</td>
-                      <td>Free</td>
-                      <td>Free</td>
-                      <td>0 VNĐ</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-          <div class="row mb-3">
-            <div class="col text-end">
-              <p>Chi phí theo thủ thuật: .............</p>
-              <p>Giảm giá: ................</p>
-              <p>Tổng chi phí: ................</p>
-              <p>Đã thanh toán: ...............</p>
-              <p>Còn lại: ..................</p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col text-center">
-              <button class="btn btn-light" style="margin-right: 30px;" data-bs-dismiss="modal">Hủy bỏ</button>
-              <button class="btn btn-dark">Thanh toán</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <table class="payment-table">
+        <thead>
+          <tr>
+            <th>Ngày điều trị</th>
+            <th>Cơ sở</th>
+            <th>Thành tiền</th>
+            <th>Giảm giá</th>
+            <th>Tổng chi phí</th>
+            <th>Đã thanh toán</th>
+            <th>Còn lại</th>
+            <th>Thanh toán</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let mu of Material_Usage">
+            <td>{{mu.created_date | VNdateTimeFormat}}</td>
+            <td>{{facility}}</td>
+            <td>{{mu.total}}</td>
+            <td></td>
+            <td>{{mu.total}}</td>
+            <td>{{mu.total_paid}}</td>
+            <td>{{getAbsoluteValue(mu.total_paid - mu.total)}}</td>
+            <td><button class="payment-button" (click)="thanhtoan(mu)">Thanh toán</button></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+
   </div>
+
 </div>
+
+<!-- <app-popup-payment-tab [PMU]="PMU"
+                       [Ex]="Examination"
+                       [MU]="Material_Usage"
+></app-popup-payment-tab> -->

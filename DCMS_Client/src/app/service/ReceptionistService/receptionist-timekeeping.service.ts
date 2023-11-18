@@ -20,6 +20,7 @@ export class ReceptionistTimekeepingService {
 
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`,
+      'Content-Type':'application/json',
     });
       return this.http.get(`${this.apiUrl}/timekeeping/${startTime}/${endTime}`, { headers});
   }

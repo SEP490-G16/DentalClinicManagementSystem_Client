@@ -34,18 +34,6 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
     this.getTreatmentCourse();
-
-    // this.ITreatmentCourse = [
-    //   {
-    //     "treatment_course_id": "T-00000001",
-    //     "patient_id": "P-000001",
-    //     "description": "Mô tả điều trị",
-    //     "status": 1,
-    //     "created_date": "2023-10-26 19:02:42",
-    //     "name": "Điều trị răng"
-    //   },
-    // ]
-
   }
 
 
