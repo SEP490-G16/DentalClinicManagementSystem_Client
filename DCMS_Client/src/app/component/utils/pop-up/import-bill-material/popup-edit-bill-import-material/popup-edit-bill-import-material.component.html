@@ -50,10 +50,10 @@
               <button href="add-employee.html" class="btn btn-custom" (click)="updateImportBill()"><i class="bi"></i> Cập nhật phiếu</button>
 
             </div>
-            <div class="col-md-3" *ngIf="status">
-              <button href="add-employee.html" class="btn" [ngClass]="{'btn-custom':!isAdd, 'btn-save':isAdd}" (click)="toggleAdd()" ><i class="bi" [ngClass]="{'bi-plus-circle': !isAdd, 'bi-floppy2': isAdd}"></i> {{isAdd ? "Lưu" : "Cập nhật"}}
+            <div class="col-md-3">
+              <button class="btn" [ngClass]="{'btn-custom':!isAdd, 'btn-save':isAdd}" (click)="addNewMaterials()" ><i class="bi" [ngClass]="{'bi-plus-circle': !isAdd, 'bi-floppy2': isAdd}"></i> Thêm mới
               </button>
-              <button *ngIf="isAdd" (click)="toggleCancel()" type="button" class="btn btn-cancel">Huỷ</button>
+          
             </div>
           </div>
           <div class="row mt-5">
@@ -76,78 +76,47 @@
                   <ng-container  >
                     <tr *ngFor="let m of displayListImport">
 
-                      <td *ngIf="!isAdd" >
+                      <td>
                         <!--<input type="text" *ngIf="isAdd" [disabled]="!isAdd" [(ngModel)]="m.material_id" class="form-control value-staff">-->
-                        <ng-select *ngIf="!isAdd && materialList" disabled [items]="materialList" [(ngModel)]="m.material_id" [searchable] = "true" bindLabel="tenVatLieu" bindValue="id" (ngModelChange)="updateTemporaryName(m, $event)">
+                        <ng-select *ngIf="isAdd == false ? 'disabled' :''" [items]="materialList" [(ngModel)]="m.material_id" [searchable] = "true" bindLabel="tenVatLieu" bindValue="id" (ngModelChange)="updateTemporaryName(m, $event)">
                         </ng-select>
+                    
                       </td>
                      <!-- <td *ngIf="!isAdd">{{m.donVi}}</td>-->
-                      <td *ngIf="!isAdd && m.material_id"><input type="text" *ngIf="!isAdd" [(ngModel)]="m.unit" disabled class="form-control value-staff"></td>
+                      <td>
+                        <input type="text" [(ngModel)]="m.unit" disabled class="form-control value-staff">
+                      </td>
                       <!--<td *ngIf="!isAdd">{{m.quantity_import}}</td>-->
-                      <td *ngIf="!isAdd" ><input type="text" *ngIf="!isAdd" [(ngModel)]="m.quantity_import"  (ngModelChange)="calculateThanhTien(m)" class="form-control value-staff"></td>
+                      <td>
+                        <input type="text"  [(ngModel)]="m.quantity_import"  (ngModelChange)="calculateThanhTien(m)" class="form-control value-staff">
+                      </td>
                       <!--<td *ngIf="!isAdd">{{m.price}}</td>-->
-                      <td *ngIf="!isAdd" ><input type="text" [(ngModel)]="m.price" (ngModelChange)="calculateThanhTien(m)" *ngIf="!isAdd" class="form-control value-staff"></td>
+                      <td>
+                        <input type="text" [(ngModel)]="m.price" (ngModelChange)="calculateThanhTien(m)" class="form-control value-staff">
+                      </td>
                       <!--<td *ngIf="!isAdd"></td>-->
-                      <td *ngIf="!isAdd"><input type="text" *ngIf="!isAdd" [(ngModel)]="m.totalAmount" class="form-control value-staff"></td>
+                      <td>
+                        <input type="text"  [(ngModel)]="m.totalAmount" class="form-control value-staff">
+
+                      </td>
                       <!--<td *ngIf="!isAdd">{{m.warranty}}</td>-->
-                      <td *ngIf="!isAdd" ><input type="date" *ngIf="!isAdd" [(ngModel)]="m.warranty" class="form-control value-staff"></td>
+                      <td>
+                        <input type="date"  [(ngModel)]="m.warranty" class="form-control value-staff">
+
+                      </td>
                      <!-- <td *ngIf="!isAdd">{{m.discount}}</td>-->
-                      <td *ngIf="!isAdd" ><input type="text" *ngIf="!isAdd" [(ngModel)]="m.discount" class="form-control value-staff"></td>
-                      <td *ngIf="!isAdd" class="delete-cell">
-                        <button *ngIf="!isAdd" class="delete-button" (click)="deleteMaterialWareHouse()">
+                      <td>
+                        <input type="text" [(ngModel)]="m.discount" class="form-control value-staff">
+
+                      </td>
+                      <td class="delete-cell">
+                        <button *ngIf="!isAdd" class="delete-button" (click)="deleteMaterialWareHouse(m.material_warehouse_Import_Id)">
                           x
                         </button>
                       </td>
                     </tr>
                   </ng-container>
-                  <!--<ng-container *ngIf="isAdd" >
-                    <tr *ngFor="let record of records; let i = index">
-
-                      <td>{{ i + 1 }}</td>
-                      <td>
-                        <input type="text" [(ngModel)]="record.tenVatLieu" *ngIf="isAdd" [disabled]="!isAdd" class="form-control value-staff">
-                        &lt;!&ndash;<ng-select *ngIf="isAdd" [items]="options" [(ngModel)]="record.tenVatLieu" [searchable] = "true">
-                        </ng-select>&ndash;&gt;
-
-                        <p *ngIf="!isAdd">{{ record.tenVatLieu }}</p>
-                      </td>
-                      <td>
-                        <input type="text" [(ngModel)]="record.donVi" *ngIf="isAdd" class="form-control value-staff">
-                        &lt;!&ndash;<p *ngIf="!isAdd">abc</p>&ndash;&gt;
-                        <p *ngIf="!isAdd">{{ record.donVi }}</p>
-                      </td>
-                      <td>
-                        <input type="number" [(ngModel)]="record.soLuong" *ngIf="isAdd" class="form-control value-staff">
-                        &lt;!&ndash;<p *ngIf="!isAdd">10</p>&ndash;&gt;
-                        <p *ngIf="!isAdd">{{ record.soLuong }}</p>
-                      </td>
-                      <td>
-                        <input type="text" [(ngModel)]="record.donGia" *ngIf="isAdd" class="form-control value-staff">
-                        &lt;!&ndash;<p *ngIf="!isAdd">1.000.000</p>&ndash;&gt;
-                        <p *ngIf="!isAdd">{{ record.donGia }}</p>
-                      </td>
-                      <td>
-                        <input type="text" [(ngModel)]="record.thanhTien" *ngIf="isAdd" class="form-control value-staff">
-                        &lt;!&ndash;<p *ngIf="!isAdd">10.000.000</p>&ndash;&gt;
-                        <p *ngIf="!isAdd">{{ record.thanhTien }}</p>
-                      </td>
-                      <td>
-                        <input type="date" [(ngModel)]="record.hanSudung" *ngIf="isAdd" class="form-control value-staff">
-                        <p *ngIf="!isAdd">{{ record.hanSudung }}</p>
-                      </td>
-                      <td>
-                        <input type="text" [(ngModel)]="record.chietKhau" *ngIf="isAdd" class="form-control value-staff">
-                        &lt;!&ndash;<p *ngIf="!isAdd">10%</p>&ndash;&gt;
-                        <p *ngIf="!isAdd">{{ record.chietKhau }}</p>
-                      </td>
-                      <td *ngIf="!isAdd" class="delete-cell">
-                        <button *ngIf="!isAdd" class="delete-button" (click)="deleteRecord(i)">
-                          x
-                        </button>
-                      </td>
-
-                    </tr>
-                  </ng-container>-->
+                
                   </tbody>
                 </table>
               </div>

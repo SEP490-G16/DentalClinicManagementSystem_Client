@@ -176,6 +176,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
       month: parseInt(currentDateGMT7.split('-')[1]),
       day: parseInt(currentDateGMT7.split('-')[2])
     };
+    console.log("mới", this.model);
     console.log(this.appointmentDate);
   }
 
@@ -352,7 +353,6 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
           this.procedure = '';
           this.appointmentTime = '';
           this.newItemEvent.emit(this.AppointmentBody);
-          //this.dataService.addItem(response);
           this.AppointmentBody = {
             epoch: 0,    
             appointment: {
@@ -366,6 +366,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
               time: 0 
             }
           } as IAddAppointment;
+          window.location.reload();
         },
         (error) => {
           this.loading = false;

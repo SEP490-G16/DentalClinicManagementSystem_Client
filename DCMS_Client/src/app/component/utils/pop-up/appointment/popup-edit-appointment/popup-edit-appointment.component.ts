@@ -41,6 +41,7 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
   //config ng bootstrap
   listGroupService: any[] = [];
   model!: NgbDateStruct;
+  currentDate!: NgbDateStruct;
   datePickerJson = {};
   markDisabled: any;
   json = {
@@ -101,6 +102,12 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
         : false;
     };
 
+    const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
+    this.currentDate = {
+      year: parseInt(currentDateGMT7.split('-')[0]),
+      month: parseInt(currentDateGMT7.split('-')[1]),
+      day: parseInt(currentDateGMT7.split('-')[2])
+    };
 
   }
 

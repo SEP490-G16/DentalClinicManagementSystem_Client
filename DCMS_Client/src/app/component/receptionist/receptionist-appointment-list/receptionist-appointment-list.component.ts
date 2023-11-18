@@ -104,7 +104,6 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     this.filteredAppointments = this.appointmentList.filter(app => app.date === this.startDateTimestamp);
       this.filteredAppointments.forEach((a: any) => {
         this.dateEpoch = this.timestampToDate(a.date);
-        this.ePoch = a.date;
         a.appointments.forEach((b: any) => {
           b.details = b.details.sort((a: any, b: any) => a.time - b.time);
         })
@@ -167,9 +166,23 @@ export class ReceptionistAppointmentListComponent implements OnInit {
           return { ...a, appointments: filteredAppointments };
         })
         .filter((a: any) => a.appointments.length > 0);
+        this.filteredAppointments.forEach((a: any) => {
+          this.dateEpoch = this.timestampToDate(a.date);
+          this.ePoch = a.date;
+          a.appointments.forEach((b: any) => {
+            b.details = b.details.sort((a: any, b: any) => a.time - b.time);
+          })
+        })
     } else {
       // Nếu không có selectedProcedure, hiển thị toàn bộ danh sách
       this.filteredAppointments = this.appointmentList;
+      this.filteredAppointments.forEach((a: any) => {
+        this.dateEpoch = this.timestampToDate(a.date);
+        this.ePoch = a.date;
+        a.appointments.forEach((b: any) => {
+          b.details = b.details.sort((a: any, b: any) => a.time - b.time);
+        })
+      })
     }
   }
 
@@ -227,7 +240,11 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     this.appointmentService.putAppointment(this.DELETE_APPOINTMENT_BODY, appointment.appointment_id).subscribe(response => {
       console.log("Cập nhật thành công");
       this.showSuccessToast('Xóa lịch hẹn thành công!');
-        window.location.reload();
+      const index = this.filteredAppointments.find((item:any) => item.appointment_id == appointment.appointment_id);
+      if (index != -1) {
+        this.filteredAppointments.slice(index, 1);
+      }
+        //window.location.reload();
     }, error => {
       this.showErrorToast("Lỗi khi cập nhật");
     });

@@ -65,7 +65,8 @@
               data-bs-target="#detailModal">{{p.CreateDate | date:'dd-MM-yyyy'}}</a></td>
           <td>{{p.CreateBy}}</td>
           <td>{{p.Note}}</td>
-          <td>{{p.TotalAmount}}</td>
+          <td *ngIf="p.TotalAmount == null">0</td>
+          <td *ngIf="p.TotalAmount != null">{{p.TotalAmount}}</td>
           <td class="text-center">
             <button href="#" style="padding: 2px 5px;" class="btn btn-primary float-right btn-rounded"
               data-bs-toggle="modal" data-bs-target="#editImportBillModal" (click)="openEditImportMaterial(p.Id, p)"><i

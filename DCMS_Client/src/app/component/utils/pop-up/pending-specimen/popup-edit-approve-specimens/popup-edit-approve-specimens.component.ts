@@ -2,6 +2,7 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {MedicalSupplyService} from "../../../../../service/MedicalSupplyService/medical-supply.service";
 import {ToastrService} from "ngx-toastr";
 import {PatientService} from "../../../../../service/PatientService/patient.service";
+import { LaboService } from 'src/app/service/LaboService/Labo.service';
 
 @Component({
   selector: 'app-popup-edit-approve-specimens',
@@ -23,6 +24,7 @@ export class PopupEditApproveSpecimensComponent implements OnChanges {
     totalPrice: '',
     orderDate:'',
     receiver:'',
+    labo_id: '',
     total:''
   }
   specimenBody={
@@ -36,6 +38,8 @@ export class PopupEditApproveSpecimensComponent implements OnChanges {
     used_date:'',
     facility_id:'',
     patient_id:'',
+    
+    labo_id: '',
     status:'',
   }
   validateSpecimens = {
@@ -66,9 +70,11 @@ export class PopupEditApproveSpecimensComponent implements OnChanges {
   loading:boolean = false;
   constructor(private medicalSupplyService: MedicalSupplyService,
               private toastr: ToastrService,
+              private laboService:LaboService,
               private patientSerivce:PatientService) { }
 
   ngOnInit(): void {
+    this.getAllLabo();
   }
   calculateTotal() {
     const total = parseInt(this.specimen.quantity) * parseInt(this.specimen.price);
@@ -103,7 +109,17 @@ export class PopupEditApproveSpecimensComponent implements OnChanges {
     }
     return value.toString();
   }
+
+  labos: any [] = [];
+
+  getAllLabo() {
+    this.laboService.getLabos().subscribe((data) => {
+      this.labos = data.data;
+    })
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
+    //this.getAllLabo();
     if (changes['id']){
       this.specimenId = this.id;
     }
@@ -127,6 +143,7 @@ export class PopupEditApproveSpecimensComponent implements OnChanges {
       const usedDatePart = orginalUsedDate.split(" ");
       const formattedUsedDate = usedDatePart[0];
       this.specimen.usedDate = formattedUsedDate;
+      this.specimen.labo_id = this.specimens.lb_id;
     }
   }
   updateSpecimensRes(){
@@ -210,6 +227,7 @@ export class PopupEditApproveSpecimensComponent implements OnChanges {
       used_date: userDateTimestamp,
       facility_id:'F-01',
       patient_id:this.patientId,
+      labo_id: this.specimen.labo_id,
       status:'1',
     }
     this.loading = true;

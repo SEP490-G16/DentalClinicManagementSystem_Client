@@ -74,24 +74,24 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
         }
         this.displayWarehouse = [];
         this.importBills.forEach((p: any) => {
-          let total = 0;
-          this.materialWarehouseService.getMaterialsByImportMaterialBill(p.id).subscribe(data => {
+          // let total = 0;
+          // this.materialWarehouseService.getMaterialsByImportMaterialBill(p.id).subscribe(data => {
 
-            this.materialList = data.data;
-            if (this.materialList.length != 0) {
-              this.materialList.forEach((m: any) => {
-                total = total + (m.quantity_import * m.price * (1 - m.discount));
-              })
-            } else {
-              total = 0;
-            }
+          //   this.materialList = data.data;
+          //   if (this.materialList.length != 0) {
+          //     this.materialList.forEach((m: any) => {
+          //       total = total + (m.quantity_import * m.price * (1 - m.discount));
+          //     })
+          //   } else {
+          //     total = 0;
+          //   }
             this.materbyId.Id = p.id;
             this.materbyId.CreateDate = p.created_date;
             this.materbyId.CreateBy = p.creator;
             this.materbyId.Note = p.description;
-            this.materbyId.TotalAmount = total;
+            this.materbyId.TotalAmount = p.total;
             this.displayWarehouse.push(this.materbyId);
-            total = 0;
+            //total = 0;
             this.materbyId = {
               Id: '',
               CreateDate: '',
@@ -99,7 +99,7 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
               TotalAmount: 0,
               CreateBy: ''
             }
-          })
+          //})
         })
       })
     }

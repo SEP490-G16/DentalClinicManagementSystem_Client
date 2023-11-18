@@ -142,18 +142,18 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
     })
   }
   materialWareHouseId:any;
-  updateImportMaterial(){
-      this.displayListImport.forEach((material:any) => {
-          this.materialListByImportMaterialId.forEach((a:any) => {
-            if (a.material_id == material.material_id) {
-              console.log(a.material_id)
+  updateImportMaterial() {
+    this.displayListImport.forEach((material: any) => {
+      this.materialListByImportMaterialId.forEach((a: any) => {
+        if (a.material_id == material.material_id) {
+          console.log(a.material_id)
 
-              this.materialWareHouseId = a.material_warehouse_id;
-              console.log(this.materialWareHouseId)
-            }
-          })
+          this.materialWareHouseId = a.material_warehouse_id;
+          console.log(this.materialWareHouseId)
+        }
+      })
       let warrantyDate = new Date(material.warranty);
-      let warrantyTimestamp = (warrantyDate.getTime()/1000).toString();
+      let warrantyTimestamp = (warrantyDate.getTime() / 1000).toString();
       this.importMaterialBody = {
         material_id: material.material_id,
         import_material_id: this.importMaterialBillId,
@@ -164,20 +164,17 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
         remaining: '0'
       }
       console.log("abc")
-        this.loading = true;
-        this.materialWarehouseService.updateMaterialImportMaterial(this.materialWareHouseId,this.importMaterialBody).subscribe(data=>{
-            this.toastr.success('Cập nhật thành công !');
-            window.location.reload();
-          },
-          error => {
-            this.loading = false;
-            this.toastr.error('Cập nhật thất bại !');
-          }
-        )
-    },
-    )
-
-
+      this.loading = true;
+      this.materialWarehouseService.updateMaterialImportMaterial(this.materialWareHouseId, this.importMaterialBody).subscribe(data => {
+        this.toastr.success('Cập nhật thành công !');
+        window.location.reload();
+      },
+        error => {
+          this.loading = false;
+          this.toastr.error('Cập nhật thất bại !');
+        }
+      )
+    })
   }
   updateTemporaryName(m:any,event:any) {
     // event chứa tên vật liệu được chọn
@@ -218,10 +215,10 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
     }
   }
   toggleAdd() {
-    this.isAdd = !this.isAdd;
+    this.isAdd = true;
     console.log("A",this.isAdd);
     if (this.isAdd){
-      //this.records.push({...this.materialInput});
+      this.records.push({...this.materialInput});
       /*this.getMaterials(this.paging);*/
     }
 
@@ -254,13 +251,26 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
     }
   }
 
-  deleteMaterialWareHouse(){
-
-    this.materialWarehouseService.deleteMaterialImportMaterial(this.materialWareHouseId).subscribe(data=>{
+  deleteMaterialWareHouse(id:any){
+    this.materialWarehouseService.deleteMaterialImportMaterial(id).subscribe(data=>{
       this.toastr.success('Xoá thành công!');
+      const index = this.displayListImport.findIndex((item:any) => item.m.material_warehouse_Import_Id == id);
+      if (index != -1) {
+        this.displayListImport.splice(index, 1);
+      }
     },
       error => {
       this.toastr.error('Xoá thất bại!');
       })
+  }
+  addNewMaterials() {
+    this.displayListImport.push({
+      quantity_import: '',
+      price: '',
+      totalAmount: '',
+      warranty: '',
+      discount: '',
+    });
+    this.isAdd = true;
   }
 }

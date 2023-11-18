@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import {FacilityService} from "../../../service/FacilityService/facility.service";
 import {ToastrService} from "ngx-toastr";
 
@@ -20,8 +20,12 @@ export class FacilityComponent implements OnInit {
   getFacilityList(){
     this.loading = true;
     this.facilityService.getFacilityList().subscribe(data=>{
-      console.log(data);
       this.facilityList = data.data;
+      this.facilityList.forEach((facility) => {
+        facility.facility_phone_number = this.normalizePhoneNumber(facility.facility_phone_number);
+        facility.manager_phone_number = this.normalizePhoneNumber(facility.manager_phone_number);
+      });
+      
       this.loading = false;
     },error => {
       this.loading = false;
@@ -49,5 +53,8 @@ export class FacilityComponent implements OnInit {
       )
     }
 
+  }
+  normalizePhoneNumber(phoneNumber: string): string {
+    return phoneNumber.startsWith('(+84)') ? '0' + phoneNumber.slice(5) : phoneNumber;
   }
 }

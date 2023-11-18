@@ -16,10 +16,11 @@ import { LaboService } from 'src/app/service/LaboService/Labo.service';
 export class SpecimensComponent implements OnInit {
 
   SpecimensRoot: SpecimensRoot;
+  
 
   paging: number = 1;
 
-  labos:any;
+  labos:any[] = [];
   laboFilter: any = null;
 
   SpecimensFilter = {
@@ -27,7 +28,7 @@ export class SpecimensComponent implements OnInit {
     ms_received_date: "",
   }
 
-  filteredSpecimens: any;
+  filteredSpecimens: any[] = [];
   labo_id: any = "";
   status: any = "";
   loading:boolean=false;
@@ -86,7 +87,7 @@ export class SpecimensComponent implements OnInit {
   getAllLabo() {
     this.laboService.getLabos().subscribe((data) => {
       this.labos = data.data;
-      console.log("Get all Labo: ", this.labos);
+      console.log(this.labos);
     })
   }
 
@@ -122,12 +123,77 @@ export class SpecimensComponent implements OnInit {
     }
   }
 
+  specimenObject = {
+    ms_id:'',
+    ms_name:'', 
+    ms_type: '', 
+    ms_quantity:'', 
+    ms_unit_price:'',
+    lb_id: '', 
+    lb_name: '', 
+    ms_status: 0, 
+    ms_order_date: '', 
+    ms_used_date: '',
+    ms_orderer: '', 
+    ms_received_date: '', 
+    ms_receiver: '',
+    ms_warranty: '' 
+  }
+
+  laboName: string= '';
+  //test nha
+  getLaboName(item: any): any {
+    this.laboService.getLabos().subscribe((data) => {
+      this.labos = data.data;
+      this.labos.forEach((lb: any) => {
+        if (lb.labo_id === item) {
+          this.laboName = lb.name;
+        } 
+      })
+    }) 
+    return this.laboName;
+  }
+
   getAllSpecimens(paging:number) {
     this.loading = true;
     this.SpecimensService.getSpecimens(paging)
       .subscribe((sRoot) => {
-        this.SpecimensRoot = sRoot;
-        this.filteredSpecimens = sRoot.data;
+        console.log("kjsbgkjws",sRoot.data);
+        sRoot.data.forEach((item:any) => {
+          this.specimenObject.ms_id = item.ms_id;
+          this.specimenObject.ms_name = item.ms_name;
+          this.specimenObject.ms_type = item.ms_type;
+          this.specimenObject.ms_quantity = item.ms_quantity;
+          this.specimenObject.ms_unit_price = item.ms_unit_price;
+          this.specimenObject.lb_id = item.lb_id;
+          this.specimenObject.lb_name = this.getLaboName(item.lb_id);
+          this.specimenObject.ms_status = item.ms_status;
+          this.specimenObject.ms_order_date = item.ms_order_date;
+          this.specimenObject.ms_used_date = item.ms_used_date;
+          this.specimenObject.ms_orderer = item.ms_orderer;
+          this.specimenObject.ms_received_date = item.ms_received_date;
+          this.specimenObject.ms_receiver = item.ms_receiver;
+          this.specimenObject.ms_warranty = item.ms_warranty;
+          this.filteredSpecimens.push(this.specimenObject);
+          this.specimenObject = {
+            ms_id:'',
+            ms_name:'', 
+            ms_type: '', 
+            ms_quantity:'', 
+            ms_unit_price:'',
+            lb_id: '', 
+            lb_name: '', 
+            ms_status: 0, 
+            ms_order_date: '', 
+            ms_used_date: '',
+            ms_orderer: '', 
+            ms_received_date: '', 
+            ms_receiver: '',
+            ms_warranty: '' 
+          }
+          this.laboName = '';
+        })
+
         if (this.filteredSpecimens.length < 11){
           this.pagingSearch.total+=this.filteredSpecimens.length;
         }
@@ -135,9 +201,6 @@ export class SpecimensComponent implements OnInit {
         {
           this.pagingSearch.total=this.filteredSpecimens.length;
         }
-        console.log(this.pagingSearch.total)
-        console.log(this.filteredSpecimens)
-
         this.loading = false;
       })
 
@@ -163,23 +226,23 @@ export class SpecimensComponent implements OnInit {
   //   })
 
   filterDate() {
-    this.loading = true;
-    this.SpecimensService.filterSpecimens(2, this.SpecimensFilter.ms_order_date, this.SpecimensFilter.ms_received_date, this.pagingSearch.paging)
-      .subscribe((sRoot) => {
-        this.SpecimensRoot = sRoot;
-        this.filteredSpecimens = sRoot.data;
-        if (this.filteredSpecimens.length < 11){
-          this.pagingSearch.total+=this.filteredSpecimens.length;
-        }
-        else
-        {
-          this.pagingSearch.total=this.filteredSpecimens.length;
-        }
-        console.log(this.pagingSearch.total)
-        console.log(this.filteredSpecimens)
+    //this.loading = true;
+    // this.SpecimensService.filterSpecimens(2, this.SpecimensFilter.ms_order_date, this.SpecimensFilter.ms_received_date, this.pagingSearch.paging)
+    //   .subscribe((sRoot) => {
+    //     this.SpecimensRoot = sRoot;
+    //     this.filteredSpecimens = sRoot.data;
+    //     if (this.filteredSpecimens.length < 11){
+    //       this.pagingSearch.total+=this.filteredSpecimens.length;
+    //     }
+    //     else
+    //     {
+    //       this.pagingSearch.total=this.filteredSpecimens.length;
+    //     }
+    //     console.log(this.pagingSearch.total)
+    //     console.log(this.filteredSpecimens)
 
-        this.loading = false;
-      })
+    //     this.loading = false;
+    //   })
   }
 
   AllLabos:any;
@@ -230,23 +293,22 @@ export class SpecimensComponent implements OnInit {
 
   //Convert Date
   dateToTimestamp(dateStr: string): number {
-    const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng của chuỗi ngày
+    const format = 'YYYY-MM-DD HH:mm'; // Định dạng của chuỗi ngày
     const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
-    const timestamp = moment.tz(dateStr, format, timeZone).valueOf();
+    const timestamp = moment.tz(dateStr, format, timeZone).valueOf() /1000;
     return timestamp;
   }
 
   timestampToDate(timestamp: number): string {
-    const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng cho chuỗi ngày đầu ra
-    const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
-    const dateStr = moment.tz(timestamp, timeZone).format(format);
+    const date = moment.unix(timestamp);
+    const dateStr = date.format('YYYY-MM-DD');
     return dateStr;
   }
 
 
   timestampToTime(timestamp: number): string {
-    const timeZone = 'Asia/Ho_Chi_Minh';
-    const timeStr = moment.tz(timestamp, timeZone).format('HH:mm');
+    const time = moment.unix(timestamp);
+    const timeStr = time.format('HH:mm');
     return timeStr;
   }
 
@@ -254,7 +316,7 @@ export class SpecimensComponent implements OnInit {
     const format = 'YYYY-MM-DD HH:mm'; // Định dạng của chuỗi ngày và thời gian
     const timeZone = 'Asia/Ho_Chi_Minh';
     const dateTimeStr = `${dateStr} ${timeStr}`;
-    const timestamp = moment.tz(dateTimeStr, format, timeZone).valueOf();
+    const timestamp = moment.tz(dateTimeStr, format, timeZone).valueOf() / 1000;
     return timestamp;
   }
 
