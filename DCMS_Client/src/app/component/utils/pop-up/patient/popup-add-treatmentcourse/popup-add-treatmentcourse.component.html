@@ -1,5 +1,5 @@
 <div class="modal" id="AddTreatmentModal">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
 
       <!-- Modal Header -->
@@ -34,17 +34,34 @@
             </div>
           </div>
 
-          <!-- <div class="row">
+          <div class="row">
             <div class="col-12">
               <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Created Date</label>
-                <input type="date" class="form-control" id="exampleInputEmail1"
-                [(ngModel)]="Add_TreatmentCourse.created_date"
-                aria-describedby="emailHelp">
-
+                <label for="treatmentSelect" class="form-label">Chọn liệu trình</label>
+                <select id="treatmentSelect" class="form-control" (change)="onProcedureSelectChange($event)">
+                  <option *ngFor="let procedure of ProcedureList" [value]="procedure.mg_id">{{ procedure.mg_name }}</option>
+                </select>
               </div>
             </div>
-          </div> -->
+          </div>
+
+          <!-- Table to display selected items -->
+          <div class="row">
+            <div class="col-12">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Lựa chọn đã thêm</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let selected of selectedItems">
+                    <td>{{ selected }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
 
           <div class="row">
             <div class="col-12">

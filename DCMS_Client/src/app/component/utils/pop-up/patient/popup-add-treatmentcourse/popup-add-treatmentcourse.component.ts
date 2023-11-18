@@ -4,6 +4,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonService } from 'src/app/service/commonMethod/common.service';
 import { ToastrService } from 'ngx-toastr';
+import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureService/medical-procedure-group.service';
 
 @Component({
   selector: 'app-popup-add-treatmentcourse',
@@ -17,21 +18,44 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     description: "",
     name: "",
   };
-  Patient_Id :string = "";
+  Patient_Id: string = "";
   constructor(
     private treatmentCourseService: TreatmentCourseService,
-    private methodService:CommonService,
-    private toastr:ToastrService,
-    private route:ActivatedRoute,
-    private router:Router
+    private methodService: CommonService,
+    private medicalProcedureGroupService: MedicalProcedureGroupService,
+    private toastr: ToastrService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
   }
 
+  ProcedureList:any = [];
+
+  selectedItems:string []= [];
 
   ngOnInit(): void {
     this.Patient_Id = this.route.snapshot.params['id'];
+    this.getMedicalProcedureList();
   }
 
+  onProcedureSelectChange(event: Event): void {
+    const selectElement = event.target as HTMLSelectElement;
+    const value = selectElement.value;
+    // Add the selected value to the list if not already present
+    if (!this.selectedItems.includes(value)) {
+      this.selectedItems.push(value);
+    }
+  }
+
+  getMedicalProcedureList(){
+    this.medicalProcedureGroupService.getMedicalProcedureList().subscribe(data=>{
+      console.log("Data Medical Procedure: ", data);
+      this.ProcedureList = data.data;
+    },
+    (err) => {
+      this.toastr.error(err.error.message, "Lấy dánh sách thủ thuật thất bại");
+    })
+  }
 
   addTreatmentCourse() {
     console.log(this.Add_TreatmentCourse);
