@@ -109,47 +109,59 @@ b {
 
 .recent-orders {
   margin-top: 1.3rem;
+  border-radius: 20px;
 }
 
 .recent-orders h2 {
   margin-bottom: 0.8rem;
 }
 
+
 table {
-  background-color: var(--custom-color-white);
-  width: 100%;
-  padding: var(--custom-card-padding);
-  text-align: center;
-  border-radius: var(--custom-card-border-radius);
-  transition: all 0.3s ease;
-  border: 1px solid #000;
+  width: 100%; /* Full-width tables */
+  border-collapse: collapse; /* Collapses border to remove any space between them */
+  table-layout: fixed; /* Ensures consistent column widths */
+  background-color: #fff; /* White background for the tables */
+  margin-bottom: 20px; /* Adds space between tables and any content below */
+  border-radius: 8px; /* Rounded corners for aesthetics */
+  overflow: hidden; /* Ensures the rounded corners clip the content */
 }
 
-table:hover {
-  box-shadow: none;
+th {
+  background-color: #f2f2f2;
+  color: #333;
+  text-align: left;
+  padding: 10px;
+  font-weight: bold;
 }
 
-table thead th {
-  height: 2.8rem;
-  color: var(--custom-color-dark-variant);
-  border: 1px solid #000;
+td {
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  text-align: left;
 }
 
+.action-column {
+  width: 7%;
+}
 
-table tbody td {
-  height: 2.8rem;
-  color: var(--custom-color-dark-variant);
-  border: 1px solid #000;
+td input[type="text"],
+td input[type="number"] {
+   width: 95%;
+    padding: 5px;
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+    border-radius: 4px;
 }
 
 .equal-width-list {
   padding: 0;
   list-style-position: inside;
-  text-align: justify; /* Áp dụng kiểu "justify" cho văn bản bên trong danh sách */
+  text-align: justify;
 }
 
 .equal-width-list li {
-  width: 100%; /* Đặt chiều rộng bằng nhau cho mỗi mục danh sách */
+  width: 100%;
   box-sizing: border-box;
 }
 
@@ -399,7 +411,8 @@ button:active{
 }
 
 .content-wrapper {
-  padding: 40px;
+  padding-left: 40px;
+  padding-right: 40px;
 }
 
 .content-child {
@@ -457,14 +470,15 @@ button:active{
   border: 3px dotted #ccc;
   position: relative;
   width: 100%;
-  height: 300px;
+  height: 250px;
   overflow-y: auto;
   display: flex;
   flex-wrap: wrap;
   cursor: pointer;
   align-items: flex-start;
   gap: 5px;
-  background-image: url(https://b2bbucket.s3.amazonaws.com/2465/products/broken-img.png);
+  background-image: url(https://bridlingtoncaravans.com/office/storage/no-image/no-image.png);
+  object-fit: cover;
   background-repeat: no-repeat;
 }
 
@@ -503,6 +517,78 @@ button:active{
   100% { opacity: 1; transform: translateY(0); }
 }
 
-.new-row-animation {
-  animation: rowAnimation 0.5s ease-out;
+.tab-pane {
+  background-color: #f8f9fa;
+  padding: 40px;
+  max-height: 76vh;
+  overflow-y: auto;
+}
+
+.KvDTtab-container {
+  margin-top: 20px;
+}
+
+.KvDTtab-container h2 {
+  color: #7B4C50; /* Primary theme color for headings */
+  margin-bottom: 15px; /* Spacing after headings */
+}
+
+.content-child {
+  margin-bottom: 15px; /* Spacing between rows */
+}
+
+.form-group, .form-control, .form-select {
+  width: 100%; /* Full width for form elements */
+  margin-bottom: 10px; /* Spacing after each form element */
+}
+
+.label {
+  font-weight: bold; /* Bold labels for better readability */
+}
+
+.image-container {
+  border: 1px dashed #7B4C50; /* Dashed border with primary theme color for image container */
+  padding: 10px; /* Padding inside the image container */
+  text-align: center; /* Centering the text */
+}
+
+.image-wrapper {
+  display: inline-block; /* Align images inline */
+  margin: 5px; /* Spacing between images */
+}
+
+.table-custom table {
+  width: 100%; /* Full width table */
+  border-collapse: collapse; /* Remove space between borders */
+}
+
+.table-custom th, .table-custom td {
+  border: 1px solid #dee2e6; /* Light grey border for table cells */
+  padding: 8px; /* Padding inside cells */
+  text-align: left; /* Align text to the left in cells */
+}
+
+.bi-plus-circle, .bi-trash {
+  color: #7B4C50; /* Primary theme color for icons */
+}
+
+.button-timekeeping {
+  background-color: #7B4C50; /* Primary theme color for buttons */
+  color: white; /* White text for buttons */
+  border-radius: 3px; /* Rounded corners for buttons */
+  padding: 10px 15px; /* Padding inside buttons */
+  border: none; /* Remove border from buttons */
+  cursor: pointer; /* Cursor pointer for clickable items */
+}
+
+.button-timekeeping:hover {
+  background-color: darken(#7B4C50, 10%); /* Slightly darker shade on hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .col-md-4, .col-md-3, .col-md-1, .col-md-8, .col-md-12 {
+      width: 100%; /* Full width on smaller screens */
+      margin-bottom: 15px;
+  }
 }

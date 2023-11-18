@@ -6,63 +6,93 @@
 </div>
 <div class="modal-body">
 
-
-    <div class="row mt-3 mb-3">
-      <div class="col-sm-3">
-        Thời gian điều trị: <h4 style="border-bottom: 1px solid #1E1E1E;">{{MU.created_date| VNdateTimeFormat}}
-        </h4>
-      </div>
+  <h2 class="text-center">Phiếu thu(Receipts)</h2>
+  <div class="row">
+    <div class="col-9">
+      <p class="text-center">Ngày/Date: </p>
     </div>
-
-    <div class="row mb-5">
-      <div class="col">
-        <div class="table-responsive">
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th scope="col">Tình trạng</th>
-                <th scope="col">Răng số</th>
-                <th scope="col">Tên thủ thuật</th>
-                <th scope="col">Nội dung thủ thuật</th>
-                <th scope="col">Bác sĩ</th>
-                <th scope="col">Số lượng</th>
-                <th scope="col">Chi phí</th>
-                <th scope="col">Trả</th>
-                <th scope="col">Tổng</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>{{MU.status}}</td>
-                <td></td>
-                <td></td>
-                <td>{{MU.description}}</td>
-                <td>
-                  {{staff_name}}
-                </td>
-                <td>{{MU.quantity}}</td>
-                <td>{{MU.total}}</td>
-                <td>{{MU.total_paid}}</td>
-                <td>{{getAbsoluteValue(MU.total_paid - MU.total)}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-
-
-  <div class="row mb-3">
-    <div class="col"></div>
-    <div class="col-3 text-end">
-      <p>Chi phí theo thủ thuật: <b>{{totalSum}}</b></p>
-      <p>Giảm giá: </p>
-      <p>Tổng chi phí: <b>{{MU.total}}</b></p>
-      <p>Đã thanh toán: <b> {{MU.total_paid}}</b></p>
-      <p>Còn lại: <b>{{getAbsoluteValue(MU.total_paid - MU.total)}}</b></p>
+    <div class="col-3">
+      <p>Hình thức/Type: Tiền mặt - Cash</p>
     </div>
   </div>
+
+  <div class="row">
+    <div class="col">
+      <p>Mã khách hàng/Patient Code: 23071012</p>
+    </div>
+    <div class="col">
+      <p>Tên khách hàng/Patient Name: Nguyễn Duy Phúc 1976</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-3">
+      <p>Địa chỉ/Address: , Quận Tây Hồ, Thành phố Hà Nội</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-6">
+      <p>Email: </p>
+    </div>
+    <div class="col-6">
+      <p>Điện thoại/Tel: 0932532121</p>
+    </div>
+  </div>
+
+  <div class="row mb-5">
+    <div class="col">
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">STT</th>
+              <th scope="col">Dịch vụ(Services)</th>
+              <th scope="col">Đơn giá(Unit Price)</th>
+              <th scope="col">SL(Quantity)</th>
+              <th scope="col">Nợ trước/Tổng cộng(Debt/Total)</th>
+              <th scope="col">Thanh toán(Payment)</th>
+              <th scope="col">Còn nợ(Remain)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>{{MU.quantity}}</td>
+              <td>{{MU.total}}</td>
+              <td>{{MU.total_paid}}</td>
+              <td>{{getAbsoluteValue(MU.total_paid - MU.total)}}</td>
+            </tr>
+            <tr>
+              <th></th>
+              <th>Tổng cộng/Total: </th>
+              <th></th>
+              <th></th>
+              <td>200,000</td>
+              <td>200,000</td>
+              <td>0</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <h3>Khách hàng/Patient(Ký tên/Signature)</h3>
+    </div>
+    <div class="col-4">
+      <h3>Người lập/Creater(Ký tên/Signature)</h3>
+    </div>
+    <div class="col-4">
+      <h3>Thủ quỹ/Cashier(Ký tên/Signature)</h3>
+    </div>
+  </div>
+
+
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-secondary" (click)="close()">Đóng</button>

@@ -33,95 +33,9 @@
   margin-left: 9px;
 }
 
-.page-wrapper {
-	left: 0;
-	margin-left: 250px;
-	padding-top: 60px;
-	position: relative;
-	-webkit-transition: all .4s ease;
-	-moz-transition: all .4s ease;
-	transition: all .4s ease
-}
-
-.bg-wrapper::before {
-	content: "";
-	display: block;
-	position: absolute;
-	z-index: -1;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0
-}
-
-.page-wrapper>.content {
-	padding: 30px;
-	width: 100%
-}
-
-.buy-form {
-	padding: 50px;
-	margin-bottom: 30px;
-	background: #fff;
-	box-shadow: 0 4px 9px #fff, inset 0 0 15px rgba(255, 255, 255, .35);
-	border-radius: 27px;
-	width: 100%
-}
-
-.page-title {
-	color: #35446f;
-	font-size: 21px;
-	font-weight: 700;
-	margin-bottom: 30px
-}
-
-.btn-custom {
-  border-radius: 27px;
-  border: 1px solid #7B4C50;
-  background-color: #FEDDCC;
-  padding: 7px 15px;
-}
-
-.btn-custom:hover{
-  background-color: #fff;
-}
-
-.dropdown-custom {
-  width: 13rem;
-  border-radius: 10px;
-  border: 1px solid #7B4C50;
-  background-color: #fff;
-  color: #676767;
-}
-
-.custom-table thead tr {
-	background: 0 0;
-	border-top: 0;
-	box-shadow: none
-}
-
-.custom-table thead tr th {
-	color: #7B4C50;
-	font-weight: 600
-}
-
-.custom-table tr {
-	background: rgba(255, 255, 255, .4);
-	box-shadow: 0 0 3px #e5e5e5;
-	border: 1px solid transparent
-}
-
-.custom-table tr td {
-  border-bottom: 1px solid #7B4C50;
-}
-.table.custom-table>tbody>tr>td,
-.table.custom-table>tbody>tr>th,
-.table.custom-table>tfoot>tr>td,
-.table.custom-table>tfoot>tr>th,
-.table.custom-table>thead>tr>td,
-.table.custom-table>thead>tr>th {
-	padding: 14px 8px;
-	vertical-align: middle
+.content-wrapper {
+  padding-left: 40px;
+  padding-right: 40px;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');

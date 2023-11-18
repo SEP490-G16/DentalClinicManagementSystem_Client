@@ -2,8 +2,7 @@
   <div class="content-wrapper">
     <div class="row">
       <div class="card-box">
-        <ul class="nav nav-tabs" style="padding: 0px 80px;
-        ">
+        <ul class="nav nav-tabs">
           <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
               (click)="navigateHref('/benhnhan/danhsach/tab/hosobenhnhan/')">Thông tin
               chung</a>
@@ -48,8 +47,7 @@
       <table class="payment-table">
         <thead>
           <tr>
-            <th>Ngày điều trị</th>
-            <th>Cơ sở</th>
+            <th>Lịch trình điều trị</th>
             <th>Thành tiền</th>
             <th>Giảm giá</th>
             <th>Tổng chi phí</th>
@@ -61,7 +59,6 @@
         <tbody>
           <tr *ngFor="let mu of Material_Usage">
             <td>{{mu.created_date | VNdateTimeFormat}}</td>
-            <td>{{facility}}</td>
             <td>{{mu.total}}</td>
             <td></td>
             <td>{{mu.total}}</td>

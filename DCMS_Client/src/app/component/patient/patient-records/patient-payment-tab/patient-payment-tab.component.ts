@@ -18,7 +18,6 @@ import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/T
 export class PatientPaymentTabComponent implements OnInit {
   id: string = "";
   PaidMaterialUsage: any;
-  facility: any;
   Total:number = 0;
   Total_Paid: number = 0;
   PMU: any;
@@ -43,9 +42,6 @@ export class PatientPaymentTabComponent implements OnInit {
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
     const fa = sessionStorage.getItem("locale");
-    if (sessionStorage.getItem("locale")) {
-      this.facility = fa;
-    }
 
     // this.getPaidMaterialUsage();
     this.getMaterialUsage_By_TreatmentCourse();

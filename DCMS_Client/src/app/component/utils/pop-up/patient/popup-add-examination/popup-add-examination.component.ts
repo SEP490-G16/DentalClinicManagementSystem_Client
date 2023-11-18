@@ -70,9 +70,6 @@ export class PopupAddExaminationComponent implements OnInit {
     { procedure_name: '', unit_price: 0, total: 0 }
   ];
 
-  supplyOrderRows: any[] = [
-    { type: '', supplyName: '', quantity: 0, unit_price: 0, total: 0, discount: 0, order_date: '', order: '', used_date: '' }
-  ]
   materialUsageRows: any[] = [
     { material_name: '', quantity: 0, usage_date: '', adder: '' }
   ]
@@ -190,35 +187,6 @@ export class PopupAddExaminationComponent implements OnInit {
     }else {
       this.toastr.error("Vui lòng nhập đầy đủ các thông tin", "Thêm thủ thuật")
     }
-    // supplyOrderRows: any[] = [
-    //   { type: '', supplyName: '', quantity: 0, unit_price: 0, total: 0, discount: 0, order_date: '', order: '', used_date: '' }
-    // ]
-    console.log("Supply Row: ", this.supplyOrderRows);
-    if (this.areRequiredFieldsFilled(this.supplyOrderRows)) {
-      this.supplyOrderRows.forEach((supply) => {
-        console.log("Supply: ", supply);
-        this.Body_Medical_Supply.type = supply.type,
-          this.Body_Medical_Supply.name = supply.supplyName;
-        this.Body_Medical_Supply.quantity = supply.quantity;
-        this.Body_Medical_Supply.unit_price = supply.unit_price;
-        this.Body_Medical_Supply.orderer = supply.order;
-        this.Body_Medical_Supply.used_date = supply.used_date;
-        this.Body_Medical_Supply.facility_id = this.facility;
-        this.Body_Medical_Supply.patient_id = this.patient_Id;
-        console.log("Medical Supply: ", this.Body_Medical_Supply);
-        this.medicalSupplyService.addMedicalSupply(this.Body_Medical_Supply)
-          .subscribe((res) => {
-            console.log("Thành công thêm xưởng và vật tư: ", res);
-            // this.toastr.success(res.message, "Thêm xưởng và vật tư thành công");
-          },
-            (err) => {
-              console.log("Thêm xưởng vật tư: ", err.error.message);
-              this.toastr.error(err.error.message, "Thêm Xưởng và vật tư thất bại");
-            })
-      })
-    }else {
-      this.toastr.error("Vui lòng nhập đầy đủ các thông tin", "Thêm Xưởng và Vật tư")
-    }
     // materialUsageRows: any[] = [
     //   { material_name: '', quantity: 0, usage_date: '', adder: '' }
     // ]
@@ -246,7 +214,6 @@ export class PopupAddExaminationComponent implements OnInit {
     }else {
       this.toastr.error("Vui lòng nhập đầy đủ các thông tin", "Thêm vật tư đã sử dụng thất bại")
     }
-    // this.materialUsageService.
   }
 
   // materialUsageRows: any[] = [
@@ -289,12 +256,7 @@ export class PopupAddExaminationComponent implements OnInit {
   //Xử lý với bảng
   addNewRow(status: number) {
     switch (status) {
-      case 2:
-        this.supplyOrderRows.push({ tooth: '', material: '', supply: '', amount: '', dongia: '', total: '', discount: '', order_date: '', order: '', status: '' });
-        console.log("Table row", this.supplyOrderRows);
-        this.supplyOrderRows[this.supplyOrderRows.length - 1].animationClass = 'new-row-animation';
-        break;
-      case 3:
+      case 1:
         this.materialUsageRows.push({ material_name: '', amount: 0, usage_date: '', adder: '' });
         console.log("Table row", this.materialUsageRows);
         this.materialUsageRows[this.materialUsageRows.length - 1].animationClass = 'new-row-animation';
@@ -309,10 +271,7 @@ export class PopupAddExaminationComponent implements OnInit {
 
   removeRow(index: number, status: number) {
     switch (status) {
-      case 2:
-        this.supplyOrderRows.splice(index, 1);
-        break;
-      case 3:
+      case 1:
         this.materialUsageRows.splice(index, 1);
         break;
       default:
@@ -322,13 +281,6 @@ export class PopupAddExaminationComponent implements OnInit {
   }
 
   isHovering: boolean = false;
-  animateIcon(event: Event) {
-    const target = event.target as HTMLElement;
-    target.style.animation = 'clickAnimation 0.5s';
-    target.addEventListener('animationend', () => {
-      target.style.animation = '';
-    });
-  }
 
   navigateHref(href: string) {
     const userGroupsString = sessionStorage.getItem('userGroups');
