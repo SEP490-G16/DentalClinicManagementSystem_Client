@@ -1,0 +1,133 @@
+
+<div *ngIf="loading" class="loading-overlay" >
+  <div class="loading-spinner"></div>
+</div>
+  <!-- The Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Thêm lịch hẹn</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label for="phone">Nhập số điện thoại</label>
+                <input type="text" class="form-control" id="phone"
+                  [(ngModel)]="AppointmentBody.appointment.phone_number"
+                  (input)="onPhoneInput()"
+                  >
+                  <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.phoneNumber}}</p>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label for="patientName">Tên bệnh nhân</label>
+                <input type="text" class="form-control" id="patientName"
+                  [(ngModel)]="AppointmentBody.appointment.patient_name"
+                  [disabled]="!isPatientInfoEditable"
+                  >
+              </div>
+              <div class="form-group">
+                <label for="patientCode">Mã bệnh nhân</label>
+                <input type="text" class="form-control" id="patientCode"
+                  [(ngModel)]="AppointmentBody.appointment.patient_id"
+                  [disabled]="!isPatientInfoEditable"
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label for="treatment">Loại điều trị</label>
+                <select class="form-control" id="treatment" [(ngModel)]="procedure">
+                  <option selected value="1">Phân loại điều trị</option>
+                  <option *ngFor="let a of listGroupService" value={{a.medical_procedure_group_id}}>{{a.name}}</option>
+                </select>
+                <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.procedure}}</p>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label for="appointmentTime" name="userCredential">Giờ hẹn khám</label>
+                <input type="time" class="form-control date-input-custom" id="time" name="time"
+                  [(ngModel)]="appointmentTime"
+                  [min]="minTime"
+                  >
+                <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.appointmentTime}}</p>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="row mt-3 mb-3">
+            <div class="col-12 col-md-6">
+              <div class="doctors-list">
+                <ul class="list-group">
+                  <li class="list-group-item" *ngFor="let doctor of doctors"
+                    [ngClass]="{'selected': doctor === selectedDoctor}" (click)="selectDoctor(doctor)">
+                    <img [src]="doctor.image" style="width: 100px; height: 100px; object-fit: cover;"
+                      class="doctor-image" [alt]="doctor.name">
+                    <div class="doctor-info">
+                      <h5 class="card-title">{{ doctor.name }}</h5>
+                      <p class="card-text">{{ doctor.specialty }}</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="col">
+
+                <label for="treatment">Chọn ngày khám</label>
+                <form class="form-inline">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input
+                        class="form-control"
+                        placeholder="yyyy-mm-dd"
+                        [markDisabled]="isDisabled"
+                        name="dp"
+                        [min]="mindate" [(ngModel)]="model"
+                        ngbDatepicker
+                        #d="ngbDatepicker"
+                        [placement]="'right'"
+                        placeholder="Chọn ngày hẹn"
+                        >
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar" style="height: 48px;" (click)="d.toggle()" type="button">
+                          <i class="bi bi-calendar3"></i>
+                        </button>
+                      </div>
+
+                    </div>
+                    <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.appointmentDate}}</p>
+                  </div>
+                </form>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <div class="float-end">
+                <button type="button" class="btn btn-danger m-3" data-bs-dismiss="modal" (click)="close()">Đóng</button>
+                <!-- <button type="button" class="btn btn-primary" (click)="onPostAppointment()" [disabled]="!isPatientInfoEditable">Xác nhận</button> -->
+                <button type="button" class="btn btn-primary" (click)="onPostAppointment()">Xác nhận</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

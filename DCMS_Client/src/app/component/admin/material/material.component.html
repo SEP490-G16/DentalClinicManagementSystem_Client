@@ -2,90 +2,130 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
 
-<div *ngIf="loading" class="loading-overlay">
-  <div class="loading-spinner"></div>
-</div>
 <div class="recent-orders">
-        <section class="table__header">
-          <h1></h1>
-          <div class="export__file">
-          </div>
-        </section>
-        <div class="row">
-          <div class="col-md-2 col-xl-1">
-            <a routerLink="/admin/vat-lieu" routerLinkActive="active-link" class="page-title">Quản lý vật liệu</a>
-          </div>
-          <div class="col-md-2 col-xl-1">
-            <a routerLink="/admin/quan-ly-nhap" routerLinkActive="active-link" class="page-title" >Quản lý nhập</a>
-          </div>
-          <!--<div class="col-md-2">
-            <a routerLink="/admin/material/export-material" class="page-title">Quản lý xuất</a>
-          </div>-->
-        </div>
-        <div class="row custom-row mb-2">
-          <div class="col-6">
-            <div class="form-group form-group-filter">
-              <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myModal"><i
-                class="bi bi-plus-circle"></i> Thêm mới
-                </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="table-container">
-          <table>
-            <thead class="sticky-thead">
-            <tr>
-              <th style="padding-top: 10px;padding-bottom: 10px;">Mã vật liệu</th>
-              <th style="padding-top: 10px;padding-bottom: 10px;">Tên vật liệu</th>
-              <th style="padding-top: 10px;padding-bottom: 10px;">Số lượng</th>
-              <th style="padding-top: 10px;padding-bottom: 10px;">Đơn giá</th>
-              <th style="padding-top: 10px;padding-bottom: 10px;">Đơn vị</th>
-              <th style="padding-top: 10px;padding-bottom: 10px;">Hạn sử dụng</th>
-              <th style="padding-top: 10px;padding-bottom: 10px;">Trạng thái</th>
-              <th style="padding-top: 10px;padding-bottom: 10px;" class="text-center">Thao tác</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let v of dataTable()">
-              <td>{{v.material_id}}</td>
-              <td class="truncate" data-bs-toggle="tooltip" title="{{v.material_name}}">{{v.material_name}}</td>
-              <td>{{v.quantity_import}}</td>
-              <td>{{v.price}}</td>
-              <td>{{v.unit}}</td>
-              <td>{{v.warranty | date:'dd-MM-yyyy'}}</td>
-              <td></td>
-              <td>
-                <button class="btn btn-primary p-1 m-r-3" style="margin-right: 3px" data-bs-toggle="modal" data-bs-target="#editMaterialModal" (click)="openEditMaterial(v)">
-                  <i class="bi bi-pencil-square"></i></button>
-                <button class="btn btn-danger p-1" (click)="deleteMaterial(v.material_id)"> <i class="bi bi-trash"></i></button>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="row mt-3" style="float:start;">
-          <nav aria-label="Page navigation">
-            <ul class="pagination">
-              <li class="page-item">
-                <button [disabled]="pagingMaterial.paging <= 1" (click)="pageChanged(pagingMaterial.paging - 1)" class="page-link pagination-button" href="#" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                  <span class="sr-only">Trang trước</span>
-                </button>
-              </li>
-              <!--<li class="page-item"><span class="page-link">Trang 1</span></li>-->
-              <li class="page-item">
-                <button class="page-link pagination-button" href="#" aria-label="Next" [disabled]="!enableNextPageButton" (click)="pageChanged(pagingMaterial.paging + 1)">
-                  <span aria-hidden="true">&raquo;</span>
-                  <span class="sr-only">Trang sau</span>
-                </button>
-              </li>
-            </ul>
-          </nav>
-          <!--<ngb-pagination [collectionSize]="pagingMaterial.total" [(page)]="pagingMaterial.paging" [boundaryLinks]="true"  (pageChange)="pageChanged($event)"></ngb-pagination>-->
-        </div>
+  <section class="table__header">
+    <h1></h1>
+    <div class="export__file">
+    </div>
+  </section>
+  <div class="row">
+    <div class="col-md-2 col-xl-1">
+      <a routerLink="/admin/vat-lieu" routerLinkActive="active-link" class="page-title">Quản lý vật liệu</a>
+    </div>
+    <div class="col-md-2 col-xl-1">
+      <a routerLink="/admin/quan-ly-nhap" routerLinkActive="active-link" class="page-title">Quản lý nhập</a>
+    </div>
+  </div>
+  <div class="row custom-row mb-2">
+    <div class="col-6">
+      <div class="form-group form-group-filter">
+        <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myModal"><i
+            class="bi bi-plus-circle"></i> Thêm mới
+        </button>
       </div>
+    </div>
+  </div>
 
-<app-popup-add-material [materialList] = "materialList"></app-popup-add-material>
+  <div class="table-container">
+    <table>
+      <colgroup>
+        <col style="width: 2%;">
+        <col style="width: 5%;">
+        <col style="width: 10%;">
+        <col style="width: 10%;">
+        <col style="width: 10%;">
+        <col style="width: 10%;">
+        <col style="width: 10%;">
+        <col style="width: 10%;">
+        <col style="width: 10%;">
+      </colgroup>
+      <thead class="sticky-thead">
+        <tr>
+          <th></th>
+          <th scope="col" style="padding-top: 10px;padding-bottom: 10px;">Mã vật liệu</th>
+          <th scope="col" style="padding-top: 10px;padding-bottom: 10px;">Tên vật liệu</th>
+          <th scope="col" style="padding-top: 10px;padding-bottom: 10px;">Đơn vị</th>
+          <th scope="col" style="padding-top: 10px;padding-bottom: 10px;">Đơn giá</th>
+          <th scope="col" style="padding-top: 10px;padding-bottom: 10px;">Số lượng</th>
+          <th scope="col" style="padding-top: 10px;padding-bottom: 10px;">Hạn sử dụng</th>
+          <th scope="col" style="padding-top: 10px;padding-bottom: 10px;">Trạng thái</th>
+          <th scope="col" style="padding-top: 10px;padding-bottom: 10px;" class="text-center">Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let item of results">
+          <tr *ngIf="totalMaterial == 0" rolspan="9" style="justify-content: center;">
+            Không có dữ liệu
+          </tr>
+          <tr (click)="toggleExpand(item)" *ngIf="totalMaterial > 0" class="SEP-WH-table-tr">
+            <td>
+              <i class="bi" [ngClass]="{'bi-chevron-double-right': !item.expanded, 'bi-chevron-double-down': item.expanded}"></i>
+            </td>
+            <td style="padding-top: 10px;padding-bottom: 10px;">
+              {{item.materialId }}
+            </td>
+            <td style="padding-top: 10px;padding-bottom: 10px;" class="truncate" data-bs-toggle="tooltip">{{
+              item.materialName
+              }}</td>
+            <td style="padding-top: 10px;padding-bottom: 10px;">{{ item.unit }}</td>
+            <td style="padding-top: 10px;padding-bottom: 10px;">{{ item.unitPrice }}</td>
+            <td style="padding-top: 10px;padding-bottom: 10px;">{{ item.quantity }}</td>
+            <td style="padding-top: 10px;padding-bottom: 10px;"></td>
+            <td style="padding-top: 10px;padding-bottom: 10px;"></td>
+          </tr>
+          <tr *ngIf="item.expanded">
+            <td style="padding-top: 10px;padding-bottom: 10px;" colspan="9">
+              <div class="table">
+                <table>
+                  <colgroup>
+                    <col style="width: 2%;">
+                    <col style="width: 5%;">
+                    <col style="width: 10%;">
+                    <col style="width: 10%;">
+                    <col style="width: 10%;">
+                    <col style="width: 10%;">
+                    <col style="width: 10%;">
+                    <col style="width: 10%;">
+                    <col style="width: 10%;">
+                  </colgroup>
+                  <tbody>
+                    <tr *ngFor="let detail of item.expiry" class="SEP-WH-table-tbody2-tr">
+                      <td style="padding-top: 10px;padding-bottom: 10px;"></td>
+                      <!-- <td class="connector"><span class="dot"></span></td> -->
+                      <td style="padding-top: 10px;padding-bottom: 10px;"><i class="bi bi-arrow-return-right"></i></td>
+                      <td style="padding-top: 10px;padding-bottom: 10px;" data-bs-toggle="tooltip">{{
+                        item.materialName
+                        }}</td>
+                      <td style="padding-top: 10px;padding-bottom: 10px;">{{ item.unit }}</td>
+                      <td style="padding-top: 10px;padding-bottom: 10px;">{{ item.unitPrice }}</td>
+                      <td style="padding-top: 10px;padding-bottom: 10px;">{{ detail.quantity }}</td>
+                      <td style="padding-top: 10px;padding-bottom: 10px;">{{ detail.expiryDate }}</td>
+                      <td></td>
+                      <td style="padding-top: 10px;padding-bottom: 10px;" *ngIf="detail.quantity == 0">
+                        <p style="color: red;"><b>Hết Hàng</b></p>
+                      </td>
+                      <td style="padding-top: 10px;padding-bottom: 10px;">
+                        <button class="btn btn-primary p-1 m-r-3" style="margin-right: 3px" data-bs-toggle="modal"
+                          data-bs-target="#editMaterialModal" (click)="openEditMaterial(detail, item)">
+                          <i class="bi bi-pencil-square"></i></button>
+                        <button class="btn btn-danger p-1" (click)="deleteMaterial(detail.mw_material_warehouse_id)"> <i
+                            class="bi bi-trash"></i></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+  <div class="paging">
+
+  </div>
+</div>
+
+<app-popup-add-material [materialList]="materialList"></app-popup-add-material>
 <app-popup-delete-material></app-popup-delete-material>
-<app-popup-edit-material [material] = "material" [materialList] = "materialList"></app-popup-edit-material>
+<app-popup-edit-material [material]="material" [item]="item" [materialList]="materialList"></app-popup-edit-material>

@@ -18,10 +18,13 @@
             <div class="col-6">
               <label for="sdt">Số điện thoại:</label>
               <input type="text" class="form-control" id="fullName" name="sdt" [(ngModel)]="phone_number"
-                (keydown.enter)="onPhoneInput()">
+                (input)="onPhoneInput()" list="patientStorage">
+              <datalist id="patientStorage">
+                <option [value]=phone_suggest>{{name_suggest}}</option>
+              </datalist>
               <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
                 <p>
-                  {{validateWatingRoom.phone}}
+                  {{ validateWatingRoom.phone }}
                 </p>
               </div>
             </div>

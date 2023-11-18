@@ -13,10 +13,11 @@ import { ReceptionistWaitingRoomComponent } from './receptionist-waiting-room/re
 import { ReceptionistComponent } from './receptionist.component';
 import { SharedModule } from '../shared/shared.module';
 import { ReceptionistRoutingModule } from './receptionist-routing.module';
-import { PopupAddAppointmentComponent } from 'src/app/component/receptionist/receptionist-appointment-list/popup-add-appointment/popup-add-appointment.component';
-import { PopupEditAppointmentComponent } from 'src/app/component/receptionist/receptionist-appointment-list/popup-edit-appointment/popup-edit-appointment.component';
+import { PopupAddAppointmentComponent } from '../utils/pop-up/appointment/popup-add-appointment/popup-add-appointment.component';
+import { PopupEditAppointmentComponent } from '../utils/pop-up/appointment/popup-edit-appointment/popup-edit-appointment.component';
 import { PatientModule } from '../patient/patient.module';
-import { PopupAddPatientComponent } from '../patient/patient-records/popup-add-patient/popup-add-patient.component';
+
+import { PopupAddPatientComponent } from '../utils/pop-up/patient/popup-add-patient/popup-add-patient.component';
 
 import { AddWaitingRoomComponent } from './receptionist-waiting-room/add-waiting-room/add-waiting-room.component';
 import { VNDateTimeFormatPipe } from '../shared/pipe/datetimeformat.pipe';
@@ -35,7 +36,6 @@ import { VNDateTimeFormatPipe } from '../shared/pipe/datetimeformat.pipe';
     RouterModule,
     FormsModule,
     SharedModule,
-    PatientModule,
     ReceptionistRoutingModule,
     NgbModule,
     HttpClientModule,

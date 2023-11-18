@@ -1,92 +1,92 @@
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
-<div *ngIf="loading" class="loading-overlay">
-  <div class="loading-spinner"></div>
-</div>
 <div class="recent-orders">
-        <section class="table__header">
-          <h1></h1>
-          <div class="export__file">
-          </div>
-        </section>
-        <div class="row">
-          <div class="col-md-2 col-xl-1">
-            <a routerLink="/admin/vat-lieu" routerLinkActive="active-link" class="page-title">Quản lý vật liệu</a>
-          </div>
-          <div class="col-md-2 col-xl-1" style="margin-left: 10px">
-            <a routerLink="/admin/quan-ly-nhap" routerLinkActive="active-link" class="page-title" >Quản lý nhập</a>
-          </div>
-         <!-- <div class="col-md-2">
-            <a routerLink="/admin/material/export-material" class="page-title">Quản lý xuất</a>
-          </div>-->
-        </div>
-        <!--<h2 class="text-center mt-3" style="font-family: Agbalumo; font-size: 29px;">Quản lý nhập</h2>-->
-        <div class="row filter-row">
-          <div class="col-md-3 col-xl-2">
-            <div class="form-group form-group-filter">
-              <button href="add-employee.html" class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus-circle"></i> Thêm mới phiếu
-              </button>
-            </div>
-          </div>
-          <div class="col-md-3 col-xl-2">
-            <select class="form-select" aria-label="Default select example" style="padding: 10px;">
-              <option selected>Chọn người nhập</option>
-            </select>
-          </div>
-          <div class="col-sm-6 col-md-3 col-xl-2">
-            <div class="input-group" style="margin-left: 15px">
-              <input
-                class="form-control"
-                placeholder="Ngày lập"
-                name="dp"
-                [(ngModel)]="model"
-                ngbDatepicker
-                #d="ngbDatepicker"
-                style="padding: 10px;"
-              />
-              <button style="padding: 10px;" class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
-            </div>
-          </div>
-
-
-        </div>
-
-        <div class="table-container">
-          <table>
-            <thead class="sticky-thead">
-            <tr>
-            <tr>
-              <th style="padding-top: 10px;padding-bottom: 10px;">#</th>
-              <th style="padding-top: 10px;padding-bottom: 10px;">Ngày lập phiếu</th>
-              <th style="padding-top: 10px;padding-bottom: 10px;">Người lập</th>
-              <th style="padding-top: 10px;padding-bottom: 10px;">Ghi chú</th>
-              <th style="padding-top: 10px;padding-bottom: 10px;">Tổng tiền</th>
-              <th style="padding-top: 10px;padding-bottom: 10px;" class="text-center">Thao tác</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let p of displayWarehouse">
-              <td>{{p.Id}}</td>
-              <td><a href="#" class="a-custom" style="text-align: center;" data-bs-toggle="modal" data-bs-target="#detailModal">{{p.CreateDate | date:'dd-MM-yyyy'}}</a></td>
-              <td>{{p.CreateBy}}</td>
-              <td>{{p.Note}}</td>
-              <td>{{p.TotalAmount}}</td>
-              <td class="text-center">
-                <button href="#" style="padding: 2px 5px;" class="btn btn-primary float-right btn-rounded" data-bs-toggle="modal" data-bs-target="#editImportBillModal" (click)="openEditImportMaterial(p.Id, p)"><i class="bi bi-pencil-square"></i></button>
-                <button href="#" style="padding: 2px 5px; margin-left: 3px" class="btn btn-danger float-right btn-rounded" (click)="deleteImportMaterial(p.id)"><i class="bi bi-trash"></i></button>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="row mt-3" style="float:left;">
-          <ngb-pagination [collectionSize]="pagingBill.total" [(page)]="pagingBill.paging" [boundaryLinks]="true"  (pageChange)="pageChanged($event)"></ngb-pagination>
-        </div>
+  <section class="table__header">
+    <h1></h1>
+    <div class="export__file">
+    </div>
+  </section>
+  <div class="row">
+    <div class="col-md-2 col-xl-1">
+      <a routerLink="/admin/vat-lieu" routerLinkActive="active-link" class="page-title">Quản lý vật liệu</a>
+    </div>
+    <div class="col-md-2 col-xl-1" style="margin-left: 10px">
+      <a routerLink="/admin/quan-ly-nhap" routerLinkActive="active-link" class="page-title">Quản lý nhập</a>
+    </div>
+  </div>
+  <div class="row filter-row">
+    <div class="col-md-3 col-xl-2">
+      <div class="form-group form-group-filter">
+        <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myModal"><i
+            class="bi bi-plus-circle"></i> Thêm mới phiếu
+        </button>
       </div>
+    </div>
+    <div class="col-md-3 col-xl-2" style="margin-right: 10px;">
+      <select class="form-select" aria-label="Default select example" style="padding: 10px; border: 1px solid black;">
+        <option selected>Chọn người nhập</option>
+      </select>
+    </div>
+    <div class="datetime col-md-3 col-xl-2">
+    <div class="form-group form-group-filter">
+      <label for="fromDate">Từ ngày:</label>
+      <input type="date" class="date-input-custom" id="fromDate" name="fromDate">
+      </div>
+    </div>
+    <div class="datetime col-md-3 col-xl-2">
+      <div class="form-group form-group-filter">
+      <label for="toDate">Đến ngày:</label>
+      <input type="date" class="date-input-custom" id="toDate" name="fromDate">
+      </div>
+    </div>
+    <div class="col-md-3 col-xl-2" style="margin-left: 20px;">
+      <div class="form-group form-group-filter">
+        <button class="btn button-timekeeping">Lọc
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead class="sticky-thead">
+        <tr>
+        <tr>
+          <th style="padding-top: 10px;padding-bottom: 10px;">#</th>
+          <th style="padding-top: 10px;padding-bottom: 10px;">Ngày lập phiếu</th>
+          <th style="padding-top: 10px;padding-bottom: 10px;">Người lập</th>
+          <th style="padding-top: 10px;padding-bottom: 10px;">Ghi chú</th>
+          <th style="padding-top: 10px;padding-bottom: 10px;">Tổng tiền</th>
+          <th style="padding-top: 10px;padding-bottom: 10px;" class="text-center">Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of displayWarehouse">
+          <td>{{p.Id}}</td>
+          <td><a href="#" class="a-custom" style="text-align: center;" data-bs-toggle="modal"
+              data-bs-target="#detailModal">{{p.CreateDate | date:'dd-MM-yyyy'}}</a></td>
+          <td>{{p.CreateBy}}</td>
+          <td>{{p.Note}}</td>
+          <td>{{p.TotalAmount}}</td>
+          <td class="text-center">
+            <button href="#" style="padding: 2px 5px;" class="btn btn-primary float-right btn-rounded"
+              data-bs-toggle="modal" data-bs-target="#editImportBillModal" (click)="openEditImportMaterial(p.Id, p)"><i
+                class="bi bi-pencil-square"></i></button>
+                <button href="#" style="padding: 2px 5px; margin-left: 3px" class="btn btn-danger float-right btn-rounded"
+                (click)="deleteImportMaterial(p.Id)"><i class="bi bi-trash"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- Trong template HTML -->
+  <div class="pagination">
+    <a (click)="pageChanged(currentPage - 1)" *ngIf="currentPage > 1">&laquo;</a>
+    <a>{{currentPage}}</a>
+    <a (click)="pageChanged(currentPage + 1)" *ngIf="hasNextPage">&raquo;</a>
+  </div>
+</div>
 
 <app-popup-add-bill-import-material></app-popup-add-bill-import-material>
 <app-popup-detail-bill-import-material></app-popup-detail-bill-import-material>
 <app-popup-delete-bill-import-material></app-popup-delete-bill-import-material>
-<app-popup-edit-bill-import-material [importMaterialId] = "importBillId" [importMaterialBill] ="importBillObject"></app-popup-edit-bill-import-material>
+<app-popup-edit-bill-import-material [importMaterialId]="importBillId"
+  [importMaterialBill]="importBillObject"></app-popup-edit-bill-import-material>

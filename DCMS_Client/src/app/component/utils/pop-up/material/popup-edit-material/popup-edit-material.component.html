@@ -1,0 +1,65 @@
+<div class="modal" id="editMaterialModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header color-header">
+        <h4 class="modal-title text-center w-100">Cập nhật vật liệu</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group row mt-3">
+                <label for="materialName" class="col-3 name-title">Tên vật liệu:</label>
+                <div class="col-9">
+                  <input type="text" [(ngModel)]="materialInput.name" class="form-control" id="materialName" name="materialName">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                    <p>
+                      {{validateMaterial.name}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row mt-3">
+                <label for="unit" class="col-3 name-title">Đơn vị:</label>
+                <div class="col-9">
+                  <input type="text" [(ngModel)]="materialInput.unit" class="form-control date-input-custom value-staff" id="unit" name="unit">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                    <p>
+                      {{validateMaterial.unit}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row mt-3">
+                <label for="unit" class="col-3 name-title">Số lượng:</label>
+                <div class="col-9">
+                  <input type="text" [(ngModel)]="materialInput.quantity" class="form-control date-input-custom value-staff" id="unit" name="unit">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                    <p>
+                      {{validateMaterial.quantity}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" id="cancel-editMaterial" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
+          <button type="button" class="btn btn-save" (click)="updateMaterial()"><i class="bi bi-floppy2"></i> Lưu</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
