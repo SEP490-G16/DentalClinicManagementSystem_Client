@@ -939,7 +939,7 @@ button:active{
 
 .navigation ul li.active {
   transform: translateX(30px);
-  background: #2f323f;
+  background: #f6f6f9;
 }
 
 .navigation ul li::before {
@@ -951,7 +951,7 @@ button:active{
   height: 20px;
   background: transparent;
   border-bottom-right-radius: 20px;
-  box-shadow: 6px 5px 0 5px #2f323f;
+  box-shadow: 6px 5px 0 5px #f6f6f9;
   transform: scale(0);
   transform-origin: bottom right;
   transition: 0.5s;
@@ -970,7 +970,7 @@ button:active{
   height: 20px;
   background: transparent;
   border-top-right-radius: 20px;
-  box-shadow: 6px -3px 0 3px #2f323f;
+  box-shadow: 6px -3px 0 3px #f6f6f9;
   transform: scale(0);
   transform-origin: bottom right;
   transition: 0.5s;
@@ -1034,7 +1034,7 @@ button:active{
   width: 15px;
   height: 15px;
   background: var(--clr);
-  border: 8px solid #2f323f;
+  border: 8px solid #f6f6f9;
   border-radius: 50%;
 }
 
