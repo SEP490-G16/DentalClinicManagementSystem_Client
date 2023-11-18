@@ -65,12 +65,17 @@
               <td>{{ detail.doctor }}</td>
               <td>{{timestampToTime(detail.time)}} - {{timestampToDate(a.date)}}</td>
               <!-- <td>{{convertTimestampToVNDateString(a.date)}}</td> -->
-              <td>
-                <button class="btn btn-edit-custom" data-bs-toggle="modal" data-bs-target="#editAppointmentModal"
+              <td >
+                <!-- <button class="btn btn-edit-custom" data-bs-toggle="modal" data-bs-target="#editAppointmentModal"
                   (click)="openEditModal(detail, a.date)">
                   <i class="bi bi-pencil-square"></i>
-                </button>
-                <button (click)="deleteAppointment(detail, a.date)"> <i class="bi bi-trash"></i></button>
+                </button> -->
+                <!-- <button (click)="deleteAppointment(detail, a.date)"> <i class="bi bi-trash"></i></button> -->
+                <button class="btn btn-primary p-1 m-r-3" style="padding: 2px 3px; margin-right: 3px" data-bs-toggle="modal"
+                  data-bs-target="#editAppointmentModal" (click)="openEditModal(detail, a.date)">
+                  <i class="bi bi-pencil-square"></i></button>
+                <button class="btn btn-danger p-1" style="padding: 2px 5px" (click)="deleteAppointment(detail, a.date)"> <i
+                    class="bi bi-trash"></i></button>
               </td>
               <td *ngIf="detail.status == 2 && checkDate(a.date)">
                 <button class="btn btn-redirect" (click)="postExchangeAppointmentToWaitingRoom(a.date, detail)" style="width: 100px; color: black;">

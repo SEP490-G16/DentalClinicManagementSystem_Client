@@ -3,6 +3,7 @@ import { MedicalSupplyService } from "../../../../../service/MedicalSupplyServic
 import { ToastrService } from "ngx-toastr";
 import { PatientService } from "../../../../../service/PatientService/patient.service";
 import { LaboService } from "../../../../../service/LaboService/Labo.service";
+import * as moment from 'moment-timezone';
 
 @Component({
   selector: 'app-popup-add-specimens',
@@ -39,15 +40,15 @@ export class PopupAddSpecimensComponent implements OnInit {
   specimenBody = {
     name: '',
     type: '',
-    received_date: '',
+    received_date: 0,
     orderer: '',
-    used_date: '',
+    used_date: 0,
     quantity: '',
     unit_price: '',
-    order_date: '',
+    order_date: 0,
     patient_id: '',
     facility_id: '',
-    lb_id: ''
+    labo_id: ''
   }
   specimensRes = {
     medical_supply_id: '',
@@ -87,6 +88,7 @@ export class PopupAddSpecimensComponent implements OnInit {
     const formattedDate = `${year}-${month}-${day}`;
     return formattedDate;
   }
+
   padZero(value: number): string {
     if (value < 10) {
       return `0${value}`;
@@ -117,6 +119,7 @@ export class PopupAddSpecimensComponent implements OnInit {
       this.validateSpecimens.type = 'Vui lòng nhập chất liệu!';
       this.isSubmitted = true;
     }
+
     if (!this.specimen.receiverDate) {
       this.validateSpecimens.receiverDate = 'Vui lòng nhập ngày nhận!';
       this.isSubmitted = true;
@@ -156,12 +159,9 @@ export class PopupAddSpecimensComponent implements OnInit {
     if (this.isSubmitted) {
       return;
     }
-    let orderDate = new Date(this.specimen.orderDate);
-    let receivedDate = new Date(this.specimen.receiverDate);
-    let usedDate = new Date(this.specimen.usedDate);
-    let orderDateTimestamp = (orderDate.getTime() / 1000).toString();
-    let receivedDateTimestamp = (receivedDate.getTime() / 1000).toString();
-    let userDateTimestamp = (usedDate.getTime() / 1000).toString();
+    let orderDateTimestamp = this.dateToTimestamp(this.specimen.orderDate);
+    let receivedDateTimestamp = this.dateToTimestamp(this.specimen.receiverDate);
+    let userDateTimestamp = this.dateToTimestamp(this.specimen.usedDate);
     this.specimenBody = {
       name: this.specimen.name,
       type: this.specimen.type,
@@ -173,7 +173,7 @@ export class PopupAddSpecimensComponent implements OnInit {
       order_date: orderDateTimestamp,
       patient_id: this.patientId,
       facility_id: 'F-01',
-      lb_id: this.specimen.labo
+      labo_id: this.specimen.labo
     }
     console.log(this.specimenBody)
     this.loading = true;
@@ -226,5 +226,12 @@ export class PopupAddSpecimensComponent implements OnInit {
       this.labos = data.data;
       console.log("Get all Labo: ", this.labos);
     })
+  }
+
+  dateToTimestamp(dateStr: string): number {
+    const format = 'YYYY-MM-DD HH:mm'; // Định dạng của chuỗi ngày
+    const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
+    const timestamp = moment.tz(dateStr, format, timeZone).valueOf() /1000;
+    return timestamp;
   }
 }

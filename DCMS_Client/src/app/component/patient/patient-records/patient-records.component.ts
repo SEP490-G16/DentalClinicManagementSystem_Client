@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {PatientService} from "../../../service/PatientService/patient.service";
-import {IPatient} from "../../../model/IPatient";
-import {ToastrService} from "ngx-toastr";
-import {Router} from "@angular/router";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {PopupAddPatientComponent} from "../../utils/pop-up/patient/popup-add-patient/popup-add-patient.component";
+import { PatientService } from "../../../service/PatientService/patient.service";
+import { IPatient } from "../../../model/IPatient";
+import { ToastrService } from "ngx-toastr";
+import { Router } from "@angular/router";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { PopupAddPatientComponent } from "../../utils/pop-up/patient/popup-add-patient/popup-add-patient.component";
 import { CognitoService } from 'src/app/service/cognito.service';
 
 @Component({
@@ -13,49 +13,61 @@ import { CognitoService } from 'src/app/service/cognito.service';
   styleUrls: ['./patient-records.component.css']
 })
 export class PatientRecordsComponent implements OnInit {
-
+  currentPage: number = 1;
+  hasNextPage: boolean = false;
   constructor(private patientService: PatientService,
-              private toastr: ToastrService,
-              private router: Router,
-              private cognitoService:CognitoService,
-              private modalService: NgbModal) { }
-  patientList:any;
-  searchPatientsList:any[]=[];
+    private toastr: ToastrService,
+    private router: Router,
+    private cognitoService: CognitoService,
+    private modalService: NgbModal) { }
+  searchPatientsList: any[] = [];
   pagingSearch = {
-    paging:1,
-    total:0
+    paging: 1,
+    total: 0
   }
-  count:number=1;
-  id:any;
-  search:string='';
+  count: number = 1;
+  id: any;
+  search: string = '';
   ngOnInit(): void {
-      this.getPatientList(this.pagingSearch.paging);
+    this.loadPage(this.pagingSearch.paging);
   }
-  getPatientList( paging:number){
-    this.patientService.getPatientList(paging).subscribe(patients=>{
-      console.log(patients)
-      this.patientList = patients.data;
-      //this.totalPages = Math.ceil(this.patientList.length / this.itemsPerPage);
-      this.searchPatientsList = this.patientList;
-      if (this.patientList.length < 11){
-        this.pagingSearch.total+=this.patientList.length;
+  checkNextPage() {
+    this.hasNextPage = this.searchPatientsList.length > 10;
+  }
+  loadPage(paging: number) {
+    this.currentPage = paging;
+    this.pagingSearch.paging = paging;
+    if (this.search.trim() !== "") {
+      this.searchPatient();
+    }
+    this.patientService.getPatientList(paging).subscribe(patients => {
+      this.searchPatientsList = [];
+      this.searchPatientsList = patients.data;
+      this.checkNextPage();
+      if (this.searchPatientsList.length > 10) {
+        this.searchPatientsList.pop();
       }
-      else
-      {
-        this.pagingSearch.total=this.patientList.length;
-      }
-      console.log(this.pagingSearch.total)
-      console.log(this.searchPatientsList)
     })
   }
-
-  pageChanged(event: number) {
-    this.pagingSearch.paging = event;
-    console.log(this.pagingSearch.paging)
-    this.getPatientList(this.pagingSearch.paging);
+  searchPatient() {
+    console.log(this.search)
+    this.patientService.getPatientByName(this.search, this.pagingSearch.paging).subscribe(patients => {
+      console.log(this.pagingSearch.paging);
+      this.searchPatientsList = [];
+      this.searchPatientsList = patients.data;
+      this.checkNextPage();
+      if (this.searchPatientsList.length > 10) {
+        this.searchPatientsList.pop();
+      }
+    })
   }
-  openDeletePatient(id:any,searchPatientsList:any){
-    this.id=id;
+  pageChanged(event: number) {
+    if (event >= 1 && event <= 11) {
+      this.loadPage(event);
+    }
+  }
+  openDeletePatient(id: any, searchPatientsList: any) {
+    this.id = id;
     this.searchPatientsList = searchPatientsList;
   }
 
@@ -71,7 +83,7 @@ export class PatientRecordsComponent implements OnInit {
         this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', id])
       } else if (userGroups.includes('dev-dcms-receptionist')) {
         this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', id])
-      } else if(userGroups.includes('dev-dcms-admin')){
+      } else if (userGroups.includes('dev-dcms-admin')) {
         this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', id])
       }
     } else {
@@ -85,19 +97,5 @@ export class PatientRecordsComponent implements OnInit {
       console.log("Logged out!");
       this.router.navigate(['dangnhap']);
     })
-  }
-
-  searchPatient() {
-    const search = this.search.toLowerCase().trim();
-    if (search) {
-      this.searchPatientsList = this.patientList
-        .filter((patient:any) => {
-          const patientName = patient.patient_name.toLowerCase();
-          const patientId = patient.patient_id.toLowerCase();
-          return patientName.includes(search) || patientId.includes(search);
-        });
-    } else {
-      this.searchPatientsList = this.patientList;
-    }
   }
 }

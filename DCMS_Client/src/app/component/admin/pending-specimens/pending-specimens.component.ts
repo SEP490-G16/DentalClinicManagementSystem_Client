@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {MedicalSupplyService} from "../../../service/MedicalSupplyService/medical-supply.service";
 import {ToastrService} from "ngx-toastr";
+import * as moment from 'moment-timezone';
 
 @Component({
   selector: 'app-pending-specimens',
@@ -25,16 +26,17 @@ export class PendingSpecimensComponent implements OnInit {
     type:'',
     quantity:'',
     unit_price:'',
-    order_date:'',
+    order_date: 0,
     orderer:'',
-    received_date:'',
+    received_date: 0,
+    used_date: 0,
     receiver:'',
     facility_id:'',
     warranty:'',
     description:'',
     patient_id:'',
+    labo_id: '',
     status:'',
-
   }
   id:any
   loading:boolean = false;
@@ -45,14 +47,16 @@ export class PendingSpecimensComponent implements OnInit {
       type:medical.ms_type,
       quantity:medical.ms_quantity,
       unit_price:medical.ms_unit_price,
-      order_date:medical.ms_order_date,
+      order_date: this.dateToTimestamp(medical.ms_order_date),
       orderer:medical.ms_orderer,
-      received_date:medical.ms_received_date,
+      received_date: this.dateToTimestamp(medical.ms_received_date),
+      used_date: this.dateToTimestamp(medical.ms_used_date),
       receiver:medical.ms_receiver,
       facility_id:medical.facility_id,
       warranty:medical.ms_warranty,
       description:medical.ms_description,
       patient_id:medical.p_patient_id,
+      labo_id: medical.lb_id,
       status:'2',
     }
     this.loading = true;
@@ -103,5 +107,14 @@ export class PendingSpecimensComponent implements OnInit {
   openEditApproveSpecimens(id:any, specimens:any){
     this.id = id;
     this.specimen = specimens;
+    console.log(specimens);
+    return;
+  }
+
+  dateToTimestamp(dateStr: string): number {
+    const format = 'YYYY-MM-DD HH:mm'; // Định dạng của chuỗi ngày
+    const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
+    const timestamp = moment.tz(dateStr, format, timeZone).valueOf() /1000;
+    return timestamp;
   }
 }
