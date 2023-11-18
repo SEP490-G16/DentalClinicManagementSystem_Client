@@ -28,9 +28,12 @@ import { RegisterWorkScheduleComponent } from './component/shared/register-work-
 import { WebSocketSubject } from 'rxjs/webSocket';
 import { ConfirmAppointmentComponent } from './component/confirm-appointment/confirm-appointment.component';
 import { AppRoutingModule } from './app-routing.module';
+import {NgChartsModule} from "ng2-charts";
 import { LOCALE_ID} from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeVi from '@angular/common/locales/vi';
+import { PopupAddReportExpenditureComponent } from './component/utils/pop-up/revenue/popup-add-report-expenditure/popup-add-report-expenditure.component';
+import { PopupConfirmServiceComponent } from './component/utils/pop-up/appointment/popup-confirm-service/popup-confirm-service.component';
 
 // Register the Vietnamese locale data
 registerLocaleData(localeVi);
@@ -38,7 +41,6 @@ registerLocaleData(localeVi);
   declarations: [
     AppComponent,
     RegisterWorkScheduleComponent,
-    ConfirmAppointmentComponent
   ],
   imports: [
     FormsModule,
@@ -61,6 +63,7 @@ registerLocaleData(localeVi);
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
+    NgChartsModule
   ],
   providers: [CookieService,{ provide: LOCALE_ID, useValue: 'vi' }],
   bootstrap: [AppComponent]

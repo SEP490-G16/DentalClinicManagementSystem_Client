@@ -1,11 +1,11 @@
-<div *ngIf="!loading" class="modal" id="myModal">
+<div class="modal" id="myModal">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
       <!-- Modal Header -->
       <div class="modal-header color-header">
         <h4 class="modal-title text-center w-100">Thêm mới cơ sở</h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="error()"></button>
       </div>
 
       <!-- Modal body -->
@@ -99,7 +99,7 @@
 
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" id="cancel-add-facility" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
+          <button type="button" id="cancel-add-facility" class="btn btn-cancel" data-bs-dismiss="modal" (click)="error()">Hủy</button>
           <button type="button" class="btn btn-save" (click)="addFacility()"><i class="bi bi-floppy2"></i> Lưu</button>
         </div>
 

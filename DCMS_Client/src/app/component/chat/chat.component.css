@@ -44,8 +44,8 @@ body {
 .open-btn {
   background-color: #7d72e4;
   color: whitesmoke;
-  padding: 16px 24px;
-  border-radius: 50px;
+  padding: 5px 24px;
+  border-radius: 50%;
   border: none;
   cursor: pointer;
   position: fixed;
@@ -57,12 +57,12 @@ body {
   box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px 0px, rgba(17, 17, 26, 0.05) 0px 8px 32px 0px;
   bottom: 24px;
   right: 30px;
-  width: 120px;
+  width: 50px;
 }
 
 .open-btn i {
   font-size: 28px;
-  margin-right: 20px;
+  /*margin-right: 20px;*/
 }
 
 .chat-popup {
@@ -238,4 +238,22 @@ body {
   margin-bottom: 10px;
   border-radius: 10px;
   transition: background-color 0.3s ease;
+}
+.notification-badge {
+  background-color: red; /* Màu nền đỏ */
+  color: white; /* Màu chữ trắng */
+  font-size: 12px; /* Kích thước font */
+  padding: 3px 10px; /* Đệm */
+  border-radius: 50%; /* Làm tròn biểu tượng để tạo hình dạng hình tròn */
+  position: absolute; /* Vị trí tuyệt đối */
+  top: -5px; /* Vị trí từ trên xuống */
+  right: 0; /* Vị trí từ phải qua */
+  box-shadow: 0 0 6px #888; /* Đổ bóng cho biểu tượng */
+  font-weight: bold; /* Chữ đậm */
+}
+.message-content p{
+  font-size: 20px;
+}
+.message-name b{
+  font-size: 12px;
 }

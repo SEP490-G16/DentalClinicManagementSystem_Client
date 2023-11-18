@@ -76,10 +76,21 @@
                     <tr>
                       <td>{{ i + 1 }}</td>
                       <td>
-                        <ng-select *ngIf="isAdd && materialList" [items]="materialList" [(ngModel)]="record.tenVatLieu" [searchable] = "true" bindLabel="tenVatLieu" bindValue="id" (ngModelChange)="updateTemporaryName(record, $event)">
+                        <ng-select *ngIf="isAdd && materialList" [items]="materialList" [(ngModel)]="record.tenVatLieu" [searchable] = "true" bindLabel="tenVatLieu" bindValue="id" (ngModelChange)="updateTemporaryName(record, $event)"
+                                   [notFoundText]="'Không tìm thấy vật liệu'">
+                          <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
+                            <div class="not-found">
+                              <span>Không tìm thấy vật liệu!</span>
+                              <div class="add-materials">
+                                <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#addMaterialModal"><i class="bi bi-plus-circle"> Thêm mới</i></button>
+                              </div>
+
+                            </div>
+                          </ng-template>
                         </ng-select>
                         <p *ngIf="!isAdd">{{ temporaryName}}</p>
                       </td>
+
                       <td>
                         <input type="text" [(ngModel)]="record.donVi" *ngIf="isAdd" class="form-control value-staff">
                         <!--<p *ngIf="!isAdd">abc</p>-->
@@ -114,7 +125,6 @@
                           x
                         </button>
                       </td>
-
                     </tr>
                     </ng-container>
                   </tbody>
@@ -136,5 +146,5 @@
       </div>
     </div>
   </div>
-
+<app-popup-add-material [materialList] = "materialList"></app-popup-add-material>
 

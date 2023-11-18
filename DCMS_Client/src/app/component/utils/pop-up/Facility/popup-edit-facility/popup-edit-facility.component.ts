@@ -130,7 +130,7 @@ export class PopupEditFacilityComponent implements OnChanges {
       }
     )
   }
-  private error(){
+  error(){
     this.errorFacility ={
       name:'',
       address:'',

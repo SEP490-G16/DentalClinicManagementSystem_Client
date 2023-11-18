@@ -275,7 +275,27 @@ button:active{
   border-radius: 10px;
   -ms-overflow-style: none;
 }
+.table-container::-webkit-scrollbar {
+  width: 5px; /* Thay đổi kích thước thanh cuộn ngang */
+  height: 5px; /* Thay đổi kích thước thanh cuộn dọc */
+}
 
+.table-container::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Màu nền của track */
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: #bebdbd; /* Màu của thumb */
+  border-radius: 10px; /* Bo tròn góc của thumb */
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: #8c8a8a; /* Màu của thumb khi hover */
+}
+.table-container {
+  scrollbar-width: thin; /* 'auto' hoặc 'thin' */
+  scrollbar-color: #888 #f1f1f1; /* thumb và track */
+}
 .sticky-thead {
   position: sticky;
   top: 0; /* Giữ phần thead ở vị trí trên cùng khi cuộn */
@@ -294,6 +314,27 @@ button:active{
     scrollbar-color: #c0c0c0 #f0f0f0;
     border-radius: 10px;
     -ms-overflow-style: none;
+  }
+  .table-container::-webkit-scrollbar {
+    width: 5px; /* Thay đổi kích thước thanh cuộn ngang */
+    height: 5px; /* Thay đổi kích thước thanh cuộn dọc */
+  }
+
+  .table-container::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Màu nền của track */
+  }
+
+  .table-container::-webkit-scrollbar-thumb {
+    background: #bebdbd; /* Màu của thumb */
+    border-radius: 10px; /* Bo tròn góc của thumb */
+  }
+
+  .table-container::-webkit-scrollbar-thumb:hover {
+    background: #8c8a8a; /* Màu của thumb khi hover */
+  }
+  .table-container {
+    scrollbar-width: thin; /* 'auto' hoặc 'thin' */
+    scrollbar-color: #888 #f1f1f1; /* thumb và track */
   }
   .sticky-thead {
     position: sticky;
