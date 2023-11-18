@@ -19,12 +19,6 @@ import { PatientAppointmentTabComponent } from './patient-records/patient-appoin
 import { PopupDeletePatientComponent } from '../utils/pop-up/patient/popup-delete-patient/popup-delete-patient.component';
 import { PatientLichtrinhdieutriComponent } from './patient-records/patient-lichtrinhdieutri/patient-lichtrinhdieutri.component';
 import { VNDateTimeFormatPipe } from '../shared/pipe/datetimeformat.pipe';
-// import { PopupAddTreatmentcourseComponent } from './patient-records/patient-lichtrinhdieutri/popup-add-treatmentcourse/popup-add-treatmentcourse.component';
-// import { PopupEditTreatmentcourseComponent } from './patient-records/patient-lichtrinhdieutri/popup-edit-treatmentcourse/popup-edit-treatmentcourse.component';
-// import { PopupAddExaminationComponent } from './patient-records/patient-lichtrinhdieutri/popup-add-examination/popup-add-examination.component';
-// import { PopupEditExaminationComponent } from './patient-records/patient-lichtrinhdieutri/popup-edit-examination/popup-edit-examination.component';
-// import { PopupDatlichtaikhamComponent } from './patient-records/patient-appointment-tab/popup-datlichtaikham/popup-datlichtaikham.component';
-// import { PopupSualichtaikhamComponent } from './patient-records/patient-appointment-tab/popup-sualichtaikham/popup-sualichtaikham.component';
 import {PopupPaymentComponent} from './patient-records/patient-payment-tab/pop-up-payment/popup-payment.component'
 
 import { PopupAddTreatmentcourseComponent } from '../utils/pop-up/patient/popup-add-treatmentcourse/popup-add-treatmentcourse.component';
@@ -51,7 +45,7 @@ import { PatientPaymentTabComponent } from './patient-records/patient-payment-ta
       PopupDatlichtaikhamComponent,
       PopupSualichtaikhamComponent,
       PopupPaymentComponent,
-      // PatientPaymentTabComponent
+      PatientPaymentTabComponent
   ],
   imports: [
     CommonModule,
