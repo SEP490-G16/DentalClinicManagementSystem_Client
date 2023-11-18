@@ -35,6 +35,7 @@ import { VNDateTimeFormatPipe } from '../shared/pipe/datetimeformat.pipe';
     CommonModule,
     RouterModule,
     FormsModule,
+    PatientModule,
     SharedModule,
     ReceptionistRoutingModule,
     NgbModule,
