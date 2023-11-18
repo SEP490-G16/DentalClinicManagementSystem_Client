@@ -22,44 +22,17 @@
   --custom-box-shadow: 0 2rem 3rem var(--custom-color-light);
 }
 
-.custom-dark-mode-variables {
-  --custom-color-background: #181a1e;
-  --custom-color-white: #202528;
-  --custom-color-dark: #edeffd;
-  --custom-color-dark-variant: #a3bdcc;
-  --custom-color-light: rgba(0, 0, 0, 0.4);
-  --custom-box-shadow: 0 2rem 3rem var(--custom-color-light);
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  outline: 0;
-  appearance: 0;
-  border: 0;
-  text-decoration: none;
-  box-sizing: border-box;
-}
-
-.web-wrapper {
-  font-size: 14px;
-  width: 100vw;
-  height: 100vh;
-  font-family: 'Poppins', sans-serif;
-  font-size: 0.88rem;
-  user-select: none;
-  overflow-x: hidden;
-  color: var(--custom-color-dark);
-}
-
 .recent-orders {
   margin-top: 1.3rem;
+  background-color: var(--custom-color-white);
+  box-shadow: var(--custom-box-shadow);
+  border-radius: 15px;
+  min-height: 82vh;
 }
 
-.recent-orders h2 {
-  margin-bottom: 0.8rem;
+.recent-orders:hover {
+  box-shadow: none;
 }
-
 
 .loading-overlay {
   position: fixed;
@@ -80,39 +53,12 @@
   border-top: 16px solid #3498db;
   width: 120px;
   height: 120px;
-  -webkit-animation: spin 2s linear infinite; /* Safari */
+  -webkit-animation: spin 2s linear infinite;
+  /* Safari */
   animation: spin 2s linear infinite;
 }
 
-table {
-  background-color: var(--custom-color-white);
-  width: 100%;
-  padding: var(--custom-card-padding);
-  text-align: center;
-  box-shadow: var(--custom-box-shadow);
-  border-radius: var(--custom-card-border-radius);
-  transition: all 0.3s ease;
-}
-
-table:hover {
-  box-shadow: none;
-}
-table thead th {
-  height: 2.8rem;
-  border-bottom: 1px solid #7B4C50;
-  color: var(--custom-color-dark-variant);
-  border-right: 1px solid #7B4C50;
-}
-
-table tbody td {
-  height: 2.8rem;
-  border-bottom: 1px solid #7B4C50;
-  color: var(--custom-color-dark-variant);
-  border-right: 1px solid #7B4C50;
-  border-left: 1px solid #7B4C50;
-}
-
-.table-container{
+.table-container {
   max-height: 400px;
   overflow-y: auto;
   overflow-x: auto;
@@ -121,16 +67,22 @@ table tbody td {
   border-radius: 10px;
   -ms-overflow-style: none;
 }
+
 .table-container::-webkit-scrollbar {
-  width: 0; /* Ẩn thanh cuộn trên trình duyệt Webkit (Chrome, Safari, Opera) */
+  width: 0;
+  /* Ẩn thanh cuộn trên trình duyệt Webkit (Chrome, Safari, Opera) */
 }
+
 .sticky-thead {
   position: sticky;
-  top: 0; /* Giữ phần thead ở vị trí trên cùng khi cuộn */
+  top: 0;
+  /* Giữ phần thead ở vị trí trên cùng khi cuộn */
   background-color: white;
   border: 1px solid #7B4C50;
-  z-index: 1; /* Đảm bảo phần thead nằm trên cùng của bảng */
+  z-index: 1;
+  /* Đảm bảo phần thead nằm trên cùng của bảng */
 }
+
 .table-container {
   position: relative;
 }
@@ -142,6 +94,81 @@ a {
   color: var(--custom-color-primary);
 }
 
+/* General table styles */
+
+.timekeeping-container {
+  padding: 30px;
+}
+
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+  background-color: white;
+  border: 1px solid #324D67;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #324D67;
+}
+
+th {
+  text-align: center;
+}
+
+th:first-child {
+  border-top-left-radius: 10px;
+}
+
+th:last-child {
+  border-top-right-radius: 10px;
+}
+
+tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 10px;
+}
+
+tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 10px;
+}
+
+.button-timekeeping {
+  background-color: #D9E1EC;
+  color: #324D67;
+  padding: 2px 6px;
+  font-size: 0.8em;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.button-timekeeping:hover {
+  background-color: #AEBFCC;
+}
+
+input[type="time"] {
+  padding: 2px 6px;
+  font-size: 0.8em;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+
+td {
+  padding: 4px;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: middle;
+  width: auto;
+}
+
 
 @media screen and (max-width: 1200px) {
   .recent-orders {
@@ -151,21 +178,6 @@ a {
     transform: translateX(-50%);
     margin: 2rem 0 0 0.8rem;
   }
-
-  table {
-    width: 83vw;
-  }
-
-  table thead tr th:last-child,
-  table thead tr th:first-child {
-    display: none;
-  }
-
-  table tbody tr td:last-child,
-  table tbody tr td:first-child {
-    display: none;
-  }
-
 }
 
 @media screen and (max-width: 768px) {
@@ -176,156 +188,25 @@ a {
     width: 100%;
   }
 
-  .recent-orders table {
+  table {
     width: 100%;
     margin: 0;
   }
 
 }
-
-.btn-add-custom {
-  padding: 10px 20px;
-  border-radius: 27px;
-  background-color: #FEDDCC;
-  border: 1px solid #7B4C50;
-  margin-right: 10px;
-}
-
-.input-custom {
-  width: 30%;
-  padding: 10px 20px;
-  border: 1px solid #7B4C50;
-  border-radius: 10px;
-  margin-right: 10px;
-}
-
-.btn-redirect {
-  font-size: 10px;
-  padding: 6px;
-  border: 1px solid #7B4C50;
-  border-radius: 10px;
-}
-
-.date-input-custom {
-  padding: 10px 20px;
-  border: 1px solid #7B4C50;
-  border-radius: 10px;
-}
-
-
-.custom-table thead tr {
-  background-color: var(--custom-color-background);
-  border-radius: 10px;
-  border: 1px solid #7B4C50;
-}
-
-.custom-table thead tr th {
-	color: #7B4C50;
-	font-weight: 600
-}
-
-.custom-table tr {
-	background-color: #7B4C50;
-  border: 1px solid #7B4C50;
-}
-
-.custom-table tr td {
-  border-bottom: 1px solid #7B4C50;
-}
-
-.table.custom-table>tbody>tr>td,
-.table.custom-table>tbody>tr>th,
-.table.custom-table>tfoot>tr>td,
-.table.custom-table>tfoot>tr>th,
-.table.custom-table>thead>tr>td,
-.table.custom-table>thead>tr>th {
-	padding: 14px 8px;
-	vertical-align: middle
-}
-
-.dp-hidden {
-  width: 0;
-  margin: 0;
-  border: none;
-  padding: 0;
-}
-.custom-day {
-  text-align: center;
-  padding: 0.185rem 0.25rem;
-  display: inline-block;
-  height: 2rem;
-  width: 2rem;
-}
-.custom-day.focused {
-  background-color: #e6e6e6;
-}
-.custom-day.range,
-.custom-day:hover {
-  background-color: rgb(2, 117, 216);
-  color: white;
-}
-.custom-day.faded {
-  background-color: rgba(2, 117, 216, 0.5);
-}
-
-.dp-hidden {
-  width: 0;
-  margin: 0;
-  border: none;
-  padding: 0;
-}
-.custom-day {
-  text-align: center;
-  padding: 0.185rem 0.25rem;
-  display: inline-block;
-  height: 2rem;
-  width: 2rem;
-}
-
-.custom-day.focused {
-  background-color: #e6e6e6;
-}
-.custom-day.range,
-.custom-day:hover {
-  background-color: rgb(2, 117, 216);
-  color: white;
-}
-.custom-day.faded {
-  background-color: rgba(2, 117, 216, 0.5);
-}
-
-.date-input-cus {
-  padding: 10px;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
-}
-
-.btn-date-cus {
-  padding: 14px;
-  border: 1px solid #000;
-  border-radius: 0.25rem;
-  margin-right: 30px;
-}
-
-.button-timekeeping{
-  font-family: "Poppins", sans-serif;
-  background: #664FC3;
-  text-align: center;
+.page-title.active-link {
   cursor: pointer;
-  border: 0px solid white;
-  color: white;
-  font-weight: bold;
-  /*font-size: 24px;*/
-  outline: 0px;
-  padding: 10px 20px;
-/* box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset; */
+  color: blue; /* hoặc màu khác bạn muốn sử dụng cho đường dẫn được chọn */
 }
-button:hover{
-  opacity: 0.9;
+.page-title:hover {
+  color: blue; /* Màu khi di chuột vào liên kết không được chọn */
 }
-button:active{
-  transform: translateY(4px);
-  box-shadow: 0px -1px -1px #fff;
+.page-title {
+  cursor: pointer;
+
+  color: black; /* Màu mặc định cho liên kết không được chọn */
+  text-decoration: none; /* Loại bỏ gạch chân mặc định của liên kết */
+  transition: color 0.3s; /* Hiệu ứng chuyển đổi màu sắc */
 }
 
 .onTime {
@@ -334,15 +215,4 @@ button:active{
 
 .lateTime {
   color: red;
-}
-.page-title.active-link {
-  color: blue; /* hoặc màu khác bạn muốn sử dụng cho đường dẫn được chọn */
-}
-.page-title:hover {
-  color: blue; /* Màu khi di chuột vào liên kết không được chọn */
-}
-.page-title {
-  color: black; /* Màu mặc định cho liên kết không được chọn */
-  text-decoration: none; /* Loại bỏ gạch chân mặc định của liên kết */
-  transition: color 0.3s; /* Hiệu ứng chuyển đổi màu sắc */
 }

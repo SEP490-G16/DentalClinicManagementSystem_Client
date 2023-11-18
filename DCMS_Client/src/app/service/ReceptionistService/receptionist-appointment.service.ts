@@ -21,7 +21,6 @@ export class ReceptionistAppointmentService {
     return this.http.get(`${this.apiUrl}/appointment/${startTime}/${endTime}`, { headers, responseType: 'text' });
   }
 
-
   postAppointment(addAppointment: IAddAppointment): Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
 
@@ -58,6 +57,16 @@ export class ReceptionistAppointmentService {
       console.error("Lỗi khi gọi API: ", error);
       throw error;
     }
+  }
+
+  deleteAppointment(startTime:number, endTime:number): Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
+
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+    });
+
+    return this.http.delete(`${this.apiUrl}/appointment/${startTime}/${endTime}`,{ headers });
   }
 
 }

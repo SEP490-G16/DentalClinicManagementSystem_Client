@@ -15,7 +15,6 @@ export class TreatmentCourseDetailService {
 
   getTreatmentCourseDetail(id:string):Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
-    console.log("id token", idToken);
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`,
       'Accept':'application/json'
@@ -26,7 +25,6 @@ export class TreatmentCourseDetailService {
 
   getExamination(id:string):Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
-    console.log("id token", idToken);
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`,
       'Accept':'application/json'
@@ -57,7 +55,6 @@ export class TreatmentCourseDetailService {
 
   deleteExamination(id:string):Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
-
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`
     });

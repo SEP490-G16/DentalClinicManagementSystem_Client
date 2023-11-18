@@ -57,7 +57,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'dangkilichlamviec',
+        path: 'dangkylichlamviec',
         component: RegisterWorkScheduleComponent,
         // data: {
         //   allowedGroups: ['dev-dcms-doctor', 'dev-dcms-nurse', 'dev-dcms-receptionist']
