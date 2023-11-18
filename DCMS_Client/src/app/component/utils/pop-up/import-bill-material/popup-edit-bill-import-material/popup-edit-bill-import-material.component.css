@@ -192,3 +192,27 @@ button:active{
 .not-found{
   padding: 10px 0 0 0;
 }
+.add-materials{
+  padding: 10px 0;
+}
+.button-timekeeping{
+  font-family: "Poppins", sans-serif;
+  background: #664FC3;
+  text-align: center;
+  cursor: pointer;
+  border: 0px solid white;
+  color: white;
+  /*font-size: 24px;*/
+  outline: 0px;
+  /* box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset; */
+}
+button:hover{
+  opacity: 0.9;
+}
+button:active{
+  transform: translateY(4px);
+  box-shadow: 0px -1px -1px #fff;
+}
+.not-found{
+  padding: 10px 0 0 0;
+}

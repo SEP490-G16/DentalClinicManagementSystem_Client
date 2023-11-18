@@ -375,6 +375,9 @@ button:active{
 .hover-patient:hover{
   background-color: #e1dfdf;
 }
+.hover-patient:hover{
+  background-color: #e1dfdf;
+}
 
 .pagination a:first-child {
   border-top-left-radius: 5px;

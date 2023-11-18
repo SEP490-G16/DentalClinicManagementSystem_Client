@@ -79,9 +79,7 @@
                       <td>
                         <!--<input type="text" *ngIf="isAdd" [disabled]="!isAdd" [(ngModel)]="m.material_id" class="form-control value-staff">-->
                         <ng-select *ngIf="isAdd == false ? 'disabled' :''" [items]="materialList" [(ngModel)]="m.material_id" [searchable] = "true" bindLabel="tenVatLieu" bindValue="id" (ngModelChange)="updateTemporaryName(m, $event)">
-                        <ng-select *ngIf="!isAdd && materialList" [items]="materialList" [(ngModel)]="m.material_id" [searchable] = "true" bindLabel="tenVatLieu" bindValue="id" (ngModelChange)="updateTemporaryName(m, $event)"
-                                   [notFoundText]="'Không tìm thấy vật liệu'"
-                        >
+
                           <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
                             <div class="not-found">
                               <span>Không tìm thấy vật liệu!</span>
@@ -92,7 +90,6 @@
                             </div>
                           </ng-template>
                         </ng-select>
-
                       </td>
                      <!-- <td *ngIf="!isAdd">{{m.donVi}}</td>-->
                       <td>
