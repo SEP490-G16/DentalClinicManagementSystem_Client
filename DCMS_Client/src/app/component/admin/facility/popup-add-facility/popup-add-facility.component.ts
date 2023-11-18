@@ -95,12 +95,13 @@ export class PopupAddFacilityComponent implements OnInit {
     this.loading = true;
     this.facilityService.addFacility(this.facilityBody).subscribe(data=>{
       this.toastr.success('Thêm mới cơ sở thành công !');
-      /*let ref = document.getElementById('cancel-add-facility');
+      let ref = document.getElementById('cancel-add-facility');
       ref?.click();
       const newFacilityId = data.data.facility_id;
       this.facilityBody.facility_id = newFacilityId;
-      this.facilityList.unshift(this.facilityBody);*/
-      window.location.reload();
+      this.facilityList.unshift(this.facilityBody);
+      this.loading = false;
+      //window.location.reload();
     },
       error => {
       this.loading = false;

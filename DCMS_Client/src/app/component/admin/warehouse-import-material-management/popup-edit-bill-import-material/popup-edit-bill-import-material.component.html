@@ -85,7 +85,7 @@
                               <div class="not-found">
                                 <span>Không tìm thấy vật liệu!</span>
                               <div class="add-materials">
-                                <button class="btn button-timekeeping" (click)="onAddNewMaterial()"><i class="bi bi-plus-circle"></i> Thêm mới</button>
+                                <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#addMaterialModal"><i class="bi bi-plus-circle"></i> Thêm mới</button>
                               </div>
 
                             </div>
@@ -178,6 +178,6 @@
     </div>
   </div>
 </div>
-
+<app-popup-add-material [materialList] = "materialList"></app-popup-add-material>
 
 
