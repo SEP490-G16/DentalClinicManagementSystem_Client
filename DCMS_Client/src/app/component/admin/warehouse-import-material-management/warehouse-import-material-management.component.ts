@@ -73,18 +73,8 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
           this.importBills.pop();
         }
         this.displayWarehouse = [];
+        console.log("Checkdate", this.importBills);
         this.importBills.forEach((p: any) => {
-          // let total = 0;
-          // this.materialWarehouseService.getMaterialsByImportMaterialBill(p.id).subscribe(data => {
-
-          //   this.materialList = data.data;
-          //   if (this.materialList.length != 0) {
-          //     this.materialList.forEach((m: any) => {
-          //       total = total + (m.quantity_import * m.price * (1 - m.discount));
-          //     })
-          //   } else {
-          //     total = 0;
-          //   }
             this.materbyId.Id = p.id;
             this.materbyId.CreateDate = p.created_date;
             this.materbyId.CreateBy = p.creator;

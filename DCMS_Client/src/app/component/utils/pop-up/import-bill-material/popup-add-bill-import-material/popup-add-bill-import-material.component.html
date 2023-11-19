@@ -18,42 +18,47 @@
             <div class="col-sm-6 col-md-3">
               <div class="input-group">
                 <input
-                      class="form-control"
-                      placeholder="Ngày lập"
-                      name="dp"
-                      [(ngModel)]="importBill.createDate"
-                      ngbDatepicker
-                      #d="ngbDatepicker"
+                  class="form-control"
+                  placeholder="Ngày lập"
+                  name="dp"
+                  [(ngModel)]="model"
+                  ngbDatepicker
+                  #d="ngbDatepicker"
                 />
                 <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
               </div>
             </div>
-            <div class="col-md-5">
-              <div class="form-group row">
-                <label for="creator" class="col-3 name-title">Người lập phiếu</label>
-                <div class="col-8">
-                  <input type="text" [(ngModel)]="importBill.creator" class="form-control value-staff" id="creator" name="creator">
-                </div>
-              </div>
+            <div class="col-md-3">
+<!--                <label for="creator" class="col-4 name-title"><b>Người lập phiếu</b></label>-->
+                  <input type="text" placeholder="Người lập phiếu" [(ngModel)]="importBill.creator" class="form-control value-staff" id="creator"
+                         name="creator">
             </div>
             <div class="col-md-3">
               <div class="form-group row">
-                <label for="total" class="col-3 name-title">Tổng tiền</label>
+<!--                <label for="total" class="col-4 name-title"><b>Tổng tiền</b></label>-->
                 <div class="col-8">
-                  <input type="text" class="form-control value-staff" [(ngModel)]="totalAmount" disabled id="total" name="total">
+                  <input type="text" placeholder="Tổng tiền" class="form-control value-staff" [(ngModel)]="totalAmount" disabled id="total"
+                         name="total">
                 </div>
               </div>
-              </div>
-            <div class="col-md-3" *ngIf="!status">
+            </div>
+            <!--<div class="col-md-3" *ngIf="!status">
               <button href="add-employee.html" class="btn btn-custom"  (click)="addImportBill()"><i class="bi"></i> Thêm mới phiếu</button>
 
+            </div>-->
+            <div class="col-md-3 row">
+              <!--              <button href="add-employee.html" class="btn" [ngClass]="{'btn-custom':!isAdd, 'btn-save':isAdd}" (click)="toggleAdd()"  ><i class="bi" [ngClass]="{'bi-plus-circle': !isAdd, 'bi-floppy2': isAdd}"></i> {{isAdd ? "Lưu" : "Thêm mới"}}-->
+              <!--              </button>-->
+              <div class="col-md-4">
+
+              </div>
+              <div class="col-md-8">
+                <button class="btn btn-custom" (click)="toggleAdd()" *ngIf="!isAdd"><i class="bi bi-plus-circle"></i>Thêm mới</button>
+
+              </div>
+              <!--              <button *ngIf="isAdd" (click)="toggleCancel()" type="button" class="btn btn-cancel">Huỷ</button>-->
             </div>
-            <div class="col-md-3" *ngIf="status">
-              <button href="add-employee.html" class="btn" [ngClass]="{'btn-custom':!isAdd, 'btn-save':isAdd}" (click)="toggleAdd()"  ><i class="bi" [ngClass]="{'bi-plus-circle': !isAdd, 'bi-floppy2': isAdd}"></i> {{isAdd ? "Lưu" : "Thêm mới"}}
-              </button>
-              <button *ngIf="isAdd" (click)="toggleCancel()" type="button" class="btn btn-cancel">Huỷ</button>
-            </div>
-            </div>
+          </div>
           <div class="row mt-5">
             <div class="col-md-12">
               <div>
@@ -76,13 +81,15 @@
                     <tr>
                       <td>{{ i + 1 }}</td>
                       <td>
-                        <ng-select *ngIf="isAdd && materialList" [items]="materialList" [(ngModel)]="record.tenVatLieu" [searchable] = "true" bindLabel="tenVatLieu" bindValue="id" (ngModelChange)="updateTemporaryName(record, $event)"
+                        <ng-select *ngIf="isAdd && materialList" [items]="materialList" [(ngModel)]="record.tenVatLieu"
+                                   [searchable]="true" bindLabel="tenVatLieu" bindValue="id"
+                                   (ngModelChange)="updateTemporaryName(record, $event)"
                                    [notFoundText]="'Không tìm thấy vật liệu'">
                           <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
                             <div class="not-found">
-                              <span>Không tìm thấy vật liệu!</span>
                               <div class="add-materials">
-                                <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#addMaterialModal"><i class="bi bi-plus-circle"> Thêm mới</i></button>
+                                <a class="btn button-timekeeping" data-bs-toggle="modal"
+                                   data-bs-target="#addMaterialModal"><i class="bi bi-plus-circle"> Thêm mới</i></a>
                               </div>
 
                             </div>
@@ -97,54 +104,64 @@
                         <p *ngIf="!isAdd">{{ record.donVi }}</p>
                       </td>
                       <td>
-                        <input type="number" [(ngModel)]="record.soLuong" *ngIf="isAdd" class="form-control value-staff">
-                        <!--<p *ngIf="!isAdd">10</p>-->
+                        <input type="number" [(ngModel)]="record.soLuong" *ngIf="isAdd"
+                               class="form-control value-staff">
                         <p *ngIf="!isAdd">{{ record.soLuong }}</p>
+<!--                        <div class="error" *ngIf="showPopup">{{ suggestion }}</div>-->
                       </td>
                       <td>
-                        <input type="text" [(ngModel)]="record.donGia" *ngIf="isAdd" (ngModelChange)="calculateThanhTien(record)" class="form-control value-staff">
+                        <input type="text" [(ngModel)]="record.donGia" *ngIf="isAdd"
+                               (ngModelChange)="calculateThanhTien(record)" class="form-control value-staff">
                         <!--<p *ngIf="!isAdd">1.000.000</p>-->
                         <p *ngIf="!isAdd">{{ record.donGia }}</p>
                       </td>
                       <td>
-                        <input type="text" [(ngModel)]="record.thanhTien" *ngIf="isAdd" class="form-control value-staff">
+                        <input type="text" [(ngModel)]="record.thanhTien" *ngIf="isAdd"
+                               class="form-control value-staff">
                         <!--<p *ngIf="!isAdd">10.000.000</p>-->
                         <p *ngIf="!isAdd">{{ record.thanhTien }}</p>
                       </td>
                       <td>
-                        <input type="date" [(ngModel)]="record.hanSudung" *ngIf="isAdd" class="form-control value-staff">
+                        <input type="date" [(ngModel)]="record.hanSudung" *ngIf="isAdd"
+                               class="form-control value-staff">
                         <p *ngIf="!isAdd">{{ record.hanSudung }}</p>
                       </td>
                       <td>
-                        <input type="text" [(ngModel)]="record.chietKhau" *ngIf="isAdd" class="form-control value-staff">
+                        <input type="text" [(ngModel)]="record.chietKhau" *ngIf="isAdd"
+                               class="form-control value-staff">
                         <!--<p *ngIf="!isAdd">10%</p>-->
                         <p *ngIf="!isAdd">{{ record.chietKhau }}</p>
                       </td>
-                      <td *ngIf="!isAdd" class="delete-cell">
-                        <button *ngIf="!isAdd" class="delete-button" (click)="deleteRecord(i)">
+                      <td class="delete-cell" *ngIf="isAdd" style="display: flex">
+                        <button class="save-button" style="margin-right: 3px" (click)="toggleAdd()"><i
+                          class="bi bi-check-circle"></i></button>
+                        <button class="delete-button" (click)="deleteRecord(i)">
                           x
                         </button>
+
+
                       </td>
                     </tr>
-                    </ng-container>
+                  </ng-container>
                   </tbody>
                 </table>
               </div>
             </div>
           </div>
-          </div>
-
-
         </div>
 
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
-          <button type="button" class="btn btn-save" (click)="addImportMaterial()"><i class="bi bi-floppy2"></i> Lưu</button>
-        </div>
 
       </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-save" (click)="addImportMaterial()"><i class="bi bi-floppy2"></i> Lưu
+        </button>
+      </div>
+
     </div>
   </div>
-<app-popup-add-material [materialList] = "materialList"></app-popup-add-material>
+</div>
+<app-popup-add-material [materialList]="materialList"></app-popup-add-material>
 

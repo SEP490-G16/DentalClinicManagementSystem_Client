@@ -988,9 +988,3 @@ button:active{
     text-align: left;
   }
 }
-.scrollable-container {
-  display: inline-block;
-  overflow-x: auto; /* Cho phép cuộn ngang */
-  white-space: nowrap; /* Giữ cho các ngày ở trên cùng một dòng */
-  max-width: 500px; /* Hoặc giới hạn chiều rộng tùy ý */
-}
