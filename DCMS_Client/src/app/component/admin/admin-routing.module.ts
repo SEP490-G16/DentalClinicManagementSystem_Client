@@ -4,7 +4,6 @@ import {RouterModule, Routes} from "@angular/router";
 import {FacilityComponent} from "./facility/facility.component";
 import {LaboComponent} from "./labo/labo.component";
 import {MaterialComponent} from "./material/material.component";
-import {MedicineComponent} from "./medicine/medicine.component";
 import {ServiceComponent} from "./service/service.component";
 import {SpecimensComponent} from "./specimens/specimens.component";
 import {StaffComponent} from "./staff/staff.component";
@@ -36,7 +35,6 @@ const adminRoutes: Routes = [
       {path: 'quan-ly-nhap', component: WarehouseImportMaterialManagementComponent},
       {path: 'quan-ly-xuat', component: WarehouseExportMaterialManagementComponent}
     ]},
-  {path: 'thuoc', component: MedicineComponent},
   {path: 'thu-thuat', component: ServiceComponent},
   {path: '', children:[
       {path: 'mau',component: SpecimensComponent},

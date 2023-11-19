@@ -5,14 +5,14 @@
 <div *ngIf="loading" class="loading-overlay">
   <div class="loading-spinner"></div>
 </div>
-<div class="recent-orders">
+<div class="sep-recent-orders">
         <section class="table__header">
           <h1></h1>
           <div class="export__file">
           </div>
         </section>
 
-        <div class="row" style="margin-bottom: 20px; margin-left: 10px">
+        <div class="row" style="margin-top: 0.3%">
           <div class="col-md-1">
             <a routerLink="/admin/mau" routerLinkActive="active-link" class="page-title">Quản lý mẫu</a>
           </div>
@@ -23,13 +23,13 @@
         <div class="row filter-row m-t-30">
           <div class="col-sm-6 col-md-3">
             <div class="form-group form-group-filter">
-              <button class="btn button-timekeeping float-right" data-bs-toggle="modal" data-bs-target="#addSpecimensModal"><i class="bi bi-plus-circle"></i> Thêm mới
+              <button class="btn button-add float-right" data-bs-toggle="modal" data-bs-target="#addSpecimensModal"><i class="bi bi-plus-circle"></i> Thêm mới
               </button>
             </div>
           </div>
         </div>
         <!-- <h2>Mẫu vật</h2> -->
-        <div class="table-container">
+        <div class="table-container" style="margin-top: 0.5%;">
           <table>
             <thead class="sticky-thead">
             <tr>

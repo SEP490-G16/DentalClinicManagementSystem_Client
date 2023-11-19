@@ -81,6 +81,58 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+}
+
+h1 {
+  font-weight: 800;
+  font-size: 1.8rem;
+}
+
+h2 {
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+h3 {
+  font-weight: 500;
+  font-size: 0.87rem;
+}
+
+small {
+  font-size: 0.76rem;
+}
+
+p {
+  color: var(--custom-color-dark-variant);
+}
+
+b {
+  color: var(--custom-color-dark);
+}
+
+.text-muted {
+  color: var(--custom-color-info-dark);
+}
+
+.primary {
+  color: var(--custom-color-primary);
+}
+
+.danger {
+  color: var(--custom-color-danger);
+}
+
+.success {
+  color: var(--custom-color-success);
+}
+
+.warning {
+  color: var(--custom-color-warning);
+}
 /* Warehouse_material*/
 .SEP-WH-table-tr td:hover{
   cursor: pointer;
@@ -408,14 +460,25 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   height: var(--table-height) !important;
 }
 
-
+.sep-recent-orders h2 {
+  margin-bottom: 0.8rem;
+}
+.sep-recent-orders a {
+  text-align: start;
+  display: block;
+  margin: 1rem auto;
+}
+.sep-recent-orders a:active {
+  text-align: center;
+  display: block;
+  margin: 1rem auto;
+}
 /* table */
 table {
   background-color: var(--custom-color-white);
   width: 100%;
   padding: var(--custom-card-padding);
   text-align: center;
-  box-shadow: var(--custom-box-shadow);
   border-radius: var(--custom-card-border-radius);
   transition: all 0.3s ease;
 }
@@ -441,9 +504,9 @@ table tbody tr:last-child td {
   max-height: 37rem;
   overflow-y: auto;
   overflow-x: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #c0c0c0 #f0f0f0;
   border-radius: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
 }
 .table-container::-webkit-scrollbar-thumb {
   background-color: #c0c0c0;
@@ -453,6 +516,66 @@ table tbody tr:last-child td {
   background-color: #f0f0f0;
   border-radius: 10px;
 }
+.table-container::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: #8c8a8a;
+}
+
+/*end table */
+/* ---------------------------------------- */
+/* start button */
+button:hover{
+  opacity: 0.9;
+}
+button:active{
+  transform: translateY(4px);
+  box-shadow: 0px -1px -1px #fff;
+}
+.button-add{
+  font-family: "Poppins", sans-serif;
+  background: #664FC3;
+  text-align: center;
+  cursor: pointer;
+  border: 0px solid white;
+  color: white;
+  font-weight: bold;
+  outline: 0px;
+  padding: 10px 20px;
+  margin-bottom: 15px;
+}
+/*end button*/
+/* ---------------------------------------- */
+/* title */
+.page-title:active:hover{
+  color: #1c42af;
+}
+.page-title.active-link {
+  color: blue; /* hoặc màu khác bạn muốn sử dụng cho đường dẫn được chọn */
+}
+.page-title:hover {
+  color: blue; /* Màu khi di chuột vào liên kết không được chọn */
+}
+.page-title {
+  color: black; /* Màu mặc định cho liên kết không được chọn */
+  text-decoration: none; /* Loại bỏ gạch chân mặc định của liên kết */
+  transition: color 0.3s; /* Hiệu ứng chuyển đổi màu sắc */
+}
+/* end title */
+/*------------------------------------------*/
+/* icon */
+.bi-trash{
+  color: #ffffff;
+}
+.bi-pencil-square{
+  color: #ffffff;
+}
+/* end icon*/
+/*------------------------------------------*/
+/* bên trong table */
 .sticky-thead {
   position: sticky;
   top: 0; /* Giữ phần thead ở vị trí trên cùng khi cuộn */
@@ -461,4 +584,22 @@ table tbody tr:last-child td {
 }
 .table-container {
   position: relative;
+}
+.truncate {
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.date-input-custom {
+  padding: 10px 20px;
+  border: 1px solid #7B4C50;
+  border-radius: 10px;
+}
+
+.date-input-cus {
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
 }
