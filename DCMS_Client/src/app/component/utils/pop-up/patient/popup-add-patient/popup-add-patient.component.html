@@ -12,103 +12,124 @@
       <div class="modal-body">
         <div class="modal-body">
           <div class="row">
-            <div class="col-md-3">
-              <!-- <div class="image-container" (click)="fileInput.click()"> -->
+            <!-- <div class="col-md-3">
+              <div class="image-container" (click)="fileInput.click()">
               <div class="image-container">
                 <img src="https://th.bing.com/th/id/R.13156d2168f97d5e7b8880c42d0e2380?rik=I0RORQtJ1OVRLg&riu=http%3a%2f%2fcdn.onlinewebfonts.com%2fsvg%2fimg_320438.png&ehk=eE6Y11wS%2bflUtRgFvBllYtM8ZHabQuUa%2b6y8y3G4gQM%3d&risl=&pid=ImgRaw&r=0" alt="Ảnh bệnh nhân">
-                <!-- <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput style="display: none;"> -->
+                <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput style="display: none;">
+              </div>
+            </div> -->
+            <div class="col-md-4">
+              <div class="card mb-4 mb-xl-0">
+                <div class="card-body text-center">
+                  <img class="img-account-profile mb-2"
+                    src="https://static.vecteezy.com/system/resources/thumbnails/004/141/669/small/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg"
+                    alt="">
+                  <button class="btn btn-primary" type="button">Chọn ảnh</button>
+                </div>
               </div>
             </div>
+            <div class="col-md-8">
+              <div class="card mb-4">
+                <div class="card-body">
+                  <div class="mb-3">
+                    <div class="form-group mb-3">
+                      <label class="small mb-1" for="hovaten">Họ và tên</label>
+                      <input class="form-control" [(ngModel)]="patient1.patientName" id="hovaten" type="text"
+                        placeholder="Họ và tên">
+                      <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
+                        <p>
+                          {{validatePatient.name}}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row gx-3 mb-3">
+                    <div class="col-md-6">
+                      <div class="form-group mb-3">
+                        <label class="small mb-1" for="createdDate">Ngày sinh</label>
+                        <input class="form-control" [(ngModel)]="patient1.dob" id="createdDate" type="date">
+                        <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
+                          <p>
+                            {{validatePatient.dob}}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group mb-3">
+                        <div class="small mb-1">
+                          <label>Giới tính</label>
+                        </div>
+                        <div class="mb-6 sep-input-gender">
+                          <input type="radio" [(ngModel)]="patient1.Gender" class="radio m-2" id="male" name="gender"
+                            value="1">
+                          <label for="male">Nam</label>
+                          <input type="radio" [(ngModel)]="patient1.Gender" class="radio m-2" id="female" name="gender"
+                            value="0">
+                          <label for="female">Nữ</label>
+                        </div>
+                        <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
+                          <p>
+                            {{validatePatient.gender}}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
 
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="fullName">Họ và tên:</label>
-                <input type="text" [(ngModel)]="patient1.patientName" class="form-control date-input-custom" id="fullName" name="fullName">
-                <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
-                  <p>
-                    {{validatePatient.name}}
-                  </p>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" [(ngModel)]="patient1.Email" class="form-control date-input-custom" id="email" name="email">
-                <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
-                  <p>
-                    {{validatePatient.email}}
-                  </p>
-                </div>
-                <div class="form-group text-center pt-3">
-                  <input type="radio" [(ngModel)]="patient1.Gender" class="radio m-2" id="male" name="gender" value="1">
-                  <label for="male">Nam</label>
-                  <input type="radio" [(ngModel)]="patient1.Gender" class="radio m-2" id="female" name="gender" value="0" >
-                  <label for="female">Nữ</label>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
-                    <p>
-                      {{validatePatient.gender}}
-                    </p>
                   </div>
-                </div>
-                <div class="form-group">
-                  <label for="phone">Số điện thoại</label>
-                  <input type="text" [(ngModel)]="patient1.phone_Number" class="form-control date-input-custom" id="phone" name="phone">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
-                    <p>
-                      {{validatePatient.phone}}
-                    </p>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="dob">Ngày sinh: </label>
-                  <input type="date" [(ngModel)]="patient1.dob" class="form-control date-input-custom" id="dob" name="phone">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
-                    <p>
-                      {{validatePatient.dob}}
-                    </p>
+                  <div class="row gx-3 mb-3">
+                    <div class="col-md-6">
+                      <div class="form-group mb-3">
+                        <label class="small mb-1" for="inputPhone">Số điện thoại</label>
+                        <input class="form-control" [(ngModel)]="patient1.phone_Number" id="inputPhone" type="tel"
+                          placeholder="Số điện thoại">
+                        <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
+                          <p>
+                            {{validatePatient.phone}}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group mb-3">
+                        <label class="small mb-1" for="email">Email</label>
+                        <input class="form-control" [(ngModel)]="patient1.email" id="email" type="text" name="birthday"
+                          placeholder="Email">
+                        <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
+                          <p>
+                            {{validatePatient.email}}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <label class="small mb-1" for="tieuSuBenh">Địa chỉ</label>
+                      <input class="form-control" [(ngModel)]="patient1.Address" id="tieuSuBenh" type="text" />
+                    </div>
+                    <div class="mb-3">
+                      <label class="small mb-1" for="note">Tiền sử toàn thân</label>
+                      <input class="form-control" [(ngModel)]="patient1.full_medical_History" id="note" type="text">
+                    </div>
+                    <div class="mb-3">
+                      <label class="small mb-1" for="note">Tiền sử răng miệng</label>
+                      <input class="form-control" [(ngModel)]="patient1.dental_medical_History" id="note" type="text">
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="row mt-3">
-              <div class="col-md-12">
-                <div class="form-group">
-                  <label for="address">Địa chỉ</label>
-                  <input type="text" [(ngModel)]="patient1.Address" class="form-control date-input-custom" id="address" name="address">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
-                    <p>
-                      {{validatePatient.address}}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="row mt-5">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="">Tiền sử toàn thân</label>
-                  <textarea type="text" [(ngModel)]="patient1.full_medical_History" class="textarea date-input-custom w-100 h-300px" placeholder="Tiền sử bệnh án">
-            </textarea>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="">Tiền sử răng miệng</label>
-                  <textarea type="text" [(ngModel)]="patient1.dental_medical_History" class="textarea date-input-custom w-100 h-300px"
-                    style="width: 100%; height: 300px;" placeholder="Ghi chú">
-            </textarea>
-                </div>
-              </div>
-            </div>
-
           </div>
+        </div>
 
-          <!-- Modal footer -->
-          <div class="modal-footer" >
+        <div class="modal-footer d-flex justify-content-around"
+          style="text-align: center; width: 20%; margin-left: 57%;">
+          <div class="sep-patient-popupadd-button">
             <button type="button" id="cancel" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
+          </div>
+          <div class="sep-patient-popupadd-button">
             <button type="button" class="btn btn-save" (click)="addPatient()">Lưu</button>
           </div>
-
         </div>
       </div>
     </div>

@@ -22,6 +22,7 @@ export class PatientProfileTabComponent implements OnInit {
   id:any;
   patientBody:any={
     patient_id: '',
+    date_of_birth: '',
     created_date: '',
     patient_name:'',
     gender:0,
@@ -30,7 +31,6 @@ export class PatientProfileTabComponent implements OnInit {
     address:'',
     dental_medical_history:'',
     description:''
-
   }
   validatePatient = {
     name:'',
@@ -71,8 +71,6 @@ export class PatientProfileTabComponent implements OnInit {
     }
   }
 
-
-
   setPatientId(){
     this.router.navigate(['/benhnhan/danhsach/tab/lichtrinhdieutri', this.id])
   }
@@ -88,8 +86,8 @@ export class PatientProfileTabComponent implements OnInit {
         this.validatePatient.name = "Vui lòng nhập tên bệnh nhân!";
         this.isSubmitted = true;
       }
-      if (!this.patient.created_date){
-        this.validatePatient.createDate = "Vui lòng nhập ngày tạo hồ sơ!";
+      if (!this.patient.dob){
+        this.validatePatient.dob = "Vui lòng nhập ngày sinh!";
         this.isSubmitted = true;
       }
       if (this.patient.email && !this.isValidEmail(this.patient.email)){
@@ -118,7 +116,7 @@ export class PatientProfileTabComponent implements OnInit {
     }else {
         this.patientBody = {
           patient_id: this.patient.patient_id,
-          created_date: this.patient.created_date,
+          dob: this.patient.dob,
           patient_name: this.patient.patient_name,
           gender: this.patient.gender,
           phone_number: this.patient.phone_number,

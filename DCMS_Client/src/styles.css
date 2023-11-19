@@ -1,7 +1,27 @@
 @import "~@ng-select/ng-select/themes/default.theme.css";
 /* angular-cli file: src/styles.css */
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
+.web-wrapper {
+  --custom-color-primary: #6C9BCF;
+  --custom-color-danger: #FF0060;
+  --custom-color-success: #1B9C85;
+  --custom-color-warning: #F7D060;
+  --custom-color-white: #fff;
+  --custom-color-info-dark: #7d8da1;
+  --custom-color-dark: #363949;
+  --custom-color-light: rgba(132, 139, 200, 0.18);
+  --custom-color-dark-variant: #677483;
+  --custom-color-background: #f6f6f9;
 
+  --custom-card-border-radius: 2rem;
+  --custom-border-radius-1: 0.4rem;
+  --custom-border-radius-2: 1.2rem;
+
+  --custom-card-padding: .8rem;
+  --custom-padding-1: 1.2rem;
+
+  --custom-box-shadow: 0 2rem 3rem var(--custom-color-light);
+}
 :root {
   /* full size */
   --size: 10px;
@@ -16,6 +36,13 @@
   --sidebar-width-active: 0;
   --sidebar-inset: 20px 0 20px 20px;
   --sidebar-toggle-button-padding: 0 23px !important;
+
+  /* main container style */
+  --main-container-height: 100%;
+  --main-anylyse-height:15%;
+  --main-content-height:85%;
+  /* table */
+  --table-height: 85%;
 }
 
 /* Màn hình nhỏ hơn 13 inch */
@@ -50,7 +77,6 @@
     --sidebar-toggle-button-padding: 0 23px !important;
   }
 }
-
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -312,4 +338,127 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .sep-main.active {
   margin-left: -175px;
   transition: 0.5s;
+}
+.sep-main .sep-analyse{
+  height: var(--main-anylyse-height) !important;
+}
+.sep-main .sep-content{
+  height: var(--main-content-height) !important;
+}
+.sep-main .sep-front-table{
+  height: var(--main-anylyse-height) !important;
+}
+.sep-main .sep-listpatient-table{
+  height: var(--table-height) !important;
+}
+
+/* sep-paging */
+.sep-pagination {
+  display: inline-block;
+  justify-content: center;
+}
+
+.sep-pagination a {
+  background-color: #ffffff;
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  border: 1px solid #ddd;
+}
+
+.sep-pagination a.active {
+  background-color: #4CAF50;
+  color: white;
+  border: 1px solid #4CAF50;
+}
+
+.sep-pagination a:hover:not(.active) {background-color: #ddd;}
+
+.sep-pagination a:first-child {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.sep-pagination a:last-child {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.form-control, .sep-input-gender {
+  display: block;
+  width: 100%;
+  padding: 0.875rem 1.125rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1;
+  color: #69707a;
+  background-color: #fff;
+  background-clip: padding-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0.35rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.sep-recent-orders{
+  margin-top: 1.3rem;
+  height: var(--main-container-height) !important;
+}
+.sep-recent-orders .sep-listpatient-table{
+  height: var(--table-height) !important;
+}
+
+
+/* table */
+table {
+  background-color: var(--custom-color-white);
+  width: 100%;
+  padding: var(--custom-card-padding);
+  text-align: center;
+  box-shadow: var(--custom-box-shadow);
+  border-radius: var(--custom-card-border-radius);
+  transition: all 0.3s ease;
+}
+
+table:hover {
+  box-shadow: none;
+}
+
+table thead th {
+  height: 2.8rem;
+  color: var(--custom-color-dark-variant);
+}
+
+table tbody td {
+  height: 2.8rem;
+  color: var(--custom-color-dark-variant);
+}
+
+table tbody tr:last-child td {
+  border: none;
+}
+.table-container{
+  max-height: 37rem;
+  overflow-y: auto;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #c0c0c0 #f0f0f0;
+  border-radius: 10px;
+}
+.table-container::-webkit-scrollbar-thumb {
+  background-color: #c0c0c0;
+  border-radius: 6px;
+}
+.table-container::-webkit-scrollbar-track {
+  background-color: #f0f0f0;
+  border-radius: 10px;
+}
+.sticky-thead {
+  position: sticky;
+  top: 0; /* Giữ phần thead ở vị trí trên cùng khi cuộn */
+  background-color: white;
+  z-index: 1; /* Đảm bảo phần thead nằm trên cùng của bảng */
+}
+.table-container {
+  position: relative;
 }

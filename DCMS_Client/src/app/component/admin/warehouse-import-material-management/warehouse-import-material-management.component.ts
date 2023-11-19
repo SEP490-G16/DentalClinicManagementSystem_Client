@@ -13,7 +13,6 @@ import * as moment from 'moment-timezone';
 export class WarehouseImportMaterialManagementComponent implements OnInit {
   model!: NgbDateStruct;
   currentPage: number = 1;
-  recordsPerPage: number = 10;
   hasNextPage: boolean = false; // Biến để kiểm tra xem có trang sau hay không
 
   constructor(private importMaterialService: ImportMaterialService,
@@ -89,7 +88,6 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
               TotalAmount: 0,
               CreateBy: ''
             }
-          //})
         })
       })
     }
@@ -105,7 +103,6 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
   }
   calculateTotalAmountForBill(importBill: any) {
     let total = 0;
-    // Tính tổng tiền dựa trên các sản phẩm trong phiếu nhập (hoặc cách tính tổng tiền của bạn)
     console.log(importBill.products);
     importBill.products.forEach((product: any) => {
       total += product.price * product.quantity_import;
@@ -118,7 +115,7 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
     this.importBillObject = importMaterialBill;
   }
   pageChanged(event: number) {
-    if (event >= 1 && event <= 11) {
+    if (event >= 1) {
       this.loadPage(event);
     }
   }
@@ -155,12 +152,6 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
         )
     }
   }
-  // changeDateFrom(value: any) {
-  //   this.startDate = value;
-  // }
-  // changeDateTo(value: any) {
-  //   this.endDate = value;
-  // }
   dateToTimestamp(dateStr: string): number {
     const format = 'YYYY-MM-DD HH:mm'; // Định dạng của chuỗi ngày
     const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
