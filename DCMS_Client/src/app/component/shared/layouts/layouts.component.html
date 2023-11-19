@@ -15,7 +15,7 @@
           </div>
         </div>
         <ul>
-          <li class="list active">
+          <li class="list">
             <a routerLink="/letan/lich-hen" routerLinkActive="active" style="--clr:#664FC3">
               <span class="icon">
                 <i class="bi bi-calendar-check"></i>
@@ -31,7 +31,7 @@
               <span class="text">Phòng chờ</span>
             </a>
           </li>
-          <li class="list">
+          <li class="list active">
             <a routerLink="/benhnhan/danhsach" routerLinkActive="active" style="--clr:#664FC3">
               <span class="icon">
                 <i class="bi bi-person-lines-fill"></i>
@@ -93,6 +93,14 @@
                 <i class="bi bi-house-heart"></i>
               </span>
               <span class="text">Cơ sở</span>
+            </a>
+          </li>
+          <li>
+            <a (click)="signOut()" style="--clr:#664FC3">
+              <span class="material-icons-sharp icon">
+                logout
+              </span>
+              <span class="text">Logout</span>
             </a>
           </li>
         </ul>
@@ -191,7 +199,7 @@
     <!-- Main Content -->
     <main class="sep-main active">
       <!-- Analyses -->
-      <div class="analyse">
+      <div class="analyse sep-analyse">
         <div class="sales">
           <div class="status">
             <div class="info">
@@ -259,7 +267,7 @@
         </div>
       </div>
 
-      <div class="content">
+      <div class="content sep-content">
         <router-outlet></router-outlet>
       </div>
 

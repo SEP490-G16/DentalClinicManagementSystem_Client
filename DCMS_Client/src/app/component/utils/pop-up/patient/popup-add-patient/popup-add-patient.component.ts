@@ -11,7 +11,7 @@ export class PopupAddPatientComponent implements OnInit {
   patient1:any={
     patientName:'',
     Email:'',
-    Gender:"1",
+    Gender: "1",
     phone_Number:'',
     Address:'',
     full_medical_History:'',

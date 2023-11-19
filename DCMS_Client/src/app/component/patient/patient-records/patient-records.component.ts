@@ -62,7 +62,7 @@ export class PatientRecordsComponent implements OnInit {
     })
   }
   pageChanged(event: number) {
-    if (event >= 1 && event <= 11) {
+    if (event >= 1) {
       this.loadPage(event);
     }
   }
