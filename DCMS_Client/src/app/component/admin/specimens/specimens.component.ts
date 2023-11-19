@@ -16,10 +16,8 @@ import { LaboService } from 'src/app/service/LaboService/Labo.service';
 export class SpecimensComponent implements OnInit {
 
   SpecimensRoot: SpecimensRoot;
-  
-
-  paging: number = 1;
-
+  currentPage: number = 1;
+  hasNextPage: boolean = false; 
   labos:any[] = [];
   laboFilter: any = null;
 
@@ -153,9 +151,14 @@ export class SpecimensComponent implements OnInit {
     }) 
     return this.laboName;
   }
-
+  checkNextPage() {
+    this.hasNextPage = this.filteredSpecimens.length > 10;
+  }
   getAllSpecimens(paging:number) {
     this.loading = true;
+    this.currentPage = paging; 
+    this.filteredSpecimens = [];
+    console.log(paging);
     this.SpecimensService.getSpecimens(paging)
       .subscribe((sRoot) => {
         console.log("kjsbgkjws",sRoot.data);
@@ -192,15 +195,11 @@ export class SpecimensComponent implements OnInit {
             ms_warranty: '' 
           }
           this.laboName = '';
+          this.checkNextPage();
+        if (this.filteredSpecimens.length > 10) {
+          this.filteredSpecimens.pop();
+        }
         })
-
-        if (this.filteredSpecimens.length < 11){
-          this.pagingSearch.total+=this.filteredSpecimens.length;
-        }
-        else
-        {
-          this.pagingSearch.total=this.filteredSpecimens.length;
-        }
         this.loading = false;
       })
 
@@ -253,9 +252,9 @@ export class SpecimensComponent implements OnInit {
   }
 
   pageChanged(event: number) {
-    this.pagingSearch.paging = event;
-    console.log(this.pagingSearch.paging)
-    this.getAllSpecimens(this.pagingSearch.paging);
+    if (event >= 1) {
+      this.getAllSpecimens(event);
+    }
   }
 
   showPopup: boolean = false;

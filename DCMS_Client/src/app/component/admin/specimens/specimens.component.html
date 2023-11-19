@@ -80,9 +80,9 @@
             border-radius: 10px;"
               aria-label="Default select example" [(ngModel)]="status" (change)="filterStatus()">
               <option value="" selected>Trạng thái</option>
-              <option value="1"></option>
-              <option value="2"></option>
-              <option value="3"></option>
+              <option value="1">Chưa Nhận</option>
+              <option value="2">Đã Nhận</option>
+              <option value="3">Hàng Lỗi</option>
             </select>
           </div>
           <div class="col-sm-2 col-md-2" style="padding: 0 10px">
@@ -90,8 +90,14 @@
               Hiển thị
             </button>
             <ul *ngIf="showPopup" class="popup">
-              <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox1" (change)="toggleColumn(12)"> Ngày lắp</li>
-              <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox2" (change)="toggleColumn(13)">Bảo hành</li>
+              <div class="row">
+                <div class="col-md-6">
+                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox1" (change)="toggleColumn(12)"> Ngày lắp</li>
+                </div>
+                <div class="col-md-6">
+                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox2" (change)="toggleColumn(13)">Bảo hành</li>
+                </div>
+              </div>
             </ul>
           </div>
         </div>
@@ -146,9 +152,10 @@
 
         </div>
       </div>
-      <div class="row mt-4">
-        <ngb-pagination [collectionSize]="pagingSearch.total" [(page)]="pagingSearch.paging" [boundaryLinks]="true"
-          (pageChange)="pageChanged($event)"></ngb-pagination>
+      <div class="sep-pagination">
+        <a (click)="pageChanged(currentPage - 1)" *ngIf="currentPage > 1">&laquo;</a>
+        <a>{{currentPage}}</a>
+        <a (click)="pageChanged(currentPage + 1)" *ngIf="hasNextPage">&raquo;</a>
       </div>
 
 <app-popup-edit-specimens [PutSpecimen]="PutSpecimen" [AllLabos]="AllLabos"></app-popup-edit-specimens>
