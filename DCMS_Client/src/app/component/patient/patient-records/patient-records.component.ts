@@ -6,6 +6,8 @@ import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { PopupAddPatientComponent } from "../../utils/pop-up/patient/popup-add-patient/popup-add-patient.component";
 import { CognitoService } from 'src/app/service/cognito.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ResponseHandler } from '../../utils/libs/ResponseHandler';
 
 @Component({
   selector: 'app-patient-records',
@@ -59,7 +61,10 @@ export class PatientRecordsComponent implements OnInit {
       if (this.searchPatientsList.length > 10) {
         this.searchPatientsList.pop();
       }
-    })
+    }, error => {
+       ResponseHandler.HANDLE_HTTP_STATUS('and', error)
+    }
+    )
   }
   pageChanged(event: number) {
     if (event >= 1 && event <= 11) {

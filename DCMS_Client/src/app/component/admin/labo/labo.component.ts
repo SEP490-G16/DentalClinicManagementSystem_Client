@@ -62,25 +62,28 @@ export class LaboComponent implements OnInit {
 
   deleteLabo(laboId: string) {
     this.LaboId = laboId;
-    console.log(this.LaboId);
+    //console.log(this.LaboId);
     const conf = confirm("Bạn có chắc chắn xóa Labo số " + laboId + " không?");
     if(conf == true) {
-      this.loading=true;
+      //this.loading=true;
       this.LaboService.deleteLabo(laboId).subscribe((res) => {
         this.showSuccessToast("Xóa Labo thành công!");
-          window.location.reload();
+          //window.location.reload();
+        const index = this.Labos.findIndex((item:any) => item.labo_id == laboId);
+        if (index != -1) {
+          this.Labos.splice(index, 1);
+        }
       },
         (err) => {
           console.log(err);
           if (err.status === 0) {
             this.showSuccessToast("Xóa Labo thành công!");
-            window.location.reload();
+            //window.location.reload();
           }
             if(err.status === 404) {
               this.loading=false;
               this.showErrorToast("Không tìm thấy Labo có Id: " + laboId);
             }
-
         }
       )
     }
