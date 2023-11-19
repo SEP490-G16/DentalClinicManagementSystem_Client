@@ -72,6 +72,7 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
           this.importBills.pop();
         }
         this.displayWarehouse = [];
+        console.log("Checkdate", this.importBills);
         this.importBills.forEach((p: any) => {
             this.materbyId.Id = p.id;
             this.materbyId.CreateDate = p.created_date;

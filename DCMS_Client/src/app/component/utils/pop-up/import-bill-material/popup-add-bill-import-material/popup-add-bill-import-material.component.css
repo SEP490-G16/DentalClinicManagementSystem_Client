@@ -50,7 +50,6 @@
   font-weight: 600
 }
 .table tr {
-  background-color: #7B4C50;
   border: 1px solid #7B4C50;
 }
 /*.table tr td {
@@ -108,7 +107,15 @@ table.table td h2 a {
   display: block;
   margin: 0 auto;
 }
-
+.save-button{
+  background-color: #3260e1;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  display: block;
+}
 .delete-button:hover {
   background-color: darkred;
 }
@@ -196,4 +203,17 @@ button:active{
 }
 .not-found{
   padding: 10px 0 0 0;
+}
+.bi-check-circle{
+  color: #FFFFFF;
+}
+
+.error {
+  position: absolute;
+  border: 1px solid #ddd;
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+  color: red;
 }

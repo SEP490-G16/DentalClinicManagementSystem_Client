@@ -10,8 +10,8 @@ export class ReportHighIncomeAndExpenditureComponent implements OnInit {
 
   getReports:any[] = [];
   constructor(private materialUsageService:MaterialUsageReportService) { }
-  startDate:string='2023-11-08 01:16:35';
-  endDate:string = '2023-11-18 01:16:35';
+  startDate:string='';
+  endDate:string = '';
   searchName:string = '';
   ngOnInit(): void {
     this.getReportMaterialUsage();
@@ -47,8 +47,8 @@ export class ReportHighIncomeAndExpenditureComponent implements OnInit {
   stastisticRevenuePatient: any[] = [];
 
   getReportMaterialUsage(){
-    const startTime = this.dateToTimestamp(this.startDate);
-    const endTime = this.dateToTimestamp(this.endDate);
+    const startTime = this.dateToTimestamp(this.startDate+'00:00:00');
+    const endTime = this.dateToTimestamp(this.endDate+'23:59:59');
     this.materialUsageService.getMaterialUsages(startTime,endTime).subscribe(data=>{
       this.getReports = data.data;
       this.getReports.forEach((s:any) => {
