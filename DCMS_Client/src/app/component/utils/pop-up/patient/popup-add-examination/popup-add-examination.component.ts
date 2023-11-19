@@ -1,4 +1,4 @@
-import { Component, HostListener, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, HostListener, ViewChild, ElementRef, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ITreatmentCourse } from 'src/app/model/ITreatment-Course';
@@ -10,6 +10,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { MedicalProcedureService } from 'src/app/service/MedicalProcedureService/medical-procedure.service';
 import { MedicalSupplyService } from 'src/app/service/MedicalSupplyService/medical-supply.service';
 import { MaterialUsageService } from 'src/app/service/MaterialUsage/MaterialUsageService.component';
+import { MaterialWarehouseService } from 'src/app/service/MaterialService/material-warehouse.service';
 @Component({
   selector: 'app-popup-add-examination',
   templateUrl: './popup-add-examination.component.html',
@@ -33,6 +34,8 @@ export class PopupAddExaminationComponent implements OnInit {
   //Image
   imageURL: string | ArrayBuffer = '';
   imageUrls: string[] = [];
+  imageLink: string = '';
+  showImages: boolean = false;
   showPopup = false;
   showInput = false;
   facility: string = "";
@@ -44,26 +47,9 @@ export class PopupAddExaminationComponent implements OnInit {
     price: '',
     description: ''
   }
-  //Đặt xưởng vật tư
-  Body_Medical_Supply = {
-    type: "",
-    name: "",
-    quantity: 0,
-    unit_price: 0,
-    order_date: 0,
-    orderer: "",
-    received_date: 0,
-    receiver: "",
-    warranty: 0,
-    description: "",
-    facility_id: "",
-    labo_id: null,
-    used_date: "",
-    patient_id: "",
-    status: "",
-  }
   //Vật liệu sử dụng
   Body_Material_Usage: material_usage_body[] = [];
+  Material_Selects: any [] = [];
 
   //Data Table
   tableRows: any[] = [
@@ -92,7 +78,9 @@ export class PopupAddExaminationComponent implements OnInit {
     private medicalProcedureService: MedicalProcedureService,
     private medicalSupplyService: MedicalSupplyService,
     private materialUsageService: MaterialUsageService,
-    private eRef: ElementRef
+    private materialWarehoseService:MaterialWarehouseService,
+    private eRef: ElementRef,
+    private cdr: ChangeDetectorRef
   ) {
     this.examination = {
       treatment_course_id: "",
@@ -123,6 +111,7 @@ export class PopupAddExaminationComponent implements OnInit {
     this.staff_id = this.doctors[0].doctorid;
 
     this.getTreatmentCourse();
+    this.getMaterialWarehouse();
   }
 
   getTreatmentCourse() {
@@ -135,6 +124,13 @@ export class PopupAddExaminationComponent implements OnInit {
         (error) => {
           this.toastr.error(error.error.message, "Lấy danh sách Liệu trình thất bại");
         })
+  }
+
+  getMaterialWarehouse() {
+    this.materialWarehoseService.getMaterialWarehousse_Remaining(1)
+    .subscribe((res) => {
+      console.log("Material Remaining: ", res.data);
+    })
   }
 
   // tableRows: any[] = [
@@ -192,25 +188,7 @@ export class PopupAddExaminationComponent implements OnInit {
     // ]
     console.log("Material usage: ", this.materialUsageRows);
     if (this.areRequiredFieldsFilled(this.materialUsageRows)) {
-      this.materialUsageRows.forEach((material) => {
-        this.Body_Material_Usage.push({
-          material_warehouse_id: null,
-          treatment_course_id: this.treatmentCourse_Id,
-          examination_id: "",
-          description: "",
-          price: material.unit_price,
-          quantity: material.quantity,
-          total_paid: material.total,
-        })
-      })
-      this.materialUsageService.getMaterialUsage_By_TreatmentCourse(this.materialUsageRows)
-        .subscribe((res) => {
 
-        },
-          (err) => {
-            console.log("Thêm vật liệu: ", err.error.message);
-            this.toastr.error(err.error.message, "Thêm vật liệu sử dụng thất bại");
-          })
     }else {
       this.toastr.error("Vui lòng nhập đầy đủ các thông tin", "Thêm vật tư đã sử dụng thất bại")
     }
@@ -228,24 +206,30 @@ export class PopupAddExaminationComponent implements OnInit {
     }
   }
 
-  togglePopup() {
-    this.showPopup = !this.showPopup;
-  }
   onFileSelected(event: any) {
     const files = event.target.files;
-    if (files.length > 0) {
-      // Xử lý ảnh đầu tiên
-      const reader = new FileReader();
-      reader.onload = (e: any) => { this.imageURL = e.target.result; };
-      reader.readAsDataURL(files[0]);
 
-      // Xử lý các ảnh tiếp theo (nếu có)
-      this.imageUrls = [];
-      for (let i = 1; i < files.length; i++) {
-        const fileReader = new FileReader();
-        fileReader.onload = (e: any) => { this.imageUrls.push(e.target.result); };
-        fileReader.readAsDataURL(files[i]);
+    if (files) {
+      for (let file of files) {
+        const reader = new FileReader();
+
+        reader.onload = (e: any) => {
+          this.imageUrls.push(e.target.result);
+          this.cdr.detectChanges(); // Buộc Angular cập nhật view
+        };
+
+        reader.readAsDataURL(file);
       }
+    }
+  }
+  completeSelection() {
+    this.showImages = true;
+  }
+  addImageUrl() {
+    if (this.imageLink) {
+      this.imageUrls.push(this.imageLink);
+      console.log(this.imageLink);
+      this.imageLink = '';
     }
   }
 
@@ -303,6 +287,12 @@ export class PopupAddExaminationComponent implements OnInit {
     }
   }
 }
+
+// interface Material {
+//   material_name:string,
+//   unit:number,
+//   total:number
+// }
 
 interface material_usage_body {
   material_warehouse_id: any,

@@ -1,45 +1,52 @@
+<!-- Modal Header -->
 <div class="modal-header">
   <h4 class="modal-title">Thanh toán</h4>
   <button type="button" class="close" aria-label="Close" (click)="dismiss()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
+
+<!-- Modal Body -->
 <div class="modal-body">
+  <h2 class="text-center">Phiếu thu (Receipts)</h2>
 
-  <h2 class="text-center">Phiếu thu(Receipts)</h2>
+  <!-- Date and Payment Type -->
   <div class="row">
-    <div class="col-9">
-      <p class="text-center">Ngày/Date: </p>
+    <div class="col-md-6 col-sm-12">
+      <p>Ngày/Date: {{currentDate | VNdateTimeFormat}}</p>
     </div>
-    <div class="col-3">
-      <p>Hình thức/Type: Tiền mặt - Cash</p>
+    <div class="col-md-6 col-sm-12">
+      <p>Hình thức/Type: </p>
     </div>
   </div>
 
+  <!-- Patient Information -->
   <div class="row">
-    <div class="col">
-      <p>Mã khách hàng/Patient Code: 23071012</p>
+    <div class="col-md-6 col-sm-12">
+      <p>Mã khách hàng/Patient Code: {{Patient.p_patient_id}}</p>
     </div>
-    <div class="col">
-      <p>Tên khách hàng/Patient Name: Nguyễn Duy Phúc 1976</p>
+    <div class="col-md-6 col-sm-12">
+      <p>Tên khách hàng/Patient Name: {{Patient.p_patient_name}}</p>
     </div>
   </div>
 
+  <!-- Address -->
   <div class="row">
-    <div class="col-3">
-      <p>Địa chỉ/Address: , Quận Tây Hồ, Thành phố Hà Nội</p>
+    <div class="col-12">
+      <p>Địa chỉ/Address: {{Patient.p_address}}</p>
     </div>
   </div>
 
+  <!-- Contact Information -->
   <div class="row">
-    <div class="col-6">
-      <p>Email: </p>
+    <div class="col-md-6 col-sm-12">
+      <p>Email: {{Patient.p_email}}</p>
     </div>
-    <div class="col-6">
-      <p>Điện thoại/Tel: 0932532121</p>
+    <div class="col-md-6 col-sm-12">
+      <p>Điện thoại/Tel: {{Patient.p_phone_number}}</p>
     </div>
   </div>
-
+  <!-- Services Table -->
   <div class="row mb-5">
     <div class="col">
       <div class="table-responsive">
@@ -47,12 +54,12 @@
           <thead>
             <tr>
               <th scope="col">STT</th>
-              <th scope="col">Dịch vụ(Services)</th>
-              <th scope="col">Đơn giá(Unit Price)</th>
-              <th scope="col">SL(Quantity)</th>
-              <th scope="col">Nợ trước/Tổng cộng(Debt/Total)</th>
-              <th scope="col">Thanh toán(Payment)</th>
-              <th scope="col">Còn nợ(Remain)</th>
+              <th scope="col">Dịch vụ (Services)</th>
+              <th scope="col">Đơn giá (Unit Price)</th>
+              <th scope="col">SL (Quantity)</th>
+              <th scope="col">Nợ trước/Tổng cộng (Debt/Total)</th>
+              <th scope="col">Thanh toán (Payment)</th>
+              <th scope="col">Còn nợ (Remain)</th>
             </tr>
           </thead>
           <tbody>
@@ -60,10 +67,10 @@
               <td></td>
               <td></td>
               <td></td>
-              <td>{{MU.quantity}}</td>
-              <td>{{MU.total}}</td>
-              <td>{{MU.total_paid}}</td>
-              <td>{{getAbsoluteValue(MU.total_paid - MU.total)}}</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
             </tr>
             <tr>
               <th></th>
@@ -80,20 +87,21 @@
     </div>
   </div>
 
+  <!-- Signatures -->
   <div class="row">
     <div class="col-4">
-      <h3>Khách hàng/Patient(Ký tên/Signature)</h3>
+      <h3>Khách hàng/Patient (Ký tên/Signature)</h3>
     </div>
     <div class="col-4">
-      <h3>Người lập/Creater(Ký tên/Signature)</h3>
+      <h3>Người lập/Creater (Ký tên/Signature)</h3>
     </div>
     <div class="col-4">
-      <h3>Thủ quỹ/Cashier(Ký tên/Signature)</h3>
+      <h3>Thủ quỹ/Cashier (Ký tên/Signature)</h3>
     </div>
   </div>
-
-
 </div>
+
+<!-- Modal Footer -->
 <div class="modal-footer">
   <button type="button" class="btn btn-secondary" (click)="close()">Đóng</button>
   <button type="button" class="btn btn-success" (click)="close()">Thanh toán</button>

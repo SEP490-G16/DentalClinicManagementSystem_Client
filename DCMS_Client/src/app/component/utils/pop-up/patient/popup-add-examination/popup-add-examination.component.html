@@ -87,28 +87,17 @@
         <h2>Hình ảnh</h2>
         <div class="row mt-3 content-child">
           <div class="col-md-3" #containerRef>
-            <i class="text-center">Bấm vào ô vuông này để thêm ảnh X-quang</i>
-            <div class="image-container" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="togglePopup()" alt="">
-              <div *ngFor="let url of imageUrls">
-                <div class="image-wrapper">
-                  <img [src]="url" style="cursor: pointer; width: 100px; height: 250px; object-fit: contain;"
-                    alt="Ảnh đã chọn">
-                  <button class="delete-button" (click)="removeImage(url); $event.stopPropagation()">X</button>
+            <button data-bs-toggle="modal" data-bs-target="#exampleModal">Tải ảnh lên</button>
+            <div class="image-container" alt="">
+              <div *ngIf="showImages">
+                <div *ngFor="let url of imageUrls">
+                  <div class="image-wrapper">
+                    <img [src]="url" style="cursor: pointer; width: 100px; height: 250px; object-fit: contain;"
+                      alt="Ảnh đã chọn">
+                    <button class="delete-button" (click)="removeImage(url); $event.stopPropagation()">X</button>
+                  </div>
                 </div>
               </div>
-              <!-- Popup -->
-              <div class="popup" [ngStyle]="{ 'display': showPopup ? 'block' : 'none' }"
-                (click)="$event.stopPropagation()">
-                <button (click)="fileInput.click(); showPopup=false">Chọn ảnh</button>
-                <button (click)="showInput = true; showPopup = false">Nhập đường dẫn</button>
-                <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput multiple
-                  style="display: none;">
-              </div>
-            </div>
-            <div *ngIf="showInput" class="fadeIn">
-              <input type="text" placeholder="Hoặc nhập đường dẫn vào đây"
-                style="border-bottom: 1px solid #746d6d00; width: 100%;" ngbTooltip="Nhập đường dẫn ảnh của bạn tại đây"
-                [(ngModel)]="this.examination.xRayImage">
             </div>
           </div>
           <div class="col-md-1">
@@ -133,9 +122,9 @@
             <div class="table-custom">
               <div style="position: relative;">
                 <i [ngStyle]="{ 'opacity': isHovering ? '1' : '0.5', 'cursor': 'pointer', 'font-size': '25px' }"
-                  (mouseover)="isHovering = true" (mouseout)="isHovering = false"
-                  (click)="addNewRow(100);"
-                  style="position: absolute; left: 0; padding-right: 10px;transform: translate(-100%, 130%);" class="bi bi-plus-circle"></i>
+                  (mouseover)="isHovering = true" (mouseout)="isHovering = false" (click)="addNewRow(100);"
+                  style="position: absolute; left: 0; padding-right: 10px;transform: translate(-100%, 130%);"
+                  class="bi bi-plus-circle"></i>
                 <table>
                   <thead>
                     <tr>
@@ -173,9 +162,9 @@
             <div class="table-custom">
               <div style="position: relative;">
                 <i [ngStyle]="{ 'opacity': isHovering ? '1' : '0.5', 'cursor': 'pointer', 'font-size': '25px' }"
-                  (mouseover)="isHovering = true" (mouseout)="isHovering = false"
-                  (click)="addNewRow(1);"
-                  style="position: absolute; left: 0; padding-right: 10px; transform: translate(-100%, 130%);" class="bi bi-plus-circle"></i>
+                  (mouseover)="isHovering = true" (mouseout)="isHovering = false" (click)="addNewRow(1);"
+                  style="position: absolute; left: 0; padding-right: 10px; transform: translate(-100%, 130%);"
+                  class="bi bi-plus-circle"></i>
                 <table>
                   <thead>
                     <tr>
@@ -191,7 +180,11 @@
                   <tbody>
                     <tr *ngFor="let row of materialUsageRows; let i = index" [ngClass]="row.animationClass"
                       @rowAnimation>
-                      <td><input [(ngModel)]="row.material_name" type="text" class="form-control" /></td>
+                      <td><input [(ngModel)]="row.material_name" list="warehouses" id="warehouses" class="form-control" />
+                        <!-- <datalist id="warehouses">
+                          <option *ngFor="" value="">
+                        </datalist> -->
+                      </td>
                       <td><input [(ngModel)]="row.quantity" type="number" min="0" class="form-control" /></td>
                       <td><input [(ngModel)]="row.unit_price" type="number" min="0" class="form-control" /></td>
                       <td><input [(ngModel)]="row.total" type="number" min="0" class="form-control" /></td>
@@ -221,33 +214,23 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="submissionModalLabel">SUBMISSION</h5>
+        <h5 class="modal-title" id="submissionModalLabel">Chọn ảnh</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
-          <div class="mb-3">
-            <label for="short-description" class="form-label">Short Description *</label>
-            <input type="text" class="form-control" id="short-description" required>
-          </div>
-          <div class="mb-3">
-            <label for="submission-files" class="form-label">Submission Files *</label>
-            <input class="form-control" type="file" id="submission-files">
-            <div id="file-size-limit" class="form-text">*File size limit: 10MB</div>
-          </div>
-          <div class="mb-3">
-            <label for="link-submission" class="form-label">Link Submission *</label>
-            <input type="text" class="form-control" id="link-submission" required>
-          </div>
-          <div class="mb-3">
-            <label for="due-date" class="form-label">Due Date:</label>
-            <input type="text" class="form-control" id="due-date" value="2023-05-26 18:00:00 (GMT+07)" readonly>
-          </div>
-        </form>
+        <div class="mb-3">
+          <label for="submission-files" class="form-label">Chọn file</label>
+          <input class="form-control" type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput multiple
+            id="submission-files">
+        </div>
+        <div class="mb-3">
+          <label for="link-submission" class="form-label" [(ngModel)]="imageLink">Link</label>
+          <input type="text" class="form-control" id="link-submission" required>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="addImageUrl()">Hoàn thành</button>
       </div>
     </div>
   </div>

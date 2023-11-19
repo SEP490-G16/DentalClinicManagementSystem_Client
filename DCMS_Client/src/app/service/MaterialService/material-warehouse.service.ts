@@ -44,4 +44,13 @@ export class MaterialWarehouseService {
     const requestBody = JSON.stringify(materialBody);
     return this.http.put(`${this.url}/material-warehouse/material_warehouse_id/${materialWarehouseId}`,requestBody,{headers});
   }
+
+  getMaterialWarehousse_Remaining(paging:number):Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      'Accept': 'application/json',
+    });
+    return this.http.get(`${this.url}/material-warehouse/remaining/${paging}`, {headers});
+  }
 }

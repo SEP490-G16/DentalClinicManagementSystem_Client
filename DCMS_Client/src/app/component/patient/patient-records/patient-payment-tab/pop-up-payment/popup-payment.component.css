@@ -56,3 +56,14 @@
         max-width: 95%;
     }
 }
+
+/* Typography */
+h2, h3 {
+  color: #007bff;
+  margin-bottom: 15px;
+}
+
+p {
+  color: #555;
+  line-height: 1.5;
+}

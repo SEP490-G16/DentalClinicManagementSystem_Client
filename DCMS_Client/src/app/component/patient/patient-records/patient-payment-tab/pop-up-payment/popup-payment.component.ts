@@ -3,57 +3,39 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { ConvertTimestamp } from 'src/app/service/Lib/ConvertDateToTimestamp';
 import { CognitoService } from 'src/app/service/cognito.service';
-
+import * as moment from 'moment-timezone';
+import 'moment/locale/vi';
 @Component({
   selector: 'app-popup-payment-tab',
   templateUrl: './popup-payment.component.html',
   styleUrls: ['./popup-payment.component.css']
 })
 export class PopupPaymentComponent implements OnInit, OnChanges {
-  @Input() PMU:any
-  @Input() Ex:any
-  @Input() MU:any
-  // PatientPayment = {
-  //   created_date: "",
-  //   examination_id: "",
-  //   material_usage_id: "",
-  //   paid_material_usage_id: "",
-  //   status: 1,
-  //   total_paid: 0
-  // }
-  MaterialUsage: MaterialUsage [];
-  staff_name = "";
-  totalSum:number = 0;
-  totalPaid: number = 0;
+  @Input() MaterialUsage: any
+  @Input() TreatmentCourse:any
+  @Input() Patient:any
+
+  currentDate: string = ""
   constructor(
     private toastr:ToastrService,
     private examinationService:TreatmentCourseDetailService,
     private modalService: NgbModal
   ) {
-    this.MaterialUsage = []
+    this.currentDate = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
   }
 
   ngOnInit(): void {
-    // this.PatientPayment = this.PMU;
-    // this.staff_name = this.Ex.staff_id;
-    this.MaterialUsage = this.MU;
-
+    console.log("Material :", this.MaterialUsage);
+    console.log("Patient :", this.Patient);
+    console.log("TreatmentCourse :", this.TreatmentCourse);
     this.MaterialUsage.sort((a:any, b:any) => {
         const dateA = new Date(a.created_date).getTime();
         const dateB = new Date(b.created_date).getTime();
         return dateB - dateA;
     })
-
-    this.totalSum = this.MaterialUsage.reduce((sum, current) => {
-      return sum + (current.total || 0);
-    }, 0);
-
-    this.totalPaid = this.MaterialUsage.reduce((sum, current) => {
-      return sum + (current.total_paid || 0);
-    }, 0);
-
-    console.log("Material Usage: ", this.MaterialUsage);
+    console.log("Material Usage Sort: ", this.MaterialUsage);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -73,16 +55,16 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
 
 }
 
-interface MaterialUsage {
-  created_date: string;
-  description: string;
-  examination_id: string;
-  material_usage_id: string;
-  material_warehouse_id: string;
-  price: number;
-  quantity: number;
-  status: number;
-  total: number;
-  total_paid: number;
-  treatment_course_id: string;
-}
+// interface MaterialUsage {
+//   created_date: string;
+//   description: string;
+//   examination_id: string;
+//   material_usage_id: string;
+//   material_warehouse_id: string;
+//   price: number;
+//   quantity: number;
+//   status: number;
+//   total: number;
+//   total_paid: number;
+//   treatment_course_id: string;
+// }

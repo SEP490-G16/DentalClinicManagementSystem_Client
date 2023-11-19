@@ -14,9 +14,18 @@ export class MaterialUsageService {
     let idToken = sessionStorage.getItem("id_Token");
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`,
-      'Content-Type':'application/json'
+      'Accept': 'application/json',
     });
     return this.http.get(`${this.url}/material-usage/treatment-course/${id}`,{headers});
+  }
+
+  getMaterialUsageReport(startDate:number, endDate:number) {
+    let idToken = sessionStorage.getItem("id_Token");
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      'Accept': 'application/json',
+    });
+    return this.http.get(`${this.url}/material-usage/report/${startDate}/${endDate}`,{headers});
   }
 
   postMaterialUsage(MaterialUsage:any): Observable<any> {
@@ -28,4 +37,6 @@ export class MaterialUsageService {
     const requestBody = JSON.stringify(MaterialUsage);
     return this.http.post(`${this.url}/material-usage`, requestBody, { headers });
   }
+
+
 }
