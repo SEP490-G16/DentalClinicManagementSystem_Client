@@ -2,6 +2,7 @@ import { LaboService } from '../../../../../service/LaboService/Labo.service';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { IPostLabo } from 'src/app/model/ILabo';
+import {ResponseHandler} from "../../../libs/ResponseHandler";
 
 @Component({
   selector: 'app-popup-add-labo',
@@ -96,9 +97,10 @@ export class PopupAddLaboComponent implements OnInit {
             window.location.reload();
           }, 3000);*/
         },
-        (err) => {
+        (error) => {
           this.loading = false;
-          this.showErrorToast("Lỗi khi thêm Labo");
+          //this.showErrorToast("Lỗi khi thêm Labo");
+          ResponseHandler.HANDLE_HTTP_STATUS(this.PostLaboService.apiUrl+"/labo", error);
         }
       );
 

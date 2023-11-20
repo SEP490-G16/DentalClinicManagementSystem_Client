@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class TreatmentCourseDetailService {
-  private apiUrl = 'https://0l59n7hga6.execute-api.ap-southeast-1.amazonaws.com/dev';
+  public apiUrl = 'https://0l59n7hga6.execute-api.ap-southeast-1.amazonaws.com/dev';
 
   constructor(private http: HttpClient, private cognitoService:CognitoService) { }
 

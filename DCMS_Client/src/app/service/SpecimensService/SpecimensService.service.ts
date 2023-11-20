@@ -8,7 +8,7 @@ import { PutSpecimen } from 'src/app/model/ISpecimens';
   providedIn: 'root'
 })
 export class SpecimensService {
-  private apiUrl = 'https://o0pwf246i1.execute-api.ap-southeast-1.amazonaws.com/dev';
+  public apiUrl = 'https://o0pwf246i1.execute-api.ap-southeast-1.amazonaws.com/dev';
 
   constructor(private http: HttpClient, private cognitoService:CognitoService) { }
 

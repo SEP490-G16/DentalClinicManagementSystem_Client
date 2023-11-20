@@ -4,6 +4,7 @@ import {
 } from "../../../../../service/MedicalProcedureService/medical-procedure-group.service";
 import {ToastrService} from "ngx-toastr";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {ResponseHandler} from "../../../libs/ResponseHandler";
 
 @Component({
   selector: 'app-popup-add-group-service',
@@ -61,7 +62,8 @@ export class PopupAddGroupServiceComponent implements OnInit {
     },
       error => {
       this.loading =false;
-      this.toastr.error('Thêm mới thất bại!')
+      //this.toastr.error('Thêm mới thất bại!')
+        ResponseHandler.HANDLE_HTTP_STATUS(this.medicalProcedureGroupService.url+"/medical-procedure-group", error);
       })
   }
   resetValidate(){

@@ -1,6 +1,7 @@
 import {Component, Input, OnInit, ElementRef, ViewChild} from '@angular/core';
 import {PatientService} from "../../../../../service/PatientService/patient.service";
 import {ToastrService} from "ngx-toastr";
+import {ResponseHandler} from "../../../libs/ResponseHandler";
 @Component({
   selector: 'app-popup-add-patient',
   templateUrl: './popup-add-patient.component.html',
@@ -104,7 +105,8 @@ export class PopupAddPatientComponent implements OnInit {
       // window.location.reload();
 
     },error => {
-      this.toastr.error('Thêm mới bệnh nhân thất bại!');
+      //this.toastr.error('Thêm mới bệnh nhân thất bại!');
+      ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test+"/patient", error);
     })
   }
   private resetValidate(){

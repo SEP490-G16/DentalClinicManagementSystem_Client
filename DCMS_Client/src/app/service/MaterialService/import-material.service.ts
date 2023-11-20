@@ -7,7 +7,7 @@ import {Observable} from "rxjs";
 })
 export class ImportMaterialService {
 
-  private url='https://uog249mna5.execute-api.ap-southeast-1.amazonaws.com/dev';
+  public url='https://uog249mna5.execute-api.ap-southeast-1.amazonaws.com/dev';
   constructor(private http: HttpClient) { }
   getImportMaterials(paging:number):Observable<any>{
     let idToken = sessionStorage.getItem("id_Token");

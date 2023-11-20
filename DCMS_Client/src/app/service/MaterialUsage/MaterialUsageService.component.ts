@@ -7,7 +7,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 })
 
 export class MaterialUsageService {
-  private url ='https://834bsm6e7l.execute-api.ap-southeast-1.amazonaws.com/dev';
+  public url ='https://834bsm6e7l.execute-api.ap-southeast-1.amazonaws.com/dev';
 
   constructor(private http: HttpClient) { }
   getMaterialUsage_By_TreatmentCourse(id:any):Observable<any>{

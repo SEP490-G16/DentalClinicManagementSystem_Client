@@ -5,6 +5,7 @@ import {
 import {ToastrService} from "ngx-toastr";
 import {HttpResponse} from "@angular/common/http";
 import {tap} from "rxjs";
+import {ResponseHandler} from "../../../libs/ResponseHandler";
 
 @Component({
   selector: 'app-popup-edit-group-service',
@@ -70,8 +71,8 @@ export class PopupEditGroupServiceComponent implements OnChanges {
      },
        error => {
 
-           this.toastr.error('Cập nhật nhóm thủ thuật thất bại!');
-
+           //this.toastr.error('Cập nhật nhóm thủ thuật thất bại!');
+         ResponseHandler.HANDLE_HTTP_STATUS(this.medicalProcedureGroupService.url+"/medical-procedure-group/"+this.id, error);
        })
   }
 

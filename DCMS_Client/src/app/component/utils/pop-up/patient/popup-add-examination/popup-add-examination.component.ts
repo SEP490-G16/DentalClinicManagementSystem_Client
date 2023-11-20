@@ -10,6 +10,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { MedicalProcedureService } from 'src/app/service/MedicalProcedureService/medical-procedure.service';
 import { MedicalSupplyService } from 'src/app/service/MedicalSupplyService/medical-supply.service';
 import { MaterialUsageService } from 'src/app/service/MaterialUsage/MaterialUsageService.component';
+import {ResponseHandler} from "../../../libs/ResponseHandler";
 @Component({
   selector: 'app-popup-add-examination',
   templateUrl: './popup-add-examination.component.html',
@@ -136,7 +137,8 @@ export class PopupAddExaminationComponent implements OnInit {
         console.log("treatment course: ", this.treatmentCourse);
       },
         (error) => {
-          this.toastr.error(error.error.message, "Lấy danh sách Liệu trình thất bại");
+          //this.toastr.error(error.error.message, "Lấy danh sách Liệu trình thất bại");
+          ResponseHandler.HANDLE_HTTP_STATUS(this.tcService.apiUrl+"/treatment-course/patient-id/"+this.patient_Id, error);
         })
   }
 
@@ -170,8 +172,9 @@ export class PopupAddExaminationComponent implements OnInit {
         // this.toastr.success(res.message, 'Thêm lần khám thành công');
         console.log(res.message + "");
       },
-        (err) => {
-          this.toastr.error(err.error.message, 'Thêm lần khám thất bại');
+        (error) => {
+          //this.toastr.error(err.error.message, 'Thêm lần khám thất bại');
+          ResponseHandler.HANDLE_HTTP_STATUS(this.tcDetailService.apiUrl+"/examination", error);
         })
     if (this.areRequiredFieldsFilled(this.tableRows)) {
       this.tableRows.forEach((procedure) => {
@@ -182,9 +185,10 @@ export class PopupAddExaminationComponent implements OnInit {
           .subscribe((res) => {
 
           },
-            (err) => {
-              console.log("Thêm thủ thuật: ", err.error.message);
-              this.toastr.error(err.error.message, "Thêm thủ thuật thất bại");
+            (error) => {
+              //console.log("Thêm thủ thuật: ", err.error.message);
+              //this.toastr.error(err.error.message, "Thêm thủ thuật thất bại");
+              ResponseHandler.HANDLE_HTTP_STATUS(this.medicalProcedureService.url+"/medical-procedure", error);
             })
       })
     }else {
@@ -211,9 +215,10 @@ export class PopupAddExaminationComponent implements OnInit {
             console.log("Thành công thêm xưởng và vật tư: ", res);
             // this.toastr.success(res.message, "Thêm xưởng và vật tư thành công");
           },
-            (err) => {
-              console.log("Thêm xưởng vật tư: ", err.error.message);
-              this.toastr.error(err.error.message, "Thêm Xưởng và vật tư thất bại");
+            (error) => {
+              //console.log("Thêm xưởng vật tư: ", err.error.message);
+              //this.toastr.error(err.error.message, "Thêm Xưởng và vật tư thất bại");
+              ResponseHandler.HANDLE_HTTP_STATUS(this.medicalSupplyService.url+"/medical-supply", error);
             })
       })
     }else {
@@ -239,9 +244,10 @@ export class PopupAddExaminationComponent implements OnInit {
         .subscribe((res) => {
 
         },
-          (err) => {
-            console.log("Thêm vật liệu: ", err.error.message);
-            this.toastr.error(err.error.message, "Thêm vật liệu sử dụng thất bại");
+          (error) => {
+            // console.log("Thêm vật liệu: ", err.error.message);
+            // this.toastr.error(err.error.message, "Thêm vật liệu sử dụng thất bại");
+            ResponseHandler.HANDLE_HTTP_STATUS(this.materialUsageService.url+"/material-usage/treatment-course/"+this.materialUsageRows, error);
           })
     }else {
       this.toastr.error("Vui lòng nhập đầy đủ các thông tin", "Thêm vật tư đã sử dụng thất bại")

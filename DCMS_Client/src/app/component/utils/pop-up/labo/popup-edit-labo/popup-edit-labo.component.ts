@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { ToastrService } from 'ngx-toastr';
 import { IEditLabo, ILabos, IPostLabo } from 'src/app/model/ILabo';
 import { LaboService } from 'src/app/service/LaboService/Labo.service';
+import {ResponseHandler} from "../../../libs/ResponseHandler";
 
 @Component({
   selector: 'app-popup-edit-labo',
@@ -110,9 +111,10 @@ export class PopupEditLaboComponent implements OnInit, OnChanges {
             ref?.click();
             window.location.reload();
           },
-          () => {
+          (error) => {
             this.loading=false;
-            this.showErrorToast("Sửa Labo thất bại");
+            //this.showErrorToast("Sửa Labo thất bại");
+            ResponseHandler.HANDLE_HTTP_STATUS(this.EditLaboService.apiUrl+"/labo/"+this.LaboEdit.labo_id, error);
           }
         );
     // }

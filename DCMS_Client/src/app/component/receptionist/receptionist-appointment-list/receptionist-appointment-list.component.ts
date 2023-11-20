@@ -16,6 +16,7 @@ import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureSe
 import { ReceptionistWaitingRoomService } from 'src/app/service/ReceptionistService/receptionist-waitingroom.service';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import {ResponseHandler} from "../../utils/libs/ResponseHandler";
 
 @Component({
   selector: 'app-receptionist-appointment-list',
@@ -35,8 +36,8 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     private cognitoService: CognitoService, private router: Router,
     private toastr: ToastrService,
     private renderer: Renderer2,
-    private webSocketService:WebsocketService, 
-    private medicaoProcedureGroupService:MedicalProcedureGroupService, 
+    private webSocketService:WebsocketService,
+    private medicaoProcedureGroupService:MedicalProcedureGroupService,
     private receptionistWaitingRoom: ReceptionistWaitingRoomService
   ) {
     this.DELETE_APPOINTMENT_BODY = {
@@ -89,9 +90,13 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   getListGroupService() {
     this.medicaoProcedureGroupService.getMedicalProcedureGroupList().subscribe((res:any) => {
       this.listGroupService = res.data;
-    })
+    },
+      error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.medicaoProcedureGroupService.url+"/medical-procedure-group", error);
+      }
+      )
   }
- 
+
   abcd: any[] = [];
   dateEpoch: string = "";
   ePoch: string ="";
@@ -111,8 +116,9 @@ export class ReceptionistAppointmentListComponent implements OnInit {
       this.loading = false;
       this.appointmentDateInvalid();
     },
-    () => {
+    error => {
       this.loading = false;
+      ResponseHandler.HANDLE_HTTP_STATUS(this.appointmentService.apiUrl+"/appointment/"+this.startDateTimestamp+"/"+this.endDateTimestamp, error);
     })
   }
 
@@ -121,8 +127,8 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   }
 
   dateDis = {
-    date: 0, 
-    procedure:'', 
+    date: 0,
+    procedure:'',
     count: 0,
   }
   //datesDisabled: DateDisabledItem[] = [];
@@ -148,10 +154,11 @@ export class ReceptionistAppointmentListComponent implements OnInit {
             procedure: '',
             count: 0,
           }
-        })  
+        })
       })
     },
-    () => {
+    error => {
+      ResponseHandler.HANDLE_HTTP_STATUS(this.appointmentService.apiUrl+"/appointment/"+startTime+"/"+endTime, error);
     })
   }
 
@@ -215,7 +222,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     console.log("DateTimestamp", dateTimestamp);
     this.dateString = this.timestampToDate(dateTimestamp);
     console.log("DateString", this.dateString);
-  
+
     this.selectedAppointment = appointment;
     this.timeString = this.timestampToTime(appointment.time);
     console.log("Time, ", this.timeString);
@@ -235,7 +242,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
         status: 2,
         time: 0
       }
-      
+
     } as IEditAppointmentBody;
     this.appointmentService.putAppointment(this.DELETE_APPOINTMENT_BODY, appointment.appointment_id).subscribe(response => {
       console.log("Cập nhật thành công");
@@ -246,7 +253,8 @@ export class ReceptionistAppointmentListComponent implements OnInit {
       }
         //window.location.reload();
     }, error => {
-      this.showErrorToast("Lỗi khi cập nhật");
+      ResponseHandler.HANDLE_HTTP_STATUS(this.appointmentService.apiUrl+"/appointment/"+appointment.appointment_id, error);
+      //this.showErrorToast("Lỗi khi cập nhật");
     });
   }
 
@@ -270,18 +278,19 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     this.receptionistWaitingRoom.postWaitingRoom(this.Exchange).subscribe(
       (data) => {
         this.Exchange = {
-            epoch: 0, 
+            epoch: 0,
             produce_id: "0",
             produce_name: '',
             patient_id: '',
             patient_name: '',
             reason: '',
             status: 1
-        } 
+        }
         window.location.href="/letan/phong-cho";
       },
       (error) => {
         this.loading = false;
+        ResponseHandler.HANDLE_HTTP_STATUS(this.receptionistWaitingRoom.apiUrl+"/waiting-room", error);
         //this.showErrorToast('Lỗi khi tạo lịch hẹn!');
       }
     );
@@ -318,7 +327,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
     if (this.timestampToDate(date) < currentDateGMT7) {
       return false;
-    } 
+    }
     return true;
   }
 
@@ -328,11 +337,11 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     return dateStr;
   }
 
-  addItem(newItem: any) {   
-    this.filteredAppointments.push({appointment_id: '', attribute_name: '', 
-    doctor: newItem.appointment.doctor, epoch: newItem.epoch,  migrated: false, patient_id: newItem.appointment.patient_id, patient_name : newItem.appointment.patient_name, phone_number: newItem.appointment.phone_number, 
+  addItem(newItem: any) {
+    this.filteredAppointments.push({appointment_id: '', attribute_name: '',
+    doctor: newItem.appointment.doctor, epoch: newItem.epoch,  migrated: false, patient_id: newItem.appointment.patient_id, patient_name : newItem.appointment.patient_name, phone_number: newItem.appointment.phone_number,
     procedure_id: newItem.appointment.procedure_id, procedure_name: newItem.appointment.procedure_name, time: newItem.appointment.time});
-  
+
     console.log(this.filteredAppointments);
   }
 

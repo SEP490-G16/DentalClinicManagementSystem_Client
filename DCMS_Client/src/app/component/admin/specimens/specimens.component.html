@@ -80,9 +80,9 @@
             border-radius: 10px;"
               aria-label="Default select example" [(ngModel)]="status" (change)="filterStatus()">
               <option value="" selected>Trạng thái</option>
-              <option value="1"></option>
-              <option value="2"></option>
-              <option value="3"></option>
+              <option value="1">Chưa Nhận</option>
+              <option value="2">Đã Nhận</option>
+              <option value="3">Hàng Lỗi</option>
             </select>
           </div>
           <div class="col-sm-2 col-md-2" style="padding: 0 10px">
@@ -90,8 +90,54 @@
               Hiển thị
             </button>
             <ul *ngIf="showPopup" class="popup">
-              <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox1" (change)="toggleColumn(12)"> Ngày lắp</li>
-              <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox2" (change)="toggleColumn(13)">Bảo hành</li>
+              <div class="row">
+                <div class="col-md-6">
+                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox1" (click)="toggleColumn(2)"> Tên mẫu</li>
+                </div>
+                <div class="col-md-6">
+                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox2" (click)="toggleColumn(3)">Chất liệu</li>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox3" (click)="toggleColumn(4)">Số lượng</li>
+                </div>
+                <div class="col-md-6">
+                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox4" (click)="toggleColumn(5)">Đơn giá</li>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox5" (click)="toggleColumn(6)">Labo</li>
+                </div>
+                <div class="col-md-6">
+                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox6" (click)="toggleColumn(7)">Trạng thái</li>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox7" (click)="toggleColumn(8)"> Ngày đặt</li>
+                </div>
+                <div class="col-md-6">
+                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox8" (click)="toggleColumn(9)">Người đặt</li>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox9" (click)="toggleColumn(10)"> Ngày nhận</li>
+                </div>
+                <div class="col-md-6">
+                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox10" (click)="toggleColumn(11)">Người nhận</li>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox11" (click)="toggleColumn(12)"> Ngày lắp </li>
+                </div>
+                <div class="col-md-6">
+                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox12" (click)="toggleColumn(13)">Bảo hành</li>
+                </div>
+              </div>
             </ul>
           </div>
         </div>
@@ -103,35 +149,35 @@
           <table>
             <thead class="sticky-thead">
               <tr>
-                <th style="min-width: 80px;padding: 10px">Tên mẫu</th> <!--2-->
-                <th style="min-width: 82px;padding: 10px">Chất liệu</th> <!--3-->
-                <th style="min-width: 85px;padding: 10px">Số lượng</th> <!--4-->
-                <th style="min-width: 75px;padding: 10px">Đơn giá</th> <!--5-->
-                <th style="min-width: 80px;padding: 10px">Labo</th> <!--6-->
-                <th style="min-width: 90px;padding: 10px">Trạng thái</th> <!--7-->
-                <th style="min-width: 75px;padding: 10px">Ngày đặt</th> <!--8-->
-                <th style="min-width: 90px;padding: 10px">Người đặt</th> <!--9-->
-                <th style="min-width: 95px;padding: 10px">Ngày nhận</th> <!--10-->
-                <th style="min-width: 105px;padding: 10px">Người nhận</th> <!--11-->
-                <th style="min-width: 90px;padding: 10px"  *ngIf="!checkbox1">Ngày lắp</th> <!--12-->
-                <th style="min-width: 90px;padding: 10px" *ngIf="!checkbox2">Bảo hành</th> <!--13-->
+                <th *ngIf="checkbox1" style="min-width: 80px;padding: 10px">Tên mẫu</th> <!--2-->
+                <th *ngIf="checkbox2" style="min-width: 82px;padding: 10px">Chất liệu</th> <!--3-->
+                <th *ngIf="checkbox3" style="min-width: 85px;padding: 10px">Số lượng</th> <!--4-->
+                <th *ngIf="checkbox4" style="min-width: 75px;padding: 10px">Đơn giá</th> <!--5-->
+                <th *ngIf="checkbox5" style="min-width: 80px;padding: 10px">Labo</th> <!--6-->
+                <th *ngIf="checkbox6" style="min-width: 90px;padding: 10px">Trạng thái</th> <!--7-->
+                <th *ngIf="checkbox7" style="min-width: 75px;padding: 10px">Ngày đặt</th> <!--8-->
+                <th *ngIf="checkbox8" style="min-width: 90px;padding: 10px">Người đặt</th> <!--9-->
+                <th *ngIf="checkbox9" style="min-width: 95px;padding: 10px">Ngày nhận</th> <!--10-->
+                <th *ngIf="checkbox10" style="min-width: 105px;padding: 10px">Người nhận</th> <!--11-->
+                <th *ngIf="checkbox11" style="min-width: 90px;padding: 10px">Ngày lắp</th> <!--12-->
+                <th *ngIf="checkbox12" style="min-width: 90px;padding: 10px">Bảo hành</th> <!--13-->
                 <th style="min-width: 101px;padding: 10px">Thao tác</th> <!--14-->
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let specimens of filteredSpecimens">
-                <td class="truncate" data-bs-toggle="tooltip" title="{{specimens.ms_name}}">{{specimens.ms_name}}</td> <!--2-->
-                <td style="min-width: 82px;padding: 10px">{{specimens.ms_type}}</td> <!--3-->
-                <td style="min-width: 85px;padding: 10px">{{specimens.ms_quantity}}</td> <!--4-->
-                <td style="min-width: 75px;padding: 10px">{{specimens.ms_unit_price}}</td> <!--5-->
-                <td style="min-width: 80px;padding: 10px">{{specimens.lb_name}}</td> <!--6-->
-                <td style="min-width: 80px;padding: 10px">{{specimens.ms_status == 1? "Đã nhận": (specimens.ms_status == 2)?"Chưa nhận":"Trả lại"}}</td> <!--7-->
-                <td style="min-width: 75px;padding: 10px">{{specimens.ms_order_date | date:'dd-MM-yyyy'}}</td> <!--8-->
-                <td style="min-width: 120px;padding: 10px">{{specimens.ms_orderer}}</td> <!--9-->
-                <td style="min-width: 95px;padding: 10px">{{specimens.ms_received_date | date:'dd-MM-yyyy'}}</td> <!--10-->
-                <td style="min-width: 105px;padding: 10px">{{specimens.ms_receiver}}</td> <!--11-->
-                <td  *ngIf="!checkbox1" style="min-width: 95px;padding: 10px">{{specimens.ms_used_date | date:'dd-MM-yyyy'}}</td> <!--12-->
-                <td  *ngIf="!checkbox2" style="min-width: 90px;padding: 10px">{{specimens.ms_warranty | date:'dd-MM-yyyy'}}</td> <!--13-->
+                <td *ngIf="checkbox1" class="truncate" data-bs-toggle="tooltip" title="{{specimens.ms_name}}">{{specimens.ms_name}}</td> <!--2-->
+                <td *ngIf="checkbox2" style="min-width: 82px;padding: 10px">{{specimens.ms_type}}</td> <!--3-->
+                <td *ngIf="checkbox3" style="min-width: 85px;padding: 10px">{{specimens.ms_quantity}}</td> <!--4-->
+                <td *ngIf="checkbox4" style="min-width: 75px;padding: 10px">{{specimens.ms_unit_price}}</td> <!--5-->
+                <td *ngIf="checkbox5" style="min-width: 80px;padding: 10px">{{specimens.lb_name}}</td> <!--6-->
+                <td *ngIf="checkbox6" style="min-width: 80px;padding: 10px">{{specimens.ms_status == 1? "Đã nhận": (specimens.ms_status == 2)?"Chưa nhận":"Trả lại"}}</td> <!--7-->
+                <td *ngIf="checkbox7" style="min-width: 75px;padding: 10px">{{specimens.ms_order_date | date:'dd-MM-yyyy'}}</td> <!--8-->
+                <td *ngIf="checkbox8" style="min-width: 120px;padding: 10px">{{specimens.ms_orderer}}</td> <!--9-->
+                <td *ngIf="checkbox9" style="min-width: 95px;padding: 10px">{{specimens.ms_received_date | date:'dd-MM-yyyy'}}</td> <!--10-->
+                <td *ngIf="checkbox10" style="min-width: 105px;padding: 10px">{{specimens.ms_receiver}}</td> <!--11-->
+                <td *ngIf="checkbox11" style="min-width: 95px;padding: 10px">{{specimens.ms_used_date | date:'dd-MM-yyyy'}}</td> <!--12-->
+                <td *ngIf="checkbox12" style="min-width: 90px;padding: 10px">{{specimens.ms_warranty | date:'dd-MM-yyyy'}}</td> <!--13-->
                 <td class="text-center" style="min-width: 101px;padding: 10px"> <!--14-->
                   <button class="btn btn-primary p-1 m-2"><i class="bi bi-pencil-square"
                     data-bs-toggle="modal" data-bs-target="#editSpecimensModal"
@@ -146,9 +192,10 @@
 
         </div>
       </div>
-      <div class="row mt-4">
-        <ngb-pagination [collectionSize]="pagingSearch.total" [(page)]="pagingSearch.paging" [boundaryLinks]="true"
-          (pageChange)="pageChanged($event)"></ngb-pagination>
+      <div class="sep-pagination">
+        <a (click)="pageChanged(currentPage - 1)" *ngIf="currentPage > 1">&laquo;</a>
+        <a>{{currentPage}}</a>
+        <a (click)="pageChanged(currentPage + 1)" *ngIf="hasNextPage">&raquo;</a>
       </div>
 
 <app-popup-edit-specimens [PutSpecimen]="PutSpecimen" [AllLabos]="AllLabos"></app-popup-edit-specimens>

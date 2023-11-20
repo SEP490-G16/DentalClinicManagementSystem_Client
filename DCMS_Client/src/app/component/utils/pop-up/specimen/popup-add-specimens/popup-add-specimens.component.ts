@@ -4,6 +4,8 @@ import { ToastrService } from "ngx-toastr";
 import { PatientService } from "../../../../../service/PatientService/patient.service";
 import { LaboService } from "../../../../../service/LaboService/Labo.service";
 import * as moment from 'moment-timezone';
+import { IsThisSecondPipe } from 'ngx-date-fns';
+import {ResponseHandler} from "../../../libs/ResponseHandler";
 
 @Component({
   selector: 'app-popup-add-specimens',
@@ -73,7 +75,11 @@ export class PopupAddSpecimensComponent implements OnInit {
   ngOnInit(): void {
     this.getAllLabo();
     this.specimen.quantity = '1';
+    this.specimen.orderer = sessionStorage.getItem('name') + '';
+    const currentDate = new Date();
+    this.specimen.orderDate = currentDate.getFullYear().toString()+ "-"+(currentDate.getMonth()+1).toString()+"-"+currentDate.getDate().toString();
   }
+
   calculateTotal() {
     const total = parseInt(this.specimen.quantity) * parseInt(this.specimen.price);
     this.specimen.total = total.toString();
@@ -110,6 +116,7 @@ export class PopupAddSpecimensComponent implements OnInit {
 
   }
   addMedicalSupply() {
+
     this.resetValidate();
     if (!this.specimen.name) {
       this.validateSpecimens.name = 'Vui lòng nhập tên mẫu!';
@@ -159,6 +166,7 @@ export class PopupAddSpecimensComponent implements OnInit {
     if (this.isSubmitted) {
       return;
     }
+
     let orderDateTimestamp = this.dateToTimestamp(this.specimen.orderDate);
     let receivedDateTimestamp = this.dateToTimestamp(this.specimen.receiverDate);
     let userDateTimestamp = this.dateToTimestamp(this.specimen.usedDate);
@@ -188,14 +196,36 @@ export class PopupAddSpecimensComponent implements OnInit {
     },
       error => {
         this.loading = false;
-        this.toastr.error('Thêm mới thất bại !');
+        //this.toastr.error('Thêm mới thất bại !');
+        ResponseHandler.HANDLE_HTTP_STATUS(this.medicalSupplyService.url+"/medical-supply", error);
       })
   }
-  onsearch() {
-    this.patientSerivce.getPatientPhoneNumber(this.specimen.receiver).subscribe(data => {
-      this.patients = data;
-      console.log(this.patients);
-    })
+
+  //test nha
+  patientList:any [] = [];
+  onsearch(event:any) {
+    // this.patientSerivce.getPatientPhoneNumber(this.specimen.receiver).subscribe(data => {
+    //   this.patients = data;
+    //   console.log(this.patients);
+    // })
+    console.log(event.target.value)
+    //console.log(this.specimen.receiver)
+    this.specimen.receiver = event.target.value;
+
+    this.patientSerivce.getPatientByName(this.specimen.receiver, 1).subscribe(data => {
+      const transformedMaterialList = data.data.map((item:any) => {
+        return {
+          patientId: item.patient_id,
+          patientName: item.patient_name,
+          patientInfor: item.patient_name + " - "+ item.phone_number,
+        };
+      });
+      this.patientList = transformedMaterialList;
+    },
+      error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.patientSerivce.test+"/patient/name/"+this.specimen.receiver+"/"+1, error);
+      }
+      )
   }
   selectPatient(patient: any) {
     // Thiết lập giá trị của input và ID của bệnh nhân

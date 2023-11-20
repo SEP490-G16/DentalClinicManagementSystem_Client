@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 
 export class PaidMaterialUsageService {
-  private apiUrls = 'https://6jg8mtl495.execute-api.ap-southeast-1.amazonaws.com/dev';
+  public apiUrls = 'https://6jg8mtl495.execute-api.ap-southeast-1.amazonaws.com/dev';
 
   constructor(private http: HttpClient) { }
   getPaidMaterialUsageExamination(id:string): Observable<any> {

@@ -6,7 +6,7 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class MedicalSupplyService {
-  private url= 'https://o0pwf246i1.execute-api.ap-southeast-1.amazonaws.com/dev';
+  public url= 'https://o0pwf246i1.execute-api.ap-southeast-1.amazonaws.com/dev';
   constructor(private http:HttpClient) { }
 
   addMedicalSupply(specimens:any):Observable<any>{

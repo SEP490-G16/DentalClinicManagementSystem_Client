@@ -4,6 +4,7 @@ import {ToastrService} from "ngx-toastr";
 import {MedicalProcedureService} from "../../../service/MedicalProcedureService/medical-procedure.service";
 import { Router } from '@angular/router';
 import { CognitoService } from 'src/app/service/cognito.service';
+import {ResponseHandler} from "../../utils/libs/ResponseHandler";
 
 @Component({
   selector: 'app-service',
@@ -46,7 +47,11 @@ export class ServiceComponent implements OnInit {
       }
       this.loading = false;
       console.log(this.medicalProcedureGroups)
-    })
+    },
+      error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.medicalProcedureGroupService.url+"/medical-procedure-group", error);
+      }
+      )
   }
   deleteMedicalProcedureGroup(id:string) {
     console.log(id);
@@ -63,7 +68,8 @@ export class ServiceComponent implements OnInit {
         },
         error => {
         this.loading = false;
-          this.toastr.error('Xoá nhóm thủ thuật thất bại!');
+         // this.toastr.error('Xoá nhóm thủ thuật thất bại!');
+          ResponseHandler.HANDLE_HTTP_STATUS(this.medicalProcedureGroupService.url+"/medical-procedure-group/"+id, error);
         }
       )
     }
@@ -84,7 +90,8 @@ export class ServiceComponent implements OnInit {
         },
         error => {
         this.loading = false;
-          this.toastr.error('Xoá  thủ thuật thất bại!');
+         // this.toastr.error('Xoá  thủ thuật thất bại!');
+          ResponseHandler.HANDLE_HTTP_STATUS(this.medicalProcedure.url+"/medical-procedure/"+id, error);
         }
       )
     }
@@ -118,7 +125,11 @@ export class ServiceComponent implements OnInit {
       //this.medicalProcedureList = data.data.filter((item:any) => item.mg_id === id);
       this.loading = false;
       console.log(this.medicalProcedureList)
-    })
+    },
+      error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.medicalProcedureGroupService.url+"/medical-procedure-group-with-detail", error);
+      }
+      )
   }
   onSearchInputChange(): void {
     // Gọi hàm để hiển thị danh sách thủ thuật dựa trên điều kiện tìm kiếm

@@ -3,6 +3,7 @@ import {MedicalSupplyService} from "../../../../../service/MedicalSupplyService/
 import {ToastrService} from "ngx-toastr";
 import {PatientService} from "../../../../../service/PatientService/patient.service";
 import { LaboService } from 'src/app/service/LaboService/Labo.service';
+import {ResponseHandler} from "../../../libs/ResponseHandler";
 
 @Component({
   selector: 'app-popup-edit-approve-specimens',
@@ -38,7 +39,7 @@ export class PopupEditApproveSpecimensComponent implements OnChanges {
     used_date:'',
     facility_id:'',
     patient_id:'',
-    
+
     labo_id: '',
     status:'',
   }
@@ -115,7 +116,11 @@ export class PopupEditApproveSpecimensComponent implements OnChanges {
   getAllLabo() {
     this.laboService.getLabos().subscribe((data) => {
       this.labos = data.data;
-    })
+    },
+      error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.laboService.apiUrl+"/labo", error);
+      }
+      )
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -246,7 +251,8 @@ export class PopupEditApproveSpecimensComponent implements OnChanges {
 
     },
       error => {
-      this.toastr.error('Cập nhật thất bại !');
+      //this.toastr.error('Cập nhật thất bại !');
+        ResponseHandler.HANDLE_HTTP_STATUS(this.medicalSupplyService.url+"/medical-supply/"+this.id, error);
       }
       )
   }

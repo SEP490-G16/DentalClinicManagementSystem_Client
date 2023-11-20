@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {MedicalSupplyService} from "../../../service/MedicalSupplyService/medical-supply.service";
 import {ToastrService} from "ngx-toastr";
 import * as moment from 'moment-timezone';
+import {ResponseHandler} from "../../utils/libs/ResponseHandler";
 
 @Component({
   selector: 'app-pending-specimens',
@@ -70,7 +71,8 @@ export class PendingSpecimensComponent implements OnInit {
     },
       error => {
       this.loading = false;
-      this.toastr.error('Duyệt mẫu thất bại !');
+      //this.toastr.error('Duyệt mẫu thất bại !');
+        ResponseHandler.HANDLE_HTTP_STATUS(this.medicalSupplyService.url+"/medical-supply/"+id, error);
       }
     )
   }
@@ -81,7 +83,11 @@ export class PendingSpecimensComponent implements OnInit {
       this.approveSpecimensList = data.data;
       this.loading = false;
       console.log(this.approveSpecimensList);
-    })
+    },
+      error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.medicalSupplyService.url+"/medical-supply/status/"+status+"/"+paging, error);
+      }
+      )
   }
   deleteApproveSpecimens(id:string){
     console.log(id);
@@ -98,7 +104,8 @@ export class PendingSpecimensComponent implements OnInit {
         },
         error => {
         this.loading = false;
-          this.toastr.error('Xoá  thủ thuật thất bại!');
+          //this.toastr.error('Xoá  thủ thuật thất bại!');
+          ResponseHandler.HANDLE_HTTP_STATUS(this.medicalSupplyService.url+"/medical-supply/"+id, error);
         }
       )
     }
