@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/TreatmentCourse.service';
+import {ResponseHandler} from "../../../libs/ResponseHandler";
 
 @Component({
   selector: 'app-popup-edit-treatmentcourse',
@@ -45,8 +46,9 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
         this.toastr.success(res.message, "Sửa Lịch trình điều trị");
         window.location.reload();
     },
-    (err) => {
-      this.toastr.error(err.error.message, "Sửa Lịch trình điều trị thất bại");
+    (error) => {
+      //this.toastr.error(err.error.message, "Sửa Lịch trình điều trị thất bại");
+      ResponseHandler.HANDLE_HTTP_STATUS(this.treatmentCourseService.apiUrl+"/treatment-course/"+this.TreatmentCourse.treatment_course_id, error);
     }
     )
   }

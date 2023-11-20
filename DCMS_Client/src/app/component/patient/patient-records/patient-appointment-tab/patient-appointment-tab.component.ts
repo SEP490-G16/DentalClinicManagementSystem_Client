@@ -9,6 +9,7 @@ import 'moment/locale/vi';
 import { ConvertJson } from 'src/app/service/Lib/ConvertJson';
 import { RootObject } from 'src/app/model/IAppointment';
 import { CommonService } from 'src/app/service/commonMethod/common.service';
+import {ResponseHandler} from "../../../utils/libs/ResponseHandler";
 @Component({
   selector: 'app-patient-appointment-tab',
   templateUrl: './patient-appointment-tab.component.html',
@@ -60,7 +61,11 @@ export class PatientAppointmentTabComponent implements OnInit {
         )
       );
       this.patientAppointments.sort((a:any, b:any) => b.date - a.date);
-    });
+    },
+      error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.APPOINTMENT_SERVICE.apiUrl+"/appointment/"+1696925134+"/"+this.endDateTimestamp, error);
+      }
+      );
   }
 
   EditAppointmentPatient: any

@@ -10,6 +10,7 @@ import { CognitoService } from 'src/app/service/cognito.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PopupPaymentComponent } from './pop-up-payment/popup-payment.component';
 import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/TreatmentCourse.service';
+import {ResponseHandler} from "../../../utils/libs/ResponseHandler";
 @Component({
   selector: 'app-patient-payment-tab',
   templateUrl: './patient-payment-tab.component.html',
@@ -100,7 +101,11 @@ export class PatientPaymentTabComponent implements OnInit {
               }
             )
         })
-      });
+      },
+        error => {
+          ResponseHandler.HANDLE_HTTP_STATUS(this.treatmentCourse_PatientService.apiUrl+"/treatment-course/patient-id/"+this.id, error);
+        }
+        );
   }
 
 
@@ -122,8 +127,9 @@ export class PatientPaymentTabComponent implements OnInit {
         this.Total = totalPaidSum;
 
       },
-        (err) => {
-          this.toastr.error(err.error.message, "Nhận dữ liệu Thanh toán thất bại");
+        (error) => {
+          //this.toastr.error(err.error.message, "Nhận dữ liệu Thanh toán thất bại");
+          ResponseHandler.HANDLE_HTTP_STATUS(this.paidMaterialUsage.apiUrls+"/paid-material-usage/examination/"+exId,error)
         }
       )
   }

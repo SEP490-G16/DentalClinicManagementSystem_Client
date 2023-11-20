@@ -8,7 +8,7 @@ import { IAddAppointment, IEditAppointmentBody } from "../../model/IAppointment"
   providedIn: 'root'
 })
 export class ReceptionistAppointmentService {
-  private apiUrl = 'https://gg1spfr4gl.execute-api.ap-southeast-1.amazonaws.com/dev';
+  public apiUrl = 'https://gg1spfr4gl.execute-api.ap-southeast-1.amazonaws.com/dev';
 
   constructor(private http: HttpClient, private cognitoService: CognitoService) { }
 

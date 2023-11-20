@@ -9,6 +9,7 @@ import { IPatient, Patient } from 'src/app/model/IPatient';
 import { ConvertJson } from 'src/app/service/Lib/ConvertJson';
 import { PatientService } from 'src/app/service/PatientService/patient.service';
 import { ReceptionistAppointmentService } from 'src/app/service/ReceptionistService/receptionist-appointment.service';
+import {ResponseHandler} from "../../../libs/ResponseHandler";
 
 @Component({
   selector: 'app-popup-datlichtaikham',
@@ -119,7 +120,7 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
         patient_id: '',  //x
         patient_name: '', //x
         phone_number: '', //x
-        procedure_id: "",  
+        procedure_id: "",
         procedure_name: '',
         doctor: '', //x
         time: 0  //x
@@ -181,7 +182,11 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
       console.log("Appointment List: ", this.appointmentList);
 
       this.appointmentDateInvalid();
-    })
+    },
+      error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.APPOINTMENT_SERVICE.apiUrl+"/appointment/"+this.startDateTimestamp+"/"+this.endDateTimestamp, error);
+      }
+      )
   }
 
 
@@ -224,7 +229,11 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
       this.AppointmentBody.appointment.patient_name = this.patientData.patient_name;
       this.AppointmentBody.appointment.phone_number = this.patientData.phone_number;
       this.appointmentDateInvalid();
-    })
+    },
+      error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.PATIENT_SERVICE.test+"/patient/"+this.id, error);
+      }
+      )
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -274,7 +283,7 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
             patient_id: '',  //x
             patient_name: '', //x
             phone_number: '', //x
-            procedure_id: "1", 
+            procedure_id: "1",
             procedure_name:'',
             doctor: '', //x
             time: 0  //x
@@ -285,8 +294,9 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
           window.location.reload();
       },
       (error) => {
-        console.error('Lỗi khi tạo lịch hẹn:', error);
-        this.showErrorToast('Lỗi khi tạo lịch hẹn!');
+        // console.error('Lỗi khi tạo lịch hẹn:', error);
+        // this.showErrorToast('Lỗi khi tạo lịch hẹn!');
+        ResponseHandler.HANDLE_HTTP_STATUS(this.APPOINTMENT_SERVICE.apiUrl+"/appointment", error);
       }
     );
 
@@ -345,7 +355,7 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
         patient_id: '',  //x
         patient_name: '', //x
         phone_number: '', //x
-        procedure_id: "", 
+        procedure_id: "",
         procedure_name: '',
         doctor: '', //x
         time: 0  //x

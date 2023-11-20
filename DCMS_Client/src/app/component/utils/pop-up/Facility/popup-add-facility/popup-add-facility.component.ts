@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FacilityService} from "../../../../../service/FacilityService/facility.service";
 import {ToastrService} from "ngx-toastr";
+import {ResponseHandler} from "../../../libs/ResponseHandler";
 
 @Component({
   selector: 'app-popup-add-facility',
@@ -104,7 +105,8 @@ export class PopupAddFacilityComponent implements OnInit {
     },
       error => {
       this.loading = false;
-      this.toastr.error('Thêm mới cơ sở thất bại !')
+      //this.toastr.error('Thêm mới cơ sở thất bại !')
+        ResponseHandler.HANDLE_HTTP_STATUS(this.facilityService.url+"/facility", error);
       }
     )
   }

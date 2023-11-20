@@ -8,6 +8,7 @@ import { ReceptionistWaitingRoomService } from 'src/app/service/ReceptionistServ
 import { IPostWaitingRoom } from 'src/app/model/IWaitingRoom';
 import { ToastrService } from 'ngx-toastr';
 import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureService/medical-procedure-group.service';
+import {ResponseHandler} from "../../utils/libs/ResponseHandler";
 
 @Component({
   selector: 'app-receptionist-waiting-room',
@@ -63,16 +64,21 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
         this.filteredWaitingRoomData = [...this.waitingRoomData]; // Update the filtered list as well
         this.loading = false;
       },
-      () => {
+      (error) => {
         this.loading = false;
+        ResponseHandler.HANDLE_HTTP_STATUS(this.waitingRoomService.apiUrl+"/waiting-room", error);
       }
     );
   }
-  
+
   getListGroupService() {
     this.medicaoProcedureGroupService.getMedicalProcedureGroupList().subscribe((res:any) => {
       this.listGroupService = res.data;
-    })
+    },
+      error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.medicaoProcedureGroupService.url+"/medical-procedure-group", error);
+      }
+      )
   }
   filterProcedure() {
     if (this.procedure === '0') {
@@ -122,9 +128,10 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           this.showSuccessToast('Xóa hàng chờ thành công');
           this.getWaitingRoomData();
         },
-          () => {
+          (error) => {
             this.loading = false;
-            this.showErrorToast('Xóa hàng chờ thất bại');
+            //this.showErrorToast('Xóa hàng chờ thất bại');
+            ResponseHandler.HANDLE_HTTP_STATUS(this.waitingRoomService.apiUrl+"/waiting-room/"+this.PUT_WAITINGROOM, error);
           }
         )
     } else {
@@ -135,9 +142,10 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           this.showSuccessToast('Chỉnh sửa hàng chờ thành công');
           this.getWaitingRoomData();
         },
-          () => {
+          (error) => {
             this.loading = false;
-            this.showErrorToast('Chỉnh sửa hàng chờ thất bại');
+            //this.showErrorToast('Chỉnh sửa hàng chờ thất bại');
+            ResponseHandler.HANDLE_HTTP_STATUS(this.waitingRoomService.apiUrl+"/waiting-room/"+this.PUT_WAITINGROOM, error);
           }
         )
     }

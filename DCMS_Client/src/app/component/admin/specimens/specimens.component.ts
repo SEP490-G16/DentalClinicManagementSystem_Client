@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { CognitoService } from 'src/app/service/cognito.service';
-
+import {ResponseHandler} from "../../utils/libs/ResponseHandler";
 import * as moment from 'moment-timezone';
 import { SpecimensRoot } from 'src/app/model/ISpecimens';
 import { ToastrService } from 'ngx-toastr';
@@ -17,7 +17,8 @@ export class SpecimensComponent implements OnInit {
 
   SpecimensRoot: SpecimensRoot;
   currentPage: number = 1;
-  hasNextPage: boolean = false; 
+  hasNextPage: boolean = false;
+
   labos:any[] = [];
   laboFilter: any = null;
 
@@ -86,7 +87,11 @@ export class SpecimensComponent implements OnInit {
     this.laboService.getLabos().subscribe((data) => {
       this.labos = data.data;
       console.log(this.labos);
-    })
+    },
+      error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.laboService.apiUrl+"/labo", error);
+      }
+      )
   }
 
   filterByLabo() {
@@ -123,19 +128,19 @@ export class SpecimensComponent implements OnInit {
 
   specimenObject = {
     ms_id:'',
-    ms_name:'', 
-    ms_type: '', 
-    ms_quantity:'', 
+    ms_name:'',
+    ms_type: '',
+    ms_quantity:'',
     ms_unit_price:'',
-    lb_id: '', 
-    lb_name: '', 
-    ms_status: 0, 
-    ms_order_date: '', 
+    lb_id: '',
+    lb_name: '',
+    ms_status: 0,
+    ms_order_date: '',
     ms_used_date: '',
-    ms_orderer: '', 
-    ms_received_date: '', 
+    ms_orderer: '',
+    ms_received_date: '',
     ms_receiver: '',
-    ms_warranty: '' 
+    ms_warranty: ''
   }
 
   laboName: string= '';
@@ -146,9 +151,13 @@ export class SpecimensComponent implements OnInit {
       this.labos.forEach((lb: any) => {
         if (lb.labo_id === item) {
           this.laboName = lb.name;
-        } 
+        }
       })
-    }) 
+    },
+      error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.laboService.apiUrl+"/labo", error);
+      }
+      )
     return this.laboName;
   }
   checkNextPage() {
@@ -156,7 +165,7 @@ export class SpecimensComponent implements OnInit {
   }
   getAllSpecimens(paging:number) {
     this.loading = true;
-    this.currentPage = paging; 
+    this.currentPage = paging;
     this.filteredSpecimens = [];
     console.log(paging);
     this.SpecimensService.getSpecimens(paging)
@@ -180,19 +189,19 @@ export class SpecimensComponent implements OnInit {
           this.filteredSpecimens.push(this.specimenObject);
           this.specimenObject = {
             ms_id:'',
-            ms_name:'', 
-            ms_type: '', 
-            ms_quantity:'', 
+            ms_name:'',
+            ms_type: '',
+            ms_quantity:'',
             ms_unit_price:'',
-            lb_id: '', 
-            lb_name: '', 
-            ms_status: 0, 
-            ms_order_date: '', 
+            lb_id: '',
+            lb_name: '',
+            ms_status: 0,
+            ms_order_date: '',
             ms_used_date: '',
-            ms_orderer: '', 
-            ms_received_date: '', 
+            ms_orderer: '',
+            ms_received_date: '',
             ms_receiver: '',
-            ms_warranty: '' 
+            ms_warranty: ''
           }
           this.laboName = '';
           this.checkNextPage();
@@ -201,7 +210,12 @@ export class SpecimensComponent implements OnInit {
         }
         })
         this.loading = false;
-      })
+      },
+        // ResponseHandler.HANDLE_HTTP_STATUS("abc",401)
+        error => {
+          ResponseHandler.HANDLE_HTTP_STATUS(this.SpecimensService.apiUrl+"/medical-supply/status/"+2+"/"+paging, error);
+        }
+      )
 
     // try {
     //   const sRoot = await this.SpecimensService.getSpecimensAsync(this.paging);
@@ -258,17 +272,60 @@ export class SpecimensComponent implements OnInit {
   }
 
   showPopup: boolean = false;
-  checkbox1: boolean = false;
-  checkbox2: boolean = false;
+  checkbox1: boolean = true;
+  checkbox2: boolean = true;
+  checkbox3: boolean = true;
+  checkbox4: boolean = true;
+  checkbox5: boolean = true;
+  checkbox6: boolean = true;
+  checkbox7: boolean = true;
+  checkbox8: boolean = true;
+  checkbox9: boolean = true;
+  checkbox10: boolean = true;
+  checkbox11: boolean = true;
+  checkbox12: boolean = true;
+
   togglePopup(): void {
     this.showPopup = !this.showPopup;
   }
 
   toggleColumn(columnNumber: number): void {
-    if (columnNumber === 12) {
+    if (columnNumber === 2) {
       this.checkbox1 = !this.checkbox1;
-    } else if (columnNumber === 13) {
+      console.log(this.checkbox1)
+    }
+    if (columnNumber === 3) {
       this.checkbox2 = !this.checkbox2;
+    }
+    if (columnNumber === 4){
+      this.checkbox3 = !this.checkbox3;
+    }
+    if (columnNumber === 5){
+      this.checkbox4 = !this.checkbox4;
+    }
+    if (columnNumber === 6){
+      this.checkbox5 = !this.checkbox5;
+    }
+    if (columnNumber === 7){
+      this.checkbox6 = !this.checkbox6;
+    }
+    if (columnNumber === 8){
+      this.checkbox7 = !this.checkbox7;
+    }
+    if (columnNumber === 9){
+      this.checkbox8 = !this.checkbox8;
+    }
+    if (columnNumber === 10){
+      this.checkbox9 = !this.checkbox9;
+    }
+    if (columnNumber === 11){
+      this.checkbox10 = !this.checkbox10;
+    }
+    if (columnNumber === 12){
+      this.checkbox11 = !this.checkbox11;
+    }
+    if (columnNumber === 13){
+      this.checkbox12 = !this.checkbox12;
     }
   }
 
@@ -282,9 +339,10 @@ export class SpecimensComponent implements OnInit {
         this.showSuccessToast('Xóa mẫu vật thành công');
         window.location.reload();
       },
-      (err) => {
+      (error) => {
         this.loading = false;
-        this.showErrorToast('Xóa mẫu vật thất bại');
+        //this.showErrorToast('Xóa mẫu vật thất bại');
+        ResponseHandler.HANDLE_HTTP_STATUS(this.SpecimensService.apiUrl+"/medical-supply/"+id, error);
       }
       )
     }

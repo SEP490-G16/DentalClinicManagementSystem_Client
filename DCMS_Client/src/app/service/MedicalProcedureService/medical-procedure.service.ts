@@ -6,7 +6,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
   providedIn: 'root'
 })
 export class MedicalProcedureService {
-  private url ='https://or744yzk0g.execute-api.ap-southeast-1.amazonaws.com/dev';
+  public url ='https://or744yzk0g.execute-api.ap-southeast-1.amazonaws.com/dev';
   constructor(private http: HttpClient) { }
   addMedicalProcedure(medicalProcedureGroup:any):Observable<any>{
     let idToken = sessionStorage.getItem("id_Token");

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PatientService {
-  private test = 'https://gf4tlb2kyi.execute-api.ap-southeast-1.amazonaws.com/dev';
+  public test = 'https://gf4tlb2kyi.execute-api.ap-southeast-1.amazonaws.com/dev';
 
   constructor(private http: HttpClient) { }
   getPatientPhoneNumber(sdt: string): Observable<any> {

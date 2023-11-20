@@ -5,6 +5,7 @@ import {ToastrService} from "ngx-toastr";
 import {MaterialWarehouseService} from "../../../../../service/MaterialService/material-warehouse.service";
 import {MaterialService} from "../../../../../service/MaterialService/material.service";
 import * as moment from "moment-timezone";
+import {ResponseHandler} from "../../../libs/ResponseHandler";
 
 @Component({
   selector: 'app-popup-add-bill-import-material',
@@ -133,12 +134,15 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
           },
           error => {
             this.loading = false;
-
+            ResponseHandler.HANDLE_HTTP_STATUS("abc", error);
           }
         )
       },
       error => {
-        this.toastr.error('Thêm mới phiếu thất bại !');
+        //
+        // this.toastr.error('Thêm mới phiếu thất bại !');
+        this.loading = false;
+        ResponseHandler.HANDLE_HTTP_STATUS(this.importMaterialService.url+"/import-material", error);
       }
     )
   }
@@ -160,7 +164,11 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
       } else {
         this.pagingMaterial.total = this.materialList.length;
       }
-    })
+    },
+      error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.materialService.urlWarehouse+"/material/"+paging, error);
+      }
+      )
   }
 
   temporaryName: string = '';

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class TreatmentCourseService {
-  private apiUrl = 'https://ltmup12v3i.execute-api.ap-southeast-1.amazonaws.com/dev';
+  public apiUrl = 'https://ltmup12v3i.execute-api.ap-southeast-1.amazonaws.com/dev';
 
   constructor(private http: HttpClient, private cognitoService:CognitoService) { }
 

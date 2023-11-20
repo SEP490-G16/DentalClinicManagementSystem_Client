@@ -7,7 +7,7 @@ import {Observable} from "rxjs";
 })
 export class FacilityService {
 
-  private url = 'https://oy0504p7cl.execute-api.ap-southeast-1.amazonaws.com/dev';
+  public url = 'https://oy0504p7cl.execute-api.ap-southeast-1.amazonaws.com/dev';
   constructor(private http: HttpClient) { }
   getFacilityList():Observable<any>{
     let idToken = sessionStorage.getItem("id_Token");

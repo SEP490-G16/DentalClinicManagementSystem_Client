@@ -2,6 +2,7 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {MaterialService} from "../../../../../service/MaterialService/material.service";
 import {ToastrService} from "ngx-toastr";
 import { MaterialWarehouseService } from 'src/app/service/MaterialService/material-warehouse.service';
+import {ResponseHandler} from "../../../libs/ResponseHandler";
 
 @Component({
   selector: 'app-popup-edit-material',
@@ -19,16 +20,16 @@ export class PopupEditMaterialComponent implements OnChanges {
   }
   materialBody={
     //material_warehouse_id:'',
-    quantity_import: 0, 
-    remaining: 0, 
-    price: 0, 
+    quantity_import: 0,
+    remaining: 0,
+    price: 0,
     warranty: '',
     discount: ''
   }
   validateMaterial={
     id: '',
     name:'',
-    unit:'', 
+    unit:'',
     quantity:0
   }
   isSubmitted:boolean = false;
@@ -55,9 +56,9 @@ export class PopupEditMaterialComponent implements OnChanges {
     this.materialBody = {
       discount: this.item.discount,
       quantity_import: this.materialInput.quantity,
-      remaining: this.item.quantity, 
+      remaining: this.item.quantity,
       price: this.material.unitPrice,
-      warranty: this.item.expiryDate, 
+      warranty: this.item.expiryDate,
     }
     console.log(this.materialBody);
     //return;
@@ -73,7 +74,8 @@ export class PopupEditMaterialComponent implements OnChanges {
         // }
       },
       error => {
-        this.toastr.error('Cập nhật vật liệu thất bại!');
+        //this.toastr.error('Cập nhật vật liệu thất bại!');
+        ResponseHandler.HANDLE_HTTP_STATUS(this.matMaterialWarehouseService.url+"/material-warehouse/material_warehouse_id/"+this.item.mw_material_warehouse_id, error);
       }
     )
   }
@@ -81,7 +83,7 @@ export class PopupEditMaterialComponent implements OnChanges {
     this.validateMaterial = {
       id: '',
       name:'',
-      unit:'', 
+      unit:'',
       quantity: 0
     }
     this.isSubmitted = false;

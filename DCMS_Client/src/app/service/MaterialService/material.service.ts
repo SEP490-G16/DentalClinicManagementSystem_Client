@@ -7,8 +7,8 @@ import {Observable} from "rxjs";
 })
 export class MaterialService {
 
-  private url = "https://zalz4w17t8.execute-api.ap-southeast-1.amazonaws.com/dev";
-  private urlWarehouse = "https://96rec52gi8.execute-api.ap-southeast-1.amazonaws.com/dev";
+  public url = "https://zalz4w17t8.execute-api.ap-southeast-1.amazonaws.com/dev";
+  public urlWarehouse = "https://96rec52gi8.execute-api.ap-southeast-1.amazonaws.com/dev";
   constructor(private http:HttpClient) { }
   getMaterials(paging:any):Observable<any>{
     let idToken = sessionStorage.getItem("id_Token");

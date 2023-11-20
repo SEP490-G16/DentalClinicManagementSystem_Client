@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MaterialService} from "../../../../../service/MaterialService/material.service";
 import {ToastrService} from "ngx-toastr";
+import {ResponseHandler} from "../../../libs/ResponseHandler";
 
 @Component({
   selector: 'app-popup-add-material',
@@ -60,7 +61,8 @@ export class PopupAddMaterialComponent implements OnInit {
 
     },
       error => {
-      this.toastr.error('Thêm mới vật liệu thất bại!');
+      //this.toastr.error('Thêm mới vật liệu thất bại!');
+        ResponseHandler.HANDLE_HTTP_STATUS(this.materialSerivce.url+"/material", error);
       }
       )
   }

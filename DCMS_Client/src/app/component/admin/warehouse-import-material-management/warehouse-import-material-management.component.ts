@@ -5,6 +5,7 @@ import { ToastrService } from "ngx-toastr";
 import { MaterialWarehouseService } from "../../../service/MaterialService/material-warehouse.service";
 import { MaterialService } from "../../../service/MaterialService/material.service";
 import * as moment from 'moment-timezone';
+import {ResponseHandler} from "../../utils/libs/ResponseHandler";
 @Component({
   selector: 'app-warehouse-import-material-management',
   templateUrl: './warehouse-import-material-management.component.html',
@@ -61,7 +62,11 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
         if (this.importBills.length > 10) {
           this.importBills.pop();
         }
-      })
+      },
+        error => {
+          ResponseHandler.HANDLE_HTTP_STATUS(this.importMaterialService.url+"/import-material/date/"+this.startDate+"/"+this.endDate+"/"+this.currentPage, error);
+        }
+        )
     } else {
       this.importMaterialService.getImportMaterials(this.currentPage).subscribe(data => {
         this.importBills = [];
@@ -89,7 +94,11 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
               CreateBy: ''
             }
         })
-      })
+      },
+        error => {
+          ResponseHandler.HANDLE_HTTP_STATUS(this.importMaterialService.url+"/import-material/page/"+this.currentPage, error);
+        }
+        )
     }
   }
   getMaterials(paging: number) {
@@ -99,7 +108,11 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
         p.totalAmount += p.quantity_import * p.price * (1 - p.discount);
 
       });
-    })
+    },
+      error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.materialService.urlWarehouse+"/material-warehouse/remaining/"+paging, error);
+      }
+      )
   }
   calculateTotalAmountForBill(importBill: any) {
     let total = 0;
@@ -127,13 +140,18 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
           this.toastr.success("Xoá thành công!");
         },
           error => {
-            this.toastr.error("Xoá thất bại!");
+            //this.toastr.error("Xoá thất bại!");
+            ResponseHandler.HANDLE_HTTP_STATUS(this.materialWarehouseService.url+"/material-warehouse/material_warehouse_id/"+material.material_warehouse_id, error);
           }
         )
       }
       )
       console.log(this.materialListByImportMaterialId)
-    })
+    },
+      error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.materialWarehouseService.url+"/material-warehouse/"+importMaterialBillId,error);
+      }
+      )
   }
   deleteImportMaterial(id: any) {
     const cf = confirm("Bạn có muốn xóa phiếu nhập này không?");
@@ -145,9 +163,10 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
           this.toastr.success('Xóa phiếu nhập thành công!');
           window.location.reload();
         },
-          (err) => {
+          (error) => {
             this.loading = false;
-            this.toastr.error('Xóa phiếu nhập thất bại!');
+            //this.toastr.error('Xóa phiếu nhập thất bại!');
+            ResponseHandler.HANDLE_HTTP_STATUS(this.importMaterialService.url+"/import-material/"+id, error);
           }
         )
     }

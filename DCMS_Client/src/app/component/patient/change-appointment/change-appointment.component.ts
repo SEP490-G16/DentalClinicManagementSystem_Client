@@ -8,6 +8,7 @@ import { PatientService } from 'src/app/service/PatientService/patient.service';
 import { ReceptionistAppointmentService } from 'src/app/service/ReceptionistService/receptionist-appointment.service';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment-timezone';
+import {ResponseHandler} from "../../utils/libs/ResponseHandler";
 
 
 @Component({
@@ -216,6 +217,7 @@ export class ChangeAppointmentComponent implements OnInit {
       },
         (err) => {
           this.showErrorToast("Sửa lịch hẹn thất bại");
+          ResponseHandler.HANDLE_HTTP_STATUS(this.appointmentService.apiUrl+"/appointment/"+this.appointmentId_Pathparam,err)
         }
       )
   }

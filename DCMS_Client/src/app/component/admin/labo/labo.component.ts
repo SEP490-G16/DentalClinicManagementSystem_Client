@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ILabos } from 'src/app/model/ILabo';
 import { CognitoService } from 'src/app/service/cognito.service';
+import {ResponseHandler} from "../../utils/libs/ResponseHandler";
 
 @Component({
   selector: 'app-labo',
@@ -51,9 +52,10 @@ export class LaboComponent implements OnInit {
         this.loading=false;
         console.log("Labos", res.data);
       },
-        (err) => {
+        (error) => {
         this.loading=false;
-          this.showErrorToast('Lỗi khi lấy dữ liệu cho Labo')
+          //this.showErrorToast('Lỗi khi lấy dữ liệu cho Labo')
+          ResponseHandler.HANDLE_HTTP_STATUS(this.LaboService.apiUrl+"/labo", error);
         }
       )
     console.log(this.Labos);
@@ -74,16 +76,17 @@ export class LaboComponent implements OnInit {
           this.Labos.splice(index, 1);
         }
       },
-        (err) => {
-          console.log(err);
-          if (err.status === 0) {
-            this.showSuccessToast("Xóa Labo thành công!");
-            //window.location.reload();
-          }
-            if(err.status === 404) {
-              this.loading=false;
-              this.showErrorToast("Không tìm thấy Labo có Id: " + laboId);
-            }
+        (error) => {
+          // console.log(err);
+          // if (err.status === 0) {
+          //   this.showSuccessToast("Xóa Labo thành công!");
+          //   //window.location.reload();
+          // }
+          //   if(err.status === 404) {
+          //     this.loading=false;
+          //     this.showErrorToast("Không tìm thấy Labo có Id: " + laboId);
+          //   }
+          ResponseHandler.HANDLE_HTTP_STATUS(this.LaboService.apiUrl+"/labo/"+laboId, error);
         }
       )
     }

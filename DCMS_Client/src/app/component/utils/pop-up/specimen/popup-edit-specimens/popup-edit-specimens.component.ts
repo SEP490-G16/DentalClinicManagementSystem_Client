@@ -4,6 +4,7 @@ import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { PutSpecimen } from 'src/app/model/ISpecimens';
 import { CognitoService } from 'src/app/service/cognito.service';
+import {ResponseHandler} from "../../../libs/ResponseHandler";
 
 @Component({
   selector: 'app-popup-edit-specimens',
@@ -79,11 +80,12 @@ export class PopupEditSpecimensComponent implements OnInit {
         window.location.reload();
       },
 
-        (err) => {
+        (error) => {
           // console.log(err.err.message)
           this.loading = false;
           // this.showErrorToast(err.err.message)
-          this.showSuccessToast('Chỉnh sửa mẫu vật thành công!');
+          //this.showSuccessToast('Chỉnh sửa mẫu vật thành công!');
+          ResponseHandler.HANDLE_HTTP_STATUS(this.SpecimensService.apiUrl+"/medical-supply/"+this.id, error);
         }
       )
   }
