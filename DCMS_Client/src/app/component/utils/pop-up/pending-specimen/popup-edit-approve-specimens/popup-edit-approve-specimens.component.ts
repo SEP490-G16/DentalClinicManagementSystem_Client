@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges, AfterViewInit} from '@angular/core';
 import {MedicalSupplyService} from "../../../../../service/MedicalSupplyService/medical-supply.service";
 import {ToastrService} from "ngx-toastr";
 import {PatientService} from "../../../../../service/PatientService/patient.service";
@@ -10,7 +10,7 @@ import {ResponseHandler} from "../../../libs/ResponseHandler";
   templateUrl: './popup-edit-approve-specimens.component.html',
   styleUrls: ['./popup-edit-approve-specimens.component.css']
 })
-export class PopupEditApproveSpecimensComponent implements OnChanges {
+export class PopupEditApproveSpecimensComponent implements OnChanges  {
   @Input() id:any;
   @Input() specimens: any;
   @Input() approveSpecimensList:any;
@@ -25,6 +25,8 @@ export class PopupEditApproveSpecimensComponent implements OnChanges {
     totalPrice: '',
     orderDate:'',
     receiver:'',
+    patientId: '',
+    patientName:'',
     labo_id: '',
     total:''
   }
@@ -39,7 +41,6 @@ export class PopupEditApproveSpecimensComponent implements OnChanges {
     used_date:'',
     facility_id:'',
     patient_id:'',
-
     labo_id: '',
     status:'',
   }
@@ -77,23 +78,12 @@ export class PopupEditApproveSpecimensComponent implements OnChanges {
   ngOnInit(): void {
     this.getAllLabo();
   }
+
   calculateTotal() {
     const total = parseInt(this.specimen.quantity) * parseInt(this.specimen.price);
     this.specimen.total = total.toString();
   }
-  onsearch(){
-    this.patientSerivce.getPatientPhoneNumber(this.specimen.receiver).subscribe(data=>{
-      this.patients = data;
-      console.log(this.patients);
-    })
-  }
-  selectPatient(patient:any) {
-    // Thiết lập giá trị của input và ID của bệnh nhân
-    this.specimen.receiver = patient.patient_name;
-    this.patientId = patient.patient_id;
-    // Xóa danh sách kết quả
-    this.patients = [];
-  }
+
   convertTimestampToDateString(timestamp: any): string {
     const date = new Date(timestamp * 1000); // Nhân với 1000 để chuyển đổi từ giây sang mili giây
     const day = this.padZero(date.getDate());
@@ -143,12 +133,13 @@ export class PopupEditApproveSpecimensComponent implements OnChanges {
       const orderDatePart = orginalOrderDate.split(" ");
       const formattedOrderDate = orderDatePart[0];
       this.specimen.orderDate = formattedOrderDate;
-      this.specimen.receiver = this.specimens.p_patient_name;
+      this.specimen.patientName = this.specimens.p_patient_name;
       const orginalUsedDate = this.specimens.ms_used_date;
       const usedDatePart = orginalUsedDate.split(" ");
       const formattedUsedDate = usedDatePart[0];
       this.specimen.usedDate = formattedUsedDate;
       this.specimen.labo_id = this.specimens.lb_id;
+      this.specimen.patientId = this.specimens.p_patient_id;
     }
   }
   updateSpecimensRes(){
@@ -165,6 +156,41 @@ export class PopupEditApproveSpecimensComponent implements OnChanges {
     }
 
   }
+
+  getPatentByName(patientName: any) {
+    alert(patientName);
+    this.patientSerivce.getPatientByName(patientName, 1).subscribe(data => {
+      const transformedMaterialList = data.data.map((item:any) => {
+        return {
+          patientId: item.patient_id,
+          patientName: item.patient_name,
+          patientInfor: item.patient_name + " - "+ item.phone_number,
+        };
+      });
+      this.patientList = transformedMaterialList;
+    })
+  }
+
+  patientList:any [] = [];
+  onsearch(event:any) {
+    console.log(event.target.value)
+    this.specimen.patientName = event.target.value;
+  
+    this.patientSerivce.getPatientByName(this.specimen.patientName, 1).subscribe(data => {
+      const transformedMaterialList = data.data.map((item:any) => {
+        return {
+          patientId: item.patient_id,
+          patientName: item.patient_name,
+          patientInfor: item.patient_name + " - "+ item.phone_number,
+        };
+      });
+      this.patientList = transformedMaterialList;
+    })
+  }
+
+  selectedPatient: any;
+  isCheckSelectedPatient: boolean = true;
+  temporaryName: string='';
 
   updateApproveSpecimens(){
     this.resetValidate();
@@ -231,7 +257,7 @@ export class PopupEditApproveSpecimensComponent implements OnChanges {
       received_date:receivedDateTimestamp,
       used_date: userDateTimestamp,
       facility_id:'F-01',
-      patient_id:this.patientId,
+      patient_id:this.selectedPatient.patient_id,
       labo_id: this.specimen.labo_id,
       status:'1',
     }

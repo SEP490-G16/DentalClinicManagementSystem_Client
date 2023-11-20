@@ -18,6 +18,7 @@ export class SpecimensComponent implements OnInit {
   SpecimensRoot: SpecimensRoot;
   currentPage: number = 1;
   hasNextPage: boolean = false;
+
   labos:any[] = [];
   laboFilter: any = null;
 

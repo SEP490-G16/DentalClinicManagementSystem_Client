@@ -64,7 +64,7 @@ export class PopupAddSpecimensComponent implements OnInit {
   }
   labos: any;
   patients: any[] = [];
-  patientId: any;
+  patientIdSelected: any;
   isSubmitted: boolean = false;
   loading: boolean = false;
   constructor(private medicalSupplyService: MedicalSupplyService,
@@ -170,6 +170,7 @@ export class PopupAddSpecimensComponent implements OnInit {
     let orderDateTimestamp = this.dateToTimestamp(this.specimen.orderDate);
     let receivedDateTimestamp = this.dateToTimestamp(this.specimen.receiverDate);
     let userDateTimestamp = this.dateToTimestamp(this.specimen.usedDate);
+
     this.specimenBody = {
       name: this.specimen.name,
       type: this.specimen.type,
@@ -179,7 +180,7 @@ export class PopupAddSpecimensComponent implements OnInit {
       quantity: this.specimen.quantity,
       unit_price: this.specimen.price,
       order_date: orderDateTimestamp,
-      patient_id: this.patientId,
+      patient_id: this.patientIdSelected,
       facility_id: 'F-01',
       labo_id: this.specimen.labo
     }
@@ -211,7 +212,6 @@ export class PopupAddSpecimensComponent implements OnInit {
     console.log(event.target.value)
     //console.log(this.specimen.receiver)
     this.specimen.receiver = event.target.value;
-
     this.patientSerivce.getPatientByName(this.specimen.receiver, 1).subscribe(data => {
       const transformedMaterialList = data.data.map((item:any) => {
         return {
@@ -227,13 +227,13 @@ export class PopupAddSpecimensComponent implements OnInit {
       }
       )
   }
-  selectPatient(patient: any) {
-    // Thiết lập giá trị của input và ID của bệnh nhân
-    this.specimen.receiver = patient.patient_name;
-    this.patientId = patient.patient_id;
-    // Xóa danh sách kết quả
-    this.patients = [];
-  }
+  // selectPatient(patient: any) {
+  //   // Thiết lập giá trị của input và ID của bệnh nhân
+  //   this.specimen.receiver = patient.patient_name;
+  //   this.patientId = patient.patient_id;
+  //   // Xóa danh sách kết quả
+  //   this.patients = [];
+  // }
   private resetValidate() {
     this.validateSpecimens = {
       name: '',

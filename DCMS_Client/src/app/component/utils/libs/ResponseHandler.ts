@@ -9,6 +9,7 @@ enum HttpStatus {
     NotAllowMethod = 405,
     RequestTimeOut = 408,
     Conflict = 409,
+
     TooManyRequests = 429,
     BadGateWay = 502,
     GatewayTimeOut = 504

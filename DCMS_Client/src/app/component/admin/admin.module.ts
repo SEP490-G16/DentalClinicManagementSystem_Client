@@ -5,16 +5,11 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
-
-
 import { SharedModule } from '../shared/shared.module';
 import { AdminComponent } from './admin.component';
 import { FacilityComponent } from './facility/facility.component';
 import { LaboComponent } from './labo/labo.component';
 import { MaterialComponent } from './material/material.component';
-import { MedicineComponent } from './medicine/medicine.component';
-import { PendingMaterialComponent } from './pending-material/pending-material.component';
 import { PendingSpecimensComponent } from './pending-specimens/pending-specimens.component';
 import { ServiceComponent } from './service/service.component';
 import { SpecimensComponent } from './specimens/specimens.component';
@@ -39,8 +34,6 @@ import { PopupAddServiceComponent } from '../utils/pop-up/service/popup-add-serv
 import { PopupDeleteGroupServiceComponent } from '../utils/pop-up/service/popup-delete-group-service/popup-delete-group-service.component';
 import { PopupAddGroupServiceComponent } from '../utils/pop-up/service/popup-add-group-service/popup-add-group-service.component';
 import { PopupAddSpecimensComponent } from '../utils/pop-up/specimen/popup-add-specimens/popup-add-specimens.component';
-import { PopupDeleteMedicineComponent } from './medicine/popup-delete-medicine/popup-delete-medicine.component';
-import { PopupAddMedicineComponent } from './medicine/popup-add-medicine/popup-add-medicine.component';
 import { PopupDeleteMaterialComponent } from '../utils/pop-up/material/popup-delete-material/popup-delete-material.component';
 import { PopupAddMaterialComponent } from '../utils/pop-up/material/popup-add-material/popup-add-material.component';
 import { PopupAddLaboComponent } from '../utils/pop-up/labo/popup-add-labo/popup-add-labo.component';
@@ -55,8 +48,6 @@ import { PopupEditApproveSpecimensComponent } from '../utils/pop-up/pending-spec
 import { PopupEditFacilityComponent } from '../utils/pop-up/Facility/popup-edit-facility/popup-edit-facility.component';
 import { PopupEditStaffComponent } from '../utils/pop-up/staff/popup-edit-staff/popup-edit-staff.component';
 import { PopupEditMaterialComponent } from '../utils/pop-up/material/popup-edit-material/popup-edit-material.component';
-import { PopupEditMedicineComponent } from './medicine/popup-edit-medicine/popup-edit-medicine.component';
-
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlatpickrModule } from 'angularx-flatpickr';
@@ -78,8 +69,6 @@ import {NgChartsModule} from "ng2-charts";
       FacilityComponent,
       LaboComponent,
       MaterialComponent,
-      MedicineComponent,
-      PendingMaterialComponent,
       PendingSpecimensComponent,
       ServiceComponent,
       SpecimensComponent,
@@ -95,8 +84,6 @@ import {NgChartsModule} from "ng2-charts";
       PopupDeleteServiceComponent,
       PopupAddGroupServiceComponent,
       PopupDeleteGroupServiceComponent,
-      PopupDeleteMedicineComponent,
-      PopupAddMedicineComponent,
       PopupAddMaterialComponent,
       PopupDeleteMaterialComponent,
       PopupAddLaboComponent,
@@ -118,7 +105,6 @@ import {NgChartsModule} from "ng2-charts";
       PopupEditFacilityComponent,
       PopupEditStaffComponent,
       PopupEditMaterialComponent,
-      PopupEditMedicineComponent,
       PopupEditBillImportMaterialComponent,
       FollowingTimekeepingComponent,
       vnDateTimeFormatPipe,

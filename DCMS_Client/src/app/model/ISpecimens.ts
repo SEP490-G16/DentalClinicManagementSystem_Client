@@ -31,7 +31,8 @@ export interface PutSpecimen {
   ms_order_date?: string
   ms_orderer: string
   ms_received_date?: string
-  ms_receiver?: string
+  ms_receiver?: string,
+  ms_use_date: string,
   ms_warranty: any
   ms_description: any
   ms_status: number

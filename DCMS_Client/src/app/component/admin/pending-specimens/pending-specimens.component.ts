@@ -114,7 +114,7 @@ export class PendingSpecimensComponent implements OnInit {
   openEditApproveSpecimens(id:any, specimens:any){
     this.id = id;
     this.specimen = specimens;
-    console.log(specimens);
+    console.log("CheckpatientId",specimens);
     return;
   }
 

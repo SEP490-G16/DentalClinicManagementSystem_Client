@@ -67,6 +67,7 @@ export class PatientRecordsComponent implements OnInit {
       }
     }, error => {
        ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test+"/patient/name/"+this.search+"/"+this.pagingSearch.paging, error)
+
     }
     )
   }

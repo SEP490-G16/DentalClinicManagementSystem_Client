@@ -2,31 +2,28 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
 
-<div class="recent-orders">
-  <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px; margin-bottom: 20px">Thủ thuật</h2>
-
+<div class="sep-recent-orders">
   <div class="row">
-    <div class="col-2" style="margin-top: 10px;">
+    <div class="col-2">
       <div class="form-group form-group-filter">
-        <button href="#" class="btn button-timekeeping float-right" data-bs-toggle="modal"
+        <button href="#" class="btn button-add btn-add-group-service float-right" data-bs-toggle="modal"
           data-bs-target="#addGroupModal"><i class="bi bi-plus-circle"></i> Thêm mới
         </button>
       </div>
     </div>
     <div class="col-3"></div>
 
-    <div class="col-5" style="margin-top: 10px;">
+    <div class="col-5">
       <section class="table__header">
-        <h1></h1>
         <div class="input-group">
           <input type="search search-custom" placeholder="Tìm kiếm" [(ngModel)]="searchTerm"
             (input)="onSearchInputChange()">
         </div>
       </section>
     </div>
-    <div class="col-2" style="margin-top: 10px;">
-      <button href="#" class="btn button-timekeeping float-end" data-bs-toggle="modal" data-bs-target="#addServiceModal"
-        style="margin-right: 1rem"><i class="bi bi-plus-circle"></i> Thêm mới
+    <div class="col-2">
+      <button href="#" class="btn button-add btn-add-service float-end" data-bs-toggle="modal"
+        data-bs-target="#addServiceModal" style="margin-right: 1rem"><i class="bi bi-plus-circle"></i> Thêm mới
       </button>
     </div>
   </div>
@@ -40,11 +37,10 @@
             <th class="text-center">Thao tác</th>
           </tr>
         </thead>
-        <tbody>
-          <tr *ngFor="let t of medicalProcedureGroups" [ngClass]="{'new-recordd': t.isNew,'pulsee': t.isPulsing}">
+        <tbody class="groupservice-body">
+          <tr *ngFor="let t of medicalProcedureGroups" [ngClass]="{'new-recordd': t.isNew,'pulsee': t.isPulsing}" (click)="getMedicalProcedureList(t.medical_procedure_group_id)">
             <td>{{t.medical_procedure_group_id}}</td>
-            <td><a (click)="getMedicalProcedureList(t.medical_procedure_group_id)"
-                class="title-group-service">{{t.name}}</a></td>
+            <td><a class="title-group-service">{{t.name}}</a></td>
             <td class="text-center">
               <button href="#" class="btn btn-primary float-right btn-rounded" data-bs-toggle="modal"
                 data-bs-target="#editGroupModal"

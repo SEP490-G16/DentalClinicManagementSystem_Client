@@ -41,179 +41,31 @@
   box-sizing: border-box;
 }
 
-.web-wrapper {
-  font-size: 14px;
-  width: 100vw;
-  height: 100vh;
-  font-family: 'Poppins', sans-serif;
-  font-size: 0.88rem;
-  user-select: none;
-  overflow-x: hidden;
-  color: var(--custom-color-dark);
-  background-color: #f6f6f9;
-}
-
 a {
   color: var(--custom-color-dark);
 }
 
-img {
-  display: block;
-  width: 100%;
-  object-fit: cover;
+.btn-date-cus {
+  padding: 14px;
+  border: 1px solid #000;
+  border-radius: 0.25rem;
+  margin-right: 30px;
 }
 
-h1 {
-  font-weight: 800;
-  font-size: 1.8rem;
-}
-
-h2 {
-  font-weight: 600;
-  font-size: 1.2rem;
-}
-
-h3 {
-  font-weight: 500;
-  font-size: 0.87rem;
-}
-
-small {
-  font-size: 0.76rem;
-}
-
-p {
-  color: var(--custom-color-dark-variant);
-}
-
-b {
-  color: var(--custom-color-dark);
-}
-
-.text-muted {
-  color: var(--custom-color-info-dark);
-}
-
-.primary {
-  color: var(--custom-color-primary);
-}
-
-.danger {
-  color: var(--custom-color-danger);
-}
-
-.success {
-  color: var(--custom-color-success);
-}
-
-.warning {
-  color: var(--custom-color-warning);
-}
-.recent-orders {
-  margin-top: 1.3rem;
-}
-
-.recent-orders h2 {
-  margin-bottom: 0.8rem;
-}
-
-.recent-orders table {
-  background-color: var(--custom-color-white);
-  width: 100%;
-  padding: var(--custom-card-padding);
+.a-custom{
   text-align: center;
-  box-shadow: var(--custom-box-shadow);
-  border-radius: var(--custom-card-border-radius);
-  transition: all 0.3s ease;
 }
 
-.recent-orders table:hover {
-  box-shadow: none;
+.btn.btn-outline-primary.bi.bi-calendar3:hover {
+  background-color: initial; /* Giá trị mặc định cho background-color */
+  color: initial; /* Giá trị mặc định cho color */
 }
-
-table thead th {
-  height: 2.8rem;
-  color: var(--custom-color-dark-variant);
+.datetime{
+  margin-left: 10px;
 }
-
-table tbody td {
-  height: 2.8rem;
-  color: var(--custom-color-dark-variant);
+.datetime label{
+  margin-right: 5px;
 }
-
-table tbody tr:last-child td {
-  border: none;
-}
-
-.recent-orders a {
-  text-align: start;
-  display: block;
-  margin: 1rem auto;
-}
-.recent-orders a:active {
-  text-align: start;
-  display: block;
-  margin: 1rem auto;
-}
-
-@media screen and (max-width: 1200px) {
-  .container-custom {
-    width: 95%;
-    grid-template-columns: 7rem auto 23rem;
-  }
-
-.recent-orders {
-    width: 94%;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    margin: 2rem 0 0 0.8rem;
-  }
-
-.recent-orders table {
-    width: 83vw;
-  }
-
-table thead tr th:last-child,
-table thead tr th:first-child {
-    display: none;
-  }
-
-table tbody tr td:last-child,
-table tbody tr td:first-child {
-    display: none;
-  }
-
-}
-
-@media screen and (max-width: 768px) {
-  .container-custom {
-    width: 100%;
-    grid-template-columns: 1fr;
-    padding: 0 var(--custom-padding-1);
-  }
-
-
-  @keyframes showMenu {
-    to {
-      left: 0;
-    }
-  }
-
-.recent-orders {
-    position: relative;
-    margin: 3rem 0 0 0;
-    width: 100%;
-  }
-
-.recent-orders table {
-    width: 100%;
-    margin: 0;
-  }
-
-}
-
-
 .date-input-custom {
   padding: 10px 20px;
   border: 1px solid #7B4C50;
@@ -225,182 +77,15 @@ table tbody tr td:first-child {
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
 }
-
-.btn-date-cus {
-  padding: 14px;
-  border: 1px solid #000;
-  border-radius: 0.25rem;
-  margin-right: 30px;
-}
-
-.button-timekeeping{
+.button-add{
   font-family: "Poppins", sans-serif;
   background: #664FC3;
   text-align: center;
+  cursor: pointer;
   border: 0px solid white;
   color: white;
   font-weight: bold;
-  /*font-size: 24px;*/
   outline: 0px;
   padding: 10px 20px;
   margin-bottom: 15px;
-  /* box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset; */
-}
-button:hover{
-  opacity: 0.9;
-}
-button:active{
-  transform: translateY(4px);
-}
-
-.time-clockin {
-  color: #1B9C85;
-}
-
-.time-clockout {
-  color: red;
-}
-.page-title{
-  color: #1E1E1E;
-}
-.page-title:active:hover{
-  color: #1c42af;
-}
-.table-container{
-  max-height: 580px;
-  overflow-y: auto;
-  overflow-x: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #c0c0c0 #f0f0f0;
-  border-radius: 10px;
-  -ms-overflow-style: none;
-}
-.table-container::-webkit-scrollbar {
-  width: 5px; /* Thay đổi kích thước thanh cuộn ngang */
-  height: 5px; /* Thay đổi kích thước thanh cuộn dọc */
-}
-
-.table-container::-webkit-scrollbar-track {
-  background: #f1f1f1; /* Màu nền của track */
-}
-
-.table-container::-webkit-scrollbar-thumb {
-  background: #bebdbd; /* Màu của thumb */
-  border-radius: 10px; /* Bo tròn góc của thumb */
-}
-
-.table-container::-webkit-scrollbar-thumb:hover {
-  background: #8c8a8a; /* Màu của thumb khi hover */
-}
-.table-container {
-  scrollbar-width: thin; /* 'auto' hoặc 'thin' */
-  scrollbar-color: #888 #f1f1f1; /* thumb và track */
-}
-.sticky-thead {
-  position: sticky;
-  top: 0; /* Giữ phần thead ở vị trí trên cùng khi cuộn */
-  background-color: white;
-  z-index: 1; /* Đảm bảo phần thead nằm trên cùng của bảng */
-}
-.table-container {
-  position: relative;
-}
-@media only screen and (min-width: 2000px) {
-  .table-container{
-    max-height: 700px;
-    overflow-y: auto;
-    overflow-x: auto;
-    scrollbar-width: thin;
-    scrollbar-color: #c0c0c0 #f0f0f0;
-    border-radius: 10px;
-    -ms-overflow-style: none;
-  }
-  .table-container::-webkit-scrollbar {
-    width: 5px; /* Thay đổi kích thước thanh cuộn ngang */
-    height: 5px; /* Thay đổi kích thước thanh cuộn dọc */
-  }
-
-  .table-container::-webkit-scrollbar-track {
-    background: #f1f1f1; /* Màu nền của track */
-  }
-
-  .table-container::-webkit-scrollbar-thumb {
-    background: #bebdbd; /* Màu của thumb */
-    border-radius: 10px; /* Bo tròn góc của thumb */
-  }
-
-  .table-container::-webkit-scrollbar-thumb:hover {
-    background: #8c8a8a; /* Màu của thumb khi hover */
-  }
-  .table-container {
-    scrollbar-width: thin; /* 'auto' hoặc 'thin' */
-    scrollbar-color: #888 #f1f1f1; /* thumb và track */
-  }
-  .sticky-thead {
-    position: sticky;
-    top: 0; /* Giữ phần thead ở vị trí trên cùng khi cuộn */
-    background-color: white;
-    z-index: 1; /* Đảm bảo phần thead nằm trên cùng của bảng */
-  }
-  .table-container {
-    position: relative;
-  }
-  .truncate {
-    max-width: 200px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .page-title.active-link {
-    color: blue; /* hoặc màu khác bạn muốn sử dụng cho đường dẫn được chọn */
-  }
-  .page-title:hover {
-    color: blue; /* Màu khi di chuột vào liên kết không được chọn */
-  }
-  .page-title {
-    color: black; /* Màu mặc định cho liên kết không được chọn */
-    text-decoration: none; /* Loại bỏ gạch chân mặc định của liên kết */
-    transition: color 0.3s; /* Hiệu ứng chuyển đổi màu sắc */
-  }
-  .recent-orders{
-    margin-top: 6rem;
-  }
-  .filter-row{
-    margin-top: 1.5rem !important;
-  }
-}
-.truncate {
-  max-width: 200px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.page-title.active-link {
-  color: blue; /* hoặc màu khác bạn muốn sử dụng cho đường dẫn được chọn */
-}
-.page-title:hover {
-  color: blue; /* Màu khi di chuột vào liên kết không được chọn */
-}
-.page-title {
-  color: black; /* Màu mặc định cho liên kết không được chọn */
-  text-decoration: none; /* Loại bỏ gạch chân mặc định của liên kết */
-  transition: color 0.3s; /* Hiệu ứng chuyển đổi màu sắc */
-}
-.a-custom{
-  text-align: center;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-.btn.btn-outline-primary.bi.bi-calendar3:hover {
-  background-color: initial; /* Giá trị mặc định cho background-color */
-  color: initial; /* Giá trị mặc định cho color */
-}
-.datetime{
-  margin-left: 10px;
-}
-.datetime label{
-  margin-right: 5px;
 }
