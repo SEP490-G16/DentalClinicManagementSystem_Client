@@ -36,6 +36,7 @@ export class PopupEditSpecimensComponent implements OnInit {
       ms_orderer: "",
       ms_received_date: "",
       ms_receiver: "",
+      ms_use_date: "",
       ms_warranty: "",
       ms_description: "",
       ms_status: 0,
@@ -52,9 +53,9 @@ export class PopupEditSpecimensComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['PutSpecimen'].currentValue) {
       console.log(changes['PutSpecimen']);
-      this.IPutSpecimens = this.PutSpecimen;
       this.IPutSpecimens.ms_order_date = this.IPutSpecimens.ms_order_date?.split(" ")[0];
       this.IPutSpecimens.ms_received_date = this.IPutSpecimens.ms_received_date?.split(" ")[0];
+      this.IPutSpecimens.ms_use_date = this.IPutSpecimens.ms_use_date?.split(" ")[0];
       if (this.IPutSpecimens.ms_quantity !== undefined && this.IPutSpecimens.ms_unit_price !== undefined) {
         this.total = this.IPutSpecimens.ms_quantity * this.IPutSpecimens.ms_unit_price;
       }

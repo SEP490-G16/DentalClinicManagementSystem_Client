@@ -14,11 +14,10 @@
         <div class="modal-body">
           <div class="row">
             <div class="col-md-3">
-              <div class="image-container" (click)="fileInput.click()">
+              <div class="image-container">
                 <img [src]="imageURL" alt="Ảnh nhân viên">
-                <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput style="display: none;">
+                <input type="file" accept="image/*" #fileInput style="display: none;">
               </div>
-
             </div>
 
             <div class="col-md-8">
@@ -105,10 +104,10 @@
                 </div>
                 <div class="col-md-9">
                   <select id="role" [(ngModel)]="role" class="form-select" aria-label="Default select example" disabled>
-                    <option value="1" selected>Bác sĩ</option>
-                    <option value="2">Lễ tân</option>
-                    <option value="3">Y tá</option>
-                    <option value="4">Y tá trưởng</option>
+                    <option value="2">Bác sĩ</option>
+                    <option value="3">Lễ tân</option>
+                    <option value="4">Y tá</option>
+                    <option value="5">Y tá trưởng</option>
                   </select>
                 </div>
               </div>
@@ -119,13 +118,14 @@
                   <label for="phone">Giới tính</label>
                 </div>
                 <div class="form-group col-md-9">
-                  <input type="radio" class="radio m-2" [(ngModel)]="staff.gender"  [value]="1" id="male" name="male">Nam
-                  <input type="radio" class="radio m-2" [(ngModel)]="staff.gender" [value]="0" id="female" name="female"> Nữ
-                  <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
-                    <p>
-                      {{vailidateStaff.gender}}
-                    </p>
-                  </div>
+                  <ng-container *ngIf="staff.gender == 'male'">
+                    <input type="radio" class="radio m-2" id="male" name="gender" checked>Nam
+                    <input type="radio" class="radio m-2" id="female" name="gender"> Nữ
+                  </ng-container>
+                  <ng-container *ngIf="staff.gender == 'female'">
+                    <input type="radio" class="radio m-2" id="male" name="gender">Nam
+                    <input type="radio" class="radio m-2" id="female" name="gender" checked> Nữ
+                  </ng-container>
                 </div>
               </div>
             </div>

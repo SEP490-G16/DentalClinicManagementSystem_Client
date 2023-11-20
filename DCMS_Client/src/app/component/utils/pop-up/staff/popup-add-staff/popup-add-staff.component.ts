@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CognitoService } from 'src/app/service/cognito.service';
+import * as moment from 'moment-timezone';
 
 @Component({
   selector: 'app-popup-add-staff',
@@ -28,9 +29,10 @@ export class PopupAddStaffComponent implements OnInit {
     passwordRepate:''
   }
   isSubmitted:boolean = false;
-
-  role:string = "1"
+  gender: string = "male";
+  role:string = "0";
   staff:IStaff;
+
   constructor(
     private cognitoService:CognitoService,
 
@@ -46,6 +48,7 @@ export class PopupAddStaffComponent implements OnInit {
   }
 
   addSTAFF() {
+    console.log("skdjb", this.staff);
     this.resetValidate();
     if(!this.staff.name){
       this.vailidateStaff.name = "Vui lòng nhập tên nhân viên!";
@@ -67,16 +70,8 @@ export class PopupAddStaffComponent implements OnInit {
       this.vailidateStaff.phone = "Số điện thoại không hợp lệ!";
       this.isSubmitted = true;
     }
-    if (this.staff.email && !this.isValidEmail(this.staff.email)){
+    if (!this.staff.email && !this.isValidEmail(this.staff.email)){
       this.vailidateStaff.email = "Email không hợp lệ!";
-      this.isSubmitted = true;
-    }
-    if (!this.staff.role){
-      this.vailidateStaff.role = "Vui lòng chọn vai trò!";
-      this.isSubmitted = true;
-    }
-    if (!this.staff.gender){
-      this.vailidateStaff.gender = "Vui lòng chọn giới tính!";
       this.isSubmitted = true;
     }
     if (!this.staff.username){
@@ -87,6 +82,18 @@ export class PopupAddStaffComponent implements OnInit {
       this.vailidateStaff.password = "Vui lòng nhập mật khẩu!";
       this.isSubmitted = true;
     }
+
+    if (this.staff.password.length < 8) {
+      this.vailidateStaff.password = "Mật khẩu phải dài hơn 8 ký tự !";
+      this.isSubmitted = true;
+    } 
+
+    if (!this.isCheckPassword(this.staff.password)) {
+      this.vailidateStaff.password = "Mật khẩu phải có ký tự đặc biệt, ký tự hoa, thường và chứa số!";
+      this.isSubmitted = true;
+    }
+
+
     if (!this.passwordRepeat){
       this.vailidateStaff.passwordRepate = "Nhập lại mật khẩu!";
       this.isSubmitted = true;
@@ -94,12 +101,18 @@ export class PopupAddStaffComponent implements OnInit {
     else if (this.passwordRepeat!==this.staff.password){
       this.vailidateStaff.passwordRepate = "Mật khẩu không khớp!";
     }
+    this.staff.role = this.role;
+    this.staff.gender = this.gender;
+    this.staff.image = this.imageURL;
+    this.staff.DOB = this.dateToTimestamp(this.staff.DOB)+'';
+    this.staff.facilityId = "F-21";
+    this.staff.status = "1";
     if (this.isSubmitted){
       return;
     }
-    console.log(this.staff);
     this.cognitoService.addStaff(this.staff)
       .then((response) => {
+        window.location.reload();
         this.showSuccessToast('Thêm nhân viên thành công')
       })
       .catch((error) => {
@@ -107,8 +120,6 @@ export class PopupAddStaffComponent implements OnInit {
         this.showSuccessToast('Thêm nhân viên thất bại')
       });
   }
-
-
 
   onFileSelected(event: any) {
     const fileInput = event.target;
@@ -150,11 +161,14 @@ export class PopupAddStaffComponent implements OnInit {
     this.showPasswordRepeat = !this.showPasswordRepeat;
   }
   private isVietnamesePhoneNumber(number:string):boolean {
-    return /^(\+84|84|0)?[1-9]\d{8}$/
+    return /^(\+84|84)?[1-9]\d{8}$/
       .test(number);
   }
+
+  private isCheckPassword(password:string):boolean {
+    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/.test(password);
+  }
   private isValidEmail(email: string): boolean {
-    // Thực hiện kiểm tra địa chỉ email ở đây, có thể sử dụng biểu thức chính quy
     return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email);
   }
   private resetValidate(){
@@ -171,6 +185,13 @@ export class PopupAddStaffComponent implements OnInit {
       passwordRepate:''
     }
     this.isSubmitted = false;
+  }
+
+  dateToTimestamp(dateStr: string): number {
+    const format = 'YYYY-MM-DD HH:mm'; // Định dạng của chuỗi ngày   const format = 'YYYY-MM-DD HH:mm:ss';
+    const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
+    var timestamp = moment.tz(dateStr, format, timeZone).valueOf() / 1000;
+    return timestamp;
   }
 
 }

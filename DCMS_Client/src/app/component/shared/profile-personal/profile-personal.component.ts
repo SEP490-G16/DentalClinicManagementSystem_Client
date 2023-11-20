@@ -31,7 +31,7 @@ export class ProfilePersonalComponent implements OnInit {
       address: "asdsdsadsadsa",
       description: "dâs",
       DOB: "2023-11-04",
-      status: 1,
+      status: "1",
       image: "abc"
     } as IStaff;
   }
@@ -83,7 +83,7 @@ export class ProfilePersonalComponent implements OnInit {
     if (this.isSubmitted){
       return;
     }
-    this.staff.status = parseInt(this.status);
+    this.staff.status = this.status;
     this.cognitoService.updateUserAttributes(this.staff_id_temp, this.staff)
       .then((response) => {
         this.showSuccessToast('Cập nhật thông tin thành công');

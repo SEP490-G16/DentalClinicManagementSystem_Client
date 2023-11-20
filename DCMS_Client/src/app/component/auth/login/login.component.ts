@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IUser } from 'src/app/model/IUser';
 import { CognitoService } from 'src/app/service/cognito.service';
 // import { OAuthService, JwksValidationHandler } from 'angular-oauth2-oidc';
+import { Auth } from 'aws-amplify';
 
 @Component({
   selector: 'app-login',
@@ -132,6 +133,18 @@ export class LoginComponent implements OnInit {
       this.renderer.removeClass(container, 'active');
     }
   }
+
+  users: any[] = [];
+
+  // async getUsers() {
+  //   try {
+  //     const { Users } = await Auth.listUsers();
+  //     this.users = Users;
+  //     console.log('List of users:', this.users);
+  //   } catch (error) {
+  //     console.log('Error:', error);
+  //   }
+  // }
 
 
 }

@@ -3,13 +3,14 @@ export interface IStaff {
   email:string;
   phone: string;
   name:string;
-  role: number;
+  role: string;
   sub:string;
   password:string;
   DOB:string;
   address:string;
   description:string;
   gender:string;
-  status:number;
-  image:string
+  status: string;
+  image:string | ArrayBuffer;
+  facilityId: string;
 }

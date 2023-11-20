@@ -172,7 +172,7 @@
                     <li *ngFor="let patient of patients" (click)="selectPatient(patient)">{{ patient.patient_name }}</li>
                   </ul> -->
 
-                  <ng-select [items]="patientList" bindLabel="patientInfor" bindValue="patientId" (keyup)="onsearch($event)"
+                  <ng-select [items]="patientList" bindLabel="patientInfor" [(ngModel)]="patientIdSelected" bindValue="patientId" (keyup)="onsearch($event)"
                              [notFoundText]="'Không tìm thấy bệnh nhân'">
                         
                   </ng-select>
