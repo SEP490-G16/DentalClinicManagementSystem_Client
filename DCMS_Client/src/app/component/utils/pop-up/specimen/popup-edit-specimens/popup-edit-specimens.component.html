@@ -31,26 +31,34 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
+                <label for="orderdate" class="col-3 name-title">Ngày đặt:</label>
+                <div class="col-9 value-staff">
+                  <input type="date" [(ngModel)]="IPutSpecimens.ms_order_date" class="form-control date-input-custom"
+                    id="orderdate" name="orderdate">
+                </div>
+              </div>
+              <div class="form-group row mt-3">
                 <label for="receiverdate" class="col-3 name-title">Ngày nhận:</label>
                 <div class="col-9 value-staff">
                   <input type="date" [(ngModel)]="IPutSpecimens.ms_received_date" class="form-control date-input-custom"
                     id="receiverdate" name="receiverdate">
-                </div>
-
-              </div>
-              <div class="form-group row mt-3">
-                <label for="orderby" class="col-3 name-title">Người đặt:</label>
-                <div class="col-9 value-staff">
-                  <input type="text" [(ngModel)]="IPutSpecimens.ms_orderer" class="form-control" id="orderby"
-                    name="orderby">
                 </div>
               </div>
               <div class="form-group row mt-3">
                 <label for="installationdate" class="col-3 name-title">Ngày lắp:</label>
                 <div class="col-9 value-staff">
                   <input type="date" class="form-control date-input-custom" id="installationdate"
-                    name="installationdate">
+                    name="installationdate" [(ngModel)]="IPutSpecimens.ms_use_date">
                 </div>
+              </div>
+              <div class="form-group row mt-3">
+                <label for="patient" class="col-3 name-title">Labo:</label>
+                <select class="form-select p-2" style="margin-left: 10px; width: 71%; border: 1px solid #664FC3;
+              border-radius: 10px;" aria-label="Default select example" [(ngModel)]="IPutSpecimens.lb_id"
+                 >
+                 <option *ngFor="let labo of Labos" [value]="labo.labo_id">{{labo.name}}</option>
+                  <option value="null">Không có Labo</option>
+                </select>
               </div>
             </div>
             <div class="col-md-6">
@@ -75,10 +83,10 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="orderdate" class="col-3 name-title">Ngày đặt:</label>
+                <label for="orderby" class="col-3 name-title">Người đặt:</label>
                 <div class="col-9 value-staff">
-                  <input type="date" [(ngModel)]="IPutSpecimens.ms_order_date" class="form-control date-input-custom"
-                    id="orderdate" name="orderdate">
+                  <input type="text" [(ngModel)]="IPutSpecimens.ms_orderer" class="form-control" id="orderby"
+                    name="orderby">
                 </div>
               </div>
               <div class="form-group row mt-3">
@@ -96,15 +104,6 @@
                     <option value="1">Chưa nhận </option>
                   </select>
                 </div>
-              </div>
-              <div class="form-group row mt-3">
-                <label for="patient" class="col-3 name-title">Labo:</label>
-                <select class="form-select p-2" style="margin-left: 10px; width: 45%; border: 1px solid #664FC3;
-              border-radius: 10px;" aria-label="Default select example" [(ngModel)]="IPutSpecimens.lb_id"
-                 >
-                 <option *ngFor="let labo of Labos" [value]="labo.labo_id">{{labo.name}}</option>
-                  <option value="null">Không có Labo</option>
-                </select>
               </div>
             </div>
 

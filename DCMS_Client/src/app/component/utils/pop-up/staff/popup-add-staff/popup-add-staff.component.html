@@ -120,7 +120,8 @@
                   <select id="role"
                   [(ngModel)]="role"
                   class="form-select" aria-label="Default select example">
-                    <option value="1" selected>Bác sĩ</option>
+                    <option value="0" selected>Chức vụ</option>
+                    <option value="1">Bác sĩ</option>
                     <option value="2">Lễ tân</option>
                     <option value="3">Y tá</option>
                     <option value="4">Y tá trưởng</option>
@@ -140,9 +141,9 @@
                 </div>
                 <div class="col-md-9">
                   <label for="male">Nam</label>
-                  <input type="radio" class="radio m-2" [(ngModel)]="staff.gender" id="male" name="male">
+                  <input type="radio" class="radio m-2" [(ngModel)]="gender" id="male" name="gender" value="male">
                   <label for="female">Nữ</label>
-                  <input type="radio" class="radio m-2" id="female" name="female">
+                  <input type="radio" class="radio m-2" [(ngModel)]="gender" id="female" name="gender" value="female">
                   <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
                     <p>
                       {{vailidateStaff.gender}}
@@ -211,9 +212,8 @@
         <!-- Modal footer -->
         <div class="modal-footer">
           <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
-          <button type="button" class="btn btn-save" data-bs-dismiss="modal" (click)="addSTAFF()"><i class="bi bi-floppy2"></i> Lưu</button>
+          <button type="button" class="btn btn-save" (click)="addSTAFF()"><i class="bi bi-floppy2"></i>Thêm mới</button>
         </div>
-
       </div>
     </div>
   </div>

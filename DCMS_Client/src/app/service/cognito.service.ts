@@ -7,6 +7,8 @@ import { environment } from 'src/environments/environment';
 import * as AWS from 'aws-sdk';
 import { IStaff } from '../model/Staff';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +18,7 @@ export class CognitoService {
 
   cognitoUser: ICognitoUser;
 
-  constructor(private router:Router) {
+  constructor(private router:Router, private http: HttpClient) {
     this.cognitoUser = {} as ICognitoUser;
 
     Amplify.configure({
@@ -75,24 +77,48 @@ export class CognitoService {
 
 
 
-  listUsers() {
-    const cognitoIdentityServiceProvider = new AWS.CognitoIdentityServiceProvider();
+  //listUsers() {
+    // const cognitoIdentityServiceProvider = new AWS.CognitoIdentityServiceProvider();
 
-    const params = {
-      UserPoolId: environment.cognito.userPoolId,
-    };
+    // const params = {
+    //   UserPoolId: environment.cognito.userPoolId,
+    // };
 
-    return new Promise((resolve, reject) => {
-      cognitoIdentityServiceProvider.listUsers(params, (err, data) => {
-        if (err) {
-          console.error('Lỗi:', err);
-          reject(err);
-        } else {
-          console.log('Danh sách người dùng:', data);
-          resolve(data);
-        }
-      });
+    // console.log("đã vô nha");
+
+    // return new Promise((resolve, reject) => {
+    //   cognitoIdentityServiceProvider.listUsers(params, (err, data) => {
+    //     if (err) {
+    //       console.error('Lỗi:', err);
+    //       reject(err);
+    //     } else {
+    //       console.log('Danh sách người dùng:', data);
+    //       resolve(data);
+    //     }
+    //   });
+    // });
+
+    
+  //}
+
+  getListStaff():Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
+
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      'Accept': 'application/json',
     });
+    return this.http.get('https://lipm11wja0.execute-api.ap-southeast-1.amazonaws.com/dev/staff', { headers });
+  }
+
+  deleteStaff(id:any):Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
+
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      'Accept': 'application/json',
+    });
+    return this.http.delete('https://lipm11wja0.execute-api.ap-southeast-1.amazonaws.com/dev/staff/'+id, { headers });
   }
 
   addStaff(User: IStaff): Promise<any> {
@@ -108,6 +134,19 @@ export class CognitoService {
       'custom:image': User.image,
       'custom:role': User.role
     };
+    
+    // const attributes = {
+    //   email: "tuananh2001@gmail.com",
+    //   phone_number: "+84397595095",
+    //   name: "Nguyen Kieu Tuan Anh",
+    //   gender: "male",
+    //   address: "Hà Nội",
+    //   'custom:DOB': "",
+    //   'custom:description': '',
+    //   'custom:status': "1",
+    //   'custom:image': '',
+    //   'custom:role': "2"
+    // };
 
     return Auth.signUp({
       username: User.username,
