@@ -58,7 +58,7 @@
 }
 
 /* Typography */
-h2, h3 {
+.header-header {
   color: #007bff;
   margin-bottom: 15px;
 }

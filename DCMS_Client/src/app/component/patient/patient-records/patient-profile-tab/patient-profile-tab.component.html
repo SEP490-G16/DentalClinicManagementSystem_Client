@@ -13,6 +13,9 @@
               điều
               trị</a></li>
           <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
+              (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Mẫu vật</a>
+          </li>
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
               (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
           </li>
           <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
@@ -39,7 +42,8 @@
           </div>
           <div class="form-group mb-3">
             <label for="dateCreated">Ngày tạo:</label>
-            <input type="datetime-local" [(ngModel)]="patient.created_date" class="form-control border-bottom-0" [disabled]="!isEditing">
+            <input type="datetime-local" [(ngModel)]="patient.created_date" class="form-control border-bottom-0"
+              [disabled]="!isEditing">
             <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
               <p>
                 {{validatePatient.createDate}}

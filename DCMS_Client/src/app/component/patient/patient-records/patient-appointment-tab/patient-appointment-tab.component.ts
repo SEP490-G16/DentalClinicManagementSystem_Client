@@ -22,7 +22,7 @@ export class PatientAppointmentTabComponent implements OnInit {
   startDateTimestamp: number = 0;
   endDateTimestamp: number = 0;
   appointmentList: RootObject[] = [];
-
+  currentDateTimestamp:number = 0;
   patientAppointments: any;
 
   constructor(
@@ -34,6 +34,9 @@ export class PatientAppointmentTabComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService) {
 
+      const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
+      this.currentDateTimestamp = this.dateToTimestamp2(currentDateGMT7);
+      console.log("Hum nay: ", this.currentDateTimestamp);
     // Set date time hiện tại
     this.endDateTimestamp = this.dateToTimestamp(this.endDate);
   }
@@ -84,6 +87,12 @@ export class PatientAppointmentTabComponent implements OnInit {
     const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
     const timestamp = moment.tz(dateStr, format, timeZone).valueOf();
     return timestamp;
+  }
+  dateToTimestamp2(dateStr: string): number {
+    const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng của chuỗi ngày
+    const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
+    const timestamp = moment.tz(dateStr, format, timeZone).valueOf();
+    return timestamp / 1000;
   }
 
   timestampToGMT7String(timestamp: number): string {

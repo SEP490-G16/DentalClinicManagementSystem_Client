@@ -29,6 +29,7 @@ import { PopupDatlichtaikhamComponent } from '../utils/pop-up/patient/popup-datl
 import { PopupSualichtaikhamComponent } from '../utils/pop-up/patient/popup-sualichtaikham/popup-sualichtaikham.component';
 import { PatientPaymentTabComponent } from './patient-records/patient-payment-tab/patient-payment-tab.component';
 import { PatientSpecimensComponent } from './patient-records/patient-specimens/patient-specimens.component';
+import { AdminModule } from '../admin/admin.module';
 @NgModule({
   declarations: [
       PatientManagementComponent,
@@ -47,7 +48,7 @@ import { PatientSpecimensComponent } from './patient-records/patient-specimens/p
       PopupSualichtaikhamComponent,
       PopupPaymentComponent,
       PatientPaymentTabComponent,
-      PatientSpecimensComponent
+      PatientSpecimensComponent,
   ],
   imports: [
     CommonModule,
@@ -56,6 +57,7 @@ import { PatientSpecimensComponent } from './patient-records/patient-specimens/p
     SharedModule,
     PatientRoutingModule,
     HttpClientModule,
+    AdminModule,
     ToastrModule.forRoot({
       preventDuplicates: true,
       timeOut: 3000,

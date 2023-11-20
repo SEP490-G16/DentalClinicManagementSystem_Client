@@ -58,7 +58,7 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
   }
 
   getMedicalProcedureList(){
-    this.medicalProcedureGroupService.getMedicalProcedureList().subscribe(data=>{
+    this.medicalProcedureGroupService.getMedicalProcedureGroupWithDetailList().subscribe(data=>{
       console.log("Data Medical Procedure: ", data);
       this.ProcedureList = data.data;
     },

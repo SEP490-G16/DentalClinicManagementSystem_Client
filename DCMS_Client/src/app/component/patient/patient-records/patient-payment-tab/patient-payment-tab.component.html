@@ -12,6 +12,9 @@
               style="padding: 10px; color: #000; cursor:pointer">Khám và
               điều
               trị</a></li>
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
+              (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Mẫu vật</a>
+          </li>
           <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; cursor:pointer;color: #000;"
               (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
           </li>
@@ -29,18 +32,19 @@
         <div class="header">
           <h2 (click)="toggleDetails()">Lịch trình 1: {{report.tc_data.tc_name}}</h2>
           <div class="summary">
-            <span>Tổng tiền: {{ report.total }}</span>
+            <span>Tổng tiền: {{ report.total | currency:'VND'}}</span>
             <span>Giảm giá:</span>
-            <span>Đã thanh toán: {{ report.totalPaid }}</span>
-            <span>Còn lại: {{ report.remaining }}</span>
-            <button class="button" (click)="thanhtoan(report.mu_data, report.tc_data, report.p_data)">Thanh toán</button>
+            <span>Đã thanh toán: {{ report.totalPaid | currency:'VND'}}</span>
+            <span>Còn lại: {{ report.remaining | currency:'VND'}}</span>
+            <button class="button" (click)="thanhtoan(report.mu_data, report.tc_data, report.p_data)">Thanh
+              toán</button>
           </div>
         </div>
         <div class="details" *ngIf="showDetails">
           <div class="row" *ngFor="let mu of report.mu_data">
             <ng-container *ngIf="mu.mu_total_paid > 0;">
-              <span>Ngày thanh toán: {{ mu.mu_created_date }}</span>
-              <span>Đã thanh toán: {{ mu.mu_total_paid }}</span>
+              <span>Ngày thanh toán: {{ mu.mu_created_date | VNdateTimeFormat}}</span>
+              <span>Đã thanh toán: {{ mu.mu_total_paid | currency:'VND'}}</span>
             </ng-container>
           </div>
         </div>
@@ -50,8 +54,3 @@
   </div>
 
 </div>
-
-<!-- <app-popup-payment-tab [PMU]="PMU"
-                       [Ex]="Examination"
-                       [MU]="Material_Usage"
-></app-popup-payment-tab> -->

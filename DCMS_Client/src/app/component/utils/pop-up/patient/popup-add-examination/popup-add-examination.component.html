@@ -13,6 +13,9 @@
               điều
               trị</a></li>
           <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
+              (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Lịch hẹn</a>
+          </li>
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
               (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
           </li>
           <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
@@ -38,6 +41,7 @@
               </select>
             </div>
           </div>
+
 
           <div class="col-md-4">
             <label for="">Ngày khám</label>
@@ -128,6 +132,7 @@
                 <table>
                   <thead>
                     <tr>
+                      <th>Nhóm thủ thuật</th>
                       <th>Tên thủ thuật</th>
                       <th>Đơn giá</th>
                       <th>Thành tiền</th>
@@ -135,10 +140,25 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let row of tableRows; let i = index" [ngClass]="row.animationClass" @rowAnimation>
-                      <td><input [(ngModel)]="row.procedure_name" type="text" class="form-control" /></td>
-                      <td><input [(ngModel)]="row.unit_price" type="number" min="0" class="form-control" /></td>
-                      <td><input [(ngModel)]="row.total" type="number" min="0" class="form-control" /></td>
+                    <tr *ngFor="let row of Procedure_Material_Usage_Body; let i = index" [ngClass]="row.animationClass"
+                      @rowAnimation>
+                      <td><input list="procedureGroup" [(ngModel)]="pg_id" (change)="filterProcedureByPG(i)"
+                          name="browser" class="form-control" />
+                        <datalist id="procedureGroup">
+                          <option *ngFor="let pg of ProcedureGroupArray" [value]="pg.medical_procedure_group_id">
+                            {{pg.name}}</option>
+                        </datalist>
+                      </td>
+                      <td>
+                        <input list="procedure" [(ngModel)]="row.medical_procedure_id" name="procedure"
+                          class="form-control" (ngModelChange)="chooseProcedure(i, row.medical_procedure_id)" />
+                        <datalist id="procedure">
+                          <option *ngFor="let procedure of detailProcedureGroupArrayFilter" [value]="procedure.mp_id">
+                            {{procedure.mp_name}}</option>
+                        </datalist>
+                      </td>
+                      <td><input [(ngModel)]="row.price" type="number" min="0" class="form-control" /></td>
+                      <td><input [(ngModel)]="row.total_paid" type="number" min="0" class="form-control" /></td>
                       <td>
                         <i class="bi bi-trash" style="cursor: pointer;" (click)="removeRow(i, 100)"></i>
                       </td>
@@ -178,16 +198,18 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let row of materialUsageRows; let i = index" [ngClass]="row.animationClass"
+                    <tr *ngFor="let row of Material_Usage_Body; let i = index" [ngClass]="row.animationClass"
                       @rowAnimation>
-                      <td><input [(ngModel)]="row.material_name" list="warehouses" id="warehouses" class="form-control" />
-                        <!-- <datalist id="warehouses">
-                          <option *ngFor="" value="">
-                        </datalist> -->
+                      <td><input [(ngModel)]="row.material_warehouse_id" list="warehouses" (change)="updateMaterialWarehouse(i, row.material_warehouse_id)"
+                          class="form-control" />
+                          <datalist id="warehouses">
+                            <option *ngFor="let mw of MaterialWarehouse_Array" [value]="mw.mw_material_warehouse_id">
+                              {{mw.m_material_name}}</option>
+                          </datalist>
                       </td>
-                      <td><input [(ngModel)]="row.quantity" type="number" min="0" class="form-control" /></td>
-                      <td><input [(ngModel)]="row.unit_price" type="number" min="0" class="form-control" /></td>
-                      <td><input [(ngModel)]="row.total" type="number" min="0" class="form-control" /></td>
+                      <td><input [(ngModel)]="row.quantity" type="number" min="1" [max]="row.mw_remaining" (ngModelChange)="updateMaterialWarehouse(i, row.material_warehouse_id)" class="form-control" /></td>
+                      <td><input [(ngModel)]="row.price" type="number" min="0" class="form-control" disabled /></td>
+                      <td><input [(ngModel)]="row.total_paid" type="number" min="0" class="form-control" disabled/></td>
                       <td><input [(ngModel)]="row.usage_date" type="text" class="form-control" /></td>
                       <td><input [(ngModel)]="row.adder" type="text" class="form-control" /></td>
                       <td>
@@ -205,9 +227,10 @@
         </div>
       </div>
     </div>
-
   </div>
 </div>
+
+
 
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="submissionModalLabel" aria-hidden="true">
@@ -230,7 +253,8 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="addImageUrl()">Hoàn thành</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="addImageUrl()">Hoàn
+          thành</button>
       </div>
     </div>
   </div>

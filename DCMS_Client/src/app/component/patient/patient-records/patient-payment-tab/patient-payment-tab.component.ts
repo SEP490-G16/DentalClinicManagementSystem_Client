@@ -39,7 +39,7 @@ export class PatientPaymentTabComponent implements OnInit {
       .subscribe((res: any) => {
         console.log("Material usage Report: ", res.data);
         this.Material_Usage_Report
-          = res.data.filter((el: any) => el.p_data.p_patient_id === 'P-000001');
+          = res.data.filter((el: any) => el.p_data.p_patient_id === this.Patient_Id);
         console.log("Filter Material Report: ", this.Material_Usage_Report);
 
         // Group by treatment course ID

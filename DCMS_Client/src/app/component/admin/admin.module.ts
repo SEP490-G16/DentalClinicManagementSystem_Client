@@ -141,6 +141,12 @@ import { vnDateTimeFormatPipe } from '../shared/pipe/VNdateformat.pipe';
         }),
         NgSelectModule,
     ],
+    exports: [
+      PopupAddApproveSpecimensComponent,
+      PopupAddSpecimensComponent,
+      PopupAddSpecimensComponent,
+      PopupEditSpecimensComponent
+    ],
     providers: [DatePipe]
 })
 export class AdminModule { }

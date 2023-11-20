@@ -8,7 +8,7 @@
 
 <!-- Modal Body -->
 <div class="modal-body">
-  <h2 class="text-center">Phiếu thu (Receipts)</h2>
+  <h2 class="text-center header-header">Phiếu thu (Receipts)</h2>
 
   <!-- Date and Payment Type -->
   <div class="row">
@@ -60,26 +60,26 @@
               <th scope="col">Nợ trước/Tổng cộng (Debt/Total)</th>
               <th scope="col">Thanh toán (Payment)</th>
               <th scope="col">Còn nợ (Remain)</th>
+              <th scope="col">Nhập số tiền thanh toán</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
+            <tr *ngFor="let mu of MaterialUsage; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ mu.mu_medical_procedure_id }}</td> <!-- Replace with service name if available -->
+              <td>{{ mu.mu_price | currency:'VND' }}</td>
+              <td>{{ mu.mu_quantity }}</td>
+              <td>{{ mu.mu_total | currency:'VND' }}</td>
+              <td>{{ mu.mu_total_paid | currency:'VND' }}</td>
+              <td>{{ (mu.mu_total - mu.mu_total_paid) | currency:'VND' }}</td>
+              <td><input type="number"></td>
             </tr>
+            <!-- Totals Row -->
             <tr>
-              <th></th>
-              <th>Tổng cộng/Total: </th>
-              <th></th>
-              <th></th>
-              <td>200,000</td>
-              <td>200,000</td>
-              <td>0</td>
+              <th colspan="4">Tổng cộng/Total: </th>
+              <td>{{ total | currency:'VND' }}</td>
+              <td>{{ totalPaid | currency:'VND' }}</td>
+              <td>{{ remaining | currency:'VND' }}</td>
             </tr>
           </tbody>
         </table>
@@ -87,22 +87,27 @@
     </div>
   </div>
 
-  <!-- Signatures -->
-  <div class="row">
-    <div class="col-4">
-      <h3>Khách hàng/Patient (Ký tên/Signature)</h3>
-    </div>
-    <div class="col-4">
-      <h3>Người lập/Creater (Ký tên/Signature)</h3>
-    </div>
-    <div class="col-4">
-      <h3>Thủ quỹ/Cashier (Ký tên/Signature)</h3>
-    </div>
+  <div class="row mt-5 mb-5">
+    <h4>Thanh toán: {{totalPaid | currency:'VND'}}</h4>
+    <h4>Còn nợ: {{remaining | currency:'VND'}}</h4>
   </div>
+
+  <!-- Signatures -->
+  <!-- <div class="row">
+    <div class="col-4">
+      <h3 class="header-header">Khách hàng/Patient (Ký tên/Signature)</h3>
+    </div>
+    <div class="col-4">
+      <h3 class="header-header">Người lập/Creater (Ký tên/Signature)</h3>
+    </div>
+    <div class="col-4">
+      <h3 class="header-header">Thủ quỹ/Cashier (Ký tên/Signature)</h3>
+    </div>
+  </div> -->
 </div>
 
 <!-- Modal Footer -->
 <div class="modal-footer">
   <button type="button" class="btn btn-secondary" (click)="close()">Đóng</button>
-  <button type="button" class="btn btn-success" (click)="close()">Thanh toán</button>
+  <button type="button" class="btn btn-success" (click)="postPayment()">Thanh toán</button>
 </div>

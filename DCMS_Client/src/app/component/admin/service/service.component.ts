@@ -105,7 +105,7 @@ export class ServiceComponent implements OnInit {
 
   getMedicalProcedureList(id:string, searchTerm?: string){
     this.loading = true;
-    this.medicalProcedureGroupService.getMedicalProcedureList().subscribe(data=>{
+    this.medicalProcedureGroupService.getMedicalProcedureGroupWithDetailList().subscribe(data=>{
       console.log(data);
       if (!searchTerm) {
         const firstGroupId = this.medicalProcedureGroups.length > 0 ? this.medicalProcedureGroups[0].medical_procedure_group_id : '';
