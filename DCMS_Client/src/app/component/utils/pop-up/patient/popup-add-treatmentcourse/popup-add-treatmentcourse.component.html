@@ -4,7 +4,7 @@
 
       <!-- Modal Header -->
       <div class="modal-header color-main">
-        <h4 class="modal-title text-center w-100">Thêm liệu trình</h4>
+        <h4 class="modal-title title text-center w-100">Thêm liệu trình</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
@@ -76,8 +76,9 @@
 
           <!-- Modal footer -->
           <div class="button-conf float-end">
-            <button type="button" id="cancel" class="btn bg-white" data-bs-dismiss="modal">Hủy</button>
-            <button type="button" class="btn" data-bs-dismiss="modal" style="background-color: rgba(139, 55, 19,.95); color:white" (click)="addTreatmentCourse()">Lưu</button>
+            <button type="button" id="cancel" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
+            <button type="button" class="btn button-timekeeping" data-bs-dismiss="modal"  (click)="addTreatmentCourse()"><i
+              class="bi bi-plus-circle"></i> Thêm mới</button>
           </div>
 
         </div>

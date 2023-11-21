@@ -32,12 +32,36 @@
         <a class="title-link"><h2 class="title-name-patient">Bệnh nhân</h2></a>
       </div>
     </div>
+    <div class="choose-facility">
+      <select class="select-facility">
+        <option value="">Cơ sở 1</option>
+        <option value="">Cơ sở 2</option>
+        <option value="">Cơ sở 3</option>
+      </select>
+    </div>
+    <div class="filter-check mt-3 mb-4">
+      <div class="form-group">
+        <label class="label">Tổng thu</label>
+        <input type="checkbox" class="checkbox m-2"/>
+      </div>
+      <div class="form-group">
+        <label class="label">Thực thu</label>
+        <input type="checkbox" class="checkbox m-2"/>
+      </div>
+      <div class="form-group">
+        <label class="label">Chi phí</label>
+        <input type="checkbox" class="checkbox m-2"/>
+      </div>
+    </div>
+
+
     <div style="display: block; width: 70%;margin: auto">
-      <canvas baseChart
-              [data]="barChartConfiguration.data"
-              [options]="barChartConfiguration.options"
-              [type]="barChartConfiguration.type">
-      </canvas>
+<!--      <canvas baseChart-->
+<!--              [data]="barChartConfiguration.data"-->
+<!--              [options]="barChartConfiguration.options"-->
+<!--              [type]="barChartConfiguration.type">-->
+<!--      </canvas>-->
+      <canvas id="revenueChart"></canvas>
     </div>
   </div>
 

@@ -8,7 +8,7 @@
     <div class="export__file">
     </div>
   </section>
-  <div class="row" style="margin-top: 1%;">
+  <div class="row mt-5">
     <div class="col-md-2 col-xl-1">
       <a routerLink="/admin/vat-lieu" routerLinkActive="active-link" class="page-title">Quản lý vật liệu</a>
     </div>
@@ -16,17 +16,17 @@
       <a routerLink="/admin/quan-ly-nhap" routerLinkActive="active-link" class="page-title">Quản lý nhập</a>
     </div>
   </div>
-  <div class="row custom-row mb-2" style="margin-top: 1%;">
-    <div class="col-6">
-      <div class="form-group form-group-filter">
-        <button class="btn button-add" data-bs-toggle="modal" data-bs-target="#myModal"><i
-            class="bi bi-plus-circle"></i> Thêm mới
-        </button>
-      </div>
-    </div>
-  </div>
+<!--  <div class="row custom-row mb-2">-->
+<!--    <div class="col-6">-->
+<!--      <div class="form-group form-group-filter">-->
+<!--        <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myModal"><i-->
+<!--            class="bi bi-plus-circle"></i> Thêm mới-->
+<!--        </button>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
 
-  <div class="table-container">
+  <div class="table-container mt-4">
     <table>
       <colgroup>
         <col style="width: 2%;">
@@ -91,6 +91,7 @@
                   <tbody>
                     <tr *ngFor="let detail of item.expiry" class="SEP-WH-table-tbody2-tr">
                       <td style="padding-top: 10px;padding-bottom: 10px;"></td>
+                      <!-- <td class="connector"><span class="dot"></span></td> -->
                       <td style="padding-top: 10px;padding-bottom: 10px;"><i class="bi bi-arrow-return-right"></i></td>
                       <td style="padding-top: 10px;padding-bottom: 10px;" data-bs-toggle="tooltip">{{
                         item.materialName

@@ -139,9 +139,28 @@ export class PopupEditApproveSpecimensComponent implements OnChanges  {
       const formattedUsedDate = usedDatePart[0];
       this.specimen.usedDate = formattedUsedDate;
       this.specimen.labo_id = this.specimens.lb_id;
-      this.specimen.patientId = this.specimens.p_patient_id;
+      this.getPatient(this.specimens.p_patient_id);
     }
   }
+  patient:any;
+  patientListShow:any[]=[];
+  getPatient(id:any){
+    this.patientSerivce.getPatientById(id).subscribe((data:any)=>{
+      const transformedMaterial = {
+        patientId: data.patient_id,
+        patientName: data.patient_name,
+        patientInfor: data.patient_name + " - " + data.phone_number,
+      };
+      console.log(transformedMaterial)
+      if (!this.patientListShow.some(p => p.patientId === transformedMaterial.patientId)) {
+        this.patientListShow.push(transformedMaterial);
+      }
+      this.patientList = this.patientListShow;
+      this.specimen.patientId = transformedMaterial.patientId;
+      console.log("patientId",this.specimen.patientId);
+    })
+  }
+
   updateSpecimensRes(){
     let usedDate = this.convertTimestampToDateString(this.specimenBody.used_date);
     this.specimensRes={
@@ -175,7 +194,7 @@ export class PopupEditApproveSpecimensComponent implements OnChanges  {
   onsearch(event:any) {
     console.log(event.target.value)
     this.specimen.patientName = event.target.value;
-  
+
     this.patientSerivce.getPatientByName(this.specimen.patientName, 1).subscribe(data => {
       const transformedMaterialList = data.data.map((item:any) => {
         return {
@@ -234,10 +253,10 @@ export class PopupEditApproveSpecimensComponent implements OnChanges  {
       this.validateSpecimens.orderDate = 'Vui lòng nhập ngày đặt!';
       this.isSubmitted = true;
     }
-    if (!this.specimen.receiver){
-      this.validateSpecimens.receiver = 'Vui lòng nhập bệnh nhân';
-      this.isSubmitted = true;
-    }
+    // if (!this.specimen.receiver){
+    //   this.validateSpecimens.receiver = 'Vui lòng nhập bệnh nhân';
+    //   this.isSubmitted = true;
+    // }
     if (this.isSubmitted){
       return;
     }
@@ -257,7 +276,7 @@ export class PopupEditApproveSpecimensComponent implements OnChanges  {
       received_date:receivedDateTimestamp,
       used_date: userDateTimestamp,
       facility_id:'F-01',
-      patient_id:this.selectedPatient.patient_id,
+      patient_id:this.specimen.patientId,
       labo_id: this.specimen.labo_id,
       status:'1',
     }

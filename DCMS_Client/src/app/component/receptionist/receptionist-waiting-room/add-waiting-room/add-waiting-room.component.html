@@ -1,11 +1,11 @@
 <!--Add Waiting Modal -->
 <div class="modal" id="wrModal">
-  <div class="modal-dialog modal-xl" style="height: 80%;">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
 
       <!-- Modal Header -->
       <div class="modal-header color-main">
-        <h4 class="modal-title text-center">Thêm hàng chờ</h4>
+        <h4 class="modal-title title text-center">Thêm hàng chờ</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="close()"></button>
       </div>
 
@@ -73,8 +73,9 @@
         </div>
 
         <div class="button-conf float-end">
-          <button type="button" class="btn custom-btn" data-bs-dismiss="modal" (click)="close()">Hủy</button>
-          <button type="button" class="btn custom-btn-confirm" (click)="onPostWaitingRoom()">Xác nhận</button>
+          <button type="button" class="btn btn-cancel" data-bs-dismiss="modal" (click)="close()">Hủy</button>
+          <button type="button" class="btn button-timekeeping" (click)="onPostWaitingRoom()"><i
+            class="bi bi-plus-circle"></i> Thêm mới</button>
         </div>
       </div>
     </div>
