@@ -5,6 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { PutSpecimen } from 'src/app/model/ISpecimens';
 import { CognitoService } from 'src/app/service/cognito.service';
 import {ResponseHandler} from "../../../libs/ResponseHandler";
+import {PatientService} from "../../../../../service/PatientService/patient.service";
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-popup-edit-specimens',
@@ -24,6 +26,7 @@ export class PopupEditSpecimensComponent implements OnInit {
     private toastr: ToastrService,
     private cognitoService: CognitoService,
     private SpecimensService: SpecimensService,
+    private patientService:PatientService,
 
     private router: Router
 
@@ -47,33 +50,92 @@ export class PopupEditSpecimensComponent implements OnInit {
       p_patient_name: ""
     } as PutSpecimen;
   }
-
+  putSpecimensBody ={
+    name:'',
+    type:'',
+    quantity:0,
+    unit_price:0,
+    order_date:'',
+    orderer:'',
+    received_date:'',
+    receiver:'',
+    used_date:'',
+    warranty:'',
+    description:'',
+    status:2,
+    facility_id:'F-08',
+    labo_id:'',
+    patient_id:''
+  }
   ngOnInit(): void {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['PutSpecimen'].currentValue) {
       console.log(changes['PutSpecimen']);
-      this.IPutSpecimens.ms_order_date = this.IPutSpecimens.ms_order_date?.split(" ")[0];
-      this.IPutSpecimens.ms_received_date = this.IPutSpecimens.ms_received_date?.split(" ")[0];
-      this.IPutSpecimens.ms_use_date = this.IPutSpecimens.ms_use_date?.split(" ")[0];
-      if (this.IPutSpecimens.ms_quantity !== undefined && this.IPutSpecimens.ms_unit_price !== undefined) {
-        this.total = this.IPutSpecimens.ms_quantity * this.IPutSpecimens.ms_unit_price;
+      this.IPutSpecimens.ms_name = this.PutSpecimen.ms_name;
+      this.IPutSpecimens.ms_type = this.PutSpecimen.ms_type;
+      this.IPutSpecimens.ms_unit_price = this.PutSpecimen.ms_unit_price;
+      this.IPutSpecimens.ms_quantity = this.PutSpecimen.ms_quantity;
+      this.IPutSpecimens.ms_orderer = this.PutSpecimen.ms_orderer;
+      this.IPutSpecimens.lb_id = this.PutSpecimen.lb_id;
+      this.IPutSpecimens.facility_id = 'F-08'
+      this.IPutSpecimens.ms_order_date = this.PutSpecimen.ms_order_date?.split(" ")[0];
+      this.IPutSpecimens.ms_received_date = this.PutSpecimen.ms_received_date?.split(" ")[0];
+      this.IPutSpecimens.ms_use_date = this.PutSpecimen.ms_used_date?.split(" ")[0];
+      if (this.IPutSpecimens.ms_quantity !== undefined && this.PutSpecimen.ms_unit_price !== undefined) {
+        this.total = this.PutSpecimen.ms_quantity * this.PutSpecimen.ms_unit_price;
       }
+      // alert(this.PutSpecimen.p_patient_id);
+      // return;
+      this.getPatient(this.PutSpecimen.p_patient_id);
+
       this.id = this.PutSpecimen.ms_id;
-      console.log(this.IPutSpecimens);
+      //console.log(this.IPutSpecimens);
     }
     if (changes['AllLabos']) {
       this.Labos = this.AllLabos;
       console.log("Labos:", this.Labos);
     }
   }
+  dateToTimestamp(dateStr: string): number {
+    const format = 'YYYY-MM-DD HH:mm'; // Định dạng của chuỗi ngày   const format = 'YYYY-MM-DD HH:mm:ss';
+    const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
+    var timestamp = moment.tz(dateStr, format, timeZone).valueOf() / 1000;
+    return timestamp;
+  }
 
+  timestampToDate(timestamp: number): string {
+    const date = moment.unix(timestamp);
+    const dateStr = date.format('YYYY-MM-DD');
+    return dateStr;
+  }
   EditSpecimen() {
     this.loading = true;
     console.log("id", this.id);
     console.log("specimens", this.IPutSpecimens);
-    this.SpecimensService.putSpecimens(this.id, this.IPutSpecimens)
+    let orderDate = new Date(this.IPutSpecimens.ms_order_date);
+    let orderDateTimestamp = (orderDate.getTime()/1000).toString();
+    let receivedDate = new Date(this.IPutSpecimens.ms_received_date);
+    let receivedDateTimestamp = new Date()
+    this.putSpecimensBody ={
+      name:this.IPutSpecimens.ms_name,
+      type: this.IPutSpecimens.ms_type,
+      quantity:this.IPutSpecimens.ms_quantity,
+      unit_price: this.IPutSpecimens.ms_unit_price,
+      order_date: this.dateToTimestamp(this.IPutSpecimens.ms_order_date).toString(),
+      orderer: this.IPutSpecimens.ms_orderer,
+      received_date: this.dateToTimestamp(this.IPutSpecimens.ms_received_date).toString(),
+      receiver: this.IPutSpecimens.ms_receiver,
+      used_date: this.dateToTimestamp(this.IPutSpecimens.ms_use_date).toString(),
+      warranty: this.IPutSpecimens.ms_warranty,
+      description: this.IPutSpecimens.ms_description,
+      status: 2,
+      facility_id: 'F-08',
+      labo_id:this.IPutSpecimens.lb_id,
+      patient_id:this.IPutSpecimens.p_patient_id
+    }
+    this.SpecimensService.putSpecimens(this.id, this.putSpecimensBody)
       .subscribe((res) => {
         this.loading = false;
         this.showSuccessToast('Chỉnh sửa mẫu vật thành công!');
@@ -101,5 +163,59 @@ export class PopupEditSpecimensComponent implements OnInit {
     this.toastr.error(message, 'Lỗi', {
       timeOut: 3000, // Adjust the duration as needed
     });
+  }
+  patient:any;
+  patientListShow:any[]=[];
+  getPatient(id:any){
+    if (id!==null){
+      this.patientService.getPatientById(id).subscribe((data:any)=>{
+        const transformedMaterial = {
+          patientId: data.patient_id,
+          patientName: data.patient_name,
+          patientInfor: data.patient_name + " - " + data.phone_number,
+        };
+        console.log(transformedMaterial)
+        if (!this.patientListShow.some(p => p.patientId === transformedMaterial.patientId)) {
+          this.patientListShow.push(transformedMaterial);
+        }
+        this.patientList = this.patientListShow;
+        this.IPutSpecimens.p_patient_id = transformedMaterial.patientId;
+      })
+    }
+  }
+  patientList:any [] = [];
+  onsearch(event:any) {
+    console.log(event.target.value)
+    this.IPutSpecimens.p_patient_name = event.target.value;
+    this.patientService.getPatientByName(this.IPutSpecimens.p_patient_name, 1).subscribe(data => {
+      const transformedMaterialList = data.data.map((item:any) => {
+        return {
+          patientId: item.patient_id,
+          patientName: item.patient_name,
+          patientInfor: item.patient_name + " - "+ item.phone_number,
+        };
+      });
+      this.patientList = transformedMaterialList;
+    })
+  }
+  closePopup(){
+    this.IPutSpecimens = {
+      ms_type: "",
+      ms_name: "",
+      ms_quantity: 0,
+      ms_unit_price: 0,
+      ms_order_date: "",
+      ms_orderer: "",
+      ms_received_date: "",
+      ms_receiver: "",
+      ms_use_date: "",
+      ms_warranty: "",
+      ms_description: "",
+      ms_status: 0,
+      facility_id: "",
+      lb_id: null,
+      p_patient_id: "",
+      p_patient_name: "",
+    } as PutSpecimen;
   }
 }
