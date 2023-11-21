@@ -10,6 +10,20 @@
       "StackName": "amplify-dcmsclient-dev-170125",
       "StackId": "arn:aws:cloudformation:ap-southeast-1:014183400304:stack/amplify-dcmsclient-dev-170125/ae985dd0-7d54-11ee-a4d0-0601411b6cae",
       "AmplifyAppId": "d3ct4sp83eqj04"
+    },
+    "categories": {
+      "auth": {
+        "dcmsclient13f8ca6b": {}
+      },
+      "function": {
+        "AdminQueriesf88a032f": {
+          "deploymentBucketName": "amplify-dcmsclient-dev-170125-deployment",
+          "s3Key": "amplify-builds/AdminQueriesf88a032f-412b69594f794f326279-build.zip"
+        }
+      },
+      "api": {
+        "AdminQueries": {}
+      }
     }
   }
 }

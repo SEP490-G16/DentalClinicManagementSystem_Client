@@ -22,9 +22,17 @@ export class CognitoService {
   constructor(private router:Router, private http: HttpClient) {
     this.cognitoUser = {} as ICognitoUser;
 
+    // Amplify.configure({
+    //   Auth: environment.cognito
+    // });
+
     Amplify.configure({
-      Auth: environment.cognito
-    });
+      Auth: {
+        userPoolId: 'ap-southeast-1_PSTdva5of',
+        userPoolWebClientId: '3pngqk8top46uiogeth8ke323v',
+        region: 'ap-southeast-1'
+      }
+    })
 
     AWS.config.region = 'ap-southeast-1';
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({

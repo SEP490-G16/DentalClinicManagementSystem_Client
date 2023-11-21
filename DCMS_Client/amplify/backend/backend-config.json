@@ -1,1 +1,86 @@
-{}
+{
+  "api": {
+    "AdminQueries": {
+      "authorizationType": "AMAZON_COGNITO_USER_POOLS",
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "dcmsclient13f8ca6b"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "AdminQueriesf88a032f"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
+  "auth": {
+    "dcmsclient13f8ca6b": {
+      "customAuth": false,
+      "dependsOn": [],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyCharacters": [],
+          "passwordPolicyMinLength": 8
+        },
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "socialProviders": [],
+        "usernameAttributes": [],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito"
+    }
+  },
+  "function": {
+    "AdminQueriesf88a032f": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "dcmsclient13f8ca6b"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_AdminQueriesf88a032f_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "AdminQueriesf88a032f"
+        }
+      ]
+    },
+    "AMPLIFY_function_AdminQueriesf88a032f_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "AdminQueriesf88a032f"
+        }
+      ]
+    }
+  }
+}
