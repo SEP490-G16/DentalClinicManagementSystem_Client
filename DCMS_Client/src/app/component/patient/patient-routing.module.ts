@@ -8,6 +8,7 @@ import { PatientPaymentTabComponent } from './patient-records/patient-payment-ta
 import { PatientLichtrinhdieutriComponent } from './patient-records/patient-lichtrinhdieutri/patient-lichtrinhdieutri.component';
 import { PopupAddExaminationComponent } from '../utils/pop-up/patient/popup-add-examination/popup-add-examination.component';
 import { PopupEditExaminationComponent } from '../utils/pop-up/patient/popup-edit-examination/popup-edit-examination.component';
+import { PatientSpecimensComponent } from './patient-records/patient-specimens/patient-specimens.component';
 
 const authRoutes: Routes = [
   {
@@ -29,6 +30,10 @@ const authRoutes: Routes = [
       {
         path: 'tab/lichhen/:id',
         component: PatientAppointmentTabComponent
+      },
+      {
+        path: 'tab/mauvat/:id',
+        component: PatientSpecimensComponent
       },
       {
         path: 'tab/thanhtoan/:id',

@@ -32,7 +32,7 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
 
   ProcedureList:any = [];
 
-  selectedItems:string []= [];
+  selectedItems: any[] = [];
 
   ngOnInit(): void {
     this.Patient_Id = this.route.snapshot.params['id'];
@@ -41,15 +41,25 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
 
   onProcedureSelectChange(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
-    const value = selectElement.value;
-    // Add the selected value to the list if not already present
-    if (!this.selectedItems.includes(value)) {
-      this.selectedItems.push(value);
+    const selectedId = selectElement.value;
+
+    const selectedProcedure = this.ProcedureList.find((procedure:any) => procedure.mp_id === selectedId);
+
+    if (selectedProcedure && !this.selectedItems.some(item => item.mp_id === selectedId)) {
+      this.selectedItems.push({
+        mp_id: selectedProcedure.mp_id,
+        mp_name: selectedProcedure.mp_name
+      });
     }
   }
 
+  deleteSelectedItem(index: number): void {
+
+    this.selectedItems.splice(index, 1);
+  }
+
   getMedicalProcedureList(){
-    this.medicalProcedureGroupService.getMedicalProcedureList().subscribe(data=>{
+    this.medicalProcedureGroupService.getMedicalProcedureGroupWithDetailList().subscribe(data=>{
       console.log("Data Medical Procedure: ", data);
       this.ProcedureList = data.data;
     },

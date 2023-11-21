@@ -4,8 +4,7 @@
   <div class="content-wrapper">
     <div class="row">
       <div class="card-box">
-        <ul class="nav nav-tabs" style="padding: 0px 80px;
-              ">
+        <ul class="nav nav-tabs">
           <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
               (click)="navigateHref('/benhnhan/danhsach/tab/hosobenhnhan/')">Thông tin
               chung</a>
@@ -16,14 +15,15 @@
               điều
               trị</a></li>
           <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
+              (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Mẫu vật</a>
+          </li>
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
               (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
           </li>
           <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000;cursor: pointer;
-          "
-              (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/')">Thanh toán</a>
+          " (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/')">Thanh toán</a>
           </li>
         </ul>
-
       </div>
     </div>
     <div class="tab-pane show active" id="TTCtab">
@@ -57,10 +57,10 @@
                     style="padding-right: 20px; padding-top: 20px; font-size: 20px; cursor: pointer;"
                     (click)="navigateAddExamination(course.treatment_course_id)" title="Thêm lần khám">
                   </i>
-                  <i class="bi bi-arrow-down-circle float-end" (click)="getExamination(course.treatment_course_id)"
+                  <!-- <i class="bi bi-arrow-down-circle float-end" (click)="getExamination(course.treatment_course_id)"
                     style="padding-right: 20px; padding-top: 20px; font-size: 20px; cursor: pointer;"
                     data-bs-toggle="collapse" [attr.href]="'#collapse' + i" [attr.aria-controls]="'collapse' + i">
-                  </i>
+                  </i> -->
                 </div>
               </div>
             </div>

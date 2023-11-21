@@ -179,87 +179,74 @@ button:active{
   box-shadow: 0px -1px -1px #fff;
 }
 
-.payment-table {
-  width: 100%;
-  border-collapse: collapse;
+.table-container {
+  margin-top: 10px;
+  overflow-x: auto; /* Adds horizontal scrolling if the table is too wide */
+  border-collapse: collapse; /* Removes gaps between cells */
 }
-.payment-table, .payment-table th, .payment-table td {
-  border: 1px solid black;
+
+.table-container table {
+  width: 100%; /* Full width */
+  border-collapse: collapse; /* Removes gaps between cells */
+  table-layout: fixed; /* Ensures the table layout is fixed */
 }
-.payment-table th, .payment-table td {
-  padding: 8px;
-  text-align: left;
+
+.table-container th, .table-container td {
+  text-align: left; /* Aligns text to the left */
+  padding: 10px; /* Adds padding for spacing */
+  border-bottom: 1px solid #ddd; /* Adds a bottom border to each cell */
+  width: 7.69%; /* Sets each column to have an equal width */
 }
-.payment-table th {
+
+/* Header styles */
+.sticky-thead th {
+  background-color: #7B4C50; /* Green background for headers */
+  color: white; /* White text for headers */
+  position: sticky;
+  top: 0;
+}
+
+/* Zebra striping for rows */
+.table-container tbody tr:nth-child(odd) {
   background-color: #f2f2f2;
 }
-.title {
-  text-align: center;
-  font-size: 24px;
-  padding-top: 20px;
+
+.table-container tbody tr:hover {
+  background-color: #ddd; /* Changes background on hover */
 }
 
-.payment-button {
-  background-color: #181b18; /* Màu nền xanh lá */
-  color: white; /* Màu chữ trắng */
-  padding: 10px 20px; /* Đệm xung quanh nội dung */
-  border: none; /* Không viền */
-  border-radius: 5px; /* Bo góc */
-  cursor: pointer; /* Con trỏ chuột khi rê chuột vào nút */
-  transition: background-color 0.3s; /* Hiệu ứng chuyển màu nền */
+/* Button styles */
+.btn-primary {
+  background-color: #1B9C85; /* Blue */
 }
 
-.payment-button:hover {
-  background-color:#4CAF50; /* Màu nền khi rê chuột vào */
+.btn-danger {
+  background-color: #dc3545; /* Red */
 }
 
-.payment-button:active {
-  background-color: #7b817c; /* Màu nền khi nhấn nút */
-  box-shadow: 0 5px #666; /* Bóng đổ khi nhấn */
-  transform: translateY(4px); /* Dịch chuyển nút xuống một chút khi nhấn */
-}
-
-.container {
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  margin: 1rem;
-  padding: 1rem;
-  font-family: Arial, sans-serif;
-}
-
-.header h2 {
+/* Tooltip styling */
+[data-bs-toggle="tooltip"] {
+  position: relative;
   cursor: pointer;
 }
 
-.summary, .details {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem 0;
-}
-
-.button {
-  padding: 0.5rem 1rem;
-  background-color: #007bff;
+[data-bs-toggle="tooltip"]:after {
+  content: attr(title);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  background-color: black;
   color: white;
-  border: none;
+  padding: 4px 8px;
   border-radius: 4px;
-  cursor: pointer;
+  font-size: 12px;
+  display: none;
+  z-index: 1;
 }
 
-.button:hover {
-  background-color: #0056b3;
+[data-bs-toggle="tooltip"]:hover:after {
+  display: block;
 }
 
-.details {
-  border-top: 1px solid #ccc;
-  margin-top: 1rem;
-}
-
-.row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}

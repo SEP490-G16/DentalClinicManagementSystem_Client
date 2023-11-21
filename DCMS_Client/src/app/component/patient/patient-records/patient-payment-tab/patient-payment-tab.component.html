@@ -2,8 +2,7 @@
   <div class="content-wrapper">
     <div class="row">
       <div class="card-box">
-        <ul class="nav nav-tabs" style="padding: 0px 80px;
-        ">
+        <ul class="nav nav-tabs">
           <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
               (click)="navigateHref('/benhnhan/danhsach/tab/hosobenhnhan/')">Thông tin
               chung</a>
@@ -13,6 +12,9 @@
               style="padding: 10px; color: #000; cursor:pointer">Khám và
               điều
               trị</a></li>
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
+              (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Mẫu vật</a>
+          </li>
           <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; cursor:pointer;color: #000;"
               (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
           </li>
@@ -26,58 +28,29 @@
     <div class="tab-pane" id="TTtab" style="padding: 30px;">
       <div class="title mb-3">Thông tin thanh toán</div>
 
-      <table class="payment-table">
-        <tr>
-          <th>Tổng tiền điều trị</th>
-          <th>Giảm giá</th>
-          <th>Phải thanh toán</th>
-          <th>Đã thu</th>
-          <th>Còn lại</th>
-        </tr>
-        <tr>
-          <td>{{Total}}</td>
-          <td></td>
-          <td>{{Total}}</td>
-          <td>{{Total_Paid}}</td>
-          <td>{{getAbsoluteValue(Total_Paid - Total)}}</td>
-        </tr>
-      </table>
-
-      <div class="title mb-3">Hóa đơn điều trị</div>
-
-      <table class="payment-table">
-        <thead>
-          <tr>
-            <th>Ngày điều trị</th>
-            <th>Cơ sở</th>
-            <th>Thành tiền</th>
-            <th>Giảm giá</th>
-            <th>Tổng chi phí</th>
-            <th>Đã thanh toán</th>
-            <th>Còn lại</th>
-            <th>Thanh toán</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let mu of Material_Usage">
-            <td>{{mu.created_date | VNdateTimeFormat}}</td>
-            <td>{{facility}}</td>
-            <td>{{mu.total}}</td>
-            <td></td>
-            <td>{{mu.total}}</td>
-            <td>{{mu.total_paid}}</td>
-            <td>{{getAbsoluteValue(mu.total_paid - mu.total)}}</td>
-            <td><button class="payment-button" (click)="thanhtoan(mu)">Thanh toán</button></td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="container" *ngFor="let report of Material_Usage_Report">
+        <div class="header">
+          <h2 (click)="toggleDetails()">Lịch trình 1: {{report.tc_data.tc_name}}</h2>
+          <div class="summary">
+            <span>Tổng tiền: {{ report.total | currency:'VND'}}</span>
+            <span>Giảm giá:</span>
+            <span>Đã thanh toán: {{ report.totalPaid | currency:'VND'}}</span>
+            <span>Còn lại: {{ report.remaining | currency:'VND'}}</span>
+            <button class="button" (click)="thanhtoan(report.mu_data, report.tc_data, report.p_data)">Thanh
+              toán</button>
+          </div>
+        </div>
+        <div class="details" *ngIf="showDetails">
+          <div class="row" *ngFor="let mu of report.mu_data">
+            <ng-container *ngIf="mu.mu_total_paid > 0;">
+              <span>Ngày thanh toán: {{ mu.mu_created_date | VNdateTimeFormat}}</span>
+              <span>Đã thanh toán: {{ mu.mu_total_paid | currency:'VND'}}</span>
+            </ng-container>
+          </div>
+        </div>
+      </div>
     </div>
 
   </div>
 
 </div>
-
-<!-- <app-popup-payment-tab [PMU]="PMU"
-                       [Ex]="Examination"
-                       [MU]="Material_Usage"
-></app-popup-payment-tab> -->

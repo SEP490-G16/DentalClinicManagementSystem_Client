@@ -238,3 +238,21 @@
 .btn-cancel:hover {
   background-color: #6e6c6c;
 }
+
+.container-custom {
+  padding: 20px;
+}
+.select-list-container {
+  margin-bottom: 15px;
+}
+.select-container, .list-container {
+  margin-bottom: 10px;
+}
+.border-box {
+  border: 1px solid #ccc;
+  height: 300px;
+}
+.btn-close {
+  cursor: pointer;
+}
+

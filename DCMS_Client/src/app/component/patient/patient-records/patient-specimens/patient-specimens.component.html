@@ -1,0 +1,100 @@
+<div class="recent-orders bg-white" style="border-radius: 15px;">
+  <!-- <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px; padding-top: 20px;">Hồ sơ bệnh nhân</h2> -->
+
+  <div class="content-wrapper">
+    <div class="row">
+      <div class="card-box">
+        <ul class="nav nav-tabs">
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
+              (click)="navigateHref('/benhnhan/danhsach/tab/hosobenhnhan/')">Thông tin
+              chung</a>
+          </li>
+          <li class="nav-item mr-2"><a class="nav-link"
+              (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')"
+              style="padding: 10px; color: #000;cursor: pointer;">Khám và
+              điều
+              trị</a></li>
+          <li class="nav-item mr-2"><a class="nav-link active" style="padding: 10px;color: #7B4C50; cursor: pointer;"
+              (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Mẫu vật</a>
+          </li>
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
+              (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
+          </li>
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000;cursor: pointer;
+          " (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/')">Thanh toán</a>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+    <div class="tab-pane show active" id="TTCtab">
+      <div class="row" style="padding-top: 10px; padding-right: 80px;">
+        <div class="col-12">
+          <button class="btn button-timekeeping float-end" data-bs-toggle="modal" data-bs-target="#addSpecimensModal">
+            <i class="bi bi-plus-circle-fill"></i> Đặt mẫu vật</button>
+        </div>
+      </div>
+
+
+      <!--<div class="row mt-3 mr-2">
+
+        </div>-->
+      <!-- <h2>Mẫu vật</h2> -->
+      <div class="table-container" style="margin-top: 10px;">
+        <table>
+          <thead class="sticky-thead">
+            <tr>
+              <th>Tên mẫu</th> <!--2-->
+              <th>Chất liệu</th> <!--3-->
+              <th>Số lượng</th> <!--4-->
+              <th>Đơn giá</th> <!--5-->
+              <th>Labo</th> <!--6-->
+              <th>Trạng thái</th> <!--7-->
+              <th>Ngày đặt</th> <!--8-->
+              <th>Người đặt</th> <!--9-->
+              <th>Ngày nhận</th> <!--10-->
+              <th>Người nhận</th> <!--11-->
+              <th>Ngày lắp</th> <!--12-->
+              <th>Bảo hành</th> <!--13-->
+              <th>Thao tác</th> <!--14-->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let specimens of PatientSpecimens">
+              <td class="truncate" data-bs-toggle="tooltip" title="{{specimens.ms_name}}">{{specimens.ms_name}}</td>
+              <!--2-->
+              <td>{{specimens.ms_type}}</td> <!--3-->
+              <td>{{specimens.ms_quantity}}</td> <!--4-->
+              <td>{{specimens.ms_unit_price}}</td> <!--5-->
+              <td>{{specimens.lb_id}}</td> <!--6-->
+              <td>{{specimens.ms_status == 1? "Đã nhận": (specimens.ms_status ==
+                2)?"Chưa nhận":"Trả lại"}}</td> <!--7-->
+              <td>{{specimens.ms_order_date | VNdateTimeFormat}}</td> <!--8-->
+              <td>{{specimens.ms_orderer}}</td> <!--9-->
+              <td>{{specimens.ms_received_date | VNdateTimeFormat }}</td>
+              <!--10-->
+              <td>{{specimens.ms_receiver}}</td> <!--11-->
+              <td></td> <!--12-->
+              <td>{{specimens.ms_warranty}}</td> <!--13-->
+              <td> <!--14-->
+                <button class="btn btn-primary p-1 m-2" (click)="openEditSpecimen(specimens)"><i
+                    class="bi bi-pencil-square" data-bs-toggle="modal"
+                    data-bs-target="#editSpecimensModal"></i></button>
+                <button class="btn btn-danger p-1" (click)="deleteSpecimens(specimens.ms_id)"><i
+                    class="bi bi-trash"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+    <div class="row mt-4">
+      <ngb-pagination [collectionSize]="pagingSearch.total" [(page)]="pagingSearch.paging" [boundaryLinks]="true"
+        (pageChange)="pageChanged($event)"></ngb-pagination>
+    </div>
+
+  </div>
+</div>
+<app-popup-add-specimens [approveSpecimensList]="approveSpecimensList"></app-popup-add-specimens>
+<app-popup-edit-specimens [PutSpecimen]="PutSpecimen" [AllLabos]="AllLabos"></app-popup-edit-specimens>

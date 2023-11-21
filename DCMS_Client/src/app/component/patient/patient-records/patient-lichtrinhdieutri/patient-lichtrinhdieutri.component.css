@@ -1,4 +1,9 @@
 
+.content-wrapper {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
 a {
   text-align: center;
   display: block;

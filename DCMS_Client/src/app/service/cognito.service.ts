@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 import * as AWS from 'aws-sdk';
 import { IStaff } from '../model/Staff';
 import { Router } from '@angular/router';
+import { Staff } from '../model/ITimekeeping';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -54,6 +55,24 @@ export class CognitoService {
     }
   }
 
+  getUserAttributes(): Promise<IStaff> {
+    return Auth.currentAuthenticatedUser()
+      .then(user => {
+        return Auth.userAttributes(user);
+      })
+      .then(attributes => {
+        let userAttributes: Partial<IStaff> = {};
+        attributes.forEach(attribute => {
+          const key = attribute.Name as keyof IStaff;
+          userAttributes[key] = attribute.Value as any;
+        });
+        return userAttributes as IStaff;
+      })
+      .catch(error => {
+        console.error("Error fetching user attributes", error);
+        throw error;
+      });
+  }
 
   getUserBySub(sub: string): Promise<any> {
     const params = {
@@ -119,10 +138,10 @@ export class CognitoService {
       'custom:description': User.description,
       'custom:status': User.status,
       'custom:image': User.image,
-      'custom:role': User.role, 
+      'custom:role': User.role,
       'custom:locale': User.locale
     };
-  
+
     return Auth.signUp({
       username: User.username,
       password: User.password,
@@ -155,6 +174,12 @@ export class CognitoService {
       });
   }
 
+  updateUserAttributesOpt2(attributes: { [key: string]: string }): Promise<void> {
+    return Auth.currentAuthenticatedUser()
+      .then(user => Auth.updateUserAttributes(user, attributes))
+      .then(() => void 0);
+  }
+
 
   signIn(User: IUser): Promise<any> {
     return Auth.signIn(User.userCredential, User.password).then((userResult) => {
@@ -168,7 +193,7 @@ export class CognitoService {
       this.cognitoUser.locale = userResult.attributes.locale;
       this.cognitoUser.sub = userResult.attributes.sub;
       console.log("CognitoUser: ", this.cognitoUser);
-
+      sessionStorage.setItem('cognitoUser', JSON.stringify(this.cognitoUser));
       //
       const groups = userResult.signInUserSession.idToken.payload['cognito:groups'];
       console.log('User Groups:', groups);
@@ -214,6 +239,13 @@ export class CognitoService {
       });
   }
 
+  changePassword(oldPassword: string, newPassword: string): Promise<void> {
+    return Auth.currentAuthenticatedUser()
+      .then(user => {
+        return Auth.changePassword(user, oldPassword, newPassword);
+      })
+      .then(() => void 0);
+  }
 
   public isAuthenticated(): Promise<boolean> {
     if (this.authenticationSubject.value) {

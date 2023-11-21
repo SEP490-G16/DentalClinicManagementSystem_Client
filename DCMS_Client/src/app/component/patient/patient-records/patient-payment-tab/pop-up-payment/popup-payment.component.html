@@ -1,70 +1,113 @@
+<!-- Modal Header -->
 <div class="modal-header">
   <h4 class="modal-title">Thanh toán</h4>
   <button type="button" class="close" aria-label="Close" (click)="dismiss()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
+
+<!-- Modal Body -->
 <div class="modal-body">
+  <h2 class="text-center header-header">Phiếu thu (Receipts)</h2>
 
-
-    <div class="row mt-3 mb-3">
-      <div class="col-sm-3">
-        Thời gian điều trị: <h4 style="border-bottom: 1px solid #1E1E1E;">{{MU.created_date| VNdateTimeFormat}}
-        </h4>
-      </div>
+  <!-- Date and Payment Type -->
+  <div class="row">
+    <div class="col-md-6 col-sm-12">
+      <p>Ngày/Date: {{currentDate | VNdateTimeFormat}}</p>
     </div>
-
-    <div class="row mb-5">
-      <div class="col">
-        <div class="table-responsive">
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th scope="col">Tình trạng</th>
-                <th scope="col">Răng số</th>
-                <th scope="col">Tên thủ thuật</th>
-                <th scope="col">Nội dung thủ thuật</th>
-                <th scope="col">Bác sĩ</th>
-                <th scope="col">Số lượng</th>
-                <th scope="col">Chi phí</th>
-                <th scope="col">Trả</th>
-                <th scope="col">Tổng</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>{{MU.status}}</td>
-                <td></td>
-                <td></td>
-                <td>{{MU.description}}</td>
-                <td>
-                  {{staff_name}}
-                </td>
-                <td>{{MU.quantity}}</td>
-                <td>{{MU.total}}</td>
-                <td>{{MU.total_paid}}</td>
-                <td>{{getAbsoluteValue(MU.total_paid - MU.total)}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-
-
-  <div class="row mb-3">
-    <div class="col"></div>
-    <div class="col-3 text-end">
-      <p>Chi phí theo thủ thuật: <b>{{totalSum}}</b></p>
-      <p>Giảm giá: </p>
-      <p>Tổng chi phí: <b>{{MU.total}}</b></p>
-      <p>Đã thanh toán: <b> {{MU.total_paid}}</b></p>
-      <p>Còn lại: <b>{{getAbsoluteValue(MU.total_paid - MU.total)}}</b></p>
+    <div class="col-md-6 col-sm-12">
+      <p>Hình thức/Type: </p>
     </div>
   </div>
+
+  <!-- Patient Information -->
+  <div class="row">
+    <div class="col-md-6 col-sm-12">
+      <p>Mã khách hàng/Patient Code: {{Patient.p_patient_id}}</p>
+    </div>
+    <div class="col-md-6 col-sm-12">
+      <p>Tên khách hàng/Patient Name: {{Patient.p_patient_name}}</p>
+    </div>
+  </div>
+
+  <!-- Address -->
+  <div class="row">
+    <div class="col-12">
+      <p>Địa chỉ/Address: {{Patient.p_address}}</p>
+    </div>
+  </div>
+
+  <!-- Contact Information -->
+  <div class="row">
+    <div class="col-md-6 col-sm-12">
+      <p>Email: {{Patient.p_email}}</p>
+    </div>
+    <div class="col-md-6 col-sm-12">
+      <p>Điện thoại/Tel: {{Patient.p_phone_number}}</p>
+    </div>
+  </div>
+  <!-- Services Table -->
+  <div class="row mb-5">
+    <div class="col">
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">STT</th>
+              <th scope="col">Dịch vụ (Services)</th>
+              <th scope="col">Đơn giá (Unit Price)</th>
+              <th scope="col">SL (Quantity)</th>
+              <th scope="col">Nợ trước/Tổng cộng (Debt/Total)</th>
+              <th scope="col">Thanh toán (Payment)</th>
+              <th scope="col">Còn nợ (Remain)</th>
+              <th scope="col">Nhập số tiền thanh toán</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let mu of MaterialUsage; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ mu.mu_medical_procedure_id }}</td> <!-- Replace with service name if available -->
+              <td>{{ mu.mu_price | currency:'VND' }}</td>
+              <td>{{ mu.mu_quantity }}</td>
+              <td>{{ mu.mu_total | currency:'VND' }}</td>
+              <td>{{ mu.mu_total_paid | currency:'VND' }}</td>
+              <td>{{ (mu.mu_total - mu.mu_total_paid) | currency:'VND' }}</td>
+              <td><input type="number"></td>
+            </tr>
+            <!-- Totals Row -->
+            <tr>
+              <th colspan="4">Tổng cộng/Total: </th>
+              <td>{{ total | currency:'VND' }}</td>
+              <td>{{ totalPaid | currency:'VND' }}</td>
+              <td>{{ remaining | currency:'VND' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-5 mb-5">
+    <h4>Thanh toán: {{totalPaid | currency:'VND'}}</h4>
+    <h4>Còn nợ: {{remaining | currency:'VND'}}</h4>
+  </div>
+
+  <!-- Signatures -->
+  <!-- <div class="row">
+    <div class="col-4">
+      <h3 class="header-header">Khách hàng/Patient (Ký tên/Signature)</h3>
+    </div>
+    <div class="col-4">
+      <h3 class="header-header">Người lập/Creater (Ký tên/Signature)</h3>
+    </div>
+    <div class="col-4">
+      <h3 class="header-header">Thủ quỹ/Cashier (Ký tên/Signature)</h3>
+    </div>
+  </div> -->
 </div>
+
+<!-- Modal Footer -->
 <div class="modal-footer">
   <button type="button" class="btn btn-secondary" (click)="close()">Đóng</button>
-  <button type="button" class="btn btn-success" (click)="close()">Thanh toán</button>
+  <button type="button" class="btn btn-success" (click)="postPayment()">Thanh toán</button>
 </div>

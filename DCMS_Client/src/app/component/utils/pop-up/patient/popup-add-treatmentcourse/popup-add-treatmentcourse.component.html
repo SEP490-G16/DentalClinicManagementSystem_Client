@@ -10,8 +10,7 @@
 
       <!-- Modal body -->
       <div class="modal-body">
-        <div class="modal-body">
-          <div class="row">
+        <div class="row">
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Mã bệnh nhân</label>
@@ -39,7 +38,7 @@
               <div class="mb-3">
                 <label for="treatmentSelect" class="form-label">Chọn liệu trình</label>
                 <select id="treatmentSelect" class="form-control" (change)="onProcedureSelectChange($event)">
-                  <option *ngFor="let procedure of ProcedureList" [value]="procedure.mg_id">{{ procedure.mg_name }}</option>
+                  <option *ngFor="let procedure of ProcedureList" [value]="procedure.mp_id">{{ procedure.mp_name }}</option>
                 </select>
               </div>
             </div>
@@ -51,12 +50,15 @@
               <table class="table">
                 <thead>
                   <tr>
-                    <th>Lựa chọn đã thêm</th>
+                    <th>Thủ thuật đã thêm</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let selected of selectedItems">
-                    <td>{{ selected }}</td>
+                  <tr *ngFor="let selected of selectedItems; let i = index">
+                    <td>{{ selected.mp_name }}</td>
+                    <td>
+                      <button class="btn btn-danger btn-sm" (click)="deleteSelectedItem(i)">X</button>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -74,14 +76,13 @@
             </div>
           </div>
 
-          <!-- Modal footer -->
-          <div class="button-conf float-end">
-            <button type="button" id="cancel" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
-            <button type="button" class="btn button-timekeeping" data-bs-dismiss="modal"  (click)="addTreatmentCourse()"><i
-              class="bi bi-plus-circle"></i> Thêm mới</button>
-          </div>
-
+        <!-- Modal footer -->
+        <div class="button-conf float-end">
+          <button type="button" id="cancel" class="btn bg-white" data-bs-dismiss="modal">Hủy</button>
+          <button type="button" class="btn" data-bs-dismiss="modal"
+            style="background-color: rgba(139, 55, 19,.95); color:white" (click)="addTreatmentCourse()">Lưu</button>
         </div>
+
       </div>
     </div>
   </div>

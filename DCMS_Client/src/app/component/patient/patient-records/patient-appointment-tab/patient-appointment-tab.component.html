@@ -2,29 +2,34 @@
   <div class="content-wrapper">
     <div class="row">
       <div class="card-box">
-        <ul class="nav nav-tabs" style="padding: 0px 80px;
-        ">
+        <ul class="nav nav-tabs">
           <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
               (click)="navigateHref('/benhnhan/danhsach/tab/hosobenhnhan/')">Thông tin
               chung</a>
           </li>
           <li class="nav-item mr-2"><a class="nav-link"
               (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')"
-              style="padding: 10px; color: #000; cursor:pointer">Khám và
-              điều trị</a></li>
-          <li class="nav-item mr-2"><a class="nav-link active" style="padding: 10px; cursor:pointer;color: #7B4C50;"
+              style="padding: 10px; color: #000;cursor: pointer;">Khám và
+              điều
+              trị</a></li>
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
+              (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Mẫu vật</a>
+          </li>
+          <li class="nav-item mr-2"><a class="nav-link active" style="padding: 10px; color: #7B4C50; cursor: pointer;"
               (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
           </li>
-          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor:pointer"
-              (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/')">Thanh toán</a>
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000;cursor: pointer;
+          " (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/')">Thanh toán</a>
           </li>
         </ul>
       </div>
     </div>
     <div class="tab-pane" id="LHtab" style="padding: 50px;">
-      <div class="row">
+      <div class="row" style="padding-top: 10px; padding-right: 80px;">
         <div class="col-12 text-end mb-3">
-          <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#myModal">Đặt lịch tái khám</button>
+          <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myModal">
+            <i class="bi bi-plus-circle-fill"></i>
+            Đặt lịch tái khám</button>
         </div>
       </div>
 
@@ -49,7 +54,7 @@
                     <td></td>
                     <td></td>
                     <td>
-                      <button class="btn" data-bs-toggle="modal" data-bs-target="#editAppointmentModal"
+                      <button *ngIf="gf.date === currentDateTimestamp" class="btn" data-bs-toggle="modal" data-bs-target="#editAppointmentModal"
                         (click)="editAppointment(detail, gf.date)"><i class="bi bi-pencil-square"></i></button>
                     </td>
                   </tr>

@@ -106,6 +106,7 @@ import { PopupEditRevenueComponent } from '../utils/pop-up/revenue/popup-edit-re
       PopupEditFacilityComponent,
       PopupEditStaffComponent,
       PopupEditMaterialComponent,
+      PopupEditMedicineComponent,
       PopupEditBillImportMaterialComponent,
       FollowingTimekeepingComponent,
       vnDateTimeFormatPipe,
@@ -138,6 +139,12 @@ import { PopupEditRevenueComponent } from '../utils/pop-up/revenue/popup-edit-re
     }),
     NgSelectModule,
     NgChartsModule,
+  ],
+  exports: [
+    PopupAddApproveSpecimensComponent,
+    PopupAddSpecimensComponent,
+    PopupAddSpecimensComponent,
+    PopupEditSpecimensComponent
   ],
     providers: [DatePipe]
 })

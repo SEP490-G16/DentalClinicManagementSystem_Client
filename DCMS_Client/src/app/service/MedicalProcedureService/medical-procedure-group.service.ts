@@ -12,7 +12,7 @@ export class MedicalProcedureGroupService {
     let idToken = sessionStorage.getItem("id_Token");
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`,
-      'Content-Type':'application/json'
+      'Accept':'application/json'
     });
     return this.http.get(`${this.url}/medical-procedure-group`, {headers});
   }
@@ -42,11 +42,11 @@ export class MedicalProcedureGroupService {
     const requestBody = JSON.stringify(medicalProcedureGroup);
     return this.http.post(`${this.url}/medical-procedure-group`,requestBody,{headers});
   }
-  getMedicalProcedureList():Observable<any>{
+  getMedicalProcedureGroupWithDetailList():Observable<any>{
     let idToken = sessionStorage.getItem("id_Token");
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`,
-      'Content-Type':'application/json'
+      'Accept':'application/json'
     });
     return this.http.get(`${this.url}/medical-procedure-group-with-detail`, {headers});
   }
