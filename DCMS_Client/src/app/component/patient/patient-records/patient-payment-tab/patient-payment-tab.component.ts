@@ -10,7 +10,9 @@ import { CognitoService } from 'src/app/service/cognito.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PopupPaymentComponent } from './pop-up-payment/popup-payment.component';
 import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/TreatmentCourse.service';
-import {ResponseHandler} from "../../../utils/libs/ResponseHandler";
+import { ResponseHandler } from "../../../utils/libs/ResponseHandler";
+import * as moment from 'moment';
+import { TreatmentCourseDetailService } from 'src/app/service/ITreatmentCourseDetail/treatmentcoureDetail.service';
 @Component({
   selector: 'app-patient-payment-tab',
   templateUrl: './patient-payment-tab.component.html',
@@ -75,11 +77,6 @@ export class PatientPaymentTabComponent implements OnInit {
         (err) => {
           this.toastr.error(err.error.message, "Lấy Thông tin thanh toán thất bại")
         })
-      },
-        error => {
-          ResponseHandler.HANDLE_HTTP_STATUS(this.treatmentCourse_PatientService.apiUrl+"/treatment-course/patient-id/"+this.id, error);
-        }
-        );
   }
 
   calculateTotal(muData: any[]): number {
@@ -90,20 +87,14 @@ export class PatientPaymentTabComponent implements OnInit {
     return muData.reduce((acc, current) => acc + current.mu_total_paid, 0);
   }
 
-      },
-        (error) => {
-          //this.toastr.error(err.error.message, "Nhận dữ liệu Thanh toán thất bại");
-          ResponseHandler.HANDLE_HTTP_STATUS(this.paidMaterialUsage.apiUrls+"/paid-material-usage/examination/"+exId,error)
-        }
-      )
-calculateRemaining(total: number, totalPaid: number): number {
-  return this.getAbsoluteValue(total - totalPaid);
-}
-
-getAbsoluteValue(value: number): number {
-  return Math.abs(value);
-}
+  calculateRemaining(total: number, totalPaid: number): number {
+    return this.getAbsoluteValue(total - totalPaid);
   }
+
+  getAbsoluteValue(value: number): number {
+    return Math.abs(value);
+  }
+
 
   toggleDetails(): void {
     this.showDetails = !this.showDetails;
