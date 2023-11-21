@@ -8,16 +8,8 @@
 
           </div>
           <div class="col-6">
-            <section class="table__header">
-              <h1></h1>
-              <div class="input-group">
-                <input type="search search-custom" placeholder="Tìm kiếm theo tên, email...">
-              </div>
-              <div class="export__file">
-              </div>
-            </section>
           </div>
-          <div class="col-3">
+          <div class="col-3" style="float: right;">
             <!-- <button class="btn btn-add-custom" data-bs-toggle="modal" data-bs-target="#myModal">Hiển thị</button> -->
             <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myModal"><i
                 class="bi bi-plus-circle"></i> Thêm nhân viên</button>
@@ -40,21 +32,21 @@
               </tr>
             </thead>
             <tbody>
-                  <tr>
-                    <td class="truncate" data-bs-toggle="tooltip"><!--HE153724--></td>
-                    <td style="padding: 20px 0px;"></td>
-                    <td style="padding: 20px 0px;"></td>
-                    <td style="padding: 20px 0px;"></td>
-                    <td style="padding: 20px 0px;"></td>
-                    <td style="padding: 20px 0px;"></td>
-                    <td style="padding: 20px 0px;"></td>
-                    <td style="padding: 20px 0px;"></td>
+                  <tr *ngFor="let staff of listStaffDisplay">
+                    <td class="truncate" data-bs-toggle="tooltip">{{staff.staffName}}</td>
+                    <td style="padding: 20px 0px;">{{staff.dob | date:'dd-MM-yyyy'}}</td>
+                    <td style="padding: 20px 0px;">{{staff.gender}}</td>
+                    <td style="padding: 20px 0px;">{{staff.phoneNumber}}</td>
+                    <td style="padding: 20px 0px;">{{staff.email}}</td>
+                    <td style="padding: 20px 0px;">{{staff.address}}</td>
+                    <td style="padding: 20px 0px;">{{staff.roleName}}</td>
+                    <td style="padding: 20px 0px;">{{staff.note}}</td>
                     <td style="padding: 20px 0px;">
                       <button class="btn btn-primary" style="margin-right: 20px; padding: 2px 3px" data-bs-toggle="modal" data-bs-target="#editAppointmentModal">
-                        <i class="bi bi-pencil-square"></i>
+                        <i class="bi bi-pencil-square" (click)="openEditPopup(staff)"></i>
                       </button>
                       <button class="btn btn-danger" style="padding: 2px 3px">
-                        <i class="bi bi-trash3"></i>
+                        <i class="bi bi-trash3" (click)="deleteStaff(staff)"></i>
                       </button>
 
                     </td>
@@ -70,4 +62,4 @@
 
 <!-- <app-popup-delete-staff></app-popup-delete-staff> -->
 <app-popup-add-staff></app-popup-add-staff>
-<app-popup-edit-staff></app-popup-edit-staff>
+<app-popup-edit-staff [staffEdit]="staffEdit"></app-popup-edit-staff>

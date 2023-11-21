@@ -12,5 +12,6 @@ export interface IStaff {
   gender:string;
   status: string;
   image:string | ArrayBuffer;
-  facilityId: string;
+  locale: string;
 }
+

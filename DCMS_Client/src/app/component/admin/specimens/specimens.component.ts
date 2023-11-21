@@ -15,12 +15,17 @@ import { LaboService } from 'src/app/service/LaboService/Labo.service';
 })
 export class SpecimensComponent implements OnInit {
 
+
   SpecimensRoot: SpecimensRoot;
   currentPage: number = 1;
   hasNextPage: boolean = false;
 
   labos:any[] = [];
-  laboFilter: any = null;
+  laboFilter: string = '0';
+  orderDateFilter: string = '';
+  receivedDateFilter: string = '';
+  useDateFilter: string = '';
+  statusFilter: string = '0';
 
   SpecimensFilter = {
     ms_order_date: "",
@@ -95,35 +100,87 @@ export class SpecimensComponent implements OnInit {
   }
 
   filterByLabo() {
-    let selectedLabo = this.labo_id;
-    if (selectedLabo === '') {
-      this.filteredSpecimens = this.SpecimensRoot.data;
-    } else {
-      this.filteredSpecimens = this.SpecimensRoot.data.filter(specimen => {
-        if (selectedLabo === 'null') {
-          return specimen.lb_id === null;
-        } else {
-          // console.log("specimen.lb_id: ", specimen.lb_id)
-          // console.log("selected labo: ", typeof selectedLabo)
-          return specimen.lb_id === selectedLabo;
-        }
-      });
-    }
+    this.laboFilter = this.labo_id;
+    this.filterSpecimenInSystem(this.laboFilter, this.orderDateFilter, this.receivedDateFilter, this.useDateFilter, this.statusFilter, this.pagingSearch.paging);
   }
 
   filterStatus() {
-    let selectedStatus = this.status;
-    if (selectedStatus === '') {
-      this.filteredSpecimens = this.SpecimensRoot.data;
-    } else {
-      this.filteredSpecimens = this.SpecimensRoot.data.filter(specimen => {
-        if (selectedStatus === 'null') {
-          return specimen.ms_status === null;
-        } else {
-          return specimen.ms_status === parseInt(selectedStatus);
-        }
-      });
+    this.statusFilter = this.status;
+    this.filterSpecimenInSystem(this.laboFilter, this.orderDateFilter, this.receivedDateFilter, this.useDateFilter, this.statusFilter, this.pagingSearch.paging);
+  }
+
+  filterByOrderDate(order:string) {
+    this.orderDateFilter = this.dateToTimestamp(order).toString();
+    this.filterSpecimenInSystem(this.laboFilter, this.orderDateFilter, this.receivedDateFilter, this.useDateFilter, this.statusFilter, this.pagingSearch.paging);
+  }
+
+  filterByReceivedDate(received:string) {
+    this.receivedDateFilter = this.dateToTimestamp(received).toString();
+    this.filterSpecimenInSystem(this.laboFilter, this.orderDateFilter, this.receivedDateFilter, this.useDateFilter, this.statusFilter, this.pagingSearch.paging);
+  }
+
+  filterByUseDate(useD:string) {
+    this.useDateFilter = this.dateToTimestamp(useD).toString();
+    this.filterSpecimenInSystem(this.laboFilter, this.orderDateFilter, this.receivedDateFilter, this.useDateFilter, this.statusFilter, this.pagingSearch.paging);
+  }
+
+  filterSpecimenInSystem(laboId:string, orderDate: string, receivedDate: string, useDate: string, statusId: string, paging:number) {
+    var querySearch = `labo_id${laboId}?status=${statusId}`
+    if (orderDate != '') {
+       querySearch += `?order_date_start=${orderDate}`;
     }
+
+    if (receivedDate != '') {
+      querySearch += `?order_date_start=${receivedDate}`;
+    }
+
+    if (useDate != '') {
+      querySearch += `?order_date_start=${useDate}`;
+    }
+ 
+    this.SpecimensService.filterSpecimens(querySearch, paging).subscribe((sRoot) => {
+      sRoot.data.forEach((item:any) => {
+        this.specimenObject.ms_id = item.ms_id;
+        this.specimenObject.ms_name = item.ms_name;
+        this.specimenObject.ms_type = item.ms_type;
+        this.specimenObject.ms_quantity = item.ms_quantity;
+        this.specimenObject.ms_unit_price = item.ms_unit_price;
+        this.specimenObject.lb_id = item.lb_id;
+        this.specimenObject.lb_name = this.getLaboName(item.lb_id);
+        this.specimenObject.ms_status = item.ms_status;
+        this.specimenObject.ms_order_date = item.ms_order_date;
+        this.specimenObject.ms_used_date = item.ms_used_date;
+        this.specimenObject.ms_orderer = item.ms_orderer;
+        this.specimenObject.ms_received_date = item.ms_received_date;
+        this.specimenObject.ms_receiver = item.ms_receiver;
+        this.specimenObject.ms_warranty = item.ms_warranty;
+        this.filteredSpecimens.push(this.specimenObject);
+        this.specimenObject = {
+          ms_id:'',
+    ms_name:'',
+    ms_type: '',
+    ms_quantity:'',
+    ms_unit_price:'',
+    lb_id: '',
+    lb_name: '',
+    ms_status: 0,
+    ms_order_date: '',
+    ms_used_date: '',
+    ms_orderer: '',
+    ms_received_date: '',
+    ms_receiver: '',
+    ms_warranty: '',
+    p_patient_id:'',
+    p_patient_name:''
+        }
+        this.laboName = '';
+        this.checkNextPage();
+      if (this.filteredSpecimens.length > 10) {
+        this.filteredSpecimens.pop();
+      }
+      })
+      this.loading = false;
+    })
   }
 
   specimenObject = {
@@ -140,7 +197,9 @@ export class SpecimensComponent implements OnInit {
     ms_orderer: '',
     ms_received_date: '',
     ms_receiver: '',
-    ms_warranty: ''
+    ms_warranty: '',
+    p_patient_id:'',
+    p_patient_name:''
   }
 
   laboName: string= '';
@@ -186,13 +245,15 @@ export class SpecimensComponent implements OnInit {
           this.specimenObject.ms_received_date = item.ms_received_date;
           this.specimenObject.ms_receiver = item.ms_receiver;
           this.specimenObject.ms_warranty = item.ms_warranty;
+          this.specimenObject.p_patient_id = item.p_patient_id;
+          this.specimenObject.p_patient_name = item.p_patient_name;
           this.filteredSpecimens.push(this.specimenObject);
           this.specimenObject = {
-            ms_id:'',
-            ms_name:'',
+            ms_id: '',
+            ms_name: '',
             ms_type: '',
-            ms_quantity:'',
-            ms_unit_price:'',
+            ms_quantity: '',
+            ms_unit_price: '',
             lb_id: '',
             lb_name: '',
             ms_status: 0,
@@ -201,7 +262,9 @@ export class SpecimensComponent implements OnInit {
             ms_orderer: '',
             ms_received_date: '',
             ms_receiver: '',
-            ms_warranty: ''
+            ms_warranty: '',
+            p_patient_id: '',
+            p_patient_name: ''
           }
           this.laboName = '';
           this.checkNextPage();

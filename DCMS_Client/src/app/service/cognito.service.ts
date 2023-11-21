@@ -75,32 +75,6 @@ export class CognitoService {
     });
   }
 
-
-
-  //listUsers() {
-    // const cognitoIdentityServiceProvider = new AWS.CognitoIdentityServiceProvider();
-
-    // const params = {
-    //   UserPoolId: environment.cognito.userPoolId,
-    // };
-
-    // console.log("đã vô nha");
-
-    // return new Promise((resolve, reject) => {
-    //   cognitoIdentityServiceProvider.listUsers(params, (err, data) => {
-    //     if (err) {
-    //       console.error('Lỗi:', err);
-    //       reject(err);
-    //     } else {
-    //       console.log('Danh sách người dùng:', data);
-    //       resolve(data);
-    //     }
-    //   });
-    // });
-
-    
-  //}
-
   getListStaff():Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
 
@@ -111,14 +85,27 @@ export class CognitoService {
     return this.http.get('https://lipm11wja0.execute-api.ap-southeast-1.amazonaws.com/dev/staff', { headers });
   }
 
-  deleteStaff(id:any):Observable<any> {
+  putStaff(userName:string, role:string): Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      "Content-Type": "application/json; charset=utf8"
+    });
+    const attributes = {
+      'custom:role': role
+    };
+    const requestBody = JSON.stringify({username: userName, user_attributes: attributes});
+    return this.http.put('https://lipm11wja0.execute-api.ap-southeast-1.amazonaws.com/dev/staff', requestBody, { headers });
+  }
+
+  deleteStaff(staff:any):Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
 
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`,
       'Accept': 'application/json',
     });
-    return this.http.delete('https://lipm11wja0.execute-api.ap-southeast-1.amazonaws.com/dev/staff/'+id, { headers });
+    return this.http.delete('https://lipm11wja0.execute-api.ap-southeast-1.amazonaws.com/dev/staff/'+staff.staffUserName, { headers });
   }
 
   addStaff(User: IStaff): Promise<any> {
@@ -132,22 +119,10 @@ export class CognitoService {
       'custom:description': User.description,
       'custom:status': User.status,
       'custom:image': User.image,
-      'custom:role': User.role
+      'custom:role': User.role, 
+      'custom:locale': User.locale
     };
-    
-    // const attributes = {
-    //   email: "tuananh2001@gmail.com",
-    //   phone_number: "+84397595095",
-    //   name: "Nguyen Kieu Tuan Anh",
-    //   gender: "male",
-    //   address: "Hà Nội",
-    //   'custom:DOB': "",
-    //   'custom:description': '',
-    //   'custom:status': "1",
-    //   'custom:image': '',
-    //   'custom:role': "2"
-    // };
-
+  
     return Auth.signUp({
       username: User.username,
       password: User.password,
@@ -215,24 +190,6 @@ export class CognitoService {
       return user && user.attributes ? user.attribute['custom:role'] : '';
     })
   }
-
-  // async listUsers() {
-  //   const params = {
-  //     UserPoolId: environment.cognito.userPoolId // Thay thế bằng ID của User Pool của bạn
-  //   };
-  //   try {
-  //     const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
-  //     const users = await cognitoidentityserviceprovider.listUsers(params).promise();
-  //     // Xử lý danh sách người dùng ở đây
-  //     console.log(users);
-  //     return users;
-  //   } catch (error) {
-  //     console.error('Error fetching users', error);
-  //     throw error;
-  //   }
-  // }
-
-
 
   signOut(): Promise<any> {
     return Auth.signOut().then(() => {

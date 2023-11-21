@@ -13,11 +13,8 @@
         <div class="modal-body">
           <div class="row">
             <div class="col-md-3">
-              <div class="image-container"
-              style="border: 3px dotted #ccc;"
-              (click)="fileInput.click()">
-                <img [src]="imageURL" alt="ẢNH" class="text-center"
-                >
+              <div class="image-container" style="border: 3px dotted #ccc;" (click)="fileInput.click()">
+                <img [src]="imageURL" alt="ẢNH" class="text-center">
                 <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput style="display: none;">
               </div>
               <i class="text-center" style="font-size: 12px;">Bấm vào ô vuông vào để thêm ảnh</i>
@@ -62,6 +59,17 @@
                       {{vailidateStaff.address}}
                     </p>
                   </div>
+                </div>
+              </div>
+              <div class="form-group row mt-3">
+                <div class="col-md-3 name-title">
+                  <label for="role">Cơ sở</label>
+                </div>
+                <div class="col-md-9">
+                  <select id="role" [(ngModel)]="facility" class="form-select" aria-label="Default select example">
+                    <option value="0">Chọn cơ sở</option>
+                    <option *ngFor="let faci of listFacility" value={{faci.facility_id}}>{{faci.name}}</option>
+                  </select>
                 </div>
               </div>
               <div class="form-group row mt-3">
@@ -121,10 +129,10 @@
                   [(ngModel)]="role"
                   class="form-select" aria-label="Default select example">
                     <option value="0" selected>Chức vụ</option>
-                    <option value="1">Bác sĩ</option>
-                    <option value="2">Lễ tân</option>
-                    <option value="3">Y tá</option>
-                    <option value="4">Y tá trưởng</option>
+                    <option value="2">Bác sĩ</option>
+                    <option value="3">Lễ tân</option>
+                    <option value="4">Y tá</option>
+                    <option value="5">Y tá trưởng</option>
                   </select>
                   <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
                     <p>

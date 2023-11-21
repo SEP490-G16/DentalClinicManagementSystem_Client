@@ -34,6 +34,7 @@ export class FollowingTimekeepingComponent implements OnInit {
   ngOnInit(): void {
     this.setDefaultMonth();
    this.calculateDaysInMonth();
+   this.getDateinFromDatetoToDate();
   }
   selectedMonth: string='';
   startTime:string='';
@@ -148,7 +149,37 @@ export class FollowingTimekeepingComponent implements OnInit {
   calculateDaysInMonth() {
     const currentDate = new Date();
     const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
+    console.log("ngay trong thang",daysInMonth);
     this.daysInMonth = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+  }
+
+  getDateinFromDatetoToDate() {
+    const frDate = "25/10/2023";
+    const tDate = "10/11/2023";
+    const startDateParts = frDate.split('/');
+    const endDateParts = tDate.split('/');
+
+    const startDate = new Date(
+      parseInt(startDateParts[2]),
+      parseInt(startDateParts[1]) - 1,
+      parseInt(startDateParts[0])
+    );
+    const endDate = new Date(
+      parseInt(endDateParts[2]),
+      parseInt(endDateParts[1]) - 1,
+      parseInt(endDateParts[0])
+    );
+
+    let currentDate = startDate;
+    while (currentDate <= endDate) {
+      const day = currentDate.getDate();
+      const month = currentDate.getMonth() + 1;
+      const year = currentDate.getFullYear();
+      const formattedDate = `${day < 10 ? '0' + day : day}/${month < 10 ? '0' + month : month}/${year}`;
+      console.log(formattedDate);
+
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
   }
 
   isSameDay(epoch: number, compareDate: Date): boolean {

@@ -58,7 +58,7 @@
           <div class="col-sm-3 col-md-2" style="padding: 0 10px">
             <div class="input-group">
               <input type="date" class="form-control input-custom  p-2" [(ngModel)]="SpecimensFilter.ms_order_date"
-              (change)="filterDate()"
+              #input (change)="filterByOrderDate(input.value)"
               >
             </div>
           </div>
@@ -66,20 +66,20 @@
             <div class="input-group">
               <input type="date" class="form-control input-custom  p-2"
               [(ngModel)]="SpecimensFilter.ms_received_date"
-              (change)="filterDate()"
+              #input (change)="filterByReceivedDate(input.value)"
               >
             </div>
           </div>
           <div class="col-sm-3 col-md-2" style="padding: 0 10px">
             <div class="input-group">
-              <input type="date" class="form-control input-custom  p-2">
+              <input type="date" class="form-control input-custom  p-2" #input (change)="filterByUseDate(input.value)">
             </div>
           </div>
           <div class="col-sm-2 col-md-2" style="padding: 0 10px">
             <select class="form-select p-2" style="width: 70%; border: 1px solid #664FC3;
             border-radius: 10px;"
               aria-label="Default select example" [(ngModel)]="status" (change)="filterStatus()">
-              <option value="" selected>Trạng thái</option>
+              <option value="0">Trạng thái</option>
               <option value="1">Chưa Nhận</option>
               <option value="2">Đã Nhận</option>
               <option value="3">Hàng Lỗi</option>
