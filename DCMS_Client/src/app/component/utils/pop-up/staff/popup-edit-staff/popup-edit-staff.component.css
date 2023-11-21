@@ -9,23 +9,38 @@
 .h-300px {
   height: 300px;
 }
-.btn-save:active,
-.btn-save {
-  border-radius: 10px;
-  color: #fff;
-  border: 1px solid #7B4C50;
-  background-color: #7B4C50;
+.button-timekeeping{
+  font-family: "Poppins", sans-serif;
+  background: #664FC3;
+  text-align: center;
+  border: 0px solid white;
+  color: white;
+  font-weight: bold;
+  /*font-size: 24px;*/
+  outline: 0px;
+  padding: 10px 20px;
+  margin-bottom: 15px;
+  /* box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset; */
 }
 
-.btn-save:hover{
-  background-color: #60393c;
+.button-timekeeping:hover{
+  background: #533daf;
 }
 .btn-cancel:active,
 .btn-cancel {
-  border-radius: 10px;
+  font-family: "Poppins", sans-serif;
   background-color: #838282;
-  color: #ffffff;
+  text-align: center;
+  border: 0px solid white;
+  color: white;
+  font-weight: bold;
+  /*font-size: 24px;*/
+  outline: 0px;
+  padding: 10px 20px;
+  margin-bottom: 15px;
+  margin-right: 3px;
 }
+
 .btn-cancel:hover {
   background-color: #6e6c6c;
 }

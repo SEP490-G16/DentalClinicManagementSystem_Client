@@ -58,7 +58,7 @@ export class SpecimensService {
   //   return this.http.post(`${this.apiUrl}/labo`, requestBody, { headers });
   // }
 
-  putSpecimens(id:string, PutSpecimens:PutSpecimen): Observable<any> {
+    putSpecimens(id: string, PutSpecimens: { used_date: string; quantity: number; receiver: string; description: string; type: string; unit_price: number; order_date: string; received_date: string; orderer: string; name: string; warranty: string; facility_id: string; status: number }): Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`,

@@ -24,3 +24,9 @@
 .selected {
   background-color: rgba(109, 27, 109, 0.5);
 }
+.color-main {
+  background-color: #664FC3;
+}
+.title{
+  color: #FFFFFF;
+}

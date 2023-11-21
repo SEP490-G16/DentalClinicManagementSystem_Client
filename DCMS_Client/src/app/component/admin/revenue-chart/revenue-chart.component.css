@@ -37,3 +37,15 @@
   text-decoration: none; /* Loại bỏ gạch chân mặc định của liên kết */
   transition: color 0.3s; /* Hiệu ứng chuyển đổi màu sắc */
 }
+.filter-check{
+  display: flex;
+  justify-content: center;
+}
+.choose-facility{
+  float: right;
+}
+.select-facility{
+  padding: 10px;
+  border-radius: 10px;
+  margin-right: 20px;
+}
