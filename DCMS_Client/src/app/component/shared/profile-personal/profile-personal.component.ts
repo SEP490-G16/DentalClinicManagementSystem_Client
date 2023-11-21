@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { ICognitoUser } from 'src/app/model/ICognitoUser';
 import { IStaff } from 'src/app/model/Staff';
 import { CognitoService } from 'src/app/service/cognito.service';
-
+import imageCompression from 'browser-image-compression';
 @Component({
   selector: 'app-profile-personal',
   templateUrl: './profile-personal.component.html',
@@ -11,87 +12,126 @@ import { CognitoService } from 'src/app/service/cognito.service';
 export class ProfilePersonalComponent implements OnInit {
 
   staff: IStaff; // Biến để lưu thông tin người dùng
+  cognitoUser: ICognitoUser;
 
-  role:string = "1";
-  status:string = "1";
   imageURL: string | ArrayBuffer = '';
   showPassword: boolean = true;
   showPasswordRepeat: boolean = true;
-  password: string = '';
+  oldPassword: string = '';
+  newPassword: string = '';
   passwordRepeat: string = '';
   constructor(
     private cognitoService: CognitoService,
     private toastr: ToastrService
   ) {
-    this.staff = {
-      username: "hehe ",
-      email: "dsa@gmail.com",
-      name: "phamthanhlong",
-      phone: "+84968654321",
-      address: "asdsdsadsadsa",
-      description: "dâs",
-      DOB: "2023-11-04",
-      status: 1,
-      image: "abc"
-    } as IStaff;
+    this.staff = {} as IStaff;
+    this.cognitoUser = {} as ICognitoUser
   }
   vailidateStaff = {
-    name:'',
-    dob:'',
-    address:'',
-    phone:'',
-    gender:'',
-    email:''
+    name: '',
+    dob: '',
+    address: '',
+    phone: '',
+    gender: '',
+    email: ''
   }
-  isSubmitted:boolean = false;
-  staff_id_temp = "1695557d-3f50-4382-83dd-97c46a0a3f65"
+  isSubmitted: boolean = false;
+
 
   ngOnInit(): void {
+    //Op1:
+    const cognitoUserString = sessionStorage.getItem('cognitoUser');
+    if (cognitoUserString) {
+      this.cognitoUser = JSON.parse(cognitoUserString) as ICognitoUser;
 
+    } else {
+      console.error('No cognito user found in sessionStorage.');
+    }
+    //Op2:
+    this.loadUserAttributes();
+  }
+
+  private loadUserAttributes(): void {
+    this.cognitoService.getUserAttributes().then(attributes => {
+      this.staff = attributes;
+      const cognitoAttributes: any = attributes;
+      this.staff.role = cognitoAttributes['custom:role'] || '';
+      this.staff.DOB = cognitoAttributes['custom:DOB'] || '';
+      this.staff.image = cognitoAttributes['custom:image'] || '';
+      this.imageURL = this.staff.image;
+      this.staff.phone = cognitoAttributes.phone_number || '';
+      this.staff.username = this.cognitoUser.Username;
+      console.log("Attributes: ", attributes);
+      console.log("Staff: ", this.staff);
+    }).catch(error => {
+      console.error('Err khi lấy attribute từ cognito: ', error);
+      this.toastr.error(error, 'Lỗi khi lấy data');
+    });
   }
 
   saveEditedStaff() {
-    this.resetValidate();
-    if(!this.staff.name){
-      this.vailidateStaff.name = "Vui lòng nhập tên nhân viên!";
-      this.isSubmitted = true;
-    }
-    if (!this.staff.DOB){
-      this.vailidateStaff.dob = "Vui lòng nhập ngày sinh!";
-      this.isSubmitted = true;
-    }
-    if (!this.staff.address){
-      this.vailidateStaff.address = "Vui lòng nhập địa chỉ!";
-      this.isSubmitted = true;
-    }
-    if (!this.staff.phone){
-      this.vailidateStaff.phone = "Vui lòng nhập số điện thoại!";
-      this.isSubmitted = true;
-    }
-    else if (!this.isVietnamesePhoneNumber(this.staff.phone)){
-      this.vailidateStaff.phone = "Số điện thoại không hợp lệ!";
-      this.isSubmitted = true;
-    }
-    if (this.staff.email && !this.isValidEmail(this.staff.email)){
-      this.vailidateStaff.email = "Email không hợp lệ!";
-      this.isSubmitted = true;
-    }
-    if (!this.staff.gender){
-      this.vailidateStaff.gender = "Vui lòng chọn giới tính!";
-      this.isSubmitted = true;
-    }
-    if (this.isSubmitted){
+    if (this.staff.password && this.staff.password !== this.passwordRepeat) {
+      this.toastr.error('Mật khẩu mới và Mật khẩu mới nhập lại không khớp');
       return;
     }
-    this.staff.status = parseInt(this.status);
-    this.cognitoService.updateUserAttributes(this.staff_id_temp, this.staff)
-      .then((response) => {
-        this.showSuccessToast('Cập nhật thông tin thành công');
+
+    if (this.staff.password && this.staff.password !== "") {
+      this.cognitoService.changePassword(this.oldPassword, this.staff.password)
+        .then(() => {
+          this.toastr.success('Thay đổi mật khẩu thành công!');
+        })
+        .catch(error => {
+          console.error('Lỗi khi đổi mật khẩu: ', error);
+          this.toastr.error(error, 'Lỗi khi đổi mật khẩu');
+        });
+    }
+
+    console.log("Hehe: ", this.staff);
+
+    this.cognitoService.updateUserAttributesOpt2(this.buildUpdateAttributes())
+      .then(() => {
+        this.toastr.success('User attributes updated successfully');
       })
-      .catch((error) => {
-        this.showErrorToast('Cập nhật thông tin thất bại');
+      .catch(error => {
+        console.error('Error updating user attributes: ', error);
+        this.toastr.error('Failed to update user attributes');
       });
   }
+
+  private buildUpdateAttributes(): { [key: string]: string } {
+    let updateAttributes: { [key: string]: string } = {};
+
+    const isKeyOfIStaff = (key: string): key is keyof IStaff => {
+      return key in this.staff;
+    }
+
+    const attributeMappings: { [K in keyof IStaff]?: string } = {
+      'role': 'custom:role',
+      'DOB': 'custom:DOB',
+      'image': 'custom:image',
+      'status': 'custom:status',
+      'email': 'email',
+      'phone': 'phone_number',
+      'name': 'name',
+      'address': 'address',
+      'gender': 'gender',
+    };
+
+    for (const key in attributeMappings) {
+      if (isKeyOfIStaff(key)) {
+        const attributeValue = this.staff[key].toString();
+        const attributeName = attributeMappings[key];
+        if (attributeName) {
+          updateAttributes[attributeName] = attributeValue;
+        }
+      }
+    }
+
+    updateAttributes['custom:status'] = '1';
+
+    return updateAttributes;
+  }
+
 
   onFileSelected(event: any) {
     const fileInput = event.target;
@@ -99,13 +139,31 @@ export class ProfilePersonalComponent implements OnInit {
       const file = fileInput.files[0];
       const reader = new FileReader();
 
-      reader.onload = (e: any) => {
-        this.imageURL = e.target.result;
+      // Config
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1920,
+        useWebWorker: true
       };
 
-      reader.readAsDataURL(file);
+      imageCompression(file, options)
+        .then(compressedFile => {
+          const reader = new FileReader();
+          reader.onload = (e: ProgressEvent<FileReader>) => {
+            if (e.target && typeof e.target.result === 'string') {
+              this.imageURL = e.target.result;
+              this.staff.image = this.imageURL;
+            }
+          };
+          reader.readAsDataURL(compressedFile);
+        })
+        .catch(error => {
+          console.error('Error during image compression', error);
+        });
     }
   }
+
+
 
   showSuccessToast(message: string) {
     this.toastr.success(message, 'Thành công', {
@@ -125,7 +183,7 @@ export class ProfilePersonalComponent implements OnInit {
   togglePasswordRepeat() {
     this.showPasswordRepeat = !this.showPasswordRepeat;
   }
-  private isVietnamesePhoneNumber(number:string):boolean {
+  private isVietnamesePhoneNumber(number: string): boolean {
     return /^(\+84|84|0)?[1-9]\d{8}$/
       .test(number);
   }
@@ -133,14 +191,14 @@ export class ProfilePersonalComponent implements OnInit {
     // Thực hiện kiểm tra địa chỉ email ở đây, có thể sử dụng biểu thức chính quy
     return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email);
   }
-  private resetValidate(){
+  private resetValidate() {
     this.vailidateStaff = {
-      name:'',
-      dob:'',
-      address:'',
-      phone:'',
-      gender:'',
-      email:''
+      name: '',
+      dob: '',
+      address: '',
+      phone: '',
+      gender: '',
+      email: ''
     }
     this.isSubmitted = false;
   }

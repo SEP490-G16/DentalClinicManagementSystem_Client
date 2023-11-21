@@ -22,7 +22,8 @@
   --custom-box-shadow: 0 2rem 3rem var(--custom-color-light);
 }
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
 }
@@ -75,7 +76,8 @@ small {
   border-top: 16px solid #3498db;
   width: 120px;
   height: 120px;
-  -webkit-animation: spin 2s linear infinite; /* Safari */
+  -webkit-animation: spin 2s linear infinite;
+  /* Safari */
   animation: spin 2s linear infinite;
 }
 
@@ -116,15 +118,25 @@ b {
   margin-bottom: 0.8rem;
 }
 
+label {
+  font-weight: bold;
+}
 
 table {
-  width: 100%; /* Full-width tables */
-  border-collapse: collapse; /* Collapses border to remove any space between them */
-  table-layout: fixed; /* Ensures consistent column widths */
-  background-color: #fff; /* White background for the tables */
-  margin-bottom: 20px; /* Adds space between tables and any content below */
-  border-radius: 8px; /* Rounded corners for aesthetics */
-  overflow: hidden; /* Ensures the rounded corners clip the content */
+  width: 100%;
+  /* Full-width tables */
+  border-collapse: collapse;
+  /* Collapses border to remove any space between them */
+  table-layout: fixed;
+  /* Ensures consistent column widths */
+  background-color: #fff;
+  /* White background for the tables */
+  margin-bottom: 20px;
+  /* Adds space between tables and any content below */
+  border-radius: 8px;
+  /* Rounded corners for aesthetics */
+  overflow: hidden;
+  /* Ensures the rounded corners clip the content */
 }
 
 th {
@@ -147,11 +159,11 @@ td {
 
 td input[type="text"],
 td input[type="number"] {
-   width: 95%;
-    padding: 5px;
-    border: 1px solid #ddd;
-    margin-bottom: 5px;
-    border-radius: 4px;
+  width: 95%;
+  padding: 5px;
+  border: 1px solid #ddd;
+  margin-bottom: 5px;
+  border-radius: 4px;
 }
 
 .equal-width-list {
@@ -175,7 +187,7 @@ a {
 
 @media screen and (max-width: 1200px) {
 
- .recent-orders {
+  .recent-orders {
     width: 94%;
     position: absolute;
     left: 50%;
@@ -192,8 +204,8 @@ a {
     display: none;
   }
 
- table tbody tr td:last-child,
- table tbody tr td:first-child {
+  table tbody tr td:last-child,
+  table tbody tr td:first-child {
     display: none;
   }
 
@@ -207,7 +219,7 @@ a {
     }
   }
 
- .recent-orders {
+  .recent-orders {
     position: relative;
     margin: 3rem 0 0 0;
     width: 100%;
@@ -227,11 +239,11 @@ a {
 }
 
 .custom-table thead tr th {
-	font-weight: 600
+  font-weight: 600
 }
 
 .custom-table tr {
-	background-color: #7B4C50;
+  background-color: #7B4C50;
   border: 1px solid #7B4C50;
 }
 
@@ -245,8 +257,8 @@ a {
 .table.custom-table>tfoot>tr>th,
 .table.custom-table>thead>tr>td,
 .table.custom-table>thead>tr>th {
-	padding: 14px 8px;
-	vertical-align: middle
+  padding: 14px 8px;
+  vertical-align: middle
 }
 
 .dp-hidden {
@@ -255,6 +267,7 @@ a {
   border: none;
   padding: 0;
 }
+
 .custom-day {
   text-align: center;
   padding: 0.185rem 0.25rem;
@@ -262,14 +275,17 @@ a {
   height: 2rem;
   width: 2rem;
 }
+
 .custom-day.focused {
   background-color: #e6e6e6;
 }
+
 .custom-day.range,
 .custom-day:hover {
   background-color: rgb(2, 117, 216);
   color: white;
 }
+
 .custom-day.faded {
   background-color: rgba(2, 117, 216, 0.5);
 }
@@ -280,6 +296,7 @@ a {
   border: none;
   padding: 0;
 }
+
 .custom-day {
   text-align: center;
   padding: 0.185rem 0.25rem;
@@ -291,11 +308,13 @@ a {
 .custom-day.focused {
   background-color: #e6e6e6;
 }
+
 .custom-day.range,
 .custom-day:hover {
   background-color: rgb(2, 117, 216);
   color: white;
 }
+
 .custom-day.faded {
   background-color: rgba(2, 117, 216, 0.5);
 }
@@ -310,7 +329,8 @@ label {
   color: #333;
 }
 
-.form-select, .form-control {
+.form-select,
+.form-control {
   display: block;
   width: 100%;
   padding: .375rem .75rem;
@@ -325,7 +345,8 @@ label {
   transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
-.form-select:focus, .form-control:focus {
+.form-select:focus,
+.form-control:focus {
   color: #495057;
   background-color: #fff;
   border-color: #80bdff;
@@ -338,36 +359,6 @@ textarea.form-control {
   min-height: 100px;
 }
 
-.button-timekeeping{
-  font-family: "Poppins", sans-serif;
-  background: #664FC3;
-  text-align: center;
-  cursor: pointer;
-  border: 0px solid white;
-  color: white;
-  font-weight: bold;
-  /*font-size: 24px;*/
-  outline: 0px;
-  padding: 10px 20px;
-  margin-bottom: 15px;
-/* box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset; */
-}
-
-button:hover{
-  opacity: 0.9;
-}
-
-button:active{
-  transform: translateY(4px);
-  box-shadow: 0px -1px -1px #fff;
-}
-
-.btn.button-timekeeping:hover {
-  color: #fff;
-  background-color: #0069d9;
-  border-color: #0062cc;
-}
-
 /* Responsive spacing and alignment */
 @media (min-width: 768px) {
   .row {
@@ -377,7 +368,9 @@ button:active{
     margin-left: -15px;
   }
 
-  .col-md-4, .col-md-8, .col-md-12 {
+  .col-md-4,
+  .col-md-8,
+  .col-md-12 {
     position: relative;
     width: 100%;
     padding-right: 15px;
@@ -423,17 +416,25 @@ button:active{
   border-bottom: 1px solid #000;
 }
 
+.center {
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+}
+
 .popup {
   position: absolute;
   top: 40%;
   left: 0;
   right: 0;
-  width: 300px; /* hoặc một giá trị khác */
+  width: 500px;
+  /* hoặc một giá trị khác */
   padding: 20px;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.9);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  z-index: 10;
+  z-index: 999;
   width: auto;
 }
 
@@ -462,8 +463,13 @@ button:active{
 }
 
 @keyframes fadeInAnimation {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .image-container {
@@ -478,7 +484,8 @@ button:active{
   align-items: flex-start;
   gap: 5px;
   background-image: url(https://bridlingtoncaravans.com/office/storage/no-image/no-image.png);
-  object-fit: cover;
+
+  object-fit: contain;
   background-repeat: no-repeat;
 }
 
@@ -507,14 +514,29 @@ button:active{
 }
 
 @keyframes clickAnimation {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.5); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.5);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 @keyframes rowAnimation {
-  0% { opacity: 0; transform: translateY(-20px); }
-  100% { opacity: 1; transform: translateY(0); }
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .tab-pane {
@@ -529,73 +551,108 @@ button:active{
 }
 
 .KvDTtab-container h2 {
-  color: #7B4C50; /* Primary theme color for headings */
-  margin-bottom: 15px; /* Spacing after headings */
+  color: #7B4C50;
+  /* Primary theme color for headings */
+  margin-bottom: 15px;
+  /* Spacing after headings */
 }
 
 .content-child {
-  margin-bottom: 15px; /* Spacing between rows */
+  margin-bottom: 15px;
+  /* Spacing between rows */
 }
 
-.form-group, .form-control, .form-select {
-  width: 100%; /* Full width for form elements */
-  margin-bottom: 10px; /* Spacing after each form element */
+.form-group,
+.form-control,
+.form-select {
+  width: 100%;
+  /* Full width for form elements */
+  margin-bottom: 10px;
+  /* Spacing after each form element */
 }
 
 .label {
-  font-weight: bold; /* Bold labels for better readability */
+  font-weight: bold;
+  /* Bold labels for better readability */
 }
 
 .image-container {
-  border: 1px dashed #7B4C50; /* Dashed border with primary theme color for image container */
-  padding: 10px; /* Padding inside the image container */
-  text-align: center; /* Centering the text */
+  border: 1px dashed #7B4C50;
+  /* Dashed border with primary theme color for image container */
+  padding: 10px;
+  /* Padding inside the image container */
+  text-align: center;
+  /* Centering the text */
 }
 
 .image-wrapper {
-  display: inline-block; /* Align images inline */
-  margin: 5px; /* Spacing between images */
+  display: inline-block;
+  /* Align images inline */
+  margin: 5px;
+  /* Spacing between images */
 }
 
 .table-custom table {
-  width: 100%; /* Full width table */
-  border-collapse: collapse; /* Remove space between borders */
+  width: 100%;
+  /* Full width table */
+  border-collapse: collapse;
+  /* Remove space between borders */
 }
 
-.table-custom th, .table-custom td {
-  border: 1px solid #dee2e6; /* Light grey border for table cells */
-  padding: 8px; /* Padding inside cells */
-  text-align: left; /* Align text to the left in cells */
+.table-custom th,
+.table-custom td {
+  border: 1px solid #dee2e6;
+  /* Light grey border for table cells */
+  padding: 8px;
+  /* Padding inside cells */
+  text-align: left;
+  /* Align text to the left in cells */
 }
 
-.bi-plus-circle, .bi-trash {
-  color: #7B4C50; /* Primary theme color for icons */
+.bi-plus-circle,
+.bi-trash {
+  color: #7B4C50;
+  /* Primary theme color for icons */
 }
 
 .button-timekeeping {
-  background-color: #7B4C50; /* Primary theme color for buttons */
-  color: white; /* White text for buttons */
-  border-radius: 3px; /* Rounded corners for buttons */
-  padding: 10px 15px; /* Padding inside buttons */
-  border: none; /* Remove border from buttons */
-  cursor: pointer; /* Cursor pointer for clickable items */
+  background-color: #7B4C50;
+  /* Primary theme color for buttons */
+  color: white;
+  /* White text for buttons */
+  border-radius: 3px;
+  /* Rounded corners for buttons */
+  padding: 10px 15px;
+  /* Padding inside buttons */
+  border: none;
+  /* Remove border from buttons */
+  cursor: pointer;
+  /* Cursor pointer for clickable items */
 }
 
 .button-timekeeping:hover {
-  background-color: darken(#7B4C50, 10%); /* Slightly darker shade on hover */
+  background-color: darken(#7B4C50, 10%);
+  /* Slightly darker shade on hover */
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .col-md-4, .col-md-3, .col-md-1, .col-md-8, .col-md-12 {
-      width: 100%; /* Full width on smaller screens */
-      margin-bottom: 15px;
+
+  .col-md-4,
+  .col-md-3,
+  .col-md-1,
+  .col-md-8,
+  .col-md-12 {
+    width: 100%;
+    /* Full width on smaller screens */
+    margin-bottom: 15px;
   }
 }
 
 .sublist {
   position: absolute;
-  left: 100%; /* Adjust as necessary */
+  left: 100%;
+  /* Adjust as necessary */
   top: 0;
   list-style-type: none;
   background: white;
@@ -614,11 +671,166 @@ button:active{
 
 .datalist-b-container {
   position: absolute;
-  display: none; /* Initially hidden */
+  display: none;
+  /* Initially hidden */
   /* ... additional styling ... */
 }
 
 /* You might need to adjust the z-index to ensure the datalist is displayed above other content */
 .datalist-b-container.show {
   display: block;
+}
+
+.popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  visibility: hidden;
+  /* Hide it by default */
+  opacity: 0;
+  transition: visibility 0s, opacity 0.5s;
+}
+
+.popup-container.show {
+  visibility: visible;
+  /* Show it on .show */
+  opacity: 1;
+}
+
+.popup {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  position: relative;
+  width: fit-content;
+  /* Adjust width as needed */
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5rem;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: #777;
+}
+
+.button-container button {
+  padding: 10px 15px;
+  margin-top: 10px;
+  /* Spacing from the title */
+  border: none;
+  border-radius: 4px;
+  background-color: #6200EE;
+  color: white;
+  cursor: pointer;
+}
+
+.button-container button:hover {
+  background-color: #3700B3;
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.popup {
+  width:350px;
+  height:280px;
+  padding:30px 20px;
+  background:#f5f5f5;
+  border-radius:10px;
+  box-sizing:border-box;
+  z-index:2;
+  text-align:center;
+  opacity:0;
+  top:-200%;
+  transform:translate(-50%,-50%) scale(0.5);
+  transition: opacity 300ms ease-in-out,
+              top 1000ms ease-in-out,
+              transform 1000ms ease-in-out;
+}
+.popup.active {
+  opacity:1;
+  top:50%;
+  transform:translate(-50%,-50%) scale(1);
+  transition: transform 300ms cubic-bezier(0.18,0.89,0.43,1.19);
+}
+.popup .icon {
+  margin:5px 0px;
+  width:50px;
+  height:50px;
+  border:2px solid #34f234;
+  text-align:center;
+  display:inline-block;
+  border-radius:50%;
+  line-height:60px;
+}
+.popup .icon i.fa {
+  font-size:30px;
+  color:#34f234;
+}
+.popup .title {
+  margin:5px 0px;
+  font-size:30px;
+  font-weight:600;
+}
+.popup .description {
+  color:#222;
+  font-size:15px;
+  padding:5px;
+}
+.popup .dismiss-btn {
+  margin-top:15px;
+}
+.popup .dismiss-btn .button-custom {
+  padding:10px 20px;
+  background:#111;
+  color:#f5f5f5;
+  border:2px solid #111;
+  font-size:16px;
+  font-weight:600;
+  outline:none;
+  border-radius:10px;
+  cursor:pointer;
+  transition: all 300ms ease-in-out;
+}
+.popup .dismiss-btn .button-custom:hover {
+  color:#111;
+  background:#f5f5f5;
+}
+.popup > div {
+  position:relative;
+  top:10px;
+  opacity:0;
+}
+.popup.active > div {
+  top:0px;
+  opacity:1;
+}
+.popup.active .icon {
+  transition: all 300ms ease-in-out 250ms;
+}
+.popup.active .title {
+  transition: all 300ms ease-in-out 300ms;
+}
+.popup.active .description {
+  transition: all 300ms ease-in-out 350ms;
+}
+.popup.active .dismiss-btn {
+  transition: all 300ms ease-in-out 400ms;
 }

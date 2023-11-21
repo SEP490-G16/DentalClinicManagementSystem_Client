@@ -91,8 +91,8 @@
         <h2>Hình ảnh</h2>
         <div class="row mt-3 content-child">
           <div class="col-md-3" #containerRef>
-            <button data-bs-toggle="modal" data-bs-target="#exampleModal">Tải ảnh lên</button>
-            <div class="image-container" alt="">
+            <!-- <button >Tải ảnh lên</button> -->
+            <div class="image-container" alt="" data-bs-toggle="modal" data-bs-target="#exampleModal">
               <div *ngIf="showImages">
                 <div *ngFor="let url of imageUrls">
                   <div class="image-wrapper">
@@ -200,16 +200,19 @@
                   <tbody>
                     <tr *ngFor="let row of Material_Usage_Body; let i = index" [ngClass]="row.animationClass"
                       @rowAnimation>
-                      <td><input [(ngModel)]="row.material_warehouse_id" list="warehouses" (change)="updateMaterialWarehouse(i, row.material_warehouse_id)"
-                          class="form-control" />
-                          <datalist id="warehouses">
-                            <option *ngFor="let mw of MaterialWarehouse_Array" [value]="mw.mw_material_warehouse_id">
-                              {{mw.m_material_name}}</option>
-                          </datalist>
+                      <td><input [(ngModel)]="row.material_warehouse_id" list="warehouses"
+                          (change)="updateMaterialWarehouse(i, row.material_warehouse_id)" class="form-control" />
+                        <datalist id="warehouses">
+                          <option *ngFor="let mw of MaterialWarehouse_Array" [value]="mw.mw_material_warehouse_id">
+                            {{mw.m_material_name}}</option>
+                        </datalist>
                       </td>
-                      <td><input [(ngModel)]="row.quantity" type="number" min="1" [max]="row.mw_remaining" (ngModelChange)="updateMaterialWarehouse(i, row.material_warehouse_id)" class="form-control" /></td>
+                      <td><input [(ngModel)]="row.quantity" type="number" min="1" [max]="row.mw_remaining"
+                          (ngModelChange)="updateMaterialWarehouse(i, row.material_warehouse_id)"
+                          class="form-control" /></td>
                       <td><input [(ngModel)]="row.price" type="number" min="0" class="form-control" disabled /></td>
-                      <td><input [(ngModel)]="row.total_paid" type="number" min="0" class="form-control" disabled/></td>
+                      <td><input [(ngModel)]="row.total_paid" type="number" min="0" class="form-control" disabled />
+                      </td>
                       <td><input [(ngModel)]="row.usage_date" type="text" class="form-control" /></td>
                       <td><input [(ngModel)]="row.adder" type="text" class="form-control" /></td>
                       <td>
@@ -222,16 +225,14 @@
             </div>
           </div>
           <div class="save float-end" style="padding: 10px 0px;">
-            <button class="btn button-timekeeping" (click)="postExamination()">Lưu</button>
+            <button class="btn button-timekeeping" style="margin-right: 30px;" (click)="postExamination()">Lưu</button>
+            <button class="btn button-timekeeping" (click)="postExamination()">Preview</button>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-
-
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="submissionModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -259,3 +260,25 @@
     </div>
   </div>
 </div>
+
+<div class="center">
+  <button (click)="showNaviPopup(1)">Open Popup 1</button>
+</div>
+
+<div class="popup center" [class.active]="isPopup1Visible">
+  <div class="icon">
+    <i class="fa fa-check"></i>
+  </div>
+  <div class="title">
+    Thêm lần khám thành công!!
+  </div>
+  <div class="description">
+      Bạn muốn đến xem màn hình <b>Danh sách Lịch hẹn</b> khám hay muốn đến
+      <b>Thanh toán bệnh nhân</b>
+  </div>
+  <div class="dismiss-btn">
+    <button class="button-custom" (click)="goAppointment(1)">Thanh toán</button>
+    <button class="button-custom" (click)="goPayment(1)">Lịch hẹn</button>
+  </div>
+</div>
+

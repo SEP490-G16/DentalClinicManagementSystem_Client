@@ -199,8 +199,8 @@ export class PopupAddExaminationComponent implements OnInit {
   }
 
   allowedEmptyFields: string[]
-  = ['usage_date', 'adder', 'description', 'examination_id',
-  'material_warehouse_id', 'medical_procedure_id'];
+    = ['usage_date', 'adder', 'description', 'examination_id',
+      'material_warehouse_id', 'medical_procedure_id'];
 
   areRequiredFieldsFilled(array: any[]): boolean {
     return array.every(item => {
@@ -261,6 +261,13 @@ export class PopupAddExaminationComponent implements OnInit {
         (err) => {
           this.toastr.error(err.error.message, 'Thêm lần khám thất bại');
         })
+  }
+
+  closePopup() {
+    let popupContainer = document.getElementById('popupContainer');
+    if (popupContainer) {
+      popupContainer.classList.remove('show');
+    }
   }
 
   //Xử lý với ảnh
@@ -347,8 +354,19 @@ export class PopupAddExaminationComponent implements OnInit {
         break;
     }
   }
+  isPopup1Visible = false;
+  isPopup2Visible = false;
 
+  showNaviPopup(popupNumber: number): void {
+    this.isPopup1Visible = true;
+  }
 
+  goAppointment(popupNumber: number): void {
+    this.isPopup1Visible = false;
+  }
+  goPayment(popupNumber: number): void {
+    this.isPopup1Visible = false;
+  }
 
   isHovering: boolean = false;
 
