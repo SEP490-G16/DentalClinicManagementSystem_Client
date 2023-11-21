@@ -232,11 +232,7 @@ export class PopupAddExaminationComponent implements OnInit {
         const examinationId = res.data.examination_id;
         this.Procedure_Material_Usage_Body.forEach((el) => {
           el.examination_id = examinationId
-        },
-          (error) => {
-            //this.toastr.error(err.error.message, 'Thêm lần khám thất bại');
-            ResponseHandler.HANDLE_HTTP_STATUS(this.tcDetailService.apiUrl+"/examination", error);
-          }
+        }
         )
         this.MaterialWarehouse_Array.forEach((el) => {
           el.examination_id = examinationId
@@ -265,9 +261,15 @@ export class PopupAddExaminationComponent implements OnInit {
         }
 
       },
-        (err) => {
-          this.toastr.error(err.error.message, 'Thêm lần khám thất bại');
-        })
+
+        (error) => {
+          //this.toastr.error(err.error.message, 'Thêm lần khám thất bại');
+          ResponseHandler.HANDLE_HTTP_STATUS(this.tcDetailService.apiUrl+"/examination", error);
+        }
+        // (err) => {
+        //   this.toastr.error(err.error.message, 'Thêm lần khám thất bại');
+        // }
+        )
   }
 
   closePopup() {
