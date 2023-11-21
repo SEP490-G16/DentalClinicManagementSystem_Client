@@ -9,6 +9,7 @@
 .h-300px {
   height: 300px;
 }
+
 .btn-save:active,
 .btn-save {
   border-radius: 10px;
@@ -17,78 +18,117 @@
   background-color: #7B4C50;
 }
 
-.btn-save:hover{
+.btn-save:hover {
   background-color: #60393c;
 }
+
 .btn-cancel:active,
 .btn-cancel {
   border-radius: 10px;
   background-color: #838282;
   color: #ffffff;
 }
+
 .btn-cancel:hover {
   background-color: #6e6c6c;
 }
+
 .image-container {
-  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #ccc;
+  border-radius: 4px;
   height: 200px;
-  cursor: pointer;
-  position: relative;
+  background-color: #f8f8f8;
 }
 
-.image-container img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
+.image-container:hover {
+  border-color: #777;
 }
-.account-staff{
+
+@media (max-width: 768px) {
+  .form-group {
+    margin-bottom: 0.75rem;
+  }
+
+  .form-control {
+    padding: 0.4rem;
+    font-size: 0.9rem;
+  }
+
+  .btn-save,
+  .btn-cancel {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .image-container {
+    height: 150px;
+    /* Smaller fixed height for smaller screens */
+  }
+}
+
+.account-staff {
   border: 1px solid #1e1e1e;
   border-radius: 10px;
 }
-.header-account{
+
+.header-account {
   border-bottom: 1px solid #1e1e1e;
   padding: 10px;
   text-align: center;
 }
-.account-content{
+
+.account-content {
   padding: 10px;
 }
-.name-title{
+
+.name-title {
   padding-top: 6px;
   padding-bottom: 6px;
 }
-.value-staff{
+
+.value-staff {
   padding: 6px 12px;
 }
+
 .password-toggle-icon {
   position: absolute;
   top: 0;
   transform: translateY(40%);
   right: 10px;
 }
-@media only screen and (min-width: 2000px){
-  .container{
+
+@media only screen and (min-width: 2000px) {
+  .container {
     max-width: 85%;
     margin-top: 15rem;
   }
-  .select-status{
+
+  .select-status {
     margin-left: 5.2rem !important;
   }
-  .custom-btn{
+
+  .custom-btn {
     padding: 0 12.5rem !important;
   }
 }
-.select-status{
+
+.select-status {
   margin-left: 53px;
 }
-.custom-btn{
+
+.custom-btn {
   padding: 0 1rem;
 }
-.container{
+
+.container {
   background-color: #FFFFFF;
   margin-top: 30px;
   border-radius: 30px;
 }
-.custom-content{
+
+.custom-content {
   padding: 25px;
 }

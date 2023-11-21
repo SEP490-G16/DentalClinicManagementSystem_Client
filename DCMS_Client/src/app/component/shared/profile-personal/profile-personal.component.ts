@@ -133,35 +133,37 @@ export class ProfilePersonalComponent implements OnInit {
   }
 
 
-  onFileSelected(event: any) {
+  async onFileSelected(event: any) {
     const fileInput = event.target;
     if (fileInput.files && fileInput.files[0]) {
       const file = fileInput.files[0];
-      const reader = new FileReader();
 
       // Config
       const options = {
         maxSizeMB: 1,
-        maxWidthOrHeight: 1920,
+        maxWidthOrHeight: 60,
         useWebWorker: true
       };
 
-      imageCompression(file, options)
-        .then(compressedFile => {
-          const reader = new FileReader();
-          reader.onload = (e: ProgressEvent<FileReader>) => {
-            if (e.target && typeof e.target.result === 'string') {
-              this.imageURL = e.target.result;
-              this.staff.image = this.imageURL;
-            }
-          };
-          reader.readAsDataURL(compressedFile);
-        })
-        .catch(error => {
-          console.error('Error during image compression', error);
-        });
+      try {
+        const compressedFile = await imageCompression(file, options);
+        const reader = new FileReader();
+        reader.onload = (e: ProgressEvent<FileReader>) => {
+          if (e.target && typeof e.target.result === 'string') {
+            this.imageURL = e.target.result;
+            this.staff.image = this.imageURL;
+          }
+        };
+        reader.readAsDataURL(compressedFile);
+      } catch (error) {
+        console.error('Error during image compression', error);
+      }
+    } else {
+      // Handle the case where no file is selected
     }
   }
+
+
 
 
 
