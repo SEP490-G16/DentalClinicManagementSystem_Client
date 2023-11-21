@@ -6,7 +6,7 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class MaterialWarehouseService {
-  private url = "https://96rec52gi8.execute-api.ap-southeast-1.amazonaws.com/dev";
+  public url = "https://96rec52gi8.execute-api.ap-southeast-1.amazonaws.com/dev";
   constructor(private http: HttpClient) { }
 
   ImportMaterial(materials:any):Observable<any>{

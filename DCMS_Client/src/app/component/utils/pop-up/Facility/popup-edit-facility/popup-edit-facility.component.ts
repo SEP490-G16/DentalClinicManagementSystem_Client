@@ -1,6 +1,7 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {FacilityService} from "../../../../../service/FacilityService/facility.service";
 import {ToastrService} from "ngx-toastr";
+import {ResponseHandler} from "../../../libs/ResponseHandler";
 
 @Component({
   selector: 'app-popup-edit-facility',
@@ -126,7 +127,8 @@ export class PopupEditFacilityComponent implements OnChanges {
     },
       error => {
       this.loading = false;
-      this.toastr.error('Cập nhật thất bại !');
+      //this.toastr.error('Cập nhật thất bại !');
+        ResponseHandler.HANDLE_HTTP_STATUS(this.facilityService.url+"/facility/"+this.id, error);
       }
     )
   }

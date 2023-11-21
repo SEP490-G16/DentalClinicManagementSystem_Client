@@ -19,6 +19,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureService/medical-procedure-group.service';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs'
+import {ResponseHandler} from "../../../libs/ResponseHandler";
 
 @Component({
   selector: 'app-popup-add-appointment',
@@ -31,7 +32,7 @@ import { BehaviorSubject } from 'rxjs'
 })
 export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   phoneRegex = /^[0-9]{10}$|^[0-9]{4}\s[0-9]{3}\s[0-9]{3}$/;
-  
+
 
   private itemsSource = new BehaviorSubject<any[]>([]);
   items = this.itemsSource.asObservable();
@@ -149,7 +150,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
         patient_id: '',  //x
         patient_name: '', //x
         phone_number: '', //x
-        procedure_id: "1", 
+        procedure_id: "1",
         procedure_name: '', //x
         doctor: '', //x
         status: 2,
@@ -203,7 +204,11 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   getListGroupService() {
     this.medicaoProcedureGroupService.getMedicalProcedureGroupList().subscribe((res:any) => {
       this.listGroupService = res.data;
-    })
+    },
+      error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.medicaoProcedureGroupService.url+"/medical-procedure-group", error);
+      }
+      )
   }
 
   getDisableDate() {
@@ -237,9 +242,10 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
         this.AppointmentBody.appointment.patient_name = data[0].patient_name;
         console.log(data)
       },
-        (err) => {
-          this.showErrorToast("Không tìm thấy số điện thoại");
+        (error) => {
+          //this.showErrorToast("Không tìm thấy số điện thoại");
           this.phoneErr = "";
+          ResponseHandler.HANDLE_HTTP_STATUS(this.PATIENT_SERVICE.test+"/patient/phone-number/"+this.AppointmentBody.appointment.phone_number, error);
         }
       )
     }
@@ -254,7 +260,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   }
 
   appointmentDate: string = '';
-  
+
   addItem(newItem: any) {
     this.itemsSource.next([...this.itemsSource.value, newItem]);
   }
@@ -341,7 +347,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
       this.isSubmitted = true;
       this.loading = false;
       return;
-    } 
+    }
     else {
       this.phoneErr = "";
 
@@ -354,16 +360,16 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
           this.appointmentTime = '';
           this.newItemEvent.emit(this.AppointmentBody);
           this.AppointmentBody = {
-            epoch: 0,    
+            epoch: 0,
             appointment: {
-              patient_id: '',  
-              patient_name: '', 
-              phone_number: '', 
+              patient_id: '',
+              patient_name: '',
+              phone_number: '',
               procedure_id: "1",
-              procedure_name: '', 
-              doctor: '', 
+              procedure_name: '',
+              doctor: '',
               status: 2,
-              time: 0 
+              time: 0
             }
           } as IAddAppointment;
           window.location.reload();
@@ -371,7 +377,8 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
         (error) => {
           this.loading = false;
           console.error('Lỗi khi tạo lịch hẹn:', error);
-          this.showErrorToast('Lỗi khi tạo lịch hẹn!');
+          //this.showErrorToast('Lỗi khi tạo lịch hẹn!');
+          ResponseHandler.HANDLE_HTTP_STATUS(this.APPOINTMENT_SERVICE.apiUrl+"/appointment", error);
         }
       );
     }

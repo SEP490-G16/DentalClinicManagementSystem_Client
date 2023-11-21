@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonService } from 'src/app/service/commonMethod/common.service';
 import { ToastrService } from 'ngx-toastr';
 import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureService/medical-procedure-group.service';
+import {ResponseHandler} from "../../../libs/ResponseHandler";
 
 @Component({
   selector: 'app-popup-add-treatmentcourse',
@@ -52,8 +53,9 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
       console.log("Data Medical Procedure: ", data);
       this.ProcedureList = data.data;
     },
-    (err) => {
-      this.toastr.error(err.error.message, "Lấy dánh sách thủ thuật thất bại");
+    (error) => {
+      //this.toastr.error(err.error.message, "Lấy dánh sách thủ thuật thất bại");
+      ResponseHandler.HANDLE_HTTP_STATUS(this.medicalProcedureGroupService.url+"/medical-procedure-group-with-detail", error);
     })
   }
 
@@ -67,9 +69,10 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
         this.router.navigate(['/benhnhan/danhsach/tab/lichtrinhdieutri/' + this.Patient_Id + '/themlankham/' + res.treatment_course_id])
         // window.location.reload();
       },
-        (err) => {
-          this.methodService.showToast(err.error.message, "Thêm liệu trình thất bại", 2);
-          console.log(err.error.message);
+        (error) => {
+          // this.methodService.showToast(err.error.message, "Thêm liệu trình thất bại", 2);
+          // console.log(err.error.message);
+          ResponseHandler.HANDLE_HTTP_STATUS(this.treatmentCourseService.apiUrl+"/treatment-course", error);
         }
       )
   }

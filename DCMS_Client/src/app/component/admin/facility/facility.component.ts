@@ -1,6 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import {FacilityService} from "../../../service/FacilityService/facility.service";
 import {ToastrService} from "ngx-toastr";
+import {ResponseHandler} from "../../utils/libs/ResponseHandler";
 
 @Component({
   selector: 'app-facility',
@@ -25,10 +26,11 @@ export class FacilityComponent implements OnInit {
         facility.facility_phone_number = this.normalizePhoneNumber(facility.facility_phone_number);
         facility.manager_phone_number = this.normalizePhoneNumber(facility.manager_phone_number);
       });
-      
+
       this.loading = false;
     },error => {
       this.loading = false;
+      ResponseHandler.HANDLE_HTTP_STATUS(this.facilityService.url, error);
     })
   }
   openEditFacility(facility:any){
@@ -48,7 +50,8 @@ export class FacilityComponent implements OnInit {
           this.loading = false;
         },
         error => {
-          this.toastr.error('Xoá cơ sở thất bại!');
+          //this.toastr.error('Xoá cơ sở thất bại!');
+          ResponseHandler.HANDLE_HTTP_STATUS(this.facilityService.url+"/facility/"+id, error);
         }
       )
     }

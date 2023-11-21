@@ -4,6 +4,7 @@ import {ToastrService} from "ngx-toastr";
 import {
   MedicalProcedureGroupService
 } from "../../../../../service/MedicalProcedureService/medical-procedure-group.service";
+import {ResponseHandler} from "../../../libs/ResponseHandler";
 
 @Component({
   selector: 'app-popup-add-service',
@@ -112,7 +113,8 @@ export class PopupAddServiceComponent implements OnChanges {
     },
       error => {
       this.loading = false;
-      this.toastr.error('Thêm mới thất bại !');
+      //this.toastr.error('Thêm mới thất bại !');
+        ResponseHandler.HANDLE_HTTP_STATUS(this.medicalProcedureService.url+"/medical-procedure", error);
       })
   }
   /*getMedicalProcedureGroupList(){

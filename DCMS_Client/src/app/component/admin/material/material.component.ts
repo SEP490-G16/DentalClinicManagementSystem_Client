@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MaterialService } from "../../../service/MaterialService/material.service";
 import { ToastrService } from "ngx-toastr";
 import { MaterialWarehouseService } from 'src/app/service/MaterialService/material-warehouse.service';
+import {ResponseHandler} from "../../utils/libs/ResponseHandler";
 
 @Component({
   selector: 'app-material',
@@ -111,7 +112,11 @@ export class MaterialComponent implements OnInit {
           this.totalMaterial = this.materialList.length;
         }
       }
-    })
+    },
+      error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.materialService.urlWarehouse+"/material-warehouse/remaining/"+paging, error);
+      }
+      )
   }
   pageChanged(event: number) {
     if (event >= 1) {
@@ -131,7 +136,8 @@ export class MaterialComponent implements OnInit {
         this.loading = false;
       },
         error => {
-          this.toastr.error('Xoá vật liệu thất bại !');
+          //this.toastr.error('Xoá vật liệu thất bại !');
+          ResponseHandler.HANDLE_HTTP_STATUS(this.matMaterialWarehouseService.url+"/material-warehouse/material_warehouse_id/"+id, error);
         }
       )
     }
@@ -140,7 +146,7 @@ export class MaterialComponent implements OnInit {
     this.material = detail;
     this.item = id;
   }
-  
+
   //Đang test nên chưa chuyển đối tượng mới tạo lên
   wareHouseMaterial = {
     materialId: '',
@@ -149,7 +155,7 @@ export class MaterialComponent implements OnInit {
     unitPrice: 0,
     unit: '',
     expiryDate: '',
-    expiry: [] as ExpiryObject[], 
+    expiry: [] as ExpiryObject[],
     expanded: false
   }
 

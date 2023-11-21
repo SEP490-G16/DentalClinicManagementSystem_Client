@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import { CognitoService } from 'src/app/service/cognito.service';
 import { CommonService } from 'src/app/service/commonMethod/common.service';
+import {ResponseHandler} from "../../../utils/libs/ResponseHandler";
 
 @Component({
   selector: 'app-patient-profile-tab',
@@ -129,7 +130,8 @@ export class PatientProfileTabComponent implements OnInit {
         this.patientService.updatePatient(this.patientBody, this.id).subscribe(data=>{
           this.toastr.success("",'Cập nhật bệnh nhân thành công !');
         },(error) => {
-          this.toastr.error(error.error.message,'Cập nhật bệnh nhân thất bại!')
+          //this.toastr.error(error.error.message,'Cập nhật bệnh nhân thất bại!')
+          ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test+"/patient/"+this.id, error);
         })
     }
 
@@ -138,7 +140,11 @@ export class PatientProfileTabComponent implements OnInit {
     this.patientService.getPatientById(id).subscribe(data=>{
       this.patient = data;
       console.log(data);
-    })
+    },
+      error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test+"/patient/"+id, error);
+      }
+      )
   }
   private resetValidate(){
     this.validatePatient = {

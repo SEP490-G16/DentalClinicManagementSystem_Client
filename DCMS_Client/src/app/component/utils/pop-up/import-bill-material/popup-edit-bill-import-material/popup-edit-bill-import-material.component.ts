@@ -3,6 +3,7 @@ import {ImportMaterialService} from "../../../../../service/MaterialService/impo
 import {MaterialWarehouseService} from "../../../../../service/MaterialService/material-warehouse.service";
 import {ToastrService} from "ngx-toastr";
 import {MaterialService} from "../../../../../service/MaterialService/material.service";
+import {ResponseHandler} from "../../../libs/ResponseHandler";
 
 @Component({
   selector: 'app-popup-edit-bill-import-material',
@@ -78,7 +79,8 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
         this.status = true;
       },
       error => {
-        this.toastr.error('Cập nhật phiếu thất bại !');
+        //this.toastr.error('Cập nhật phiếu thất bại !');
+        ResponseHandler.HANDLE_HTTP_STATUS(this.importMaterialService.url+"/import-material/"+this.importMaterialBillId, error);
       }
     )
   }
@@ -94,7 +96,11 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
       });
       this.materialList = transformedMaterialList;
       //console.log(this.materialList);
-    })
+    },
+      error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.materialService.url+"/material/"+paging, error);
+      }
+      )
   }
   getMaterialsImportMaterialBills(importMaterialBillId:any){
       this.displayListImport = [];
@@ -139,7 +145,11 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
       });
 
       console.log(this.materialListByImportMaterialId)
-    })
+    },
+        error => {
+          ResponseHandler.HANDLE_HTTP_STATUS(this.materialWarehouseService.url+"/material-warehouse/"+importMaterialBillId, error);
+        }
+        )
   }
   materialWareHouseId:any;
   updateImportMaterial() {
@@ -171,7 +181,8 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
       },
         error => {
           this.loading = false;
-          this.toastr.error('Cập nhật thất bại !');
+          //this.toastr.error('Cập nhật thất bại !');
+          ResponseHandler.HANDLE_HTTP_STATUS(this.materialWarehouseService.url+"/material-warehouse/material_warehouse_id/"+this.materialWareHouseId, error);
         }
       )
     })
@@ -260,7 +271,8 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
       }
     },
       error => {
-      this.toastr.error('Xoá thất bại!');
+      //this.toastr.error('Xoá thất bại!');
+        ResponseHandler.HANDLE_HTTP_STATUS(this.materialWarehouseService.url+"/material-warehouse/material_warehouse_id/"+id, error);
       })
   }
   addNewMaterials() {

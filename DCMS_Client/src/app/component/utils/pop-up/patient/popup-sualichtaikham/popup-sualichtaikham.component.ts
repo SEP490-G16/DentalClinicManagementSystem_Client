@@ -15,6 +15,7 @@ import {
   NgbDate,
   NgbDateStruct
 } from "@ng-bootstrap/ng-bootstrap";
+import {ResponseHandler} from "../../../libs/ResponseHandler";
 
 @Component({
   selector: 'app-popup-sualichtaikham',
@@ -197,7 +198,8 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
         window.location.reload();
       }, 3000);
     }, error => {
-      this.showErrorToast("Lỗi khi cập nhật");
+      //this.showErrorToast("Lỗi khi cập nhật");
+      ResponseHandler.HANDLE_HTTP_STATUS(this.APPOINTMENT_SERVICE.apiUrl+"/appointment/"+this.EditAppointmentPatient.appointment_id, error);
     });
   }
 

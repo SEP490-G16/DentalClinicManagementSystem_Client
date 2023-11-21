@@ -8,7 +8,7 @@ import { IEditLabo, ILabos, IPostLabo } from 'src/app/model/ILabo';
   providedIn: 'root'
 })
 export class LaboService {
-  private apiUrl = 'https://c9yk48b9bg.execute-api.ap-southeast-1.amazonaws.com/dev';
+  public apiUrl = 'https://c9yk48b9bg.execute-api.ap-southeast-1.amazonaws.com/dev';
 
   constructor(private http: HttpClient, private cognitoService:CognitoService) { }
 

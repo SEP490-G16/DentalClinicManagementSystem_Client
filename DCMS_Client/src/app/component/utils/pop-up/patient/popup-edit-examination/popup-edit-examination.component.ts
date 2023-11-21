@@ -10,6 +10,7 @@ import { MedicalProcedureService } from 'src/app/service/MedicalProcedureService
 import { MedicalSupplyService } from 'src/app/service/MedicalSupplyService/medical-supply.service';
 import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/TreatmentCourse.service';
 import { CognitoService } from 'src/app/service/cognito.service';
+import {ResponseHandler} from "../../../libs/ResponseHandler";
 
 @Component({
   selector: 'app-popup-edit-examination',
@@ -146,8 +147,9 @@ export class PopupEditExaminationComponent implements OnInit {
         this.treatmentCourse = data;
         console.log("treatment course: ", this.treatmentCourse);
       },
-        (err) => {
-          this.toastr.error(err.error.message, "Lấy danh sách Liệu trình thất bại");
+        (error) => {
+          //this.toastr.error(err.error.message, "Lấy danh sách Liệu trình thất bại");
+          ResponseHandler.HANDLE_HTTP_STATUS(this.tcService.apiUrl+"/treatment-course/patient-id/"+this.patient_Id, error);
         })
   }
 
@@ -163,8 +165,9 @@ export class PopupEditExaminationComponent implements OnInit {
         console.log("examination: ", this.examination);
 
       },
-        (err) => {
-          this.toastr.error(err.error.message, 'Lỗi khi lấy dữ liệu lần khám');
+        (error) => {
+          //this.toastr.error(err.error.message, 'Lỗi khi lấy dữ liệu lần khám');
+          ResponseHandler.HANDLE_HTTP_STATUS(this.tcDetailService.apiUrl+"/examination/"+this.examinationId, error);
         })
   }
 
@@ -175,9 +178,10 @@ export class PopupEditExaminationComponent implements OnInit {
         // this.Medical_Supply_Api = res.data.filter((m:any) => m.ExaminationId == );
         console.log("Medical Supply: ", this.Medical_Supply_Api);
       },
-        (res) => {
-          console.log("Error: ", res.error.message);
-          this.toastr.error(res.error.message, "Lấy danh sách Đặt xưởng và Vật tư thất bại");
+        (error) => {
+          // console.log("Error: ", res.error.message);
+          // this.toastr.error(res.error.message, "Lấy danh sách Đặt xưởng và Vật tư thất bại");
+          ResponseHandler.HANDLE_HTTP_STATUS(this.medicalSupplyService.url+"/medical-supply/patient/"+this.patient_Id, error);
         }
       )
   }
@@ -190,8 +194,9 @@ export class PopupEditExaminationComponent implements OnInit {
       .subscribe((res) => {
         this.toastr.success(res.message, 'Sửa lần khám thành công');
       },
-        (err) => {
-          this.toastr.error(err.error.message, 'Sửa lần khám thất bại');
+        (error) => {
+          //this.toastr.error(err.error.message, 'Sửa lần khám thất bại');
+          ResponseHandler.HANDLE_HTTP_STATUS(this.tcDetailService.apiUrl+"/examination/"+this.examinationId, error);
         })
     //Put
   }

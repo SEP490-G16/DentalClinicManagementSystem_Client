@@ -7,7 +7,7 @@ import {Observable} from "rxjs";
 })
 export class MaterialUsageReportService {
 
-  private url = "https://834bsm6e7l.execute-api.ap-southeast-1.amazonaws.com/dev"
+  public url = "https://834bsm6e7l.execute-api.ap-southeast-1.amazonaws.com/dev"
   constructor(private http:HttpClient) { }
 
   getMaterialUsages(startDate:any, endDate:any):Observable<any>{

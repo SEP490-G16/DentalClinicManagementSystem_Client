@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from "moment-timezone";
 import {MaterialUsageReportService} from "../../../service/MaterialUsageService/material-usage-report.service";
+import {ResponseHandler} from "../../utils/libs/ResponseHandler";
 @Component({
   selector: 'app-report-high-income-and-expenditure',
   templateUrl: './report-high-income-and-expenditure.component.html',
@@ -100,7 +101,11 @@ export class ReportHighIncomeAndExpenditureComponent implements OnInit {
           })
         }
       })
-    })
+    },
+      error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.materialUsageService.url+"/material-usage/report/"+startTime+"/"+endTime, error);
+      }
+      )
     this.stastisticRevenuePatientSearch = this.stastisticRevenuePatient;
   }
 

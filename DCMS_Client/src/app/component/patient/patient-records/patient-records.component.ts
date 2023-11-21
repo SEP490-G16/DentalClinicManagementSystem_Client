@@ -49,7 +49,11 @@ export class PatientRecordsComponent implements OnInit {
       if (this.searchPatientsList.length > 10) {
         this.searchPatientsList.pop();
       }
-    })
+    },
+      error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test+"/patient/name/"+paging, error);
+      }
+      )
   }
   searchPatient() {
     console.log(this.search)
@@ -62,7 +66,8 @@ export class PatientRecordsComponent implements OnInit {
         this.searchPatientsList.pop();
       }
     }, error => {
-       ResponseHandler.HANDLE_HTTP_STATUS('and', error)
+       ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test+"/patient/name/"+this.search+"/"+this.pagingSearch.paging, error)
+
     }
     )
   }

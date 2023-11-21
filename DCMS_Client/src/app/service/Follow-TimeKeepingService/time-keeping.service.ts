@@ -7,7 +7,7 @@ import {Observable} from "rxjs";
 })
 export class TimeKeepingService {
 
-  private url = "https://gg1spfr4gl.execute-api.ap-southeast-1.amazonaws.com/dev";
+  public url = "https://gg1spfr4gl.execute-api.ap-southeast-1.amazonaws.com/dev";
   constructor(private http:HttpClient) { }
 
   getFollowingTimekeeping(startTime:any, endTime:any):Observable<any>{

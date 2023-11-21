@@ -4,6 +4,7 @@ import {count} from "rxjs";
 import * as moment from "moment-timezone";
 import {RequestBodyTimekeeping} from "../../../model/ITimekeeping";
 import {Router} from "@angular/router";
+import {ResponseHandler} from "../../utils/libs/ResponseHandler";
 interface TimekeepingDetail {
   clock_in?: string;
   clock_out?: string;
@@ -100,6 +101,8 @@ export class FollowingTimekeepingComponent implements OnInit {
       const endTime = this.dateToTimestamp(this.toDate + ' 23:59:59');
       this.timekeepingService.getFollowingTimekeeping(startTime, endTime).subscribe(data => {
         this.followingTimekeepings = this.organizeData(data);
+      },error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.timekeepingService.url+"/timekeeping/"+startTime+"/"+endTime, error);
       });
     }
     else {
@@ -110,6 +113,8 @@ export class FollowingTimekeepingComponent implements OnInit {
       this.timekeepingService.getFollowingTimekeeping(startTime,endTime).subscribe(data=>{
         this.followingTimekeepings = this.organizeData(data);
         console.log("67",this.followingTimekeepings)
+      },error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.timekeepingService.url+"/timekeeping/"+startTime+"/"+endTime, error);
       })
     }
   }

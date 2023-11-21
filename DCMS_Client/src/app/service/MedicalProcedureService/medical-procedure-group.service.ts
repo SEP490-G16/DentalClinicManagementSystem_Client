@@ -6,7 +6,7 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class MedicalProcedureGroupService {
-  private url = 'https://660tvt9ige.execute-api.ap-southeast-1.amazonaws.com/dev';
+  public url = 'https://660tvt9ige.execute-api.ap-southeast-1.amazonaws.com/dev';
   constructor(private http: HttpClient) { }
   getMedicalProcedureGroupList():Observable<any>{
     let idToken = sessionStorage.getItem("id_Token");

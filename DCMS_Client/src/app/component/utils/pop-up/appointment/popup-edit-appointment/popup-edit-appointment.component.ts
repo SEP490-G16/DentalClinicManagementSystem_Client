@@ -16,6 +16,7 @@ import {
   NgbDateStruct
 } from "@ng-bootstrap/ng-bootstrap";
 import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureService/medical-procedure-group.service';
+import {ResponseHandler} from "../../../libs/ResponseHandler";
 @Component({
   selector: 'app-popup-edit-appointment',
   templateUrl: './popup-edit-appointment.component.html',
@@ -118,7 +119,11 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
   getListGroupService() {
     this.medicaoProcedureGroupService.getMedicalProcedureGroupList().subscribe((res:any) => {
       this.listGroupService = res.data;
-    })
+    },
+      error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.medicaoProcedureGroupService.url+"/medical-procedure-group", error);
+      }
+      )
   }
 
   oldDate: string = ''
@@ -138,7 +143,7 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
           status: 2,
           time: this.selectedAppointment.time
         }
-        
+
       } as IEditAppointmentBody;
       this.selectedDoctor = this.selectedAppointment.doctor;
     }
@@ -193,7 +198,7 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
       if(e.medical_procedure_group_id == this.EDIT_APPOINTMENT_BODY.appointment.procedure_id) {
         this.EDIT_APPOINTMENT_BODY.appointment.procedure_name = e.name;
       }
-    })   
+    })
     console.log(this.EDIT_APPOINTMENT_BODY);
     this.resetValidate();
     if (this.EDIT_APPOINTMENT_BODY.appointment.procedure_id == "1") {
@@ -255,14 +260,15 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
       this.isSubmitted = true;
       this.loading = false;
       return;
-    } 
+    }
     // console.log("AppointmentId",this.selectedAppointment.appointment_id);
     this.APPOINTMENT_SERVICE.putAppointment(this.EDIT_APPOINTMENT_BODY, this.selectedAppointment.appointment_id).subscribe(response => {
       console.log("Cập nhật thành công");
       this.showSuccessToast('Sửa Lịch hẹn thành công!');
         window.location.reload();
     }, error => {
-      this.showErrorToast("Lỗi khi cập nhật");
+      //this.showErrorToast("Lỗi khi cập nhật");
+      ResponseHandler.HANDLE_HTTP_STATUS(this.APPOINTMENT_SERVICE.apiUrl+"/appointment/"+this.selectedAppointment.appointment_id, error);
     });
   }
 

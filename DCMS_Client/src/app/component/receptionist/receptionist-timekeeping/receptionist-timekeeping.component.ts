@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { RequestBodyTimekeeping, Staff } from 'src/app/model/ITimekeeping';
 import { ConvertJson } from 'src/app/service/Lib/ConvertJson';
 import { CognitoService } from 'src/app/service/cognito.service';
+import {ResponseHandler} from "../../utils/libs/ResponseHandler";
 @Component({
   selector: 'app-receptionist-timekeeping',
   templateUrl: './receptionist-timekeeping.component.html',
@@ -153,9 +154,10 @@ export class ReceptionistTimekeepingComponent implements OnInit {
         });
         console.log("Staff sort: ", this.Staff);
       },
-        (err) => {
+        (error) => {
           this.loading = false;
-          this.toastr.error(err.error.message, "Lấy danh sách chấm công thất bại");
+          //this.toastr.error(err.error.message, "Lấy danh sách chấm công thất bại");
+          ResponseHandler.HANDLE_HTTP_STATUS(this.timekeepingService.apiUrl+"/timekeeping/"+this.startTime+"/"+this.endTime, error);
         }
       )
   }
@@ -219,9 +221,10 @@ export class ReceptionistTimekeepingComponent implements OnInit {
         }
         this.loading = false;
       },
-        (err) => {
+        (error) => {
           this.loading = false;
-          this.toastr.error(err.error.message, "Chấm công vào thất bại");
+         // this.toastr.error(err.error.message, "Chấm công vào thất bại");
+          ResponseHandler.HANDLE_HTTP_STATUS(this.timekeepingService.apiUrl+"/timekeeping", error);
         }
       )
   }
@@ -247,9 +250,10 @@ export class ReceptionistTimekeepingComponent implements OnInit {
             staff.timeClockout = this.currentTimeGMT7;
           }
         },
-          (err) => {
+          (error) => {
             this.loading = false;
-            this.toastr.error(err.error.message, "Chấm công về thất bại");
+            //this.toastr.error(err.error.message, "Chấm công về thất bại");
+            ResponseHandler.HANDLE_HTTP_STATUS(this.timekeepingService.apiUrl+"/timekeeping", error);
           }
         )
 
@@ -264,9 +268,10 @@ export class ReceptionistTimekeepingComponent implements OnInit {
           staff.clockOutStatus = "Chưa chấm"
           staff.timeClockout = "";
         },
-          (err) => {
+          (error) => {
             this.loading = false;
-            this.toastr.error(err.error.message, "Chấm công thất bại");
+            //this.toastr.error(err.error.message, "Chấm công thất bại");
+            ResponseHandler.HANDLE_HTTP_STATUS(this.timekeepingService.apiUrl+"/timekeeping", error);
           }
         )
     }
