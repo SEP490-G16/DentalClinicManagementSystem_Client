@@ -88,6 +88,7 @@ export class PopupEditFacilityComponent implements OnChanges {
     if (this.isSubmited){
       return;
     }
+
     if (this.facilityInput.sdtFacility.length >=10 || this.facilityInput.sdtManager.length >=10){
       this.facilityBody = {
         facility_id:'',
@@ -96,7 +97,6 @@ export class PopupEditFacilityComponent implements OnChanges {
         facility_phone_number:'(+84)'+ this.facilityInput.sdtFacility.substring(1),
         manager_phone_number:'(+84)'+ this.facilityInput.sdtManager.substring(1),
         manager_name:this.facilityInput.managerName
-
       }
     }
     else {

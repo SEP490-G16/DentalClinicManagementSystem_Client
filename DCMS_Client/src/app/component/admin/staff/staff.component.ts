@@ -20,9 +20,14 @@ export class StaffComponent implements OnInit {
     this.getListStaff();
   }
 
+  getListFacility() {
+
+  }
+
   staff = {
     staffId: '', 
     staffName: '', 
+    staffUserName: '',
     dob: '', 
     address: '',
     note: '', 
@@ -32,6 +37,7 @@ export class StaffComponent implements OnInit {
     roleName:'', 
     gender: '', 
     image: '',
+    locale: '',
   }
 
   listStaffDisplay:any [] = [];
@@ -41,8 +47,24 @@ export class StaffComponent implements OnInit {
     this.cognitoService.getListStaff()
       .subscribe((res) => {
         this.listStaff = res.message;
-        console.log(this.listStaff);
+        console.log("ListStaff:",this.listStaff);
         this.listStaff.forEach((staff:any) => {
+          this.staff = {
+            staffId: '', 
+            staffName: '', 
+            staffUserName: '',
+            dob: '', 
+            address: '',
+            note: '', 
+            email: '', 
+            phoneNumber: '', 
+            roleId: '',
+            roleName:'', 
+            gender: '', 
+            image: '',
+            locale: '',
+          }
+          this.staff.staffUserName = staff.Username;
           staff.Attributes.forEach((attr:any) => {
             if (attr.Name == 'sub') {
               this.staff.staffId = attr.Value;
@@ -56,54 +78,56 @@ export class StaffComponent implements OnInit {
             if (attr.Name == 'phone_number') {
               this.staff.phoneNumber = attr.Value;
             }
-            if (attr.Name == 'custome:role') {
+            if (attr.Name == 'custom:role') {
               this.staff.roleId = attr.Value;
+              this.staff.roleName = this.getStaffName(this.staff.roleId);
             }
             if (attr.Name == 'gender') {
               this.staff.gender = attr.Value;
             }
-            if (attr.Name == 'dob') {
+            if (attr.Name == 'custom:DOB') {
               this.staff.dob = this.timestampToDate(attr.Value);
             }
             if (attr.Name == 'name') {
               this.staff.staffName = attr.Value;
             }
-            if (attr.Name == 'custome:image') {
+            if (attr.Name == 'custom:image') {
               this.staff.staffName = attr.Value;
             }
             if (attr.Name == 'name') {
               this.staff.staffName = attr.Value;
             }
-            this.listStaffDisplay.push(this.staff);
-            this.staff = {
-              staffId: '', 
-              staffName: '', 
-              dob: '', 
-              address: '',
-              note: '', 
-              email: '', 
-              phoneNumber: '', 
-              roleId: '',
-              roleName:'', 
-              gender: '', 
-              image: '',
-            }
           })
+          this.listStaffDisplay.push(this.staff);
         })
+
       },  
       )
-  }
+    }
 
+
+  getStaffName(id:any):any {
+    if (id == "1") {
+      return "Admin";
+    } else if (id == "2") {
+      return "Bác sĩ"
+    } else if (id == "3") {
+      return "Lễ tân";
+    } else if (id == "4") {
+      return "Y tá";
+    } else if (id == "5") {
+      return "Y tá trưởng";
+    }
+  }
   staffEdit: any;
 
   openEditPopup(staff:any) {
     this.staffEdit = staff;
   }
 
-
-  deleteStaff(id: any) {
-    this.cognitoService.deleteStaff(id).subscribe((res) => {
-      const index = this.listStaffDisplay.findIndex((item:any) => item.staffId == id);
+  deleteStaff(staff: any) {
+    this.cognitoService.deleteStaff(staff).subscribe((res) => {
+      const index = this.listStaffDisplay.findIndex((item:any) => item.staffName == staff.staffName);
       if (index != -1) {
         this.listStaffDisplay.splice(index, 1);
       }

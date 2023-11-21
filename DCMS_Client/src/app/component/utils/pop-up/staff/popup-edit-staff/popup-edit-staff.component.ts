@@ -3,6 +3,7 @@ import { CognitoService } from 'src/app/service/cognito.service';
 import { ToastrService } from 'ngx-toastr';
 import { IStaff } from 'src/app/model/Staff';
 import { IsThisSecondPipe } from 'ngx-date-fns';
+import * as moment from 'moment-timezone';
 
 @Component({
   selector: 'app-popup-edit-staff',
@@ -22,11 +23,13 @@ export class PopupEditStaffComponent implements OnInit {
     private toastr: ToastrService
   ) {
     this.staff = {
+      username: "",
       email: "",
       name: "",
       phone: "",
       address: "",
       description: "",
+      role: "",
       DOB: "",
       status: "1",
       image: ""
@@ -38,19 +41,23 @@ export class PopupEditStaffComponent implements OnInit {
     address:'',
     phone:'',
     gender:'',
-    email:''
+    email:'', 
+    role: '',
   }
   isSubmitted:boolean = false;
 
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['staffEdit']) {
       this.staffId = this.staffEdit.staffId;
-      this.role = this.staffEdit.roleId;
+      this.staff.username = this.staffEdit.staffUserName;
       this.staff.name = this.staffEdit.staffName;
       this.staff.address = this.staffEdit.address;
       this.staff.description = this.staffEdit.note;
+      this.staff.role = this.staffEdit.roleId;
       this.staff.phone = this.staffEdit.phone_number;
       this.staff.gender = this.staffEdit.gender;
+      this.staff.email = this.staffEdit.email;
+      this.staff.DOB = this.timestampToDate(this.staffEdit.dob)
       if (this.staffEdit.staffImage != '') {
         this.imageURL = this.staffEdit.image;
       }
@@ -61,16 +68,22 @@ export class PopupEditStaffComponent implements OnInit {
    
   }
 
-  saveEditedStaff() {
-    this.staff.status = '1';
-    this.staff.role = this.role;
-    this.cognitoService.updateUserAttributes(sessionStorage.getItem('sub-id')+'', this.staff)
-      .then((response) => {
-        this.showSuccessToast('Cập nhật thông tin thành công');
-      })
-      .catch((error) => {
-        this.showErrorToast('Cập nhật thông tin thất bại');
-      });
+  saveEditedStaff(userName:string, roleId: string) {
+    this.cognitoService.putStaff(userName, roleId).subscribe(
+      (res) => {
+        this.showSuccessToast("Sửa Labo thành công");
+        window.location.reload();
+      },
+      () => {
+        this.showErrorToast("Sửa Labo thất bại");
+      }
+    );
+  }
+
+  timestampToDate(timestamp: number): string {
+    const date = moment.unix(timestamp);
+    const dateStr = date.format('YYYY-MM-DD');
+    return dateStr;
   }
 
   showSuccessToast(message: string) {

@@ -103,7 +103,8 @@
                   <label for="role">Vai trò</label>
                 </div>
                 <div class="col-md-9">
-                  <select id="role" [(ngModel)]="role" class="form-select" aria-label="Default select example" disabled>
+                  <select id="role" [(ngModel)]="staff.role" class="form-select" aria-label="Default select example">
+                    <option value="0">Chức vụ</option>
                     <option value="2">Bác sĩ</option>
                     <option value="3">Lễ tân</option>
                     <option value="4">Y tá</option>
@@ -135,7 +136,7 @@
         <!-- Modal footer -->
         <div class="modal-footer">
           <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
-          <button type="button" class="btn btn-save" data-bs-dismiss="modal" (click)="saveEditedStaff()"><i
+          <button type="button" class="btn btn-save" data-bs-dismiss="modal" (click)="saveEditedStaff(staff.username, staff.role)"><i
               class="bi bi-floppy2"></i> Lưu</button>
         </div>
       </div>

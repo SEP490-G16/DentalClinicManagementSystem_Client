@@ -16,31 +16,31 @@
               <div class="form-group row mt-3">
                 <label for="createDate" class="col-3 name-title">Ngày tạo:</label>
                 <div class="col-9">
-                  <input type="date" class="form-control date-input-custom" id="createDate" name="createDate">
+                  <input type="date" [(ngModel)]="paidExpense.createDate"  class="form-control date-input-custom" id="createDate" name="createDate">
                 </div>
               </div>
               <div class="form-group row mt-3">
                 <label for="nguoiChi" class="col-3 name-title">Người chi:</label>
                 <div class="col-9">
-                  <input type="text" class="form-control date-input-custom value-staff" id="nguoiChi" name="nguoiChi">
+                  <input type="text" [(ngModel)]="paidExpense.createBy" class="form-control date-input-custom value-staff" id="nguoiChi" name="nguoiChi">
                 </div>
               </div>
               <div class="form-group row mt-3">
                 <label for="loaiChi" class="col-3 name-title">Loại chi:</label>
                 <div class="col-9">
-                  <input type="text" class="form-control value-staff" id="loaiChi" name="loaiChi">
-                </div>
-              </div>
-              <div class="form-group row mt-3">
-                <label for="note" class="col-3 name-title">Ghi chú:</label>
-                <div class="col-9">
-                  <input type="text" class="form-control value-staff" id="note" name="note">
+                  <input type="text" [(ngModel)]="paidExpense.typeExpense" class="form-control value-staff" id="loaiChi" name="loaiChi">
                 </div>
               </div>
               <div class="form-group row mt-3">
                 <label for="price" class="col-3 name-title">Số tiền:</label>
                 <div class="col-9">
-                  <input type="number" class="form-control date-input-custom value-staff" id="price" name="price">
+                  <input type="number" [(ngModel)]="paidExpense.totalAmount" class="form-control date-input-custom value-staff" id="price" name="price">
+                </div>
+              </div>
+              <div class="form-group row mt-3">
+                <label for="note" class="col-3 name-title">Ghi chú:</label>
+                <div class="col-9">
+                  <input type="text" [(ngModel)]="paidExpense.note" class="form-control value-staff" id="note" name="note">
                 </div>
               </div>
             </div>
@@ -50,7 +50,7 @@
         <!-- Modal footer -->
         <div class="modal-footer">
           <button type="button" id="cancel-addMaterial" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
-          <button type="button" class="btn btn-save"><i class="bi bi-floppy2"></i> Lưu</button>
+          <button type="button" class="btn btn-save"  (click)="AddNewExpense()"><i class="bi bi-floppy2"></i> Lưu</button>
         </div>
 
       </div>

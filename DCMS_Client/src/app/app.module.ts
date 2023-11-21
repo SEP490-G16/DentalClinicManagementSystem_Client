@@ -41,6 +41,7 @@ registerLocaleData(localeVi);
   declarations: [
     AppComponent,
     RegisterWorkScheduleComponent,
+    
   ],
   imports: [
     FormsModule,

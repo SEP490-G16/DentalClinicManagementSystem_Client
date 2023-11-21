@@ -37,15 +37,15 @@ export class SpecimensService {
       throw error;
     }
   }
-
-  filterSpecimens(type:number, startDate:string, endDate:string, paging:number):Observable<any> {
+;
+  filterSpecimens(querySearch:string, paging:number):Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
 
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`,
       'Accept': 'application/json',
     });
-      return this.http.get(`${this.apiUrl}/medical-supply/search/${type}/${startDate}/${endDate}/${paging}`, { headers });
+      return this.http.get(`${this.apiUrl}/medical-supply/search?querySearch?paging=${paging}`, { headers });
   }
 
   // postSpecimens(PostLabo: IPostLabo): Observable<any> {
