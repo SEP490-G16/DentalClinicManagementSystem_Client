@@ -26,7 +26,7 @@
                       Vui lòng nhập tên mẫu!
                     </div>
                   </div>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.name}}
                     </p>
@@ -42,7 +42,7 @@
                       Vui lòng nhập chất liệu!
                     </div>
                   </div>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.type}}
                     </p>
@@ -58,7 +58,7 @@
                       Vui lòng nhập ngày đặt!
                     </div>
                   </div>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.orderDate}}
                     </p>
@@ -75,7 +75,7 @@
                       Vui lòng nhập ngày nhận!
                     </div>
                   </div>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.receiverDate}}
                     </p>
@@ -83,22 +83,6 @@
                 </div>
 
               </div>
-              <!-- <div class="form-group row mt-3">
-                <label for="orderby" class="col-3 name-title">Người đặt:</label>
-                <div class="col-9 value-staff">
-                  <input type="text" [(ngModel)]="specimen.orderer" required #order="ngModel" class="form-control" id="orderby" name="orderby">
-                  <div *ngIf="order.invalid && (order.dirty || order.touched)"  class="alert-danger-custom" style="color:#FF0000FF;">
-                    <div *ngIf="order.errors?.['required']">
-                      Vui lòng nhập người đặt!
-                    </div>
-                  </div>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
-                    <p>
-                      {{validateSpecimens.orderer}}
-                    </p>
-                  </div>
-                </div>
-              </div> -->
               <div class="form-group row mt-3">
                 <label for="installationdate" class="col-3 name-title">Ngày lắp:</label>
                 <div class="col-9 value-staff">
@@ -108,7 +92,7 @@
                       Vui lòng nhập ngày lắp!
                     </div>
                   </div>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.usedDate}}
                     </p>
@@ -116,13 +100,18 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="patient" class="col-3 name-title">Labo:</label>
+                <label for="labo" class="col-3 name-title">Labo:</label>
                 <select class="form-select p-2" style="margin-left: 10px; width: 71%; border: 1px solid #664FC3;
-                        border-radius: 10px;" aria-label="Default select example" [(ngModel)]="specimen.labo_id"
+                        border-radius: 10px;" id="labo" aria-label="Default select example" [(ngModel)]="specimen.labo_id"
                 >
                   <option *ngFor="let labo of labos" value="{{labo.labo_id}}">{{labo.name}}</option>
 
                 </select>
+                <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                  <p>
+                    {{validateSpecimens.labo}}
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -136,7 +125,7 @@
                       Vui lòng nhập số lượng!
                     </div>
                   </div>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.quantity}}
                     </p>
@@ -152,7 +141,7 @@
                       Vui lòng nhập đơn giá!
                     </div>
                   </div>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.price}}
                     </p>
@@ -165,23 +154,6 @@
                   <input type="text" [(ngModel)]="specimen.total" class="form-control" disabled id="intomoney" name="intomoney">
                 </div>
               </div>
-              <!-- <div class="form-group row mt-3">
-                <label for="orderdate" class="col-3 name-title">Ngày đặt:</label>
-                <div class="col-9 value-staff">
-                  <input type="date" [(ngModel)]="specimen.orderDate" required #orderDate="ngModel" class="form-control date-input-custom" id="orderdate" name="orderdate">
-                  <div *ngIf="orderDate.invalid && (orderDate.dirty || orderDate.touched)"  class="alert-danger-custom" style="color:#FF0000FF;">
-                    <div *ngIf="orderDate.errors?.['required']">
-                      Vui lòng nhập ngày đặt!
-                    </div>
-                  </div>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
-                    <p>
-                      {{validateSpecimens.orderDate}}
-                    </p>
-                  </div>
-                </div>
-
-              </div> -->
               <div class="form-group row mt-3">
                 <label for="orderby" class="col-3 name-title">Người đặt:</label>
                 <div class="col-9 value-staff">
@@ -191,7 +163,7 @@
                       Vui lòng nhập người đặt!
                     </div>
                   </div>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.orderer}}
                     </p>
@@ -210,15 +182,15 @@
                       Vui lòng nhập bệnh nhân!
                     </div>
                   </div> -->
-                  <ng-select [items]="patientList" bindLabel="patientInfor" [(ngModel)]="specimen.patientId" bindValue="patientId" (keyup)="onsearch($event)"
+                  <ng-select id="patient" [items]="patientList" bindLabel="patientInfor" [(ngModel)]="specimen.patientId" bindValue="patientId" (keyup)="onsearch($event)"
                              [notFoundText]="'Không tìm thấy bệnh nhân'">
 
                   </ng-select>
-<!--                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">-->
-<!--                    <p>-->
-<!--                      {{validateSpecimens.receiver}}-->
-<!--                    </p>-->
-<!--                  </div>-->
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                    <p>
+                      {{validateSpecimens.receiver}}
+                    </p>
+                  </div>
                 </div>
               </div>
               <!-- <div class="form-group row mt-3">

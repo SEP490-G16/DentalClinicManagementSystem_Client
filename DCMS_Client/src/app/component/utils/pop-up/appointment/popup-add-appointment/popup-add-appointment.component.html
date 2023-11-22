@@ -18,8 +18,8 @@
       <div class="modal-body">
         <div class="container">
           <div class="row">
-            <div class="col-12 col-md-6">
-              <div class="form-group">
+            <div class="col-12 col-md-12">
+              <div class="form-group mt-2">
                 <label for="phone">Nhập số điện thoại</label>
                 <input type="text" class="form-control" id="phone"
                   [(ngModel)]="AppointmentBody.appointment.phone_number"
@@ -27,28 +27,21 @@
                   >
                   <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.phoneNumber}}</p>
               </div>
-            </div>
-            <div class="col-12 col-md-6">
-              <div class="form-group">
-                <label for="patientName">Tên bệnh nhân</label>
-                <input type="text" class="form-control" id="patientName"
-                  [(ngModel)]="AppointmentBody.appointment.patient_name"
-                  [disabled]="!isPatientInfoEditable"
-                  >
-              </div>
-              <div class="form-group">
+              <div class="form-group mt-2">
                 <label for="patientCode">Mã bệnh nhân</label>
                 <input type="text" class="form-control" id="patientCode"
-                  [(ngModel)]="AppointmentBody.appointment.patient_id"
-                  [disabled]="!isPatientInfoEditable"
+                       [(ngModel)]="AppointmentBody.appointment.patient_id"
+                       [disabled]="!isPatientInfoEditable"
                 >
               </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-12 col-md-6">
-              <div class="form-group">
+              <div class="form-group mt-2">
+                <label for="patientName">Tên bệnh nhân</label>
+                <input type="text" class="form-control" id="patientName"
+                       [(ngModel)]="AppointmentBody.appointment.patient_name"
+                       [disabled]="!isPatientInfoEditable"
+                >
+              </div>
+              <div class="form-group mt-2">
                 <label for="treatment">Loại điều trị</label>
                 <select class="form-control" id="treatment" [(ngModel)]="procedure">
                   <option selected value="1">Phân loại điều trị</option>
@@ -56,38 +49,7 @@
                 </select>
                 <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.procedure}}</p>
               </div>
-            </div>
-            <div class="col-12 col-md-6">
-              <div class="form-group">
-                <label for="appointmentTime" name="userCredential">Giờ hẹn khám</label>
-                <input type="time" class="form-control date-input-custom" id="time" name="time"
-                  [(ngModel)]="appointmentTime"
-                  [min]="minTime"
-                  >
-                <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.appointmentTime}}</p>
-              </div>
-
-            </div>
-          </div>
-
-          <div class="row mt-3 mb-3">
-            <div class="col-12 col-md-6">
-              <div class="doctors-list">
-                <ul class="list-group">
-                  <li class="list-group-item" *ngFor="let doctor of listDoctorDisplay"
-                    [ngClass]="{'selected': doctor === selectedDoctor}" (click)="selectDoctor(doctor)">
-                    <!-- <img [src]="doctor.image" style="width: 100px; height: 100px; object-fit: cover;"
-                      class="doctor-image" [alt]="doctor.name"> -->
-                    <div class="doctor-info">
-                      <h5 class="card-title">{{ doctor.doctorName }}</h5>
-                      <p class="card-text">{{ doctor.phoneNumber }}</p>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="col">
-
+              <div class="col mt-2">
                 <label for="treatment">Chọn ngày khám</label>
                 <form class="form-inline">
                   <div class="form-group">
@@ -102,7 +64,7 @@
                         [placement]="'right'"
                         placeholder="Chọn ngày hẹn"
                         [minDate]="model"
-                        >
+                      >
                       <div class="input-group-append">
                         <button class="btn btn-outline-secondary calendar" style="height: 48px;" (click)="d.toggle()" type="button">
                           <i class="bi bi-calendar3"></i>
@@ -113,10 +75,31 @@
                     <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.appointmentDate}}</p>
                   </div>
                 </form>
+              </div>
+              <div class="form-group mt-2">
+                <label for="appointmentTime" name="userCredential">Giờ hẹn khám</label>
+                <input type="time" class="form-control date-input-custom" id="appointmentTime" name="time"
+                       [(ngModel)]="appointmentTime"
+                       [min]="minTime"
+                >
+                <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.appointmentTime}}</p>
+              </div>
+              <div class="doctors-list mt-2">
+                <ul class="list-group">
+                  <li class="list-group-item" *ngFor="let doctor of doctors"
+                      [ngClass]="{'selected': doctor === selectedDoctor}" (click)="selectDoctor(doctor)">
+                    <img [src]="doctor.image" style="width: 100px; height: 100px; object-fit: cover;"
+                         class="doctor-image" [alt]="doctor.name">
+                    <div class="doctor-info">
+                      <h5 class="card-title">{{ doctor.name }}</h5>
+                      <p class="card-text">{{ doctor.specialty }}</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
             </div>
-          </div>
 
-          <div class="row">
+          <div class="row mt-4">
             <div class="col">
               <div class="float-end">
                 <button type="button" class="btn btn-cancel" data-bs-dismiss="modal" (click)="close()">Huỷ</button>
@@ -132,3 +115,4 @@
     </div>
   </div>
 </div>
+  </div>

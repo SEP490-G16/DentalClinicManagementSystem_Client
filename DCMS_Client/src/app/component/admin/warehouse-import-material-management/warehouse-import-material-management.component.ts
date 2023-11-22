@@ -161,7 +161,7 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
       this.importMaterialService.deleteImportBill(id)
         .subscribe((res) => {
           this.toastr.success('Xóa phiếu nhập thành công!');
-          window.location.reload();
+          this.loadPage(this.currentPage);
         },
           (error) => {
             this.loading = false;

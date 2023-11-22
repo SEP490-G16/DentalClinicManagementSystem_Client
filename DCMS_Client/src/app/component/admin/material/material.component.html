@@ -99,7 +99,7 @@
                       <td style="padding-top: 10px;padding-bottom: 10px;">{{ item.unit }}</td>
                       <td style="padding-top: 10px;padding-bottom: 10px;">{{ item.unitPrice }}</td>
                       <td style="padding-top: 10px;padding-bottom: 10px;">{{ detail.quantity }}</td>
-                      <td style="padding-top: 10px;padding-bottom: 10px;">{{ detail.expiryDate }}</td>
+                      <td style="padding-top: 10px;padding-bottom: 10px;">{{ detail.expiryDate | date:'dd/MM/yyyy'}}</td>
                       <td></td>
                       <td style="padding-top: 10px;padding-bottom: 10px;" *ngIf="detail.quantity == 0">
                         <p style="color: red;"><b>Hết Hàng</b></p>

@@ -116,7 +116,7 @@ export class PopupAddLaboComponent implements OnInit {
     this.isSubmitted = false;
   }
   private isVietnamesePhoneNumber(number:string):boolean {
-    return /^(\+84|84|0)?[1-9]\d{8}$/
+    return /^(\+84|0)?[1-9]\d{8}$/
       .test(number);
   }
 

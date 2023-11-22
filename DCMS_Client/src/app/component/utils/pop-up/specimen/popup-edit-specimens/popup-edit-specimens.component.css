@@ -82,3 +82,6 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+.modal-body div p{
+  color: #FF0000FF;
+}

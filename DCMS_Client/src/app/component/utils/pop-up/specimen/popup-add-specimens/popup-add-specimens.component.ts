@@ -24,6 +24,7 @@ export class PopupAddSpecimensComponent implements OnInit {
     price: '',
     orderDate: '',
     receiver: '',
+    labo:''
   }
   specimen = {
     name: '',
@@ -118,51 +119,67 @@ export class PopupAddSpecimensComponent implements OnInit {
   addMedicalSupply() {
 
     this.resetValidate();
-    if (!this.specimen.name) {
+    if (!this.specimen.name){
       this.validateSpecimens.name = 'Vui lòng nhập tên mẫu!';
       this.isSubmitted = true;
     }
-    if (!this.specimen.type) {
+    if (!this.specimen.type){
       this.validateSpecimens.type = 'Vui lòng nhập chất liệu!';
       this.isSubmitted = true;
     }
-
-    if (!this.specimen.receiverDate) {
-      this.validateSpecimens.receiverDate = 'Vui lòng nhập ngày nhận!';
-      this.isSubmitted = true;
-    }
-    if (!this.specimen.orderer) {
-      this.validateSpecimens.orderer = 'Vui lòng nhập người dặt!';
-      this.isSubmitted = true;
-    }
-    if (!this.specimen.usedDate) {
-      this.validateSpecimens.usedDate = 'Vui lòng nhập ngày lắp!';
-      this.isSubmitted = true;
-    }
-    if (!this.specimen.quantity) {
-      this.validateSpecimens.quantity = 'Vui lòng nhập số lượng!';
-      this.isSubmitted = true;
-    }
-    else if (!this.checkNumber(this.specimen.quantity)) {
-      this.validateSpecimens.quantity = 'Vui lòng nhập số dương!';
-      this.isSubmitted = true;
-    }
-    if (!this.specimen.price) {
-      this.validateSpecimens.price = 'Vui lòng nhập đơn giá!';
-      this.isSubmitted = true;
-    }
-    else if (!this.checkNumber(this.specimen.price)) {
-      this.validateSpecimens.price = 'Vui lòng nhập số dương!'
-      this.isSubmitted = true;
-    }
-    if (!this.specimen.orderDate) {
+    if (!this.specimen.orderDate){
       this.validateSpecimens.orderDate = 'Vui lòng nhập ngày đặt!';
       this.isSubmitted = true;
     }
-    if (!this.specimen.receiver) {
-      this.validateSpecimens.receiver = 'Vui lòng nhập bệnh nhân';
+    else if (this.specimen.orderDate > this.specimen.receiverDate){
+      this.validateSpecimens.orderDate = 'Vui lòng chọn lại ngày đặt!';
       this.isSubmitted = true;
     }
+    if (!this.specimen.receiverDate){
+      this.validateSpecimens.receiverDate = 'Vui lòng nhập ngày nhận!';
+      this.isSubmitted = true;
+    }
+    else if (this.specimen.receiverDate > this.specimen.usedDate){
+      this.validateSpecimens.receiverDate = 'Vui lòng chọn lại ngày nhận!';
+      this.isSubmitted = true;
+    }
+    if (!this.specimen.usedDate){
+      this.validateSpecimens.usedDate = 'Vui lòng nhập ngày lắp!';
+      this.isSubmitted = true;
+    }
+    else if (this.specimen.usedDate < this.specimen.receiverDate){
+      this.validateSpecimens.usedDate = 'Vui lòng chọn lại ngày lắp!';
+      this.isSubmitted = true;
+    }
+    if (!this.specimen.labo){
+      this.validateSpecimens.labo = 'Vui lòng chọn labo!';
+      this.isSubmitted = true;
+    }
+    if (!this.specimen.quantity){
+      this.validateSpecimens.quantity = 'Vui lòng nhập số lượng!';
+      this.isSubmitted = true;
+    }
+    else if (!this.checkNumber(this.specimen.quantity)){
+      this.validateSpecimens.quantity = 'Vui lòng nhập lại số lượng!';
+      this.isSubmitted = true;
+    }
+    if (!this.specimen.price){
+      this.validateSpecimens.price = 'Vui lòng nhập đơn giá!';
+      this.isSubmitted = true;
+    }
+    else if (!this.checkNumber(this.specimen.price)){
+      this.validateSpecimens.price = 'Vui lòng nhập lại đơn giá!';
+      this.isSubmitted = true;
+    }
+    if (!this.specimen.orderer){
+      this.validateSpecimens.orderer = 'Vui lòng nhập người đặt!';
+      this.isSubmitted = true;
+    }
+    if (!this.patientIdSelected){
+      this.validateSpecimens.receiver = 'Vui lòng nhập tên bệnh nhân!';
+      this.isSubmitted = true;
+    }
+
     if (this.isSubmitted) {
       return;
     }
@@ -245,6 +262,7 @@ export class PopupAddSpecimensComponent implements OnInit {
       price: '',
       orderDate: '',
       receiver: '',
+      labo:''
     }
     this.isSubmitted = false;
   }

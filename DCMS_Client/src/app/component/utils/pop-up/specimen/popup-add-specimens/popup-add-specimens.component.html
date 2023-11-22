@@ -25,7 +25,7 @@
                       Vui lòng nhập tên mẫu!
                     </div>
                   </div>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.name}}
                     </p>
@@ -41,7 +41,7 @@
                       Vui lòng nhập chất liệu!
                     </div>
                   </div>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.type}}
                     </p>
@@ -57,7 +57,7 @@
                       Vui lòng nhập ngày đặt!
                     </div>
                   </div>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.orderDate}}
                     </p>
@@ -74,7 +74,7 @@
                       Vui lòng nhập ngày nhận!
                     </div>
                   </div>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.receiverDate}}
                     </p>
@@ -90,7 +90,7 @@
                       Vui lòng nhập ngày lắp!
                     </div>
                   </div>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.usedDate}}
                     </p>
@@ -104,6 +104,11 @@
                 >
                   <option *ngFor="let labo of labos" value="{{labo.labo_id}}">{{labo.name}}</option>
                 </select>
+                <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                  <p>
+                    {{validateSpecimens.labo}}
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -117,7 +122,7 @@
                       Vui lòng nhập số lượng!
                     </div>
                   </div>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.quantity}}
                     </p>
@@ -133,7 +138,7 @@
                       Vui lòng nhập đơn giá!
                     </div>
                   </div>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.price}}
                     </p>
@@ -155,7 +160,7 @@
                       Vui lòng nhập người đặt!
                     </div>
                   </div>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.orderer}}
                     </p>
@@ -177,7 +182,7 @@
                       Vui lòng nhập bệnh nhân!
                     </div>
                   </div> -->
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.receiver}}
                     </p>

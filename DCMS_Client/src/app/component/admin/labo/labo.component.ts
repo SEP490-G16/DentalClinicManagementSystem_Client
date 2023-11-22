@@ -49,6 +49,9 @@ export class LaboComponent implements OnInit {
     this.LaboService.getLabos()
       .subscribe((res) => {
         this.Labos = res.data;
+          this.Labos.forEach((labo) => {
+            labo.phone_number = this.normalizePhoneNumber(labo.phone_number);
+          });
         this.loading=false;
         console.log("Labos", res.data);
       },
@@ -114,5 +117,13 @@ export class LaboComponent implements OnInit {
       console.log("Logged out!");
       this.router.navigate(['/login']);
     })
+  }
+  normalizePhoneNumber(phoneNumber: string): string {
+    if(phoneNumber.startsWith('(+84)')){
+      return '0'+phoneNumber.slice(5);
+    }else if(phoneNumber.startsWith('+84')){
+      return '0'+phoneNumber.slice(3);
+    }else
+    return phoneNumber;
   }
 }

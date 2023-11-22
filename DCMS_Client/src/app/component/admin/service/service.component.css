@@ -8,7 +8,7 @@
   box-sizing: border-box;
 }
 .sep-recent-orders .row{
-  margin-top: 1%;
+  margin-top: 1.5%;
 }
 .button-add{
   font-family: "Poppins", sans-serif;
@@ -35,7 +35,7 @@
   background-color: #fff4;
   padding: .8rem 1rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-top: 10px;
 }
@@ -53,11 +53,11 @@
   transition: .2s;
 }
 
-.table__header .input-group:hover {
-  width: 90%;
-  background-color: #fff8;
-  box-shadow: 0 .1rem .4rem #0002;
-}
+/*.table__header .input-group:hover {*/
+/*  width: 90%;*/
+/*  background-color: #fff8;*/
+/*  box-shadow: 0 .1rem .4rem #0002;*/
+/*}*/
 
 
 .table__header .input-group input {

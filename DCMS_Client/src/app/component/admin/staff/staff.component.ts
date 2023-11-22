@@ -25,17 +25,17 @@ export class StaffComponent implements OnInit {
   }
 
   staff = {
-    staffId: '', 
-    staffName: '', 
+    staffId: '',
+    staffName: '',
     staffUserName: '',
-    dob: '', 
+    dob: '',
     address: '',
-    note: '', 
-    email: '', 
-    phoneNumber: '', 
+    note: '',
+    email: '',
+    phoneNumber: '',
     roleId: '',
-    roleName:'', 
-    gender: '', 
+    roleName:'',
+    gender: '',
     image: '',
     locale: '',
   }
@@ -50,17 +50,17 @@ export class StaffComponent implements OnInit {
         console.log("ListStaff:",this.listStaff);
         this.listStaff.forEach((staff:any) => {
           this.staff = {
-            staffId: '', 
-            staffName: '', 
+            staffId: '',
+            staffName: '',
             staffUserName: '',
-            dob: '', 
+            dob: '',
             address: '',
-            note: '', 
-            email: '', 
-            phoneNumber: '', 
+            note: '',
+            email: '',
+            phoneNumber: '',
             roleId: '',
-            roleName:'', 
-            gender: '', 
+            roleName:'',
+            gender: '',
             image: '',
             locale: '',
           }
@@ -76,7 +76,7 @@ export class StaffComponent implements OnInit {
               this.staff.email = attr.Value;
             }
             if (attr.Name == 'phone_number') {
-              this.staff.phoneNumber = attr.Value;
+              this.staff.phoneNumber = this.normalizePhoneNumber(attr.Value);
             }
             if (attr.Name == 'custom:role') {
               this.staff.roleId = attr.Value;
@@ -101,7 +101,7 @@ export class StaffComponent implements OnInit {
           this.listStaffDisplay.push(this.staff);
         })
 
-      },  
+      },
       )
     }
 
@@ -145,5 +145,13 @@ export class StaffComponent implements OnInit {
     const date = moment.unix(timestamp);
     const dateStr = date.format('YYYY-MM-DD');
     return dateStr;
+  }
+  normalizePhoneNumber(phoneNumber: string): string {
+    if(phoneNumber.startsWith('(+84)')){
+      return '0'+phoneNumber.slice(5);
+    }else if(phoneNumber.startsWith('+84')){
+      return '0'+phoneNumber.slice(3);
+    }else
+      return phoneNumber;
   }
 }

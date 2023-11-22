@@ -5,6 +5,9 @@ import { ToastrService } from 'ngx-toastr';
 import { CognitoService } from 'src/app/service/cognito.service';
 import * as moment from 'moment-timezone';
 import { FacilityService } from 'src/app/service/FacilityService/facility.service';
+import {
+  MedicalProcedureGroupService
+} from "../../../../../service/MedicalProcedureService/medical-procedure-group.service";
 
 @Component({
   selector: 'app-popup-add-staff',
@@ -41,7 +44,8 @@ export class PopupAddStaffComponent implements OnInit {
     private cognitoService:CognitoService,
     private facilityService: FacilityService,
     private toastr:ToastrService,
-    private router:Router
+    private router:Router,
+    private serviceGroup: MedicalProcedureGroupService
   ) {
     this.staff = {} as IStaff
    }
@@ -100,7 +104,7 @@ export class PopupAddStaffComponent implements OnInit {
     if (this.staff.password.length < 8) {
       this.vailidateStaff.password = "Mật khẩu phải dài hơn 8 ký tự !";
       this.isSubmitted = true;
-    } 
+    }
 
     if (!this.isCheckPassword(this.staff.password)) {
       this.vailidateStaff.password = "Mật khẩu phải có ký tự đặc biệt, ký tự hoa, thường và chứa số!";
@@ -275,5 +279,28 @@ export class PopupAddStaffComponent implements OnInit {
     var timestamp = moment.tz(dateStr, format, timeZone).valueOf() / 1000;
     return timestamp;
   }
+  serviceGroups:any[]=[];
+  services:any[]=[];
+  selectServiceGroup:string='';
+  selectService:string='';
+  onChangeRole(role:any){
+    if (role == 2){
+      this.serviceGroup.getMedicalProcedureGroupList().subscribe(data=>{
+        this.serviceGroups = data.data;
+      })
+    }
+    else {
+      this.serviceGroups =[];
+      this.services=[];
+    }
+  }
 
+  onChangeServiceGroup(selectServiceGroup:any){
+    console.log(selectServiceGroup)
+    this.serviceGroup.getMedicalProcedureGroupWithDetailList().subscribe(data=>{
+      console.log("data",data.data);
+      this.services = data.data.filter((item:any)=>item.mg_id === selectServiceGroup);
+      console.log(this.services)
+    })
+  }
 }

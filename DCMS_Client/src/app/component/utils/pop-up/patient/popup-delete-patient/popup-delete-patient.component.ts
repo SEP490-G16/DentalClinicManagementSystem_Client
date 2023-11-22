@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {PatientService} from "../../../../../service/PatientService/patient.service";
 import {ToastrService} from "ngx-toastr";
 
@@ -7,7 +7,7 @@ import {ToastrService} from "ngx-toastr";
   templateUrl: './popup-delete-patient.component.html',
   styleUrls: ['./popup-delete-patient.component.css']
 })
-export class PopupDeletePatientComponent implements OnInit {
+export class PopupDeletePatientComponent implements OnInit,OnChanges {
   @Input() patientList:any;
   @Input() id:any;
   constructor(private patientService:PatientService,
@@ -16,8 +16,9 @@ export class PopupDeletePatientComponent implements OnInit {
   ngOnInit(): void {
 
   }
+  patientId:any;
   deletePatient(){
-    this.patientService.deletePatient(this.id).subscribe(data=>{
+    this.patientService.deletePatient(this.patientId).subscribe(data=>{
         let ref = document.getElementById('cancel-patient');
         ref?.click();
         this.toastr.success('Xoá bệnh nhân thành công !');
@@ -32,10 +33,17 @@ export class PopupDeletePatientComponent implements OnInit {
         if (index !== -1) {
           this.patientList.splice(index, 1);
         }
+      //window.location.reload();
       },
       error => {
         this.toastr.error('Xoá bệnh nhân thất bại!');
       }
     )
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['id'] && this.id){
+      this.patientId = this.id;
+    }
   }
 }
