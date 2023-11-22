@@ -20,6 +20,7 @@ import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureSe
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs'
 import {ResponseHandler} from "../../../libs/ResponseHandler";
+import { CognitoService } from 'src/app/service/cognito.service';
 
 @Component({
   selector: 'app-popup-add-appointment',
@@ -130,6 +131,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     private router: Router,
     private config: NgbDatepickerConfig,
     private calendar: NgbCalendar,
+    private cognito: CognitoService,
     private medicaoProcedureGroupService:MedicalProcedureGroupService
   ) {
     this.isDisabled = (
@@ -218,8 +220,39 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     var dateTime = date+ ' '+time;
   }
 
-  getListDoctor() {
+  doctorObject = {
+    sub_id: '', 
+    doctorName: '', 
+    phoneNumber: '', 
+    roleId: ''
+  }
 
+  listDoctor: any[] = [];
+  listDoctorDisplay: any[] = [];
+  getListDoctor() {
+    this.cognito.getListStaff().subscribe((res) => {
+      this.listDoctor = res.message;
+      this.listDoctor.forEach((staff: any) => {
+        staff.Attributes.forEach((attr: any) => {
+          if (attr.Name == 'custom:role') {
+            this.doctorObject.roleId = attr.Value;
+          }
+          if (attr.Name == 'sub') {
+            this.doctorObject.sub_id = attr.Value;
+          }
+          if (attr.Name == 'name') {
+            this.doctorObject.doctorName = attr.Value;
+          }
+          if (attr.Name == 'phone_number') {
+            this.doctorObject.phoneNumber = attr.Value;
+          }
+        })
+        console.log(this.doctorObject);
+        if (this.doctorObject.roleId == "2") {
+          this.listDoctorDisplay.push(this.doctorObject);
+        }
+      })
+    })
   }
 
   private isVietnamesePhoneNumber(number: string): boolean {
@@ -463,6 +496,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     { name: 'Bác sĩ C. Lê', specialty: 'Nha khoa', image: 'https://img.verym.com/group1/M00/03/3F/wKhnFlvQGeCAZgG3AADVCU1RGpQ414.jpg' },
     { name: 'Không Chọn Bác Sĩ', specialty: '', image: 'https://png.pngtree.com/png-clipart/20190904/original/pngtree-user-cartoon-girl-avatar-png-image_4492903.jpg' }
   ];
+
   private resetValidate() {
     this.validateAppointment = {
       phoneNumber: '',
