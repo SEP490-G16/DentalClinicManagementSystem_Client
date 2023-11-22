@@ -2,10 +2,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
 
-<div *ngIf="loading" class="loading-overlay">
-  <div class="loading-spinner"></div>
-</div>
-
 <div class="recent-orders">
         <section class="table__header">
           <h1></h1>
@@ -13,7 +9,7 @@
           </div>
         </section>
 
-        <div class="row" style="margin-bottom: 20px; margin-left: 10px">
+        <div class="row link">
           <div class="col-md-1 col-1">
             <a routerLink="/admin/mau" class="page-title" routerLinkActive="active-link">Quản lý mẫu</a>
           </div>
@@ -79,7 +75,7 @@
             <select class="form-select p-2" style="width: 70%; border: 1px solid #664FC3;
             border-radius: 10px;"
               aria-label="Default select example" [(ngModel)]="status" (change)="filterStatus()">
-              <option value="0">Trạng thái</option>
+              <option value="">Trạng thái</option>
               <option value="1">Chưa Nhận</option>
               <option value="2">Đã Nhận</option>
               <option value="3">Hàng Lỗi</option>
@@ -95,23 +91,23 @@
                   <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox1" (click)="toggleColumn(2)"> Tên mẫu</li>
                 </div>
                 <div class="col-md-6">
-                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox2" (click)="toggleColumn(3)">Chất liệu</li>
+                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox2" (click)="toggleColumn(3)"> Chất liệu</li>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-6">
-                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox3" (click)="toggleColumn(4)">Số lượng</li>
+                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox3" (click)="toggleColumn(4)"> Số lượng</li>
                 </div>
                 <div class="col-md-6">
-                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox4" (click)="toggleColumn(5)">Đơn giá</li>
+                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox4" (click)="toggleColumn(5)"> Đơn giá</li>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-6">
-                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox5" (click)="toggleColumn(6)">Labo</li>
+                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox5" (click)="toggleColumn(6)"> Labo</li>
                 </div>
                 <div class="col-md-6">
-                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox6" (click)="toggleColumn(7)">Trạng thái</li>
+                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox6" (click)="toggleColumn(7)"> Trạng thái</li>
                 </div>
               </div>
               <div class="row">
@@ -119,7 +115,7 @@
                   <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox7" (click)="toggleColumn(8)"> Ngày đặt</li>
                 </div>
                 <div class="col-md-6">
-                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox8" (click)="toggleColumn(9)">Người đặt</li>
+                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox8" (click)="toggleColumn(9)"> Người đặt</li>
                 </div>
               </div>
               <div class="row">
@@ -127,7 +123,7 @@
                   <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox9" (click)="toggleColumn(10)"> Ngày nhận</li>
                 </div>
                 <div class="col-md-6">
-                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox10" (click)="toggleColumn(11)">Người nhận</li>
+                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox10" (click)="toggleColumn(11)"> Người nhận</li>
                 </div>
               </div>
               <div class="row">
@@ -135,7 +131,7 @@
                   <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox11" (click)="toggleColumn(12)"> Ngày lắp </li>
                 </div>
                 <div class="col-md-6">
-                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox12" (click)="toggleColumn(13)">Bảo hành</li>
+                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox12" (click)="toggleColumn(13)"> Bảo hành</li>
                 </div>
               </div>
             </ul>
@@ -145,7 +141,7 @@
 
         </div>-->
         <!-- <h2>Mẫu vật</h2> -->
-        <div class="table-container" style="margin-top: 10px;">
+        <div class="table-container" style="margin-top: 3%;">
           <table>
             <thead class="sticky-thead">
               <tr>

@@ -35,7 +35,13 @@
               <div class="form-group row mt-3">
                 <label for="phone_number" class="col-3">Số điện thoại:</label>
                 <div class="col-9">
-                  <input type="text" class="form-control" id="phone_number" name="phone_number" [(ngModel)]="Labo.phone_number">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1">(+84)</span>
+                    </div>
+                    <input type="text" class="form-control" [(ngModel)]="Labo.phone_number" id="phone_number" name="phone_number" aria-label="phoneNumber" aria-describedby="basic-addon1">
+                  </div>
+<!--                  <input type="text" class="form-control" id="phone_number" name="phone_number" [(ngModel)]="Labo.phone_number">-->
                   <p *ngIf="isSubmitted" class="error" style="color: red;">{{LaboErrors.phone_number}}</p>
                 </div>
               </div>
