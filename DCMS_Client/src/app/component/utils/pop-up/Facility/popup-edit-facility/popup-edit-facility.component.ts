@@ -116,14 +116,16 @@ export class PopupEditFacilityComponent implements OnChanges {
     this.loading = true;
     this.facilityService.updateFacility(this.id, this.facilityBody).subscribe(data=>{
       this.toastr.success('Cập nhật thành công !');
-      // let ref = document.getElementById('cancel-edit-facility');
-      // ref?.click();
-      window.location.reload();
-        // this.facilityBody.facility_id = this.id;
-        // const index = this.facilityList.findIndex((facility:any) => facility.facility_id === this.id);
-        // if (index !== -1) {
-        //   this.facilityList[index] = this.facilityBody;
-        // }
+      let ref = document.getElementById('cancel-edit-facility');
+      ref?.click();
+     // window.location.reload();
+        this.facilityBody.facility_id = this.id;
+        const index = this.facilityList.findIndex((facility:any) => facility.facility_id === this.id);
+        if (index !== -1) {
+          this.facilityBody.facility_phone_number = this.normalizePhoneNumber(this.facilityInput.sdtFacility);
+          this.facilityBody.manager_phone_number = this.normalizePhoneNumber(this.facilityInput.sdtManager);
+          this.facilityList[index] = this.facilityBody;
+        }
     },
       error => {
       this.loading = false;
@@ -145,5 +147,8 @@ export class PopupEditFacilityComponent implements OnChanges {
   private isVietnamesePhoneNumber(number:string):boolean {
     return /^(\+84|84|0)?[1-9]\d{8}$/
       .test(number);
+  }
+  normalizePhoneNumber(phoneNumber: string): string {
+    return phoneNumber.startsWith('(+84)') ? '0' + phoneNumber.slice(5) : phoneNumber;
   }
 }

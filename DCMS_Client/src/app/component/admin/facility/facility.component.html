@@ -1,54 +1,47 @@
 <div class="sep-recent-orders">
+  <div class="row filter-row">
+    <div class="col-sm-6 col-md-3">
+      <div class="form-group form-group-filter">
+        <button href="#" class="btn button-add btn-add-facility" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus-circle"></i> Thêm cơ sở
+        </button>
+      </div>
+    </div>
+  </div>
   <div class="row">
-  <div class="col-md-2 col-xl-1">
-    <a routerLink="/admin/co-so" routerLinkActive="active-link" class="page-title">Quản lý cơ sở </a>
-  </div>
-  <div class="col-md-2 col-xl-1">
-    <a href="#" class="page-title">Thống kê</a>
-  </div>
-</div>
-<div class="row filter-row">
-  <div class="col-sm-6 col-md-3">
-    <div class="form-group form-group-filter">
-      <button href="#" class="btn button-add btn-add-facility" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus-circle"></i> Thêm cơ sở
-      </button>
+    <div class="col-md-12">
+      <div class="table-container">
+        <table>
+          <thead class="sticky-thead">
+          <tr>
+            <th>Mã cơ sở</th>
+            <th>Cơ sở</th>
+            <th>Người đại diện</th>
+            <th>SĐT Phòng khám</th>
+            <th>SĐT Người đại diện</th>
+            <th>Địa chỉ</th>
+            <th class="text-center">Thao tác</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let f of facilityList">
+            <td>{{f.facility_id}}</td>
+            <td class="truncate" data-bs-toggle="tooltip" title="{{f.name}}">{{f.name}}</td>
+            <td>{{f.manager_name}}</td>
+            <td>{{f.facility_phone_number}}</td>
+            <td>{{f.manager_phone_number}}</td>
+            <td>{{f.address}}</td>
+            <td class="text-center">
+              <button href="#" class="btn btn-primary float-right btn-rounded" style="padding: 2px 3px;margin-right: 3px" data-bs-toggle="modal" data-bs-target="#editFacilityModal" (click)="openEditFacility(f)"><i class="bi bi-pencil-square"></i></button>
+              <button href="#" class="btn btn-danger float-right btn-rounded" style="padding: 2px 3px" (click)="deleteFacility(f.facility_id)"><i class="bi bi-trash"></i></button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
-<div class="row">
-  <div class="col-md-12">
-    <div class="table-container">
-      <table>
-        <thead class="sticky-thead">
-        <tr>
-          <th>Mã cơ sở</th>
-          <th>Cơ sở</th>
-          <th>Người đại diện</th>
-          <th>SĐT Phòng khám</th>
-          <th>SĐT Người đại diện</th>
-          <th>Địa chỉ</th>
-          <th class="text-center">Thao tác</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let f of facilityList">
-          <td>{{f.facility_id}}</td>
-          <td class="truncate" data-bs-toggle="tooltip" title="{{f.name}}">{{f.name}}</td>
-          <td>{{f.manager_name}}</td>
-          <td>{{f.facility_phone_number}}</td>
-          <td>{{f.manager_phone_number}}</td>
-          <td>{{f.address}}</td>
-          <td class="text-center">
-            <button href="#" class="btn btn-primary float-right btn-rounded" style="padding: 2px 3px;margin-right: 3px" data-bs-toggle="modal" data-bs-target="#editFacilityModal" (click)="openEditFacility(f)"><i class="bi bi-pencil-square"></i></button>
-            <button href="#" class="btn btn-danger float-right btn-rounded" style="padding: 2px 3px" (click)="deleteFacility(f.facility_id)"><i class="bi bi-trash"></i></button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-</div>
+
 <app-popup-add-facility [facilityList] = "facilityList"></app-popup-add-facility>
 <app-popup-delete-facility></app-popup-delete-facility>
 <app-popup-edit-facility [facility] = "facility" [facilityList] = "facilityList"></app-popup-edit-facility>

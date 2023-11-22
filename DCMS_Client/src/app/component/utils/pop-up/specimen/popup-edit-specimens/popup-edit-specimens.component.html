@@ -21,6 +21,11 @@
                 <div class="col-9 value-staff">
                   <input type="text" class="form-control" id="name-specimens" [(ngModel)]="IPutSpecimens.ms_name"
                     name="specimensName">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                    <p>
+                      {{validatePutSpecimens.name}}
+                    </p>
+                  </div>
                 </div>
               </div>
               <div class="form-group row mt-3">
@@ -28,6 +33,11 @@
                 <div class="col-9 value-staff">
                   <input type="text" [(ngModel)]="IPutSpecimens.ms_type" class="form-control" id="material"
                     name="material">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                    <p>
+                      {{validatePutSpecimens.type}}
+                    </p>
+                  </div>
                 </div>
               </div>
               <div class="form-group row mt-3">
@@ -35,6 +45,11 @@
                 <div class="col-9 value-staff">
                   <input type="date" [(ngModel)]="IPutSpecimens.ms_order_date" class="form-control date-input-custom"
                     id="orderdate" name="orderdate">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                    <p>
+                      {{validatePutSpecimens.orderDate}}
+                    </p>
+                  </div>
                 </div>
               </div>
               <div class="form-group row mt-3">
@@ -42,6 +57,11 @@
                 <div class="col-9 value-staff">
                   <input type="date" [(ngModel)]="IPutSpecimens.ms_received_date" class="form-control date-input-custom"
                     id="receiverdate" name="receiverdate">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                    <p>
+                      {{validatePutSpecimens.receivedDate}}
+                    </p>
+                  </div>
                 </div>
               </div>
               <div class="form-group row mt-3">
@@ -49,6 +69,11 @@
                 <div class="col-9 value-staff">
                   <input type="date" class="form-control date-input-custom" id="installationdate"
                     name="installationdate" [(ngModel)]="IPutSpecimens.ms_use_date">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                    <p>
+                      {{validatePutSpecimens.useDate}}
+                    </p>
+                  </div>
                 </div>
               </div>
               <div class="form-group row mt-3">
@@ -59,6 +84,11 @@
                  <option *ngFor="let labo of Labos" [value]="labo.labo_id">{{labo.name}}</option>
                   <option value="null">Không có Labo</option>
                 </select>
+                <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                  <p>
+                    {{validatePutSpecimens.labo}}
+                  </p>
+                </div>
               </div>
             </div>
             <div class="col-md-6">
@@ -67,6 +97,11 @@
                 <div class="col-9 value-staff">
                   <input type="number" [(ngModel)]="IPutSpecimens.ms_quantity" class="form-control date-input-custom"
                     id="quantity" name="quantity">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                    <p>
+                      {{validatePutSpecimens.quantity}}
+                    </p>
+                  </div>
                 </div>
               </div>
               <div class="form-group row mt-3">
@@ -74,6 +109,11 @@
                 <div class="col-9 value-staff">
                   <input type="number" [(ngModel)]="IPutSpecimens.ms_unit_price" class="form-control" id="unitprice"
                     name="unitprice">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                    <p>
+                      {{validatePutSpecimens.unitPrice}}
+                    </p>
+                  </div>
                 </div>
               </div>
               <div class="form-group row mt-3">
@@ -87,6 +127,11 @@
                 <div class="col-9 value-staff">
                   <input type="text" [(ngModel)]="IPutSpecimens.ms_orderer" class="form-control" id="orderby"
                     name="orderby">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                    <p>
+                      {{validatePutSpecimens.order}}
+                    </p>
+                  </div>
                 </div>
               </div>
               <div class="form-group row mt-3">
@@ -96,6 +141,11 @@
                              [notFoundText]="'Không tìm thấy bệnh nhân'">
 
                   </ng-select>
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                    <p>
+                      {{validatePutSpecimens.patient}}
+                    </p>
+                  </div>
                 </div>
               </div>
               <div class="form-group row mt-3">
@@ -116,7 +166,7 @@
         <!-- Modal footer -->
         <div class="modal-footer">
           <button type="button" class="btn btn-cancel" data-bs-dismiss="modal" (click)="closePopup()">Hủy</button>
-          <button type="button" class="btn button-timekeeping" data-bs-dismiss="modal" (click)="EditSpecimen()"><i
+          <button type="button" class="btn button-timekeeping" (click)="EditSpecimen()"><i
               class="bi bi-floppy2"></i> Lưu</button>
         </div>
 

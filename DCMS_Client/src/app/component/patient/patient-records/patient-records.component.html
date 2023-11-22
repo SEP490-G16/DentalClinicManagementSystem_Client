@@ -24,17 +24,17 @@
         </tr>
       </thead>
       <tbody>
-      <tr class="hover-patient" *ngFor="let p of searchPatientsList" [ngClass]="{'new-record': p.isNew,'pulse': p.isPulsing}" style="cursor: pointer;" (click)="detail(p.patient_id)">
-          <td>
+      <tr class="hover-patient" *ngFor="let p of searchPatientsList" [ngClass]="{'new-record': p.isNew,'pulse': p.isPulsing}" style="cursor: pointer;">
+          <td (click)="detail(p.patient_id)">
             <!--HE153724-->{{p.patient_id}}
           </td>
           <td>
             <a style="cursor: pointer;" (click)="detail(p.patient_id)">{{p.patient_name}}</a>
           </td>
-          <td>
+          <td (click)="detail(p.patient_id)">
             {{p.phone_number}}
           </td>
-          <td>
+          <td (click)="detail(p.patient_id)">
             {{p.address}}
           </td>
           <td>
@@ -55,4 +55,4 @@
 </div>
 <!-- End of Recent Orders -->
 <app-popup-add-patient [searchPatientsList]="searchPatientsList"></app-popup-add-patient>
-<app-popup-delete-patient [id]="[id]" [patientList]="searchPatientsList"></app-popup-delete-patient>
+<app-popup-delete-patient [id]="id" [patientList]="searchPatientsList"></app-popup-delete-patient>
