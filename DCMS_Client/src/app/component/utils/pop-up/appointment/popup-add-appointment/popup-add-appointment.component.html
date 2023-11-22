@@ -74,13 +74,13 @@
             <div class="col-12 col-md-6">
               <div class="doctors-list">
                 <ul class="list-group">
-                  <li class="list-group-item" *ngFor="let doctor of doctors"
+                  <li class="list-group-item" *ngFor="let doctor of listDoctorDisplay"
                     [ngClass]="{'selected': doctor === selectedDoctor}" (click)="selectDoctor(doctor)">
-                    <img [src]="doctor.image" style="width: 100px; height: 100px; object-fit: cover;"
-                      class="doctor-image" [alt]="doctor.name">
+                    <!-- <img [src]="doctor.image" style="width: 100px; height: 100px; object-fit: cover;"
+                      class="doctor-image" [alt]="doctor.name"> -->
                     <div class="doctor-info">
-                      <h5 class="card-title">{{ doctor.name }}</h5>
-                      <p class="card-text">{{ doctor.specialty }}</p>
+                      <h5 class="card-title">{{ doctor.doctorName }}</h5>
+                      <p class="card-text">{{ doctor.phoneNumber }}</p>
                     </div>
                   </li>
                 </ul>

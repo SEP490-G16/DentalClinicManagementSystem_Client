@@ -48,25 +48,25 @@
       </div>
 
     </div>
-    <div class="mb-5" style="padding: 0 10px">
+    <!-- <div class="mb-5" style="padding: 0 10px">
       <input type="month" [(ngModel)]="selectedMonth" (change)="updateStartAndEndTime()" style="width: 85%"
              class="form-control input-custom  p-2">
-    </div>
+    </div> -->
     <div class="mb-5 row">
       <div class="col-4">
-        <label for="fromDate" class="form-label" style="padding: 10px">Từ ngày:</label>
+        <label for="fromDate" class="form-label" style="padding: 10px"><b>Từ ngày:</b></label>
       </div>
       <div class="col-8">
-        <input type="date" style="width: 90%" [(ngModel)]="fromDate" id="fromDate" class="form-control input-custom  p-2">
+        <input type="date" style="width: 90%" #input (change)="changeFromDate(input.value)" id="fromDate" class="form-control input-custom  p-2">
       </div>
     </div>
 
     <div class="mb-5 row">
       <div class="col-4">
-        <label for="toDate" class="form-label" style="padding: 10px 0">Đến ngày:</label>
+        <label for="toDate" class="form-label" style="padding: 10px 0"><b>Đến ngày:</b></label>
       </div>
       <div class="col-8">
-        <input type="date" [(ngModel)]="toDate" style="width: 90%" id="toDate" class="form-control input-custom  p-2">
+        <input type="date" [(ngModel)]="toDate"  #inpu (change)="changeToDate(inpu.value)" style="width: 90%" id="toDate" class="form-control input-custom  p-2">
       </div>
     </div>
     <div class="mb-5">
@@ -80,23 +80,23 @@
       <tr class="text-center">
         <th style="min-width: 120px">Tên nhân viên</th>
         <th style="min-width: 80px"> Chức vụ</th>
-        <th colspan="30"> Ngày</th>
+        <th [colSpan]="totalDate"> Ngày</th>
         <th style="min-width: 120px"> Ngày đi làm</th>
       </tr>
       <tr>
         <td></td>
         <td></td>
-        <td *ngFor="let day of daysInMonth" style="min-width: 70px;">{{ day }}</td>
+        <td *ngFor="let day of listDayInMonth" style="min-width: 70px;">{{ day }}</td>
         <td></td>
       </tr>
       </thead>
       <tbody class="text-center">
 
-      <ng-container *ngFor="let timekeeping of followingTimekeepings">
+      <!-- <ng-container *ngFor="let timekeeping of followingTimekeepings">
         <tr *ngFor="let p of timekeeping.records">
           <td>{{p.details.staff_name}}</td>
           <td>Lế tân</td>
-          <td *ngFor="let day of daysInMonth">
+          <td *ngFor="let day of listDayInMonth">
             <div style="display: flex" *ngIf="isClockInDay(day,timekeeping.epoch)">
               <div class="check-in-custom">
               </div>
@@ -112,6 +112,32 @@
               </div>
             </div>
           </td>
+          <td></td>
+        </tr>
+      </ng-container> -->
+      <ng-container *ngFor="let timekeeping of listStaffTimeKeeping">
+        <tr>
+          <td>{{timekeeping.staff_name}}</td>
+          <td>Lế tân</td>
+          <td *ngFor="let day of listDayInMonth">
+            <ng-container *ngFor="let p of timekeeping.timeKeeping">
+              <div style="display: flex" *ngIf="isClockInDay(day,p.epoch)">
+                <div class="check-in-custom">
+                </div>
+                <div>
+                  <p>{{timestampToGMT7String(p.clock_in)}}</p>
+                </div>
+              </div>
+              <div style="display: flex" *ngIf="isClockOutDay(day,p.epoch)">
+                <div class="check-out-custom">
+                </div>
+                <div>
+                  <p>{{timestampToGMT7String(p.clock_out)}}</p>
+                </div>
+              </div>
+            </ng-container>
+          </td>
+          <td></td>
         </tr>
       </ng-container>
       </tbody>
@@ -119,4 +145,3 @@
   </div>
 
 </div>
-
