@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges,EventEmitter, Output} from '@angular/core';
 import {PatientService} from "../../../../../service/PatientService/patient.service";
 import {ToastrService} from "ngx-toastr";
 
@@ -8,6 +8,7 @@ import {ToastrService} from "ngx-toastr";
   styleUrls: ['./popup-delete-patient.component.css']
 })
 export class PopupDeletePatientComponent implements OnInit,OnChanges {
+  @Output() patientDeleted: EventEmitter<void> = new EventEmitter<void>();
   @Input() patientList:any;
   @Input() id:any;
   constructor(private patientService:PatientService,
@@ -22,18 +23,7 @@ export class PopupDeletePatientComponent implements OnInit,OnChanges {
         let ref = document.getElementById('cancel-patient');
         ref?.click();
         this.toastr.success('Xoá bệnh nhân thành công !');
-        console.log(this.patientList);
-        /*let modal = document.querySelector('.modal');
-        console.log(modal);
-        if (modal) {
-          modal.setAttribute('style', 'display: none;');
-        }*/
-
-        const index = this.patientList.findIndex((patient:any) => patient.patient_id === this.id);
-        if (index !== -1) {
-          this.patientList.splice(index, 1);
-        }
-      //window.location.reload();
+        this.patientDeleted.emit();
       },
       error => {
         this.toastr.error('Xoá bệnh nhân thất bại!');

@@ -1,30 +1,20 @@
-<div *ngIf="loading" class="loading-overlay">
-  <div class="loading-spinner"></div>
-</div>
-
-<div class="recent-orders">
-  <section class="table__header">
-    <h1></h1>
-    <div class="input-group">
-      <input type="search" placeholder="Tìm kiếm theo tên" [(ngModel)]="searchText"
-        (input)="searchAppointments()">
-    </div>
+<div class="sep-recent-orders">
+  <!-- <section class="table__header">
     <div class="export__file">
     </div>
-  </section>
+  </section> -->
 
   <div class="row mt-5 mb-5">
     <div class="col-6">
-      <button class="btn button-timekeeping" style="margin-right: 30px;" data-bs-toggle="modal"
+      <button class="btn btn-add button-timekeeping" style="margin-right: 20px;" data-bs-toggle="modal"
         data-bs-target="#myModal" (click)="openAddAppointmentModal()"><i class="bi bi-plus-circle"></i>
         Thêm
         lịch hẹn</button>
     </div>
     <div class="col-6">
       <input type="date" class="date-input-custom" [(ngModel)]="startDate" (change)="getAppointmentList()">
-
       <select class="form-select input-custom float-end" aria-label="Default select example"
-        [(ngModel)]="selectedProcedure" (change)="filterAppointments()" style="width: 45%;">
+        [(ngModel)]="selectedProcedure" (change)="filterAppointments()" style="width: 40%;">
         <option selected value="">Phân loại điều trị</option>
         <option *ngFor="let a of listGroupService" value={{a.medical_procedure_group_id}}>{{a.name}}</option>
       </select>
@@ -48,9 +38,8 @@
       <tbody>
         <ng-container *ngFor="let a of filteredAppointments">
           <ng-container *ngFor="let ap of a.appointments">
-            <tr *ngFor="let detail of ap.details">
-              <td>
-                <!--HE153724-->
+            <tr *ngFor="let detail of ap.details" class="list-appointment" (click)="navigateToPatientDetail(detail.patient_id)">
+              <td >
                 {{detail.patient_id}}
               </td>
               <td>
@@ -60,25 +49,21 @@
                 {{detail.phone_number}}
               </td>
               <td>
-               {{detail.procedure_name}}
+                {{detail.procedure_name}}
               </td>
               <td>{{ detail.doctor }}</td>
               <td>{{timestampToTime(detail.time)}} - {{timestampToDate(a.date)}}</td>
-              <!-- <td>{{convertTimestampToVNDateString(a.date)}}</td> -->
-              <td >
-                <!-- <button class="btn btn-edit-custom" data-bs-toggle="modal" data-bs-target="#editAppointmentModal"
-                  (click)="openEditModal(detail, a.date)">
-                  <i class="bi bi-pencil-square"></i>
-                </button> -->
-                <!-- <button (click)="deleteAppointment(detail, a.date)"> <i class="bi bi-trash"></i></button> -->
-                <button class="btn btn-primary p-1 m-r-3" style="padding: 2px 3px; margin-right: 3px" data-bs-toggle="modal"
-                  data-bs-target="#editAppointmentModal" (click)="openEditModal(detail, a.date)">
+              <td>
+                <button class="btn btn-primary p-1 m-r-3" style="padding: 2px 3px; margin-right: 3px"
+                  data-bs-toggle="modal" data-bs-target="#editAppointmentModal" (click)="openEditModal(detail, a.date); $event.stopPropagation()">
                   <i class="bi bi-pencil-square"></i></button>
-                <button class="btn btn-danger p-1" style="padding: 2px 5px" (click)="deleteAppointment(detail, a.date)"> <i
-                    class="bi bi-trash"></i></button>
+                <!-- Sử dụng event.stopPropagation() ở đây để ngăn chặn sự kiện click lan ra bên ngoài -->
+                <button class="btn btn-danger p-1" style="padding: 2px 5px" (click)="deleteAppointment(detail, a.date); $event.stopPropagation()">
+                  <i class="bi bi-trash"></i></button>
               </td>
               <td *ngIf="detail.status == 2 && checkDate(a.date)">
-                <button class="btn btn-redirect" (click)="postExchangeAppointmentToWaitingRoom(a.date, detail)" style="width: 100px; color: black;">
+                <button class="btn btn-redirect" (click)="postExchangeAppointmentToWaitingRoom(a.date, detail); $event.stopPropagation()"
+                  style="width: 100px; color: black;">
                   Đến phòng chờ
                 </button>
               </td>
@@ -90,7 +75,6 @@
               <td *ngIf="detail.status == 1">
                 <p style="color: green;"><b>Đã khám</b></p>
               </td>
-
             </tr>
           </ng-container>
 
@@ -106,5 +90,4 @@
 <!-- <app-popup-add-appointment (newItemEvent)="addItem($event)"></app-popup-add-appointment> -->
 <app-popup-add-appointment [datesDisabled]="datesDisabled"></app-popup-add-appointment>
 <app-popup-edit-appointment [datesDisabled]="datesDisabled" [selectedAppointment]="selectedAppointment"
-[dateString]="dateString" [timeString]="timeString"></app-popup-edit-appointment>
-
+  [dateString]="dateString" [timeString]="timeString"></app-popup-edit-appointment>
