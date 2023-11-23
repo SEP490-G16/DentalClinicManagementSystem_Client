@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild  } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PatientService } from "../../../service/PatientService/patient.service";
 import { IPatient } from "../../../model/IPatient";
 import { ToastrService } from "ngx-toastr";
@@ -46,7 +46,7 @@ export class PatientRecordsComponent implements OnInit {
     this.patientService.getPatientList(paging).subscribe(patients => {
       this.searchPatientsList = [];
       this.searchPatientsList = patients.data;
-      this.searchPatientsList.forEach((p:any) =>{
+      this.searchPatientsList.forEach((p: any) => {
         p.phone_number = this.normalizePhoneNumber(p.phone_number);
       })
       this.checkNextPage();
@@ -60,32 +60,41 @@ export class PatientRecordsComponent implements OnInit {
     )
   }
 
-  errorStatus:number = 0;
+  errorStatus: number = 0;
   searchPatient() {
     console.log(this.search)
     this.patientService.getPatientByName(this.search, this.currentPage).subscribe(patients => {
       console.log(this.pagingSearch.paging);
       this.searchPatientsList = [];
       this.searchPatientsList = patients.data;
-        this.searchPatientsList.forEach((p: any) => {
-          p.phone_number = this.normalizePhoneNumber(p.phone_number);
-        })
+      this.searchPatientsList.forEach((p: any) => {
+        p.phone_number = this.normalizePhoneNumber(p.phone_number);
+      })
       this.checkNextPage();
       if (this.searchPatientsList.length > 10) {
         this.searchPatientsList.pop();
       }
     }, error => {
-       ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test+"/patient/name/"+this.search+"/"+this.pagingSearch.paging, error)
+      ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test + "/patient/name/" + this.search + "/" + this.pagingSearch.paging, error)
+    }
+    )
   }
-
   ngAfterViewInit() {
     this.popupDeletePatientComponent.patientDeleted.subscribe(() => {
       this.loadPage(this.pagingSearch.paging);
     });
   }
+  clicked: boolean = false;
+  lastClickTime: number = 0
   pageChanged(event: number) {
-    if (event >= 1) {
-      this.loadPage(event);
+    const currentTime = new Date().getTime();
+    if (!this.clicked || (currentTime - this.lastClickTime >= 600)) {
+      this.clicked = true;
+      this.lastClickTime = currentTime;
+
+      if (event >= 1) {
+        this.loadPage(event);
+      }
     }
   }
   openDeletePatient(id: any) {
@@ -121,11 +130,11 @@ export class PatientRecordsComponent implements OnInit {
     })
   }
   normalizePhoneNumber(phoneNumber: string): string {
-    if(phoneNumber.startsWith('(+84)')){
-      return '0'+phoneNumber.slice(5);
-    }else if(phoneNumber.startsWith('+84')){
-      return '0'+phoneNumber.slice(3);
-    }else
+    if (phoneNumber.startsWith('(+84)')) {
+      return '0' + phoneNumber.slice(5);
+    } else if (phoneNumber.startsWith('+84')) {
+      return '0' + phoneNumber.slice(3);
+    } else
       return phoneNumber;
   }
 }

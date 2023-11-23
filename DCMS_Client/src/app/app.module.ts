@@ -2,7 +2,7 @@ import { Component, NgModule, OnInit } from '@angular/core';
 import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule , ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -27,7 +27,7 @@ import { RegisterWorkScheduleComponent } from './component/shared/register-work-
 import { WebSocketSubject } from 'rxjs/webSocket';
 import { ConfirmAppointmentComponent } from './component/confirm-appointment/confirm-appointment.component';
 import { AppRoutingModule } from './app-routing.module';
-import { LOCALE_ID} from '@angular/core';
+import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeVi from '@angular/common/locales/vi';
 import { PopupAddReportExpenditureComponent } from './component/utils/pop-up/revenue/popup-add-report-expenditure/popup-add-report-expenditure.component';
@@ -62,7 +62,7 @@ registerLocaleData(localeVi);
       useFactory: adapterFactory,
     })
   ],
-  providers: [CookieService,{ provide: LOCALE_ID, useValue: 'vi' }],
+  providers: [CookieService, { provide: LOCALE_ID, useValue: 'vi' }],
   bootstrap: [AppComponent]
 })
 export class AppModule implements OnInit {

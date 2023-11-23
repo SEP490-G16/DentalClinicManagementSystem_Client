@@ -166,30 +166,29 @@ import { RegisterWorkScheduleComponent } from '../shared/register-work-schedule/
     PopupConfirmServiceComponent,
     //RegisterWorkScheduleComponent,
   ],
-    imports: [
-        CommonModule,
-        RouterModule,
-        FormsModule,
-        SharedModule,
-        NgbModule,
-        HttpClientModule,
-        ToastrModule.forRoot({
-            preventDuplicates: true,
-            timeOut: 3000,
-            closeButton: true,
-            progressBar: true,
-        }),
-        NgbModule,
-        AdminRoutingModule,
-        NgbModalModule,
-        FlatpickrModule.forRoot(),
-        CalendarModule.forRoot({
-            provide: DateAdapter,
-            useFactory: adapterFactory,
-        }),
-        NgSelectModule,
-        NgChartsModule
-    ],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    SharedModule,
+    NgbModule,
+    HttpClientModule,
+    ToastrModule.forRoot({
+      preventDuplicates: true,
+      timeOut: 3000,
+      closeButton: true,
+      progressBar: true,
+    }),
+    NgbModule,
+    AdminRoutingModule,
+    NgbModalModule,
+    FlatpickrModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
+    NgSelectModule
+  ],
   exports: [
     PopupAddApproveSpecimensComponent,
     PopupAddSpecimensComponent,

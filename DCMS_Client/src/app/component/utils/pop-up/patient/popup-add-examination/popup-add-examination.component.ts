@@ -263,7 +263,7 @@ export class PopupAddExaminationComponent implements OnInit {
               })
         }
         console.log(isSuccess);
-          this.showNaviPopup(1)
+        this.showNaviPopup(1)
       },
         (error) => {
           ResponseHandler.HANDLE_HTTP_STATUS(this.tcDetailService.apiUrl + "/examination", error);

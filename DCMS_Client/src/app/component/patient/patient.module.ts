@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import {RouterModule} from "@angular/router";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { RouterModule } from "@angular/router";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { NgbModule, NgbModalModule, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 
@@ -19,7 +19,7 @@ import { PatientAppointmentTabComponent } from './patient-records/patient-appoin
 import { PopupDeletePatientComponent } from '../utils/pop-up/patient/popup-delete-patient/popup-delete-patient.component';
 import { PatientLichtrinhdieutriComponent } from './patient-records/patient-lichtrinhdieutri/patient-lichtrinhdieutri.component';
 import { VNDateTimeFormatPipe } from '../shared/pipe/datetimeformat.pipe';
-import {PopupPaymentComponent} from './patient-records/patient-payment-tab/pop-up-payment/popup-payment.component'
+import { PopupPaymentComponent } from './patient-records/patient-payment-tab/pop-up-payment/popup-payment.component'
 
 import { PopupAddTreatmentcourseComponent } from '../utils/pop-up/patient/popup-add-treatmentcourse/popup-add-treatmentcourse.component';
 import { PopupEditTreatmentcourseComponent } from '../utils/pop-up/patient/popup-edit-treatmentcourse/popup-edit-treatmentcourse.component';
@@ -34,23 +34,23 @@ import { PopupExaminationDetailComponent } from './patient-records/patient-payme
 import { ReceptionistModule } from '../receptionist/receptionist.module';
 @NgModule({
   declarations: [
-      // PatientManagementComponent,
-      // PatientRecordsComponent,
-      // PopupAddPatientComponent,
-      // PatientProfileTabComponent,
-      // PatientAppointmentTabComponent,
-      // PopupDeletePatientComponent,
-      // PatientLichtrinhdieutriComponent,
-      // VNDateTimeFormatPipe,
-      // PopupAddTreatmentcourseComponent,
-      // PopupEditTreatmentcourseComponent,
-      // PopupAddExaminationComponent,
-      // PopupEditExaminationComponent,
-      // PopupDatlichtaikhamComponent,
-      // PopupSualichtaikhamComponent,
-      // PopupPaymentComponent,
-      // PatientPaymentTabComponent,
-      // PatientSpecimensComponent,
+    // PatientManagementComponent,
+    // PatientRecordsComponent,
+    // PopupAddPatientComponent,
+    // PatientProfileTabComponent,
+    // PatientAppointmentTabComponent,
+    // PopupDeletePatientComponent,
+    // PatientLichtrinhdieutriComponent,
+    // VNDateTimeFormatPipe,
+    // PopupAddTreatmentcourseComponent,
+    // PopupEditTreatmentcourseComponent,
+    // PopupAddExaminationComponent,
+    // PopupEditExaminationComponent,
+    // PopupDatlichtaikhamComponent,
+    // PopupSualichtaikhamComponent,
+    // PopupPaymentComponent,
+    // PatientPaymentTabComponent,
+    // PatientSpecimensComponent,
   ],
   imports: [
     CommonModule,

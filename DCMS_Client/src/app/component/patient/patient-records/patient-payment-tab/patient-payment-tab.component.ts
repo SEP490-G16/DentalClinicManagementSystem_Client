@@ -25,7 +25,6 @@ export class PatientPaymentTabComponent implements OnInit {
   currentDate: string = "";
   showDetails: { [key: string]: boolean } = {};
   Material_Usage_Report: any[] = [];
-  showDetails: boolean = false;
   roleId: string[] = []
   constructor(
     private patientService: PatientService,

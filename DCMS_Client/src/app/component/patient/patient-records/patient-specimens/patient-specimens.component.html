@@ -9,8 +9,10 @@
               (click)="navigateHref('/benhnhan/danhsach/tab/hosobenhnhan/')">Thông tin
               chung</a>
           </li>
-          <ng-container *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('4') || roleId.includes('5')">
-            <li class="nav-item mr-2"><a class="nav-link" (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')"
+          <ng-container
+            *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('4') || roleId.includes('5')">
+            <li class="nav-item mr-2"><a class="nav-link"
+                (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')"
                 style="padding: 10px; color: #000; cursor: pointer;">Khám và
                 điều
                 trị</a></li>
@@ -32,7 +34,7 @@
       <div class="row" style="padding-top: 10px; padding-right: 80px;">
         <div class="col-12">
           <button class="btn button-timekeeping float-end" data-bs-toggle="modal" data-bs-target="#addSpecimensModal">
-            <i class="bi bi-plus-circle-fill"></i> Đặt mẫu vật</button>
+            <i class="bi bi-plus-circle-fill"></i> Đặt mẫu</button>
         </div>
       </div>
 
@@ -61,7 +63,7 @@
             </tr>
           </thead>
           <tbody>
-            <ng-container *ngIf="PatientSpecimens.length > 0;else noData" >
+            <ng-container *ngIf="PatientSpecimens.length > 0;else noData">
               <tr *ngFor="let specimens of PatientSpecimens">
                 <td class="truncate" data-bs-toggle="tooltip" title="{{specimens.ms_name}}">{{specimens.ms_name}}</td>
                 <!--2-->
@@ -90,15 +92,10 @@
           </tbody>
         </table>
       </div>
-      <ng-template #noData>
-        <p class="no-appointment-message text-center">Không có "Mẫu vật" nào được tìm thấy</p>
-      </ng-template>
     </div>
-    <div class="row mt-4">
-      <ngb-pagination [collectionSize]="pagingSearch.total" [(page)]="pagingSearch.paging" [boundaryLinks]="true"
-        (pageChange)="pageChanged($event)"></ngb-pagination>
-    </div>
-
+    <ng-template #noData>
+      <p class="no-appointment-message text-center">Không có "Mẫu" nào được tìm thấy</p>
+    </ng-template>
   </div>
 </div>
 <app-popup-add-specimens [approveSpecimensList]="approveSpecimensList"></app-popup-add-specimens>

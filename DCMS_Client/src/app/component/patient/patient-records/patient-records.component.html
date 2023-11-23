@@ -6,8 +6,7 @@
         bệnh nhân</button>
     </div>
     <div class="input-group col-7">
-      <input type="search search-custom" [(ngModel)]="search" (input)="searchPatient()"
-        placeholder="Tìm kiếm theo tên">
+      <input type="search search-custom" [(ngModel)]="search" (input)="searchPatient()" placeholder="Tìm kiếm theo tên">
     </div>
     <div class="export__file">
     </div>
@@ -24,7 +23,8 @@
         </tr>
       </thead>
       <tbody>
-      <tr class="hover-patient" *ngFor="let p of searchPatientsList" [ngClass]="{'new-record': p.isNew,'pulse': p.isPulsing}" style="cursor: pointer;">
+        <tr class="hover-patient" *ngFor="let p of searchPatientsList"
+          [ngClass]="{'new-record': p.isNew,'pulse': p.isPulsing}" style="cursor: pointer;">
           <td (click)="detail(p.patient_id)" style="width: 100px;">
             <!--HE153724-->{{p.patient_id}}
           </td>
@@ -33,14 +33,16 @@
           </td>
           <td (click)="detail(p.patient_id)" style="width: 150px;">
             {{p.phone_number}}
-          </td >
+          </td>
           <td (click)="detail(p.patient_id)" style="width: 250px;">
             {{p.address}}
           </td>
           <td style="width: 100px;">
+            <button class="btn btn-primary p-1 m-r-3" style="padding: 2px 3px; margin-right: 3px">
+              <i class="bi bi-pencil-square"></i></button>
             <button href="#" class="btn btn-danger float-right btn-rounded" style="padding: 2px 5px"
-              data-bs-toggle="modal" data-bs-target="#delete_patient"
-              (click)="openDeletePatient(p.patient_id)"><i class="bi bi-trash"></i></button>
+              data-bs-toggle="modal" data-bs-target="#delete_patient" (click)="openDeletePatient(p.patient_id)"><i
+                class="bi bi-trash"></i></button>
           </td>
         </tr>
       </tbody>
@@ -48,9 +50,11 @@
 
   </div>
   <div class="sep-pagination">
-    <a (click)="pageChanged(currentPage - 1)" *ngIf="currentPage > 1">&laquo;</a>
+    <a (click)="currentPage > 1 ? pageChanged(currentPage - 1) : null" [class.disabled]="currentPage <= 1"
+      style="color: black">&laquo;</a>
     <a>{{currentPage}}</a>
-    <a (click)="pageChanged(currentPage + 1)" *ngIf="hasNextPage">&raquo;</a>
+    <a [class.disabled]="!hasNextPage" (click)="hasNextPage && pageChanged(currentPage + 1)"
+      style="color: black">&raquo;</a>
   </div>
 </div>
 <!-- End of Recent Orders -->

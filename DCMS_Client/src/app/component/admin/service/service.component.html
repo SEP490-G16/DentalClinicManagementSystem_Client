@@ -3,7 +3,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
 
 <div class="sep-recent-orders">
-  <div class="row">
+  <div class="row" style="margin-top:3%">
     <div class="col-2">
       <div class="form-group form-group-filter">
         <button href="#" class="btn button-add btn-add-group-service float-right" data-bs-toggle="modal"
@@ -37,7 +37,8 @@
           </tr>
         </thead>
         <tbody class="groupservice-body">
-          <tr *ngFor="let t of medicalProcedureGroups" [ngClass]="{'new-recordd': t.isNew,'pulsee': t.isPulsing}" (click)="getMedicalProcedureList(t.medical_procedure_group_id)">
+          <tr *ngFor="let t of medicalProcedureGroups" [ngClass]="{'new-recordd': t.isNew,'pulsee': t.isPulsing}"
+            (click)="getMedicalProcedureList(t.medical_procedure_group_id)">
             <td>{{t.medical_procedure_group_id}}</td>
             <td><a class="title-group-service">{{t.name}}</a></td>
             <td class="text-center">
@@ -54,7 +55,7 @@
       </table>
     </div>
     <div class="col-1"></div>
-    <div class="col-7 table-container" style="padding: 0 10px">
+    <div class="col-7 table-container">
       <table>
         <thead class="sticky-thead">
           <tr>

@@ -22,7 +22,7 @@
   <!-- Date and Payment Type -->
   <div class="row">
     <div class="col-md-6 col-sm-12">
-      <p>Ngày/Date: <b>{{MaterialUsage.mu_created_date | VNdateTimeFormat}}</b></p>
+      <p>Ngày/Date: <b>{{MaterialUsage.mu_created_date}}</b></p>
     </div>
     <div class="col-md-6 col-sm-12">
       <p>Hình thức/Type: <b></b></p> <!-- Assuming you have a variable for Payment Type -->
@@ -76,17 +76,17 @@
             <tr>
               <td>1</td>
               <td>{{ MaterialUsage.mu_medical_procedure_id }}</td>
-              <td>{{ MaterialUsage.mu_price | currency:'VND' }}</td>
+              <td>{{ MaterialUsage.mu_price }}</td>
               <td>{{ MaterialUsage.mu_quantity }}</td>
-              <td>{{ MaterialUsage.mu_total | currency:'VND' }}</td>
-              <td>{{ MaterialUsage.mu_total_paid | currency:'VND' }}</td>
-              <td>{{ (MaterialUsage.mu_total - MaterialUsage.mu_total_paid) | currency:'VND' }}</td>
+              <td>{{ MaterialUsage.mu_total}}</td>
+              <td>{{ MaterialUsage.mu_total_paid}}</td>
+              <td>{{ (MaterialUsage.mu_total - MaterialUsage.mu_total_paid)}}</td>
             </tr>
             <tr>
               <th colspan="4">Tổng cộng/Total: </th>
-              <td>{{ MaterialUsage.mu_total | currency:'VND' }}</td>
-              <td>{{ MaterialUsage.mu_total_paid | currency:'VND' }}</td>
-              <td>{{ (MaterialUsage.mu_total - MaterialUsage.mu_total_paid) | currency:'VND' }}</td>
+              <td>{{ MaterialUsage.mu_total }}</td>
+              <td>{{ MaterialUsage.mu_total_paid}}</td>
+              <td>{{ (MaterialUsage.mu_total - MaterialUsage.mu_total_paid) }}</td>
             </tr>
           </tbody>
         </table>

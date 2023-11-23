@@ -14,10 +14,10 @@ import { PaidMaterialUsageService } from 'src/app/service/PatientService/patient
   styleUrls: ['./popup-examination-detail.component.css']
 })
 export class PopupExaminationDetailComponent implements OnInit {
-  @Input() MaterialUsage!:MaterialUsage;
+  @Input() MaterialUsage!: MaterialUsage;
   @Input() TreatmentCourse: any
   @Input() Patient: any
-
+  currency: any;
   total: number = 0
   totalPaid: number = 0
   remaining: number = 0
@@ -79,7 +79,7 @@ interface MaterialUsage {
   description: string;
   mu_examination_id: string;
   mu_material_usage_id: string;
-  mu_medical_procedure_id:string,
+  mu_medical_procedure_id: string,
   material_warehouse_id: string;
   mu_price: number;
   mu_quantity: number;
