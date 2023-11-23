@@ -137,7 +137,7 @@ export class SpecimensComponent implements OnInit {
     if (useDate != '') {
       querySearch += `?order_date_start=${useDate}`;
     }
- 
+
     this.SpecimensService.filterSpecimens(querySearch, paging).subscribe((sRoot) => {
       sRoot.data.forEach((item:any) => {
         this.specimenObject.ms_id = item.ms_id;
@@ -386,7 +386,7 @@ export class SpecimensComponent implements OnInit {
     }
     if (columnNumber === 12){
       this.checkbox11 = !this.checkbox11;
-    }
+    }console.log()
     if (columnNumber === 13){
       this.checkbox12 = !this.checkbox12;
     }

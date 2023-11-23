@@ -16,7 +16,7 @@
             <div class="col-md-3">
               <div class="image-container" style="border: 3px dotted #ccc;" (click)="fileInput.click()">
                 <img [src]="imageURL" alt="ẢNH" class="text-center">
-                <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput style="display: none;">
+                <input type="file" disabled (change)="onFileSelected($event)" accept="image/*" #fileInput style="display: none;">
               </div>
               <i class="text-center" style="font-size: 12px;">Bấm vào ô vuông vào để thêm ảnh</i>
             </div>
@@ -25,7 +25,7 @@
               <div class="form-group row">
                 <label for="fullName" class="col-3">Họ và tên:</label>
                 <div class="col-9">
-                  <input type="text" class="form-control" [(ngModel)]="staff.name" id="fullName" name="fullName">
+                  <input type="text" disabled class="form-control" [(ngModel)]="staff.name" id="fullName" name="fullName">
                   <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
                     <p>
                       {{vailidateStaff.name}}
@@ -37,7 +37,7 @@
               <div class="form-group row mt-3">
                 <label for="dob" class="col-3">Ngày sinh:</label>
                 <div class="col-9">
-                  <input type="date" [(ngModel)]="staff.DOB" class="form-control date-input-custom" id="dob" name="dob">
+                  <input type="date" disabled [(ngModel)]="staff.DOB" class="form-control date-input-custom" id="dob" name="dob">
                   <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
                     <p>
                       {{vailidateStaff.dob}}
@@ -46,9 +46,9 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="address" class="col-3">Địa chỉ:</label>
+                <label for="address"  class="col-3">Địa chỉ:</label>
                 <div class="col-9">
-                  <input type="text" [(ngModel)]="staff.address" class="form-control" id="address" name="address">
+                  <input type="text" disabled [(ngModel)]="staff.address" class="form-control" id="address" name="address">
                   <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
                     <p>
                       {{vailidateStaff.address}}
@@ -59,7 +59,7 @@
               <div class="form-group row mt-3">
                 <label for="note" class="col-3">Ghi chú:</label>
                 <div class="col-9">
-                  <textarea type="text" [(ngModel)]="staff.description" class="form-control" id="note"
+                  <textarea type="text" disabled [(ngModel)]="staff.description" class="form-control" id="note"
                     name="address"></textarea>
                 </div>
               </div>
@@ -73,7 +73,7 @@
                   <label for="email">Email</label>
                 </div>
                 <div class="col-md-9">
-                  <input type="email" [(ngModel)]="staff.email" class="form-control" id="email" name="email">
+                  <input type="email" disabled [(ngModel)]="staff.email" class="form-control" id="email" name="email">
                   <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
                     <p>
                       {{vailidateStaff.email}}
@@ -89,7 +89,12 @@
                   <label for="phone">Số điện thoại</label>
                 </div>
                 <div class="col-md-9">
-                  <input type="tel" [(ngModel)]="staff.phone" class="form-control" id="phone" name="phone">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1">(+84)</span>
+                    </div>
+                    <input type="text" disabled class="form-control" [(ngModel)]="staff.phone" id="phone" name="phone" aria-label="phoneNumber" aria-describedby="basic-addon1">
+                  </div>
                   <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
                     <p>
                       {{vailidateStaff.phone}}
@@ -104,14 +109,18 @@
                   <label for="role">Vai trò</label>
                 </div>
                 <div class="col-md-9">
-                  <select id="role" [(ngModel)]="staff.role" (change)="onChangeRole(role)" class="form-select"
-                    aria-label="Default select example">
+                  <select id="role" [(ngModel)]="staff.role" (change)="onChangeRole(role)" class="form-select" aria-label="Default select example">
                     <option value="0">Chức vụ</option>
                     <option value="2">Bác sĩ</option>
                     <option value="3">Lễ tân</option>
                     <option value="4">Y tá</option>
                     <option value="5">Y tá trưởng</option>
                   </select>
+                  <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
+                    <p>
+                      {{vailidateStaff.role}}
+                    </p>
+                  </div>
 
                   <div *ngIf="serviceGroups.length > 0" class="checkbox-group row">
                     <label class="chuyen-nganh">Chuyên ngành</label>
@@ -136,13 +145,18 @@
                 </div>
                 <div class="form-group col-md-9">
                   <ng-container *ngIf="staff.gender == 'male'">
-                    <input type="radio" class="radio m-2" id="male" name="gender" checked>Nam
-                    <input type="radio" class="radio m-2" id="female" name="gender"> Nữ
+                    <input type="radio" disabled class="radio m-2" id="male" name="gender" checked>Nam
+                    <input type="radio" disabled class="radio m-2" id="female" name="gender"> Nữ
                   </ng-container>
                   <ng-container *ngIf="staff.gender == 'female'">
-                    <input type="radio" class="radio m-2" id="male" name="gender">Nam
-                    <input type="radio" class="radio m-2" id="female" name="gender" checked> Nữ
+                    <input type="radio" disabled class="radio m-2" id="male" name="gender">Nam
+                    <input type="radio" disabled class="radio m-2" id="female" name="gender" checked> Nữ
                   </ng-container>
+                  <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
+                    <p>
+                      {{vailidateStaff.gender}}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
