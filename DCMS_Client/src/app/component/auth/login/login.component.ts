@@ -11,14 +11,18 @@ import { Auth } from 'aws-amplify';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  isEnterEmail:boolean = false;
+  isEnterEmail: boolean = false;
   isForgotPassword: boolean = false;
-
+  showPassword: boolean = true;
   User: IUser;
   loading: boolean;
   newPassword: string = '';
+  validateLogin = {
+    validateUserName: '',
+    validatePassword: '',
+  }
 
-  constructor(private renderer: Renderer2, private el: ElementRef, private router: Router, private route:ActivatedRoute, private cognitoService: CognitoService) {
+  constructor(private renderer: Renderer2, private el: ElementRef, private router: Router, private route: ActivatedRoute, private cognitoService: CognitoService) {
     this.User = {} as IUser;
     this.loading = false;
 
@@ -48,31 +52,29 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     this.loading = true;
-    console.log("User groups: ");
-
     if (this.User && this.User.userCredential && this.User.password) {
       this.cognitoService.signIn(this.User).then(() => {
         this.loading = false;
-        const userGroupsString = sessionStorage.getItem('userGroups');
+        this.router.navigate(['']);
+        //const userGroupsString = sessionStorage.getItem('userGroups');
+        // console.log("User groups: ", userGroupsString);
+        // if (userGroupsString) {
+        //   const userGroups = JSON.parse(userGroupsString) as string[];
+        //   if (userGroups.includes('dev-dcms-doctor')) {
+        //     this.router.navigate(['bacsi']);
+        //   } else if (userGroups.includes('dev-dcms-nurse')) {
+        //     this.router.navigate(['yta']);
+        //   } else if (userGroups.includes('dev-dcms-receptionist')) {
+        //     this.router.navigate(['letan']);
+        //   } else if (userGroups.includes('dev-dcms-admin')) {
+        //     this.router.navigate(['admin']);
+        //   }
+        //   console.log("User groups: ", userGroupsString);
 
-        console.log("User groups: ", userGroupsString);
-      if (userGroupsString) {
-        const userGroups = JSON.parse(userGroupsString) as string[];
-        if (userGroups.includes('dev-dcms-doctor')) {
-          this.router.navigate(['bacsi']);
-        } else if (userGroups.includes('dev-dcms-nurse')) {
-          this.router.navigate(['yta']);
-        } else if (userGroups.includes('dev-dcms-receptionist')) {
-          this.router.navigate(['letan']);
-        } else if(userGroups.includes('dev-dcms-admin')){
-          this.router.navigate(['admin']);
-        }
-        console.log("User groups: ", userGroupsString);
-
-      } else {
-        console.error('Không có thông tin về nhóm người dùng.');
-        this.router.navigate(['/default-route']);
-      }
+        // } else {
+        //   console.error('Không có thông tin về nhóm người dùng.');
+        //   this.router.navigate(['/default-route']);
+        // }
       })
         .catch((err) => {
           this.loading = false;
@@ -80,7 +82,7 @@ export class LoginComponent implements OnInit {
         })
     } else {
       this.loading = false;
-      alert("Tài khoản/email hoặc Password không được để trống.");
+      // alert("Tài khoản/email hoặc Password không được để trống.");
     }
   }
 
@@ -90,7 +92,7 @@ export class LoginComponent implements OnInit {
     if (this.User && this.User.userCredential) {
       console.log(this.User.userCredential);
       this.cognitoService.forgotPassword(this.User).then(() => {
-        this.isForgotPassword=true;
+        this.isForgotPassword = true;
         this.loading = false;
       })
         .catch((err) => {
@@ -109,7 +111,7 @@ export class LoginComponent implements OnInit {
       this.cognitoService.forgotPasswordSubmit(this.User, this.newPassword.trim())
         .then(() => {
           alert('Đổi mật khẩu thành công!')
-          this.isEnterEmail=false
+          this.isEnterEmail = false
           this.isForgotPassword = false;
           this.loading = false;
           this.router.navigate([''])
@@ -145,6 +147,8 @@ export class LoginComponent implements OnInit {
   //     console.log('Error:', error);
   //   }
   // }
-
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
 
 }

@@ -31,6 +31,7 @@ export class PatientAppointmentTabComponent implements OnInit {
   appointmentList: RootObject[] = [];
   datesDisabled: any[] = [];
   listDate: any[] = [];
+  roleId: string[] = [];
   constructor(
     private APPOINTMENT_SERVICE: ReceptionistAppointmentService,
     private patientService: PatientService,
@@ -48,8 +49,11 @@ export class PatientAppointmentTabComponent implements OnInit {
   }
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
-
     this.getAppointment();
+    let ro = sessionStorage.getItem('role');
+    if (ro != null) {
+      this.roleId = ro.split(',');
+    }
   }
 
   getAppointment() {

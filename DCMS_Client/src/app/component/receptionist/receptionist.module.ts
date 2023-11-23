@@ -1,8 +1,8 @@
 import { NgModule, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {RouterModule} from "@angular/router";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HttpClientModule} from '@angular/common/http';
+import { RouterModule } from "@angular/router";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -24,22 +24,23 @@ import { VNDateTimeFormatPipe } from '../shared/pipe/datetimeformat.pipe';
 import {
   PopupConfirmServiceComponent
 } from "../utils/pop-up/appointment/popup-confirm-service/popup-confirm-service.component";
+import { NgSelectModule } from '@ng-select/ng-select';
 @NgModule({
   declarations: [
-   ReceptionistAppointmentListComponent,
-   ReceptionistTimekeepingComponent,
-   ReceptionistWaitingRoomComponent,
-   ReceptionistComponent,
-   PopupAddAppointmentComponent,
-   PopupEditAppointmentComponent,
-   AddWaitingRoomComponent,
-    PopupConfirmServiceComponent
+    //ReceptionistAppointmentListComponent,
+    //ReceptionistTimekeepingComponent,
+    //ReceptionistWaitingRoomComponent,
+    //  ReceptionistComponent,
+    //  PopupAddAppointmentComponent,
+    //  PopupEditAppointmentComponent,
+    //  AddWaitingRoomComponent,
+    //  PopupConfirmServiceComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
-    PatientModule,
+    // PatientModule,
     SharedModule,
     ReceptionistRoutingModule,
     NgbModule,
@@ -50,8 +51,9 @@ import {
       closeButton: true,
       progressBar: true,
     }),
+    NgSelectModule
   ]
 })
-export class ReceptionistModule{
+export class ReceptionistModule {
 
 }

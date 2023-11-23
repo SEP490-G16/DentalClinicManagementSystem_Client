@@ -8,7 +8,6 @@ interface TimekeepingDetail {
   clock_in?: string;
   clock_out?: string;
   staff_name?: string;
-  // Thêm các thuộc tính khác tùy thuộc vào dữ liệu của bạn
 }
 interface TimekeepingSubRecord {
   subId: string;
@@ -30,14 +29,28 @@ export class FollowingTimekeepingComponent implements OnInit {
   totalHoursByEmployee: { [key: string]: number } = {};
   constructor(private timekeepingService: TimeKeepingService, private router: Router,) { }
 
+
+  roleId: string[] = [];
+  ownSubId: string = '';
   ngOnInit(): void {
     const current = new Date();
     const daysInMonth = new Date(current.getFullYear(), (current.getMonth() + 1), 0).getDate();
     this.totalDate = daysInMonth + '';
+    console.log("Check dates",this.totalDate);
     const frDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + current.getDay();
     const tDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + daysInMonth;
     this.setDefaultMonth();
     this.getDateinFromDatetoToDate(frDate, tDate);
+
+    let ro = sessionStorage.getItem('role');
+    if (ro != null) {
+      this.roleId = ro.split(',');
+    }
+    
+    let subId = sessionStorage.getItem('sub');
+    if (subId != null) {
+      this.ownSubId = subId;
+    }
   }
   selectedMonth: string = '';
   startTime: string = '';
@@ -139,6 +152,7 @@ export class FollowingTimekeepingComponent implements OnInit {
       const current = new Date();
       const daysInMonth = new Date(current.getFullYear(), (current.getMonth() + 1), 0).getDate();
       this.totalDate = daysInMonth + '';
+      console.log("Check dates",this.totalDate);
       const frDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + current.getDay();
       const tDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + daysInMonth;
       this.getDateinFromDatetoToDate(frDate, tDate);
@@ -184,7 +198,7 @@ export class FollowingTimekeepingComponent implements OnInit {
                     clock_in: currentObject.details.clock_in,
                     clock_out: currentObject.details.clock_out,
                   }
-                  this.staffTimeKeeping.timeKeeping.push(newtimeKeepingObject);
+                  it.timeKeeping.push(newtimeKeepingObject);
                   newtimeKeepingObject = {
                     epoch: '',
                     clock_in: '',
@@ -214,7 +228,6 @@ export class FollowingTimekeepingComponent implements OnInit {
 
   organizeData(data: any[]): TimekeepingRecord[] {
     return data.map((item): TimekeepingRecord => {
-      // Tạo một đối tượng mới cho mỗi phần tử
       const timekeepingEntry: TimekeepingRecord = {
         epoch: item.epoch?.N,
         type: item.type?.S,

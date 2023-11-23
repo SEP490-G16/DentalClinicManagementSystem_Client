@@ -8,23 +8,14 @@
     <div class="export__file">
     </div>
   </section>
-  <div class="row mt-5">
+  <div class="row custom-row">
     <div class="col-md-2 col-xl-1">
-      <a routerLink="/admin/vat-lieu" routerLinkActive="active-link" class="page-title">Quản lý vật liệu</a>
+      <a routerLink="/vat-lieu" routerLinkActive="active-link" class="page-title">Quản lý vật liệu</a>
     </div>
     <div class="col-md-2 col-xl-1">
-      <a routerLink="/admin/quan-ly-nhap" routerLinkActive="active-link" class="page-title">Quản lý nhập</a>
+      <a routerLink="/quan-ly-nhap" routerLinkActive="active-link" class="page-title">Quản lý nhập</a>
     </div>
   </div>
-<!--  <div class="row custom-row mb-2">-->
-<!--    <div class="col-6">-->
-<!--      <div class="form-group form-group-filter">-->
-<!--        <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myModal"><i-->
-<!--            class="bi bi-plus-circle"></i> Thêm mới-->
-<!--        </button>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
 
   <div class="table-container mt-4">
     <table>
@@ -93,9 +84,7 @@
                       <td style="padding-top: 10px;padding-bottom: 10px;"></td>
                       <!-- <td class="connector"><span class="dot"></span></td> -->
                       <td style="padding-top: 10px;padding-bottom: 10px;"><i class="bi bi-arrow-return-right"></i></td>
-                      <td style="padding-top: 10px;padding-bottom: 10px;" data-bs-toggle="tooltip">{{
-                        item.materialName
-                        }}</td>
+                      <td style="padding-top: 10px;padding-bottom: 10px;" data-bs-toggle="tooltip">{{item.materialName}}</td>
                       <td style="padding-top: 10px;padding-bottom: 10px;">{{ item.unit }}</td>
                       <td style="padding-top: 10px;padding-bottom: 10px;">{{ item.unitPrice }}</td>
                       <td style="padding-top: 10px;padding-bottom: 10px;">{{ detail.quantity }}</td>
@@ -106,7 +95,7 @@
                       </td>
                       <td style="padding-top: 10px;padding-bottom: 10px;">
                         <button class="btn btn-primary p-1 m-r-3" style="margin-right: 3px" data-bs-toggle="modal"
-                          data-bs-target="#editMaterialModal" (click)="openEditMaterial(detail, item)">
+                          data-bs-target="#editMaterialModal" (click)="openEditMaterial(item,detail)">
                           <i class="bi bi-pencil-square"></i></button>
                         <button class="btn btn-danger p-1" (click)="deleteMaterial(detail.mw_material_warehouse_id)"> <i
                             class="bi bi-trash"></i></button>
@@ -121,7 +110,7 @@
       </tbody>
     </table>
   </div>
-  <div class="sep-pagination">
+  <div class="sep-pagination" style="margin-top: 1%;">
     <a (click)="pageChanged(currentPage - 1)" *ngIf="currentPage > 1">&laquo;</a>
     <a>{{currentPage}}</a>
     <a (click)="pageChanged(currentPage + 1)" *ngIf="hasNextPage">&raquo;</a>

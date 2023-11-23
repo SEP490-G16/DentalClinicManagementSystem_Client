@@ -29,6 +29,11 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
       month: parseInt(currentDateGMT7.split('-')[1]),
       day: parseInt(currentDateGMT7.split('-')[2])
     };
+
+    let createBy = sessionStorage.getItem('username');
+    if (createBy != null) {
+      this.importBill.creator = createBy; 
+    }
   }
 
   status: boolean = false;
@@ -46,7 +51,8 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
   }
   importBillBody = {
     created_date:0,
-    creator: ''
+    creator: '', 
+    facility_id: ''
   }
   importMaterialBody = {
     material_id: '',
@@ -63,7 +69,7 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
     donGia: '',
     hanSudung: '',
     thanhTien: '',
-    chietKhau: ''
+    chietKhau: 0
   }
   materialList: any;
   records_body: any[] = []
@@ -95,7 +101,10 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
   suggestion: string = '';
 
   addImportMaterial() {
-
+    let ro = sessionStorage.getItem('locale');
+    if (ro != null) {
+      this.importBillBody.facility_id = ro
+    }
     const selectedYear = this.model.year;
     const selectedMonth = this.model.month.toString().padStart(2, '0'); // Đảm bảo có 2 chữ số
     const selectedDay = this.model.day.toString().padStart(2, '0'); // Đảm bảo có 2 chữ số
@@ -106,7 +115,8 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
     //return;
     this.importBillBody = {
       created_date: createDateTimestamp,
-      creator: this.importBill.creator
+      creator: this.importBill.creator, 
+      facility_id: this.importBillBody.facility_id
     }
     this.importMaterialService.addImportBill(this.importBillBody).subscribe(data => {
         this.toastr.success('Thêm mới phiếu thành công!');
@@ -122,7 +132,7 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
             quantity_import: record.soLuong,
             price: record.donGia,
             warranty: warrantyTimestamp,
-            discount: record.chietKhau
+            discount: record.chietKhau,
           }
           this.materials.push(this.importMaterialBody);
         })
@@ -210,7 +220,7 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
       donGia: '',
       hanSudung: '',
       thanhTien: '',
-      chietKhau: ''
+      chietKhau: 0
     }
   }
 

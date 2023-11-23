@@ -84,7 +84,7 @@ export class SpecimensComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllLabo();
-    this.getAllSpecimens(this.pagingSearch.paging);
+    this.getAllSpecimens(this.currentPage);
     // console.log(this.dateToTimestamp("2023-11-03 10:49:43"));
   }
 
@@ -137,7 +137,7 @@ export class SpecimensComponent implements OnInit {
     if (useDate != '') {
       querySearch += `?order_date_start=${useDate}`;
     }
- 
+
     this.SpecimensService.filterSpecimens(querySearch, paging).subscribe((sRoot) => {
       sRoot.data.forEach((item:any) => {
         this.specimenObject.ms_id = item.ms_id;
@@ -386,7 +386,7 @@ export class SpecimensComponent implements OnInit {
     }
     if (columnNumber === 12){
       this.checkbox11 = !this.checkbox11;
-    }
+    }console.log()
     if (columnNumber === 13){
       this.checkbox12 = !this.checkbox12;
     }
@@ -400,7 +400,7 @@ export class SpecimensComponent implements OnInit {
       .subscribe((res) => {
         this.loading = false;
         this.showSuccessToast('Xóa mẫu vật thành công');
-        window.location.reload();
+        this.getAllSpecimens(this.currentPage);
       },
       (error) => {
         this.loading = false;

@@ -28,6 +28,7 @@ export class PatientSpecimensComponent implements OnInit {
 
   status:any;
   specimen:any;
+  roleId: string[] = [];
 
   constructor(
     private commonService: CommonService,
@@ -46,6 +47,11 @@ export class PatientSpecimensComponent implements OnInit {
     this.getAllSpecimens(this.pagingSearch.paging);
     this.getAllLabo();
     this.getApproveSpecimensList(this.status, this.paging);
+
+    let ro = sessionStorage.getItem('role');
+    if (ro != null) {
+      this.roleId = ro.split(',');
+    }
   }
 
   getAllSpecimens(paging:number) {

@@ -30,7 +30,7 @@
                       <label class="small mb-1" for="hovaten">Họ và tên</label>
                       <input class="form-control" [(ngModel)]="patient1.patientName" id="hovaten" type="text"
                         placeholder="Họ và tên">
-                      <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
+                      <div *ngIf="isSubmitted" class="alert-danger-custom">
                         <p>
                           {{validatePatient.name}}
                         </p>
@@ -42,7 +42,7 @@
                       <div class="form-group mb-3">
                         <label class="small mb-1" for="createdDate">Ngày sinh</label>
                         <input class="form-control" [(ngModel)]="patient1.dob" id="createdDate" type="date">
-                        <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
+                        <div *ngIf="isSubmitted" class="alert-danger-custom">
                           <p>
                             {{validatePatient.dob}}
                           </p>
@@ -60,11 +60,6 @@
                           <input type="radio" [(ngModel)]="patient1.Gender" class="radio m-2" [value]="0">
                           <label for="female">Nữ</label>
                         </div>
-                        <!-- <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
-                          <p>
-                            {{validatePatient.gender}}
-                          </p>
-                        </div> -->
                       </div>
                     </div>
 
@@ -73,9 +68,15 @@
                     <div class="col-md-6">
                       <div class="form-group mb-3">
                         <label class="small mb-1" for="inputPhone">Số điện thoại</label>
-                        <input class="form-control" [(ngModel)]="patient1.phone_Number" id="inputPhone" type="tel"
-                          placeholder="Số điện thoại">
-                        <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
+<!--                        <input class="form-control" [(ngModel)]="patient1.phone_Number" id="inputPhone" type="tel"-->
+<!--                          placeholder="Số điện thoại">-->
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text custom-input" id="basic-addon1">(+84)</span>
+                          </div>
+                          <input type="text" class="form-control" [(ngModel)]="patient1.phone_Number" id="inputPhone" name="inputPhone" aria-label="phoneNumber" aria-describedby="basic-addon1">
+                        </div>
+                        <div *ngIf="isSubmitted" class="alert-danger-custom">
                           <p>
                             {{validatePatient.phone}}
                           </p>
@@ -87,7 +88,7 @@
                         <label class="small mb-1" for="email">Email</label>
                         <input class="form-control" [(ngModel)]="patient1.email" id="email" type="text" name="birthday"
                           placeholder="Email">
-                        <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
+                        <div *ngIf="isSubmitted" class="alert-danger-custom">
                           <p>
                             {{validatePatient.email}}
                           </p>
@@ -97,6 +98,11 @@
                     <div class="mb-3">
                       <label class="small mb-1" for="tieuSuBenh">Địa chỉ</label>
                       <input class="form-control" [(ngModel)]="patient1.Address" id="tieuSuBenh" type="text" />
+                      <div *ngIf="isSubmitted" class="alert-danger-custom">
+                        <p>
+                          {{validatePatient.address}}
+                        </p>
+                      </div>
                     </div>
                     <div class="mb-3">
                       <label class="small mb-1" for="note">Tiền sử toàn thân</label>

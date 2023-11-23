@@ -31,7 +31,7 @@ import 'moment/locale/vi';
 import { ToastrService } from 'ngx-toastr';
 import { ReceptionistTimekeepingService } from 'src/app/service/ReceptionistService/receptionist-timekeeping.service';
 import { RequestBodyTimekeeping } from 'src/app/model/ITimekeeping';
-import {Router} from "@angular/router";
+import { Router } from "@angular/router";
 
 
 const colors: Record<string, EventColor> = {
@@ -203,8 +203,8 @@ export class RegisterWorkScheduleComponent implements OnInit {
       this.editTitle = event.title;
       this.editTimeStart = this.formatDate(event.start);
       this.editTimeEnd = event.end ? this.formatDate(event.end) : "";
-    }else {
-        this.deleteEvent(event);
+    } else {
+      this.deleteEvent(event);
     }
 
   }
@@ -244,6 +244,9 @@ export class RegisterWorkScheduleComponent implements OnInit {
           timekeeper_name: "",
           staff_avt: "",
           timekeeper_avt: "",
+          register_clock_in: '',
+          register_clock_out: '',
+          role: '',
           status: 1
         };
 
@@ -302,6 +305,9 @@ export class RegisterWorkScheduleComponent implements OnInit {
         timekeeper_name: "",
         staff_avt: "",
         timekeeper_avt: "",
+        register_clock_in: '',
+        register_clock_out: '',
+        role: '',
         status: 1
       };
 
@@ -356,6 +362,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
   currentDateGMT7: string = "";
   currentTimeGMT7: string = "";
 
+  roleId: string[] = [];
 
   Body: RequestBodyTimekeeping;
   constructor(private modal: NgbModal,
@@ -386,6 +393,10 @@ export class RegisterWorkScheduleComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTimekeeping();
+    let ro = sessionStorage.getItem('role');
+    if (ro != null) {
+      this.roleId = ro.split(',');
+    }
   }
 
   timekeepingOnWeeks: any

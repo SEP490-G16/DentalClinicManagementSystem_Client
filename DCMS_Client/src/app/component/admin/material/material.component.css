@@ -10,14 +10,9 @@
 a {
   color: black
 }
-.container-custom {
-  display: grid;
-  width: 96%;
-  margin: 0 auto;
-  gap: 1.8rem;
-  grid-template-columns: 13rem auto;
+.SEP-WH-table-tbody2-tr:hover{
+  background-color: #d9d9d9;
 }
-
 .button-add {
   font-family: "Poppins", sans-serif;
   background: #664FC3;
@@ -29,4 +24,8 @@ a {
   outline: 0px;
   padding: 10px 20px;
   margin-bottom: 15px;
+}
+.custom-row{
+  margin-top: 3%;
+  margin-bottom: 3%;
 }

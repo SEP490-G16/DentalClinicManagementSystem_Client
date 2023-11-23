@@ -222,27 +222,23 @@ export class PopupEditApproveSpecimensComponent implements OnChanges  {
       this.validateSpecimens.type = 'Vui lòng nhập chất liệu!';
       this.isSubmitted = true;
     }
-    if (!this.specimen.orderDate){
+    if (!this.specimen.orderDate || !this.formatDate(this.specimen.orderDate)){
       this.validateSpecimens.orderDate = 'Vui lòng nhập ngày đặt!';
       this.isSubmitted = true;
     }
-    else if (this.specimen.orderDate > this.specimen.receiverDate){
-      this.validateSpecimens.orderDate = 'Vui lòng chọn lại ngày đặt!';
-      this.isSubmitted = true;
-    }
-    if (!this.specimen.receiverDate){
+    if (!this.specimen.receiverDate || !this.formatDate(this.specimen.receiverDate)){
       this.validateSpecimens.receiverDate = 'Vui lòng nhập ngày nhận!';
       this.isSubmitted = true;
     }
-    else if (this.specimen.receiverDate > this.specimen.usedDate){
+    else if (this.specimen.receiverDate > this.specimen.usedDate && this.formatDate(this.specimen.receiverDate)){
       this.validateSpecimens.receiverDate = 'Vui lòng chọn lại ngày nhận!';
       this.isSubmitted = true;
     }
-    if (!this.specimen.usedDate){
+    if (!this.specimen.usedDate || !this.formatDate(this.specimen.usedDate)){
       this.validateSpecimens.usedDate = 'Vui lòng nhập ngày lắp!';
       this.isSubmitted = true;
     }
-    else if (this.specimen.usedDate < this.specimen.receiverDate){
+    else if (this.specimen.usedDate < this.specimen.receiverDate && this.formatDate(this.specimen.usedDate)){
       this.validateSpecimens.usedDate = 'Vui lòng chọn lại ngày lắp!';
       this.isSubmitted = true;
     }
@@ -336,5 +332,8 @@ export class PopupEditApproveSpecimensComponent implements OnChanges  {
   }
   private checkNumber(number:any):boolean{
     return /^[1-9]\d*$/.test(number);
+  }
+  private formatDate(dateString:any):boolean{
+    return  /^\d{4}-(0[1-9]|1[0-2])-([0-2][0-9]|3[01])$/.test(dateString);
   }
 }

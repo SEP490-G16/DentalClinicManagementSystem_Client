@@ -59,14 +59,12 @@ export class ReceptionistAppointmentService {
     }
   }
 
-  deleteAppointment(startTime:number, endTime:number): Observable<any> {
+  deleteAppointment(epoch:string, appointmentId: string):Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
-
     const headers = new HttpHeaders({
-      'Authorization': `${idToken}`,
+      'Authorization': `${idToken}`
     });
-
-    return this.http.delete(`${this.apiUrl}/appointment/${startTime}/${endTime}`,{ headers });
+      return this.http.delete(`${this.apiUrl}/appointment/${epoch}/${appointmentId}`, { headers });
   }
 
 }

@@ -10,24 +10,25 @@ export class CommonService {
   constructor(private router:Router, private route:ActivatedRoute, private toastr:ToastrService) {}
 
   navigateHref(href: string, id:string) {
-    const userGroupsString = sessionStorage.getItem('userGroups');
+    this.router.navigate([href + id]);
+    // const userGroupsString = sessionStorage.getItem('userGroups');
 
-    if (userGroupsString) {
-      const userGroups = JSON.parse(userGroupsString) as string[];
+    // if (userGroupsString) {
+    //   const userGroups = JSON.parse(userGroupsString) as string[];
 
-      if (userGroups.includes('dev-dcms-doctor')) {
-        this.router.navigate([href + id]);
-      } else if (userGroups.includes('dev-dcms-nurse')) {
-        this.router.navigate([href + id]);
-      } else if (userGroups.includes('dev-dcms-receptionist')) {
-        this.router.navigate([href + id]);
-      } else if (userGroups.includes('dev-dcms-admin')) {
-        this.router.navigate([href + id]);
-      }
-    } else {
-      console.error('Không có thông tin về nhóm người dùng.');
-      this.router.navigate(['/default-route']);
-    }
+    //   if (userGroups.includes('dev-dcms-doctor')) {
+    //     this.router.navigate([href + id]);
+    //   } else if (userGroups.includes('dev-dcms-nurse')) {
+    //     this.router.navigate([href + id]);
+    //   } else if (userGroups.includes('dev-dcms-receptionist')) {
+    //     this.router.navigate([href + id]);
+    //   } else if (userGroups.includes('dev-dcms-admin')) {
+    //     this.router.navigate([href + id]);
+    //   }
+    // } else {
+    //   console.error('Không có thông tin về nhóm người dùng.');
+    //   this.router.navigate(['/default-route']);
+    // }
   }
 
   showToast(message: string, header:string, status:Status) {

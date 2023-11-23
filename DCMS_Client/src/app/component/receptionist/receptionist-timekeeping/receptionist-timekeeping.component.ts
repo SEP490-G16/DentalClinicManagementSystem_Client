@@ -95,13 +95,106 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     this.endTime = this.weekTimestamps[6];
   }
 
+  roleId: string[] =[];
+
   ngOnInit(): void {
 
     this.getTimekeeping();
+    this.getListStaff();
 
     this.StaffFilter = this.Staff;
-
+    let ro = sessionStorage.getItem('role');
+    if (ro != null) {
+      this.roleId = ro.split(',');
+    }
   }
+
+  staff = {
+    staffId: '',
+    staffName: '',
+    staffUserName: '',
+    dob: '',
+    address: '',
+    note: '',
+    email: '',
+    phoneNumber: '',
+    roleId: '',
+    roleName:'',
+    gender: '',
+    image: '',
+    locale: '',
+    zoneInfor: '',
+  }
+  listStaff: any[] = [];
+  listStaffDisplay:any [] = [];
+
+  getListStaff() {
+    this.cognitoService.getListStaff()
+      .subscribe((res) => {
+        this.listStaff = res.message;
+        console.log("ListStaff:",this.listStaff);
+        this.listStaff.forEach((staff:any) => {
+          this.staff = {
+            staffId: '',
+            staffName: '',
+            staffUserName: '',
+            dob: '',
+            address: '',
+            note: '',
+            email: '',
+            phoneNumber: '',
+            roleId: '',
+            roleName:'',
+            gender: '',
+            image: '',
+            locale: '',
+            zoneInfor: ''
+          }
+          this.staff.staffUserName = staff.Username;
+          staff.Attributes.forEach((attr:any) => {
+            if (attr.Name == 'sub') {
+              this.staff.staffId = attr.Value;
+            }
+            if (attr.Name == 'address') {
+              this.staff.address = attr.Value;
+            }
+            if (attr.Name == 'email') {
+              this.staff.email = attr.Value;
+            }
+            if (attr.Name == 'phone_number') {
+              this.staff.phoneNumber = this.normalizePhoneNumber(attr.Value);
+            }
+            if (attr.Name == 'custom:role') {
+              this.staff.roleId = attr.Value;
+              this.staff.roleName = this.getStaffName(this.staff.roleId);
+            }
+            if (attr.Name == 'gender') {
+              this.staff.gender = attr.Value;
+            }
+            if (attr.Name == 'custom:DOB') {
+              this.staff.dob = this.timestampToDate(attr.Value);
+            }
+            if (attr.Name == 'name') {
+              this.staff.staffName = attr.Value;
+            }
+            if (attr.Name == 'custom:image') {
+              this.staff.staffName = attr.Value;
+            }
+            if (attr.Name == 'name') {
+              this.staff.staffName = attr.Value;
+            }
+            if (attr.Name == 'zoneinfo') {
+              this.staff.zoneInfor = attr.Value;
+            }
+          })
+          if (this.staff.roleId != "1") {
+            this.listStaffDisplay.push(this.staff);
+          }
+        })
+        console.log("danh sách",this.listStaffDisplay.length);
+      },
+      )
+    }
 
   getTimekeeping() {
     this.loading = true;
@@ -116,7 +209,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
         this.timekeepingOnWeeks = this.organizeData(this.timekeepingOnWeeks);
         console.log("TimekeepingOnWeeks: ", this.timekeepingOnWeeks);
 
-        this.Staff.forEach(staff => {
+        this.listStaffDisplay.forEach(staff => {
           staff.weekTimekeeping = {};
 
           this.weekTimestamps.forEach(weekTimestamp => {
@@ -142,8 +235,8 @@ export class ReceptionistTimekeepingComponent implements OnInit {
                 staff.isClockin = !!details.clock_in;
                 staff.isClockout = !!details.clock_out;
               } else {
-                staff.clockInStatus = 'Chưa chấm';
-                staff.clockOutStatus = 'Chưa chấm';
+                staff.clockInStatus = 'Giờ đến';
+                staff.clockOutStatus = 'Giờ về';
                 staff.timeClockin = '';
                 staff.timeClockout = '';
                 staff.isClockin = false;
@@ -200,14 +293,26 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     }
   }
 
+  getRegisterTimeNextWeek() {
+    this.timekeepingService.getTimekeeping(0, 0).subscribe(data => {
+      
+    })
+  }
+
   //Thời gian vào làm: 16:00
-  onClockin(staff: Staff) {
+  onClockin(staff: any) {
+    let user = sessionStorage.getItem('username');
+    if (user != null) {
+      this.Body.timekeeper_name = user;
+    }
     this.loading = true;
     this.Body.epoch = this.currentDateTimeStamp;
     this.Body.clock_in = (staff.timeClockin == "") ? this.currentTimeTimeStamp : this.timeAndDateToTimestamp(staff.timeClockin, this.currentDateGMT7);
-    this.Body.sub_id = staff.sub;
-    this.Body.staff_name = staff.name;
-    this.Body.timekeeper_name = "Long";
+    this.Body.sub_id = staff.staffId;
+    this.Body.staff_name = staff.staffName;
+    this.Body.register_clock_in = '';
+    this.Body.register_clock_out = '';
+
     console.log("OnClick Body: ", this.Body);
 
     this.timekeepingService.postTimekeeping(this.Body)
@@ -277,6 +382,8 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     }
   }
 
+  
+
   //Convert Date
   dateToTimestamp(dateStr: string): number {
     const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng của chuỗi ngày
@@ -334,6 +441,39 @@ export class ReceptionistTimekeepingComponent implements OnInit {
       console.error('Không có thông tin về nhóm người dùng.');
       this.router.navigate(['/default-route']);
     }
+  }
+
+  timestampToDate(timestamp: number): string {
+    try {
+      const date = moment.unix(timestamp);
+      const dateStr = date.format('YYYY-MM-DD');
+      return dateStr;
+    } catch(err) {
+      return '';
+    }
+  }
+
+  getStaffName(id:any):any {
+    if (id == "1") {
+      return "Admin";
+    } else if (id == "2") {
+      return "Bác sĩ"
+    } else if (id == "3") {
+      return "Lễ tân";
+    } else if (id == "4") {
+      return "Y tá";
+    } else if (id == "5") {
+      return "Y tá trưởng";
+    }
+  }
+
+  normalizePhoneNumber(phoneNumber: string): string {
+    if(phoneNumber.startsWith('(+84)')){
+      return '0'+phoneNumber.slice(5);
+    }else if(phoneNumber.startsWith('+84')){
+      return '0'+phoneNumber.slice(3);
+    }else
+      return phoneNumber;
   }
 }
 interface TimekeepingDetail {

@@ -81,3 +81,16 @@
   transform: translateY(40%);
   right: 10px;
 }
+.modal-body div p{
+  color: #FF0000FF;}
+.checkbox-group{
+  margin-top: 5%;
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid #e9ecef;
+}
+.chuyen-nganh{
+  text-align: center;
+  border-bottom: 1px solid #e9ecef;
+  margin-bottom: 2%;
+}

@@ -34,24 +34,23 @@ import { PopupExaminationDetailComponent } from './patient-records/patient-payme
 import { ReceptionistModule } from '../receptionist/receptionist.module';
 @NgModule({
   declarations: [
-      PatientManagementComponent,
-      PatientRecordsComponent,
-      PopupAddPatientComponent,
-      PatientProfileTabComponent,
-      PatientAppointmentTabComponent,
-      PopupDeletePatientComponent,
-      PatientLichtrinhdieutriComponent,
-      VNDateTimeFormatPipe,
-      PopupAddTreatmentcourseComponent,
-      PopupEditTreatmentcourseComponent,
-      PopupAddExaminationComponent,
-      PopupEditExaminationComponent,
-      PopupDatlichtaikhamComponent,
-      PopupSualichtaikhamComponent,
-      PopupPaymentComponent,
-      PopupExaminationDetailComponent,
-      PatientPaymentTabComponent,
-      PatientSpecimensComponent,
+      // PatientManagementComponent,
+      // PatientRecordsComponent,
+      // PopupAddPatientComponent,
+      // PatientProfileTabComponent,
+      // PatientAppointmentTabComponent,
+      // PopupDeletePatientComponent,
+      // PatientLichtrinhdieutriComponent,
+      // VNDateTimeFormatPipe,
+      // PopupAddTreatmentcourseComponent,
+      // PopupEditTreatmentcourseComponent,
+      // PopupAddExaminationComponent,
+      // PopupEditExaminationComponent,
+      // PopupDatlichtaikhamComponent,
+      // PopupSualichtaikhamComponent,
+      // PopupPaymentComponent,
+      // PatientPaymentTabComponent,
+      // PatientSpecimensComponent,
   ],
   imports: [
     CommonModule,
@@ -70,8 +69,8 @@ import { ReceptionistModule } from '../receptionist/receptionist.module';
     NgbModule,
   ],
   exports: [
-    PopupAddPatientComponent,
-    VNDateTimeFormatPipe
+    //PopupAddPatientComponent,
+    //VNDateTimeFormatPipe
   ],
 
   providers: [DatePipe]

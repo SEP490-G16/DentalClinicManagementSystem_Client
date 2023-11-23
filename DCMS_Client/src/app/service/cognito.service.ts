@@ -104,13 +104,14 @@ export class CognitoService {
     return this.http.get('https://lipm11wja0.execute-api.ap-southeast-1.amazonaws.com/dev/staff', { headers });
   }
 
-  putStaff(userName:string, role:string): Observable<any> {
+  putStaff(userName:string, role:string, zoneinfo:string): Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`,
       "Content-Type": "application/json; charset=utf8"
     });
     const attributes = {
+      zoneinfo: zoneinfo,
       'custom:role': role
     };
     const requestBody = JSON.stringify({username: userName, user_attributes: attributes});
@@ -134,6 +135,7 @@ export class CognitoService {
       name: User.name,
       gender: User.gender,
       address: User.address,
+      zoneinfo: User.zoneinfo,
       'custom:DOB': User.DOB,
       'custom:description': User.description,
       'custom:status': User.status,
@@ -183,28 +185,25 @@ export class CognitoService {
 
   signIn(User: IUser): Promise<any> {
     return Auth.signIn(User.userCredential, User.password).then((userResult) => {
-
       console.log("User result:", userResult);
       this.cognitoUser.Username = userResult.username;
       this.cognitoUser.Email = userResult.attributes.email;
       this.cognitoUser.ClientId = userResult.pool.clientId;
       this.cognitoUser.idToken = userResult.signInUserSession.idToken.jwtToken;
       this.cognitoUser.refreshToken = userResult.signInUserSession.refreshToken.token;
-      this.cognitoUser.locale = userResult.attributes['custom:locale'];
+      this.cognitoUser.locale = userResult.attributes.locale;
+      this.cognitoUser.role = userResult.attributes["custom:role"];
       this.cognitoUser.sub = userResult.attributes.sub;
       console.log("CognitoUser: ", this.cognitoUser);
       sessionStorage.setItem('cognitoUser', JSON.stringify(this.cognitoUser));
-      //
       const groups = userResult.signInUserSession.idToken.payload['cognito:groups'];
       console.log('User Groups:', groups);
       sessionStorage.setItem('userGroups', JSON.stringify(groups));
-
-
       sessionStorage.setItem('id_Token', this.cognitoUser.idToken);
       sessionStorage.setItem('locale', this.cognitoUser.locale);
       sessionStorage.setItem('sub', this.cognitoUser.sub);
-      sessionStorage.setItem('name', this.cognitoUser.name);
       sessionStorage.setItem('sub-id', this.cognitoUser.sub);
+      sessionStorage.setItem('role', this.cognitoUser.role);
       sessionStorage.setItem('username', this.cognitoUser.Username);
     });
   }

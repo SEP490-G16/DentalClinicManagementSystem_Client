@@ -38,6 +38,7 @@ export class StaffComponent implements OnInit {
     gender: '',
     image: '',
     locale: '',
+    zoneInfor: '',
   }
 
   listStaffDisplay:any [] = [];
@@ -63,6 +64,7 @@ export class StaffComponent implements OnInit {
             gender: '',
             image: '',
             locale: '',
+            zoneInfor: ''
           }
           this.staff.staffUserName = staff.Username;
           staff.Attributes.forEach((attr:any) => {
@@ -84,6 +86,12 @@ export class StaffComponent implements OnInit {
             }
             if (attr.Name == 'gender') {
               this.staff.gender = attr.Value;
+              if (this.staff.gender == 'male'){
+                this.staff.gender = 'Nam'
+              }
+              if (this.staff.gender == 'female'){
+                this.staff.gender = 'Nữ'
+              }
             }
             if (attr.Name == 'custom:DOB') {
               this.staff.dob = this.timestampToDate(attr.Value);
@@ -97,6 +105,9 @@ export class StaffComponent implements OnInit {
             if (attr.Name == 'name') {
               this.staff.staffName = attr.Value;
             }
+            if (attr.Name == 'zoneinfo') {
+              this.staff.zoneInfor = attr.Value;
+            }
           })
           this.listStaffDisplay.push(this.staff);
         })
@@ -104,7 +115,6 @@ export class StaffComponent implements OnInit {
       },
       )
     }
-
 
   getStaffName(id:any):any {
     if (id == "1") {
@@ -142,10 +152,15 @@ export class StaffComponent implements OnInit {
   }
 
   timestampToDate(timestamp: number): string {
-    const date = moment.unix(timestamp);
-    const dateStr = date.format('YYYY-MM-DD');
-    return dateStr;
+    try {
+      const date = moment.unix(timestamp);
+      const dateStr = date.format('YYYY-MM-DD');
+      return dateStr;
+    } catch(err) {
+      return '';
+    }
   }
+
   normalizePhoneNumber(phoneNumber: string): string {
     if(phoneNumber.startsWith('(+84)')){
       return '0'+phoneNumber.slice(5);
