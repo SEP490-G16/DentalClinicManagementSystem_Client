@@ -16,28 +16,28 @@
     <table>
       <thead class="sticky-thead">
         <tr>
-          <th style="max-width: 50px;">Mã bệnh nhân</th>
-          <th>Tên bệnh nhân</th>
-          <th>SĐT</th>
-          <th>Địa chỉ</th>
-          <th>Thao tác</th>
+          <th style="width: 100px;">Mã bệnh nhân</th>
+          <th style="width: 300px;">Tên bệnh nhân</th>
+          <th style="width: 150px;">SĐT</th>
+          <th style="width: 250px;">Địa chỉ</th>
+          <th style="width: 100px;">Thao tác</th>
         </tr>
       </thead>
       <tbody>
       <tr class="hover-patient" *ngFor="let p of searchPatientsList" [ngClass]="{'new-record': p.isNew,'pulse': p.isPulsing}" style="cursor: pointer;">
-          <td (click)="detail(p.patient_id)">
+          <td (click)="detail(p.patient_id)" style="width: 100px;">
             <!--HE153724-->{{p.patient_id}}
           </td>
-          <td>
+          <td style="width: 300px;">
             <a style="cursor: pointer;" (click)="detail(p.patient_id)">{{p.patient_name}}</a>
           </td>
-          <td (click)="detail(p.patient_id)">
+          <td (click)="detail(p.patient_id)" style="width: 150px;">
             {{p.phone_number}}
-          </td>
-          <td (click)="detail(p.patient_id)">
+          </td >
+          <td (click)="detail(p.patient_id)" style="width: 250px;">
             {{p.address}}
           </td>
-          <td>
+          <td style="width: 100px;">
             <button href="#" class="btn btn-danger float-right btn-rounded" style="padding: 2px 5px"
               data-bs-toggle="modal" data-bs-target="#delete_patient"
               (click)="openDeletePatient(p.patient_id)"><i class="bi bi-trash"></i></button>
