@@ -14,7 +14,7 @@ import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureSe
 export class PopupEditStaffComponent implements OnInit {
 
 
-  @Input() staffEdit:any;
+  @Input() staffEdit: any;
   checked: boolean = true;
   staff: IStaff;
   staffId: string = "";
@@ -126,7 +126,8 @@ export class PopupEditStaffComponent implements OnInit {
     }
     else {
       this.serviceGroups = [];
-
+    }
+  }
 
 
   onFileSelected(event: any) {
@@ -192,14 +193,15 @@ export class PopupEditStaffComponent implements OnInit {
       img.src = base64Data;
     });
   }
-  normalizePhoneNumber(phoneNumber: string): string {
+  normalizePhoneNumber(phoneNumber: string) {
     if (phoneNumber.startsWith('(+84)')) {
       return '0' + phoneNumber.slice(5);
     } else if (phoneNumber.startsWith('+84')) {
       return '0' + phoneNumber.slice(3);
+    } else {
+      return phoneNumber;
     }
   }
- 
   // serviceGroups:any[]=[];
   // onChangeRole(role:any){
   //   if (role == 2){
@@ -219,17 +221,17 @@ export class PopupEditStaffComponent implements OnInit {
   //     this.serviceGroups =[];
   //   }
   // }
-  // selectedServiceGroupIds: string[] = [];
-  // onCheckboxChange(serviceGroup: any) {
-  //   if (serviceGroup.checked) {
-  //     // Thêm ID vào mảng nếu checkbox được tích
-  //     this.selectedServiceGroupIds.push(serviceGroup.medical_procedure_group_id);
-  //   } else {
-  //     // Loại bỏ ID khỏi mảng nếu checkbox bị bỏ tích
-  //     const index = this.selectedServiceGroupIds.indexOf(serviceGroup.medical_procedure_group_id);
-  //     if (index > -1) {
-  //       this.selectedServiceGroupIds.splice(index, 1);
-  //     }
-  //   }
-  // }
+  selectedServiceGroupIds: string[] = [];
+  onCheckboxChange(serviceGroup: any) {
+    if (serviceGroup.checked) {
+      // Thêm ID vào mảng nếu checkbox được tích
+      this.selectedServiceGroupIds.push(serviceGroup.medical_procedure_group_id);
+    } else {
+      // Loại bỏ ID khỏi mảng nếu checkbox bị bỏ tích
+      const index = this.selectedServiceGroupIds.indexOf(serviceGroup.medical_procedure_group_id);
+      if (index > -1) {
+        this.selectedServiceGroupIds.splice(index, 1);
+      }
+    }
+  }
 }

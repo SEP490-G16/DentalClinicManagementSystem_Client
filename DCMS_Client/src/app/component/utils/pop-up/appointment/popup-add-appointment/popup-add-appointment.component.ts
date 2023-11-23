@@ -499,7 +499,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     this.AppointmentBody.appointment.patient_name = patientInfor[1];
     this.AppointmentBody.appointment.phone_number = patientInfor[2];
     this.loading = true;
-    console.log(this.filteredAppointments);
+    console.log("aa", this.filteredAppointments);
     this.filteredAppointments.forEach((appo: any) => {
       appo.appointments.forEach((deta: any) => {
         deta.details.forEach((res: any) => {
@@ -525,40 +525,40 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
         return;
       }
     }
-    else {
-      this.phoneErr = "";
 
-      this.APPOINTMENT_SERVICE.postAppointment(this.AppointmentBody).subscribe(
-        (response) => {
-          this.loading = false;
-          console.log('Lịch hẹn đã được tạo:', response);
-          this.showSuccessToast('Lịch hẹn đã được tạo thành công!');
-          this.procedure = '';
-          this.appointmentTime = '';
-          this.newItemEvent.emit(this.AppointmentBody);
-          this.AppointmentBody = {
-            epoch: 0,
-            appointment: {
-              patient_id: '',
-              patient_name: '',
-              phone_number: '',
-              procedure_id: "1",
-              procedure_name: '',
-              doctor: '',
-              status: 2,
-              time: 0
-            }
-          } as IAddAppointment;
-          window.location.reload();
-        },
-        (error) => {
-          this.loading = false;
-          console.error('Lỗi khi tạo lịch hẹn:', error);
-          //this.showErrorToast('Lỗi khi tạo lịch hẹn!');
-          ResponseHandler.HANDLE_HTTP_STATUS(this.APPOINTMENT_SERVICE.apiUrl + "/appointment", error);
-        }
-      );
-    }
+    this.phoneErr = "";
+
+    this.APPOINTMENT_SERVICE.postAppointment(this.AppointmentBody).subscribe(
+      (response) => {
+        this.loading = false;
+        console.log('Lịch hẹn đã được tạo:', response);
+        this.showSuccessToast('Lịch hẹn đã được tạo thành công!');
+        this.procedure = '';
+        this.appointmentTime = '';
+        this.newItemEvent.emit(this.AppointmentBody);
+        this.AppointmentBody = {
+          epoch: 0,
+          appointment: {
+            patient_id: '',
+            patient_name: '',
+            phone_number: '',
+            procedure_id: "1",
+            procedure_name: '',
+            doctor: '',
+            status: 2,
+            time: 0
+          }
+        } as IAddAppointment;
+        window.location.reload();
+      },
+      (error) => {
+        this.loading = false;
+        console.error('Lỗi khi tạo lịch hẹn:', error);
+        //this.showErrorToast('Lỗi khi tạo lịch hẹn!');
+        ResponseHandler.HANDLE_HTTP_STATUS(this.APPOINTMENT_SERVICE.apiUrl + "/appointment", error);
+      }
+    );
+
   }
 
   dateToTimestamp(dateStr: string): number {

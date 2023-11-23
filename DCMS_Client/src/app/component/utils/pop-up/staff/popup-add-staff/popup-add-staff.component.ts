@@ -19,37 +19,37 @@ export class PopupAddStaffComponent implements OnInit {
   imageURL: string | ArrayBuffer = 'https://icon-library.com/images/staff-icon/staff-icon-15.jpg';
   roleUserSignIn: string = '';
   showPassword: boolean = true;
-  showPasswordRepeat:boolean = true;
+  showPasswordRepeat: boolean = true;
   password: string = '';
-  passwordRepeat:string = '';
+  passwordRepeat: string = '';
   vailidateStaff = {
-    name:'',
-    dob:'',
-    address:'',
-    phone:'',
-    role:'',
-    gender:'',
-    email:'',
-    username:'',
-    password:'',
-    passwordRepate:''
+    name: '',
+    dob: '',
+    address: '',
+    phone: '',
+    role: '',
+    gender: '',
+    email: '',
+    username: '',
+    password: '',
+    passwordRepate: ''
   }
-  isSubmitted:boolean = false;
+  isSubmitted: boolean = false;
   gender: string = "male";
-  role:string = "0";
-  facility:string = "0";
-  staff:IStaff;
+  role: string = "0";
+  facility: string = "0";
+  staff: IStaff;
   listFacility: any[] = [];
 
   constructor(
-    private cognitoService:CognitoService,
+    private cognitoService: CognitoService,
     private facilityService: FacilityService,
-    private toastr:ToastrService,
-    private router:Router,
+    private toastr: ToastrService,
+    private router: Router,
     private serviceGroup: MedicalProcedureGroupService
   ) {
     this.staff = {} as IStaff
-   }
+  }
 
   ngOnInit(): void {
     this.getListFacility();
@@ -57,7 +57,7 @@ export class PopupAddStaffComponent implements OnInit {
 
   getListFacility() {
     this.facilityService.getFacilityList().subscribe((res) => {
-      console.log("Danh sach cơ sơ",res);
+      console.log("Danh sach cơ sơ", res);
       this.listFacility = res.data;
     },
       (err) => {
@@ -68,39 +68,39 @@ export class PopupAddStaffComponent implements OnInit {
 
   addSTAFF() {
     this.resetValidate();
-    if(!this.staff.name){
+    if (!this.staff.name) {
       this.vailidateStaff.name = "Vui lòng nhập tên nhân viên!";
       this.isSubmitted = true;
     }
-    if (!this.staff.DOB || !this.formatDate(this.staff.DOB)){
+    if (!this.staff.DOB || !this.formatDate(this.staff.DOB)) {
       this.vailidateStaff.dob = "Vui lòng nhập ngày sinh!";
       this.isSubmitted = true;
     }
-    if (!this.staff.address){
+    if (!this.staff.address) {
       this.vailidateStaff.address = "Vui lòng nhập địa chỉ!";
       this.isSubmitted = true;
     }
-    if (!this.staff.phone){
+    if (!this.staff.phone) {
       this.vailidateStaff.phone = "Vui lòng nhập số điện thoại!";
       this.isSubmitted = true;
     }
-    else if (!this.isVietnamesePhoneNumber(this.staff.phone)){
+    else if (!this.isVietnamesePhoneNumber(this.staff.phone)) {
       this.vailidateStaff.phone = "Số điện thoại không hợp lệ!";
       this.isSubmitted = true;
     }
-    if (!this.staff.email){
+    if (!this.staff.email) {
       this.vailidateStaff.email = "Vui lòng nhập email!";
       this.isSubmitted = true;
     }
-    else if (!this.isValidEmail(this.staff.email)){
+    else if (!this.isValidEmail(this.staff.email)) {
       this.vailidateStaff.email = 'Email không hợp lệ!';
       this.isSubmitted = true;
     }
-    if (!this.staff.username){
+    if (!this.staff.username) {
       this.vailidateStaff.username = "Vui lòng nhập tên dăng nhập!";
       this.isSubmitted = true;
     }
-    if (!this.staff.password){
+    if (!this.staff.password) {
       this.vailidateStaff.password = "Vui lòng nhập mật khẩu!";
       this.isSubmitted = true;
     }
@@ -115,34 +115,33 @@ export class PopupAddStaffComponent implements OnInit {
       this.isSubmitted = true;
     }
 
-    if (!this.passwordRepeat){
+    if (!this.passwordRepeat) {
       this.vailidateStaff.passwordRepate = "Nhập lại mật khẩu!";
       this.isSubmitted = true;
     }
-    else if (this.passwordRepeat!==this.staff.password){
+    else if (this.passwordRepeat !== this.staff.password) {
       this.vailidateStaff.passwordRepate = "Mật khẩu không khớp!";
     }
-    if (this.isSubmitted){
-      return;
-    }
-    if (this.staff.phone && this.staff.phone.length === 9){
+    if (this.staff.phone && this.staff.phone.length === 9) {
       this.staff.phone = '+84' + this.staff.phone;
     }
-    if (this.staff.phone && this.staff.phone.length === 10){
-      this.staff.phone = '+84' +this.staff.phone.substring(1);
+    if (this.staff.phone && this.staff.phone.length === 10) {
+      this.staff.phone = '+84' + this.staff.phone.substring(1);
     }
     this.staff.role = this.role;
     this.staff.gender = this.gender;
     this.staff.image = this.imageURL;
     if (this.selectedServiceGroupIds.length != 0) {
-      this.selectedServiceGroupIds.forEach((item:any) => {
-        this.staff.zoneinfo += item+",";
+      this.selectedServiceGroupIds.forEach((item: any) => {
+        this.staff.zoneinfo += item + ",";
       })
     }
     this.staff.DOB = this.dateToTimestamp(this.staff.DOB).toString();
     this.staff.locale = this.facility;
     this.staff.status = "1";
-      
+    if (this.isSubmitted) {
+      return;
+    }
     this.cognitoService.addStaff(this.staff)
       .then((response) => {
         this.showSuccessToast('Thêm nhân viên thành công')
@@ -153,31 +152,22 @@ export class PopupAddStaffComponent implements OnInit {
           UserPoolId: 'ap-southeast-1_PSTdva5of',
           Username: this.staff.username
         };
-        cognito.adminConfirmSignUp(params, (err, data) => {
-          if (err) {
-            alert("error");
-            console.log('Error confirming user:', err);
-          } else {
-            alert("yes");
-            console.log('User confirmed successfully:', data);
-          }
-        });
         // Xử lý khi có lỗi đăng ký
         this.showErrorToast('Thêm nhân viên thất bại')
       });
-      const params = {
-        UserPoolId: 'ap-southeast-1_PSTdva5of',
-        Username: this.staff.username
-      };
-      // cognito.adminConfirmSignUp(params, (err, data) => {
-      //   if (err) {
-      //     alert("error");
-      //     console.log('Error confirming user:', err);
-      //   } else {
-      //     alert("yes");
-      //     console.log('User confirmed successfully:', data);
-      //   }
-      // });
+    const params = {
+      UserPoolId: 'ap-southeast-1_PSTdva5of',
+      Username: this.staff.username
+    };
+    // cognito.adminConfirmSignUp(params, (err, data) => {
+    //   if (err) {
+    //     alert("error");
+    //     console.log('Error confirming user:', err);
+    //   } else {
+    //     alert("yes");
+    //     console.log('User confirmed successfully:', data);
+    //   }
+    // });
   }
 
   onFileSelected(event: any) {
@@ -186,7 +176,7 @@ export class PopupAddStaffComponent implements OnInit {
       const file = fileInput.files[0];
       const reader = new FileReader();
 
-      
+
       reader.onload = (e: any) => {
         const base64Data = e.target.result;
         alert("đã vô nha")
@@ -273,29 +263,29 @@ export class PopupAddStaffComponent implements OnInit {
   togglePasswordRepeat() {
     this.showPasswordRepeat = !this.showPasswordRepeat;
   }
-  private isVietnamesePhoneNumber(number:string):boolean {
+  private isVietnamesePhoneNumber(number: string): boolean {
     return /^(\+84|84|0)?[1-9]\d{8}$/
       .test(number);
   }
 
-  private isCheckPassword(password:string):boolean {
+  private isCheckPassword(password: string): boolean {
     return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/.test(password);
   }
   private isValidEmail(email: string): boolean {
     return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email);
   }
-  private resetValidate(){
+  private resetValidate() {
     this.vailidateStaff = {
-      name:'',
-      dob:'',
-      address:'',
-      phone:'',
-      role:'',
-      gender:'',
-      email:'',
-      username:'',
-      password:'',
-      passwordRepate:''
+      name: '',
+      dob: '',
+      address: '',
+      phone: '',
+      role: '',
+      gender: '',
+      email: '',
+      username: '',
+      password: '',
+      passwordRepate: ''
     }
     this.isSubmitted = false;
   }
@@ -306,15 +296,15 @@ export class PopupAddStaffComponent implements OnInit {
     var timestamp = moment.tz(dateStr, format, timeZone).valueOf() / 1000;
     return timestamp;
   }
-  serviceGroups:any[]=[];
-  onChangeRole(role:any){
-    if (role == 2){
-      this.serviceGroup.getMedicalProcedureGroupList().subscribe(data=>{
-        this.serviceGroups = data.data.map((s:any)=>({ ...s, checked: false }));
+  serviceGroups: any[] = [];
+  onChangeRole(role: any) {
+    if (role == 2) {
+      this.serviceGroup.getMedicalProcedureGroupList().subscribe(data => {
+        this.serviceGroups = data.data.map((s: any) => ({ ...s, checked: false }));
       })
     }
     else {
-      this.serviceGroups =[];
+      this.serviceGroups = [];
 
     }
   }
