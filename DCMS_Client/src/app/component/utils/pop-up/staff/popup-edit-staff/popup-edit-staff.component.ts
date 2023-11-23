@@ -13,16 +13,16 @@ import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureSe
 })
 export class PopupEditStaffComponent implements OnInit {
 
-  @Input() staffEdit:any;
 
+  @Input() staffEdit:any;
   checked: boolean = true;
   staff: IStaff;
   staffId: string = "";
-  role:string = "0";
+  role: string = "0";
   imageURL: string | ArrayBuffer = 'https://icon-library.com/images/staff-icon/staff-icon-15.jpg';
   constructor(
     private cognitoService: CognitoService,
-    private serviceGroup:MedicalProcedureGroupService,
+    private serviceGroup: MedicalProcedureGroupService,
     private toastr: ToastrService
   ) {
     this.staff = {
@@ -40,22 +40,22 @@ export class PopupEditStaffComponent implements OnInit {
     } as IStaff;
   }
   vailidateStaff = {
-    name:'',
-    dob:'',
-    address:'',
-    phone:'',
-    gender:'',
-    email:'',
+    name: '',
+    dob: '',
+    address: '',
+    phone: '',
+    gender: '',
+    email: '',
     role: '',
   }
-  isSubmitted:boolean = false;
+  isSubmitted: boolean = false;
 
 
   listDisplaySpe: string[] = [];
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(changes['staffEdit'] && this.staffEdit) {
-      console.log(this.staffEdit);
+    if (changes['staffEdit']) {
+
       this.staffId = this.staffEdit.staffId;
       this.staff.username = this.staffEdit.staffUserName;
       this.staff.name = this.staffEdit.staffName;
@@ -84,10 +84,10 @@ export class PopupEditStaffComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  saveEditedStaff(userName:string, roleId: string) {
+  saveEditedStaff(userName: string, roleId: string) {
     let zoneinfo = '';
-    this.selectedServiceGroupIds.forEach((item:any) => {
-      zoneinfo +=item+",";
+    this.selectedServiceGroupIds.forEach((item: any) => {
+      zoneinfo += item + ",";
     })
     this.cognitoService.putStaff(userName, roleId, zoneinfo).subscribe(
       (res) => {
@@ -117,6 +117,17 @@ export class PopupEditStaffComponent implements OnInit {
       timeOut: 3000,
     });
   }
+  serviceGroups: any[] = [];
+  onChangeRole(role: any) {
+    if (role == 2) {
+      this.serviceGroup.getMedicalProcedureGroupList().subscribe(data => {
+        this.serviceGroups = data.data.map((s: any) => ({ ...s, checked: false }));
+      })
+    }
+    else {
+      this.serviceGroups = [];
+
+
 
   onFileSelected(event: any) {
     const fileInput = event.target;
@@ -181,37 +192,44 @@ export class PopupEditStaffComponent implements OnInit {
       img.src = base64Data;
     });
   }
-
-  serviceGroups:any[]=[];
-  onChangeRole(role:any){
-    if (role == 2){
-      this.serviceGroup.getMedicalProcedureGroupList().subscribe(data=>{
-        this.serviceGroups = data.data.map((s:any)=>({ ...s, checked: false }));
-        this.serviceGroups.forEach((item:any) => {
-          this.listDisplaySpe.forEach((a:any) => {
-            if (item.medical_procedure_group_id == a) {
-              this.selectedServiceGroupIds.push(item.medical_procedure_group_id);
-              item.checked = true;
-            }
-          })
-        })
-      })
-    }
-    else {
-      this.serviceGroups =[];
+  normalizePhoneNumber(phoneNumber: string): string {
+    if (phoneNumber.startsWith('(+84)')) {
+      return '0' + phoneNumber.slice(5);
+    } else if (phoneNumber.startsWith('+84')) {
+      return '0' + phoneNumber.slice(3);
     }
   }
-  selectedServiceGroupIds: string[] = [];
-  onCheckboxChange(serviceGroup: any) {
-    if (serviceGroup.checked) {
-      // Thêm ID vào mảng nếu checkbox được tích
-      this.selectedServiceGroupIds.push(serviceGroup.medical_procedure_group_id);
-    } else {
-      // Loại bỏ ID khỏi mảng nếu checkbox bị bỏ tích
-      const index = this.selectedServiceGroupIds.indexOf(serviceGroup.medical_procedure_group_id);
-      if (index > -1) {
-        this.selectedServiceGroupIds.splice(index, 1);
-      }
-    }
-  }
+ 
+  // serviceGroups:any[]=[];
+  // onChangeRole(role:any){
+  //   if (role == 2){
+  //     this.serviceGroup.getMedicalProcedureGroupList().subscribe(data=>{
+  //       this.serviceGroups = data.data.map((s:any)=>({ ...s, checked: false }));
+  //       this.serviceGroups.forEach((item:any) => {
+  //         this.listDisplaySpe.forEach((a:any) => {
+  //           if (item.medical_procedure_group_id == a) {
+  //             this.selectedServiceGroupIds.push(item.medical_procedure_group_id);
+  //             item.checked = true;
+  //           }
+  //         })
+  //       })
+  //     })
+  //   }
+  //   else {
+  //     this.serviceGroups =[];
+  //   }
+  // }
+  // selectedServiceGroupIds: string[] = [];
+  // onCheckboxChange(serviceGroup: any) {
+  //   if (serviceGroup.checked) {
+  //     // Thêm ID vào mảng nếu checkbox được tích
+  //     this.selectedServiceGroupIds.push(serviceGroup.medical_procedure_group_id);
+  //   } else {
+  //     // Loại bỏ ID khỏi mảng nếu checkbox bị bỏ tích
+  //     const index = this.selectedServiceGroupIds.indexOf(serviceGroup.medical_procedure_group_id);
+  //     if (index > -1) {
+  //       this.selectedServiceGroupIds.splice(index, 1);
+  //     }
+  //   }
+  // }
 }

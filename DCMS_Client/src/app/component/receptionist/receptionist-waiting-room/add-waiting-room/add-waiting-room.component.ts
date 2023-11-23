@@ -13,11 +13,11 @@ import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureSe
   styleUrls: ['./add-waiting-room.component.css']
 })
 export class AddWaitingRoomComponent implements OnInit {
+  patientList: any[] = [];
+  patientInfor: any;
 
   POST_WAITTINGROOM: IPostWaitingRoom;
-  phone_suggest: string = '';
   name_suggest: string = '';
-  phone_number: string = '';
   constructor(
     private WaitingRoomService: ReceptionistWaitingRoomService,
     private PATIENT_SERVICE: PatientService,
@@ -39,6 +39,7 @@ export class AddWaitingRoomComponent implements OnInit {
 
   }
   validateWatingRoom = {
+    patientName: '',
     phone: '',
     procedure: '',
     status: '',
@@ -49,40 +50,14 @@ export class AddWaitingRoomComponent implements OnInit {
   ngOnInit(): void {
     const patientData = localStorage.getItem("patient");
     if (patientData === null) {
-      console.log("Dữ liệu không tồn tại trong Local Storage.");
+      return;
     } else {
       const dataOfLocale = JSON.parse(patientData);
-      this.phone_suggest = dataOfLocale.phone_number;
       this.name_suggest = dataOfLocale.patient_name;
     }
     this.getListGroupService();
   }
 
-
-  onPhoneInput() {
-    if (this.phone_number.length !== 10) {
-      return;
-    }
-
-    this.resetValidate();
-    if (!this.phone_number) {
-      this.validateWatingRoom.phone = "Vui lòng nhập số điện thoại!";
-      this.isSubmitted = true;
-    }
-    else if (!this.isVietnamesePhoneNumber(this.phone_number)) {
-      this.validateWatingRoom.phone = "Số điện thoại không hợp lệ";
-    }
-    else {
-      this.PATIENT_SERVICE.getPatientPhoneNumber(this.phone_number).subscribe((data) => {
-        this.POST_WAITTINGROOM.patient_id = data[0].patient_id;
-        this.POST_WAITTINGROOM.patient_name = data[0].patient_name;
-      },
-        (err) => {
-          this.showErrorToast("Không tìm thấy số điện thoại");
-        }
-      );
-    }
-  }
   onProcedureChange(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     const selectedValue = selectElement.value;
@@ -104,27 +79,27 @@ export class AddWaitingRoomComponent implements OnInit {
 
       if (this.listGroupService.length > 0) {
         this.POST_WAITTINGROOM.produce_id = this.listGroupService[0].medical_procedure_group_id;
-        this.POST_WAITTINGROOM.produce_name = this.listGroupService[0].name; // Thêm dòng này
+        this.POST_WAITTINGROOM.produce_name = this.listGroupService[0].name;
       }
     });
   }
   onPostWaitingRoom() {
+    let patientIn = this.patientInfor.split(' - ');
+    this.POST_WAITTINGROOM.patient_id = patientIn[0];
+    this.POST_WAITTINGROOM.patient_name = patientIn[1];
+    this.POST_WAITTINGROOM.status = 1;
     const storedPatientIdsString = localStorage.getItem('listPatientId');
     let storedPatientIds = [];
-
     if (storedPatientIdsString) {
       storedPatientIds = JSON.parse(storedPatientIdsString);
     }
     const currentDateTimeGMT7 = moment().tz('Asia/Ho_Chi_Minh');
     this.POST_WAITTINGROOM.epoch = Math.floor(currentDateTimeGMT7.valueOf() / 1000);
     this.resetValidate();
-    if (!this.phone_number) {
-      this.validateWatingRoom.phone = "Vui lòng nhập số điện thoại!";
+    if (this.patientInfor == '' || this.patientInfor == null) {
+      this.validateWatingRoom.patientName = "Vui lòng chọn bệnh nhân!";
       this.isSubmitted = true;
-    }
-    else if (!this.isVietnamesePhoneNumber(this.phone_number)) {
-      this.validateWatingRoom.phone = "Số điện thoại không hợp lệ!";
-      this.isSubmitted = true;
+      return;
     }
     if (!this.POST_WAITTINGROOM.produce_id) {
       this.validateWatingRoom.procedure = "Vui lòng chọn loại điều trị!";
@@ -138,20 +113,10 @@ export class AddWaitingRoomComponent implements OnInit {
       return;
     }
     console.log("Hehe: ", this.POST_WAITTINGROOM);
+
     this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
       .subscribe((data) => {
         this.showSuccessToast("Thêm phòng chờ thành công!!");
-
-        this.phone_number = '';
-        this.POST_WAITTINGROOM = {
-          epoch: 0,
-          produce_id: '',
-          produce_name: '',
-          patient_id: '',
-          patient_name: '',
-          reason: '',
-          status: 1
-        } as IPostWaitingRoom
         window.location.reload();
       },
         (err) => {
@@ -160,7 +125,18 @@ export class AddWaitingRoomComponent implements OnInit {
       );
 
   }
-
+  onsearchPatientInWaitingRoom(event: any) {
+    this.PATIENT_SERVICE.getPatientByName(event.target.value, 1).subscribe(data => {
+      const transformedMaterialList = data.data.map((item: any) => {
+        return {
+          patientId: item.patient_id,
+          patientName: item.patient_name,
+          patientInfor: item.patient_id + " - " + item.patient_name + " - " + item.phone_number,
+        };
+      });
+      this.patientList = transformedMaterialList;
+    })
+  }
   dateToTimestamp(dateStr: string): number {
     const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng của chuỗi ngày
     const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
@@ -193,6 +169,7 @@ export class AddWaitingRoomComponent implements OnInit {
   }
   private resetValidate() {
     this.validateWatingRoom = {
+      patientName: '',
       phone: '',
       procedure: '',
       status: '',

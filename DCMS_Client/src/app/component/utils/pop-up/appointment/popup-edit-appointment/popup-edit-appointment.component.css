@@ -1,28 +1,5 @@
-.loading-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.loading-spinner {
-  border: 16px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 16px solid #3498db;
-  width: 120px;
-  height: 120px;
-  -webkit-animation: spin 2s linear infinite; /* Safari */
-  animation: spin 2s linear infinite;
-}
-
 .selected {
-  background-color: rgba(109, 27, 109, 0.5);
+  background-color: rgba(217, 217, 217, 0.6)
 }
 
 
@@ -35,7 +12,7 @@
 }
 
 .list-group-item:hover {
-  background-color: lightgray;
+  background-color: rgb(217, 217, 217)
 }
 
 .doctor-image {
@@ -43,13 +20,11 @@
   margin-right: 10px;
 }
 
-.doctor-info {
-  flex: 1;
-}
-
 .doctors-list {
-  max-height: 200px; /* Độ cao tối đa hiển thị trước khi có thanh cuộn */
-  overflow-y: auto; /* Hiển thị thanh cuộn dọc nếu danh sách dài hơn độ cao tối đa */
+  max-height: 200px;
+  /* Độ cao tối đa hiển thị trước khi có thanh cuộn */
+  overflow-y: auto;
+  /* Hiển thị thanh cuộn dọc nếu danh sách dài hơn độ cao tối đa */
 }
 
 .modal-header {
@@ -84,10 +59,9 @@
 
 /* Cài đặt input text */
 .form-control {
-  border: 2px solid #007bff; /* Đường viền */
-  border-radius: 5px; /* Bo góc */
-  padding: 10px; /* Khoảng cách bên trong input */
-  font-size: 16px; /* Kích thước chữ */
+  border-radius: 5px;
+  font-size: 16px;
+  /* Kích thước chữ */
 }
 
 /* Cài đặt input select */
@@ -108,7 +82,8 @@
 
 /* Tùy chỉnh màu chữ khi nhập liệu vào input */
 .form-control:focus {
-  color: #333; /* Màu chữ */
+  color: #333;
+  /* Màu chữ */
 }
 
 /* Tùy chỉnh màu chữ của select khi chọn giá trị */
@@ -121,11 +96,25 @@
   color: #333;
 }
 
+
+.mat-calendar-body-disabled .mat-calendar-body-cell {
+  background-color: #ccc;
+  /* Màu nền cho ngày bị vô hiệu hóa */
+  color: #888;
+  /* Màu chữ cho ngày bị vô hiệu hóa */
+}
+
+.highlight-dates {
+  background: red;
+  border-radius: 100%;
+}
+
 button.example-custom-date-class {
   background: orange;
   border-radius: 100%;
 }
-.button-timekeeping{
+
+.button-timekeeping {
   font-family: "Poppins", sans-serif;
   background: #664FC3;
   text-align: center;
@@ -139,9 +128,10 @@ button.example-custom-date-class {
   /* box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset; */
 }
 
-.button-timekeeping:hover{
+.button-timekeeping:hover {
   background: #533daf;
 }
+
 .btn-cancel:active,
 .btn-cancel {
   font-family: "Poppins", sans-serif;

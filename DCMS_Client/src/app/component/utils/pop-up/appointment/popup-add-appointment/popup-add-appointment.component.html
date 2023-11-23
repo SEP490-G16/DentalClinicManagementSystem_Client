@@ -20,7 +20,7 @@
               <div class="form-group mt-2">
                 <label for="patientName">Tên bệnh nhân</label>
                   <ng-select [items]="patientList" bindLabel="patientInfor" [(ngModel)]="patientInfor" bindValue="patientInfor" (keyup)="onsearch($event)"
-                             [notFoundText]="'Không tìm thấy bệnh nhân'">
+                             [notFoundText]="'Không tìm thấy bệnh nhân'" >
                   </ng-select>
                   <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.patientName}}</p>
               </div>
@@ -59,16 +59,12 @@
               <div class="doctors-list mt-2">
                 <label for="appointmentTime" name="userCredential">Chọn Bác Sĩ</label>
                 <ul class="list-group" *ngIf="totalDoctorFilter != 0">
-                  <select>
-                    <option></option>
-                    <option value="0"></option>
-                  </select>
                   <li class="list-group-item" *ngFor="let doctor of listDoctorFilter"
                     [ngClass]="{'selected': doctor.doctorName === selectedDoctor}" (click)="selectDoctor(doctor)">
                     <!-- <img [src]="doctor.image" style="width: 100px; height: 100px; object-fit: cover;"
                          class="doctor-image" [alt]="doctor.name"> -->
                     <div class="doctor-info">
-                      <h5 class="card-title">{{ doctor.doctorName }}</h5>
+                      <span class="card-title">{{ doctor.doctorName}}</span>
                     </div>
                   </li>
                 </ul>
@@ -78,7 +74,7 @@
                     <!-- <img [src]="doctor.image" style="width: 100px; height: 100px; object-fit: cover;"
                          class="doctor-image" [alt]="doctor.name"> -->
                     <div class="doctor-info">
-                      <h5 class="card-title">{{ doctor.doctorName }}</h5>
+                      <span class="card-title">{{ doctor.doctorName }}</span>
                     </div>
                   </li>
                 </ul>
