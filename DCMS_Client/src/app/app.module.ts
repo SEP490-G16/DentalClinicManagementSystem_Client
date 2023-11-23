@@ -27,7 +27,6 @@ import { RegisterWorkScheduleComponent } from './component/shared/register-work-
 import { WebSocketSubject } from 'rxjs/webSocket';
 import { ConfirmAppointmentComponent } from './component/confirm-appointment/confirm-appointment.component';
 import { AppRoutingModule } from './app-routing.module';
-import {NgChartsModule} from "ng2-charts";
 import { LOCALE_ID} from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeVi from '@angular/common/locales/vi';
@@ -61,8 +60,7 @@ registerLocaleData(localeVi);
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
-    }),
-    NgChartsModule
+    })
   ],
   providers: [CookieService,{ provide: LOCALE_ID, useValue: 'vi' }],
   bootstrap: [AppComponent]

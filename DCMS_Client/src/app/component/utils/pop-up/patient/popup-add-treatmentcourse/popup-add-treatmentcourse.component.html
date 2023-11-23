@@ -11,76 +11,87 @@
       <!-- Modal body -->
       <div class="modal-body">
         <div class="row">
-            <div class="col-12">
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Mã bệnh nhân</label>
-                <input type="text" class="form-control" id="exampleInputEmail1"
-                [(ngModel)]="Patient_Id"
-                disabled
+          <div class="col-12">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Mã bệnh nhân</label>
+              <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="Patient_Id" disabled
                 aria-describedby="emailHelp">
-              </div>
             </div>
           </div>
+        </div>
 
-          <div class="row">
-            <div class="col-12">
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Tên Liệu trình</label>
-                <input type="text" class="form-control" id="exampleInputEmail1"
-                [(ngModel)]="Add_TreatmentCourse.name"
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Tên Liệu trình</label>
+              <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="Post_TreatmentCourse.name"
                 aria-describedby="emailHelp">
-              </div>
             </div>
           </div>
+        </div>
 
-          <div class="row">
-            <div class="col-12">
-              <div class="mb-3">
-                <label for="treatmentSelect" class="form-label">Chọn liệu trình</label>
-                <select id="treatmentSelect" class="form-control" (change)="onProcedureSelectChange($event)">
-                  <option *ngFor="let procedure of ProcedureList" [value]="procedure.mp_id">{{ procedure.mp_name }}</option>
-                </select>
-              </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-3">
+              <label for="procedureGroupSelect" class="form-label">Chọn nhóm thủ thuật</label>
+              <select id="procedureGroupSelect" class="form-control" (change)="onProcedureGroupSelectChange($event)">
+                <option>Chọn nhóm thủ thuật</option>
+                <option *ngFor="let group of ProcedureGroupList" [value]="group.medical_procedure_group_id">{{
+                  group.name }}</option>
+              </select>
             </div>
           </div>
+        </div>
 
-          <!-- Table to display selected items -->
-          <div class="row">
-            <div class="col-12">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Thủ thuật đã thêm</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let selected of selectedItems; let i = index">
-                    <td>{{ selected.mp_name }}</td>
-                    <td>
-                      <button class="btn btn-danger btn-sm" (click)="deleteSelectedItem(i)">X</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-3">
+              <label for="procedureDetailSelect" class="form-label">Chọn thủ thuật</label>
+              <select id="procedureDetailSelect" class="form-control" (change)="onProcedureSelectChange($event)"
+                [disabled]="!selectedGroupId">
+                <option value="0">Chọn thủ thuật</option>
+                <option *ngFor="let detail of ProcedureDetailListFiltered" [value]="detail.mp_id">{{ detail.mp_name }}
+                </option>
+              </select>
             </div>
           </div>
+        </div>
 
-          <div class="row">
-            <div class="col-12">
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Mô tả</label>
-                <input type="text" class="form-control" id="exampleInputEmail1"
-                [(ngModel)]="Add_TreatmentCourse.description"
-                aria-describedby="emailHelp">
-              </div>
+        <div class="row">
+          <div class="col-12">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Thủ thuật đã thêm</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let selected of ProcedureSelectedItems; let i = index">
+                  <td>{{ selected.mp_name }}</td>
+                  <td>
+                    <button class="btn btn-danger btn-sm" (click)="deleteProcedureSelectedItem(i)">Xóa</button>
+                  </td>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Mô tả</label>
+              <input type="text" class="form-control" id="exampleInputEmail1"
+                [(ngModel)]="Post_TreatmentCourse.description" aria-describedby="emailHelp">
             </div>
           </div>
+        </div>
 
         <!-- Modal footer -->
         <div class="button-conf float-end">
-          <button type="button" id="cancel" class="btn bg-white" data-bs-dismiss="modal">Hủy</button>
+          <button type="button" id="cancel" class="btn bg-white" data-bs-dismiss="modal" (click)="close()">Hủy</button>
           <button type="button" class="btn" data-bs-dismiss="modal"
-            style="background-color: rgba(139, 55, 19,.95); color:white" (click)="addTreatmentCourse()">Lưu</button>
+            style="background-color: rgba(139, 55, 19,.95); color:white" (click)="postTreatmentCourse()">Thêm
+            mới</button>
         </div>
 
       </div>

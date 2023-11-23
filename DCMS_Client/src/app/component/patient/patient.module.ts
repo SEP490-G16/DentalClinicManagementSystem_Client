@@ -30,6 +30,8 @@ import { PopupSualichtaikhamComponent } from '../utils/pop-up/patient/popup-sual
 import { PatientPaymentTabComponent } from './patient-records/patient-payment-tab/patient-payment-tab.component';
 import { PatientSpecimensComponent } from './patient-records/patient-specimens/patient-specimens.component';
 import { AdminModule } from '../admin/admin.module';
+import { PopupExaminationDetailComponent } from './patient-records/patient-payment-tab/popup-examination-detail/popup-examination-detail.component';
+import { ReceptionistModule } from '../receptionist/receptionist.module';
 @NgModule({
   declarations: [
       // PatientManagementComponent,

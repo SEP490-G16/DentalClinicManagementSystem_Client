@@ -21,11 +21,11 @@ export interface TreatmentCourseDetail {
 export interface Examination {
   treatment_course_id: string,
   diagnosis: any,
-  xRayImage: any,
   created_date: string,
   facility_id: string,
   description: any,
   staff_id: string,
-  xRayImageDes: any,
+  'x-ray-image': any,
+  'x-ray-image-des': any,
   medicine: any
 }

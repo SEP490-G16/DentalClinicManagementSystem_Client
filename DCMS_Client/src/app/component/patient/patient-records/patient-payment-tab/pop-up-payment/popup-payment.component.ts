@@ -8,13 +8,14 @@ import { CognitoService } from 'src/app/service/cognito.service';
 import * as moment from 'moment-timezone';
 import 'moment/locale/vi';
 import { PaidMaterialUsageService } from 'src/app/service/PatientService/patientPayment.service';
+
 @Component({
   selector: 'app-popup-payment-tab',
   templateUrl: './popup-payment.component.html',
   styleUrls: ['./popup-payment.component.css']
 })
 export class PopupPaymentComponent implements OnInit, OnChanges {
-  @Input() MaterialUsage: any
+  @Input() MaterialUsage!:MaterialUsage [];
   @Input() TreatmentCourse: any
   @Input() Patient: any
 
@@ -44,10 +45,11 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
       return dateB - dateA;
     })
     console.log("Material Usage Sort: ", this.MaterialUsage);
-    this.totalPaid = this.MaterialUsage.reduce((acc:any, mu:any) => acc + (Number(mu.mu_total_paid) || 0), 0);
-    this.total = this.MaterialUsage.reduce((acc:any, mu:any) => acc + (Number(mu.mu_total) || 0), 0);
+    this.totalPaid = this.MaterialUsage.reduce((acc: any, mu: any) => acc + (Number(mu.mu_total_paid) || 0), 0);
+    this.total = this.MaterialUsage.reduce((acc: any, mu: any) => acc + (Number(mu.mu_total) || 0), 0);
     this.remaining = this.total - this.totalPaid;
 
+    console.log("Body Paid MU: ", this.Body_Paid_MU);
     console.log("Total Paid: ", this.totalPaid);
     console.log("Total: ", this.total);
     console.log("Remaining: ", this.remaining);
@@ -61,13 +63,20 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
   }
 
   postPayment() {
-    this.paidMaterialUsageService.postPaidMaterialUsage(this.MaterialUsage)
-    .subscribe((res:any) => {
-      this.toastr.success(res.message, "Thanh toán thành công!")
-    },
-    (err) => {
-      this.toastr.error(err.error.message, "Thanh toán thất bại!")
-    })
+    console.log("Material Usage: ", this.MaterialUsage)
+    this.Body_Paid_MU = this.MaterialUsage.map(mu => ({
+      material_usage_id: mu.mu_material_usage_id,
+      examination_id: mu.mu_examination_id,
+      total_paid: mu.tempPaidAmount || 0
+    }));
+    console.log("Body_Paid_Mu: " , this.Body_Paid_MU);
+    this.paidMaterialUsageService.postPaidMaterialUsage(this.Body_Paid_MU)
+      .subscribe((res: any) => {
+        this.toastr.success(res.message, "Thanh toán thành công!")
+      },
+        (err) => {
+          this.toastr.error(err.error.message, "Thanh toán thất bại!")
+        })
   }
 
   close() {
@@ -80,19 +89,21 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
 
 }
 
-// interface MaterialUsage {
-//   created_date: string;
-//   description: string;
-//   examination_id: string;
-//   material_usage_id: string;
-//   material_warehouse_id: string;
-//   price: number;
-//   quantity: number;
-//   status: number;
-//   total: number;
-//   total_paid: number;
-//   treatment_course_id: string;
-// }
+interface MaterialUsage {
+  created_date: string;
+  description: string;
+  mu_examination_id: string;
+  mu_material_usage_id: string;
+  mu_medical_procedure_id:string,
+  material_warehouse_id: string;
+  mu_price: number;
+  mu_quantity: number;
+  mu_status: number;
+  mu_total: number;
+  mu_total_paid: number;
+  treatment_course_id: string;
+  tempPaidAmount?: number;
+}
 
 interface Paid_material_usage {
   material_usage_id: string,

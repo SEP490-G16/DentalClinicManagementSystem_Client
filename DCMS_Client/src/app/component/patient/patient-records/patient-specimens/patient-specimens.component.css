@@ -250,3 +250,11 @@ button:active{
   display: block;
 }
 
+.no-appointment-message {
+  text-align: center; /* Centers the text */
+  color: #6c757d; /* Bootstrap's default secondary text color for a muted look */
+  margin-top: 2rem; /* Adds some space at the top */
+  margin-bottom: 2rem; /* Adds some space at the bottom */
+  font-size: 1rem; /* Sets the font size */
+  font-style: italic; /* Italicize the font to indicate a different status from regular content */
+}

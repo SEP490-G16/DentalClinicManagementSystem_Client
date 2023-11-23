@@ -1,0 +1,98 @@
+.modal-header {
+  background-color: #5e2750;
+  color: #ffffff;
+  border-bottom: 1px solid #4e3d67;
+  padding: 15px;
+}
+
+.modal-title {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.modal-body {
+  padding: 15px;
+  background-color: #f2eaf9;
+  color: #503250;
+}
+
+.modal-body p {
+  padding: 5px 0;
+  border-bottom: 1px solid #eaddf6;
+}
+
+.modal-body p:last-child {
+  border-bottom: none;
+}
+
+.modal-footer {
+  padding: 10px 15px;
+  background-color: #f2eaf9;
+  border-top: 1px solid #eaddf6;
+}
+
+.row div[class^="col-"] p {
+  padding: 0.25rem 0; /* Adds vertical padding for better spacing */
+}
+
+/* Bold text for emphasis */
+b {
+  font-weight: bold;
+}
+
+/* For the Payment Type, which seems to be empty in your screenshot */
+.payment-type p {
+  min-height: 1em; /* Ensures that the row doesn't collapse if empty */
+}
+
+/* Adjusts the layout slightly for smaller screens */
+@media (max-width: 768px) {
+  .row div[class^="col-"] p {
+    padding: 0.25rem; /* Adds padding on smaller screens for better touch targets */
+  }
+}
+
+/* This class is for the column that holds the payment type */
+.col-payment-type {
+  text-align: right; /* Aligns the payment type to the right */
+}
+
+/* Additional styling for the header */
+.header-header {
+  margin-bottom: 1rem; /* Adds a little space below the header */
+  color: #4a4a4a; /* Adjust the color for better contrast */
+}
+
+.btn-secondary {
+  background: linear-gradient(145deg, #a571e5, #8e4ccf);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-secondary:hover, .btn-secondary:focus {
+  background: linear-gradient(145deg, #8e4ccf, #7a3db8);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.close {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: #f8f8f8;
+  opacity: 0.7;
+  padding: 0;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.close:hover, .close:focus {
+  color: #ffffff;
+  opacity: 1;
+  text-decoration: none;
+}

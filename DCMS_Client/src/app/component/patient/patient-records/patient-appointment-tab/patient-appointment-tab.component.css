@@ -123,60 +123,6 @@ a {
   color: var(--custom-color-primary);
 }
 
-.table-container {
-  overflow-x: auto; /* Cho phép cuộn ngang nếu bảng rộng hơn container */
-  overflow-y: auto; /* Cho phép cuộn dọc nếu bảng cao hơn container */
-  max-height: 500px; /* Hoặc bất kỳ giá trị nào phù hợp với design của bạn */
-}
-
-table {
-  width: 100%; /* Bảng sẽ chiếm đủ chiều rộng của container */
-  border-collapse: collapse; /* Loại bỏ khoảng cách giữa các ô */
-  background-color: #fff; /* Màu nền cho bảng, nếu cần */
-}
-
-thead {
-  background-color: #f2f2f2; /* Màu nền cho header của bảng */
-}
-
-th, td {
-  padding: 8px; /* Thêm padding cho các ô */
-  text-align: left; /* Căn chỉnh văn bản bên trái */
-  border-bottom: 1px solid #ddd; /* Đường kẻ ngăn cách các hàng */
-}
-
-tr:hover {background-color: #f5f5f5;} /* Màu nền khi hover vào hàng */
-
-th {
-  height: 50px; /* Cố định chiều cao cho header */
-  text-align: center; /* Căn giữa nội dung trong header */
-}
-
-.sticky-thead th {
-  position: sticky; /* Tiêu đề bảng cố định khi cuộn */
-  top: 0; /* Đặt tiêu đề bảng ở đầu trang */
-  background-color: #f8f9fa; /* Màu nền cho tiêu đề */
-  border-top: 1px solid #dee2e6; /* Đường viền trên cho tiêu đề */
-  z-index: 2; /* Đảm bảo tiêu đề ở trên các hàng khác khi cuộn */
-}
-
-.btn {
-  background-color: #007bff; /* Màu nền cho nút */
-  color: white; /* Màu chữ cho nút */
-  border: none; /* Không viền cho nút */
-  padding: 0.375rem 0.75rem; /* Khoảng cách xung quanh nội dung nút */
-  border-radius: 0.25rem; /* Bo tròn góc nút */
-  cursor: pointer; /* Con trỏ chuột thay đổi khi di chuyển lên nút */
-}
-
-.btn:hover {
-  background-color: #0056b3; /* Màu nền cho nút khi hover */
-}
-
-.bi-pencil-square {
-  font-size: 1rem; /* Kích thước biểu tượng chỉnh sửa */
-}
-
 
 @media screen and (max-width: 1200px) {
 
@@ -233,24 +179,86 @@ button:active{
   box-shadow: 0px -1px -1px #fff;
 }
 
-.button-timekeeping{
-  font-family: "Poppins", sans-serif;
-  background: #FEDDCC;
-  text-align: center;
+.table-container {
+  margin-top: 10px;
+  overflow-x: auto; /* Adds horizontal scrolling if the table is too wide */
+  border-collapse: collapse; /* Removes gaps between cells */
+}
+
+.table-container table {
+  width: 100%; /* Full width */
+  border-collapse: collapse; /* Removes gaps between cells */
+  table-layout: fixed; /* Ensures the table layout is fixed */
+}
+
+.table-container th, .table-container td {
+  text-align: left; /* Aligns text to the left */
+  padding: 10px; /* Adds padding for spacing */
+  border-bottom: 1px solid #ddd; /* Adds a bottom border to each cell */
+  width: 7.69%; /* Sets each column to have an equal width */
+}
+
+/* Header styles */
+.sticky-thead th {
+  background-color: #7B4C50; /* Green background for headers */
+  color: white; /* White text for headers */
+  position: sticky;
+  top: 0;
+}
+
+/* Zebra striping for rows */
+.table-container tbody tr:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+
+.table-container tbody tr:hover {
+  background-color: #ddd; /* Changes background on hover */
+}
+
+/* Button styles */
+.btn-primary {
+  background-color: #1B9C85; /* Blue */
+}
+
+.btn-danger {
+  background-color: #dc3545; /* Red */
+}
+
+/* Tooltip styling */
+[data-bs-toggle="tooltip"] {
+  position: relative;
   cursor: pointer;
-  border: 0px solid white;
-  color: #000;
-  border-radius: 55px;
-  /*font-size: 24px;*/
-  outline: 0px;
-  padding: 10px 20px;
-  margin-bottom: 15px;
-/* box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset; */
 }
-button:hover{
-  opacity: 0.9;
+
+[data-bs-toggle="tooltip"]:after {
+  content: attr(title);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  background-color: black;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  display: none;
+  z-index: 1;
 }
-button:active{
-  transform: translateY(4px);
-  box-shadow: 0px -1px -1px #fff;
+
+[data-bs-toggle="tooltip"]:hover:after {
+  display: block;
+}
+
+
+.bi-pencil-square {
+  font-size: 1rem;
+}
+.no-appointment-message {
+  text-align: center; /* Centers the text */
+  color: #6c757d; /* Bootstrap's default secondary text color for a muted look */
+  margin-top: 2rem; /* Adds some space at the top */
+  margin-bottom: 2rem; /* Adds some space at the bottom */
+  font-size: 1rem; /* Sets the font size */
+  font-style: italic; /* Italicize the font to indicate a different status from regular content */
 }

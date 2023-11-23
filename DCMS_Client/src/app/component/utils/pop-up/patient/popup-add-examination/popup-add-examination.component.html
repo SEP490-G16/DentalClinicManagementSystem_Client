@@ -13,7 +13,10 @@
               điều
               trị</a></li>
           <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
-              (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Lịch hẹn</a>
+              (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Mẫu vật</a>
+          </li>
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
+              (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Mẫu vật</a>
           </li>
           <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
               (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
@@ -28,7 +31,8 @@
     <div class="tab-pane" id="KvDTtab">
       <div class="KvDTtab-container mt-3">
         <h2>Khám tổng quát</h2>
-        <div class="row content-child">
+        <div class="row content-child" style="padding-top: 10px;
+        padding-right: 80px;">
           <div class="col-md-4">
             <div class="form-group mb-3">
               <label for="">Bác sĩ khám và điều trị:</label>
@@ -78,13 +82,13 @@
                         text-align: justify;
                         border: 1px solid #000;
                         height: 100px;
-                        " [(ngModel)]="examination.description"></textarea>
+                        " [(ngModel)]="examination.diagnosis"></textarea>
           </div>
           <div class="col content-child">
             <textarea style="width: 100%;
                         text-align: justify;
                         height: 100px;
-                        border: 1px solid #000;" [(ngModel)]="examination.diagnosis"></textarea>
+                        border: 1px solid #000;" [(ngModel)]="examination.medicine"></textarea>
           </div>
         </div>
 
@@ -109,11 +113,38 @@
           </div>
           <div class="col-md-8">
             <textarea class="form-control" style="border: 1px solid #000;
-                    height: 100%;" [(ngModel)]="examination.xRayImageDes"
+                    height: 100%;" [(ngModel)]="examination['x-ray-image-des']"
               placeholder="Nhận xét về ảnh x-quang(nếu có ảnh)"></textarea>
           </div>
         </div>
 
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="submissionModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="submissionModalLabel">Chọn ảnh</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="mb-3">
+                  <label for="submission-files" class="form-label">Chọn file</label>
+                  <input class="form-control" type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput
+                    multiple id="submission-files">
+                </div>
+                <div class="mb-3">
+                  <label for="link-submission" class="form-label" [(ngModel)]="imageLink">Link</label>
+                  <input type="text" class="form-control" id="link-submission" required>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="addImageUrl()">Hoàn
+                  thành</button>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div class="row mt-3">
           <div class="col-md-12">
@@ -136,7 +167,7 @@
                       <th>Tên thủ thuật</th>
                       <th>Đơn giá</th>
                       <th>Thành tiền</th>
-                      <th class="action-column">Thao tác</th>
+                      <th class="action-column text-center">Thao tác</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -160,7 +191,8 @@
                       <td><input [(ngModel)]="row.price" type="number" min="0" class="form-control" /></td>
                       <td><input [(ngModel)]="row.total_paid" type="number" min="0" class="form-control" /></td>
                       <td>
-                        <i class="bi bi-trash" style="cursor: pointer;" (click)="removeRow(i, 100)"></i>
+                        <i class="bi bi-trash d-block w-100 text-center" style="cursor: pointer;"
+                          (click)="removeRow(i, 100)"></i>
                       </td>
                     </tr>
                   </tbody>
@@ -194,7 +226,7 @@
                       <th>Thành tiền</th>
                       <th>Ngày dùng</th>
                       <th>Người thêm</th>
-                      <th class="action-column">Thao tác</th>
+                      <th class="action-column text-center">Thao tác</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -216,7 +248,8 @@
                       <td><input [(ngModel)]="row.usage_date" type="text" class="form-control" /></td>
                       <td><input [(ngModel)]="row.adder" type="text" class="form-control" /></td>
                       <td>
-                        <i class="bi bi-trash" style="cursor: pointer;" (click)="removeRow(i, 1)"></i>
+                        <i class="bi bi-trash d-block w-100 text-center" style="cursor: pointer;"
+                          (click)="removeRow(i, 1)"></i>
                       </td>
                     </tr>
                   </tbody>
@@ -226,43 +259,12 @@
           </div>
           <div class="save float-end" style="padding: 10px 0px;">
             <button class="btn button-timekeeping" style="margin-right: 30px;" (click)="postExamination()">Lưu</button>
-            <button class="btn button-timekeeping" (click)="postExamination()">Preview</button>
+            <button class="btn button-timekeeping" (click)="test()">Preview</button>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="submissionModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="submissionModalLabel">Chọn ảnh</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="mb-3">
-          <label for="submission-files" class="form-label">Chọn file</label>
-          <input class="form-control" type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput multiple
-            id="submission-files">
-        </div>
-        <div class="mb-3">
-          <label for="link-submission" class="form-label" [(ngModel)]="imageLink">Link</label>
-          <input type="text" class="form-control" id="link-submission" required>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="addImageUrl()">Hoàn
-          thành</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="center">
-  <button (click)="showNaviPopup(1)">Open Popup 1</button>
 </div>
 
 <div class="popup center" [class.active]="isPopup1Visible">
@@ -273,12 +275,12 @@
     Thêm lần khám thành công!!
   </div>
   <div class="description">
-      Bạn muốn đến xem màn hình <b>Danh sách Lịch hẹn</b> khám hay muốn đến
-      <b>Thanh toán bệnh nhân</b>
+    Bạn muốn đến xem màn hình <b>Danh sách Lịch hẹn</b> khám hay muốn đến
+    <b>Thanh toán bệnh nhân</b>
   </div>
   <div class="dismiss-btn">
-    <button class="button-custom" (click)="goAppointment(1)">Thanh toán</button>
-    <button class="button-custom" (click)="goPayment(1)">Lịch hẹn</button>
+    <button class="button-custom" (click)="goAppointment(1)">Lịch hẹn</button>
+    <button class="button-custom" (click)="goPayment(1)">Thanh toán</button>
+    <button class="button-custom" (click)="isPopup1Visible = false">Hủy</button>
   </div>
 </div>
-

@@ -7,9 +7,11 @@ import { CognitoService } from 'src/app/service/cognito.service';
 import * as moment from 'moment-timezone';
 import 'moment/locale/vi';
 import { ConvertJson } from 'src/app/service/Lib/ConvertJson';
-import { RootObject } from 'src/app/model/IAppointment';
+import { ISelectedAppointment, RootObject } from 'src/app/model/IAppointment';
 import { CommonService } from 'src/app/service/commonMethod/common.service';
-import {ResponseHandler} from "../../../utils/libs/ResponseHandler";
+import { ResponseHandler } from "../../../utils/libs/ResponseHandler";
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { IPatient } from 'src/app/model/IPatient';
 @Component({
   selector: 'app-patient-appointment-tab',
   templateUrl: './patient-appointment-tab.component.html',
@@ -17,30 +19,33 @@ import {ResponseHandler} from "../../../utils/libs/ResponseHandler";
 })
 export class PatientAppointmentTabComponent implements OnInit {
   id: string = "";
-
-  startDate: any;
-  endDate: string = "2023-12-31";
-  startDateTimestamp: number = 0;
   endDateTimestamp: number = 0;
-  appointmentList: RootObject[] = [];
-  currentDateTimestamp:number = 0;
+  currentDateTimestamp: number = 0;
+  Patient: IPatient = {} as IPatient;
   patientAppointments: any;
+  dateString: any;
+  timeString: any;
+  selectedAppointment: ISelectedAppointment;
+  dateDis = { date: 0, procedure: '', count: 0, }
+  model!: NgbDateStruct;
+  appointmentList: RootObject[] = [];
+  datesDisabled: any[] = [];
+  listDate: any[] = [];
   roleId: string[] = [];
-
   constructor(
     private APPOINTMENT_SERVICE: ReceptionistAppointmentService,
     private patientService: PatientService,
     private route: ActivatedRoute,
     private cognitoService: CognitoService,
-    private commonService:CommonService,
+    private commonService: CommonService,
     private router: Router,
     private toastr: ToastrService) {
 
-      const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
-      this.currentDateTimestamp = this.dateToTimestamp2(currentDateGMT7);
-      console.log("Hum nay: ", this.currentDateTimestamp);
-    // Set date time hiện tại
-    this.endDateTimestamp = this.dateToTimestamp(this.endDate);
+    const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
+    this.currentDateTimestamp = this.dateToTimestamp2(currentDateGMT7);
+    console.log("Hum nay: ", this.currentDateTimestamp);
+    this.endDateTimestamp = this.dateToTimestamp("2023-12-31");
+    this.selectedAppointment = {} as ISelectedAppointment
   }
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
@@ -51,15 +56,10 @@ export class PatientAppointmentTabComponent implements OnInit {
     }
   }
 
-  navigateHref(href: string) {
-    this.commonService.navigateHref(href, this.id);
-   }
-
   getAppointment() {
     this.APPOINTMENT_SERVICE.getAppointmentList(1696925134, this.endDateTimestamp).subscribe(data => {
       this.appointmentList = ConvertJson.processApiResponse(data);
       console.log("Appointment List: ", this.appointmentList);
-
       this.patientAppointments = this.appointmentList.filter(appointment =>
         appointment.appointments.some(app =>
           app.details.some(detail =>
@@ -67,26 +67,56 @@ export class PatientAppointmentTabComponent implements OnInit {
           )
         )
       );
-      this.patientAppointments.sort((a:any, b:any) => b.date - a.date);
+      this.patientAppointments.sort((a: any, b: any) => b.date - a.date);
+      this.appointmentDateInvalid();
     },
       error => {
-        ResponseHandler.HANDLE_HTTP_STATUS(this.APPOINTMENT_SERVICE.apiUrl+"/appointment/"+1696925134+"/"+this.endDateTimestamp, error);
+        ResponseHandler.HANDLE_HTTP_STATUS(this.APPOINTMENT_SERVICE.apiUrl + "/appointment/" + 1696925134 + "/" + this.endDateTimestamp, error);
       }
-      );
+    );
   }
 
-  EditAppointmentPatient: any
-  dateString: string = "";
-  timeString: string = "";
+  appointmentDateInvalid() {
+    var today = new Date();
+    var date = today.getFullYear() + ' - ' + (today.getMonth() + 1) + ' - ' + today.getDate();
+    var time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
+    var dateTime = date + ' ' + "00:00:00";
+    var startTime = this.dateToTimestamp(dateTime);
+    var endTime = this.dateToTimestamp(today.getFullYear() + ' - ' + (today.getMonth() + 1) + ' - ' + (today.getDate() + 4) + ' ' + "23:59:59");
+    this.APPOINTMENT_SERVICE.getAppointmentList(startTime, endTime).subscribe(data => {
+      this.listDate = ConvertJson.processApiResponse(data);
+      this.listDate.forEach((a: any) => {
+        a.appointments.forEach((b: any) => {
+          this.dateDis.date = a.date;
+          this.dateDis.procedure = b.procedure_id;
+          this.dateDis.count = b.count;
+          this.datesDisabled.push(this.dateDis);
+          this.dateDis = {
+            date: 0,
+            procedure: '',
+            count: 0,
+          }
+        })
+      })
+    },
+      error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.APPOINTMENT_SERVICE.apiUrl + "/appointment/" + startTime + "/" + endTime, error);
+      })
+  }
+  setPatient() {
+    this.Patient.patient_id = this.id;
+    this.Patient.patient_name = this.patientAppointments[0].appointments[0].details[0].patient_name;
+    this.Patient.phone_number = this.patientAppointments[0].appointments[0].details[0].phone_number;
+  }
   editAppointment(detail: any, dateTimestamp: any) {
-    this.EditAppointmentPatient = detail;
     this.dateString = this.convertTimestampToDateString(dateTimestamp);
-    console.log("DateString: ", this.dateString);
     this.timeString = this.timestampToGMT7String(detail.time);
+    console.log("DateString: ", this.dateString);
     console.log("TimeString: ", this.timeString);
+    this.selectedAppointment = detail;
   }
 
-  deleteAppointment(detail:any,  dateTimestamp:any) {
+  deleteAppointment(detail: any, dateTimestamp: any) {
 
   }
 
@@ -127,4 +157,7 @@ export class PatientAppointmentTabComponent implements OnInit {
     return dateTimeString;
   }
 
+  navigateHref(href: string) {
+    this.commonService.navigateHref(href, this.id);
+  }
 }

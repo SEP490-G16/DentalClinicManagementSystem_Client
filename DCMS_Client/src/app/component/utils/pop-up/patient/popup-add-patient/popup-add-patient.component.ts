@@ -33,12 +33,13 @@ export class PopupAddPatientComponent implements OnInit {
   patientBody: any = {
     patient_name: '',
     email: '',
-    gender: 1,
+    gender:"",
     phone_number: '',
     address: '',
     full_medical_history: '',
     dental_medical_history: '',
-    date_of_birth: ''
+    date_of_birth: '',
+    description:''
   }
   ngOnInit(): void {
   }
@@ -52,6 +53,7 @@ export class PopupAddPatientComponent implements OnInit {
       this.validatePatient.email = "Email không hợp lệ!";
       this.isSubmitted = true;
     }
+
     if (!this.patient1.Gender) {
       this.validatePatient.gender = "Vui lòng chọn giới tính!";
       this.isSubmitted = true;
@@ -75,12 +77,23 @@ export class PopupAddPatientComponent implements OnInit {
     if (this.isSubmitted) {
       return;
     }
+    this.patientBody = {
+      patient_id: null,
+      patient_name: this.patient1.patientName,
+      email: this.patient1.Email,
+      gender: this.patient1.Gender.toString(),
+      phone_number: this.patient1.phone_Number,
+      address: this.patient1.Address,
+      full_medical_history: this.patient1.full_medical_History,
+      dental_medical_history: this.patient1.dental_medical_History,
+      date_of_birth: this.patient1.dob
+    }
     if (this.patient1.phone_Number && this.patient1.phone_Number.length === 9) {
       this.patientBody = {
         patient_id: null,
         patient_name: this.patient1.patientName,
         email: this.patient1.Email,
-        gender: Number(this.patient1.Gender),
+        gender: this.patient1.Gender.toString(),
         phone_number: '+84' + this.patient1.phone_Number,
         address: this.patient1.Address,
         full_medical_history: this.patient1.full_medical_History,
@@ -93,7 +106,7 @@ export class PopupAddPatientComponent implements OnInit {
         patient_id: null,
         patient_name: this.patient1.patientName,
         email: this.patient1.Email,
-        gender: Number(this.patient1.Gender),
+        gender: this.patient1.Gender.toString(),
         phone_number: '+84' + this.patient1.phone_Number.substring(1),
         address: this.patient1.Address,
         full_medical_history: this.patient1.full_medical_History,
@@ -118,10 +131,8 @@ export class PopupAddPatientComponent implements OnInit {
         this.patientBody.isNew = false;
       }, 2000);
       console.log(this.searchPatientsList);
-      window.location.reload();
 
     }, error => {
-      //this.toastr.error('Thêm mới bệnh nhân thất bại!');
       ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test + "/patient", error);
     })
   }

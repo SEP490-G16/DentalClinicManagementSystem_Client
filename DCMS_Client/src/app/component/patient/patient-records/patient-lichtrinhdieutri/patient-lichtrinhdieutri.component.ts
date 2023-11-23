@@ -1,25 +1,24 @@
 import { TreatmentCourseDetailService } from './../../../../service/ITreatmentCourseDetail/treatmentcoureDetail.service';
-import { ITreatmentCourse } from './../../../../model/ITreatment-Course';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/TreatmentCourse.service';
 import { CognitoService } from 'src/app/service/cognito.service';
-import { treatementCourseDSService } from './../../../../service/Data-Sharing/Treatment-Course-Detail.service';
-import { ITreatmentCourseDetail, TreatmentCourseDetail } from 'src/app/model/ITreatmentCourseDetail';
 import { CommonService } from 'src/app/service/commonMethod/common.service';
-import {ResponseHandler} from "../../../utils/libs/ResponseHandler";
+import { ResponseHandler } from "../../../utils/libs/ResponseHandler";
 @Component({
   selector: 'app-patient-lichtrinhdieutri',
   templateUrl: './patient-lichtrinhdieutri.component.html',
   styleUrls: ['./patient-lichtrinhdieutri.component.css']
 })
 export class PatientLichtrinhdieutriComponent implements OnInit {
+  loading: boolean = false;
+
   id: string = "";
   examinations: any;
-  ITreatmentCourse: any;
+  ITreatmentCourse: any[] = [];
+  collapsedStates: { [key: string]: boolean } = {};
   roleId: string[] = []
-
   constructor(
     private cognitoService: CognitoService, private router: Router,
     private route: ActivatedRoute,
@@ -44,36 +43,43 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
 
 
   getTreatmentCourse() {
+    this.loading = true;
     this.treatmentCourseService.getTreatmentCourse(this.id)
       .subscribe((data) => {
-        console.log("Treatment course: ", data);
         this.ITreatmentCourse = data;
-        console.log("Data nhan", this.ITreatmentCourse)
+        console.log("Treatment course: ", this.ITreatmentCourse);
+        this.ITreatmentCourse.forEach((course: any) => {
+          this.collapsedStates[course.treatment_course_id] = true; // Khởi tạo trạng thái collapsed
+        });
         this.ITreatmentCourse.sort((a: any, b: any) => {
           const dateA = new Date(a.created_date).getTime();
           const dateB = new Date(b.created_date).getTime();
           return dateB - dateA;
         });
+        this.loading = false;
       },
         error => {
-          ResponseHandler.HANDLE_HTTP_STATUS(this.treatmentCourseService.apiUrl+"/treatment-course/patient-id/"+this.id, error);
+          this.loading = false;
+          ResponseHandler.HANDLE_HTTP_STATUS(this.treatmentCourseService.apiUrl + "/treatment-course/patient-id/" + this.id, error);
         }
       )
   }
 
-  getExamination(courseId: string) {
-    if (this.ITreatmentCourse.length > 0) {
-      this.TreatmentCourseDetailService.getTreatmentCourseDetail(courseId)
-        .subscribe(data => {
-          console.log("Examination: ", data.data);
-          this.examinations = data.data;
-          console.log("Data nhan", this.examinations);
-        },
-          error => {
-            ResponseHandler.HANDLE_HTTP_STATUS(this.TreatmentCourseDetailService.apiUrl+"/examination/treatment-course/"+courseId, error);
-          }
-          )
+  toggleStates: { [key: string]: boolean } = {};
+  toggleCollapse(courseId: string) {
+    if (this.toggleStates[courseId] === undefined) {
+      this.toggleStates[courseId] = false;
     }
+
+    this.toggleStates[courseId] = !this.toggleStates[courseId];
+    this.TreatmentCourseDetailService.getTreatmentCourseDetail(courseId).subscribe(
+      data => {
+        this.examinations = data.data;
+        console.log(this.examinations);
+      },
+      error => {
+      }
+    );
   }
 
   TreatmentCourse: any;
@@ -88,11 +94,17 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
       this.treatmentCourseService.deleteTreatmentCourse(treatment_course_id)
         .subscribe((res) => {
           this.toastr.success(res.message, 'Xóa liệu trình thành công');
-          window.location.reload();
+
+          const index = this.ITreatmentCourse.findIndex((ex: any) => ex.treatment_course_id === treatment_course_id);
+          if (index !== -1) {
+            this.ITreatmentCourse.splice(index, 1);
+          }
+          this.loading = false;
+
         },
           (error) => {
             //this.toastr.error(err.error.message, 'Xóa liệu trình thất bại');
-            ResponseHandler.HANDLE_HTTP_STATUS(this.treatmentCourseService.apiUrl+"/treatment-course/"+treatment_course_id, error);
+            ResponseHandler.HANDLE_HTTP_STATUS(this.treatmentCourseService.apiUrl + "/treatment-course/" + treatment_course_id, error);
           }
         )
     }
@@ -104,21 +116,22 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
       this.TreatmentCourseDetailService.deleteExamination(examination_id)
         .subscribe(() => {
           this.toastr.success('Xóa Lần khám thành công!');
-          window.location.reload();
+
+          const index = this.examinations.findIndex((ex: any) => ex.examination_id === examination_id);
+          if (index !== -1) {
+            this.examinations.splice(index, 1);
+          }
+          this.loading = false;
+
         },
           (error) => {
             //this.toastr.error(err.error.message, "Xóa lần khám thất bại!");
-            ResponseHandler.HANDLE_HTTP_STATUS(this.TreatmentCourseDetailService.apiUrl+"/examination/"+examination_id, error);
+            ResponseHandler.HANDLE_HTTP_STATUS(this.TreatmentCourseDetailService.apiUrl + "/examination/" + examination_id, error);
           })
     }
   }
 
   TreatmentCourseDetail: any;
-  navigateTreatmentCourse_Detail(examination: any) {
-    const TreatmentCourseDetail: TreatmentCourseDetail = examination;
-    this.TreatmentCourseDetail = TreatmentCourseDetail;
-    this.router.navigate(['/benhnhan/danhsach/tab/lichtrinhdieutri/' + this.id + '/chitiet/' + examination.examination_id]);
-  }
 
   navigateAddExamination(tcId: string) {
     this.router.navigate(['/benhnhan/danhsach/tab/lichtrinhdieutri/' + this.id + '/themlankham/' + tcId]);

@@ -1,6 +1,5 @@
 import { ConvertTimestamp } from './../../../../service/Lib/ConvertDateToTimestamp';
-import { Patient } from './../../../../model/IPatient';
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { MaterialUsageService } from 'src/app/service/MaterialUsage/MaterialUsageService.component';
@@ -10,9 +9,12 @@ import { CognitoService } from 'src/app/service/cognito.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PopupPaymentComponent } from './pop-up-payment/popup-payment.component';
 import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/TreatmentCourse.service';
-import { ResponseHandler } from "../../../utils/libs/ResponseHandler";
 import * as moment from 'moment';
 import { TreatmentCourseDetailService } from 'src/app/service/ITreatmentCourseDetail/treatmentcoureDetail.service';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import { PopupExaminationDetailComponent } from './popup-examination-detail/popup-examination-detail.component';
+
 @Component({
   selector: 'app-patient-payment-tab',
   templateUrl: './patient-payment-tab.component.html',
@@ -20,10 +22,11 @@ import { TreatmentCourseDetailService } from 'src/app/service/ITreatmentCourseDe
 })
 export class PatientPaymentTabComponent implements OnInit {
   Patient_Id: string = "";
+  currentDate: string = "";
+  showDetails: { [key: string]: boolean } = {};
   Material_Usage_Report: any[] = [];
   showDetails: boolean = false;
   roleId: string[] = []
-
   constructor(
     private patientService: PatientService,
     private route: ActivatedRoute,
@@ -34,13 +37,15 @@ export class PatientPaymentTabComponent implements OnInit {
     private paidMaterialUsage: PaidMaterialUsageService,
     private materialUsageService: MaterialUsageService,
     private modalService: NgbModal,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService) {
+    this.currentDate = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
+
+  }
 
   ngOnInit(): void {
     this.Patient_Id = this.route.snapshot.params['id'];
-
-    const startDATE = 1697771019;
-    const currentDATE = ConvertTimestamp.dateToTimestamp(moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD'));
+    const startDATE = 1698827581;
+    const currentDATE = ConvertTimestamp.dateToTimestamp(moment().tz('Asia/Ho_Chi_Minh').add(1, 'days').format('YYYY-MM-DD'));
     console.log("CurrentDate: ", currentDATE);
     this.getMaterialUsageReport(startDATE, currentDATE);
     let ro = sessionStorage.getItem('role');
@@ -49,16 +54,18 @@ export class PatientPaymentTabComponent implements OnInit {
     }
   }
 
+
+
   getMaterialUsageReport(startDATE: number, endDATE: number) {
     this.materialUsageService.getMaterialUsageReport(startDATE, endDATE)
       .subscribe((res: any) => {
-        console.log("Material usage Report: ", res.data);
+        console.log("Data: ", res.data);
         this.Material_Usage_Report
           = res.data.filter((el: any) => el.p_data.p_patient_id === this.Patient_Id);
         console.log("Filter Material Report: ", this.Material_Usage_Report);
 
         // Group by treatment course ID
-        const groupedReport = res.data.reduce((acc: { [key: string]: Report }, current: Report) => {
+        const groupedReport = this.Material_Usage_Report.reduce((acc: { [key: string]: Report }, current: Report) => {
           const tcId = current.tc_data.tc_treatment_course_id;
           if (!acc[tcId]) {
             acc[tcId] = { ...current, mu_data: [] };
@@ -67,10 +74,8 @@ export class PatientPaymentTabComponent implements OnInit {
           return acc;
         }, {});
 
-        // Convert the grouped object back to array
         this.Material_Usage_Report = Object.values(groupedReport);
 
-        // calculate the totals for each grouped entry
         this.Material_Usage_Report.forEach(report => {
           report.total = this.calculateTotal(report.mu_data);
           report.totalPaid = this.calculateTotalPaid(report.mu_data);
@@ -100,19 +105,48 @@ export class PatientPaymentTabComponent implements OnInit {
     return Math.abs(value);
   }
 
-
-  toggleDetails(): void {
-    this.showDetails = !this.showDetails;
+  toggleDetails(reportId: string): void {
+    if (this.showDetails[reportId] === undefined) {
+      this.showDetails[reportId] = false;
+    }
+    this.showDetails[reportId] = !this.showDetails[reportId];
   }
 
   thanhtoan(materialUsage: any, treatmentCourse: any, patient: any) {
     const modalRef = this.modalService.open(PopupPaymentComponent, { size: 'xl' });
     modalRef.componentInstance.TreatmentCourse = treatmentCourse;
     modalRef.componentInstance.Patient = patient;
-    modalRef.componentInstance.MaterialUsage = materialUsage
+    modalRef.componentInstance.MaterialUsage = materialUsage;
     modalRef.result.then((result) => {
     }, (reason) => {
 
+    });
+  }
+
+  examinationDetail(materialUsage: any, treatmentCourse: any, patient: any) {
+    const modalRef = this.modalService.open(PopupExaminationDetailComponent, { size: 'xl' });
+    modalRef.componentInstance.TreatmentCourse = treatmentCourse;
+    console.log(treatmentCourse)
+    modalRef.componentInstance.Patient = patient;
+    console.log(patient)
+    modalRef.componentInstance.MaterialUsage = materialUsage;
+    console.log(materialUsage)
+    modalRef.result.then((result) => {
+    }, (reason) => {
+
+    });
+  }
+
+  @ViewChild('pdfContent') pdfContent!: ElementRef;
+  generatePDF() {
+    html2canvas(this.pdfContent.nativeElement).then(canvas => {
+      const contentDataURL = canvas.toDataURL('image/png');
+      let pdf = new jsPDF('p', 'mm', 'a4');
+      var width = pdf.internal.pageSize.getWidth();
+      var height = canvas.height * width / canvas.width;
+      pdf.addImage(contentDataURL, 'PNG', 0, 0, width, height);
+
+      window.open(pdf.output('bloburl'), '_blank');
     });
   }
 

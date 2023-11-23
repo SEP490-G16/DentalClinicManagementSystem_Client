@@ -15,14 +15,9 @@ import { PopupDeletePatientComponent } from '../../utils/pop-up/patient/popup-de
   styleUrls: ['./patient-records.component.css']
 })
 export class PatientRecordsComponent implements OnInit {
+  searchPatientsList: any[] = [];
   currentPage: number = 1;
   hasNextPage: boolean = false;
-  constructor(private patientService: PatientService,
-    private toastr: ToastrService,
-    private router: Router,
-    private cognitoService: CognitoService,
-    private modalService: NgbModal) { }
-  searchPatientsList: any[] = [];
   pagingSearch = {
     paging: 1,
     total: 0
@@ -30,6 +25,11 @@ export class PatientRecordsComponent implements OnInit {
   count: number = 1;
   id: any;
   search: string = '';
+  constructor(private patientService: PatientService,
+    private toastr: ToastrService,
+    private router: Router,
+    private cognitoService: CognitoService,
+    private modalService: NgbModal) { }
   @ViewChild(PopupDeletePatientComponent) popupDeletePatientComponent!: PopupDeletePatientComponent;
   ngOnInit(): void {
     this.loadPage(this.pagingSearch.paging);
@@ -55,10 +55,12 @@ export class PatientRecordsComponent implements OnInit {
       }
     },
       error => {
-        ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test+"/patient/name/"+paging, error);
+        ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test + "/patient/name/" + paging, error);
       }
-      )
+    )
   }
+
+  errorStatus:number = 0;
   searchPatient() {
     console.log(this.search)
     this.patientService.getPatientByName(this.search, this.currentPage).subscribe(patients => {
@@ -74,10 +76,8 @@ export class PatientRecordsComponent implements OnInit {
       }
     }, error => {
        ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test+"/patient/name/"+this.search+"/"+this.pagingSearch.paging, error)
-
-    }
-    )
   }
+
   ngAfterViewInit() {
     this.popupDeletePatientComponent.patientDeleted.subscribe(() => {
       this.loadPage(this.pagingSearch.paging);

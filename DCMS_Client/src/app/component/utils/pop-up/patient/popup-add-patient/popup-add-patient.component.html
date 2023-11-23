@@ -12,13 +12,6 @@
       <div class="modal-body">
         <div class="modal-body">
           <div class="row">
-            <!-- <div class="col-md-3">
-              <div class="image-container" (click)="fileInput.click()">
-              <div class="image-container">
-                <img src="https://th.bing.com/th/id/R.13156d2168f97d5e7b8880c42d0e2380?rik=I0RORQtJ1OVRLg&riu=http%3a%2f%2fcdn.onlinewebfonts.com%2fsvg%2fimg_320438.png&ehk=eE6Y11wS%2bflUtRgFvBllYtM8ZHabQuUa%2b6y8y3G4gQM%3d&risl=&pid=ImgRaw&r=0" alt="Ảnh bệnh nhân">
-                <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput style="display: none;">
-              </div>
-            </div> -->
             <div class="col-md-4">
               <div class="card mb-4 mb-xl-0">
                 <div class="card-body text-center">
@@ -62,17 +55,10 @@
                           <label>Giới tính</label>
                         </div>
                         <div class="mb-6 sep-input-gender">
-                          <input type="radio" [(ngModel)]="patient1.Gender" class="radio m-2" id="male" name="gender"
-                            value="1">
+                          <input type="radio" [(ngModel)]="patient1.Gender" class="radio m-2"[value]="1">
                           <label for="male">Nam</label>
-                          <input type="radio" [(ngModel)]="patient1.Gender" class="radio m-2" id="female" name="gender"
-                            value="0">
+                          <input type="radio" [(ngModel)]="patient1.Gender" class="radio m-2" [value]="0">
                           <label for="female">Nữ</label>
-                        </div>
-                        <div *ngIf="isSubmitted" class="alert-danger-custom">
-                          <p>
-                            {{validatePatient.gender}}
-                          </p>
                         </div>
                       </div>
                     </div>
