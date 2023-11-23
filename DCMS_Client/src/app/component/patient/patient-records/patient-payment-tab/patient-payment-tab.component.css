@@ -296,4 +296,123 @@ button:active {
   margin-bottom: 2rem; /* Adds some space at the bottom */
   font-size: 1rem; /* Sets the font size */
   font-style: italic; /* Italicize the font to indicate a different status from regular content */
+  padding: 60px;
+}
+
+.payment-container {
+  background-color: #f2eaf9;
+  border: 1px solid #dcb1e3;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 15px;
+  transition: all 0.3s ease; /* Smooth transition for any changes */
+}
+
+.payment-header {
+  border-bottom: 2px solid #c580cc;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+  position: relative; /* For positioning the toggle icon if needed */
+}
+
+.schedule-title {
+  color: #5e2750;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.schedule-title:hover {
+  color: #743d68;
+}
+
+.payment-summary {
+  font-size: 0.9em;
+}
+
+.payment-summary span {
+  display: block;
+  margin-bottom: 5px;
+  color: #6c547b;
+}
+
+.total-amount, .discount, .paid-amount, .remaining-amount {
+  color: #6c547b;
+  margin-right: 10px;
+}
+
+.payment-button, .print-button {
+  background-color: #9b51e0;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.payment-button:hover, .print-button:hover {
+  background-color: #8848d1;
+}
+
+.payment-details {
+  display: none; /* Hide by default */
+  border-top: 1px solid #dcb1e3;
+  padding-top: 10px;
+  transition: all 0.3s ease; /* Smooth transition for expanding and collapsing */
+}
+
+.payment-details.active {
+  display: block; /* Show when active */
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.payment-row {
+  background-color: #eaddf6;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease; /* Transition for hover effect */
+}
+
+.payment-row:hover {
+  background-color: #dcb1e3; /* Slightly darker on hover */
+}
+
+.payment-date {
+  color: #503250;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.payment-date:hover {
+  text-decoration: underline;
+  color: #7a497a;
+}
+
+.amount-paid {
+  color: #8a6283;
+  font-weight: bold;
+  float: right;
+}
+
+.print-row {
+  text-align: right;
+  padding-top: 10px;
+}
+
+.payment-row {
+  display: flex; /* Use flexbox to align items in a row */
+  justify-content: space-between; /* Space out content */
+  align-items: center; /* Align items vertically */
+}
+
+.payment-date {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.amount-paid {
+  /* Other styles... */
+  white-space: nowrap; /* Prevent the text from wrapping */
 }

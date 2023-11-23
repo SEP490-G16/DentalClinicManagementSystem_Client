@@ -30,7 +30,7 @@
       <div class="payment-grid-wrapper" *ngIf="Material_Usage_Report.length > 0; else noPaymentRecord">
         <div class="payment-container" *ngFor="let report of Material_Usage_Report">
           <div class="payment-header">
-            <h2 class="schedule-title" (click)="toggleDetails()">Lịch trình: {{report.tc_data.tc_name}}</h2>
+            <h2 class="schedule-title" (click)="toggleDetails(report.tc_data.tc_treatment_course_id)">Lịch trình: {{report.tc_data.tc_name}}</h2>
             <div class="payment-summary">
               <span class="total-amount">Tổng tiền: {{ report.total | currency:'VND'}}</span>
               <span class="discount">Giảm giá:</span>
@@ -40,7 +40,7 @@
                 toán</button>
             </div>
           </div>
-          <div class="payment-details" *ngIf="showDetails">
+          <div class="payment-details" *ngIf="showDetails[report.tc_data.tc_treatment_course_id]" [class.active]="showDetails[report.tc_data.tc_treatment_course_id]">
             <ng-template ngFor let-mu [ngForOf]="report.mu_data">
               <div class="payment-row" *ngIf="mu.mu_total_paid > 0">
                 <span class="payment-date" (click)="examinationDetail(mu, report.tc_data, report.p_data)">Ngày thanh
@@ -49,10 +49,6 @@
                 <span class="amount-paid">Đã thanh toán: {{ mu.mu_total_paid | currency:'VND'}}</span>
               </div>
             </ng-template>
-
-            <!-- <div class="print-row">
-            <button class="print-button" (click)="generatePDF()">In</button>
-          </div> -->
           </div>
         </div>
       </div>

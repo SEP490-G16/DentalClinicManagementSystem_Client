@@ -23,7 +23,7 @@ import { PopupExaminationDetailComponent } from './popup-examination-detail/popu
 export class PatientPaymentTabComponent implements OnInit {
   Patient_Id: string = "";
   currentDate: string = "";
-  showDetails: boolean = false;
+  showDetails: { [key: string]: boolean } = {};
   Material_Usage_Report: any[] = [];
   constructor(
     private patientService: PatientService,
@@ -59,7 +59,7 @@ export class PatientPaymentTabComponent implements OnInit {
         console.log("Filter Material Report: ", this.Material_Usage_Report);
 
         // Group by treatment course ID
-        const groupedReport = res.data.reduce((acc: { [key: string]: Report }, current: Report) => {
+        const groupedReport = this.Material_Usage_Report.reduce((acc: { [key: string]: Report }, current: Report) => {
           const tcId = current.tc_data.tc_treatment_course_id;
           if (!acc[tcId]) {
             acc[tcId] = { ...current, mu_data: [] };
@@ -99,9 +99,11 @@ export class PatientPaymentTabComponent implements OnInit {
     return Math.abs(value);
   }
 
-
-  toggleDetails(): void {
-    this.showDetails = !this.showDetails;
+  toggleDetails(reportId: string): void {
+    if (this.showDetails[reportId] === undefined) {
+      this.showDetails[reportId] = false;
+    }
+    this.showDetails[reportId] = !this.showDetails[reportId];
   }
 
   thanhtoan(materialUsage: any, treatmentCourse: any, patient: any) {
