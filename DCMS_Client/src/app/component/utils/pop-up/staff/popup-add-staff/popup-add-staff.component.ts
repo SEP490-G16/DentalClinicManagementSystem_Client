@@ -88,8 +88,12 @@ export class PopupAddStaffComponent implements OnInit {
       this.vailidateStaff.phone = "Số điện thoại không hợp lệ!";
       this.isSubmitted = true;
     }
-    if (!this.staff.email && !this.isValidEmail(this.staff.email)){
-      this.vailidateStaff.email = "Email không hợp lệ!";
+    if (!this.staff.email){
+      this.vailidateStaff.email = "Vui lòng nhập email!";
+      this.isSubmitted = true;
+    }
+    else if (!this.isValidEmail(this.staff.email)){
+      this.vailidateStaff.email = 'Email không hợp lệ!';
       this.isSubmitted = true;
     }
     if (!this.staff.username){
@@ -129,14 +133,20 @@ export class PopupAddStaffComponent implements OnInit {
     if (this.isSubmitted){
       return;
     }
+    if (this.staff.phone && this.staff.phone.length === 9){
+      this.staff.phone = '+84' + this.staff.phone;
+    }
+    if (this.staff.phone && this.staff.phone.length === 10){
+      this.staff.phone = '+84' +this.staff.phone.substring(1);
+    }
     this.cognitoService.addStaff(this.staff)
       .then((response) => {
-        window.location.reload();
+        //window.location.reload();
         this.showSuccessToast('Thêm nhân viên thành công')
       })
       .catch((error) => {
         // Xử lý khi có lỗi đăng ký
-        this.showSuccessToast('Thêm nhân viên thất bại')
+        this.showErrorToast('Thêm nhân viên thất bại')
       });
   }
 
@@ -247,7 +257,7 @@ export class PopupAddStaffComponent implements OnInit {
     this.showPasswordRepeat = !this.showPasswordRepeat;
   }
   private isVietnamesePhoneNumber(number:string):boolean {
-    return /^(\+84|84)?[1-9]\d{8}$/
+    return /^(\+84|84|0)?[1-9]\d{8}$/
       .test(number);
   }
 
@@ -280,27 +290,28 @@ export class PopupAddStaffComponent implements OnInit {
     return timestamp;
   }
   serviceGroups:any[]=[];
-  services:any[]=[];
-  selectServiceGroup:string='';
-  selectService:string='';
   onChangeRole(role:any){
     if (role == 2){
       this.serviceGroup.getMedicalProcedureGroupList().subscribe(data=>{
-        this.serviceGroups = data.data;
+        this.serviceGroups = data.data.map((s:any)=>({ ...s, checked: false }));
       })
     }
     else {
       this.serviceGroups =[];
-      this.services=[];
+
     }
   }
-
-  onChangeServiceGroup(selectServiceGroup:any){
-    console.log(selectServiceGroup)
-    this.serviceGroup.getMedicalProcedureGroupWithDetailList().subscribe(data=>{
-      console.log("data",data.data);
-      this.services = data.data.filter((item:any)=>item.mg_id === selectServiceGroup);
-      console.log(this.services)
-    })
+  selectedServiceGroupIds: number[] = [];
+  onCheckboxChange(serviceGroup: any) {
+    if (serviceGroup.checked) {
+      // Thêm ID vào mảng nếu checkbox được tích
+      this.selectedServiceGroupIds.push(serviceGroup.medical_procedure_group_id);
+    } else {
+      // Loại bỏ ID khỏi mảng nếu checkbox bị bỏ tích
+      const index = this.selectedServiceGroupIds.indexOf(serviceGroup.medical_procedure_group_id);
+      if (index > -1) {
+        this.selectedServiceGroupIds.splice(index, 1);
+      }
+    }
   }
 }

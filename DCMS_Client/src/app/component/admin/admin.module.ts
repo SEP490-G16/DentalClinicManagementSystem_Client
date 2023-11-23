@@ -63,7 +63,6 @@ import { RevenueChartComponent } from './revenue-chart/revenue-chart.component';
 import { PopupAddReportExpenditureComponent } from '../utils/pop-up/revenue/popup-add-report-expenditure/popup-add-report-expenditure.component';
 import {NgChartsModule} from "ng2-charts";
 import { PopupEditRevenueComponent } from '../utils/pop-up/revenue/popup-edit-revenue/popup-edit-revenue.component';
-
 @NgModule({
   declarations: [
       AdminComponent,
@@ -115,30 +114,30 @@ import { PopupEditRevenueComponent } from '../utils/pop-up/revenue/popup-edit-re
       PopupAddReportExpenditureComponent,
       PopupEditRevenueComponent
   ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    FormsModule,
-    SharedModule,
-    NgbModule,
-    HttpClientModule,
-    ToastrModule.forRoot({
-      preventDuplicates: true,
-      timeOut: 3000,
-      closeButton: true,
-      progressBar: true,
-    }),
-    NgbModule,
-    AdminRoutingModule,
-    NgbModalModule,
-    FlatpickrModule.forRoot(),
-    CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory,
-    }),
-    NgSelectModule,
-    NgChartsModule,
-  ],
+    imports: [
+        CommonModule,
+        RouterModule,
+        FormsModule,
+        SharedModule,
+        NgbModule,
+        HttpClientModule,
+        ToastrModule.forRoot({
+            preventDuplicates: true,
+            timeOut: 3000,
+            closeButton: true,
+            progressBar: true,
+        }),
+        NgbModule,
+        AdminRoutingModule,
+        NgbModalModule,
+        FlatpickrModule.forRoot(),
+        CalendarModule.forRoot({
+            provide: DateAdapter,
+            useFactory: adapterFactory,
+        }),
+        NgSelectModule,
+        NgChartsModule
+    ],
   exports: [
     PopupAddApproveSpecimensComponent,
     PopupAddSpecimensComponent,

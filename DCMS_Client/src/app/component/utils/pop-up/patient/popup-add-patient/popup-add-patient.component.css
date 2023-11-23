@@ -196,7 +196,6 @@
 }
 
 .form-group input.form-control {
-  border: none;
   border-bottom: 1px solid #ccc;
 }
 
@@ -238,7 +237,6 @@
 }
 .form-control, .dataTable-input {
   display: block;
-  width: 100%;
   padding: 0.875rem 1.125rem;
   font-size: 0.875rem;
   font-weight: 400;
@@ -252,4 +250,10 @@
   appearance: none;
   border-radius: 0.35rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.modal-body div p{
+  color: #FF0000FF;
+}
+.custom-input{
+  height: 100%;
 }

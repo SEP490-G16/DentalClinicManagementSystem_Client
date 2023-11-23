@@ -88,6 +88,9 @@ export class PopupEditLaboComponent implements OnInit, OnChanges {
     if (this.isSubmitted){
       return;
     }
+    if (this.PutLabo.phone_number && this.PutLabo.phone_number.length === 9){
+      this.PutLabo.phone_number = '+84' + this.PutLabo.phone_number;
+    }
     // console.log()
     // if (this.hasErrors()) {
     //   this.showErrorToast("Vui lòng kiểm tra và điền đầy đủ thông tin cần thiết.");

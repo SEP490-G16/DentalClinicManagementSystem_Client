@@ -81,3 +81,6 @@
   transform: translateY(40%);
   right: 10px;
 }
+.modal-body div p{
+  color: #FF0000FF;
+}

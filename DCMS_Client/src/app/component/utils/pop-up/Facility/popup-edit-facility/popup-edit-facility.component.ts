@@ -90,29 +90,48 @@ export class PopupEditFacilityComponent implements OnChanges {
       return;
     }
 
+    // if (this.facilityInput.sdtFacility.length >=10 || this.facilityInput.sdtManager.length >=10){
+    //   this.facilityBody = {
+    //     facility_id:'',
+    //     name: this.facilityInput.name,
+    //     address: this.facilityInput.address,
+    //     facility_phone_number:'(+84)'+ this.facilityInput.sdtFacility.substring(1),
+    //     manager_phone_number:'(+84)'+ this.facilityInput.sdtManager.substring(1),
+    //     manager_name:this.facilityInput.managerName
+    //   }
+    // }
+    // else {
+    //   this.facilityBody = {
+    //     facility_id:'',
+    //     name: this.facilityInput.name,
+    //     address: this.facilityInput.address,
+    //     facility_phone_number:'(+84)'+ this.facilityInput.sdtFacility,
+    //     manager_phone_number:'(+84)'+ this.facilityInput.sdtManager,
+    //     manager_name:this.facilityInput.managerName
+    //
+    //   }
+    //
+    // }
+    if (this.facilityInput.sdtFacility.length === 9 || this.facilityInput.sdtManager.length === 9){
+      this.facilityBody = {
+        facility_id: '',
+        name: this.facilityInput.name,
+        address: this.facilityInput.address,
+        facility_phone_number: '(+84)'+this.facilityInput.sdtFacility,
+        manager_phone_number: '(+84)'+this.facilityInput.sdtManager,
+        manager_name: this.facilityInput.managerName
+      }
+    }
     if (this.facilityInput.sdtFacility.length >=10 || this.facilityInput.sdtManager.length >=10){
-      this.facilityBody = {
-        facility_id:'',
-        name: this.facilityInput.name,
-        address: this.facilityInput.address,
-        facility_phone_number:'(+84)'+ this.facilityInput.sdtFacility.substring(1),
-        manager_phone_number:'(+84)'+ this.facilityInput.sdtManager.substring(1),
-        manager_name:this.facilityInput.managerName
+        this.facilityBody = {
+          facility_id:'',
+          name: this.facilityInput.name,
+          address: this.facilityInput.address,
+          facility_phone_number:'(+84)'+ this.facilityInput.sdtFacility.substring(1),
+          manager_phone_number:'(+84)'+ this.facilityInput.sdtManager.substring(1),
+          manager_name:this.facilityInput.managerName
+        }
       }
-    }
-    else {
-      this.facilityBody = {
-        facility_id:'',
-        name: this.facilityInput.name,
-        address: this.facilityInput.address,
-        facility_phone_number:'(+84)'+ this.facilityInput.sdtFacility,
-        manager_phone_number:'(+84)'+ this.facilityInput.sdtManager,
-        manager_name:this.facilityInput.managerName
-
-      }
-    }
-
-
     this.loading = true;
     this.facilityService.updateFacility(this.id, this.facilityBody).subscribe(data=>{
       this.toastr.success('Cập nhật thành công !');
@@ -122,8 +141,8 @@ export class PopupEditFacilityComponent implements OnChanges {
         this.facilityBody.facility_id = this.id;
         const index = this.facilityList.findIndex((facility:any) => facility.facility_id === this.id);
         if (index !== -1) {
-          this.facilityBody.facility_phone_number = this.normalizePhoneNumber(this.facilityInput.sdtFacility);
-          this.facilityBody.manager_phone_number = this.normalizePhoneNumber(this.facilityInput.sdtManager);
+          this.facilityBody.facility_phone_number = this.normalizePhoneNumber(this.facilityBody.facility_phone_number);
+          this.facilityBody.manager_phone_number = this.normalizePhoneNumber(this.facilityBody.facility_phone_number);
           this.facilityList[index] = this.facilityBody;
         }
     },
@@ -149,6 +168,11 @@ export class PopupEditFacilityComponent implements OnChanges {
       .test(number);
   }
   normalizePhoneNumber(phoneNumber: string): string {
-    return phoneNumber.startsWith('(+84)') ? '0' + phoneNumber.slice(5) : phoneNumber;
+    if(phoneNumber.startsWith('(+84)')){
+      return '0'+phoneNumber.slice(5);
+    }else if(phoneNumber.startsWith('+84')){
+      return '0'+phoneNumber.slice(3);
+    }else
+      return phoneNumber;
   }
 }
