@@ -14,7 +14,7 @@
     </div>
     <div class="col-6">
       <select class="form-select input-custom float-end" aria-label="Default select example" [(ngModel)]="procedure"
-        (change)="filterProcedure()">
+        (change)="filterProcedure()" style="width: 40%;">
         <option selected value="0">Tất cả loại điều trị</option>
         <option *ngFor="let a of listGroupService" value={{a.medical_procedure_group_id}}>{{a.name}}</option>
       </select>
@@ -24,22 +24,24 @@
     <table>
       <thead class="sticky-thead">
         <tr>
-          <th>STT</th>
-          <th>Mã bệnh nhân</th>
-          <th>Tên bệnh nhân</th>
-          <th>Lý do khám</th>
-          <th>Loại điều trị</th>
-          <th>Trạng thái</th>
+          <th style="width:100px">STT</th>
+          <th style="width:100px">Thời gian</th>
+          <th style="width:100px">Mã bệnh nhân</th>
+          <th style="width:250px">Tên bệnh nhân</th>
+          <th style="width:300px">Lý do khám</th>
+          <th style="width:200px">Loại điều trị</th>
+          <th style="width:200px">Trạng thái</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let wtr of filteredWaitingRoomData; let i = index">
-          <td>{{ i + 1 }}</td>
-          <td>{{ wtr.patient_id }}</td>
-          <td>{{ wtr.patient_name }}</td>
-          <td class="truncate" data-bs-toggle="tooltip" title="{{wtr.reason}}">{{wtr.reason }}</td>
-          <td>{{ wtr.produce_name }}</td>
-          <td>
+          <td style="width:100px">{{ i + 1 }}</td>
+          <td style="width:100px">{{wtr.date}}</td>
+          <td style="width:100px">{{ wtr.patient_id }}</td>
+          <td style="width:250px">{{ wtr.patient_name }}</td>
+          <td style="width:300px" class="truncate" data-bs-toggle="tooltip" title="{{wtr.reason}}">{{wtr.reason }}</td>
+          <td style="width:200px">{{ wtr.produce_name }}</td>
+          <td style="width:200px">
             <select class="text-center status-selector" [(ngModel)]="wtr.status" (change)="onPutStatus(wtr, wtr.epoch)"
               [ngStyle]="{'color': selectedColor}">
               <option value="1" class="status-option waiting">Đang chờ</option>

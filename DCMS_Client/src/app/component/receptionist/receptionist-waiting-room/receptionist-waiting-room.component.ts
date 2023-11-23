@@ -9,6 +9,7 @@ import { IPostWaitingRoom } from 'src/app/model/IWaitingRoom';
 import { ToastrService } from 'ngx-toastr';
 import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureService/medical-procedure-group.service';
 import { ResponseHandler } from "../../utils/libs/ResponseHandler";
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-receptionist-waiting-room',
@@ -16,11 +17,11 @@ import { ResponseHandler } from "../../utils/libs/ResponseHandler";
   styleUrls: ['./receptionist-waiting-room.component.css']
 })
 export class ReceptionistWaitingRoomComponent implements OnInit {
-
   waitingRoomData: any;
   loading: boolean = false;
   procedure: string = '0';
   listGroupService: any[] = [];
+  listTemp: any[] = [];
   status: string = '1';
   filteredWaitingRoomData: any[] = [];
   listPatientId: any[] = [];
@@ -53,6 +54,9 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
     this.waitingRoomService.getWaitingRooms().subscribe(
       data => {
         this.waitingRoomData = data;
+        this.waitingRoomData.forEach((i: any) => {
+          i.date = this.timestampToTime(i.epoch)
+        });
         const statusOrder: { [key: number]: number } = { 2: 1, 3: 2, 1: 3, 4: 4 };
         this.waitingRoomData.sort((a: any, b: any) => {
           const orderA = statusOrder[a.status] ?? Number.MAX_VALUE; // Fallback if status is not a valid key
@@ -62,7 +66,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
         this.listPatientId = this.waitingRoomData.map((item: any) => item.patient_id);
         localStorage.setItem('listPatientId', JSON.stringify(this.listPatientId));
         this.filteredWaitingRoomData = [...this.waitingRoomData]; // Update the filtered list as well
-        this.loading = false;
+
       },
       (error) => {
         this.loading = false;
@@ -70,7 +74,11 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
       }
     );
   }
-
+  timestampToTime(timestamp: number): string {
+    const time = moment.unix(timestamp);
+    const timeStr = time.format('HH:mm');
+    return timeStr;
+  }
   getListGroupService() {
     this.medicaoProcedureGroupService.getMedicalProcedureGroupList().subscribe((res: any) => {
       this.listGroupService = res.data;
@@ -92,7 +100,6 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
 
   selectedColor: string = '#000';
   onPutStatus(wtr: any, epoch: number) {
-
     this.PUT_WAITINGROOM = {
       epoch: epoch,
       produce_id: wtr.produce_id,
@@ -108,12 +115,16 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
       if (index != -1) {
         this.filteredWaitingRoomData.splice(index, 1);
       }
-      localStorage.setItem('listPatientId', JSON.stringify(this.listPatientId));
+      console.log("Waiting", localStorage.getItem('listPatientId'))
+      this.listTemp = this.filteredWaitingRoomData;
+      localStorage.setItem('listPatientId', JSON.stringify(this.listTemp));
+      console.log("Waiting", localStorage.getItem('listPatientId'))
       this.waitingRoomService.deleteWaitingRooms(this.PUT_WAITINGROOM)
         .subscribe((data) => {
           this.loading = false;
           this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
           this.showSuccessToast('Xóa hàng chờ thành công');
+
           ///this.getWaitingRoomData();
         },
           (error) => {

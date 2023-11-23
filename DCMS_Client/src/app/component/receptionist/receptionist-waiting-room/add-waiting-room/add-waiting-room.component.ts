@@ -117,7 +117,6 @@ export class AddWaitingRoomComponent implements OnInit {
     this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
       .subscribe((data) => {
         this.showSuccessToast("Thêm phòng chờ thành công!!");
-        alert("HHÂHHA");
         window.location.reload();
       },
         (err) => {
