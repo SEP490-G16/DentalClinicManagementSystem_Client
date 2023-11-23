@@ -14,6 +14,7 @@ import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureSe
 export class PopupEditStaffComponent implements OnInit {
 
   @Input() staffEdit:any;
+
   checked: boolean = true;
   staff: IStaff;
   staffId: string = "";
@@ -53,14 +54,15 @@ export class PopupEditStaffComponent implements OnInit {
   listDisplaySpe: string[] = [];
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(changes['staffEdit']) {
+    if(changes['staffEdit'] && this.staffEdit) {
+      console.log(this.staffEdit);
       this.staffId = this.staffEdit.staffId;
       this.staff.username = this.staffEdit.staffUserName;
       this.staff.name = this.staffEdit.staffName;
       this.staff.address = this.staffEdit.address;
       this.staff.description = this.staffEdit.note;
       this.staff.role = this.staffEdit.roleId;
-      this.staff.phone = this.normalizePhoneNumber(this.staffEdit.phone_number);
+      this.staff.phone = this.staffEdit.phoneNumber;
       this.staff.gender = this.staffEdit.gender;
       this.staff.email = this.staffEdit.email;
       this.staff.zoneinfo = this.staffEdit.zoneInfor;
@@ -71,7 +73,7 @@ export class PopupEditStaffComponent implements OnInit {
       this.onChangeRole(this.staff.role);
       if (this.staffEdit.zoneInfor != null) {
         const zone = this.staff.zoneinfo.split(',');
-        for (let i = 1; i < zone.length; i++) {
+        for (let i = 0; i < zone.length; i++) {
           this.listDisplaySpe.push(zone[i]);
         }
         console.log(this.listDisplaySpe.length);
@@ -89,11 +91,11 @@ export class PopupEditStaffComponent implements OnInit {
     })
     this.cognitoService.putStaff(userName, roleId, zoneinfo).subscribe(
       (res) => {
-        this.showSuccessToast("Sửa Labo thành công");
+        this.showSuccessToast("Cập nhật thông tin nhân viên thành công!");
         window.location.reload();
       },
       () => {
-        this.showErrorToast("Sửa Labo thất bại");
+        this.showErrorToast("Cập nhật thông tin nhân viên thất bại!");
       }
     );
   }
@@ -115,37 +117,12 @@ export class PopupEditStaffComponent implements OnInit {
       timeOut: 3000,
     });
   }
-  serviceGroups:any[]=[];
-  onChangeRole(role:any){
-    if (role == 2){
-      this.serviceGroup.getMedicalProcedureGroupList().subscribe(data=>{
-        this.serviceGroups = data.data.map((s:any)=>({ ...s, checked: false }));
-      })
-    }
-    else {
-      this.serviceGroups =[];
 
-    }
-  }
-  selectedServiceGroupIds: number[] = [];
-  onCheckboxChange(serviceGroup: any) {
-    if (serviceGroup.checked) {
-      // Thêm ID vào mảng nếu checkbox được tích
-      this.selectedServiceGroupIds.push(serviceGroup.medical_procedure_group_id);
-    } else {
-      // Loại bỏ ID khỏi mảng nếu checkbox bị bỏ tích
-      const index = this.selectedServiceGroupIds.indexOf(serviceGroup.medical_procedure_group_id);
-      if (index > -1) {
-        this.selectedServiceGroupIds.splice(index, 1);
-      }
-    }
-  }
   onFileSelected(event: any) {
     const fileInput = event.target;
     if (fileInput.files && fileInput.files[0]) {
       const file = fileInput.files[0];
       const reader = new FileReader();
-
       reader.onload = (e: any) => {
         const base64Data = e.target.result;
         alert("đã vô nha")
@@ -204,15 +181,7 @@ export class PopupEditStaffComponent implements OnInit {
       img.src = base64Data;
     });
   }
-  normalizePhoneNumber(phoneNumber: string): string {
-    if(phoneNumber.startsWith('(+84)')){
-      return '0'+phoneNumber.slice(5);
-    }else if(phoneNumber.startsWith('+84')){
-      return '0'+phoneNumber.slice(3);
-    }else{
-      return phoneNumber;
-    }
-  }
+
   serviceGroups:any[]=[];
   onChangeRole(role:any){
     if (role == 2){

@@ -16,7 +16,7 @@
               <div class="form-group row mt-3">
                 <label for="materialName" class="col-3 name-title">Tên vật liệu:</label>
                 <div class="col-9">
-                  <input type="text" [(ngModel)]="materialInput.name" class="form-control" id="materialName" name="materialName">
+                  <input type="text" [(ngModel)]="materialInput.name" disabled class="form-control" id="materialName" name="materialName">
                   <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
                     <p>
                       {{validateMaterial.name}}
@@ -27,7 +27,7 @@
               <div class="form-group row mt-3">
                 <label for="unit" class="col-3 name-title">Đơn vị:</label>
                 <div class="col-9">
-                  <input type="text" [(ngModel)]="materialInput.unit" class="form-control date-input-custom value-staff" id="unit" name="unit">
+                  <input type="text" [(ngModel)]="materialInput.unit" disabled class="form-control date-input-custom value-staff" id="unit" name="unit">
                   <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
                     <p>
                       {{validateMaterial.unit}}

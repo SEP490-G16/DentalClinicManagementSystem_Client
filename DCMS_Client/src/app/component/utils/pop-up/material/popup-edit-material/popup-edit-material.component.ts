@@ -54,7 +54,7 @@ export class PopupEditMaterialComponent implements OnChanges {
       return;
     }
     this.materialBody = {
-      discount: this.item.discount,
+      discount: this.item.discount.toString(),
       quantity_import: this.materialInput.quantity,
       remaining: this.item.quantity,
       price: this.material.unitPrice,
@@ -96,6 +96,8 @@ export class PopupEditMaterialComponent implements OnChanges {
     if (changes['material'] && this.material){
       this.materialInput.name = this.material.materialName;
       this.materialInput.unit = this.material.unit;
+    }
+    if (changes['item']){
       this.materialInput.quantity = this.item.quantity;
     }
   }

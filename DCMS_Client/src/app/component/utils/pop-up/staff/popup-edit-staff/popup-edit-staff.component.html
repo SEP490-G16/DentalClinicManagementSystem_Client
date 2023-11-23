@@ -144,11 +144,11 @@
                   <label for="phone">Giới tính</label>
                 </div>
                 <div class="form-group col-md-9">
-                  <ng-container *ngIf="staff.gender == 'male'">
+                  <ng-container *ngIf="staff.gender == 'Nam'">
                     <input type="radio" disabled class="radio m-2" id="male" name="gender" checked>Nam
                     <input type="radio" disabled class="radio m-2" id="female" name="gender"> Nữ
                   </ng-container>
-                  <ng-container *ngIf="staff.gender == 'female'">
+                  <ng-container *ngIf="staff.gender == 'Nữ'">
                     <input type="radio" disabled class="radio m-2" id="male" name="gender">Nam
                     <input type="radio" disabled class="radio m-2" id="female" name="gender" checked> Nữ
                   </ng-container>
