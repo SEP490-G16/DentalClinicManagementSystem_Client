@@ -24,6 +24,7 @@ import { VNDateTimeFormatPipe } from '../shared/pipe/datetimeformat.pipe';
 import {
   PopupConfirmServiceComponent
 } from "../utils/pop-up/appointment/popup-confirm-service/popup-confirm-service.component";
+import { NgSelectModule } from '@ng-select/ng-select';
 @NgModule({
   declarations: [
    ReceptionistAppointmentListComponent,
@@ -50,6 +51,7 @@ import {
       closeButton: true,
       progressBar: true,
     }),
+    NgSelectModule
   ]
 })
 export class ReceptionistModule{

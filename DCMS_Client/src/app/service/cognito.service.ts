@@ -104,13 +104,14 @@ export class CognitoService {
     return this.http.get('https://lipm11wja0.execute-api.ap-southeast-1.amazonaws.com/dev/staff', { headers });
   }
 
-  putStaff(userName:string, role:string): Observable<any> {
+  putStaff(userName:string, role:string, zoneinfo:string): Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`,
       "Content-Type": "application/json; charset=utf8"
     });
     const attributes = {
+      zoneinfo: zoneinfo,
       'custom:role': role
     };
     const requestBody = JSON.stringify({username: userName, user_attributes: attributes});
@@ -134,6 +135,7 @@ export class CognitoService {
       name: User.name,
       gender: User.gender,
       address: User.address,
+      zoneinfo: User.zoneinfo,
       'custom:DOB': User.DOB,
       'custom:description': User.description,
       'custom:status': User.status,

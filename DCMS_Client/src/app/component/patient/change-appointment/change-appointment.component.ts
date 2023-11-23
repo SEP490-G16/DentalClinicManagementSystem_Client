@@ -223,13 +223,13 @@ export class ChangeAppointmentComponent implements OnInit {
   }
 
   cancelAppointment() {
-    this.appointmentService.deleteAppointment(this.epoch_PathParam, this.epoch_PathParam)
-      .subscribe((res) => {
-        this.toastr.success(res.messgae, "Xóa lịch hẹn thành công")
-      },
-        (err) => {
-          this.toastr.error(err.error.message, "Xóa lịch hẹn thất bại");
-        })
+    // this.appointmentService.deleteAppointment(this.epoch_PathParam, this.epoch_PathParam)
+    //   .subscribe((res) => {
+    //     this.toastr.success(res.messgae, "Xóa lịch hẹn thành công")
+    //   },
+    //     (err) => {
+    //       this.toastr.error(err.error.message, "Xóa lịch hẹn thất bại");
+    //     })
   }
   dateToTimestamp(dateStr: string): number {
     const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng của chuỗi ngày

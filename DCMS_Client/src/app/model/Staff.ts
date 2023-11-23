@@ -13,5 +13,6 @@ export interface IStaff {
   status: string;
   image:string | ArrayBuffer;
   locale: string;
+  zoneinfo: string;
 }
 

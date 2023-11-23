@@ -39,7 +39,6 @@
   align-items: center;
   margin-top: 10px;
 }
-
 .table__header .input-group {
   width: 60%;
   height: 4vh;
@@ -52,7 +51,6 @@
   align-items: center;
   transition: .2s;
 }
-
 /*.table__header .input-group:hover {*/
 /*  width: 90%;*/
 /*  background-color: #fff8;*/

@@ -11,7 +11,7 @@
       </div>
 
       <!-- Modal body -->
-      <div class="modal-body">
+      <!-- <div class="modal-body">
         <div class="container">
           <div class="row">
             <div class="col-12 col-md-6">
@@ -22,7 +22,6 @@
               </div>
             </div>
             <div class="col-12 col-md-6">
-              <!-- Cột này hiển thị thông tin tên bệnh nhân và mã bệnh nhân sau khi đã nhận được từ API -->
               <div class="form-group">
                 <label for="patientName">Tên bệnh nhân</label>
                 <input type="text" class="form-control" id="patientName"
@@ -99,13 +98,99 @@
             <div class="col">
               <div class="float-end">
                 <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Đóng</button>
-                <!-- <button type="button" class="btn btn-primary" (click)="onPostAppointment()" [disabled]="!isPatientInfoEditable">Xác nhận</button> -->
                 <button type="button" class="btn button-timekeeping" (click)="onPutAppointment()">Xác nhận</button>
               </div>
             </div>
           </div>
         </div>
+      </div> -->
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            <div class="col-12 col-md-12">
+              <div class="form-group mt-2">
+                <label for="patientName">Tên bệnh nhân</label>
+                <ng-select [items]="patientList" bindLabel="patientInfor" [(ngModel)]="patientInfor"
+                  bindValue="patientInfor" (keyup)="onsearch($event)" [notFoundText]="'Không tìm thấy bệnh nhân'">
+                </ng-select>
+                <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.patientName}}</p>
+              </div>
+              <div class="form-group mt-2">
+                <label for="treatment">Loại điều trị</label>
+                <select class="form-control" id="treatment"
+                  [(ngModel)]="EDIT_APPOINTMENT_BODY.appointment.procedure_id">
+                  <option value="1">Phân loại điều trị</option>
+                  <option *ngFor="let a of listGroupService" value={{a.medical_procedure_group_id}}>{{a.name}}</option>
+                </select>
+                <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.procedure}}</p>
+              </div>
+              <div class="col mt-2">
+                <label for="treatment">Chọn ngày khám</label>
+                <form class="form-inline">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="model"
+                        [minDate]="currentDate" ngbDatepicker #d="ngbDatepicker" [placement]="'right'"
+                        placeholder="Chọn ngày hẹn">
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar" style="height: 48px;" (click)="d.toggle()"
+                          type="button">
+                          <i class="bi bi-calendar3"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.appointmentDate}}</p>
+                  </div>
+                </form>
+              </div>
+              <div class="form-group mt-2">
+                <label for="appointmentTime" name="userCredential">Giờ hẹn khám</label>
+                <input type="time" class="form-control date-input-custom" id="time" name="time" [(ngModel)]="timeString"
+                  #input (change)="selectDateToGetDoctor(input.value)">
+                <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.appointmentTime}}</p>
+              </div>
+              <div class="doctors-list mt-2">
+                <label for="appointmentTime" name="userCredential">Chọn Bác Sĩ</label>
+                <ul class="list-group" *ngIf="totalDoctorFilter != 0">
+                  <select>
+                    <option></option>
+                    <option value="0"></option>
+                  </select>
+                  <li class="list-group-item" *ngFor="let doctor of listDoctorFilter"
+                    [ngClass]="{'selected': doctor.doctorName === selectedDoctor}" (click)="selectDoctor(doctor)">
+                    <!-- <img [src]="doctor.image" style="width: 100px; height: 100px; object-fit: cover;"
+                         class="doctor-image" [alt]="doctor.name"> -->
+                    <div class="doctor-info">
+                      <h5 class="card-title">{{ doctor.doctorName }}</h5>
+                    </div>
+                  </li>
+                </ul>
+                <ul class="list-group" *ngIf="totalDoctorFilter == 0">
+                  <li class="list-group-item" *ngFor="let doctor of listDoctorDisplay"
+                    [ngClass]="{'selected': doctor.doctorName === selectedDoctor}" (click)="selectDoctor(doctor)">
+                    <!-- <img [src]="doctor.image" style="width: 100px; height: 100px; object-fit: cover;"
+                         class="doctor-image" [alt]="doctor.name"> -->
+                    <div class="doctor-info">
+                      <h5 class="card-title">{{ doctor.doctorName }}</h5>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
 
+            <div class="row mt-4">
+              <div class="col">
+                <div class="float-end">
+                  <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Huỷ</button>
+                  <!-- <button type="button" class="btn btn-primary" (click)="onPostAppointment()" [disabled]="!isPatientInfoEditable">Xác nhận</button> -->
+                  <button type="button" class="btn button-timekeeping" (click)="onPutAppointment()"><i
+                      class="bi bi-plus-circle"></i> Lưu</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   </div>

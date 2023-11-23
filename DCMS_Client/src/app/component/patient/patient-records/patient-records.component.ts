@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild  } from '@angular/core';
 import { PatientService } from "../../../service/PatientService/patient.service";
 import { IPatient } from "../../../model/IPatient";
 import { ToastrService } from "ngx-toastr";
@@ -8,7 +8,7 @@ import { PopupAddPatientComponent } from "../../utils/pop-up/patient/popup-add-p
 import { CognitoService } from 'src/app/service/cognito.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ResponseHandler } from '../../utils/libs/ResponseHandler';
-
+import { PopupDeletePatientComponent } from '../../utils/pop-up/patient/popup-delete-patient/popup-delete-patient.component';
 @Component({
   selector: 'app-patient-records',
   templateUrl: './patient-records.component.html',
@@ -30,6 +30,7 @@ export class PatientRecordsComponent implements OnInit {
   count: number = 1;
   id: any;
   search: string = '';
+  @ViewChild(PopupDeletePatientComponent) popupDeletePatientComponent!: PopupDeletePatientComponent;
   ngOnInit(): void {
     this.loadPage(this.pagingSearch.paging);
   }
@@ -60,7 +61,7 @@ export class PatientRecordsComponent implements OnInit {
   }
   searchPatient() {
     console.log(this.search)
-    this.patientService.getPatientByName(this.search, this.pagingSearch.paging).subscribe(patients => {
+    this.patientService.getPatientByName(this.search, this.currentPage).subscribe(patients => {
       console.log(this.pagingSearch.paging);
       this.searchPatientsList = [];
       this.searchPatientsList = patients.data;
@@ -77,14 +78,18 @@ export class PatientRecordsComponent implements OnInit {
     }
     )
   }
+  ngAfterViewInit() {
+    this.popupDeletePatientComponent.patientDeleted.subscribe(() => {
+      this.loadPage(this.pagingSearch.paging);
+    });
+  }
   pageChanged(event: number) {
     if (event >= 1) {
       this.loadPage(event);
     }
   }
-  openDeletePatient(id: any, searchPatientsList: any) {
+  openDeletePatient(id: any) {
     this.id = id;
-    this.searchPatientsList = searchPatientsList;
   }
 
   detail(id: any) {

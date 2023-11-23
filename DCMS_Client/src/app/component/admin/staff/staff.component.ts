@@ -38,6 +38,7 @@ export class StaffComponent implements OnInit {
     gender: '',
     image: '',
     locale: '',
+    zoneInfor: '',
   }
 
   listStaffDisplay:any [] = [];
@@ -63,6 +64,7 @@ export class StaffComponent implements OnInit {
             gender: '',
             image: '',
             locale: '',
+            zoneInfor: ''
           }
           this.staff.staffUserName = staff.Username;
           staff.Attributes.forEach((attr:any) => {
@@ -97,6 +99,9 @@ export class StaffComponent implements OnInit {
             if (attr.Name == 'name') {
               this.staff.staffName = attr.Value;
             }
+            if (attr.Name == 'zoneinfo') {
+              this.staff.zoneInfor = attr.Value;
+            }
           })
           this.listStaffDisplay.push(this.staff);
         })
@@ -104,7 +109,6 @@ export class StaffComponent implements OnInit {
       },
       )
     }
-
 
   getStaffName(id:any):any {
     if (id == "1") {

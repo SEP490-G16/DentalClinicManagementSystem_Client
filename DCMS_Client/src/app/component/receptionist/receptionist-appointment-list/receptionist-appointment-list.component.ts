@@ -114,6 +114,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
         })
       })
       this.loading = false;
+      console.log(this.filteredAppointments);
       this.appointmentDateInvalid();
     },
     error => {
@@ -244,17 +245,13 @@ export class ReceptionistAppointmentListComponent implements OnInit {
       }
 
     } as IEditAppointmentBody;
-    this.appointmentService.putAppointment(this.DELETE_APPOINTMENT_BODY, appointment.appointment_id).subscribe(response => {
-      console.log("Cập nhật thành công");
+    this.appointmentService.deleteAppointment(dateTimestamp, appointment.appointment_id).subscribe(response => {
+      console.log("Xóa thành công");
       this.showSuccessToast('Xóa lịch hẹn thành công!');
-      const index = this.filteredAppointments.find((item:any) => item.appointment_id == appointment.appointment_id);
-      if (index != -1) {
-        this.filteredAppointments.slice(index, 1);
-      }
-        //window.location.reload();
+        window.location.reload();
     }, error => {
-      ResponseHandler.HANDLE_HTTP_STATUS(this.appointmentService.apiUrl+"/appointment/"+appointment.appointment_id, error);
-      //this.showErrorToast("Lỗi khi cập nhật");
+      this.showErrorToast("Lỗi khi cập nhật");
+      this.showErrorToast("Lỗi khi xóa");
     });
   }
 
@@ -295,7 +292,10 @@ export class ReceptionistAppointmentListComponent implements OnInit {
       }
     );
   }
-
+  navigateToPatientDetail(patientId: any) {
+    console.log("check",patientId)
+    this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', patientId]);
+  }
 
   openAddAppointmentModal() {
     // this.datesDisabled = this.datesDisabled;
