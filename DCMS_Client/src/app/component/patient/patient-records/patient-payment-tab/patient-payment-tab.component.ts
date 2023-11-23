@@ -22,6 +22,7 @@ export class PatientPaymentTabComponent implements OnInit {
   Patient_Id: string = "";
   Material_Usage_Report: any[] = [];
   showDetails: boolean = false;
+  roleId: string[] = []
 
   constructor(
     private patientService: PatientService,
@@ -42,6 +43,10 @@ export class PatientPaymentTabComponent implements OnInit {
     const currentDATE = ConvertTimestamp.dateToTimestamp(moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD'));
     console.log("CurrentDate: ", currentDATE);
     this.getMaterialUsageReport(startDATE, currentDATE);
+    let ro = sessionStorage.getItem('role');
+    if (ro != null) {
+      this.roleId = ro.split(',');
+    }
   }
 
   getMaterialUsageReport(startDATE: number, endDATE: number) {

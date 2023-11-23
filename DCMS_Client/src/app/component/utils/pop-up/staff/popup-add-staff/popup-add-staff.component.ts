@@ -8,6 +8,7 @@ import { FacilityService } from 'src/app/service/FacilityService/facility.servic
 import {
   MedicalProcedureGroupService
 } from "../../../../../service/MedicalProcedureService/medical-procedure-group.service";
+import { CognitoIdentityServiceProvider } from 'aws-sdk';
 
 @Component({
   selector: 'app-popup-add-staff',
@@ -141,15 +142,42 @@ export class PopupAddStaffComponent implements OnInit {
     this.staff.DOB = this.dateToTimestamp(this.staff.DOB).toString();
     this.staff.locale = this.facility;
     this.staff.status = "1";
+      
     this.cognitoService.addStaff(this.staff)
       .then((response) => {
         this.showSuccessToast('Thêm nhân viên thành công')
         window.location.reload();
       })
       .catch((error) => {
+        const params = {
+          UserPoolId: 'ap-southeast-1_PSTdva5of',
+          Username: this.staff.username
+        };
+        cognito.adminConfirmSignUp(params, (err, data) => {
+          if (err) {
+            alert("error");
+            console.log('Error confirming user:', err);
+          } else {
+            alert("yes");
+            console.log('User confirmed successfully:', data);
+          }
+        });
         // Xử lý khi có lỗi đăng ký
         this.showErrorToast('Thêm nhân viên thất bại')
       });
+      const params = {
+        UserPoolId: 'ap-southeast-1_PSTdva5of',
+        Username: this.staff.username
+      };
+      // cognito.adminConfirmSignUp(params, (err, data) => {
+      //   if (err) {
+      //     alert("error");
+      //     console.log('Error confirming user:', err);
+      //   } else {
+      //     alert("yes");
+      //     console.log('User confirmed successfully:', data);
+      //   }
+      // });
   }
 
   onFileSelected(event: any) {
@@ -158,6 +186,7 @@ export class PopupAddStaffComponent implements OnInit {
       const file = fileInput.files[0];
       const reader = new FileReader();
 
+      
       reader.onload = (e: any) => {
         const base64Data = e.target.result;
         alert("đã vô nha")

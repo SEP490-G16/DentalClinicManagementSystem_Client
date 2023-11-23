@@ -60,7 +60,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
       doctor: '',
       procedure: '',
       phone_number: ''
-    } as ISelectedAppointment
+    } as ISelectedAppointment;
   }
 
   selectedProcedure: string = '';
@@ -84,7 +84,6 @@ export class ReceptionistAppointmentListComponent implements OnInit {
 
     this.getAppointmentList();
     this.getListGroupService();
-    // console.log(this.cognitoService.getUser());
   }
 
   getListGroupService() {

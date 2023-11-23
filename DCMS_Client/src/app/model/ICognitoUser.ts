@@ -7,5 +7,5 @@ export interface ICognitoUser {
   locale:string,
   sub:string,
   name:string,
-  role:number
+  role:string
 }

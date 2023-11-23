@@ -18,6 +18,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
   id: string = "";
   examinations: any;
   ITreatmentCourse: any;
+  roleId: string[] = []
 
   constructor(
     private cognitoService: CognitoService, private router: Router,
@@ -35,6 +36,10 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
     this.getTreatmentCourse();
+    let ro = sessionStorage.getItem('role');
+    if (ro != null) {
+      this.roleId = ro.split(',');
+    }
   }
 
 

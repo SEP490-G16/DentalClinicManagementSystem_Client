@@ -19,7 +19,7 @@ import { DoctorRoutingModule } from './doctor-routing.module';
     RouterModule,
     FormsModule,
     DoctorRoutingModule,
-    PatientModule,
+    // PatientModule,
     SharedModule,
     ToastrModule.forRoot({
       preventDuplicates: true,

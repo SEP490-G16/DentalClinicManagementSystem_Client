@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from "@angular/router";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HttpClientModule} from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../shared/shared.module';
@@ -39,7 +39,7 @@ import { PopupAddMaterialComponent } from '../utils/pop-up/material/popup-add-ma
 import { PopupAddLaboComponent } from '../utils/pop-up/labo/popup-add-labo/popup-add-labo.component';
 import { PopupDeleteLaboComponent } from '../utils/pop-up/labo/popup-delete-labo/popup-delete-labo.component';
 import { ProfilePersonalComponent } from '../shared/profile-personal/profile-personal.component';
-import {AdminRoutingModule} from "./admin-routing.module";
+import { AdminRoutingModule } from "./admin-routing.module";
 import { PopupEditGroupServiceComponent } from '../utils/pop-up/service/popup-edit-group-service/popup-edit-group-service.component';
 import { PopupEditLaboComponent } from '../utils/pop-up/labo/popup-edit-labo/popup-edit-labo.component';
 import { PopupEditSpecimensComponent } from '../utils/pop-up/specimen/popup-edit-specimens/popup-edit-specimens.component';
@@ -53,7 +53,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import {NgSelectModule} from "@ng-select/ng-select";
+import { NgSelectModule } from "@ng-select/ng-select";
 import { PopupEditBillImportMaterialComponent } from '../utils/pop-up/import-bill-material/popup-edit-bill-import-material/popup-edit-bill-import-material.component';
 import { FollowingTimekeepingComponent } from './following-timekeeping/following-timekeeping.component';
 import { vnDateTimeFormatPipe } from '../shared/pipe/VNdateformat.pipe';
@@ -61,58 +61,111 @@ import { ReportHighIncomeAndExpenditureComponent } from './report-high-income-an
 import { ReportExpenditureComponent } from './report-expenditure/report-expenditure.component';
 import { RevenueChartComponent } from './revenue-chart/revenue-chart.component';
 import { PopupAddReportExpenditureComponent } from '../utils/pop-up/revenue/popup-add-report-expenditure/popup-add-report-expenditure.component';
-import {NgChartsModule} from "ng2-charts";
+import { NgChartsModule } from "ng2-charts";
 import { PopupEditRevenueComponent } from '../utils/pop-up/revenue/popup-edit-revenue/popup-edit-revenue.component';
+import { ReceptionistAppointmentListComponent } from '../receptionist/receptionist-appointment-list/receptionist-appointment-list.component';
+import { ReceptionistWaitingRoomComponent } from '../receptionist/receptionist-waiting-room/receptionist-waiting-room.component';
+import { ReceptionistTimekeepingComponent } from '../receptionist/receptionist-timekeeping/receptionist-timekeeping.component';
+import { PatientRecordsComponent } from '../patient/patient-records/patient-records.component';
+import { PatientManagementComponent } from '../patient/patient-management/patient-management.component';
+import { PopupAddPatientComponent } from '../utils/pop-up/patient/popup-add-patient/popup-add-patient.component';
+import { PatientProfileTabComponent } from '../patient/patient-records/patient-profile-tab/patient-profile-tab.component';
+import { PatientAppointmentTabComponent } from '../patient/patient-records/patient-appointment-tab/patient-appointment-tab.component';
+import { PopupDeletePatientComponent } from '../utils/pop-up/patient/popup-delete-patient/popup-delete-patient.component';
+import { PatientLichtrinhdieutriComponent } from '../patient/patient-records/patient-lichtrinhdieutri/patient-lichtrinhdieutri.component';
+import { VNDateTimeFormatPipe } from '../shared/pipe/datetimeformat.pipe';
+import { PopupAddTreatmentcourseComponent } from '../utils/pop-up/patient/popup-add-treatmentcourse/popup-add-treatmentcourse.component';
+import { PopupEditTreatmentcourseComponent } from '../utils/pop-up/patient/popup-edit-treatmentcourse/popup-edit-treatmentcourse.component';
+import { PopupAddExaminationComponent } from '../utils/pop-up/patient/popup-add-examination/popup-add-examination.component';
+import { PopupEditExaminationComponent } from '../utils/pop-up/patient/popup-edit-examination/popup-edit-examination.component';
+import { PopupDatlichtaikhamComponent } from '../utils/pop-up/patient/popup-datlichtaikham/popup-datlichtaikham.component';
+import { PopupSualichtaikhamComponent } from '../utils/pop-up/patient/popup-sualichtaikham/popup-sualichtaikham.component';
+import { PopupPaymentComponent } from '../patient/patient-records/patient-payment-tab/pop-up-payment/popup-payment.component';
+import { PatientPaymentTabComponent } from '../patient/patient-records/patient-payment-tab/patient-payment-tab.component';
+import { PatientSpecimensComponent } from '../patient/patient-records/patient-specimens/patient-specimens.component';
+import { ReceptionistComponent } from '../receptionist/receptionist.component';
+import { PopupAddAppointmentComponent } from '../utils/pop-up/appointment/popup-add-appointment/popup-add-appointment.component';
+import { PopupEditAppointmentComponent } from '../utils/pop-up/appointment/popup-edit-appointment/popup-edit-appointment.component';
+import { AddWaitingRoomComponent } from '../receptionist/receptionist-waiting-room/add-waiting-room/add-waiting-room.component';
+import { PopupConfirmServiceComponent } from '../utils/pop-up/appointment/popup-confirm-service/popup-confirm-service.component';
+import { RegisterWorkScheduleComponent } from '../shared/register-work-schedule/register-work-schedule.component';
+
 @NgModule({
   declarations: [
-      AdminComponent,
-      FacilityComponent,
-      LaboComponent,
-      MaterialComponent,
-      PendingSpecimensComponent,
-      ServiceComponent,
-      SpecimensComponent,
-      StaffComponent,
-      StaffDetailComponent,
-      WarehouseExportMaterialManagementComponent,
-      WarehouseImportMaterialManagementComponent,
-      PopupAddStaffComponent,
-      PopupDeleteStaffComponent,
-      PopupAddSpecimensComponent,
-      PopupDeleteSpecimensComponent,
-      PopupAddServiceComponent,
-      PopupDeleteServiceComponent,
-      PopupAddGroupServiceComponent,
-      PopupDeleteGroupServiceComponent,
-      PopupAddMaterialComponent,
-      PopupDeleteMaterialComponent,
-      PopupAddLaboComponent,
-      PopupEditLaboComponent,
-      PopupDeleteLaboComponent,
-      PopupAddBillExportMaterialComponent,
-      PopupAddBillImportMaterialComponent,
-      PopupAddFacilityComponent,
-      PopupAddApproveSpecimensComponent,
-      PopupDetailBillImportMaterialComponent,
-      PopupDetailBillExportMaterialComponent,
-      PopupDeleteBillExportMaterialComponent,
-      PopupDeleteBillImportMaterialComponent,
-      PopupDeleteFacilityComponent,
-      PopupEditGroupServiceComponent,
-      PopupEditSpecimensComponent,
-      PopupEditServiceComponent,
-      PopupEditApproveSpecimensComponent,
-      PopupEditFacilityComponent,
-      PopupEditStaffComponent,
-      PopupEditMaterialComponent,
-      PopupEditBillImportMaterialComponent,
-      FollowingTimekeepingComponent,
-      vnDateTimeFormatPipe,
-      ReportHighIncomeAndExpenditureComponent,
-      ReportExpenditureComponent,
-      RevenueChartComponent,
-      PopupAddReportExpenditureComponent,
-      PopupEditRevenueComponent
+    AdminComponent,
+    FacilityComponent,
+    LaboComponent,
+    MaterialComponent,
+    PendingSpecimensComponent,
+    ServiceComponent,
+    SpecimensComponent,
+    StaffComponent,
+    StaffDetailComponent,
+    WarehouseExportMaterialManagementComponent,
+    WarehouseImportMaterialManagementComponent,
+    PopupAddStaffComponent,
+    PopupDeleteStaffComponent,
+    PopupAddSpecimensComponent,
+    PopupDeleteSpecimensComponent,
+    PopupAddServiceComponent,
+    PopupDeleteServiceComponent,
+    PopupAddGroupServiceComponent,
+    PopupDeleteGroupServiceComponent,
+    PopupAddMaterialComponent,
+    PopupDeleteMaterialComponent,
+    PopupAddLaboComponent,
+    PopupEditLaboComponent,
+    PopupDeleteLaboComponent,
+    PopupAddBillExportMaterialComponent,
+    PopupAddBillImportMaterialComponent,
+    PopupAddFacilityComponent,
+    PopupAddApproveSpecimensComponent,
+    PopupDetailBillImportMaterialComponent,
+    PopupDetailBillExportMaterialComponent,
+    PopupDeleteBillExportMaterialComponent,
+    PopupDeleteBillImportMaterialComponent,
+    PopupDeleteFacilityComponent,
+    PopupEditGroupServiceComponent,
+    PopupEditSpecimensComponent,
+    PopupEditServiceComponent,
+    PopupEditApproveSpecimensComponent,
+    PopupEditFacilityComponent,
+    PopupEditStaffComponent,
+    PopupEditMaterialComponent,
+    PopupEditBillImportMaterialComponent,
+    FollowingTimekeepingComponent,
+    vnDateTimeFormatPipe,
+    ReportHighIncomeAndExpenditureComponent,
+    ReportExpenditureComponent,
+    RevenueChartComponent,
+    PopupAddReportExpenditureComponent,
+    PopupEditRevenueComponent,
+    ReceptionistAppointmentListComponent,
+    ReceptionistWaitingRoomComponent,
+    ReceptionistTimekeepingComponent,
+    PatientManagementComponent,
+    PatientRecordsComponent,
+    PopupAddPatientComponent,
+    PatientProfileTabComponent,
+    PatientAppointmentTabComponent,
+    PopupDeletePatientComponent,
+    PatientLichtrinhdieutriComponent,
+    VNDateTimeFormatPipe,
+    PopupAddTreatmentcourseComponent,
+    PopupEditTreatmentcourseComponent,
+    PopupAddExaminationComponent,
+    PopupEditExaminationComponent,
+    PopupDatlichtaikhamComponent,
+    PopupSualichtaikhamComponent,
+    PopupPaymentComponent,
+    PatientPaymentTabComponent,
+    PatientSpecimensComponent,
+    ReceptionistComponent,
+    PopupAddAppointmentComponent,
+    PopupEditAppointmentComponent,
+    AddWaitingRoomComponent,
+    PopupConfirmServiceComponent,
+    //RegisterWorkScheduleComponent,
   ],
     imports: [
         CommonModule,
@@ -144,6 +197,6 @@ import { PopupEditRevenueComponent } from '../utils/pop-up/revenue/popup-edit-re
     PopupAddSpecimensComponent,
     PopupEditSpecimensComponent
   ],
-    providers: [DatePipe]
+  providers: [DatePipe]
 })
 export class AdminModule { }

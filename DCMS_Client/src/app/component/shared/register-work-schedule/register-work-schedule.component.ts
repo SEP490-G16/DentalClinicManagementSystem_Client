@@ -356,6 +356,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
   currentDateGMT7: string = "";
   currentTimeGMT7: string = "";
 
+  roleId: string[] = [];
 
   Body: RequestBodyTimekeeping;
   constructor(private modal: NgbModal,
@@ -386,6 +387,10 @@ export class RegisterWorkScheduleComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTimekeeping();
+    let ro = sessionStorage.getItem('role');
+    if (ro != null) {
+      this.roleId = ro.split(',');
+    }
   }
 
   timekeepingOnWeeks: any

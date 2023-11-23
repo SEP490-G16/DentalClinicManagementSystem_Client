@@ -1,115 +1,89 @@
+<div class="sep-recent-orders">
+  <!-- <div class="row" style="margin-bottom: 20px; margin-left: 10px;margin-top: 30px">
+    <div class="col-md-1">
+      <a routerLink="/cham-cong" routerLinkActive="active-link" class="page-title">Chấm công</a>
+    </div>
+    <div class="col-md-2">
+      <a routerLink="/dang-ky-lich-lam-viec" routerLinkActive="active-link" class="page-title">Đăng kí lịch
+        làm việc</a>
+    </div>
+    <div class="col-md-2">
+      <a routerLink="/theo-doi-cham-cong" routerLinkActive="active-link" class="page-title">Theo dõi chấm
+        công</a>
+    </div>
+  </div> -->
+  <div class="row" style="margin-left: 10px">
+    <ng-container *ngIf="roleId.includes('1') || roleId.includes('3')">
+      <div class="col-md-1">
+        <a routerLink="/cham-cong" routerLinkActive="active-link" class="page-title active-link">Chấm công</a>
+      </div>
+    </ng-container>
+    <div class="col-md-2">
+      <a routerLink="/dang-ky-lich-lam-viec" routerLinkActive="active-link" class="page-title">Đăng kí lịch làm
+        việc</a>
+    </div>
+    <div class="col-md-2">
+      <a routerLink="/theo-doi-cham-cong" routerLinkActive="active-link" class="page-title">Theo dõi
+        chấm công</a>
+    </div>
+  </div>
 
-<div class="row" style="margin-bottom: 20px; margin-left: 10px;margin-top: 30px">
-  <div class="col-md-1">
-    <a (click)="navigateHref('/letan/cham-cong')" routerLinkActive="active-link" class="page-title">Chấm công</a>
-  </div>
-  <div class="col-md-2">
-    <a (click)="navigateHref('/dangkilichlamviec')" routerLinkActive="active-link" class="page-title">Đăng kí lịch làm việc</a>
-  </div>
-  <div class="col-md-2">
-    <a (click)="navigateHref('/letan/theo-doi-cham-cong')" routerLinkActive="active-link" class="page-title">Theo dõi chấm công</a>
-  </div>
-</div>
-<h2 class="text-center">ĐĂNG KÝ LỊCH LÀM VIỆC</h2>
-<div class="row text-center">
-  <div class="col-md-4">
-    <div class="btn-group">
-      <div
-        class="btn btn-primary"
-        mwlCalendarPreviousView
-        [view]="view"
-        [(viewDate)]="viewDate"
-        (viewDateChange)="closeOpenMonthViewDay()"
-      >
-        Trước
+  <div class="row text-center">
+    <div class="col-md-4">
+      <div class="btn-group">
+        <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+          (viewDateChange)="closeOpenMonthViewDay()">
+          Trước
+        </div>
+        <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">
+          Hôm nay
+        </div>
+        <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+          (viewDateChange)="closeOpenMonthViewDay()">
+          Sau
+        </div>
       </div>
-      <div
-        class="btn btn-outline-secondary"
-        mwlCalendarToday
-        [(viewDate)]="viewDate"
-      >
-        Hôm nay
-      </div>
-      <div
-        class="btn btn-primary"
-        mwlCalendarNextView
-        [view]="view"
-        [(viewDate)]="viewDate"
-        (viewDateChange)="closeOpenMonthViewDay()"
-      >
-        Sau
+    </div>
+    <div class="col-md-4">
+      <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+    </div>
+    <div class="col-md-4">
+      <div class="btn-group">
+        <div class="btn btn-primary" (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">
+          Tháng
+        </div>
+        <div class="btn btn-primary" (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week">
+          Tuần
+        </div>
+        <div class="btn btn-primary" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">
+          Ngày
+        </div>
       </div>
     </div>
   </div>
-  <div class="col-md-4">
-    <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+  <br />
+
+  <div [ngSwitch]="view">
+    <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="worksRegister"
+      [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
+      (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+    </mwl-calendar-month-view>
+
+    <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="worksRegister"
+      [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+      (eventTimesChanged)="eventTimesChanged($event)">
+    </mwl-calendar-week-view>
+
+    <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="worksRegister"
+      [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+      (eventTimesChanged)="eventTimesChanged($event)">
+    </mwl-calendar-day-view>
   </div>
-  <div class="col-md-4">
-    <div class="btn-group">
-      <div
-        class="btn btn-primary"
-        (click)="setView(CalendarView.Month)"
-        [class.active]="view === CalendarView.Month"
-      >
-        Tháng
-      </div>
-      <div
-        class="btn btn-primary"
-        (click)="setView(CalendarView.Week)"
-        [class.active]="view === CalendarView.Week"
-      >
-        Tuần
-      </div>
-      <div
-        class="btn btn-primary"
-        (click)="setView(CalendarView.Day)"
-        [class.active]="view === CalendarView.Day"
-      >
-        Ngày
-      </div>
-    </div>
-  </div>
-</div>
-<br />
 
-<div [ngSwitch]="view">
-  <mwl-calendar-month-view
-    *ngSwitchCase="CalendarView.Month"
-    [viewDate]="viewDate"
-    [events]="worksRegister"
-    [refresh]="refresh"
-    [activeDayIsOpen]="activeDayIsOpen"
-    (dayClicked)="dayClicked($event.day)"
-    (eventClicked)="handleEvent('Clicked', $event.event)"
-    (eventTimesChanged)="eventTimesChanged($event)"
-  >
-  </mwl-calendar-month-view>
+  <!-- Everything you see below is just for the demo, you don't need to include it in your app -->
 
-  <mwl-calendar-week-view
-    *ngSwitchCase="CalendarView.Week"
-    [viewDate]="viewDate"
-    [events]="worksRegister"
-    [refresh]="refresh"
-    (eventClicked)="handleEvent('Clicked', $event.event)"
-    (eventTimesChanged)="eventTimesChanged($event)"
-  >
-  </mwl-calendar-week-view>
-
-  <mwl-calendar-day-view
-    *ngSwitchCase="CalendarView.Day"
-    [viewDate]="viewDate"
-    [events]="worksRegister"
-    [refresh]="refresh"
-    (eventClicked)="handleEvent('Clicked', $event.event)"
-    (eventTimesChanged)="eventTimesChanged($event)"
-  >
-  </mwl-calendar-day-view>
-</div>
-
-<!-- Everything you see below is just for the demo, you don't need to include it in your app -->
-
-<br /><br /><br />
-<!--
+  <br /><br /><br />
+  <!--
 <h3>
   Sửa lịch làm việc
   <button class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -151,8 +125,8 @@
 
         </td>
         <td> -->
-          <!--Thời gian bắt đầu-->
-          <!-- <input
+  <!--Thời gian bắt đầu-->
+  <!-- <input
             class="form-control"
             type="text"
             mwlFlatpickr
@@ -167,8 +141,8 @@
           />
         </td>
         <td> -->
-          <!--Thời gian kết thúc-->
-          <!-- <input
+  <!--Thời gian kết thúc-->
+  <!-- <input
             class="form-control"
             type="text"
             mwlFlatpickr
@@ -193,102 +167,104 @@
 </div> -->
 
 
-<div class="modal" id="exampleModal">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
+  <div class="modal" id="exampleModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
 
-      <!-- Modal Header -->
-      <div class="modal-header color-main">
-        <h4 class="modal-title text-center w-100">Thêm lịch làm việc</h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
+        <!-- Modal Header -->
+        <div class="modal-header color-main">
+          <h4 class="modal-title text-center w-100">Thêm lịch làm việc</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
 
-      <!-- Modal body -->
-      <div class="modal-body">
+        <!-- Modal body -->
         <div class="modal-body">
-          <div class="row">
-            <div class="col-12">
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Tên nhiệm vụ</label>
-                <input type="text" [(ngModel)]="title" class="form-control" id="exampleInputEmail1"
-                aria-describedby="emailHelp">
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label">Tên nhiệm vụ</label>
+                  <input type="text" [(ngModel)]="title" class="form-control" id="exampleInputEmail1"
+                    aria-describedby="emailHelp">
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="row">
-            <div class="col-12">
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Thời gian bắt đầu</label>
-                <input type="datetime-local" [(ngModel)]="timeStart" class="form-control" id="exampleInputEmail1"
-                aria-describedby="emailHelp">
+            <div class="row">
+              <div class="col-12">
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label">Thời gian bắt đầu</label>
+                  <input type="datetime-local" [(ngModel)]="timeStart" class="form-control" id="exampleInputEmail1"
+                    aria-describedby="emailHelp">
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="row">
-            <div class="col-12">
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Thời gian kết thúc</label>
-                <input type="datetime-local" [(ngModel)]="timeEnd" class="form-control" id="exampleInputEmail1"
-                aria-describedby="emailHelp">
+            <div class="row">
+              <div class="col-12">
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label">Thời gian kết thúc</label>
+                  <input type="datetime-local" [(ngModel)]="timeEnd" class="form-control" id="exampleInputEmail1"
+                    aria-describedby="emailHelp">
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- Modal footer -->
-          <div class="button-conf float-end">
-            <button type="button" id="cancel" class="btn bg-white" data-bs-dismiss="modal">Hủy</button>
-            <button type="button" class="btn" style="background-color: rgba(139, 55, 19,.95); color:white" (click)="addEvent()">Lưu</button>
-          </div>
+            <!-- Modal footer -->
+            <div class="button-conf float-end">
+              <button type="button" id="cancel" class="btn bg-white" data-bs-dismiss="modal">Hủy</button>
+              <button type="button" class="btn" style="background-color: rgba(139, 55, 19,.95); color:white"
+                (click)="addEvent()">Lưu</button>
+            </div>
 
+          </div>
         </div>
       </div>
     </div>
   </div>
+
+  <ng-template #modalContent let-close="close">
+    <div class="modal-header">
+      <h5 class="modal-title">Event action occurred</h5>
+      <button type="button" class="close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-12">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Tên nhiệm vụ</label>
+            <input type="text" [(ngModel)]="editTitle" class="form-control" id="exampleInputEmail1"
+              aria-describedby="emailHelp">
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Thời gian bắt đầu</label>
+            <input type="datetime-local" [(ngModel)]="editTimeStart" class="form-control" id="exampleInputEmail1"
+              aria-describedby="emailHelp">
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Thời gian kết thúc</label>
+            <input type="datetime-local" [(ngModel)]="editTimeEnd" class="form-control" id="exampleInputEmail1"
+              aria-describedby="emailHelp">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-secondary" (click)="editEvent()">
+        OK
+      </button>
+    </div>
+  </ng-template>
 </div>
-
-<ng-template #modalContent let-close="close">
-  <div class="modal-header">
-    <h5 class="modal-title">Event action occurred</h5>
-    <button type="button" class="close" (click)="close()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="row">
-      <div class="col-12">
-        <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">Tên nhiệm vụ</label>
-          <input type="text" [(ngModel)]="editTitle" class="form-control" id="exampleInputEmail1"
-          aria-describedby="emailHelp">
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-12">
-        <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">Thời gian bắt đầu</label>
-          <input type="datetime-local" [(ngModel)]="editTimeStart" class="form-control" id="exampleInputEmail1"
-          aria-describedby="emailHelp">
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-12">
-        <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">Thời gian kết thúc</label>
-          <input type="datetime-local" [(ngModel)]="editTimeEnd" class="form-control" id="exampleInputEmail1"
-          aria-describedby="emailHelp">
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="editEvent()">
-      OK
-    </button>
-  </div>
-</ng-template>

@@ -562,7 +562,7 @@ table tbody td {
 }
 
 table tbody tr:last-child td {
-  border: none;
+  /* border: none; */
 }
 
 .table-container {

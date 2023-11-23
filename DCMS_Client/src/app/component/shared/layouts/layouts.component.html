@@ -15,80 +15,81 @@
           </div>
         </div>
         <ul>
-          <li class="list" routerLink="/letan/lich-hen" routerLinkActive="active">
-            <a style="--clr:#664FC3">
+          <li class="list" *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('3')">
+            <a routerLink="/lich-hen" routerLinkActive="active" style="--clr:#664FC3">
               <span class="icon">
                 <i class="bi bi-calendar-check"></i>
               </span>
               <span class="text">Lịch hẹn</span>
             </a>
           </li>
-          <li class="list" routerLink="/letan/phong-cho" routerLinkActive="active">
-            <a style="--clr:#664FC3">
+          <li class="list" *ngIf="roleId.includes('1') || roleId.includes('3')">
+            <a routerLink="/phong-cho" routerLinkActive="active" style="--clr:#664FC3">
               <span class="icon">
                 <i class="bi bi-house-heart"></i>
               </span>
               <span class="text">Phòng chờ</span>
             </a>
           </li>
-          <li class="list" routerLink="/benhnhan/danhsach" routerLinkActive="active">
-            <a style="--clr:#664FC3">
+          <li class="list active" *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('3')">
+            <a routerLink="/benhnhan/danhsach" routerLinkActive="active" style="--clr:#664FC3">
               <span class="icon">
                 <i class="bi bi-person-lines-fill"></i>
               </span>
               <span class="text">Bệnh nhân</span>
             </a>
           </li>
-          <li class="list" routerLink="/letan/theo-doi-cham-cong" routerLinkActive="active">
-            <a style="--clr:#664FC3">
+          <li class="list" *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('3') || roleId.includes('4') || roleId.includes('5')">
+            <a routerLink="/theo-doi-cham-cong" routerLinkActive="active" style="--clr:#664FC3">
               <span class="icon">
                 <i class="bi bi-calendar3"></i>
               </span>
               <span class="text">Chấm công</span>
             </a>
           </li>
-          <li class="list" routerLink="/admin/thu-thuat" routerLinkActive="active">
-            <a style="--clr:#664FC3">
+          <li class="list" *ngIf="roleId.includes('1')">
+            <a routerLink="/thu-thuat" routerLinkActive="active" style="--clr:#664FC3">
               <span class="icon">
                 <i class="bi bi-clipboard2-pulse"></i>
               </span>
               <span class="text">Thủ thuật</span>
             </a>
           </li>
-          <li class="list" routerLink="/admin/nhan-vien" routerLinkActive="active">
-            <a style="--clr:#664FC3">
+          <li class="list" *ngIf="roleId.includes('1')">
+            <a routerLink="/nhan-vien" routerLinkActive="active" style="--clr:#664FC3">
               <span class="icon">
                 <i class="bi bi-file-person-fill"></i>
               </span>
               <span class="text">Nhân viên</span>
             </a>
           </li>
-          <li class="list" routerLink="/admin/labo" routerLinkActive="active">
-            <a style="--clr:#664FC3">
+          <li class="list" *ngIf="roleId.includes('1')">
+            <a routerLink="/labo" routerLinkActive="active" style="--clr:#664FC3">
               <span class="icon">
                 <i class="bi bi-house-door"></i>
               </span>
               <span class="text">Labo</span>
             </a>
           </li>
-          <li class="list" routerLink="/admin/mau" routerLinkActive="active">
-            <a style="--clr:#664FC3">
+          <li class="list" *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('4') || roleId.includes('5')">
+            <a routerLink="/mau" routerLinkActive="active" style="--clr:#664FC3">
               <span class="icon">
                 <i class="bi bi-file-medical"></i>
               </span>
               <span class="text">Mẫu vật</span>
             </a>
           </li>
-          <li class="list" routerLink="/admin/vat-lieu" routerLinkActive="active">
-            <a style="--clr:#664FC3">
+          <li class="list" *ngIf="roleId.includes('1') || roleId.includes('5')">
+            <a routerLink="/vat-lieu" routerLinkActive="active" style="--clr:#664FC3">
               <span class="icon">
                 <i class="bi bi-prescription2"></i>
               </span>
               <span class="text">Vật liệu</span>
             </a>
           </li>
-          <li class="list" routerLink="/admin/co-so" routerLinkActive="active">
-            <a style="--clr:#664FC3">
+
+          <li class="list" *ngIf="roleId.includes('1')">
+            <a routerLink="/co-so" routerLinkActive="active" style="--clr:#664FC3">
               <span class="icon">
                 <i class="bi bi-houses"></i>
               </span>
