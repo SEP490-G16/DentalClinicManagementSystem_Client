@@ -13,7 +13,7 @@ import { Auth } from 'aws-amplify';
 export class LoginComponent implements OnInit {
   isEnterEmail: boolean = false;
   isForgotPassword: boolean = false;
-
+  showPassword: boolean = true;
   User: IUser;
   loading: boolean;
   newPassword: string = '';
@@ -145,6 +145,8 @@ export class LoginComponent implements OnInit {
   //     console.log('Error:', error);
   //   }
   // }
-
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
 
 }

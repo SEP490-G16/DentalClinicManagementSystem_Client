@@ -292,3 +292,13 @@
 .container-custom.active .toggle-right{
     transform: translateX(200%);
 }
+.password-custom{
+  position: relative;
+  width: 100%;
+}
+.password-toggle-icon {
+  position: absolute;
+  top: 22%;
+  transform: translateY(40%);
+  right: 10px;
+}
