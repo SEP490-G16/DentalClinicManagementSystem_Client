@@ -8,7 +8,6 @@ interface TimekeepingDetail {
   clock_in?: string;
   clock_out?: string;
   staff_name?: string;
-  // Thêm các thuộc tính khác tùy thuộc vào dữ liệu của bạn
 }
 interface TimekeepingSubRecord {
   subId: string;
@@ -214,7 +213,6 @@ export class FollowingTimekeepingComponent implements OnInit {
 
   organizeData(data: any[]): TimekeepingRecord[] {
     return data.map((item): TimekeepingRecord => {
-      // Tạo một đối tượng mới cho mỗi phần tử
       const timekeepingEntry: TimekeepingRecord = {
         epoch: item.epoch?.N,
         type: item.type?.S,

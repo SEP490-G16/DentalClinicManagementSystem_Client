@@ -66,7 +66,6 @@ export class PopupAddStaffComponent implements OnInit {
   }
 
   addSTAFF() {
-    //console.log("skdjb", this.imageURL);
     this.resetValidate();
     if(!this.staff.name){
       this.vailidateStaff.name = "Vui lòng nhập tên nhân viên!";
@@ -111,7 +110,6 @@ export class PopupAddStaffComponent implements OnInit {
       this.isSubmitted = true;
     }
 
-
     if (!this.passwordRepeat){
       this.vailidateStaff.passwordRepate = "Nhập lại mật khẩu!";
       this.isSubmitted = true;
@@ -122,7 +120,11 @@ export class PopupAddStaffComponent implements OnInit {
     this.staff.role = this.role;
     this.staff.gender = this.gender;
     this.staff.image = this.imageURL;
-
+    if (this.selectedServiceGroupIds.length != 0) {
+      this.selectedServiceGroupIds.forEach((item:any) => {
+        this.staff.zoneinfo += item+",";
+      })
+    }
     this.staff.DOB = this.dateToTimestamp(this.staff.DOB).toString();
     this.staff.locale = this.facility;
     this.staff.status = "1";
@@ -139,20 +141,6 @@ export class PopupAddStaffComponent implements OnInit {
         this.showSuccessToast('Thêm nhân viên thất bại')
       });
   }
-
-  // onFileSelected(event: any) {
-  //   const fileInput = event.target;
-  //   if (fileInput.files && fileInput.files[0]) {
-  //     const file = fileInput.files[0];
-  //     const reader = new FileReader();
-
-  //     reader.onload = (e: any) => {
-  //       this.imageURL = e.target.result;
-  //     };
-
-  //     reader.readAsDataURL(file);
-  //   }
-  // }
 
   onFileSelected(event: any) {
     const fileInput = event.target;
@@ -295,12 +283,25 @@ export class PopupAddStaffComponent implements OnInit {
     }
   }
 
-  onChangeServiceGroup(selectServiceGroup:any){
-    console.log(selectServiceGroup)
-    this.serviceGroup.getMedicalProcedureGroupWithDetailList().subscribe(data=>{
-      console.log("data",data.data);
-      this.services = data.data.filter((item:any)=>item.mg_id === selectServiceGroup);
-      console.log(this.services)
-    })
+  // onChangeServiceGroup(selectServiceGroup:any){
+  //   console.log(selectServiceGroup)
+  //   this.serviceGroup.getMedicalProcedureGroupWithDetailList().subscribe(data=>{
+  //     console.log("data",data.data);
+  //     this.services = data.data.filter((item:any)=>item.mg_id === selectServiceGroup);
+  //     console.log(this.services)
+  //   })
+  // }
+
+  selectedServiceGroupIds: string[] = [''];
+  onCheckboxChange(serviceGroup: any) {
+    if (serviceGroup.checked) {
+      this.selectedServiceGroupIds.push(serviceGroup.medical_procedure_group_id);
+    } else {
+      const index = this.selectedServiceGroupIds.indexOf(serviceGroup.medical_procedure_group_id);
+      if (index > -1) {
+        this.selectedServiceGroupIds.splice(index, 1);
+      }
+    }
   }
+  
 }

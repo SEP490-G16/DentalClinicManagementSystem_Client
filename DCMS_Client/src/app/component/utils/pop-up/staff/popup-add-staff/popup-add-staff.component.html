@@ -140,10 +140,13 @@
                     </p>
                   </div>
 
-                  <select *ngIf="serviceGroups.length > 0" [(ngModel)]="selectServiceGroup" (change)="onChangeServiceGroup(selectServiceGroup)" class="form-select" multiple aria-label="Chuyên thủ thuật" style="margin-top: 2%">
-                    <option value="" disabled selected>Chuyên ngành</option>
-                    <option *ngFor="let s of serviceGroups" value="{{s.medical_procedure_group_id}}">{{ s.name }}</option>
-                  </select>
+                  <div *ngIf="serviceGroups.length > 0" class="checkbox-group row">
+                    <label class="chuyen-nganh">Chuyên ngành</label>
+                    <div class="checkbox-row col-md-4" *ngFor="let s of serviceGroups">
+                      <input type="checkbox" [value]="s.medical_procedure_group_id" (change)="onCheckboxChange(s)"   [(ngModel)]="s.checked">
+                      <span class="checkbox-label"> {{ s.name }}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
