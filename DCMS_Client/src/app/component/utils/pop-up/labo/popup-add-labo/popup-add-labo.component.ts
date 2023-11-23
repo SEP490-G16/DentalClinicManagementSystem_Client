@@ -67,15 +67,19 @@ export class PopupAddLaboComponent implements OnInit {
     }
     else if (!this.isValidEmail(this.Labo.email)){
       this.LaboErrors.email = "Email không hợp lệ!";
+      this.isSubmitted = true;
     }
     if (this.isSubmitted){
       return;
     }
-
+    if (this.Labo.phone_number && this.Labo.phone_number.length === 9){
+      this.Labo.phone_number = '+84' + this.Labo.phone_number;
+    }
 
     // Tiến hành gửi dữ liệu nếu không có lỗi
     this.loading = true;
     console.log(this.loading)
+
     this.PostLaboService.postLabo(this.Labo)
       .subscribe(
         (data) => {

@@ -27,7 +27,7 @@
                   <input type="text" class="form-control"
                   [(ngModel)]="staff.name"
                   id="fullName" name="fullName">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{vailidateStaff.name}}
                     </p>
@@ -41,7 +41,7 @@
                   <input type="date"
                   [(ngModel)]="staff.DOB"
                   class="form-control date-input-custom" id="dob" name="dob">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{vailidateStaff.dob}}
                     </p>
@@ -54,7 +54,7 @@
                   <input type="text"
                   [(ngModel)]="staff.address"
                   class="form-control" id="address" name="address">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{vailidateStaff.address}}
                     </p>
@@ -93,7 +93,7 @@
                   <input type="email"
                   [(ngModel)]="staff.email"
                   class="form-control" id="email" name="email">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{vailidateStaff.email}}
                     </p>
@@ -108,10 +108,13 @@
                   <label for="phone">Số điện thoại</label>
                 </div>
                 <div class="col-md-9">
-                  <input type="tel"
-                  [(ngModel)]="staff.phone"
-                  class="form-control" id="phone" name="phone">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1">(+84)</span>
+                    </div>
+                    <input type="text" class="form-control" [(ngModel)]="staff.phone" id="phone" name="phone" aria-label="phoneNumber" aria-describedby="basic-addon1">
+                  </div>
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{vailidateStaff.phone}}
                     </p>
@@ -139,7 +142,6 @@
                       {{vailidateStaff.role}}
                     </p>
                   </div>
-
                   <div *ngIf="serviceGroups.length > 0" class="checkbox-group row">
                     <label class="chuyen-nganh">Chuyên ngành</label>
                     <div class="checkbox-row col-md-4" *ngFor="let s of serviceGroups">
@@ -160,7 +162,7 @@
                   <input type="radio" class="radio m-2" [(ngModel)]="gender" id="male" name="gender" value="male">
                   <label for="female">Nữ</label>
                   <input type="radio" class="radio m-2" [(ngModel)]="gender" id="female" name="gender" value="female">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{vailidateStaff.gender}}
                     </p>
@@ -180,7 +182,7 @@
                   <input type="text"
                   [(ngModel)]="staff.username"
                   id="account" class="form-control value-staff">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{vailidateStaff.username}}
                     </p>
@@ -196,7 +198,7 @@
                     class="form-control value-staff">
                     <span class="password-toggle-icon" (click)="togglePassword()"><i class="bi" [ngClass]="{'bi-eye-fill': showPassword, 'bi-eye-slash-fill': !showPassword}"></i></span>
                   </div>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{vailidateStaff.password}}
                     </p>
@@ -213,7 +215,7 @@
                     [(ngModel)]="passwordRepeat">
                   <span class="password-toggle-icon" (click)="togglePasswordRepeat()"><i class="bi" [ngClass]="{'bi-eye-fill': showPasswordRepeat, 'bi-eye-slash-fill': !showPasswordRepeat}"></i></span>
                   </div>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{vailidateStaff.passwordRepate}}
                     </p>

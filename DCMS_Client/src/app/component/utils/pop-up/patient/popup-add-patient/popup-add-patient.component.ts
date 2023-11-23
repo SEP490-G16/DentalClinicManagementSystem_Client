@@ -75,18 +75,35 @@ export class PopupAddPatientComponent implements OnInit {
     if (this.isSubmitted){
       return;
     }
-
-    this.patientBody={
+    if (this.patient1.phone_Number && this.patient1.phone_Number.length === 9){
+      this.patientBody={
         patient_id:null,
         patient_name:this.patient1.patientName,
         email:this.patient1.Email,
         gender:Number(this.patient1.Gender),
-        phone_number:this.patient1.phone_Number,
+        phone_number:'+84'+this.patient1.phone_Number,
         address:this.patient1.Address,
         full_medical_history:this.patient1.full_medical_History,
         dental_medical_history:this.patient1.dental_medical_History,
-      date_of_birth:this.patient1.dob
+        date_of_birth:this.patient1.dob
+      }
     }
+    if (this.patient1.phone_Number && this.patient1.phone_Number.length === 10){
+      this.patientBody={
+        patient_id:null,
+        patient_name:this.patient1.patientName,
+        email:this.patient1.Email,
+        gender:Number(this.patient1.Gender),
+        phone_number:'+84'+this.patient1.phone_Number.substring(1),
+        address:this.patient1.Address,
+        full_medical_history:this.patient1.full_medical_History,
+        dental_medical_history:this.patient1.dental_medical_History,
+        date_of_birth:this.patient1.dob
+      }
+    }
+
+
+
     this.patientService.addPatient(this.patientBody).subscribe((data:any)=>{
       this.toastr.success('Thêm mới bệnh nhân thành công!');
       localStorage.setItem("patient",JSON.stringify(this.patientBody))
@@ -94,6 +111,7 @@ export class PopupAddPatientComponent implements OnInit {
       ref?.click();
       const newPatientId = data.data.patient_id;
       this.patientBody.patient_id = newPatientId;
+      this.patientBody.phone_number = this.normalizePhoneNumber(this.patientBody.phone_number)
       this.searchPatientsList.unshift(this.patientBody);
       this.patientBody.isNew = true;
       this.patientBody.isPulsing = true;
@@ -127,5 +145,13 @@ export class PopupAddPatientComponent implements OnInit {
   private isValidEmail(email: string): boolean {
     // Thực hiện kiểm tra địa chỉ email ở đây, có thể sử dụng biểu thức chính quy
     return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email);
+  }
+  normalizePhoneNumber(phoneNumber: string): string {
+    if(phoneNumber.startsWith('(+84)')){
+      return '0'+phoneNumber.slice(5);
+    }else if(phoneNumber.startsWith('+84')){
+      return '0'+phoneNumber.slice(3);
+    }else
+      return phoneNumber;
   }
 }

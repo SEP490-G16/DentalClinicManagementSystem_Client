@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PatientService} from "../../../../service/PatientService/patient.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
-import { CognitoService } from 'src/app/service/cognito.service';
-import { CommonService } from 'src/app/service/commonMethod/common.service';
+import {CognitoService} from 'src/app/service/cognito.service';
+import {CommonService} from 'src/app/service/commonMethod/common.service';
 import {ResponseHandler} from "../../../utils/libs/ResponseHandler";
+import * as moment from "moment-timezone";
 
 @Component({
   selector: 'app-patient-profile-tab',
@@ -13,42 +14,45 @@ import {ResponseHandler} from "../../../utils/libs/ResponseHandler";
 })
 export class PatientProfileTabComponent implements OnInit {
   protected readonly window = window;
-  constructor(private patientService:PatientService,
-              private route:ActivatedRoute,
-              private cognitoService:CognitoService,
-              private router:Router,
-              private commonService:CommonService,
-              private toastr: ToastrService) { }
-  patient:any;
-  id:any;
-  patientBody:any={
+
+  constructor(private patientService: PatientService,
+              private route: ActivatedRoute,
+              private cognitoService: CognitoService,
+              private router: Router,
+              private commonService: CommonService,
+              private toastr: ToastrService) {
+  }
+
+  patient: any;
+  id: any;
+  patientBody: any = {
     patient_id: '',
     date_of_birth: '',
     created_date: '',
-    patient_name:'',
-    gender:0,
-    phone_number:'',
-    email:'',
-    address:'',
-    dental_medical_history:'',
-    description:''
+    patient_name: '',
+    gender: 0,
+    phone_number: '',
+    email: '',
+    address: '',
+    dental_medical_history: '',
+    full_medical_history: '',
+    description: ''
   }
   validatePatient = {
-    name:'',
-    gender:'',
-    phone:'',
-    address:'',
-    dob:'',
-    email:'',
-    createDate:''
+    name: '',
+    gender: '',
+    phone: '',
+    address: '',
+    dob: '',
+    email: '',
+    createDate: ''
   }
-  isSubmitted:boolean = false;
+  isSubmitted: boolean = false;
   isEditing: boolean = false;
   roleId: string[] = [];
 
-
   ngOnInit(): void {
-    this.id=this.route.snapshot.params['id'];
+    this.id = this.route.snapshot.params['id'];
     this.getPatient(this.id);
     let ro = sessionStorage.getItem('role');
     if (ro != null) {
@@ -57,8 +61,7 @@ export class PatientProfileTabComponent implements OnInit {
   }
 
   navigateHref(href: string) {
-   this.commonService.navigateHref(href, this.id);
-   window
+    this.commonService.navigateHref(href, this.id);
   }
 
   imageURL: string | ArrayBuffer = '';
@@ -77,98 +80,134 @@ export class PatientProfileTabComponent implements OnInit {
     }
   }
 
-  setPatientId(){
+  setPatientId() {
     this.router.navigate(['/benhnhan/danhsach/tab/lichtrinhdieutri', this.id])
   }
 
   clickCount: number = 0;
+
   toggleEditing() {
     this.clickCount++;
-    if (this.clickCount % 2 !== 0){
+    if (this.clickCount % 2 !== 0) {
+      console.log(this.clickCount)
       console.log(this.isEditing)
       this.isEditing = true;
       this.resetValidate();
-      if (!this.patient.patient_name){
+      if (!this.patient.patient_name) {
         this.validatePatient.name = "Vui lòng nhập tên bệnh nhân!";
         this.isSubmitted = true;
       }
-      if (!this.patient.dob){
-        this.validatePatient.dob = "Vui lòng nhập ngày sinh!";
-        this.isSubmitted = true;
-      }
-      if (this.patient.email && !this.isValidEmail(this.patient.email)){
+      if (this.patient.email && !this.isValidEmail(this.patient.email)) {
         this.validatePatient.email = "Email không hợp lệ!";
         this.isSubmitted = true;
       }
-      if (!this.patient.gender){
+      if (!this.patient.gender) {
         this.validatePatient.gender = "Vui lòng chọn giới tính!";
         this.isSubmitted = true;
       }
-      if (!this.patient.phone_number){
-        this.validatePatient.phone = "Vui lòng nhập số điện thoại!";
+      if (!this.patient.date_of_birth) {
+        this.validatePatient.dob = 'Vui lòng nhập ngày sinh!';
         this.isSubmitted = true;
       }
-      else if (!this.isVietnamesePhoneNumber(this.patient.phone_number)){
+      if (this.patient.phone_number === '') {
+        this.validatePatient.phone = "Vui lòng nhập số điện thoại!";
+        this.isSubmitted = true;
+      } else if (!this.isVietnamesePhoneNumber(this.patient.phone_number)) {
         this.validatePatient.phone = "Số điện thoại không hợp lệ!";
         this.isSubmitted = true;
       }
-      if (!this.patient.address){
+      if (!this.patient.address) {
         this.validatePatient.address = "Vui lòng nhập địa chỉ!";
         this.isSubmitted = true;
       }
-      if (this.isSubmitted){
+      if (this.isSubmitted) {
         return;
       }
-    }else {
-        this.patientBody = {
-          patient_id: this.patient.patient_id,
-          dob: this.patient.dob,
-          patient_name: this.patient.patient_name,
-          gender: this.patient.gender,
-          phone_number: this.patient.phone_number,
-          email: this.patient.email,
-          address: this.patient.address,
-          dental_medical_history: this.patient.dental_medical_history,
-          description: this.patient.description
-        }
-        this.isEditing = false;
-        this.patientService.updatePatient(this.patientBody, this.id).subscribe(data=>{
-          this.toastr.success("",'Cập nhật bệnh nhân thành công !');
-        },(error) => {
-          //this.toastr.error(error.error.message,'Cập nhật bệnh nhân thất bại!')
-          ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test+"/patient/"+this.id, error);
-        })
+
+    } else {
+      let phone = ''
+      if (this.patient.phone_number && this.patient.phone_number.length === 9) {
+        phone = '+84' + this.patient.phone_number;
+      }
+      if (this.patient.phone_number && this.patient.phone_number.length === 10) {
+        phone = '+84' + this.patient.phone_number.substring(1);
+      }
+      this.patientBody = {
+        patient_id: this.patient.patient_id,
+        date_of_birth: this.dateToTimestamp(this.patient.date_of_birth + " 02:00:00"),
+        patient_name: this.patient.patient_name,
+        gender: this.patient.gender,
+        phone_number: phone,
+        email: this.patient.email,
+        address: this.patient.address,
+        dental_medical_history: this.patient.dental_medical_history,
+        full_medical_history: this.patient.full_medical_History,
+        description: this.patient.description
+      }
+      console.log(this.patientBody);
+      this.isEditing = false;
+      this.patientService.updatePatient(this.patientBody, this.id).subscribe(data => {
+        this.toastr.success("", 'Cập nhật bệnh nhân thành công !');
+      }, (error) => {
+        //this.toastr.error(error.error.message,'Cập nhật bệnh nhân thất bại!')
+        ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test + "/patient/" + this.id, error);
+      })
     }
 
   }
-  getPatient(id:string){
-    this.patientService.getPatientById(id).subscribe(data=>{
-      this.patient = data;
-      console.log(data);
-    },
+
+  getPatient(id: string) {
+    this.patientService.getPatientById(id).subscribe(data => {
+        this.patient = data;
+        this.patient.phone_number = this.normalizePhoneNumber(this.patient.phone_number);
+        console.log(data);
+      },
       error => {
-        ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test+"/patient/"+id, error);
+        ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test + "/patient/" + id, error);
       }
-      )
+    )
   }
-  private resetValidate(){
+
+  private resetValidate() {
     this.validatePatient = {
-      name:'',
-      gender:'',
-      phone:'',
-      address:'',
-      dob:'',
+      name: '',
+      gender: '',
+      phone: '',
+      address: '',
+      dob: '',
       email: '',
-      createDate:''
+      createDate: ''
     }
     this.isSubmitted = false;
   }
-  private isVietnamesePhoneNumber(number:string):boolean {
+
+  private isVietnamesePhoneNumber(number: string): boolean {
     return /^(\+84|84|0)?[1-9]\d{8}$/
       .test(number);
   }
+
   private isValidEmail(email: string): boolean {
     // Thực hiện kiểm tra địa chỉ email ở đây, có thể sử dụng biểu thức chính quy
     return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email);
+  }
+
+  normalizePhoneNumber(phoneNumber: string): string {
+    if (phoneNumber.startsWith('(+84)')) {
+      return '0' + phoneNumber.slice(5);
+    } else if (phoneNumber.startsWith('+84')) {
+      return '0' + phoneNumber.slice(3);
+    } else
+      return phoneNumber;
+  }
+
+  private formatDate(dateString: any): boolean {
+    return /^\d{4}-(0[1-9]|1[0-2])-([0-2][0-9]|3[01])$/.test(dateString);
+  }
+
+  dateToTimestamp(dateStr: string): number {
+    const format = 'YYYY-MM-DD HH:mm'; // Định dạng của chuỗi ngày
+    const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
+    const timestamp = moment.tz(dateStr, format, timeZone).valueOf() / 1000;
+    return timestamp;
   }
 }

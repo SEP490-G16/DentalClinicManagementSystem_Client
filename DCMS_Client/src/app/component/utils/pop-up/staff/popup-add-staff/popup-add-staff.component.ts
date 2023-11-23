@@ -72,7 +72,7 @@ export class PopupAddStaffComponent implements OnInit {
       this.vailidateStaff.name = "Vui lòng nhập tên nhân viên!";
       this.isSubmitted = true;
     }
-    if (!this.staff.DOB){
+    if (!this.staff.DOB || !this.formatDate(this.staff.DOB)){
       this.vailidateStaff.dob = "Vui lòng nhập ngày sinh!";
       this.isSubmitted = true;
     }
@@ -88,8 +88,12 @@ export class PopupAddStaffComponent implements OnInit {
       this.vailidateStaff.phone = "Số điện thoại không hợp lệ!";
       this.isSubmitted = true;
     }
-    if (!this.staff.email && !this.isValidEmail(this.staff.email)){
-      this.vailidateStaff.email = "Email không hợp lệ!";
+    if (!this.staff.email){
+      this.vailidateStaff.email = "Vui lòng nhập email!";
+      this.isSubmitted = true;
+    }
+    else if (!this.isValidEmail(this.staff.email)){
+      this.vailidateStaff.email = 'Email không hợp lệ!';
       this.isSubmitted = true;
     }
     if (!this.staff.username){
@@ -118,6 +122,15 @@ export class PopupAddStaffComponent implements OnInit {
     else if (this.passwordRepeat!==this.staff.password){
       this.vailidateStaff.passwordRepate = "Mật khẩu không khớp!";
     }
+    if (this.isSubmitted){
+      return;
+    }
+    if (this.staff.phone && this.staff.phone.length === 9){
+      this.staff.phone = '+84' + this.staff.phone;
+    }
+    if (this.staff.phone && this.staff.phone.length === 10){
+      this.staff.phone = '+84' +this.staff.phone.substring(1);
+    }
     this.staff.role = this.role;
     this.staff.gender = this.gender;
     this.staff.image = this.imageURL;
@@ -129,26 +142,10 @@ export class PopupAddStaffComponent implements OnInit {
     this.staff.DOB = this.dateToTimestamp(this.staff.DOB).toString();
     this.staff.locale = this.facility;
     this.staff.status = "1";
-    if (this.isSubmitted){
-      return;
-    }
-    const cognito = new CognitoIdentityServiceProvider({ region: 'ap-southeast-1' });
+      
     this.cognitoService.addStaff(this.staff)
       .then((response) => {
         this.showSuccessToast('Thêm nhân viên thành công')
-        const params = {
-          UserPoolId: 'ap-southeast-1_PSTdva5of',
-          Username: this.staff.username
-        };
-        cognito.adminConfirmSignUp(params, (err, data) => {
-          if (err) {
-            alert("error");
-            console.log('Error confirming user:', err);
-          } else {
-            alert("yes");
-            console.log('User confirmed successfully:', data);
-          }
-        });
         window.location.reload();
       })
       .catch((error) => {
@@ -166,7 +163,7 @@ export class PopupAddStaffComponent implements OnInit {
           }
         });
         // Xử lý khi có lỗi đăng ký
-        this.showSuccessToast('Thêm nhân viên thất bại')
+        this.showErrorToast('Thêm nhân viên thất bại')
       });
       const params = {
         UserPoolId: 'ap-southeast-1_PSTdva5of',
@@ -277,7 +274,7 @@ export class PopupAddStaffComponent implements OnInit {
     this.showPasswordRepeat = !this.showPasswordRepeat;
   }
   private isVietnamesePhoneNumber(number:string):boolean {
-    return /^(\+84|84)?[1-9]\d{8}$/
+    return /^(\+84|84|0)?[1-9]\d{8}$/
       .test(number);
   }
 
@@ -310,29 +307,17 @@ export class PopupAddStaffComponent implements OnInit {
     return timestamp;
   }
   serviceGroups:any[]=[];
-  services:any[]=[];
-  selectServiceGroup:string='';
-  selectService:string='';
   onChangeRole(role:any){
     if (role == 2){
       this.serviceGroup.getMedicalProcedureGroupList().subscribe(data=>{
-        this.serviceGroups = data.data;
+        this.serviceGroups = data.data.map((s:any)=>({ ...s, checked: false }));
       })
     }
     else {
       this.serviceGroups =[];
-      this.services=[];
+
     }
   }
-
-  // onChangeServiceGroup(selectServiceGroup:any){
-  //   console.log(selectServiceGroup)
-  //   this.serviceGroup.getMedicalProcedureGroupWithDetailList().subscribe(data=>{
-  //     console.log("data",data.data);
-  //     this.services = data.data.filter((item:any)=>item.mg_id === selectServiceGroup);
-  //     console.log(this.services)
-  //   })
-  // }
 
   selectedServiceGroupIds: string[] = [''];
   onCheckboxChange(serviceGroup: any) {
@@ -345,5 +330,7 @@ export class PopupAddStaffComponent implements OnInit {
       }
     }
   }
-  
+  private formatDate(dateString: any): boolean {
+    return /^\d{4}-(0[1-9]|1[0-2])-([0-2][0-9]|3[01])$/.test(dateString);
+  }
 }

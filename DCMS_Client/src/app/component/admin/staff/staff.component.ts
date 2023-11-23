@@ -86,6 +86,12 @@ export class StaffComponent implements OnInit {
             }
             if (attr.Name == 'gender') {
               this.staff.gender = attr.Value;
+              if (this.staff.gender == 'male'){
+                this.staff.gender = 'Nam'
+              }
+              if (this.staff.gender == 'female'){
+                this.staff.gender = 'Nữ'
+              }
             }
             if (attr.Name == 'custom:DOB') {
               this.staff.dob = this.timestampToDate(attr.Value);

@@ -12,12 +12,12 @@ import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureSe
   styleUrls: ['./popup-edit-staff.component.css']
 })
 export class PopupEditStaffComponent implements OnInit {
- 
+
   @Input() staffEdit:any;
-  
+
   checked: boolean = true;
   staff: IStaff;
-  staffId: string = ""; 
+  staffId: string = "";
   role:string = "0";
   imageURL: string | ArrayBuffer = 'https://icon-library.com/images/staff-icon/staff-icon-15.jpg';
   constructor(
@@ -45,7 +45,7 @@ export class PopupEditStaffComponent implements OnInit {
     address:'',
     phone:'',
     gender:'',
-    email:'', 
+    email:'',
     role: '',
   }
   isSubmitted:boolean = false;
@@ -54,14 +54,15 @@ export class PopupEditStaffComponent implements OnInit {
   listDisplaySpe: string[] = [];
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(changes['staffEdit']) {
+    if(changes['staffEdit'] && this.staffEdit) {
+      console.log(this.staffEdit);
       this.staffId = this.staffEdit.staffId;
       this.staff.username = this.staffEdit.staffUserName;
       this.staff.name = this.staffEdit.staffName;
       this.staff.address = this.staffEdit.address;
       this.staff.description = this.staffEdit.note;
       this.staff.role = this.staffEdit.roleId;
-      this.staff.phone = this.staffEdit.phone_number;
+      this.staff.phone = this.staffEdit.phoneNumber;
       this.staff.gender = this.staffEdit.gender;
       this.staff.email = this.staffEdit.email;
       this.staff.zoneinfo = this.staffEdit.zoneInfor;
@@ -72,7 +73,7 @@ export class PopupEditStaffComponent implements OnInit {
       this.onChangeRole(this.staff.role);
       if (this.staffEdit.zoneInfor != null) {
         const zone = this.staff.zoneinfo.split(',');
-        for (let i = 1; i < zone.length; i++) {
+        for (let i = 0; i < zone.length; i++) {
           this.listDisplaySpe.push(zone[i]);
         }
         console.log(this.listDisplaySpe.length);
@@ -90,11 +91,11 @@ export class PopupEditStaffComponent implements OnInit {
     })
     this.cognitoService.putStaff(userName, roleId, zoneinfo).subscribe(
       (res) => {
-        this.showSuccessToast("Sửa Labo thành công");
+        this.showSuccessToast("Cập nhật thông tin nhân viên thành công!");
         window.location.reload();
       },
       () => {
-        this.showErrorToast("Sửa Labo thất bại");
+        this.showErrorToast("Cập nhật thông tin nhân viên thất bại!");
       }
     );
   }

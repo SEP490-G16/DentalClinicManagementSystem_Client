@@ -23,7 +23,7 @@
                       Tên cơ sở không được để trống !
                     </div>
                   </div>
-                  <div *ngIf="isSubmited"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmited"  class="alert-danger-custom">
                     <p>
                       {{errorFacility.name}}
                     </p>
@@ -39,7 +39,7 @@
                       Địa chỉ không được để trống !
                     </div>
                   </div>
-                  <div *ngIf="isSubmited"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmited"  class="alert-danger-custom">
                     <p>
                       {{errorFacility.address}}
                     </p>
@@ -49,13 +49,18 @@
               <div class="form-group row mt-3">
                 <label for="sdt-phongkham" class="col-3">SĐT Phòng khám:</label>
                 <div class="col-9">
-                  <input type="text" [(ngModel)]="facilityInput.sdtFacility" class="form-control" id="sdt-phongkham" name="note" #sdtFacility="ngModel">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon2">(+84)</span>
+                    </div>
+                    <input type="text" class="form-control" [(ngModel)]="facilityInput.sdtFacility" required id="sdt-phongkham" name="phone_number" #sdtFacility="ngModel" aria-label="phoneNumber" aria-describedby="basic-addon2">
+                  </div>
                   <div *ngIf="sdtFacility.invalid && (sdtFacility.dirty || sdtFacility.touched)"  class="alert-danger-custom" style="color:#FF0000FF;">
                     <div *ngIf="sdtFacility.errors?.['required']">
                       Số điện thoại phòng khám không được để trống !
                     </div>
                   </div>
-                  <div *ngIf="isSubmited"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmited"  class="alert-danger-custom">
                     <p>
                       {{errorFacility.sdtFacility}}
                     </p>
@@ -65,13 +70,18 @@
               <div class="form-group row mt-3">
                 <label for="sdt-manager" class="col-3">SĐT Người đại diện:</label>
                 <div class="col-9">
-                  <input type="text" [(ngModel)]="facilityInput.sdtManager" class="form-control" id="sdt-manager" name="note" #sdtManager="ngModel">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1">(+84)</span>
+                    </div>
+                    <input type="text" class="form-control" [(ngModel)]="facilityInput.sdtManager" required id="sdt-manager" name="phone_number" #sdtManager="ngModel" aria-label="phoneNumber" aria-describedby="basic-addon1">
+                  </div>
                   <div *ngIf="sdtManager.invalid && (sdtManager.dirty || sdtManager.touched)"  class="alert-danger-custom" style="color:#FF0000FF;">
                     <div *ngIf="sdtManager.errors?.['required']">
                       Số điện thoại người đại diện không được để trống !
                     </div>
                   </div>
-                  <div *ngIf="isSubmited"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmited"  class="alert-danger-custom">
                     <p>
                       {{errorFacility.sdtManager}}
                     </p>
@@ -87,7 +97,7 @@
                       Tên người đại diện không được để trống !
                     </div>
                   </div>
-                  <div *ngIf="isSubmited"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmited"  class="alert-danger-custom">
                     <p>
                       {{errorFacility.manager}}
                     </p>

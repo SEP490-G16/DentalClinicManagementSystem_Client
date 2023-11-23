@@ -26,7 +26,8 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
   }
   importBillBody={
     created_date:'',
-    creator:''
+    creator:'',
+    facility_id: ''
   }
   importMaterialBody={
     material_id:'',
@@ -68,11 +69,16 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
   ngOnInit(): void {
   }
   updateImportBill(){
+    let faci = sessionStorage.getItem('locale');
+    if (faci != null) {
+      this.importBillBody.facility_id = faci;
+    }
     let createDate = new Date(this.importBill.createDate);
     let createDateTimestamp = (createDate.getTime()/1000).toString();
     this.importBillBody={
       created_date: createDateTimestamp,
-      creator: this.importBill.creator
+      creator: this.importBill.creator,
+      facility_id: this.importBillBody.facility_id
     }
     this.importMaterialService.updateImportBill(this.importMaterialBillId,this.importBillBody).subscribe(data=>{
         this.toastr.success('Cập nhật phiếu thành công!');
@@ -153,6 +159,7 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
   }
   materialWareHouseId:any;
   updateImportMaterial() {
+    this.updateImportBill();
     this.displayListImport.forEach((material: any) => {
       this.materialListByImportMaterialId.forEach((a: any) => {
         if (a.material_id == material.material_id) {
@@ -170,7 +177,7 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
         quantity_import: material.quantity_import,
         price: material.price,
         warranty: warrantyTimestamp,
-        discount: material.discount,
+        discount: material.discount.toString(),
         remaining: '0'
       }
       console.log("abc")

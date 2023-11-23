@@ -34,7 +34,7 @@ a {
 }
 .form-control, .dataTable-input {
   display: block;
-  width: 100%;
+  /*width: 100%;*/
   padding: 0.875rem 1.125rem;
   font-size: 0.875rem;
   font-weight: 400;
@@ -49,4 +49,13 @@ a {
   border-radius: 0.35rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
-
+.custom-input{
+  height: 100%;
+}
+.card-body div p{
+  color: #FF0000FF;
+}
+.custom-span{
+  height: 100%;
+  font-size: 15px;
+}

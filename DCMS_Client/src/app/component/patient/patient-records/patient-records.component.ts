@@ -46,6 +46,9 @@ export class PatientRecordsComponent implements OnInit {
     this.patientService.getPatientList(paging).subscribe(patients => {
       this.searchPatientsList = [];
       this.searchPatientsList = patients.data;
+      this.searchPatientsList.forEach((p:any) =>{
+        p.phone_number = this.normalizePhoneNumber(p.phone_number);
+      })
       this.checkNextPage();
       if (this.searchPatientsList.length > 10) {
         this.searchPatientsList.pop();
@@ -62,6 +65,9 @@ export class PatientRecordsComponent implements OnInit {
       console.log(this.pagingSearch.paging);
       this.searchPatientsList = [];
       this.searchPatientsList = patients.data;
+        this.searchPatientsList.forEach((p: any) => {
+          p.phone_number = this.normalizePhoneNumber(p.phone_number);
+        })
       this.checkNextPage();
       if (this.searchPatientsList.length > 10) {
         this.searchPatientsList.pop();
@@ -113,5 +119,13 @@ export class PatientRecordsComponent implements OnInit {
       console.log("Logged out!");
       this.router.navigate(['dangnhap']);
     })
+  }
+  normalizePhoneNumber(phoneNumber: string): string {
+    if(phoneNumber.startsWith('(+84)')){
+      return '0'+phoneNumber.slice(5);
+    }else if(phoneNumber.startsWith('+84')){
+      return '0'+phoneNumber.slice(3);
+    }else
+      return phoneNumber;
   }
 }

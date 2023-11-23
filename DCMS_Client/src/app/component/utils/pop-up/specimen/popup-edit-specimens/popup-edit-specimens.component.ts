@@ -136,27 +136,23 @@ export class PopupEditSpecimensComponent implements OnInit {
       this.validatePutSpecimens.type = 'Vui lòng nhập chất liệu!';
       this.isSubmitted = true;
     }
-    if (!this.IPutSpecimens.ms_order_date){
+    if (!this.IPutSpecimens.ms_order_date || !this.formatDate(this.IPutSpecimens.ms_order_date)){
       this.validatePutSpecimens.orderDate = 'Vui lòng nhập ngày đặt!';
       this.isSubmitted = true;
     }
-    else if (this.IPutSpecimens.ms_order_date > this.IPutSpecimens.ms_received_date){
-      this.validatePutSpecimens.orderDate = 'Vui lòng chọn lại ngày đặt!';
-      this.isSubmitted = true;
-    }
-    if (!this.IPutSpecimens.ms_received_date){
+    if (!this.IPutSpecimens.ms_received_date || !this.formatDate(this.IPutSpecimens.ms_received_date)){
       this.validatePutSpecimens.receivedDate = 'Vui lòng nhập ngày nhận!';
       this.isSubmitted = true;
     }
-    else if (this.IPutSpecimens.ms_received_date > this.IPutSpecimens.ms_use_date){
+    else if (this.IPutSpecimens.ms_received_date > this.IPutSpecimens.ms_use_date && this.formatDate(this.IPutSpecimens.ms_received_date)){
       this.validatePutSpecimens.receivedDate = 'Vui lòng chọn lại ngày nhận!';
       this.isSubmitted = true;
     }
-    if (!this.IPutSpecimens.ms_use_date){
+    if (!this.IPutSpecimens.ms_use_date || !this.formatDate(this.IPutSpecimens.ms_use_date)){
       this.validatePutSpecimens.useDate = 'Vui lòng nhập ngày lắp!';
       this.isSubmitted = true;
     }
-    else if (this.IPutSpecimens.ms_use_date < this.IPutSpecimens.ms_received_date){
+    else if (this.IPutSpecimens.ms_use_date < this.IPutSpecimens.ms_received_date && this.formatDate(this.IPutSpecimens.ms_use_date)){
       this.validatePutSpecimens.useDate = 'Vui lòng chọn lại ngày lắp!';
       this.isSubmitted = true;
     }
@@ -308,5 +304,8 @@ export class PopupEditSpecimensComponent implements OnInit {
   }
   private checkNumber(number:any):boolean{
     return /^[1-9]\d*$/.test(number);
+  }
+  private formatDate(dateString:any):boolean{
+    return  /^\d{4}-(0[1-9]|1[0-2])-([0-2][0-9]|3[01])$/.test(dateString);
   }
 }

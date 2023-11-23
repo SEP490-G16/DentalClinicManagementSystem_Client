@@ -34,7 +34,10 @@
         </div>
         <span>hoặc sử dụng Username/Email</span>
         <input type="text" placeholder="Username/Email" [(ngModel)]="User.userCredential" name="username" required>
-        <input type="password" placeholder="Password" [(ngModel)]="User.password" name="password" required>
+        <div class="password-custom">
+          <input type="password" [type]="showPassword ? 'password' : 'text'" placeholder="Password" [(ngModel)]="User.password" name="password" required>
+          <span class="password-toggle-icon" (click)="togglePassword()"><i class="bi" [ngClass]="{'bi-eye-fill': showPassword, 'bi-eye-slash-fill': !showPassword}"></i></span>
+        </div>
         <p style="cursor: pointer;" (click)="toggleView(true); isEnterEmail=true">Quên mật khẩu?</p>
         <button type="submit" (click)="toggleView(false); login()" [disabled]="loading">Đăng nhập</button>
       </form>

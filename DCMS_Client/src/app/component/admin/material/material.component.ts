@@ -142,9 +142,10 @@ export class MaterialComponent implements OnInit {
       )
     }
   }
-  openEditMaterial(id: any, detail:any) {
-    this.material = detail;
-    this.item = id;
+  openEditMaterial(item:any, detail:any) {
+    this.material = item;
+    this.item = detail;
+    console.log(this.item);
   }
 
   //Đang test nên chưa chuyển đối tượng mới tạo lên

@@ -124,4 +124,61 @@ export class PendingSpecimensComponent implements OnInit {
     const timestamp = moment.tz(dateStr, format, timeZone).valueOf() /1000;
     return timestamp;
   }
+  showPopup: boolean = false;
+  checkbox1: boolean = true;
+  checkbox2: boolean = true;
+  checkbox3: boolean = true;
+  checkbox4: boolean = true;
+  checkbox5: boolean = true;
+  checkbox6: boolean = true;
+  checkbox7: boolean = true;
+  checkbox8: boolean = true;
+  checkbox9: boolean = true;
+  checkbox10: boolean = true;
+  checkbox11: boolean = true;
+  checkbox12: boolean = true;
+
+  togglePopup(): void {
+    this.showPopup = !this.showPopup;
+  }
+
+  toggleColumn(columnNumber: number): void {
+    if (columnNumber === 1) {
+      this.checkbox1 = !this.checkbox1;
+      console.log(this.checkbox1)
+    }
+    if (columnNumber === 2) {
+      this.checkbox2 = !this.checkbox2;
+    }
+    if (columnNumber === 3){
+      this.checkbox3 = !this.checkbox3;
+    }
+    if (columnNumber === 4){
+      this.checkbox4 = !this.checkbox4;
+    }
+    if (columnNumber === 5){
+      this.checkbox5 = !this.checkbox5;
+    }
+    if (columnNumber === 6){
+      this.checkbox6 = !this.checkbox6;
+    }
+    if (columnNumber === 7){
+      this.checkbox7 = !this.checkbox7;
+    }
+    if (columnNumber === 8){
+      this.checkbox8 = !this.checkbox8;
+    }
+    if (columnNumber === 9){
+      this.checkbox9 = !this.checkbox9;
+    }
+    if (columnNumber === 10){
+      this.checkbox10 = !this.checkbox10;
+    }
+    if (columnNumber === 11){
+      this.checkbox11 = !this.checkbox11;
+    }
+    if (columnNumber === 12){
+      this.checkbox12 = !this.checkbox12;
+    }
+  }
 }
