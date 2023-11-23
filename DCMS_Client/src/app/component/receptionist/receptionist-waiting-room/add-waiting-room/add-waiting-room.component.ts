@@ -52,7 +52,6 @@ export class AddWaitingRoomComponent implements OnInit {
     if (patientData === null) {
       return;
     } else {
-      console.log("Đã vào đây");
       const dataOfLocale = JSON.parse(patientData);
       this.name_suggest = dataOfLocale.patient_name;
     }
@@ -80,14 +79,17 @@ export class AddWaitingRoomComponent implements OnInit {
 
       if (this.listGroupService.length > 0) {
         this.POST_WAITTINGROOM.produce_id = this.listGroupService[0].medical_procedure_group_id;
-        this.POST_WAITTINGROOM.produce_name = this.listGroupService[0].name; // Thêm dòng này
+        this.POST_WAITTINGROOM.produce_name = this.listGroupService[0].name;
       }
     });
   }
   onPostWaitingRoom() {
+    let patientIn = this.patientInfor.split(' - ');
+    this.POST_WAITTINGROOM.patient_id = patientIn[0];
+    this.POST_WAITTINGROOM.patient_name = patientIn[1];
+    this.POST_WAITTINGROOM.status = 1;
     const storedPatientIdsString = localStorage.getItem('listPatientId');
     let storedPatientIds = [];
-
     if (storedPatientIdsString) {
       storedPatientIds = JSON.parse(storedPatientIdsString);
     }
@@ -111,18 +113,11 @@ export class AddWaitingRoomComponent implements OnInit {
       return;
     }
     console.log("Hehe: ", this.POST_WAITTINGROOM);
+
     this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
       .subscribe((data) => {
         this.showSuccessToast("Thêm phòng chờ thành công!!");
-        this.POST_WAITTINGROOM = {
-          epoch: 0,
-          produce_id: '',
-          produce_name: '',
-          patient_id: '',
-          patient_name: '',
-          reason: '',
-          status: 1
-        } as IPostWaitingRoom
+        alert("HHÂHHA");
         window.location.reload();
       },
         (err) => {
