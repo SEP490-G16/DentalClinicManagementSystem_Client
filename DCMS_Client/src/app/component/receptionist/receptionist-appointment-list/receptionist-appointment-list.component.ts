@@ -292,7 +292,10 @@ export class ReceptionistAppointmentListComponent implements OnInit {
       }
     );
   }
-
+  navigateToPatientDetail(patientId: any) {
+    console.log("check",patientId)
+    this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', patientId]);
+  }
 
   openAddAppointmentModal() {
     // this.datesDisabled = this.datesDisabled;
