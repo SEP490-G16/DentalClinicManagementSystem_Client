@@ -25,32 +25,41 @@
       </div>
     </div>
 
-    <div class="tab-pane" id="TTtab" style="padding: 30px;">
-      <div class="title mb-3">Thông tin thanh toán</div>
+    <div class="tab-pane" id="TTtab">
 
-      <div class="container" *ngFor="let report of Material_Usage_Report">
-        <div class="header">
-          <h2 (click)="toggleDetails()">Lịch trình 1: {{report.tc_data.tc_name}}</h2>
-          <div class="summary">
-            <span>Tổng tiền: {{ report.total | currency:'VND'}}</span>
-            <span>Giảm giá:</span>
-            <span>Đã thanh toán: {{ report.totalPaid | currency:'VND'}}</span>
-            <span>Còn lại: {{ report.remaining | currency:'VND'}}</span>
-            <button class="button" (click)="thanhtoan(report.mu_data, report.tc_data, report.p_data)">Thanh
-              toán</button>
+      <div class="payment-grid-wrapper" *ngIf="Material_Usage_Report.length > 0; else noPaymentRecord">
+        <div class="payment-container" *ngFor="let report of Material_Usage_Report">
+          <div class="payment-header">
+            <h2 class="schedule-title" (click)="toggleDetails()">Lịch trình: {{report.tc_data.tc_name}}</h2>
+            <div class="payment-summary">
+              <span class="total-amount">Tổng tiền: {{ report.total | currency:'VND'}}</span>
+              <span class="discount">Giảm giá:</span>
+              <span class="paid-amount">Đã thanh toán: {{ report.totalPaid | currency:'VND'}}</span>
+              <span class="remaining-amount">Còn lại: {{ report.remaining | currency:'VND'}}</span>
+              <button class="payment-button" (click)="thanhtoan(report.mu_data, report.tc_data, report.p_data)">Thanh
+                toán</button>
+            </div>
           </div>
-        </div>
-        <div class="details" *ngIf="showDetails">
-          <div class="row" *ngFor="let mu of report.mu_data">
-            <ng-container *ngIf="mu.mu_total_paid > 0;">
-              <span>Ngày thanh toán: {{ mu.mu_created_date | VNdateTimeFormat}}</span>
-              <span>Đã thanh toán: {{ mu.mu_total_paid | currency:'VND'}}</span>
-            </ng-container>
+          <div class="payment-details" *ngIf="showDetails">
+            <ng-template ngFor let-mu [ngForOf]="report.mu_data">
+              <div class="payment-row" *ngIf="mu.mu_total_paid > 0">
+                <span class="payment-date" (click)="examinationDetail(mu, report.tc_data, report.p_data)">Ngày thanh
+                  toán:
+                  {{ mu.mu_created_date | VNdateTimeFormat}}</span>
+                <span class="amount-paid">Đã thanh toán: {{ mu.mu_total_paid | currency:'VND'}}</span>
+              </div>
+            </ng-template>
+
+            <!-- <div class="print-row">
+            <button class="print-button" (click)="generatePDF()">In</button>
+          </div> -->
           </div>
         </div>
       </div>
+      <ng-template #noPaymentRecord>
+        <p class="no-appointment-message text-center">Không có "Lịch trình Thanh toán" nào được tìm thấy</p>
+      </ng-template>
     </div>
 
   </div>
-
 </div>

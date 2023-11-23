@@ -61,7 +61,6 @@ import { ReportHighIncomeAndExpenditureComponent } from './report-high-income-an
 import { ReportExpenditureComponent } from './report-expenditure/report-expenditure.component';
 import { RevenueChartComponent } from './revenue-chart/revenue-chart.component';
 import { PopupAddReportExpenditureComponent } from '../utils/pop-up/revenue/popup-add-report-expenditure/popup-add-report-expenditure.component';
-import {NgChartsModule} from "ng2-charts";
 import { PopupEditRevenueComponent } from '../utils/pop-up/revenue/popup-edit-revenue/popup-edit-revenue.component';
 
 @NgModule({
@@ -137,7 +136,6 @@ import { PopupEditRevenueComponent } from '../utils/pop-up/revenue/popup-edit-re
       useFactory: adapterFactory,
     }),
     NgSelectModule,
-    NgChartsModule,
   ],
   exports: [
     PopupAddApproveSpecimensComponent,

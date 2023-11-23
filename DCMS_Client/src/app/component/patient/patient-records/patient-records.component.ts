@@ -15,14 +15,9 @@ import { ResponseHandler } from '../../utils/libs/ResponseHandler';
   styleUrls: ['./patient-records.component.css']
 })
 export class PatientRecordsComponent implements OnInit {
+  searchPatientsList: any[] = [];
   currentPage: number = 1;
   hasNextPage: boolean = false;
-  constructor(private patientService: PatientService,
-    private toastr: ToastrService,
-    private router: Router,
-    private cognitoService: CognitoService,
-    private modalService: NgbModal) { }
-  searchPatientsList: any[] = [];
   pagingSearch = {
     paging: 1,
     total: 0
@@ -30,6 +25,11 @@ export class PatientRecordsComponent implements OnInit {
   count: number = 1;
   id: any;
   search: string = '';
+  constructor(private patientService: PatientService,
+    private toastr: ToastrService,
+    private router: Router,
+    private cognitoService: CognitoService,
+    private modalService: NgbModal) { }
   ngOnInit(): void {
     this.loadPage(this.pagingSearch.paging);
   }
@@ -51,26 +51,39 @@ export class PatientRecordsComponent implements OnInit {
       }
     },
       error => {
-        ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test+"/patient/name/"+paging, error);
+        ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test + "/patient/name/" + paging, error);
       }
-      )
-  }
-  searchPatient() {
-    console.log(this.search)
-    this.patientService.getPatientByName(this.search, this.pagingSearch.paging).subscribe(patients => {
-      console.log(this.pagingSearch.paging);
-      this.searchPatientsList = [];
-      this.searchPatientsList = patients.data;
-      this.checkNextPage();
-      if (this.searchPatientsList.length > 10) {
-        this.searchPatientsList.pop();
-      }
-    }, error => {
-       ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test+"/patient/name/"+this.search+"/"+this.pagingSearch.paging, error)
-
-    }
     )
   }
+
+  errorStatus:number = 0;
+  searchPatient() {
+    console.log(this.search)
+    // while(true) {
+      this.patientService.getPatientByName(this.search, this.pagingSearch.paging).subscribe(patients => {
+        console.log(this.pagingSearch.paging);
+        this.searchPatientsList = [];
+        this.searchPatientsList = patients.data;
+        this.checkNextPage();
+        if (this.searchPatientsList.length > 10) {
+          this.searchPatientsList.pop();
+        }
+      }, error => {
+
+        ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test + "/patient/name/" + this.search + "/" + this.pagingSearch.paging, error)
+        if(error.status === 404) {
+          this.errorStatus = error.status;
+          ++this.pagingSearch.paging;
+          console.log("Paging: ", this.pagingSearch.paging);
+        }
+      }
+      )
+      // if(this.errorStatus != 404) {
+      //   break;
+      // }
+    // }
+  }
+
   pageChanged(event: number) {
     if (event >= 1) {
       this.loadPage(event);

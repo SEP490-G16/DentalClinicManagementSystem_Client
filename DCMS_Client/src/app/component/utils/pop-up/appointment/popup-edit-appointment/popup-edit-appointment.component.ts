@@ -3,8 +3,6 @@ import { Component, OnInit, OnChanges, Input, SimpleChanges } from '@angular/cor
 import { IAddAppointment } from 'src/app/model/IAppointment';
 import { PatientService } from 'src/app/service/PatientService/patient.service';
 import { ReceptionistAppointmentService } from 'src/app/service/ReceptionistService/receptionist-appointment.service';
-
-import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
 import { ToastrService } from 'ngx-toastr';
 
 import * as moment from 'moment-timezone';

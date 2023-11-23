@@ -1,49 +1,59 @@
 <!-- Modal Header -->
 <div class="modal-header">
-  <h4 class="modal-title">Thanh toán</h4>
+  <h4 class="modal-title">{{MaterialUsage.mu_examination_id}}</h4>
   <button type="button" class="close" aria-label="Close" (click)="dismiss()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 
 <!-- Modal Body -->
-<div class="modal-body">
+<div #pdfContent class="modal-body">
+
+  <div>
+    Website <a href="">nguyentranclinic.com</a>
+  </div>
+
+  <div class="float-end">
+    <p>Số/ID: </p>
+  </div>
+
   <h2 class="text-center header-header">Phiếu thu (Receipts)</h2>
 
   <!-- Date and Payment Type -->
   <div class="row">
     <div class="col-md-6 col-sm-12">
-      <p>Ngày/Date: {{currentDate | VNdateTimeFormat}}</p>
+      <p>Ngày/Date: <b>{{MaterialUsage.mu_created_date | VNdateTimeFormat}}</b></p>
     </div>
     <div class="col-md-6 col-sm-12">
-      <p>Hình thức/Type: </p>
+      <p>Hình thức/Type: <b></b></p> <!-- Assuming you have a variable for Payment Type -->
     </div>
   </div>
+
 
   <!-- Patient Information -->
   <div class="row">
     <div class="col-md-6 col-sm-12">
-      <p>Mã khách hàng/Patient Code: {{Patient.p_patient_id}}</p>
+      <p>Mã khách hàng/Patient Code: <b>{{Patient.p_patient_id}}</b></p>
     </div>
     <div class="col-md-6 col-sm-12">
-      <p>Tên khách hàng/Patient Name: {{Patient.p_patient_name}}</p>
+      <p>Tên khách hàng/Patient Name: <b>{{Patient.p_patient_name}}</b></p>
     </div>
   </div>
 
   <!-- Address -->
   <div class="row">
     <div class="col-12">
-      <p>Địa chỉ/Address: {{Patient.p_address}}</p>
+      <p>Địa chỉ/Address: <b>{{Patient.p_address}}</b></p>
     </div>
   </div>
 
   <!-- Contact Information -->
   <div class="row">
     <div class="col-md-6 col-sm-12">
-      <p>Email: {{Patient.p_email}}</p>
+      <p>Email: <b>{{Patient.p_email}}</b></p>
     </div>
     <div class="col-md-6 col-sm-12">
-      <p>Điện thoại/Tel: {{Patient.p_phone_number}}</p>
+      <p>Điện thoại/Tel: <b>{{Patient.p_phone_number}}</b></p>
     </div>
   </div>
   <!-- Services Table -->
@@ -60,25 +70,23 @@
               <th scope="col">Nợ trước/Tổng cộng (Debt/Total)</th>
               <th scope="col">Thanh toán (Payment)</th>
               <th scope="col">Còn nợ (Remain)</th>
-              <th scope="col">Nhập số tiền thanh toán</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let mu of MaterialUsage; let i = index">
-              <td>{{ i + 1 }}</td>
-              <td>{{ mu.mu_medical_procedure_id }}</td>
-              <td>{{ mu.mu_price | currency:'VND' }}</td>
-              <td>{{ mu.mu_quantity }}</td>
-              <td>{{ mu.mu_total | currency:'VND' }}</td>
-              <td>{{ mu.mu_total_paid | currency:'VND' }}</td>
-              <td>{{ (mu.mu_total - mu.mu_total_paid) | currency:'VND' }}</td>
-              <td><input [disabled]="mu.mu_total - mu.mu_total_paid == 0" type="number" min="0" [(ngModel)]="mu.tempPaidAmount"></td>
+            <tr>
+              <td>1</td>
+              <td>{{ MaterialUsage.mu_medical_procedure_id }}</td>
+              <td>{{ MaterialUsage.mu_price | currency:'VND' }}</td>
+              <td>{{ MaterialUsage.mu_quantity }}</td>
+              <td>{{ MaterialUsage.mu_total | currency:'VND' }}</td>
+              <td>{{ MaterialUsage.mu_total_paid | currency:'VND' }}</td>
+              <td>{{ (MaterialUsage.mu_total - MaterialUsage.mu_total_paid) | currency:'VND' }}</td>
             </tr>
             <tr>
               <th colspan="4">Tổng cộng/Total: </th>
-              <td>{{ total | currency:'VND' }}</td>
-              <td>{{ totalPaid | currency:'VND' }}</td>
-              <td>{{ remaining | currency:'VND' }}</td>
+              <td>{{ MaterialUsage.mu_total | currency:'VND' }}</td>
+              <td>{{ MaterialUsage.mu_total_paid | currency:'VND' }}</td>
+              <td>{{ (MaterialUsage.mu_total - MaterialUsage.mu_total_paid) | currency:'VND' }}</td>
             </tr>
           </tbody>
         </table>
@@ -86,14 +94,10 @@
     </div>
   </div>
 
-  <div class="row mt-5 mb-5">
-    <h4>Thanh toán: {{totalPaid | currency:'VND'}}</h4>
-    <h4>Còn nợ: {{remaining | currency:'VND'}}</h4>
-  </div>
 </div>
+
 
 <!-- Modal Footer -->
 <div class="modal-footer">
-  <button type="button" class="btn btn-secondary" (click)="close()">Đóng</button>
-  <button type="button" class="btn btn-success" (click)="postPayment()">Thanh toán</button>
+  <button type="button" class="btn btn-secondary" (click)="generateExDetailPdf()">In hóa đơn lần khám</button>
 </div>

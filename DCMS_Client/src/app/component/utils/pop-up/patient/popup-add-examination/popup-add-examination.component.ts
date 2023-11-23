@@ -12,7 +12,7 @@ import { MedicalSupplyService } from 'src/app/service/MedicalSupplyService/medic
 import { MaterialUsageService } from 'src/app/service/MaterialUsage/MaterialUsageService.component';
 import { MaterialWarehouseService } from 'src/app/service/MaterialService/material-warehouse.service';
 import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureService/medical-procedure-group.service';
-import {ResponseHandler} from "../../../libs/ResponseHandler";
+import { ResponseHandler } from "../../../libs/ResponseHandler";
 @Component({
   selector: 'app-popup-add-examination',
   templateUrl: './popup-add-examination.component.html',
@@ -34,6 +34,7 @@ export class PopupAddExaminationComponent implements OnInit {
   patient_Id: string = "";
   treatmentCourse_Id: string = "";
   //Image
+  @ViewChild('containerRef', { static: true }) containerRef!: ElementRef;
   imageURL: string | ArrayBuffer = '';
   imageUrls: string[] = [];
   imageLink: string = '';
@@ -41,20 +42,18 @@ export class PopupAddExaminationComponent implements OnInit {
   showPopup = false;
   showInput = false;
   facility: string = "";
-  @ViewChild('containerRef', { static: true }) containerRef!: ElementRef;
   //Thủ thuật
   ProcedureGroupArray: any[] = [];
   detailProcedureGroupArray: any[] = [];
 
   Procedure_Material_Usage_Body: any[] = [{
-    material_warehouse_id: "",
-    medical_procedure_id: "",
+    medical_procedure_id: null,
     treatment_course_id: "",
     examination_id: "",
     quantity: 1,
     price: 0,
     total_paid: 0,
-    description: ''
+    description: '',
   }
   ]
 
@@ -64,8 +63,7 @@ export class PopupAddExaminationComponent implements OnInit {
   remainMaterial: number = 0;
   Material_Usage_Body: any[] = [
     {
-      material_warehouse_id: "",
-      medical_procedure_id: "",
+      material_warehouse_id: null,
       treatment_course_id: "",
       examination_id: "",
       quantity: 1,
@@ -87,6 +85,7 @@ export class PopupAddExaminationComponent implements OnInit {
   ]
   //Hover
   showSecondaryDatalist: boolean = false;
+  sanitizer: any;
   constructor(
     private cognitoService: CognitoService, private router: Router,
     private toastr: ToastrService,
@@ -104,12 +103,12 @@ export class PopupAddExaminationComponent implements OnInit {
     this.examination = {
       treatment_course_id: "",
       diagnosis: "",
-      xRayImage: "",
       created_date: "",
       facility_id: "",
       description: "",
       staff_id: "",
-      xRayImageDes: "",
+      'x-ray-image': "",
+      'x-ray-image-des': "",
       medicine: ""
     } as Examination;
 
@@ -144,7 +143,7 @@ export class PopupAddExaminationComponent implements OnInit {
       },
         (error) => {
           //this.toastr.error(error.error.message, "Lấy danh sách Liệu trình thất bại");
-          ResponseHandler.HANDLE_HTTP_STATUS(this.tcService.apiUrl+"/treatment-course/patient-id/"+this.patient_Id, error);
+          ResponseHandler.HANDLE_HTTP_STATUS(this.tcService.apiUrl + "/treatment-course/patient-id/" + this.patient_Id, error);
         })
   }
 
@@ -219,59 +218,61 @@ export class PopupAddExaminationComponent implements OnInit {
   postExamination() {
     this.examination.treatment_course_id = this.treatmentCourse_Id;
     this.examination.staff_id = this.staff_id;
-    const facility: string | null = sessionStorage.getItem('locale');
     this.examination.facility_id = this.facility;
-    this.examination.xRayImage = this.imageUrls.join(' ');
-    console.log("Post", this.examination);
-    console.log("Post Procedure: ", this.Procedure_Material_Usage_Body);
-    console.log("Post Material: ", this.Material_Usage_Body);
+    this.examination['x-ray-image'] = this.imageUrls.join(' ');
+    console.log(this.examination);
     this.tcDetailService.postExamination(this.examination)
       .subscribe((res) => {
         this.toastr.success(res.message, 'Thêm lần khám thành công');
         console.log("ExaminationId Response: ", res.data.examination_id);
         const examinationId = res.data.examination_id;
+        let isSuccess = false;
         this.Procedure_Material_Usage_Body.forEach((el) => {
           el.examination_id = examinationId
+          if (this.areRequiredFieldsFilled(this.Procedure_Material_Usage_Body)) {
+            this.materialUsageService.postProcedureMaterialUsage(el)
+              .subscribe((res) => {
+                isSuccess = true;
+                this.toastr.success(res.message, 'Thêm Thủ thuật thành công');
+              },
+                (err) => {
+                  isSuccess = false;
+                  console.log(err);
+                  this.toastr.error(err.error.message, 'Thêm Thủ thuật thất bại');
+                })
+          }
         }
         )
-        this.MaterialWarehouse_Array.forEach((el) => {
+        this.Material_Usage_Body = this.Material_Usage_Body.map(item => {
+          const { mw_remaining, ...rest } = item;
+          return rest;
+        });
+        this.Material_Usage_Body.forEach((el) => {
           el.examination_id = examinationId
         })
-
-        if (this.areRequiredFieldsFilled(this.Procedure_Material_Usage_Body)) {
-          this.materialUsageService.postMaterialUsage(this.Procedure_Material_Usage_Body)
-            .subscribe((res) => {
-              this.toastr.error(res.message, 'Thêm Thủ thuật thành công');
-            },
-              (err) => {
-                console.log(err);
-                this.toastr.error(err.error.message, 'Thêm Thủ thuật thất bại');
-              })
-        }
         if (this.areRequiredFieldsFilled(this.Material_Usage_Body)) {
           this.materialUsageService.postMaterialUsage(this.Material_Usage_Body)
             .subscribe((res) => {
-              this.toastr.error(res.message, 'Thêm Vật liệu sử dụng thành công');
+              isSuccess = true;
+              this.toastr.success(res.message, 'Thêm Vật liệu sử dụng thành công');
             },
               (err) => {
+                isSuccess = false;
                 console.log(err);
                 this.toastr.error(err.error.message, 'Thêm Vật liệu thất bại');
-
               })
         }
-
+        console.log(isSuccess);
+          this.showNaviPopup(1)
       },
-
         (error) => {
-          //this.toastr.error(err.error.message, 'Thêm lần khám thất bại');
-          ResponseHandler.HANDLE_HTTP_STATUS(this.tcDetailService.apiUrl+"/examination", error);
+          ResponseHandler.HANDLE_HTTP_STATUS(this.tcDetailService.apiUrl + "/examination", error);
         }
-        // (err) => {
-        //   this.toastr.error(err.error.message, 'Thêm lần khám thất bại');
-        // }
-        )
+      )
   }
-
+  test() {
+    this.showNaviPopup(1)
+  }
   closePopup() {
     let popupContainer = document.getElementById('popupContainer');
     if (popupContainer) {
@@ -286,17 +287,20 @@ export class PopupAddExaminationComponent implements OnInit {
       this.showPopup = false;
     }
   }
-
+  @ViewChild('fileInput') fileInputVariable!: ElementRef;
   onFileSelected(event: any) {
     const files = event.target.files;
-
+    console.log(files);
     if (files) {
       for (let file of files) {
         const reader = new FileReader();
 
         reader.onload = (e: any) => {
           this.imageUrls.push(e.target.result);
-          this.cdr.detectChanges(); // Buộc Angular cập nhật view
+          // this.resetFileInput();
+          this.showImages = true;
+          this.cdr.detectChanges();
+          console.log(this.imageUrls);
         };
 
         reader.readAsDataURL(file);
@@ -304,19 +308,22 @@ export class PopupAddExaminationComponent implements OnInit {
     }
   }
 
-  completeSelection() {
-    this.showImages = true;
-  }
   addImageUrl() {
     if (this.imageLink) {
+      console.log('Adding image URL:', this.imageLink); // Kiểm tra URL
       this.imageUrls.push(this.imageLink);
-      console.log(this.imageLink);
-      this.imageLink = '';
+      // this.imageLink = '';
+      console.log('Image URLs:', this.imageUrls); // Kiểm tra xem URL có được thêm vào mảng không
+      this.cdr.detectChanges();
     }
   }
 
+  private resetFileInput() {
+    this.fileInputVariable.nativeElement.value = ""; // Reset trạng thái của input file
+  }
   removeImage(urlToRemove: string) {
     this.imageUrls = this.imageUrls.filter(url => url !== urlToRemove);
+    console.log(this.imageUrls);
   }
 
   //Xử lý với bảng
@@ -372,9 +379,11 @@ export class PopupAddExaminationComponent implements OnInit {
 
   goAppointment(popupNumber: number): void {
     this.isPopup1Visible = false;
+    this.router.navigate(["/benhnhan/danhsach/tab/lichhen/" + this.patient_Id]);
   }
   goPayment(popupNumber: number): void {
     this.isPopup1Visible = false;
+    this.router.navigate(["/benhnhan/danhsach/tab/thanhtoan/" + this.patient_Id]);
   }
 
   isHovering: boolean = false;
@@ -400,4 +409,9 @@ export class PopupAddExaminationComponent implements OnInit {
     }
   }
 
+}
+
+interface ProcedureGroup {
+  id: string;
+  name: string;
 }

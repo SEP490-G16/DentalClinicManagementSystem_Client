@@ -190,7 +190,7 @@ export class CognitoService {
       this.cognitoUser.ClientId = userResult.pool.clientId;
       this.cognitoUser.idToken = userResult.signInUserSession.idToken.jwtToken;
       this.cognitoUser.refreshToken = userResult.signInUserSession.refreshToken.token;
-      this.cognitoUser.locale = userResult.attributes.locale;
+      this.cognitoUser.locale = userResult.attributes['custom:locale'];
       this.cognitoUser.sub = userResult.attributes.sub;
       console.log("CognitoUser: ", this.cognitoUser);
       sessionStorage.setItem('cognitoUser', JSON.stringify(this.cognitoUser));
