@@ -3,7 +3,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
 
 <div class="sep-recent-orders">
-  <div class="row link">
+  <div class="row custom-row">
     <div class="col-md-1 col-1">
       <a routerLink="/admin/mau" class="page-title" routerLinkActive="active-link">Quản lý mẫu</a>
     </div>
@@ -169,7 +169,7 @@
           <td *ngIf="checkbox2" style="min-width: 82px;padding: 10px">{{specimens.ms_type}}</td> <!--3-->
           <td *ngIf="checkbox3" style="min-width: 85px;padding: 10px">{{specimens.ms_quantity}}</td> <!--4-->
           <td *ngIf="checkbox4" style="min-width: 75px;padding: 10px">{{specimens.ms_unit_price}}</td> <!--5-->
-          <td *ngIf="checkbox5" style="min-width: 80px;padding: 10px">{{specimens.lb_name}}</td> <!--6-->
+          <td *ngIf="checkbox5" style="min-width: 80px;padding: 10px">{{laboName}}</td> <!--6-->
           <td *ngIf="checkbox6" style="min-width: 80px;padding: 10px">{{specimens.ms_status == 1? "Đã nhận":
             (specimens.ms_status == 2)?"Chưa nhận":"Trả lại"}}</td> <!--7-->
           <td *ngIf="checkbox7" style="min-width: 75px;padding: 10px">{{specimens.ms_order_date | date:'dd-MM-yyyy'}}

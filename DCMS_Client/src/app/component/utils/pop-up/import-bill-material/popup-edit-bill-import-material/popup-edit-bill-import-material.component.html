@@ -46,15 +46,6 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-3" *ngIf="!status">
-              <button href="add-employee.html" class="btn btn-custom" (click)="updateImportBill()"><i class="bi"></i> Cập nhật phiếu</button>
-
-            </div>
-            <div class="col-md-3">
-              <button class="btn" [ngClass]="{'btn-custom':!isAdd, 'btn-save':isAdd}" (click)="addNewMaterials()" ><i class="bi" [ngClass]="{'bi-plus-circle': !isAdd, 'bi-floppy2': isAdd}"></i> Thêm mới
-              </button>
-
-            </div>
           </div>
           <div class="row mt-5">
             <div class="col-md-12">
@@ -78,7 +69,7 @@
 
                       <td>
                         <!--<input type="text" *ngIf="isAdd" [disabled]="!isAdd" [(ngModel)]="m.material_id" class="form-control value-staff">-->
-                        <ng-select *ngIf="isAdd == false ? 'disabled' :''" [items]="materialList" [(ngModel)]="m.material_id" [searchable] = "true" bindLabel="tenVatLieu" bindValue="id">
+                        <ng-select [disabled]="!isAdd" [items]="materialList" [(ngModel)]="m.material_id" [searchable] = "true" bindLabel="tenVatLieu" bindValue="id">
                           <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
                             <div class="not-found">
                               <span>Không tìm thấy vật liệu!</span>
@@ -117,7 +108,7 @@
 
                       </td>
                       <td class="delete-cell">
-                        <button *ngIf="!isAdd" class="delete-button" (click)="deleteMaterialWareHouse(m.material_warehouse_Import_Id)">
+                        <button class="delete-button" (click)="deleteMaterialWareHouse(m.material_warehouse_Import_Id)">
                           x
                         </button>
                       </td>
@@ -137,7 +128,7 @@
       <!-- Modal footer -->
       <div class="modal-footer">
         <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn button-timekeeping"><i class="bi bi-floppy2" (click)="updateImportMaterial()"></i> Lưu</button>
+        <button type="button" class="btn button-timekeeping"  (click)="updateImportMaterial()"><i class="bi bi-floppy2"></i> Lưu</button>
       </div>
 
     </div>

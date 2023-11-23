@@ -698,9 +698,6 @@ button:active{
   .bi-pencil-square{
     color: #ffffff;
   }
-  .recent-orders{
-    margin-top: 9.3rem;
-  }
   .table__header .input-group {
     width: 60%;
     height: 3vh;
@@ -740,4 +737,8 @@ button:active{
 
 .custom-button {
   float: right;
+}
+.custom-row{
+  margin-top: 3%;
+  margin-bottom: 3%;
 }

@@ -71,7 +71,7 @@ export class PopupAddStaffComponent implements OnInit {
       this.vailidateStaff.name = "Vui lòng nhập tên nhân viên!";
       this.isSubmitted = true;
     }
-    if (!this.staff.DOB){
+    if (!this.staff.DOB || !this.formatDate(this.staff.DOB)){
       this.vailidateStaff.dob = "Vui lòng nhập ngày sinh!";
       this.isSubmitted = true;
     }
@@ -121,6 +121,15 @@ export class PopupAddStaffComponent implements OnInit {
     else if (this.passwordRepeat!==this.staff.password){
       this.vailidateStaff.passwordRepate = "Mật khẩu không khớp!";
     }
+    if (this.isSubmitted){
+      return;
+    }
+    if (this.staff.phone && this.staff.phone.length === 9){
+      this.staff.phone = '+84' + this.staff.phone;
+    }
+    if (this.staff.phone && this.staff.phone.length === 10){
+      this.staff.phone = '+84' +this.staff.phone.substring(1);
+    }
     this.staff.role = this.role;
     this.staff.gender = this.gender;
     this.staff.image = this.imageURL;
@@ -132,19 +141,10 @@ export class PopupAddStaffComponent implements OnInit {
     this.staff.DOB = this.dateToTimestamp(this.staff.DOB).toString();
     this.staff.locale = this.facility;
     this.staff.status = "1";
-    if (this.isSubmitted){
-      return;
-    }
-    if (this.staff.phone && this.staff.phone.length === 9){
-      this.staff.phone = '+84' + this.staff.phone;
-    }
-    if (this.staff.phone && this.staff.phone.length === 10){
-      this.staff.phone = '+84' +this.staff.phone.substring(1);
-    }
     this.cognitoService.addStaff(this.staff)
       .then((response) => {
-        //window.location.reload();
         this.showSuccessToast('Thêm nhân viên thành công')
+        window.location.reload();
       })
       .catch((error) => {
         // Xử lý khi có lỗi đăng ký
@@ -301,5 +301,7 @@ export class PopupAddStaffComponent implements OnInit {
       }
     }
   }
-  
+  private formatDate(dateString: any): boolean {
+    return /^\d{4}-(0[1-9]|1[0-2])-([0-2][0-9]|3[01])$/.test(dateString);
+  }
 }
