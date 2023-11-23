@@ -3,18 +3,34 @@
 <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
 
 <div class="sep-recent-orders">
-  <div class="row" style="margin-bottom: 20px">
+  <!-- <div class="row" style="margin-bottom: 20px">
     <div class="col-md-1">
-      <a (click)="navigateHref('/letan/cham-cong')" routerLinkActive="active-link" class="page-title">Chấm công</a>
+      <a routerLink="/cham-cong" routerLinkActive="active-link" class="page-title">Chấm công</a>
     </div>
     <div class="col-md-2">
-      <a routerLink="/nhanvien/dangkilichlamviec" routerLinkActive="active-link" class="page-title">Đăng kí lịch làm việc</a>
+      <a routerLink="/dang-ky-lich-lam-viec" routerLinkActive="active-link" class="page-title">Đăng kí lịch làm việc</a>
     </div>
     <div class="col-md-2">
-      <a (click)="navigateHref('/theo-doi-cham-cong')" routerLinkActive="active-link" class="page-title">Theo dõi chấm
+      <a routerLink="/theo-doi-cham-cong" routerLinkActive="active-link" class="page-title">Theo dõi chấm
         công</a>
     </div>
+  </div> -->
+  <div class="row" style="margin-left: 10px">
+    <ng-container *ngIf="roleId.includes('1') || roleId.includes('3')">
+      <div class="col-md-1">
+        <a routerLink="/cham-cong" routerLinkActive="active-link" class="page-title active-link">Chấm công</a>
+      </div>
+    </ng-container>
+    <div class="col-md-2">
+      <a routerLink="/dang-ky-lich-lam-viec" routerLinkActive="active-link" class="page-title">Đăng kí lịch làm
+        việc</a>
+    </div>
+    <div class="col-md-2">
+      <a routerLink="/theo-doi-cham-cong" routerLinkActive="active-link" class="page-title">Theo dõi
+        chấm công</a>
+    </div>
   </div>
+
   <div class="mt-5" style="max-width: 100%;display: flex">
     <div class="mb-5 check">
       <div style="display: flex">
@@ -57,7 +73,8 @@
         <label for="fromDate" class="form-label" style="padding: 10px"><b>Từ ngày:</b></label>
       </div>
       <div class="col-8">
-        <input type="date" style="width: 90%" #input (change)="changeFromDate(input.value)" id="fromDate" class="form-control input-custom  p-2">
+        <input type="date" style="width: 90%" #input (change)="changeFromDate(input.value)" id="fromDate"
+          class="form-control input-custom  p-2">
       </div>
     </div>
 
@@ -66,7 +83,8 @@
         <label for="toDate" class="form-label" style="padding: 10px 0"><b>Đến ngày:</b></label>
       </div>
       <div class="col-8">
-        <input type="date" [(ngModel)]="toDate"  #inpu (change)="changeToDate(inpu.value)" style="width: 90%" id="toDate" class="form-control input-custom  p-2">
+        <input type="date" [(ngModel)]="toDate" #inpu (change)="changeToDate(inpu.value)" style="width: 90%" id="toDate"
+          class="form-control input-custom  p-2">
       </div>
     </div>
     <div class="mb-5">
@@ -77,69 +95,73 @@
   <div class="scrollable-col">
     <table class="table table-bordered custom-table">
       <thead class="sticky-thead">
-      <tr class="text-center">
-        <th style="min-width: 120px">Tên nhân viên</th>
-        <th style="min-width: 80px"> Chức vụ</th>
-        <th [colSpan]="totalDate"> Ngày</th>
-        <th style="min-width: 120px"> Ngày đi làm</th>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td *ngFor="let day of listDayInMonth" style="min-width: 70px;">{{ day }}</td>
-        <td></td>
-      </tr>
+        <tr class="text-center">
+          <th style="min-width: 120px">Tên nhân viên</th>
+          <th style="min-width: 80px"> Chức vụ</th>
+          <th [colSpan]="totalDate"> Ngày</th>
+          <!-- <th style="min-width: 120px"> Ngày đi làm</th> -->
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td *ngFor="let day of listDayInMonth" style="min-width: 70px;">{{ day }}</td>
+        </tr>
       </thead>
       <tbody class="text-center">
+        <ng-container *ngIf="roleId.includes('1')">
+          <ng-container *ngFor="let timekeeping of listStaffTimeKeeping">
+            <tr>
+              <td>{{timekeeping.staff_name}}</td>
+              <td>Lế tân</td>
+              <td *ngFor="let day of listDayInMonth">
+                <ng-container *ngFor="let p of timekeeping.timeKeeping">
+                  <div style="display: flex" *ngIf="isClockInDay(day,p.epoch)">
+                    <div class="check-in-custom">
+                    </div>
+                    <div>
+                      <p>{{timestampToGMT7String(p.clock_in)}}</p>
+                    </div>
+                  </div>
+                  <div style="display: flex" *ngIf="isClockOutDay(day,p.epoch)">
+                    <div class="check-out-custom">
+                    </div>
+                    <div>
+                      <p>{{timestampToGMT7String(p.clock_out)}}</p>
+                    </div>
+                  </div>
+                </ng-container>
+              </td>
+            </tr>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="!roleId.includes('1')">
+          <ng-container *ngFor="let timekeeping of listStaffTimeKeeping">
+            <tr *ngIf="timekeeping.sub_id == ownSubId">
+              <td>{{timekeeping.staff_name}}</td>
+              <td>Lế tân</td>
+              <td *ngFor="let day of listDayInMonth">
+                <ng-container *ngFor="let p of timekeeping.timeKeeping">
+                  <div style="display: flex" *ngIf="isClockInDay(day,p.epoch)">
+                    <div class="check-in-custom">
+                    </div>
+                    <div>
+                      <p>{{timestampToGMT7String(p.clock_in)}}</p>
+                    </div>
+                  </div>
+                  <div style="display: flex" *ngIf="isClockOutDay(day,p.epoch)">
+                    <div class="check-out-custom">
+                    </div>
+                    <div>
+                      <p>{{timestampToGMT7String(p.clock_out)}}</p>
+                    </div>
+                  </div>
+                </ng-container>
+              </td>
+            </tr>
 
-      <!-- <ng-container *ngFor="let timekeeping of followingTimekeepings">
-        <tr *ngFor="let p of timekeeping.records">
-          <td>{{p.details.staff_name}}</td>
-          <td>Lế tân</td>
-          <td *ngFor="let day of listDayInMonth">
-            <div style="display: flex" *ngIf="isClockInDay(day,timekeeping.epoch)">
-              <div class="check-in-custom">
-              </div>
-              <div>
-                <p>{{timestampToGMT7String(p.details.clock_in)}}</p>
-              </div>
-            </div>
-            <div style="display: flex" *ngIf="isClockOutDay(day,timekeeping.epoch)">
-              <div class="check-out-custom">
-              </div>
-              <div>
-                <p>{{timestampToGMT7String(p.details.clock_out)}}</p>
-              </div>
-            </div>
-          </td>
-          <td></td>
-        </tr>
-      </ng-container> -->
-      <ng-container *ngFor="let timekeeping of listStaffTimeKeeping">
-        <tr>
-          <td>{{timekeeping.staff_name}}</td>
-          <td>Lế tân</td>
-          <td *ngFor="let day of listDayInMonth">
-            <ng-container *ngFor="let p of timekeeping.timeKeeping">
-              <div style="display: flex" *ngIf="isClockInDay(day,p.epoch)">
-                <div class="check-in-custom">
-                </div>
-                <div>
-                  <p>{{timestampToGMT7String(p.clock_in)}}</p>
-                </div>
-              </div>
-              <div style="display: flex" *ngIf="isClockOutDay(day,p.epoch)">
-                <div class="check-out-custom">
-                </div>
-                <div>
-                  <p>{{timestampToGMT7String(p.clock_out)}}</p>
-                </div>
-              </div>
-            </ng-container>
-          </td>
-          <td></td>
-        </tr>
-      </ng-container>
+          </ng-container>
+        </ng-container>
+
       </tbody>
     </table>
   </div>

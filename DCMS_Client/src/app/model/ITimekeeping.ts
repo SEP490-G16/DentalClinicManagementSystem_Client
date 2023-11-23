@@ -1,6 +1,9 @@
 export interface RequestBodyTimekeeping {
   epoch: number
   sub_id: string
+  role: string
+  register_clock_out: string
+  register_clock_in: string
   staff_name: string
   staff_avt: string
   clock_in: number

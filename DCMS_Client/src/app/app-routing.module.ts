@@ -57,22 +57,19 @@ const routes: Routes = [
         }
       },
       {
-        path: 'dangkylichlamviec',
+        path: 'dang-ky-lich-lam-viec',
         component: RegisterWorkScheduleComponent,
-        // data: {
-        //   allowedGroups: ['dev-dcms-doctor', 'dev-dcms-nurse', 'dev-dcms-receptionist']
-        // }
       },
       {
         path: 'chat',
         component: ChatComponent
       },
       {
-        path: 'admin',
+        path: '',
         loadChildren: () => import('./component/admin/admin.module').then(m => m.AdminModule),
-        canActivate: [AuthGuard],
+        //canActivate: [AuthGuard],
         data: {
-          allowedGroups: ['dev-dcms-admin']
+          allowedGroups: ['dev-dcms-doctor', 'dev-dcms-nurse', 'dev-dcms-receptionist', 'dev-dcms-patient', 'dev-dcms-admin']
         }
       },
     ]

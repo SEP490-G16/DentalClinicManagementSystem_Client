@@ -27,20 +27,20 @@ import {
 import { NgSelectModule } from '@ng-select/ng-select';
 @NgModule({
   declarations: [
-   ReceptionistAppointmentListComponent,
-   ReceptionistTimekeepingComponent,
-   ReceptionistWaitingRoomComponent,
-   ReceptionistComponent,
-   PopupAddAppointmentComponent,
-   PopupEditAppointmentComponent,
-   AddWaitingRoomComponent,
-    PopupConfirmServiceComponent
+   //ReceptionistAppointmentListComponent,
+   //ReceptionistTimekeepingComponent,
+   //ReceptionistWaitingRoomComponent,
+  //  ReceptionistComponent,
+  //  PopupAddAppointmentComponent,
+  //  PopupEditAppointmentComponent,
+  //  AddWaitingRoomComponent,
+  //  PopupConfirmServiceComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
-    PatientModule,
+    // PatientModule,
     SharedModule,
     ReceptionistRoutingModule,
     NgbModule,

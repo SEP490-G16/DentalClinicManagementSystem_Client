@@ -44,16 +44,21 @@ export class PatientProfileTabComponent implements OnInit {
   }
   isSubmitted:boolean = false;
   isEditing: boolean = false;
-
+  roleId: string[] = [];
 
 
   ngOnInit(): void {
     this.id=this.route.snapshot.params['id'];
     this.getPatient(this.id);
+    let ro = sessionStorage.getItem('role');
+    if (ro != null) {
+      this.roleId = ro.split(',');
+    }
   }
 
   navigateHref(href: string) {
    this.commonService.navigateHref(href, this.id);
+   window
   }
 
   imageURL: string | ArrayBuffer = '';

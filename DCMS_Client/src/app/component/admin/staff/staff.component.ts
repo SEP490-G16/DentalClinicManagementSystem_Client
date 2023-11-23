@@ -146,10 +146,15 @@ export class StaffComponent implements OnInit {
   }
 
   timestampToDate(timestamp: number): string {
-    const date = moment.unix(timestamp);
-    const dateStr = date.format('YYYY-MM-DD');
-    return dateStr;
+    try {
+      const date = moment.unix(timestamp);
+      const dateStr = date.format('YYYY-MM-DD');
+      return dateStr;
+    } catch(err) {
+      return '';
+    }
   }
+
   normalizePhoneNumber(phoneNumber: string): string {
     if(phoneNumber.startsWith('(+84)')){
       return '0'+phoneNumber.slice(5);

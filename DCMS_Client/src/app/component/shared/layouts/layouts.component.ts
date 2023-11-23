@@ -35,6 +35,7 @@ export class LayoutsComponent implements OnInit,AfterViewInit {
   constructor(private cognitoService: CognitoService, private router: Router, private activatedRoute: ActivatedRoute) { }
   chatContainerVisible = false;
   currentRoute: string='';
+  roleId: string[] = [];
   ngOnInit(): void {
     console.log("oninit");
     this.router.events.subscribe((event) => {
@@ -52,6 +53,11 @@ export class LayoutsComponent implements OnInit,AfterViewInit {
 
     this.compareUserGroup = '["dev-dcms-admin"]';
     console.log("Layout: ", this.userGroupString);
+
+    let ro = sessionStorage.getItem('role');
+    if (ro != null) {
+      this.roleId = ro.split(',') ;
+    }
   }
   signOut() {
     this.cognitoService.signOut().then(() => {

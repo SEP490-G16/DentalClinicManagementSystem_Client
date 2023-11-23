@@ -1,14 +1,16 @@
-<div class="recent-orders">
+<div class="sep-recent-orders">
   <div class="row" style="margin-left: 10px">
-    <div class="col-md-1">
-      <a (click)="navigateHref('/letan/cham-cong')" routerLinkActive="active-link" class="page-title active-link">Chấm công</a>
-    </div>
+    <ng-container *ngIf="roleId.includes('1') || roleId.includes('3')">
+      <div class="col-md-1">
+        <a routerLink="/cham-cong" routerLinkActive="active-link" class="page-title active-link">Chấm công</a>
+      </div>
+    </ng-container>
     <div class="col-md-2">
-      <a (click)="navigateHref('/dangkilichlamviec')" routerLinkActive="active-link" class="page-title">Đăng kí lịch làm
+      <a routerLink="/dang-ky-lich-lam-viec" routerLinkActive="active-link" class="page-title">Đăng kí lịch làm
         việc</a>
     </div>
     <div class="col-md-2">
-      <a (click)="navigateHref('/letan/theo-doi-cham-cong')" routerLinkActive="active-link" class="page-title">Theo dõi
+      <a routerLink="/theo-doi-cham-cong" routerLinkActive="active-link" class="page-title">Theo dõi
         chấm công</a>
     </div>
   </div>
@@ -44,38 +46,41 @@
         <tbody>
           <tr>
             <td></td>
-            <td>Clockin</td>
-            <td>Clockout</td>
-            <td>Clockin</td>
-            <td>Clockout</td>
-            <td>Clockin</td>
-            <td>Clockout</td>
-            <td>Clockin</td>
-            <td>Clockout</td>
-            <td>Clockin</td>
-            <td>Clockout</td>
-            <td>Clockin</td>
-            <td>Clockout</td>
-            <td>Clockin</td>
-            <td>Clockout</td>
+            <td>Giờ đến</td>
+            <td>Giờ về</td>
+            <td>Giờ đến</td>
+            <td>Giờ về</td>
+            <td>Giờ đến</td>
+            <td>Giờ về</td>
+            <td>Giờ đến</td>
+            <td>Giờ về</td>
+            <td>Giờ đến</td>
+            <td>Giờ về</td>
+            <td>Giờ đến</td>
+            <td>Giờ về</td>
+            <td>Giờ đến</td>
+            <td>Giờ về</td>
           </tr>
-          <tr *ngFor="let staff of StaffFilter">
+          <tr *ngFor="let staff of listStaffDisplay">
             <td>
-              <p>{{staff.name}}</p>
+              {{staff.staffName}}
             </td>
             <ng-container *ngFor="let timestamp of weekTimestamps; let dayIndex = index">
               <ng-container *ngIf="timestamp === currentDateTimeStamp">
                 <td>
                   <button class="button-timekeeping" (click)="onClockin(staff)"
                           [disabled]="staff.isClockin">{{staff.clockInStatus}}</button> <br />
+                  
+                  <p *ngIf="!roleId.includes('1')">{{staff.timeClockin}}</p>
                   <input type="time" [(ngModel)]="staff.timeClockin" [class]="timeClockinColor"
-                         (change)="onClockin(staff)">
+                         (change)="onClockin(staff)" *ngIf="roleId.includes('1')">
                 </td>
                 <td>
                   <button class="button-timekeeping" (click)="onClockout(staff)"
                           [disabled]="staff.isClockout">{{staff.clockOutStatus}}</button> <br />
+                  <p *ngIf="!roleId.includes('1')">{{staff.timeClockout}}</p>
                   <input type="time" [(ngModel)]="staff.timeClockout" [class]="timeClockoutColor"
-                         (change)="onClockout(staff)">
+                         (change)="onClockout(staff)" *ngIf="roleId.includes('1')">
                 </td>
               </ng-container>
               <ng-container *ngIf="timestamp !== currentDateTimeStamp">

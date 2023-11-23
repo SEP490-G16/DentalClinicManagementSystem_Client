@@ -32,23 +32,23 @@ import { PatientSpecimensComponent } from './patient-records/patient-specimens/p
 import { AdminModule } from '../admin/admin.module';
 @NgModule({
   declarations: [
-      PatientManagementComponent,
-      PatientRecordsComponent,
-      PopupAddPatientComponent,
-      PatientProfileTabComponent,
-      PatientAppointmentTabComponent,
-      PopupDeletePatientComponent,
-      PatientLichtrinhdieutriComponent,
-      VNDateTimeFormatPipe,
-      PopupAddTreatmentcourseComponent,
-      PopupEditTreatmentcourseComponent,
-      PopupAddExaminationComponent,
-      PopupEditExaminationComponent,
-      PopupDatlichtaikhamComponent,
-      PopupSualichtaikhamComponent,
-      PopupPaymentComponent,
-      PatientPaymentTabComponent,
-      PatientSpecimensComponent,
+      // PatientManagementComponent,
+      // PatientRecordsComponent,
+      // PopupAddPatientComponent,
+      // PatientProfileTabComponent,
+      // PatientAppointmentTabComponent,
+      // PopupDeletePatientComponent,
+      // PatientLichtrinhdieutriComponent,
+      // VNDateTimeFormatPipe,
+      // PopupAddTreatmentcourseComponent,
+      // PopupEditTreatmentcourseComponent,
+      // PopupAddExaminationComponent,
+      // PopupEditExaminationComponent,
+      // PopupDatlichtaikhamComponent,
+      // PopupSualichtaikhamComponent,
+      // PopupPaymentComponent,
+      // PatientPaymentTabComponent,
+      // PatientSpecimensComponent,
   ],
   imports: [
     CommonModule,
@@ -67,8 +67,8 @@ import { AdminModule } from '../admin/admin.module';
     NgbModule,
   ],
   exports: [
-    PopupAddPatientComponent,
-    VNDateTimeFormatPipe
+    //PopupAddPatientComponent,
+    //VNDateTimeFormatPipe
   ],
 
   providers: [DatePipe]

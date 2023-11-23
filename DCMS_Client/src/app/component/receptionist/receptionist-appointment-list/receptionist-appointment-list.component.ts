@@ -60,7 +60,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
       doctor: '',
       procedure: '',
       phone_number: ''
-    } as ISelectedAppointment
+    } as ISelectedAppointment;
   }
 
   selectedProcedure: string = '';
@@ -84,7 +84,6 @@ export class ReceptionistAppointmentListComponent implements OnInit {
 
     this.getAppointmentList();
     this.getListGroupService();
-    // console.log(this.cognitoService.getUser());
   }
 
   getListGroupService() {
@@ -292,7 +291,10 @@ export class ReceptionistAppointmentListComponent implements OnInit {
       }
     );
   }
-
+  navigateToPatientDetail(patientId: any) {
+    console.log("check",patientId)
+    this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', patientId]);
+  }
 
   openAddAppointmentModal() {
     // this.datesDisabled = this.datesDisabled;
