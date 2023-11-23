@@ -16,21 +16,17 @@
           <!-- Hàng 2: 2 thanh input mỗi thanh chiếm 50% -->
           <div class="row">
             <div class="col-6">
-              <label for="sdt">Số điện thoại:</label>
-              <input type="text" class="form-control" id="fullName" name="sdt" [(ngModel)]="phone_number"
-                (input)="onPhoneInput()" list="patientStorage">
-              <datalist id="patientStorage">
-                <option [value]=phone_suggest>{{name_suggest}}</option>
-              </datalist>
-              <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
-                <p>
-                  {{ validateWatingRoom.phone }}
-                </p>
+              <div class="form-group mt-2">
+                <label for="patientName">Tên bệnh nhân</label>
+                  <ng-select [items]="patientList" bindLabel="patientInfor" [(ngModel)]="patientInfor" bindValue="patientInfor" (keyup)="onsearchPatientInWaitingRoom($event)"
+                             [notFoundText]="'Không tìm thấy bệnh nhân'">
+                  </ng-select>
+                  <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateWatingRoom.patientName}}</p>
               </div>
             </div>
             <div class="col-6">
-              <div class="form-group">
-                <label for="phone">Loại điều trị</label>
+              <div class="form-group mt-2">
+                <label>Loại điều trị</label>
                 <select [(ngModel)]="POST_WAITTINGROOM.produce_id" (change)="onProcedureChange($event)"
                   class="form-select input-custom float-end" aria-label="Default select example">
                   <option *ngFor="let a of listGroupService" [value]="a.medical_procedure_group_id">{{a.name}}</option>
@@ -42,20 +38,6 @@
                   </p>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <!-- Hàng 2: 2 thanh input mỗi thanh chiếm 50% -->
-          <div class="row">
-            <div class="col-6">
-              <label for="fullName">Họ và tên:</label>
-              <input type="text" class="form-control" [(ngModel)]="POST_WAITTINGROOM.patient_name" id="fullName"
-                name="fullName" disabled>
-            </div>
-            <div class="col-6">
-              <label for="patientID">Mã bệnh nhân:</label>
-              <input type="text" class="form-control" [(ngModel)]="POST_WAITTINGROOM.patient_id" id="patientID"
-                name="patientID" disabled>
             </div>
           </div>
 

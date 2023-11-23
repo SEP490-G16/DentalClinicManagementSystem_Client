@@ -16,7 +16,7 @@
       <input type="date" class="date-input-custom" [(ngModel)]="startDate" (change)="getAppointmentList()">
       <select class="form-select input-custom float-end" aria-label="Default select example"
         [(ngModel)]="selectedProcedure" (change)="filterAppointments()" style="width: 40%;">
-        <option selected value="">Phân loại điều trị</option>
+        <option selected value="">Tất cả loại điều trị</option>
         <option *ngFor="let a of listGroupService" value={{a.medical_procedure_group_id}}>{{a.name}}</option>
       </select>
     </div>
@@ -31,7 +31,7 @@
           <th>SĐT</th>
           <th>Loại điều trị</th>
           <th>Bác sĩ</th>
-          <th style="min-width: 110px;">Thời gian hẹn khám</th>
+          <th>Thời gian hẹn khám</th>
           <th>Thao tắc</th>
           <th>Action</th>
         </tr>
@@ -41,27 +41,21 @@
           <ng-container *ngFor="let ap of a.appointments">
             <tr *ngFor="let detail of ap.details">
               <ng-container *ngIf="detail.migrated == 'false'">
-                <td>
+                <td class="patient-id">
                   {{detail.patient_id}}
                 </td>
-                <td>
+                <td class="patient-name">
                   {{detail.patient_name}}
                 </td>
-                <td>
+                <td class="patient-phone">
                   {{detail.phone_number}}
                 </td>
-                <td>
+                <td class="patient-pn">
                   {{detail.procedure_name}}
                 </td>
-                <td>{{ detail.doctor }}</td>
-                <td>{{timestampToTime(detail.time)}} - {{timestampToDate(a.date)}}</td>
-                <!-- <td>{{convertTimestampToVNDateString(a.date)}}</td> -->
-                <td>
-                  <!-- <button class="btn btn-edit-custom" data-bs-toggle="modal" data-bs-target="#editAppointmentModal"
-                    (click)="openEditModal(detail, a.date)">
-                    <i class="bi bi-pencil-square"></i>
-                  </button> -->
-                  <!-- <button (click)="deleteAppointment(detail, a.date)"> <i class="bi bi-trash"></i></button> -->
+                <td class="patient-doctorname">{{ detail.doctor }}</td>
+                <td class="appointments-time">{{timestampToTime(detail.time)}} - {{timestampToDate(a.date)}}</td>
+                <td class="table_button">
                   <button class="btn btn-primary p-1 m-r-3" style="padding: 2px 3px; margin-right: 3px"
                     data-bs-toggle="modal" data-bs-target="#editAppointmentModal"
                     (click)="openEditModal(detail, a.date)">
@@ -69,18 +63,18 @@
                   <button class="btn btn-danger p-1" style="padding: 2px 5px"
                     (click)="deleteAppointment(detail, a.date)"> <i class="bi bi-trash"></i></button>
                 </td>
-                <td *ngIf="detail.status == 2 && checkDate(a.date)">
+                <td *ngIf="detail.status == 2 && checkDate(a.date)" class="direct-click">
                   <button class="btn btn-redirect" (click)="postExchangeAppointmentToWaitingRoom(a.date, detail)"
                     style="width: 100px; color: black;">
                     Đến phòng chờ
                   </button>
                 </td>
-                <td *ngIf="detail.status == 2 && !checkDate(a.date)">
+                <td *ngIf="detail.status == 2 && !checkDate(a.date)" class="direct-click">
                   <button class="btn btn-redirect" style="width: 100px; color: red;">
                     <b>Trễ lịch hẹn</b>
                   </button>
                 </td>
-                <td *ngIf="detail.status == 1">
+                <td *ngIf="detail.status == 1" class="direct-click">
                   <p style="color: green;"><b>Đã khám</b></p>
                 </td>
               </ng-container>

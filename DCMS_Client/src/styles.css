@@ -1,6 +1,7 @@
 @import "~@ng-select/ng-select/themes/default.theme.css";
 /* angular-cli file: src/styles.css */
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
+
 .web-wrapper {
   --custom-color-primary: #6C9BCF;
   --custom-color-danger: #FF0060;
@@ -22,6 +23,7 @@
 
   --custom-box-shadow: 0 2rem 3rem var(--custom-color-light);
 }
+
 :root {
   /* full size */
   --size: 10px;
@@ -36,11 +38,12 @@
   --sidebar-width-active: 0;
   --sidebar-inset: 20px 0 20px 20px;
   --sidebar-toggle-button-padding: 0 23px !important;
+  --slidebar-sep-navigation-ul-li: 60px;
 
   /* main container style */
   --main-container-height: 100%;
-  --main-anylyse-height:15%;
-  --main-content-height:85%;
+  --main-anylyse-height: 15%;
+  --main-content-height: 85%;
   /* table */
   --table-height: 85%;
 }
@@ -48,38 +51,74 @@
 /* Màn hình nhỏ hơn 13 inch */
 @media (max-width: 1366px) {
   :root {
-    --size: 15px; /* Giảm kích thước cho màn hình nhỏ */
+    --size: 15px;
+    /* Giảm kích thước cho màn hình nhỏ */
     --sidebar-width: 60px;
     --sidebar-width-active: 200px;
     --sidebar-inset: 20px 0 20px 20px;
     --sidebar-toggle-button-padding: 0 23px !important;
+    --slidebar-sep-navigation-ul-li: 45px;
+  }
+
+  .mat-typography {
+    font-size: 12px !important;
+  }
+
+  .sep-recent-orders {
+    font-size: 12px !important;
   }
 }
 
 /* Màn hình từ 13 inch đến 24 inch */
 @media (min-width: 1367px) and (max-width: 2560px) {
   :root {
-    --size: 20px; /* Kích thước trung bình */
+    --size: 20px;
+    /* Kích thước trung bình */
     --sidebar-width: 75px;
     --sidebar-width-active: 250px;
     --sidebar-inset: 20px 0 20px 20px;
     --sidebar-toggle-button-padding: 0 23px !important;
+    --slidebar-sep-navigation-ul-li: 70px;
+  }
+
+  .mat-typography {
+    font-size: 16px !important;
+  }
+
+  .sep-recent-orders {
+    font-size: 16px !important;
   }
 }
 
 /* Màn hình lớn hơn 24 inch */
 @media (min-width: 2561px) {
   :root {
-    --size: 25px; /* Tăng kích thước cho màn hình lớn */
+    --size: 25px;
+    /* Tăng kích thước cho màn hình lớn */
     --sidebar-width: 90px;
     --sidebar-width-active: 300px;
     --sidebar-inset: 20px 0 20px 20px;
     --sidebar-toggle-button-padding: 0 23px !important;
   }
+
+  .mat-typography {
+    font-size: 22px !important;
+  }
+
+  .sep-recent-orders {
+    font-size: 22px !important;
+  }
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 img {
   display: block;
@@ -133,10 +172,12 @@ b {
 .warning {
   color: var(--custom-color-warning);
 }
+
 /* Warehouse_material*/
-.SEP-WH-table-tr td:hover{
+.SEP-WH-table-tr td:hover {
   cursor: pointer;
 }
+
 .SEP-WH-table-tr:hover {
   box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
 }
@@ -147,32 +188,35 @@ b {
   background-color: var(--component-background-color);
   width: var(--sidebar-width);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   transition: 0.5s;
 }
 
-.sep-navigation.active{
+.sep-navigation.active {
   width: var(--sidebar-width-active);
+  display: flex;
+  flex-direction: column;
 }
 
-.sep-navigation.active .sep-menuToggle::before{
+.sep-navigation.active .sep-menuToggle::before {
   transform: translateY(0) rotate(45deg);
 }
 
-.sep-navigation.active .sep-menuToggle::after{
+.sep-navigation.active .sep-menuToggle::after {
   transform: translateY(0) rotate(-45deg);
   box-shadow: 0 0 0 #333;
 }
 
 .sep-menuToggle {
-  position: absolute;
+  /* position: absolute; */
   top: 0;
   left: 0;
   width: 100%;
-  height: 50px;
+  height: 8%;
   padding: var(--sidebar-toggle-button-padding) !important;
-  border-bottom: 1px solid rgba(0,0,0,0.25);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -186,15 +230,15 @@ b {
   visibility: visible;
 }
 
-.sep-navigation.active .sep-menuToggle .logo p .danger .nguyen{
+.sep-navigation.active .sep-menuToggle .logo p .danger .nguyen {
   transition-delay: 0.2s;
 }
 
-.sep-navigation.active .sep-menuToggle .logo p .danger .tran{
+.sep-navigation.active .sep-menuToggle .logo p .danger .tran {
   transition-delay: 0.3s;
 }
 
-.sep-navigation.active .sep-menuToggle .logo p .clinic{
+.sep-navigation.active .sep-menuToggle .logo p .clinic {
   transition-delay: 0.5s;
 }
 
@@ -244,16 +288,21 @@ b {
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 92%;
 }
 
 .sep-navigation ul li {
   list-style: none;
   position: relative;
   width: 100%;
-  height: 76px;
+  height: var(--slidebar-sep-navigation-ul-li);
   border-radius: 14px;
   border: 8px solid transparent;
   transition: 0.5s;
+}
+
+.sep-navigation ul li:last-child {
+  margin-top: auto;
 }
 
 .sep-navigation ul li.active {
@@ -301,7 +350,9 @@ b {
   transform: scale(1);
 }
 
-.sep-navigation ul li a{
+.sep-navigation ul li a {
+
+  cursor: pointer;
   position: relative;
   display: flex;
   justify-content: flex-start;
@@ -387,16 +438,20 @@ b {
   margin-left: -175px;
   transition: 0.5s;
 }
-.sep-main .sep-analyse{
+
+.sep-main .sep-analyse {
   height: var(--main-anylyse-height) !important;
 }
-.sep-main .sep-content{
+
+.sep-main .sep-content {
   height: var(--main-content-height) !important;
 }
-.sep-main .sep-front-table{
+
+.sep-main .sep-front-table {
   height: var(--main-anylyse-height) !important;
 }
-.sep-main .sep-listpatient-table{
+
+.sep-main .sep-listpatient-table {
   height: var(--table-height) !important;
 }
 
@@ -421,7 +476,9 @@ b {
   border: 1px solid #4CAF50;
 }
 
-.sep-pagination a:hover:not(.active) {background-color: #ddd;}
+.sep-pagination a:hover:not(.active) {
+  background-color: #ddd;
+}
 
 .sep-pagination a:first-child {
   border-top-left-radius: 5px;
@@ -432,7 +489,9 @@ b {
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
 }
-.form-control, .sep-input-gender {
+
+.form-control,
+.sep-input-gender {
   display: block;
   width: 100%;
   padding: 0.875rem 1.125rem;
@@ -448,27 +507,32 @@ b {
   border-radius: 0.35rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
-.sep-recent-orders{
+
+.sep-recent-orders {
   margin-top: 1.3rem;
   height: var(--main-container-height) !important;
 }
-.sep-recent-orders .sep-listpatient-table{
+
+.sep-recent-orders .sep-listpatient-table {
   height: var(--table-height) !important;
 }
 
 .sep-recent-orders h2 {
   margin-bottom: 0.8rem;
 }
+
 .sep-recent-orders a {
   text-align: start;
   display: block;
   margin: 1rem auto;
 }
+
 .sep-recent-orders a:active {
   text-align: center;
   display: block;
   margin: 1rem auto;
 }
+
 /* table */
 table {
   background-color: var(--custom-color-white);
@@ -484,19 +548,24 @@ table:hover {
 }
 
 table thead th {
-  height: 2.8rem;
+  height: 4rem;
   color: var(--custom-color-dark-variant);
 }
 
+table tbody tr:hover {
+  background-color: rgba(158, 146, 209, 0.1);
+}
+
 table tbody td {
-  height: 2.8rem;
+  height: 3.5rem;
   color: var(--custom-color-dark-variant);
 }
 
 table tbody tr:last-child td {
   border: none;
 }
-.table-container{
+
+.table-container {
   background-color: white;
   height: 62vh;
   max-height: 100%;
@@ -506,14 +575,17 @@ table tbody tr:last-child td {
   scrollbar-width: thin;
   scrollbar-color: #888 #f1f1f1;
 }
+
 .table-container::-webkit-scrollbar-thumb {
   background-color: #c0c0c0;
   border-radius: 6px;
 }
+
 .table-container::-webkit-scrollbar-track {
   background-color: #f0f0f0;
   border-radius: 10px;
 }
+
 .table-container::-webkit-scrollbar {
   width: 5px;
   height: 5px;
@@ -523,17 +595,59 @@ table tbody tr:last-child td {
   background: #8c8a8a;
 }
 
+/* table tbody tr td {
+  white-space: nowrap;
+  overflow: visible;
+} */
+
+table tbody .patient-id {
+  width: 140px;
+}
+
+table tbody .patient-name {
+  text-align: start;
+  width: 180px;
+}
+
+table tbody .patient-phone {
+  width: 140px;
+}
+
+table tbody .patient-pn {
+  width: 220px;
+}
+
+table tbody .patient-doctorname {
+  text-align: start;
+  width: 180px;
+}
+
+table tbody .appointments-time {
+  width: 180px;
+}
+
+table tbody .table_button {
+  width: 80px;
+}
+
+table tbody .direct-click {
+  width: 140px;
+}
+
+
 /*end table */
 /* ---------------------------------------- */
 /* start button */
-button:hover{
+button:hover {
   opacity: 0.9;
 }
-button:active{
+
+button:active {
   transform: translateY(4px);
   box-shadow: 0px -1px -1px #fff;
 }
-.button-add{
+
+.button-add {
   font-family: "Poppins", sans-serif;
   background: #664FC3;
   text-align: center;
@@ -545,44 +659,64 @@ button:active{
   padding: 10px 20px;
   margin-bottom: 15px;
 }
+
 /*end button*/
 /* ---------------------------------------- */
 /* title */
-.page-title:active:hover{
+.page-title:active:hover {
   color: #1c42af;
 }
+
 .page-title.active-link {
-  color: blue; /* hoặc màu khác bạn muốn sử dụng cho đường dẫn được chọn */
+  color: blue;
+  /* hoặc màu khác bạn muốn sử dụng cho đường dẫn được chọn */
 }
+
 .page-title:hover {
-  color: blue; /* Màu khi di chuột vào liên kết không được chọn */
+  color: blue;
+  /* Màu khi di chuột vào liên kết không được chọn */
 }
+
 .page-title {
-  color: black; /* Màu mặc định cho liên kết không được chọn */
-  text-decoration: none; /* Loại bỏ gạch chân mặc định của liên kết */
-  transition: color 0.3s; /* Hiệu ứng chuyển đổi màu sắc */
+  color: black;
+  /* Màu mặc định cho liên kết không được chọn */
+  text-decoration: none;
+  /* Loại bỏ gạch chân mặc định của liên kết */
+  transition: color 0.3s;
+  /* Hiệu ứng chuyển đổi màu sắc */
 }
+
 /* end title */
 /*------------------------------------------*/
 /* icon */
-.bi-trash{
+.bi-trash {
   color: #ffffff;
 }
-.bi-pencil-square{
+
+.bi-pencil-square {
   color: #ffffff;
 }
+
 /* end icon*/
 /*------------------------------------------*/
 /* bên trong table */
 .sticky-thead {
   position: sticky;
-  top: 0; /* Giữ phần thead ở vị trí trên cùng khi cuộn */
+  top: 0;
+  /* Giữ phần thead ở vị trí trên cùng khi cuộn */
   background-color: white;
-  z-index: 1; /* Đảm bảo phần thead nằm trên cùng của bảng */
+  z-index: 1;
+  /* Đảm bảo phần thead nằm trên cùng của bảng */
 }
+
+.sticky-thead tr {
+  background-color: #9e92d1;
+}
+
 .table-container {
   position: relative;
 }
+
 .truncate {
   max-width: 200px;
   white-space: nowrap;

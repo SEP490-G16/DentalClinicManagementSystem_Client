@@ -12,7 +12,7 @@ import {
   NgbDatepickerConfig,
   NgbCalendar,
   NgbDate,
-  NgbDateStruct, 
+  NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -198,8 +198,6 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.datesDisabled && this.datesDisabled.length == 0) {
-      // this.datesDisabled.push(1698681910);
-      // console.log("Date disabled: ", this.datesDisabled);
     }
     if (changes['datesDisabled'] && this.datesDisabled && this.datesDisabled.length > 0) {
       this.datesDisabled = this.datesDisabled.map((timestamp: number) => {
@@ -220,6 +218,13 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   ListAppointments: any;
   appointmentList: RootObject[] = [];
   dateEpoch: string = "";
+  noDoctor = {
+    sub_id: '',
+    doctorName: 'Không chọn bác sĩ',
+    phoneNumber: '',
+    roleId: '',
+    zoneInfo: ''
+  }
   ngOnInit(): void {
     this.getListGroupService();
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
@@ -230,12 +235,11 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     this.getListAppountment();
     this.selectDateToGetDoctor("2023-11-22");
   }
-
   getListAppountment() {
     this.startDateTimestamp = this.dateToTimestamp(this.startDate);
     this.APPOINTMENT_SERVICE.getAppointmentList(this.startDateTimestamp, this.endDateTimestamp).subscribe(data => {
-    this.appointmentList = ConvertJson.processApiResponse(data);
-    this.ListAppointments = this.appointmentList.filter(app => app.date === this.startDateTimestamp);
+      this.appointmentList = ConvertJson.processApiResponse(data);
+      this.ListAppointments = this.appointmentList.filter(app => app.date === this.startDateTimestamp);
       this.ListAppointments.forEach((a: any) => {
         this.dateEpoch = this.timestampToDate(a.date);
         a.appointments.forEach((b: any) => {
@@ -321,7 +325,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     const selectedDay = this.model.day.toString().padStart(2, '0'); // Đảm bảo có 2 chữ số
 
     const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
-    this.timeKeepingService.getFollowingTimekeeping(this.dateToTimestamp(selectedDate+" 00:00:00"), this.dateToTimestamp(selectedDate+" 23:59:59")).subscribe(data => {
+    this.timeKeepingService.getFollowingTimekeeping(this.dateToTimestamp(selectedDate + " 00:00:00"), this.dateToTimestamp(selectedDate + " 23:59:59")).subscribe(data => {
       this.listRegisterTime = this.organizeData(data);
       this.listDoctorFilter.splice(0, this.listDoctorFilter.length);
       this.listRegisterTime.forEach((res: any) => {
@@ -357,6 +361,8 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
       }
     })
     this.totalDoctorFilter = this.listDoctorFilter.length;
+    console.log("aaa", this.listDoctorFilter)
+    this.listDoctorFilter.push(this.noDoctor);
   }
 
   organizeData(data: any[]): TimekeepingRecord[] {
@@ -391,17 +397,17 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   }
   phoneErr: string = "";
 
-  patientList:any [] = [];
-  patientInfor:any;
-  onsearch(event:any) {
+  patientList: any[] = [];
+  patientInfor: any;
+  onsearch(event: any) {
     console.log(event.target.value)
     this.AppointmentBody.appointment.patient_name = event.target.value;
     this.PATIENT_SERVICE.getPatientByName(this.AppointmentBody.appointment.patient_name, 1).subscribe(data => {
-      const transformedMaterialList = data.data.map((item:any) => {
+      const transformedMaterialList = data.data.map((item: any) => {
         return {
           patientId: item.patient_id,
           patientName: item.patient_name,
-          patientInfor: item.patient_id+" - "+item.patient_name + " - "+ item.phone_number,
+          patientInfor: item.patient_id + " - " + item.patient_name + " - " + item.phone_number,
         };
       });
       this.patientList = transformedMaterialList;
@@ -410,8 +416,14 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
 
   selectedDoctor: any = null;
   selectDoctor(doctor: any) {
-    this.selectedDoctor  = doctor.doctorName;
-    this.AppointmentBody.appointment.doctor = doctor.doctorName;
+    if (doctor.doctorName == this.selectedDoctor) {
+      this.selectedDoctor = "";
+    } else {
+      ;
+      this.selectedDoctor = doctor.doctorName;
+      this.AppointmentBody.appointment.doctor = doctor.doctorName;
+    }
+
   }
 
   appointmentDate: string = '';
@@ -490,7 +502,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     console.log(this.filteredAppointments);
     this.filteredAppointments.forEach((appo: any) => {
       appo.appointments.forEach((deta: any) => {
-        deta.details.forEach((res:any) => {
+        deta.details.forEach((res: any) => {
           if (res.patient_id == this.AppointmentBody.appointment.patient_id) {
             this.validateAppointment.patientName = `Bệnh nhân đã lịch hẹn trong ngày ${selectedDate} !`;
             this.isSubmitted = true;
@@ -549,7 +561,6 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     }
   }
 
-  //Convert Date
   dateToTimestamp(dateStr: string): number {
     const format = 'YYYY-MM-DD HH:mm'; // Định dạng của chuỗi ngày   const format = 'YYYY-MM-DD HH:mm:ss';
     const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
@@ -605,7 +616,6 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     return dateStr;
   }
 
-
   close() {
     this.AppointmentBody = {
       epoch: 0,    //x
@@ -621,13 +631,6 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
       }
     } as IAddAppointment;
   }
-
-  doctors = [
-    { name: 'Bác sĩ A. Nguyễn', specialty: 'Nha khoa', image: 'https://th.bing.com/th/id/OIP.62F1Fz3e5gRZ1d-PAK1ihQAAAA?pid=ImgDet&rs=1' },
-    { name: 'Bác sĩ B. Trần', specialty: 'Nha khoa', image: 'https://gamek.mediacdn.vn/133514250583805952/2020/6/8/873302766563216418622655364023183338578077n-15915865604311972647945.jpg' },
-    { name: 'Bác sĩ C. Lê', specialty: 'Nha khoa', image: 'https://img.verym.com/group1/M00/03/3F/wKhnFlvQGeCAZgG3AADVCU1RGpQ414.jpg' },
-    { name: 'Không Chọn Bác Sĩ', specialty: '', image: 'https://png.pngtree.com/png-clipart/20190904/original/pngtree-user-cartoon-girl-avatar-png-image_4492903.jpg' }
-  ];
 
   private resetValidate() {
     this.validateAppointment = {

@@ -6,7 +6,7 @@
         bệnh nhân</button>
     </div>
     <div class="input-group col-7">
-      <input type="search search-custom" [(ngModel)]="search" (keyup.enter)="searchPatient()"
+      <input type="search search-custom" [(ngModel)]="search" (input)="searchPatient()"
         placeholder="Tìm kiếm theo tên">
     </div>
     <div class="export__file">
