@@ -835,3 +835,7 @@ button:active{
   cursor: pointer; /* Thêm dòng này để biểu thị rằng nội dung có thể bị cắt và hiển thị khi di chuột qua */
   padding: 20px 0px;
 }
+
+.custom-button {
+  float: right;
+}

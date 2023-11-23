@@ -277,6 +277,8 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     }
   }
 
+  
+
   //Convert Date
   dateToTimestamp(dateStr: string): number {
     const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng của chuỗi ngày
