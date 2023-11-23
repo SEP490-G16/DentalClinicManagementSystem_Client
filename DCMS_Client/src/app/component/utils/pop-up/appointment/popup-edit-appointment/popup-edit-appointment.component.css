@@ -1,5 +1,5 @@
 .selected {
-  background-color: rgba(109, 27, 109, 0.5);
+  background-color: rgba(217, 217, 217, 0.6)
 }
 
 
@@ -12,16 +12,12 @@
 }
 
 .list-group-item:hover {
-  background-color: lightgray;
+  background-color: rgb(217, 217, 217)
 }
 
 .doctor-image {
   max-width: 100px;
   margin-right: 10px;
-}
-
-.doctor-info {
-  flex: 1;
 }
 
 .doctors-list {
@@ -63,12 +59,7 @@
 
 /* Cài đặt input text */
 .form-control {
-  border: 2px solid #007bff;
-  /* Đường viền */
   border-radius: 5px;
-  /* Bo góc */
-  padding: 10px;
-  /* Khoảng cách bên trong input */
   font-size: 16px;
   /* Kích thước chữ */
 }
@@ -103,6 +94,19 @@
 /* Tùy chỉnh màu chữ của textarea khi nhập liệu */
 .form-control.textarea:focus {
   color: #333;
+}
+
+
+.mat-calendar-body-disabled .mat-calendar-body-cell {
+  background-color: #ccc;
+  /* Màu nền cho ngày bị vô hiệu hóa */
+  color: #888;
+  /* Màu chữ cho ngày bị vô hiệu hóa */
+}
+
+.highlight-dates {
+  background: red;
+  border-radius: 100%;
 }
 
 button.example-custom-date-class {
