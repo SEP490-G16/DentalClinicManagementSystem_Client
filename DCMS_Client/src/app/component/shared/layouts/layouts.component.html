@@ -96,8 +96,8 @@
               <span class="text">Cơ sở</span>
             </a>
           </li>
-          <li class="list">
-            <a routerLink="/admin/doanh-thu" routerLinkActive="active" style="--clr:#664FC3">
+          <li class="list" *ngIf="roleId.includes('1')">
+            <a routerLink="/doanh-thu" routerLinkActive="active" style="--clr:#664FC3">
               <span class="icon">
                 <i class="bi bi-coin"></i>
               </span>

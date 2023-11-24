@@ -2,9 +2,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
-<div *ngIf="loading" class="loading-overlay">
-  <div class="loading-spinner"></div>
-</div>
 <div class="sep-recent-orders">
         <section class="table__header">
           <h1></h1>
@@ -14,10 +11,10 @@
 
         <div class="row custom-row">
           <div class="col-md-1">
-            <a routerLink="/admin/mau" routerLinkActive="active-link" class="page-title">Quản lý mẫu</a>
+            <a routerLink="/mau" routerLinkActive="active-link" class="page-title">Quản lý mẫu</a>
           </div>
           <div class="col-md-2">
-            <a routerLink="/admin/mau-dang-cho" routerLinkActive="active-link" class="page-title">Mẫu đang chờ duyệt</a>
+            <a routerLink="/mau-dang-cho" routerLinkActive="active-link" class="page-title">Mẫu đang chờ duyệt</a>
           </div>
         </div>
         <div class="row filter-row m-t-30">
@@ -90,7 +87,7 @@
           </div>
         </div>
         <!-- <h2>Mẫu vật</h2> -->
-        <div class="table-container" style="margin-top: 0.5%;">
+        <div class="table-container">
           <table>
             <thead class="sticky-thead">
             <tr>

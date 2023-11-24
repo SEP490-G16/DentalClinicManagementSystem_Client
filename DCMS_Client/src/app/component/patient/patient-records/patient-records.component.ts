@@ -99,6 +99,13 @@ export class PatientRecordsComponent implements OnInit {
   }
   openDeletePatient(id: any) {
     this.id = id;
+
+    this.patientService.deletePatient(id).subscribe((res) => {
+      const index = this.searchPatientsList.findIndex((item:any) => item.patient_id == id);
+      if (index != -1) {
+        this.searchPatientsList.splice(index, 1);
+      }
+    })
   }
 
   detail(id: any) {

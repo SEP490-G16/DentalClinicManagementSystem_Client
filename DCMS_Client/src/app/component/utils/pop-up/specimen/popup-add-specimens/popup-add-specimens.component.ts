@@ -76,7 +76,7 @@ export class PopupAddSpecimensComponent implements OnInit {
   ngOnInit(): void {
     this.getAllLabo();
     this.specimen.quantity = '1';
-    this.specimen.orderer = sessionStorage.getItem('name') + '';
+    this.specimen.orderer = sessionStorage.getItem('username') + '';
     const currentDate = new Date();
     this.specimen.orderDate = currentDate.getFullYear().toString()+ "-"+(currentDate.getMonth()+1).toString()+"-"+currentDate.getDate().toString();
   }

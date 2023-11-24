@@ -11,8 +11,8 @@ import { PopupPaymentComponent } from './pop-up-payment/popup-payment.component'
 import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/TreatmentCourse.service';
 import * as moment from 'moment';
 import { TreatmentCourseDetailService } from 'src/app/service/ITreatmentCourseDetail/treatmentcoureDetail.service';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+//import jsPDF from 'jspdf';
+//import html2canvas from 'html2canvas';
 import { PopupExaminationDetailComponent } from './popup-examination-detail/popup-examination-detail.component';
 
 @Component({
@@ -138,15 +138,15 @@ export class PatientPaymentTabComponent implements OnInit {
 
   @ViewChild('pdfContent') pdfContent!: ElementRef;
   generatePDF() {
-    html2canvas(this.pdfContent.nativeElement).then(canvas => {
-      const contentDataURL = canvas.toDataURL('image/png');
-      let pdf = new jsPDF('p', 'mm', 'a4');
-      var width = pdf.internal.pageSize.getWidth();
-      var height = canvas.height * width / canvas.width;
-      pdf.addImage(contentDataURL, 'PNG', 0, 0, width, height);
+    // html2canvas(this.pdfContent.nativeElement).then(canvas => {
+    //   const contentDataURL = canvas.toDataURL('image/png');
+    //   let pdf = new jsPDF('p', 'mm', 'a4');
+    //   var width = pdf.internal.pageSize.getWidth();
+    //   var height = canvas.height * width / canvas.width;
+    //   pdf.addImage(contentDataURL, 'PNG', 0, 0, width, height);
 
-      window.open(pdf.output('bloburl'), '_blank');
-    });
+    //   window.open(pdf.output('bloburl'), '_blank');
+    // });
   }
 
   navigateHref(href: string) {
