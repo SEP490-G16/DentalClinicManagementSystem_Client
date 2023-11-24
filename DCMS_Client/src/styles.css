@@ -561,9 +561,6 @@ table tbody td {
   color: var(--custom-color-dark-variant);
 }
 
-table tbody tr:last-child td {
-  /* border: none; */
-}
 
 .table-container {
   background-color: white;
