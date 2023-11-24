@@ -2,7 +2,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
 
-<div class="recent-orders">
+<div class="sep-recent-orders">
   <section class="table__header">
     <h1></h1>
     <div class="export__file">
@@ -50,7 +50,8 @@
           </tr>
           <tr (click)="toggleExpand(item)" *ngIf="totalMaterial > 0" class="SEP-WH-table-tr">
             <td>
-              <i class="bi" [ngClass]="{'bi-chevron-double-right': !item.expanded, 'bi-chevron-double-down': item.expanded}"></i>
+              <i class="bi"
+                [ngClass]="{'bi-chevron-double-right': !item.expanded, 'bi-chevron-double-down': item.expanded}"></i>
             </td>
             <td style="padding-top: 10px;padding-bottom: 10px;">
               {{item.materialId }}
@@ -84,11 +85,13 @@
                       <td style="padding-top: 10px;padding-bottom: 10px;"></td>
                       <!-- <td class="connector"><span class="dot"></span></td> -->
                       <td style="padding-top: 10px;padding-bottom: 10px;"><i class="bi bi-arrow-return-right"></i></td>
-                      <td style="padding-top: 10px;padding-bottom: 10px;" data-bs-toggle="tooltip">{{item.materialName}}</td>
+                      <td style="padding-top: 10px;padding-bottom: 10px;" data-bs-toggle="tooltip">{{item.materialName}}
+                      </td>
                       <td style="padding-top: 10px;padding-bottom: 10px;">{{ item.unit }}</td>
                       <td style="padding-top: 10px;padding-bottom: 10px;">{{ item.unitPrice }}</td>
                       <td style="padding-top: 10px;padding-bottom: 10px;">{{ detail.quantity }}</td>
-                      <td style="padding-top: 10px;padding-bottom: 10px;">{{ detail.expiryDate | date:'dd/MM/yyyy'}}</td>
+                      <td style="padding-top: 10px;padding-bottom: 10px;">{{ detail.expiryDate | date:'dd/MM/yyyy'}}
+                      </td>
                       <td></td>
                       <td style="padding-top: 10px;padding-bottom: 10px;" *ngIf="detail.quantity == 0">
                         <p style="color: red;"><b>Hết Hàng</b></p>
