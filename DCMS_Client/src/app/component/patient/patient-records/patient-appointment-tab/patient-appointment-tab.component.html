@@ -41,7 +41,7 @@
             <th>Bác sĩ</th>
             <th>Lý do</th>
             <th>Tình trạng</th>
-            <th>Option</th>
+            <th>Thao tắc</th>
           </tr>
         </thead>
         <tbody>
@@ -54,7 +54,7 @@
                   <td></td>
                   <td></td>
                   <td>
-                    <button *ngIf="gf.date === currentDateTimestamp" class="btn" data-bs-toggle="modal"
+                    <button *ngIf="gf.date === currentDateTimestamp" class="btn btn-primary" data-bs-toggle="modal"
                       data-bs-target="#editAppointmentModal" (click)="editAppointment(detail, gf.date)"><i
                         class="bi bi-pencil-square"></i></button>
                   </td>
@@ -64,8 +64,10 @@
           </ng-container>
         </tbody>
       </table>
-      <p class="no-appointment-message text-center">Không có "Lịch hẹn" nào được tìm thấy</p>
-    </div>
+<!--      <p class="no-appointment-message text-center">Không có "Lịch hẹn" nào được tìm thấy</p>-->
+        <button class="btn btn-secondary ml-2 mt-3" routerLink="/benhnhan/danhsach">Quay lại</button>
+
+      </div>
     </div>
   </div>
 </div>
