@@ -149,6 +149,15 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
         )
     }
   }
+  normalizePhoneNumber(phoneNumber: string): string {
+    if (phoneNumber.startsWith('(+84)')) {
+      return '0' + phoneNumber.slice(5);
+    } else if (phoneNumber.startsWith('(+84)')) {
+      return '0' + phoneNumber.slice(3);
+    } else {
+      return phoneNumber;
+    }
+  }
 
   showSuccessToast(message: string) {
     this.toastr.success(message, 'Thành công', {

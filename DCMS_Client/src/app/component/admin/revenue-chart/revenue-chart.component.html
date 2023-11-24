@@ -4,13 +4,13 @@
 <div class="recent-orders">
   <div class="row mt-3" style="margin-bottom: 20px; margin-left: 10px">
     <div class="col-md-2 col-1">
-      <a routerLink="/admin/doanh-thu" class="page-title" routerLinkActive="active-link">Tổng doanh thu</a>
+      <a routerLink="/doanh-thu" class="page-title" routerLinkActive="active-link">Tổng doanh thu</a>
     </div>
     <div class="col-md-2 col-1">
-      <a routerLink="/admin/bao-cao-thu" class="page-title" routerLinkActive="active-link">Báo cáo thu</a>
+      <a routerLink="/bao-cao-thu" class="page-title" routerLinkActive="active-link">Báo cáo thu</a>
     </div>
     <div class="col-md-2 col-2">
-      <a routerLink="/admin/bao-cao-chi" class="page-title" routerLinkActive="active-link">Báo cáo chi</a>
+      <a routerLink="/bao-cao-chi" class="page-title" routerLinkActive="active-link">Báo cáo chi</a>
     </div>
   </div>
   <div class="row text-white p-3 mb-3 mt-3">
@@ -24,12 +24,16 @@
     </div>
   </div>
   <div class="main-content">
-    <div class= "text-white mb-2 mt-1" style="display: flex">
+    <div class="text-white mb-2 mt-1" style="display: flex">
       <div class="link-main" style="padding: 0">
-        <a class="title-link"><h2 class="title-name">Doanh thu</h2></a>
+        <a class="title-link">
+          <h2 class="title-name">Doanh thu</h2>
+        </a>
       </div>
       <div class="link-main" style="padding: 0">
-        <a class="title-link"><h2 class="title-name-patient">Bệnh nhân</h2></a>
+        <a class="title-link">
+          <h2 class="title-name-patient">Bệnh nhân</h2>
+        </a>
       </div>
     </div>
     <div class="choose-facility">
@@ -42,25 +46,25 @@
     <div class="filter-check mt-3 mb-4">
       <div class="form-group">
         <label class="label">Tổng thu</label>
-        <input type="checkbox" class="checkbox m-2"/>
+        <input type="checkbox" class="checkbox m-2" />
       </div>
       <div class="form-group">
         <label class="label">Thực thu</label>
-        <input type="checkbox" class="checkbox m-2"/>
+        <input type="checkbox" class="checkbox m-2" />
       </div>
       <div class="form-group">
         <label class="label">Chi phí</label>
-        <input type="checkbox" class="checkbox m-2"/>
+        <input type="checkbox" class="checkbox m-2" />
       </div>
     </div>
 
 
     <div style="display: block; width: 70%;margin: auto">
-<!--      <canvas baseChart-->
-<!--              [data]="barChartConfiguration.data"-->
-<!--              [options]="barChartConfiguration.options"-->
-<!--              [type]="barChartConfiguration.type">-->
-<!--      </canvas>-->
+      <!--      <canvas baseChart-->
+      <!--              [data]="barChartConfiguration.data"-->
+      <!--              [options]="barChartConfiguration.options"-->
+      <!--              [type]="barChartConfiguration.type">-->
+      <!--      </canvas>-->
       <canvas id="revenueChart"></canvas>
     </div>
   </div>
