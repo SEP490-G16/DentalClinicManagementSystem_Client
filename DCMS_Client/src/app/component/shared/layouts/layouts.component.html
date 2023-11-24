@@ -11,7 +11,8 @@
           <div class="logo">
             <img
               src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
-            <p><span class="danger"><span class="nguyen">Nguyen</span><span class="tran"> Tran</span></span><span class="clinic"> Clinic</span></p>
+            <p><span class="danger"><span class="nguyen">Nguyen</span><span class="tran"> Tran</span></span><span
+                class="clinic"> Clinic</span></p>
           </div>
         </div>
         <ul>
@@ -39,7 +40,8 @@
               <span class="text">Bệnh nhân</span>
             </a>
           </li>
-          <li class="list" *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('3') || roleId.includes('4') || roleId.includes('5')">
+          <li class="list"
+            *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('3') || roleId.includes('4') || roleId.includes('5')">
             <a routerLink="/theo-doi-cham-cong" routerLinkActive="active" style="--clr:#664FC3">
               <span class="icon">
                 <i class="bi bi-calendar3"></i>
@@ -71,7 +73,8 @@
               <span class="text">Labo</span>
             </a>
           </li>
-          <li class="list" *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('4') || roleId.includes('5')">
+          <li class="list"
+            *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('4') || roleId.includes('5')">
             <a routerLink="/mau" routerLinkActive="active" style="--clr:#664FC3">
               <span class="icon">
                 <i class="bi bi-file-medical"></i>

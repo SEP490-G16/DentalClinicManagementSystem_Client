@@ -22,22 +22,24 @@
           <label>Từ:</label>
         </div>
         <div class="col-md-10" style="padding: 0">
-          <input style="width: 70%" type="date" [(ngModel)]="fromDate" #input (change)="onChangeFromDate(input.value)" class="form-control input-custom  p-2" >
+          <input style="width: 70%" type="date" [(ngModel)]="fromDate" #input (change)="onChangeFromDate(input.value)"
+            class="form-control input-custom  p-2">
         </div>
       </div>
       <div class="col-md-6 row row-title">
-        <div class="col-md-2"  style="padding: 10px 0; text-align: center">
+        <div class="col-md-2" style="padding: 10px 0; text-align: center">
           <label>Đến:</label>
         </div>
         <div class="col-md-10" style="padding: 0">
-          <input style="width: 70%" type="date" [(ngModel)]="toDate" #input (change)="onChangeToDate(input.value)" class="form-control input-custom  p-2">
+          <input style="width: 70%" type="date" [(ngModel)]="toDate" #input (change)="onChangeToDate(input.value)"
+            class="form-control input-custom  p-2">
         </div>
       </div>
     </div>
     <div class="col-md-6">
       <div class="form-group form-group-filter" style="float: right">
         <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#addReportExpenditureModal"><i
-          class="bi bi-plus-circle"></i> Thêm mới
+            class="bi bi-plus-circle"></i> Thêm mới
         </button>
       </div>
     </div>
@@ -53,37 +55,37 @@
       <div class="table-container" style="margin-top: 10px;">
         <table>
           <thead class="sticky-thead">
-          <tr>
-            <th>Ngày tạo</th>
-            <th>Người chi</th>
-            <th>Loại chi</th>
-            <th>Số tiền</th>
-            <th>Ghi chú</th>
-            <th>Thao tác</th>
-          </tr>
+            <tr>
+              <th>Ngày tạo</th>
+              <th>Người chi</th>
+              <th>Loại chi</th>
+              <th>Số tiền</th>
+              <th>Ghi chú</th>
+              <th>Thao tác</th>
+            </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let bill of listFilterDate">
-            <td>{{bill.createDate}}</td>
-            <td>{{bill.createBy}}</td>
-            <td>{{bill.typeExpense}}</td>
-            <td>{{bill.totalAmount}}</td>
-            <td>{{bill.note}}</td>
-            <td>
-              <button class="btn btn-primary p-1 m-r-3" style="padding: 2px 3px; margin-right: 3px" data-bs-toggle="modal"
-              data-bs-target="#editReportExpenditureModal" (click)="openEditBill(bill)">
-              <i class="bi bi-pencil-square"></i></button>
-            <button class="btn btn-danger p-1" style="padding: 2px 5px" (click)="deleteBill(bill.epoch)"> <i
-                class="bi bi-trash"></i></button>
-            </td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td><b style="font-size: 15px">Tổng tiền chi: {{totalBill}}</b></td>
-          </tr>
+            <tr *ngFor="let bill of listFilterDate">
+              <td>{{bill.createDate}}</td>
+              <td>{{bill.createBy}}</td>
+              <td>{{bill.typeExpense}}</td>
+              <td>{{bill.totalAmount}}</td>
+              <td>{{bill.note}}</td>
+              <td>
+                <button class="btn btn-primary p-1 m-r-3" style="padding: 2px 3px; margin-right: 3px"
+                  data-bs-toggle="modal" data-bs-target="#editReportExpenditureModal" (click)="openEditBill(bill)">
+                  <i class="bi bi-pencil-square"></i></button>
+                <button class="btn btn-danger p-1" style="padding: 2px 5px" (click)="deleteBill(bill.epoch)"> <i
+                    class="bi bi-trash"></i></button>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><b style="font-size: 15px">Tổng tiền chi: {{totalBill}}</b></td>
+            </tr>
           </tbody>
         </table>
       </div>

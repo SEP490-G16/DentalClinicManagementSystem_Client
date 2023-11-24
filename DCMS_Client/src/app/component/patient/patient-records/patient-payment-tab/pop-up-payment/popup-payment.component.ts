@@ -15,7 +15,7 @@ import { PaidMaterialUsageService } from 'src/app/service/PatientService/patient
   styleUrls: ['./popup-payment.component.css']
 })
 export class PopupPaymentComponent implements OnInit, OnChanges {
-  @Input() MaterialUsage!:MaterialUsage [];
+  @Input() MaterialUsage!: MaterialUsage[];
   @Input() TreatmentCourse: any
   @Input() Patient: any
 
@@ -69,10 +69,11 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
       examination_id: mu.mu_examination_id,
       total_paid: mu.tempPaidAmount || 0
     }));
-    console.log("Body_Paid_Mu: " , this.Body_Paid_MU);
+    console.log("Body_Paid_Mu: ", this.Body_Paid_MU);
     this.paidMaterialUsageService.postPaidMaterialUsage(this.Body_Paid_MU)
       .subscribe((res: any) => {
-        this.toastr.success(res.message, "Thanh toán thành công!")
+        this.toastr.success(res.message, "Thanh toán thành công!");
+        window.location.reload();
       },
         (err) => {
           this.toastr.error(err.error.message, "Thanh toán thất bại!")
@@ -94,7 +95,7 @@ interface MaterialUsage {
   description: string;
   mu_examination_id: string;
   mu_material_usage_id: string;
-  mu_medical_procedure_id:string,
+  mu_medical_procedure_id: string,
   material_warehouse_id: string;
   mu_price: number;
   mu_quantity: number;

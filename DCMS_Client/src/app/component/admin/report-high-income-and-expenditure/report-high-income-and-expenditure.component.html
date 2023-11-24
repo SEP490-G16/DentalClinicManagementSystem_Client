@@ -17,7 +17,7 @@
   </div>
   <div class="row filter-row m-b-1 mt-3">
     <div class="col-sm-3 col-md-2">
-      <div class="input-group" >
+      <div class="input-group">
         <label>Ngày điều trị từ:</label>
       </div>
     </div>
@@ -30,19 +30,18 @@
   <div class="row">
     <div class="col-sm-3 col-md-2" style="padding: 0 10px">
       <div class="input-group">
-        <input type="date" [(ngModel)]="startDate" class="form-control input-custom  p-2"
-        >
+        <input type="date" [(ngModel)]="startDate" class="form-control input-custom  p-2">
       </div>
     </div>
     <div class="col-sm-3 col-md-2" style="padding: 0 10px">
       <div class="input-group">
-        <input type="date" [(ngModel)]="endDate" (change)="getReportMaterialUsage()" class="form-control input-custom  p-2">
+        <input type="date" [(ngModel)]="endDate" (change)="getReportMaterialUsage()"
+          class="form-control input-custom  p-2">
       </div>
     </div>
     <div class="col-sm-2 col-md-2" style="padding: 0 10px">
       <select class="form-select p-2" style="width: 70%; border: 1px solid #664FC3;
-            border-radius: 10px;"
-              aria-label="Default select example">
+            border-radius: 10px;" aria-label="Default select example">
         <option value="" selected>Trạng thái</option>
         <option value="1">Hoàn thành</option>
         <option value="2">Còn nợ</option>
@@ -52,7 +51,8 @@
       <section class="table__header">
         <h1></h1>
         <div class="input-group">
-          <input type="search search-custom" placeholder="Tìm kiếm theo tên bệnh nhân..." [(ngModel)]="searchName" (input)="searchPatientName()">
+          <input type="search search-custom" placeholder="Tìm kiếm theo tên bệnh nhân..." [(ngModel)]="searchName"
+            (input)="searchPatientName()">
         </div>
       </section>
     </div>
@@ -89,55 +89,56 @@
     </div>
   </div>
   <div class="table-container" style="margin-top: 10px;">
-    <table  style="border-collapse: unset">
+    <table style="border-collapse: unset">
       <thead class="sticky-thead">
-      <tr>
-        <th>Mã bệnh nhân</th>
-        <th>Tên bệnh nhân</th>
-        <th>Số điện thoại</th>
-        <th>Địa chỉ</th>
-        <th>Tổng điều trị</th>
-        <th>Giảm giá</th>
-        <th>Phải thanh toán</th>
-        <th>Đã thu</th>
-        <th>Còn nợ</th>
-      </tr>
+        <tr>
+          <th>Mã bệnh nhân</th>
+          <th>Tên bệnh nhân</th>
+          <th>Số điện thoại</th>
+          <th>Địa chỉ</th>
+          <th>Tổng điều trị</th>
+          <th>Giảm giá</th>
+          <th>Phải thanh toán</th>
+          <th>Đã thu</th>
+          <th>Còn nợ</th>
+        </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let patient of stastisticRevenuePatientSearch">
-        <td>{{patient.patientCode}}</td>
-        <td>{{patient.patientName}}</td>
-        <td>{{patient.phoneNumber}}</td>
-        <td>{{patient.address}}</td>
-        <td>{{patient.initialAmount}}</td>
-        <td>{{patient.discount}}</td>
-        <td>{{patient.totalAmount}}</td>
-        <td>{{patient.totalPay}}</td>
-        <td>{{patient.totalLeft}}</td>
-      </tr>
+        <tr *ngFor="let patient of stastisticRevenuePatientSearch">
+          <td>{{patient.patientCode}}</td>
+          <td>{{patient.patientName}}</td>
+          <td>{{patient.phoneNumber}}</td>
+          <td>{{patient.address}}</td>
+          <td>{{patient.initialAmount}}</td>
+          <td>{{patient.discount}}</td>
+          <td>{{patient.totalAmount}}</td>
+          <td>{{patient.totalPay}}</td>
+          <td>{{patient.totalLeft}}</td>
+        </tr>
       </tbody>
     </table>
   </div>
-  <br/>
+  <br />
   <div class="table-container" style="margin-top: 10px;">
     <table style="border-collapse: unset">
       <thead class="sticky-thead">
-      <tr>
-        <th>Tổng tiền điều trị</th>
-        <th>Giảm giá</th>
-        <th>Phải thanh toán</th>
-        <th>Đã thu</th>
-        <th>Còn lại</th>
-      </tr>
+        <tr>
+          <th>Tổng tiền điều trị</th>
+          <th>Giảm giá</th>
+          <th>Phải thanh toán</th>
+          <th>Đã thu</th>
+          <th>Còn lại</th>
+        </tr>
       </thead>
       <tbody>
-      <tr>
-        <td>{{stastisticTotal.initialTotalAmount}}</td>
-        <td>{{stastisticTotal.discount}}</td>
-        <td>{{stastisticTotal.totalAmount}}</td>
-        <td>{{stastisticTotal.totalPay}}</td>
-        <td>{{stastisticTotal.totalLeft}}<td>
-      </tr>
+        <tr>
+          <td>{{stastisticTotal.initialTotalAmount}}</td>
+          <td>{{stastisticTotal.discount}}</td>
+          <td>{{stastisticTotal.totalAmount}}</td>
+          <td>{{stastisticTotal.totalPay}}</td>
+          <td>{{stastisticTotal.totalLeft}}
+          <td>
+        </tr>
       </tbody>
     </table>
 

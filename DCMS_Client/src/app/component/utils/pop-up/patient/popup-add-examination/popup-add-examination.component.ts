@@ -194,7 +194,9 @@ export class PopupAddExaminationComponent implements OnInit {
       this.Material_Usage_Body[index].treatment_course_id = this.treatmentCourse_Id;
       this.Material_Usage_Body[index].price = selectedMaterialW.mw_price;
       this.Material_Usage_Body[index].mw_remaining = selectedMaterialW.mw_remaining;
-      this.Material_Usage_Body[index].total_paid = this.Material_Usage_Body[index].price * this.Material_Usage_Body[index].quantity;
+      // this.Material_Usage_Body[index].total_paid = this.Material_Usage_Body[index].price * this.Material_Usage_Body[index].quantity;
+      this.Material_Usage_Body[index].total_paid = 0;
+
       console.log("updateMaterialWarehouse: ", this.Material_Usage_Body);
     }
   }
