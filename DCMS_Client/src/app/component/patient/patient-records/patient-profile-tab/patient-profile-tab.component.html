@@ -7,8 +7,10 @@
               (click)="navigateHref('/benhnhan/danhsach/tab/hosobenhnhan/')">Thông tin
               chung</a>
           </li>
-          <ng-container *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('4') || roleId.includes('5')">
-            <li class="nav-item mr-2"><a class="nav-link" (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')"
+          <ng-container
+            *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('4') || roleId.includes('5')">
+            <li class="nav-item mr-2"><a class="nav-link"
+                (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')"
                 style="padding: 10px; color: #000; cursor: pointer;">Khám và
                 điều
                 trị</a></li>
@@ -117,10 +119,11 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text custom-span" id="basic-addon1">(+84)</span>
                       </div>
-                      <input type="text" class="form-control" [disabled]="!isEditing" [(ngModel)]="patient.phone_number" id="inputPhone" name="inputPhone" aria-label="phoneNumber" aria-describedby="basic-addon1">
+                      <input type="text" class="form-control" [disabled]="!isEditing" [(ngModel)]="patient.phone_number"
+                        id="inputPhone" name="inputPhone" aria-label="phoneNumber" aria-describedby="basic-addon1">
                     </div>
-<!--                    <input class="form-control" [(ngModel)]="patient.phone_number" id="inputPhone"-->
-<!--                      [disabled]="!isEditing" type="tel" placeholder="Số điện thoại">-->
+                    <!--                    <input class="form-control" [(ngModel)]="patient.phone_number" id="inputPhone"-->
+                    <!--                      [disabled]="!isEditing" type="tel" placeholder="Số điện thoại">-->
                     <div *ngIf="isSubmitted" class="alert-danger-custom">
                       <p>
                         {{validatePatient.phone}}
@@ -154,6 +157,8 @@
               </div>
               <!-- Save changes button-->
               <div style="text-align: center; width: 24%; margin-left: 38%;" class="d-flex justify-content-around">
+                <!-- <button *ngIf="!isEditing" class="btn btn-secondary ml-2 mt-3" routerLink="/benhnhan/danhsach">Quay
+                  lại</button> -->
                 <button *ngIf="isEditing" class="btn btn-secondary ml-2" (click)="cancelUpdate()">Huỷ</button>
                 <button class="btn btn-primary" type="button" (click)="toggleEditing()">
                   {{ isEditing ? 'Lưu' : 'Cập nhật'}}</button>
