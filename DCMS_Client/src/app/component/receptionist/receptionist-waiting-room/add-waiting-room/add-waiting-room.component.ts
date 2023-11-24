@@ -48,6 +48,7 @@ export class AddWaitingRoomComponent implements OnInit {
   listGroupService: any[] = [];
   isSubmitted: boolean = false;
   ngOnInit(): void {
+    this.getListGroupService();
     const patientData = localStorage.getItem("patient");
     if (patientData === null) {
       return;
@@ -55,7 +56,6 @@ export class AddWaitingRoomComponent implements OnInit {
       const dataOfLocale = JSON.parse(patientData);
       this.name_suggest = dataOfLocale.patient_name;
     }
-    this.getListGroupService();
   }
 
   onProcedureChange(event: Event) {
