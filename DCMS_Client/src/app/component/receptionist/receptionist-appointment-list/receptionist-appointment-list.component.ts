@@ -282,7 +282,6 @@ export class ReceptionistAppointmentListComponent implements OnInit {
           reason: '',
           status: 1
         }
-        alert("a")
         window.location.href = "/letan/phong-cho";
       },
       (error) => {
