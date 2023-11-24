@@ -1,141 +1,160 @@
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
-<div *ngIf="loading" class="loading-overlay">
-  <div class="loading-spinner"></div>
-</div>
 <div class="sep-recent-orders">
-        <section class="table__header">
-          <h1></h1>
-          <div class="export__file">
-          </div>
-        </section>
+  <section class="table__header">
+    <h1></h1>
+    <div class="export__file">
+    </div>
+  </section>
 
+  <div class="row custom-row">
+    <div class="col-md-1">
+      <a routerLink="/mau" routerLinkActive="active-link" class="page-title">Quản lý mẫu</a>
+    </div>
+    <div class="col-md-2">
+      <a routerLink="/mau-dang-cho" routerLinkActive="active-link" class="page-title">Mẫu đang chờ duyệt</a>
+    </div>
+  </div>
+  <div class="row filter-row m-t-30">
+    <div class="col-sm-6 col-md-3">
+      <div class="form-group form-group-filter">
+        <button class="btn button-add float-right" data-bs-toggle="modal" data-bs-target="#addSpecimensModal"><i
+            class="bi bi-plus-circle"></i> Thêm mới
+        </button>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-7">
         <div class="row custom-row">
           <div class="col-md-1">
-            <a routerLink="/admin/mau" routerLinkActive="active-link" class="page-title">Quản lý mẫu</a>
+            <a routerLink="/mau" routerLinkActive="active-link" class="page-title">Quản lý mẫu</a>
           </div>
           <div class="col-md-2">
-            <a routerLink="/admin/mau-dang-cho" routerLinkActive="active-link" class="page-title">Mẫu đang chờ duyệt</a>
+            <a routerLink="/mau-dang-cho" routerLinkActive="active-link" class="page-title">Mẫu đang chờ duyệt</a>
+    </div>
+    <div class="col-sm-2 col-md-2" style="padding: 0 10px">
+      <button class="btn button-add p-2" style="margin-left: 8px;" (click)="togglePopup()">
+        Hiển thị
+      </button>
+      <ul *ngIf="showPopup" class="popup">
+        <div class="row">
+          <div class="col-md-6">
+            <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox1" (click)="toggleColumn(1)"> Mã
+              mẫu</li>
+          </div>
+          <div class="col-md-6">
+            <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox2" (click)="toggleColumn(2)"> Tên
+              mẫu</li>
           </div>
         </div>
-        <div class="row filter-row m-t-30">
-          <div class="col-sm-6 col-md-3">
-            <div class="form-group form-group-filter">
-              <button class="btn button-add float-right" data-bs-toggle="modal" data-bs-target="#addSpecimensModal"><i class="bi bi-plus-circle"></i> Thêm mới
-              </button>
-            </div>
+        <div class="row">
+          <div class="col-md-6">
+            <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox3" (click)="toggleColumn(3)"> Tên
+              bệnh nhân</li>
           </div>
-          <div class="col-sm-6 col-md-7">
-
-          </div>
-          <div class="col-sm-2 col-md-2" style="padding: 0 10px">
-            <button class="btn button-add p-2" style="margin-left: 8px;" (click)="togglePopup()">
-              Hiển thị
-            </button>
-            <ul *ngIf="showPopup" class="popup">
-              <div class="row">
-                <div class="col-md-6">
-                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox1" (click)="toggleColumn(1)"> Mã mẫu</li>
-                </div>
-                <div class="col-md-6">
-                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox2" (click)="toggleColumn(2)"> Tên mẫu</li>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox3" (click)="toggleColumn(3)"> Tên bệnh nhân</li>
-                </div>
-                <div class="col-md-6">
-                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox4" (click)="toggleColumn(4)"> Chất liệu</li>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-6">
-                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox5" (click)="toggleColumn(5)"> Số lượng</li>
-                </div>
-                <div class="col-md-6">
-                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox6" (click)="toggleColumn(6)"> Đơn giá</li>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox7" (click)="toggleColumn(7)"> Ngày đặt</li>
-                </div>
-                <div class="col-md-6">
-                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox8" (click)="toggleColumn(8)"> Ngày nhận</li>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox9" (click)="toggleColumn(9)"> Ngày lắp</li>
-                </div>
-                <div class="col-md-6">
-                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox10" (click)="toggleColumn(10)"> Labo</li>
-                </div>
-
-              </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox11" (click)="toggleColumn(11)"> Người đặt</li>
-                </div>
-                <div class="col-md-6">
-                  <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox12" (click)="toggleColumn(12)"> Thành tiền</li>
-                </div>
-
-              </div>
-            </ul>
+          <div class="col-md-6">
+            <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox4" (click)="toggleColumn(4)"> Chất
+              liệu</li>
           </div>
         </div>
-        <!-- <h2>Mẫu vật</h2> -->
-        <div class="table-container" style="margin-top: 0.5%;">
-          <table>
-            <thead class="sticky-thead">
-            <tr>
-              <th *ngIf="checkbox1" style="padding: 20px;">Mã mẫu</th> <!--1-->
-              <th *ngIf="checkbox2" style="min-width: 80px">Tên mẫu</th> <!--2-->
-              <th *ngIf="checkbox3" style="min-width: 82px">Tên bệnh nhân</th> <!--3-->
-              <th *ngIf="checkbox4" style="min-width: 85px">Chất liệu</th> <!--4-->
-              <th *ngIf="checkbox5" style="min-width: 75px">Số lượng</th> <!--5-->
-              <th *ngIf="checkbox6" style="min-width: 80px">Đơn giá</th> <!--6-->
-              <th *ngIf="checkbox7" style="min-width: 80px">Ngày đặt</th> <!--7-->
-              <th *ngIf="checkbox8" style="min-width: 80px">Ngày nhận</th> <!--8-->
-              <th *ngIf="checkbox9" style="min-width: 90px">Ngày lắp</th> <!--9-->
-              <th *ngIf="checkbox10" style="min-width: 80px">Labo</th> <!--10-->
-              <th *ngIf="checkbox11" style="min-width: 80px">Người đặt</th> <!--11-->
-              <th *ngIf="checkbox12" style="min-width: 75px">Thành tiền</th><!--12-->
-              <th  style="min-width: 101px">Thao tác</th> <!--13-->
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let m of approveSpecimensList">
-              <td *ngIf="checkbox1" style="padding: 20px;">{{m.ms_id}}</td><!--1-->
-              <td *ngIf="checkbox2" class="truncate" data-bs-toggle="tooltip" title="{{m.ms_name}}" style="padding: 20px;">{{m.ms_name}}</td><!--2-->
-              <td *ngIf="checkbox3" style="padding: 20px;">{{m.p_patient_name}}</td><!--3-->
-              <td *ngIf="checkbox4" style="padding: 20px;">{{m.ms_type}}</td><!--4-->
-              <td *ngIf="checkbox5" style="padding: 20px;">{{m.ms_quantity}}</td><!--5-->
-              <td *ngIf="checkbox6" style="padding: 20px;">{{m.ms_unit_price}}</td><!--6-->
-              <td *ngIf="checkbox7" style="padding: 20px;"></td><!--7-->
-              <td *ngIf="checkbox8" style="padding: 20px;"></td><!--8-->
-              <td *ngIf="checkbox9" style="padding: 20px;">{{ m.ms_used_date | date:'yyyy-MM-dd' }}</td><!--9-->
-              <td *ngIf="checkbox10" style="padding: 20px;"></td><!--10-->
-              <td *ngIf="checkbox11" style="padding: 20px;"></td> <!--11-->
-              <td *ngIf="checkbox12" style="padding: 20px;">{{ m.ms_quantity * m.ms_unit_price}}</td><!--12-->
-              <td class="text-center" style="min-width: 150px">
-                <button href="#" class="btn btn-primary float-right btn-rounded" style="padding: 2px 5px; margin-right: 3px" (click)="approveSpecimens(m.ms_id,m)"><i class="bi bi-check-circle"></i></button>
-                <button href="#" class="btn btn-primary float-right btn-rounded"  style="padding: 2px 5px; margin-right: 3px" data-bs-toggle="modal" data-bs-target="#editApproveSpecimensModal" (click)="openEditApproveSpecimens(m.ms_id,m)"><i class="bi bi-pencil-square"></i></button>
-                <button href="#" class="btn btn-danger float-right btn-rounded" style="padding:2px 5px; " (click)="deleteApproveSpecimens(m.ms_id)"><i class="bi bi-trash"></i></button>
-              </td>
-            </tr>
-            </tbody>
-          </table>
+
+        <div class="row">
+          <div class="col-md-6">
+            <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox5" (click)="toggleColumn(5)"> Số
+              lượng</li>
+          </div>
+          <div class="col-md-6">
+            <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox6" (click)="toggleColumn(6)"> Đơn
+              giá</li>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox7" (click)="toggleColumn(7)"> Ngày
+              đặt</li>
+          </div>
+          <div class="col-md-6">
+            <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox8" (click)="toggleColumn(8)"> Ngày
+              nhận</li>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox9" (click)="toggleColumn(9)"> Ngày
+              lắp</li>
+          </div>
+          <div class="col-md-6">
+            <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox10" (click)="toggleColumn(10)">
+              Labo</li>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox11" (click)="toggleColumn(11)">
+              Người đặt</li>
+          </div>
+          <div class="col-md-6">
+            <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox12" (click)="toggleColumn(12)">
+              Thành tiền</li>
+          </div>
 
         </div>
-      </div>
+      </ul>
+    </div>
+  </div>
+  <!-- <h2>Mẫu vật</h2> -->
+  <div class="table-container" style="margin-top: 0.5%;">
+    <table>
+      <thead class="sticky-thead">
+        <tr>
+          <th *ngIf="checkbox1" style="padding: 20px;">Mã mẫu</th> <!--1-->
+          <th *ngIf="checkbox2" style="min-width: 80px">Tên mẫu</th> <!--2-->
+          <th *ngIf="checkbox3" style="min-width: 82px">Tên bệnh nhân</th> <!--3-->
+          <th *ngIf="checkbox4" style="min-width: 85px">Chất liệu</th> <!--4-->
+          <th *ngIf="checkbox5" style="min-width: 75px">Số lượng</th> <!--5-->
+          <th *ngIf="checkbox6" style="min-width: 80px">Đơn giá</th> <!--6-->
+          <th *ngIf="checkbox7" style="min-width: 80px">Ngày đặt</th> <!--7-->
+          <th *ngIf="checkbox8" style="min-width: 80px">Ngày nhận</th> <!--8-->
+          <th *ngIf="checkbox9" style="min-width: 90px">Ngày lắp</th> <!--9-->
+          <th *ngIf="checkbox10" style="min-width: 80px">Labo</th> <!--10-->
+          <th *ngIf="checkbox11" style="min-width: 80px">Người đặt</th> <!--11-->
+          <th *ngIf="checkbox12" style="min-width: 75px">Thành tiền</th><!--12-->
+          <th style="min-width: 101px">Thao tác</th> <!--13-->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let m of approveSpecimensList">
+          <td *ngIf="checkbox1" style="padding: 20px;">{{m.ms_id}}</td><!--1-->
+          <td *ngIf="checkbox2" class="truncate" data-bs-toggle="tooltip" title="{{m.ms_name}}" style="padding: 20px;">
+            {{m.ms_name}}</td><!--2-->
+          <td *ngIf="checkbox3" style="padding: 20px;">{{m.p_patient_name}}</td><!--3-->
+          <td *ngIf="checkbox4" style="padding: 20px;">{{m.ms_type}}</td><!--4-->
+          <td *ngIf="checkbox5" style="padding: 20px;">{{m.ms_quantity}}</td><!--5-->
+          <td *ngIf="checkbox6" style="padding: 20px;">{{m.ms_unit_price}}</td><!--6-->
+          <td *ngIf="checkbox7" style="padding: 20px;"></td><!--7-->
+          <td *ngIf="checkbox8" style="padding: 20px;"></td><!--8-->
+          <td *ngIf="checkbox9" style="padding: 20px;">{{ m.ms_used_date | date:'yyyy-MM-dd' }}</td><!--9-->
+          <td *ngIf="checkbox10" style="padding: 20px;"></td><!--10-->
+          <td *ngIf="checkbox11" style="padding: 20px;"></td> <!--11-->
+          <td *ngIf="checkbox12" style="padding: 20px;">{{ m.ms_quantity * m.ms_unit_price}}</td><!--12-->
+          <td class="text-center" style="min-width: 150px">
+            <button href="#" class="btn btn-primary float-right btn-rounded" style="padding: 2px 5px; margin-right: 3px"
+              (click)="approveSpecimens(m.ms_id,m)"><i class="bi bi-check-circle"></i></button>
+            <button href="#" class="btn btn-primary float-right btn-rounded" style="padding: 2px 5px; margin-right: 3px"
+              data-bs-toggle="modal" data-bs-target="#editApproveSpecimensModal"
+              (click)="openEditApproveSpecimens(m.ms_id,m)"><i class="bi bi-pencil-square"></i></button>
+            <button href="#" class="btn btn-danger float-right btn-rounded" style="padding:2px 5px; "
+              (click)="deleteApproveSpecimens(m.ms_id)"><i class="bi bi-trash"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
 
 <app-popup-add-approve-specimens></app-popup-add-approve-specimens>
 <app-popup-add-specimens [approveSpecimensList]="approveSpecimensList"></app-popup-add-specimens>
 <app-popup-delete-specimens></app-popup-delete-specimens>
-<app-popup-edit-approve-specimens [approveSpecimensList]="approveSpecimensList" [id] = "id" [specimens] = "specimen"></app-popup-edit-approve-specimens>
+<app-popup-edit-approve-specimens [approveSpecimensList]="approveSpecimensList" [id]="id"
+  [specimens]="specimen"></app-popup-edit-approve-specimens>

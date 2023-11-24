@@ -27,7 +27,7 @@
                 <div class="card-body">
                   <div class="mb-3">
                     <div class="form-group mb-3">
-                      <label class="small mb-1" for="hovaten">Họ và tên</label>
+                      <label class="small mb-1" for="hovaten">Họ và tên<span class="required">*</span></label>
                       <input class="form-control" [(ngModel)]="patient1.patientName" id="hovaten" type="text"
                         placeholder="Họ và tên">
                       <div *ngIf="isSubmitted" class="alert-danger-custom">
@@ -40,7 +40,7 @@
                   <div class="row gx-3 mb-3">
                     <div class="col-md-6">
                       <div class="form-group mb-3">
-                        <label class="small mb-1" for="createdDate">Ngày sinh</label>
+                        <label class="small mb-1" for="createdDate">Ngày sinh<span class="required">*</span></label>
                         <input class="form-control" [(ngModel)]="patient1.dob" id="createdDate" type="date">
                         <div *ngIf="isSubmitted" class="alert-danger-custom">
                           <p>
@@ -52,10 +52,10 @@
                     <div class="col-md-6">
                       <div class="form-group mb-3">
                         <div class="small mb-1">
-                          <label>Giới tính</label>
+                          <label>Giới tính<span class="required">*</span></label>
                         </div>
                         <div class="mb-6 sep-input-gender">
-                          <input type="radio" [(ngModel)]="patient1.Gender" class="radio m-2"[value]="1">
+                          <input type="radio" [(ngModel)]="patient1.Gender" class="radio m-2" [value]="1">
                           <label for="male">Nam</label>
                           <input type="radio" [(ngModel)]="patient1.Gender" class="radio m-2" [value]="0">
                           <label for="female">Nữ</label>
@@ -67,14 +67,15 @@
                   <div class="row gx-3 mb-3">
                     <div class="col-md-6">
                       <div class="form-group mb-3">
-                        <label class="small mb-1" for="inputPhone">Số điện thoại</label>
-<!--                        <input class="form-control" [(ngModel)]="patient1.phone_Number" id="inputPhone" type="tel"-->
-<!--                          placeholder="Số điện thoại">-->
+                        <label class="small mb-1" for="inputPhone">Số điện thoại<span class="required">*</span></label>
+                        <!--                        <input class="form-control" [(ngModel)]="patient1.phone_Number" id="inputPhone" type="tel"-->
+                        <!--                          placeholder="Số điện thoại">-->
                         <div class="input-group mb-3">
                           <div class="input-group-prepend">
                             <span class="input-group-text custom-input" id="basic-addon1">(+84)</span>
                           </div>
-                          <input type="text" class="form-control" [(ngModel)]="patient1.phone_Number" id="inputPhone" name="inputPhone" aria-label="phoneNumber" aria-describedby="basic-addon1">
+                          <input type="text" class="form-control" [(ngModel)]="patient1.phone_Number" id="inputPhone"
+                            name="inputPhone" aria-label="phoneNumber" aria-describedby="basic-addon1">
                         </div>
                         <div *ngIf="isSubmitted" class="alert-danger-custom">
                           <p>
@@ -126,7 +127,7 @@
           </div>
           <div class="sep-patient-popupadd-button">
             <button type="button" class="btn button-timekeeping" (click)="addPatient()"><i
-              class="bi bi-plus-circle"></i> Thêm mới</button>
+                class="bi bi-plus-circle"></i> Thêm mới</button>
           </div>
         </div>
       </div>

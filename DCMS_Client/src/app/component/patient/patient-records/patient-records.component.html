@@ -41,8 +41,9 @@
             <button class="btn btn-primary p-1 m-r-3" style="padding: 2px 3px; margin-right: 3px">
               <i class="bi bi-pencil-square"></i></button>
             <button href="#" class="btn btn-danger float-right btn-rounded" style="padding: 2px 5px"
-              data-bs-toggle="modal" data-bs-target="#delete_patient" (click)="openDeletePatient(p.patient_id)"><i
-                class="bi bi-trash"></i></button>
+              data-bs-toggle="modal"(click)="openDeletePatient(p.patient_id)"><i
+                class="bi bi-trash"></i></button>  
+                <!-- data-bs-target="#delete_patient"  -->
           </td>
         </tr>
       </tbody>
@@ -59,4 +60,4 @@
 </div>
 <!-- End of Recent Orders -->
 <app-popup-add-patient [searchPatientsList]="searchPatientsList"></app-popup-add-patient>
-<!-- <app-popup-delete-patient [id]="id" [patientList]="searchPatientsList"></app-popup-delete-patient> -->
+<app-popup-delete-patient [id]="id" [patientList]="searchPatientsList"></app-popup-delete-patient>
