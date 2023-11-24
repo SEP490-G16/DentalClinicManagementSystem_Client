@@ -181,6 +181,10 @@ export class PatientProfileTabComponent implements OnInit {
     this.isSubmitted = false;
   }
 
+  cancelUpdate(){
+    this.isEditing = false;
+  }
+
   private isVietnamesePhoneNumber(number: string): boolean {
     return /^(\+84|84|0)?[1-9]\d{8}$/
       .test(number);
