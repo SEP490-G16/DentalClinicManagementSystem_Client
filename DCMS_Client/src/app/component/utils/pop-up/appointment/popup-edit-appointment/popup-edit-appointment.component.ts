@@ -109,12 +109,13 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    console.log("oninit")
-    this.selectDateToGetDoctor("2023-11-22");
+    console.log("oninit") 
+    this.getListGroupService();
+    this.selectDateToGetDoctor("2023-11-24");
+   
   }
 
   getListGroupService() {
-    console.log("vô đây chưa")
     this.medicaoProcedureGroupService.getMedicalProcedureGroupList().subscribe((res: any) => {
       this.listGroupService = res.data;
       console.log(res.data);
@@ -128,7 +129,7 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
   oldDate: string = ''
   oldTime: string = ''
   ngOnChanges(changes: SimpleChanges): void {
-    this.getListGroupService();
+    //this.getListGroupService();
     this.resetValidate();
     if (changes['selectedAppointment']) {
       this.EDIT_APPOINTMENT_BODY = {
