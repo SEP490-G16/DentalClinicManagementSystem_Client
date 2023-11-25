@@ -527,12 +527,6 @@ b {
   margin: 1rem auto;
 }
 
-.sep-recent-orders a:active {
-  text-align: center;
-  display: block;
-  margin: 1rem auto;
-}
-
 /* table */
 table {
   background-color: var(--custom-color-white);
