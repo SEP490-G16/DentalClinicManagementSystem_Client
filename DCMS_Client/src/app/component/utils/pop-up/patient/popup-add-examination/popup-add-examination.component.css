@@ -1,37 +1,162 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
-.web-wrapper {
-  --custom-color-primary: #6C9BCF;
-  --custom-color-danger: #FF0060;
-  --custom-color-success: #1B9C85;
-  --custom-color-warning: #F7D060;
-  --custom-color-white: #fff;
-  --custom-color-info-dark: #7d8da1;
-  --custom-color-dark: #363949;
-  --custom-color-light: rgba(132, 139, 200, 0.18);
-  --custom-color-dark-variant: #677483;
-  --custom-color-background: #f6f6f9;
-
-  --custom-card-border-radius: 2rem;
-  --custom-border-radius-1: 0.4rem;
-  --custom-border-radius-2: 1.2rem;
-
-  --custom-card-padding: .8rem;
-  --custom-padding-1: 1.2rem;
-
-  --custom-box-shadow: 0 2rem 3rem var(--custom-color-light);
-}
-
 html,
 body {
   height: 100%;
   margin: 0;
+  padding: 0;
 }
 
-a {
-  color: var(--custom-color-dark);
+.content-wrapper {
+  height: 100%;
+  border-radius: 15px;
+  background-color: white;
 }
 
+.examination-head {
+  height: 6%;
+  margin-top: 2%
+}
+
+.examination-body {
+  min-height: 90%;
+}
+
+/*top*/
+.examination-body-header {
+  text-align: center;
+  margin: auto;
+  justify-content: center;
+  font-style: italic;
+  height: 6%;
+  display: flex;
+  align-items: center;
+}
+
+.examination-body-header label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  height: 100%;
+  width: 100%;
+  font-size: 23px;
+}
+
+/*middle*/
+.examination-body-middle {
+  height: 95%;
+}
+
+.row1 {
+  padding-top: 1%;
+  margin: auto;
+  width: 85%;
+}
+
+.examination-body-middle-title {
+  height: 5%;
+  font-weight: 800;
+  font-size: 18px;
+  font-style: italic;
+  color: rgb(248, 142, 142);
+}
+
+.form-input {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.children-of-row1 {
+  width: 80%
+}
+
+.custom-input-container textarea {
+  width: 100%;
+  border-radius: 4px;
+  resize: vertical;
+  min-height: 100%;
+}
+
+.custom-input-container-image textarea {
+  width: 100%;
+  min-height: 90%;
+}
+
+.btn-image {
+  text-align: center;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.row2 {
+  padding-top: 2%;
+  margin: auto;
+  width: 85%;
+}
+
+.row3 {
+  margin: auto;
+  justify-content: space-around;
+  padding-bottom: 2%;
+}
+
+.row3 button {
+  width: 10%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
 img {
   display: block;
   width: 100%;
@@ -77,7 +202,6 @@ small {
   width: 120px;
   height: 120px;
   -webkit-animation: spin 2s linear infinite;
-  /* Safari */
   animation: spin 2s linear infinite;
 }
 
@@ -351,8 +475,6 @@ textarea.form-control {
   height: auto;
   min-height: 100px;
 }
-
-/* Responsive spacing and alignment */
 @media (min-width: 768px) {
   .row {
     display: flex;
@@ -370,7 +492,6 @@ textarea.form-control {
     padding-left: 15px;
   }
 
-  /* Set width for columns */
   .col-md-4 {
     flex: 0 0 33.333333%;
     max-width: 33.333333%;
@@ -422,7 +543,6 @@ textarea.form-control {
   left: 0;
   right: 0;
   width: 500px;
-  /* hoặc một giá trị khác */
   padding: 20px;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.9);
@@ -472,14 +592,14 @@ textarea.form-control {
   height: 250px;
   overflow-y: auto;
   display: grid;
-  grid-template-columns: repeat(auto-fill, 100px); /* Creates columns that are 100px wide */
-  grid-auto-rows: 250px; /* Sets the row height to 250px */
-  grid-gap: 5px; /* Sets the gap between grid items */
+  grid-template-columns: repeat(auto-fill, 100px);
+  grid-auto-rows: 250px;
+  grid-gap: 5px;
   align-items: start;
   justify-content: start;
   background-image: url('https://bridlingtoncaravans.com/office/storage/no-image/no-image.png');
-  background-position: center; /* Center the image */
-  background-size: contain; /* Scale the image to be as large as possible when fully contained within the element */
+  background-position: center;
+  background-size: contain;
   background-repeat: no-repeat;
 }
 
@@ -546,90 +666,64 @@ textarea.form-control {
 
 .KvDTtab-container h2 {
   color: #7B4C50;
-  /* Primary theme color for headings */
   margin-bottom: 15px;
-  /* Spacing after headings */
 }
 
 .content-child {
   margin-bottom: 15px;
-  /* Spacing between rows */
 }
 
 .form-group,
 .form-control,
 .form-select {
   width: 100%;
-  /* Full width for form elements */
   margin-bottom: 10px;
-  /* Spacing after each form element */
 }
 
 .label {
   font-weight: bold;
-  /* Bold labels for better readability */
 }
 
 .image-container {
   border: 1px dashed #7B4C50;
-  /* Dashed border with primary theme color for image container */
   padding: 10px;
-  /* Padding inside the image container */
   text-align: center;
-  /* Centering the text */
 }
 
 .image-wrapper {
   display: inline-block;
-  /* Align images inline */
   margin: 5px;
-  /* Spacing between images */
 }
 
 .table-custom table {
   width: 100%;
-  /* Full width table */
   border-collapse: collapse;
-  /* Remove space between borders */
 }
 
 .table-custom th,
 .table-custom td {
   border: 1px solid #dee2e6;
-  /* Light grey border for table cells */
   padding: 8px;
-  /* Padding inside cells */
-  text-align: left;
-  /* Align text to the left in cells */
 }
 
 .bi-plus-circle,
 .bi-trash {
   color: #7B4C50;
-  /* Primary theme color for icons */
 }
 
 .button-timekeeping {
   background-color: #7B4C50;
-  /* Primary theme color for buttons */
   color: white;
-  /* White text for buttons */
   border-radius: 3px;
-  /* Rounded corners for buttons */
   padding: 10px 15px;
-  /* Padding inside buttons */
   border: none;
-  /* Remove border from buttons */
   cursor: pointer;
-  /* Cursor pointer for clickable items */
 }
 
 .button-timekeeping:hover {
   background-color: darken(#7B4C50, 10%);
-  /* Slightly darker shade on hover */
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
 
   .col-md-4,
@@ -638,7 +732,6 @@ textarea.form-control {
   .col-md-8,
   .col-md-12 {
     width: 100%;
-    /* Full width on smaller screens */
     margin-bottom: 15px;
   }
 }
@@ -646,7 +739,6 @@ textarea.form-control {
 .sublist {
   position: absolute;
   left: 100%;
-  /* Adjust as necessary */
   top: 0;
   list-style-type: none;
   background: white;
@@ -666,11 +758,8 @@ textarea.form-control {
 .datalist-b-container {
   position: absolute;
   display: none;
-  /* Initially hidden */
-  /* ... additional styling ... */
 }
 
-/* You might need to adjust the z-index to ensure the datalist is displayed above other content */
 .datalist-b-container.show {
   display: block;
 }
@@ -687,14 +776,12 @@ textarea.form-control {
   align-items: center;
   z-index: 10;
   visibility: hidden;
-  /* Hide it by default */
   opacity: 0;
   transition: visibility 0s, opacity 0.5s;
 }
 
 .popup-container.show {
   visibility: visible;
-  /* Show it on .show */
   opacity: 1;
 }
 
@@ -704,7 +791,6 @@ textarea.form-control {
   border-radius: 5px;
   position: relative;
   width: fit-content;
-  /* Adjust width as needed */
 }
 
 .close-btn {
@@ -723,7 +809,6 @@ textarea.form-control {
 .button-container button {
   padding: 10px 15px;
   margin-top: 10px;
-  /* Spacing from the title */
   border: none;
   border-radius: 4px;
   background-color: #6200EE;
@@ -825,4 +910,4 @@ textarea.form-control {
 }
 .popup.active .dismiss-btn {
   transition: all 300ms ease-in-out 400ms;
-}
+} */

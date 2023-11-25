@@ -440,10 +440,6 @@ b {
   transition: 0.5s;
 }
 
-.sep-main .sep-analyse {
-  height: var(--main-anylyse-height) !important;
-}
-
 .sep-main .sep-content {
   height: var(--main-content-height) !important;
 }
@@ -511,7 +507,7 @@ b {
 
 .sep-recent-orders {
   /*margin-top: 1.3rem;*/
-  height: var(--main-container-height) !important;
+  min-height: 95%;
 }
 
 .sep-recent-orders .sep-listpatient-table {
