@@ -54,7 +54,7 @@
                   {{detail.procedure_name}}
                 </td>
                 <td class="patient-doctorname">{{ detail.doctor }}</td>
-                <td class="appointments-time">{{timestampToTime(detail.time)}} - {{timestampToDate(a.date)}}</td>
+                <td class="appointments-time">{{timestampToTime(detail.time)}} - {{timestampToDate(a.date) | date: 'dd-MM-yyyy'}}</td>
                 <td class="table_button">
                   <button class="btn btn-primary p-1 m-r-3" style="padding: 2px 3px; margin-right: 3px"
                     data-bs-toggle="modal" data-bs-target="#editAppointmentModal"

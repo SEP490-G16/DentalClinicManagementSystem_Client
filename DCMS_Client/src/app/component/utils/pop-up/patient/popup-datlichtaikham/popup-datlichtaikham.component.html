@@ -1,10 +1,8 @@
-
-<div *ngIf="loading" class="loading-overlay" >
+<div *ngIf="loading" class="loading-overlay">
   <div class="loading-spinner"></div>
 </div>
-  <!-- The Modal -->
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
+<!-- The Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
@@ -20,26 +18,11 @@
           <div class="row">
             <div class="col-12 col-md-12">
               <div class="form-group mt-2">
-                <label for="phone">Nhập số điện thoại</label>
-                <input type="text" class="form-control" id="phone"
-                  [(ngModel)]="AppointmentBody.appointment.phone_number"
-                  (input)="onPhoneInput()"
-                  >
-                  <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.phoneNumber}}</p>
-              </div>
-              <div class="form-group mt-2">
-                <label for="patientCode">Mã bệnh nhân</label>
-                <input type="text" class="form-control" id="patientCode"
-                       [(ngModel)]="AppointmentBody.appointment.patient_id"
-                       [disabled]="!isPatientInfoEditable"
-                >
-              </div>
-              <div class="form-group mt-2">
                 <label for="patientName">Tên bệnh nhân</label>
-                <input type="text" class="form-control" id="patientName"
-                       [(ngModel)]="AppointmentBody.appointment.patient_name"
-                       [disabled]="!isPatientInfoEditable"
-                >
+                <ng-select [items]="patientList" bindLabel="patientInfor" [(ngModel)]="patientInfor"
+                  bindValue="patientInfor" (keyup)="onsearch($event)" [notFoundText]="'Không tìm thấy bệnh nhân'">
+                </ng-select>
+                <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.patientName}}</p>
               </div>
               <div class="form-group mt-2">
                 <label for="treatment">Loại điều trị</label>
@@ -54,23 +37,14 @@
                 <form class="form-inline">
                   <div class="form-group">
                     <div class="input-group">
-                      <input
-                        class="form-control"
-                        placeholder="yyyy-mm-dd"
-                        name="dp"
-                        [(ngModel)]="model"
-                        ngbDatepicker
-                        #d="ngbDatepicker"
-                        [placement]="'right'"
-                        placeholder="Chọn ngày hẹn"
-                        [minDate]="model"
-                      >
+                      <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="model" ngbDatepicker
+                        #d="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày hẹn" [minDate]="currentDate">
                       <div class="input-group-append">
-                        <button class="btn btn-outline-secondary calendar" style="height: 48px;" (click)="d.toggle()" type="button">
+                        <button class="btn btn-outline-secondary calendar" style="height: 48px;" (click)="d.toggle()"
+                          type="button">
                           <i class="bi bi-calendar3"></i>
                         </button>
                       </div>
-
                     </div>
                     <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.appointmentDate}}</p>
                   </div>
@@ -79,40 +53,48 @@
               <div class="form-group mt-2">
                 <label for="appointmentTime" name="userCredential">Giờ hẹn khám</label>
                 <input type="time" class="form-control date-input-custom" id="appointmentTime" name="time"
-                       [(ngModel)]="appointmentTime"
-                       [min]="minTime"
-                >
+                  [(ngModel)]="appointmentTime" [min]="minTime" #input (change)="selectDateToGetDoctor(input.value)">
                 <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.appointmentTime}}</p>
               </div>
               <div class="doctors-list mt-2">
-                <ul class="list-group">
-                  <li class="list-group-item" *ngFor="let doctor of doctors"
-                      [ngClass]="{'selected': doctor === selectedDoctor}" (click)="selectDoctor(doctor)">
-                    <img [src]="doctor.image" style="width: 100px; height: 100px; object-fit: cover;"
-                         class="doctor-image" [alt]="doctor.name">
+                <label for="appointmentTime" name="userCredential">Chọn Bác Sĩ</label>
+                <ul class="list-group" *ngIf="totalDoctorFilter != 0">
+                  <li class="list-group-item" *ngFor="let doctor of listDoctorFilter"
+                    [ngClass]="{'selected': doctor.doctorName === selectedDoctor}" (click)="selectDoctor(doctor)">
+                    <!-- <img [src]="doctor.image" style="width: 100px; height: 100px; object-fit: cover;"
+                         class="doctor-image" [alt]="doctor.name"> -->
                     <div class="doctor-info">
-                      <h5 class="card-title">{{ doctor.name }}</h5>
-                      <p class="card-text">{{ doctor.specialty }}</p>
+                      <span class="card-title">{{ doctor.doctorName}}</span>
+                    </div>
+                  </li>
+                </ul>
+                <ul class="list-group" *ngIf="totalDoctorFilter == 0">
+                  <li class="list-group-item" *ngFor="let doctor of listDoctorDisplay"
+                    [ngClass]="{'selected': doctor.doctorName === selectedDoctor}" (click)="selectDoctor(doctor)">
+                    <!-- <img [src]="doctor.image" style="width: 100px; height: 100px; object-fit: cover;"
+                         class="doctor-image" [alt]="doctor.name"> -->
+                    <div class="doctor-info">
+                      <span class="card-title">{{ doctor.doctorName }}</span>
                     </div>
                   </li>
                 </ul>
               </div>
             </div>
 
-          <div class="row mt-4">
-            <div class="col">
-              <div class="float-end">
-                <button type="button" class="btn btn-cancel" data-bs-dismiss="modal" (click)="close()">Huỷ</button>
-                <!-- <button type="button" class="btn btn-primary" (click)="onPostAppointment()" [disabled]="!isPatientInfoEditable">Xác nhận</button> -->
-                <button type="button" class="btn button-timekeeping" (click)="onPostAppointment()"><i
-                  class="bi bi-plus-circle"></i> Thêm mới</button>
+            <div class="row mt-4">
+              <div class="col">
+                <div class="float-end">
+                  <button type="button" class="btn btn-cancel" data-bs-dismiss="modal" (click)="close()">Huỷ</button>
+                  <!-- <button type="button" class="btn btn-primary" (click)="onPostAppointment()" [disabled]="!isPatientInfoEditable">Xác nhận</button> -->
+                  <button type="button" class="btn button-timekeeping" (click)="onPostAppointment()"><i
+                      class="bi bi-plus-circle"></i> Thêm mới</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
+        </div>
       </div>
     </div>
   </div>
 </div>
-  </div>

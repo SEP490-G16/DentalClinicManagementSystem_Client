@@ -16,6 +16,15 @@ export class MedicalProcedureGroupService {
     });
     return this.http.get(`${this.url}/medical-procedure-group`, {headers});
   }
+
+  getMedicalProcedureGroupListandDetail():Observable<any>{
+    let idToken = sessionStorage.getItem("id_Token");
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      'Accept':'application/json'
+    });
+    return this.http.get(`${this.url}/medical-procedure-group-with-detail`, {headers});
+  }
   updateMedicalProcedureGroup(medicalProcedureGroup:any,id:any):Observable<any>{
     let idToken = sessionStorage.getItem("id_Token");
     const headers = new HttpHeaders({

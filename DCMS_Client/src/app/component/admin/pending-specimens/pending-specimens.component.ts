@@ -20,6 +20,7 @@ export class PendingSpecimensComponent implements OnInit {
     this.status = 1;
     this.paging = 1;
     this.getApproveSpecimensList(this.status, this.paging);
+    
   }
 
   specimensBody={

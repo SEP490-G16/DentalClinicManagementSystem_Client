@@ -232,6 +232,7 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
   }
 
   deleteRecord(index: number) {
+    this.isAdd = true;
     this.records.splice(index, 1);
   }
 
