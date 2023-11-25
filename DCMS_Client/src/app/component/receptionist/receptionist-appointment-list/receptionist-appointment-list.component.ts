@@ -220,7 +220,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   selectedAppointment: ISelectedAppointment;
   dateString: any;
   timeString: any;
-  openEditModal(appointment: any, dateTimestamp: any) {
+  openEditModal(appointment: any, dateTimestamp: any, event: Event) {
     console.log("DateTimestamp", dateTimestamp);
     this.dateString = this.timestampToDate(dateTimestamp);
     console.log("DateString", this.dateString);
@@ -228,9 +228,10 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     this.selectedAppointment = appointment;
     this.timeString = this.timestampToTime(appointment.time);
     console.log("Time, ", this.timeString);
+    event.stopPropagation();
   }
 
-  deleteAppointment(appointment: any, dateTimestamp: any) {
+  deleteAppointment(appointment: any, dateTimestamp: any, event: Event) {
     this.DELETE_APPOINTMENT_BODY = {
       epoch: dateTimestamp,
       new_epoch: 0,
@@ -254,6 +255,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
       this.showErrorToast("Lỗi khi cập nhật");
       this.showErrorToast("Lỗi khi xóa");
     });
+    event.stopPropagation();
   }
 
   Exchange = {
@@ -296,7 +298,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   }
 
   status: boolean = true;
-  postExchangeAppointmentToWaitingRoom(a: any, b: any) {
+  postExchangeAppointmentToWaitingRoom(a: any, b: any, event: Event) {
     let status = true;
     this.waitingRoomService.getWaitingRooms().subscribe(
       data => {
@@ -354,6 +356,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
         ResponseHandler.HANDLE_HTTP_STATUS(this.waitingRoomService.apiUrl + "/waiting-room", error);
       }
     );
+    event.stopPropagation();
   }
   navigateToPatientDetail(patientId: any) {
     console.log("check", patientId)
@@ -420,5 +423,16 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     this.toastr.error(message, 'Lỗi', {
       timeOut: 3000, // Adjust the duration as needed
     });
+  }
+  normalizePhoneNumber(phoneNumber: string): string {
+    if (phoneNumber.startsWith('(+84)')) {
+      return '0' + phoneNumber.slice(5);
+    } else if (phoneNumber.startsWith('+84')) {
+      return '0' + phoneNumber.slice(3);
+    } else
+      return phoneNumber;
+  }
+  details(id: any) {
+    this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', id])
   }
 }

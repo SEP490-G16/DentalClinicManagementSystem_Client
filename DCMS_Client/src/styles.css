@@ -1,6 +1,7 @@
 @import "~@ng-select/ng-select/themes/default.theme.css";
 /* angular-cli file: src/styles.css */
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
+@import "~ngx-bootstrap/datepicker/bs-datepicker.css";
 
 .web-wrapper {
   --custom-color-primary: #6C9BCF;
@@ -591,7 +592,7 @@ table tbody .patient-id {
 }
 
 table tbody .patient-name {
-  text-align: start;
+  text-align: center;
   width: 180px;
 }
 
@@ -604,7 +605,7 @@ table tbody .patient-pn {
 }
 
 table tbody .patient-doctorname {
-  text-align: start;
+  text-align: center;
   width: 180px;
 }
 
@@ -711,4 +712,25 @@ button:hover {
   padding: 10px;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
+}
+
+.bs-datepicker-head {
+  background-color: rgba(102, 79, 195, 0.5) !important;
+  /* màu tím bạn muốn */
+}
+
+.bs-datepicker-body .selected,
+.bs-datepicker-body .selected:hover {
+  background-color: rgba(102, 79, 195, 0.5) !important;
+  /* màu tím đậm hơn */
+}
+
+.bs-datepicker-body .today {
+  background-color: rgba(102, 79, 195, 0.5) !important;
+  /* màu tím nhạt */
+}
+
+.bs-datepicker .days .day {
+  background-color: rgba(102, 79, 195, 0.5) !important;
+  /* màu tím bạn muốn */
 }

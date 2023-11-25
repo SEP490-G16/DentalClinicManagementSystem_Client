@@ -57,7 +57,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'dang-ky-lich-lam-viec',
+        path: 'dangkylichlamviec',
         component: RegisterWorkScheduleComponent,
       },
       {

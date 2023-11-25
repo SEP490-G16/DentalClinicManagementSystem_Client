@@ -11,28 +11,6 @@
       <a routerLink="/mau-dang-cho" class="page-title" routerLinkActive="active-link">Mẫu đang chờ duyệt</a>
     </div>
   </div>
-
-  <div class="row filter-row m-b-1">
-    <div class="col-sm-3 col-md-2">
-
-    </div>
-    <div class="col-sm-3 col-md-2">
-      <div class="input-group" style="margin-left: 12px">
-        <label>Ngày đặt</label>
-      </div>
-    </div>
-    <div class="col-sm-3 col-md-2 ">
-      <div class="input-group" style="margin-left: 11px">
-        <label>Ngày nhận</label>
-      </div>
-    </div>
-    <div class="col-sm-3 col-md-2">
-      <div class="input-group" style="margin-left: 14px">
-        <label>Ngày lắp</label>
-      </div>
-    </div>
-  </div>
-
   <div class="row">
     <div class="col-sm-3 col-md-2" style="padding: 0 10px">
       <div class="input-group">
@@ -45,27 +23,50 @@
         </select>
       </div>
     </div>
-    <div class="col-sm-3 col-md-2" style="padding: 0 10px">
-      <div class="input-group">
-        <input type="date" class="form-control input-custom  p-2" [(ngModel)]="SpecimensFilter.ms_order_date" #input
-          (change)="filterByOrderDate(input.value)">
-      </div>
+    <div class="col-sm-3 col-md-2 form-group" style="padding: 0 10px">
+<!--      <div class="input-group">-->
+<!--        <input type="date" class="form-control input-custom  p-2" [(ngModel)]="SpecimensFilter.ms_order_date" #input-->
+<!--          (change)="filterByOrderDate(input.value)">-->
+<!--      </div>-->
+      <input type="text"
+             placeholder="Ngày đặt"
+             [(ngModel)]="SpecimensFilter.ms_order_date"
+             #input
+             (change)="filterByOrderDate(SpecimensFilter.ms_order_date)"
+             class="form-control input-custom  p-2"
+             bsDaterangepicker
+             [bsConfig]="{ isAnimated: true }"
+      >
     </div>
-    <div class="col-sm-3 col-md-2" style="padding: 0 10px">
-      <div class="input-group">
-        <input type="date" class="form-control input-custom  p-2" [(ngModel)]="SpecimensFilter.ms_received_date" #input
-          (change)="filterByReceivedDate(input.value)">
-      </div>
+    <div class="col-sm-3 col-md-2 form-group" style="padding: 0 10px">
+<!--      <div class="input-group">-->
+<!--        <input type="date" class="form-control input-custom  p-2" [(ngModel)]="SpecimensFilter.ms_received_date" #input-->
+<!--          (change)="filterByReceivedDate(input.value)">-->
+<!--      </div>-->
+      <input type="text"
+             placeholder="Ngày nhận"
+             [(ngModel)]="SpecimensFilter.ms_received_date" #input
+             (change)="filterByReceivedDate(input.value)"
+             class="form-control input-custom  p-2"
+             bsDaterangepicker
+             [bsConfig]="{ isAnimated: true, dateInputFormat: 'DD/MM/YYYY' }"
+      >
     </div>
-    <div class="col-sm-3 col-md-2" style="padding: 0 10px">
-      <div class="input-group">
-        <input type="date" class="form-control input-custom  p-2" #input (change)="filterByUseDate(input.value)">
-      </div>
+    <div class="col-sm-3 col-md-2 form-group" style="padding: 0 10px">
+<!--      <div class="input-group">-->
+<!--        <input type="date" class="form-control input-custom  p-2" #input (change)="filterByUseDate(input.value)">-->
+<!--      </div>-->
+      <input type="text"
+             placeholder="Ngày lắp"
+             #input (change)="filterByUseDate(input.value)"
+             class="form-control input-custom  p-2"
+             bsDaterangepicker
+             [bsConfig]="{ isAnimated: true }">
     </div>
     <div class="col-sm-2 col-md-2" style="padding: 0 10px">
       <select class="form-select p-2" style="width: 70%; border: 1px solid #664FC3;
             border-radius: 10px;" aria-label="Default select example" [(ngModel)]="status" (change)="filterStatus()">
-        <option value="">Trạng thái</option>
+        <option value="0" selected>Trạng thái</option>
         <option value="2">Chưa Nhận</option>
         <option value="3">Đã Nhận</option>
         <option value="4">Hàng Lỗi</option>
@@ -163,31 +164,35 @@
         </tr>
       </thead>
       <tbody>
+
         <tr *ngFor="let specimens of filteredSpecimens">
-          <td *ngIf="checkbox1" class="truncate" data-bs-toggle="tooltip" title="{{specimens.ms_name}}">
-            {{specimens.ms_name}}</td> <!--2-->
-          <td *ngIf="checkbox2" style="min-width: 82px;padding: 10px">{{specimens.ms_type}}</td> <!--3-->
-          <td *ngIf="checkbox3" style="min-width: 85px;padding: 10px">{{specimens.ms_quantity}}</td> <!--4-->
-          <td *ngIf="checkbox4" style="min-width: 75px;padding: 10px">{{specimens.ms_unit_price}}</td> <!--5-->
-          <td *ngIf="checkbox5" style="min-width: 80px;padding: 10px">{{laboName}}</td> <!--6-->
-          <td *ngIf="checkbox6" style="min-width: 80px;padding: 10px">{{specimens.ms_status == 1? "Đã nhận":
-            (specimens.ms_status == 2)?"Chưa nhận":"Trả lại"}}</td> <!--7-->
-          <td *ngIf="checkbox7" style="min-width: 75px;padding: 10px">{{specimens.ms_order_date | date:'dd-MM-yyyy'}}
-          </td> <!--8-->
-          <td *ngIf="checkbox8" style="min-width: 120px;padding: 10px">{{specimens.ms_orderer}}</td> <!--9-->
-          <td *ngIf="checkbox9" style="min-width: 95px;padding: 10px">{{specimens.ms_received_date | date:'dd-MM-yyyy'}}
-          </td> <!--10-->
-          <td *ngIf="checkbox10" style="min-width: 105px;padding: 10px">{{specimens.ms_receiver}}</td> <!--11-->
-          <td *ngIf="checkbox11" style="min-width: 95px;padding: 10px">{{specimens.ms_used_date | date:'dd-MM-yyyy'}}
-          </td> <!--12-->
-          <td *ngIf="checkbox12" style="min-width: 90px;padding: 10px">{{specimens.ms_warranty | date:'dd-MM-yyyy'}}
-          </td> <!--13-->
-          <td class="text-center" style="min-width: 101px;padding: 10px"> <!--14-->
-            <button class="btn btn-primary p-1 m-2"><i class="bi bi-pencil-square" data-bs-toggle="modal"
-                data-bs-target="#editSpecimensModal" (click)="openEditSpecimen(specimens)"></i></button>
-            <button class="btn btn-danger p-1" (click)="deleteSpecimens(specimens.ms_id)"><i
+          <ng-container *ngIf="specimens.ms_status != 1">
+            <td *ngIf="checkbox1" class="truncate" data-bs-toggle="tooltip" title="{{specimens.ms_name}}">
+              {{specimens.ms_name}}</td> <!--2-->
+            <td *ngIf="checkbox2" style="min-width: 82px;padding: 10px">{{specimens.ms_type}}</td> <!--3-->
+            <td *ngIf="checkbox3" style="min-width: 85px;padding: 10px">{{specimens.ms_quantity}}</td> <!--4-->
+            <td *ngIf="checkbox4" style="min-width: 75px;padding: 10px">{{specimens.ms_unit_price}}</td> <!--5-->
+            <td *ngIf="checkbox5" style="min-width: 80px;padding: 10px">{{specimens.lb_name}}</td> <!--6-->
+            <td *ngIf="checkbox6" style="min-width: 80px;padding: 10px">{{specimens.ms_status == 2? "Chưa nhận":
+              (specimens.ms_status == 3)?"Đã nhận":"Hàng lỗi"}}</td> <!--7-->
+            <td *ngIf="checkbox7" style="min-width: 75px;padding: 10px">{{specimens.ms_order_date | date:'dd-MM-yyyy'}}
+            </td> <!--8-->
+            <td *ngIf="checkbox8" style="min-width: 120px;padding: 10px">{{specimens.ms_orderer}}</td> <!--9-->
+            <td *ngIf="checkbox9" style="min-width: 95px;padding: 10px">{{specimens.ms_received_date | date:'dd-MM-yyyy'}}
+            </td> <!--10-->
+            <td *ngIf="checkbox10" style="min-width: 105px;padding: 10px">{{specimens.ms_receiver}}</td> <!--11-->
+            <td *ngIf="checkbox11" style="min-width: 95px;padding: 10px">{{specimens.ms_used_date | date:'dd-MM-yyyy'}}
+            </td> <!--12-->
+            <td *ngIf="checkbox12" style="min-width: 90px;padding: 10px">{{specimens.ms_warranty | date:'dd-MM-yyyy'}}
+            </td> <!--13-->
+            <td class="text-center" style="min-width: 101px;padding: 10px"> <!--14-->
+              <button class="btn btn-primary p-1 m-2"><i class="bi bi-pencil-square" data-bs-toggle="modal"
+                                                         data-bs-target="#editSpecimensModal" (click)="openEditSpecimen(specimens)"></i></button>
+              <button class="btn btn-danger p-1" (click)="deleteSpecimens(specimens.ms_id)"><i
                 class="bi bi-trash"></i></button>
-          </td>
+            </td>
+          </ng-container>
+
         </tr>
 
       </tbody>
@@ -196,9 +201,14 @@
   </div>
 
   <div class="sep-pagination">
-    <a (click)="pageChanged(currentPage - 1)" *ngIf="currentPage > 1">&laquo;</a>
+<!--    <a (click)="pageChanged(currentPage - 1)" *ngIf="currentPage > 1">&laquo;</a>-->
+<!--    <a>{{currentPage}}</a>-->
+<!--    <a (click)="pageChanged(currentPage + 1)" *ngIf="hasNextPage">&raquo;</a>-->
+    <a (click)="currentPage > 1 ? pageChanged(currentPage - 1) : null" [class.disabled]="currentPage <= 1"
+       style="color: black">&laquo;</a>
     <a>{{currentPage}}</a>
-    <a (click)="pageChanged(currentPage + 1)" *ngIf="hasNextPage">&raquo;</a>
+    <a [class.disabled]="!hasNextPage" (click)="hasNextPage && pageChanged(currentPage + 1)"
+       style="color: black">&raquo;</a>
   </div>
 </div>
 

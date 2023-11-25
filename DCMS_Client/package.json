@@ -41,6 +41,7 @@
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",
     "ng2-charts": "^4.1.1",
+    "ngx-bootstrap": "^9.0.0",
     "ngx-cookie-service": "^14.0.1",
     "ngx-date-fns": "^10.0.1",
     "ngx-toastr": "^15.2.2",

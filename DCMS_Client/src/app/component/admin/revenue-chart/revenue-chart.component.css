@@ -49,3 +49,14 @@
   border-radius: 10px;
   margin-right: 20px;
 }
+.link-tab{
+  display: flex;
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+.link-tab .bao-cao-thu{
+  margin-left: 2%;
+}
+.link-tab .bao-cao-chi{
+  margin-left: 2%;
+}

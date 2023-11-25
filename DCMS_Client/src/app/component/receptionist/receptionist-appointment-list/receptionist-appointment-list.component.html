@@ -39,7 +39,7 @@
       <tbody>
         <ng-container *ngFor="let a of filteredAppointments">
           <ng-container *ngFor="let ap of a.appointments">
-            <tr *ngFor="let detail of ap.details">
+            <tr class="hover-patient" *ngFor="let detail of ap.details" (click)="details(detail.patient_id)">
               <ng-container *ngIf="detail.migrated == 'false'">
                 <td class="patient-id">
                   {{detail.patient_id}}
@@ -48,7 +48,7 @@
                   {{detail.patient_name}}
                 </td>
                 <td class="patient-phone">
-                  {{detail.phone_number}}
+                  {{normalizePhoneNumber(detail.phone_number)}}
                 </td>
                 <td class="patient-pn">
                   {{detail.procedure_name}}
@@ -58,13 +58,13 @@
                 <td class="table_button">
                   <button class="btn btn-primary p-1 m-r-3" style="padding: 2px 3px; margin-right: 3px"
                     data-bs-toggle="modal" data-bs-target="#editAppointmentModal"
-                    (click)="openEditModal(detail, a.date)">
+                    (click)="openEditModal(detail, a.date, $event)">
                     <i class="bi bi-pencil-square"></i></button>
                   <button class="btn btn-danger p-1" style="padding: 2px 5px"
-                    (click)="deleteAppointment(detail, a.date)"> <i class="bi bi-trash"></i></button>
+                    (click)="deleteAppointment(detail, a.date, $event)"> <i class="bi bi-trash"></i></button>
                 </td>
                 <td *ngIf="detail.status == 2 && checkDate(a.date)" class="direct-click">
-                  <button class="btn btn-redirect" (click)="postExchangeAppointmentToWaitingRoom(a.date, detail)"
+                  <button class="btn btn-redirect" (click)="postExchangeAppointmentToWaitingRoom(a.date, detail,$event)"
                     style="width: 100px; color: black;">
                     Đến phòng chờ
                   </button>

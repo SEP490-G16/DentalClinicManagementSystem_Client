@@ -97,37 +97,20 @@ export class PatientRecordsComponent implements OnInit {
       }
     }
   }
-  openDeletePatient(id: any) {
+  openDeletePatient(id: any, event: Event) {
     this.id = id;
 
     this.patientService.deletePatient(id).subscribe((res) => {
-      const index = this.searchPatientsList.findIndex((item:any) => item.patient_id == id);
+      const index = this.searchPatientsList.findIndex((item: any) => item.patient_id == id);
       if (index != -1) {
         this.searchPatientsList.splice(index, 1);
       }
     })
+    event.stopPropagation();
   }
 
   detail(id: any) {
     this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', id])
-    //const userGroupsString = sessionStorage.getItem('userGroups');
-
-    // if (userGroupsString) {
-    //   const userGroups = JSON.parse(userGroupsString) as string[];
-
-    //   if (userGroups.includes('dev-dcms-doctor')) {
-    //     this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', id])
-    //   } else if (userGroups.includes('dev-dcms-nurse')) {
-    //     this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', id])
-    //   } else if (userGroups.includes('dev-dcms-receptionist')) {
-    //     this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', id])
-    //   } else if (userGroups.includes('dev-dcms-admin')) {
-    //     this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', id])
-    //   }
-    // } else {
-    //   console.error('Không có thông tin về nhóm người dùng.');
-    //   this.router.navigate(['/default-route']);
-    // }
   }
 
   signOut() {

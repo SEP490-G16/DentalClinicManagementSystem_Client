@@ -33,6 +33,7 @@ import localeVi from '@angular/common/locales/vi';
 import { PopupAddReportExpenditureComponent } from './component/utils/pop-up/revenue/popup-add-report-expenditure/popup-add-report-expenditure.component';
 import { PopupConfirmServiceComponent } from './component/utils/pop-up/appointment/popup-confirm-service/popup-confirm-service.component';
 import { TableComponent } from './component/shared/table/table.component';
+import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
 // Register the Vietnamese locale data
 registerLocaleData(localeVi);
 @NgModule({
@@ -60,7 +61,8 @@ registerLocaleData(localeVi);
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
-    })
+    }),
+    BsDatepickerModule.forRoot()
   ],
   providers: [CookieService, { provide: LOCALE_ID, useValue: 'vi' }],
   bootstrap: [AppComponent]

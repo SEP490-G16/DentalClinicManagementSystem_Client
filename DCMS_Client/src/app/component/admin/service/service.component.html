@@ -13,10 +13,10 @@
     </div>
 
     <div class="col-8">
-        <div class="input-group">
-          <input type="search search-custom" placeholder="Tìm kiếm" [(ngModel)]="searchTerm"
-            (input)="onSearchInputChange()">
-        </div>
+      <div class="input-group">
+        <!-- (input)="onSearchInputChange()" -->
+        <input type="search search-custom" placeholder="Tìm kiếm" [(ngModel)]="searchTerm">
+      </div>
     </div>
     <div class="col-2">
       <button href="#" class="btn button-add btn-add-service float-end" data-bs-toggle="modal"
@@ -35,17 +35,17 @@
           </tr>
         </thead>
         <tbody class="groupservice-body">
-          <tr *ngFor="let t of medicalProcedureGroups" [ngClass]="{'new-recordd': t.isNew,'pulsee': t.isPulsing}"
-            (click)="getMedicalProcedureList(t.medical_procedure_group_id)">
-            <td>{{t.medical_procedure_group_id}}</td>
-            <td><a class="title-group-service">{{t.name}}</a></td>
+          <tr *ngFor="let t of filteredMgData" [ngClass]="{'new-recordd': t.isNew,'pulsee': t.isPulsing}"
+            (click)="getMedicalProcedureChildren(t.mg_id);">
+            <td>{{t.mg_id}}</td>
+            <td><a class="title-group-service">{{t.mg_name}}</a></td>
             <td class="text-center">
+              <!-- (click)="openEditGroupService(t.medical_procedure_group_id,t.name,t.description)" -->
               <button href="#" class="btn btn-primary float-right btn-rounded" data-bs-toggle="modal"
-                data-bs-target="#editGroupModal"
-                (click)="openEditGroupService(t.medical_procedure_group_id,t.name,t.description)"
-                style="padding: 2px 5px; margin-right: 3px"><i class="bi bi-pencil-square"></i></button>
-              <button href="#" class="btn btn-danger float-right btn-rounded"
-                (click)="deleteMedicalProcedureGroup(t.medical_procedure_group_id)" style="padding: 2px 5px;"><i
+                data-bs-target="#editGroupModal" style="padding: 2px 5px; margin-right: 3px"><i
+                  class="bi bi-pencil-square"></i></button>
+              <!-- (click)="deleteMedicalProcedureGroup(t.medical_procedure_group_id)" -->
+              <button href="#" class="btn btn-danger float-right btn-rounded" style="padding: 2px 5px;"><i
                   class="bi bi-trash"></i></button>
             </td>
           </tr>
@@ -68,19 +68,18 @@
         <tbody>
           <tr *ngFor="let s of medicalProcedureList">
             <td>{{s.mp_id}}</td>
-            <td class="truncate" data-bs-toggle="tooltip" title="{{s.mp_name}}">
-              {{s.mp_name}}
-            </td>
+            <td class="truncate" title="{{s.mp_name}}">{{s.mp_name}}</td>
             <td>{{s.mg_name}}</td>
             <td>{{s.mp_price}}</td>
             <td>{{s.mp_description}}</td>
             <td class="text-center">
+              <!-- (click)="openEditService(s.mp_id,s)" -->
               <button href="#" class="btn btn-primary float-right btn-rounded"
-                style="padding: 2px 5px; margin-right: 3px" data-bs-toggle="modal" data-bs-target="#editServiceModal"
-                (click)="openEditService(s.mp_id,s)"><i class="bi bi-pencil-square"></i></button>
-              <button href="#" style="padding: 2px 5px" class="btn btn-danger float-right btn-rounded"
-                (click)="deleteMedicalProcedure(s.mp_id)">
-                <!--data-bs-toggle="modal" data-bs-target="#delete_service"--> <i class="bi bi-trash"></i></button>
+                style="padding: 2px 5px; margin-right: 3px" data-bs-toggle="modal" data-bs-target="#editServiceModal"><i
+                  class="bi bi-pencil-square"></i></button>
+              <!-- (click)="deleteMedicalProcedure(s.mp_id)" -->
+              <button href="#" style="padding: 2px 5px" class="btn btn-danger float-right btn-rounded"><i
+                  class="bi bi-trash"></i></button>
             </td>
           </tr>
         </tbody>
@@ -89,7 +88,7 @@
   </div>
 </div>
 
-<app-popup-add-group-service [medicalProcedureGroups]="medicalProcedureGroups"></app-popup-add-group-service>
+<!-- <app-popup-add-group-service [medicalProcedureGroups]="medicalProcedureGroups"></app-popup-add-group-service>
 <app-popup-delete-group-service></app-popup-delete-group-service>
 <app-popup-add-service [medicalProcedureList]="medicalProcedureList"
   [medicalProcedureGroups]="medicalProcedureGroups"></app-popup-add-service>
@@ -97,4 +96,4 @@
 <app-popup-edit-group-service [id]="id" [name]="name" [description]="description"
   [medicalProcedureGroups]="medicalProcedureGroups"></app-popup-edit-group-service>
 <app-popup-edit-service [medicalProcedureGroups]="medicalProcedureGroups" [medicalProcedureList]="medicalProcedureList"
-  [serviceObject]="service" [id]="idService"></app-popup-edit-service>
+  [serviceObject]="service" [id]="idService"></app-popup-edit-service> -->

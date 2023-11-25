@@ -30,142 +30,24 @@
 
   <div class="row text-center">
     <div class="col-md-4">
-      <div class="btn-group">
-        <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
-          (viewDateChange)="closeOpenMonthViewDay()">
-          Trước
-        </div>
-        <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">
-          Hôm nay
-        </div>
-        <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
-          (viewDateChange)="closeOpenMonthViewDay()">
-          Sau
-        </div>
-      </div>
     </div>
     <div class="col-md-4">
-      <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+      <h3 class="header-RegisterWork">{{ startOfWeek | date: 'dd/MM/yyyy' }} - {{ endOfWeek | date: 'dd/MM/yyyy' }}</h3>
     </div>
     <div class="col-md-4">
-      <div class="btn-group">
-        <div class="btn btn-primary" (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">
-          Tháng
-        </div>
-        <div class="btn btn-primary" (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week">
-          Tuần
-        </div>
-        <div class="btn btn-primary" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">
-          Ngày
-        </div>
-      </div>
     </div>
   </div>
   <br />
 
   <div [ngSwitch]="view">
-    <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="worksRegister"
-      [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
-      (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
-    </mwl-calendar-month-view>
 
     <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="worksRegister"
       [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
-      (eventTimesChanged)="eventTimesChanged($event)">
+      (eventTimesChanged)="eventTimesChanged($event)" [weekStartsOn]="1"
+      >
     </mwl-calendar-week-view>
 
-    <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="worksRegister"
-      [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
-      (eventTimesChanged)="eventTimesChanged($event)">
-    </mwl-calendar-day-view>
   </div>
-
-  <!-- Everything you see below is just for the demo, you don't need to include it in your app -->
-
-  <br /><br /><br />
-  <!--
-<h3>
-  Sửa lịch làm việc
-  <button class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Thêm mới lịch làm việc
-  </button>
-  <div class="clearfix"></div>
-</h3>
-
-<div class="table-responsive">
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>Nội dung công việc</th>
-        <th>Màu chính</th>
-        <th>Màu phụ + màu chữ</th>
-        <th>Thời gian bắt đầu</th>
-        <th>Thời gian kết thúc</th>
-        <th>Xóa</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <tr *ngFor="let event of worksRegister">
-        <td>
-          <input
-            type="text"
-            class="form-control"
-            [(ngModel)]="event.title"
-            (keyup)="refresh.next()"
-          />
-        </td>
-        <td>
-          <input type="color" [(ngModel)]="tempColor" (change)="setTempColor(tempColor)" />
-        </td>
-        <td>
-          <input type="color" [(ngModel)]="tempSecondaryColor" (change)="updateEventColorSecondary(event)" />
-
-          <input type="color" [ngModel]="tempSecondaryText || '#1e90ff'" (ngModelChange)="updateEventColorSecondaryText(event)" (change)="refresh.next()" />
-
-        </td>
-        <td> -->
-  <!--Thời gian bắt đầu-->
-  <!-- <input
-            class="form-control"
-            type="text"
-            mwlFlatpickr
-            [(ngModel)]="event.start"
-            (ngModelChange)="refresh.next()"
-            [altInput]="true"
-            [convertModelValue]="true"
-            [enableTime]="true"
-            dateFormat="Y-m-dTH:i"
-            altFormat="F j, Y H:i"
-            placeholder="Not set"
-          />
-        </td>
-        <td> -->
-  <!--Thời gian kết thúc-->
-  <!-- <input
-            class="form-control"
-            type="text"
-            mwlFlatpickr
-            [(ngModel)]="event.end"
-            (ngModelChange)="refresh.next()"
-            [altInput]="true"
-            [convertModelValue]="true"
-            [enableTime]="true"
-            dateFormat="Y-m-dTH:i"
-            altFormat="F j, Y H:i"
-            placeholder="Not set"
-          />
-        </td>
-        <td>
-          <button class="btn btn-danger" (click)="deleteEvent(event)">
-            Xóa
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div> -->
-
 
   <div class="modal" id="exampleModal">
     <div class="modal-dialog modal-lg">

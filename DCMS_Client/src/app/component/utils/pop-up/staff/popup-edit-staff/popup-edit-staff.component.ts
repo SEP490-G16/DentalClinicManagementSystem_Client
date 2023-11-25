@@ -202,13 +202,13 @@ export class PopupEditStaffComponent implements OnInit {
       return phoneNumber;
     }
   }
-  serviceGroups:any[]=[];
-  onChangeRole(role:any){
-    if (role == 2){
-      this.serviceGroup.getMedicalProcedureGroupList().subscribe(data=>{
-        this.serviceGroups = data.data.map((s:any)=>({ ...s, checked: false }));
-        this.serviceGroups.forEach((item:any) => {
-          this.listDisplaySpe.forEach((a:any) => {
+  serviceGroups: any[] = [];
+  onChangeRole(role: any) {
+    if (role == 2) {
+      this.serviceGroup.getMedicalProcedureGroupList().subscribe(data => {
+        this.serviceGroups = data.data.map((s: any) => ({ ...s, checked: false }));
+        this.serviceGroups.forEach((item: any) => {
+          this.listDisplaySpe.forEach((a: any) => {
             if (item.medical_procedure_group_id == a) {
               this.selectedServiceGroupIds.push(item.medical_procedure_group_id);
               item.checked = true;
@@ -218,7 +218,7 @@ export class PopupEditStaffComponent implements OnInit {
       })
     }
     else {
-      this.serviceGroups =[];
+      this.serviceGroups = [];
     }
   }
   selectedServiceGroupIds: string[] = [];
