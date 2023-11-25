@@ -244,8 +244,6 @@ export class RegisterWorkScheduleComponent implements OnInit {
           timekeeper_name: "",
           staff_avt: "",
           timekeeper_avt: "",
-          register_clock_in: '',
-          register_clock_out: '',
           role: '',
           status: 1
         };
@@ -305,8 +303,6 @@ export class RegisterWorkScheduleComponent implements OnInit {
         timekeeper_name: "",
         staff_avt: "",
         timekeeper_avt: "",
-        register_clock_in: '',
-        register_clock_out: '',
         role: '',
         status: 1
       };
