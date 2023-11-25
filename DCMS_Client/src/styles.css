@@ -715,17 +715,22 @@ button:hover {
 }
 
 .bs-datepicker-head {
-  background-color: rgba(102, 79, 195, 0.5) !important; /* màu tím bạn muốn */
+  background-color: rgba(102, 79, 195, 0.5) !important;
+  /* màu tím bạn muốn */
 }
 
-.bs-datepicker-body .selected, .bs-datepicker-body .selected:hover {
-  background-color: rgba(102, 79, 195, 0.5) !important; /* màu tím đậm hơn */
+.bs-datepicker-body .selected,
+.bs-datepicker-body .selected:hover {
+  background-color: rgba(102, 79, 195, 0.5) !important;
+  /* màu tím đậm hơn */
 }
 
 .bs-datepicker-body .today {
-  background-color: rgba(102, 79, 195, 0.5) !important; /* màu tím nhạt */
+  background-color: rgba(102, 79, 195, 0.5) !important;
+  /* màu tím nhạt */
 }
 
 .bs-datepicker .days .day {
-  background-color: rgba(102, 79, 195, 0.5) !important; /* màu tím bạn muốn */
+  background-color: rgba(102, 79, 195, 0.5) !important;
+  /* màu tím bạn muốn */
 }
