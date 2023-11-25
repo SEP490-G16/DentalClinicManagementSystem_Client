@@ -12,7 +12,23 @@ export interface RequestBodyTimekeeping {
   timekeeper_avt?: string
   status:number
 }
+export interface TimekeepingDetail {
+  clock_in?: string;
+  clock_out?: string;
+  register_clock_in?: string,
+  register_clock_out?: string,
+  staff_name?: string;
+}
+export interface TimekeepingSubRecord {
+  subId: string;
+  details: TimekeepingDetail;
+}
 
+export interface TimekeepingRecord {
+  epoch: string;
+  type?: string;
+  records: TimekeepingSubRecord[];
+}
 
 export interface StaffTimekeeping {
   name: string,
@@ -32,4 +48,33 @@ export interface StaffTimekeeping {
   isClockin: boolean,
   isClockout: boolean,
   weekTimekeeping: { [key: number]: { clockIn: string, clockOut: string } };
+}
+
+export interface StaffRegisterWorkSchedule {
+  name: string,
+  role: string,
+  sub: string,
+  staff_avt: string,
+  locale:string,
+  clock_in: number,
+  clock_out: number,
+  register_clock_in: string,
+  register_clock_out: string,
+  registerSchedules: { [key: number]: { startTime: string, endTime: string } };
+}
+
+
+export interface RegisterWorkScheduleRecord {
+  epoch: string;
+  type?: string;
+  records: RegisterWorkScheduleSubRecord[];
+}
+
+export interface RegisterWorkScheduleSubRecord {
+  subId: string;
+  clock_in?: string;
+  clock_out?: string;
+  register_clock_in?: string,
+  register_clock_out?: string,
+  staff_name?: string;
 }

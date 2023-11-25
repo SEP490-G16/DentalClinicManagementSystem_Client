@@ -1,3 +1,4 @@
+import { ResponseHandler } from './../../utils/libs/ResponseHandler';
 import {
   Component, OnInit,
   ChangeDetectionStrategy,
@@ -30,8 +31,9 @@ import * as moment from 'moment';
 import 'moment/locale/vi';
 import { ToastrService } from 'ngx-toastr';
 import { ReceptionistTimekeepingService } from 'src/app/service/ReceptionistService/receptionist-timekeeping.service';
-import { RequestBodyTimekeeping } from 'src/app/model/ITimekeeping';
+import { RegisterWorkScheduleRecord, RequestBodyTimekeeping, StaffRegisterWorkSchedule, TimekeepingDetail, TimekeepingRecord } from 'src/app/model/ITimekeeping';
 import { Router } from "@angular/router";
+import { CognitoService } from 'src/app/service/cognito.service';
 
 
 const colors: Record<string, EventColor> = {
@@ -59,7 +61,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
 
   @ViewChild('modalContent', { static: true }) modalContent!: TemplateRef<any>;
 
-  view: CalendarView = CalendarView.Month;
+  view: CalendarView = CalendarView.Week;
 
   CalendarView = CalendarView;
 
@@ -267,8 +269,6 @@ export class RegisterWorkScheduleComponent implements OnInit {
     this.modal.dismissAll();
   }
 
-
-
   title: string = "Nhiệm vụ mới";
   timeStart: string = "";
   timeEnd: string = "";
@@ -352,57 +352,165 @@ export class RegisterWorkScheduleComponent implements OnInit {
   }
 
 
+  Body: RequestBodyTimekeeping = {} as RequestBodyTimekeeping;
+  Staff: StaffRegisterWorkSchedule[] = [];
   //Current
   currentDateTimeStamp: number = 0;
   currentTimeTimeStamp: number = 0;
   currentDateGMT7: string = "";
   currentTimeGMT7: string = "";
 
+  startOfWeek!: Date;
+  endOfWeek!: Date;
+
+  registerWorkSchedule: any
+  startTime: number = 0;
+  endTime: number = 0;
+  registerOnWeeks: any
+  weekTimestamps: number[] = [];
+
   roleId: string[] = [];
 
-  Body: RequestBodyTimekeeping;
   constructor(private modal: NgbModal,
+    private cognitoService: CognitoService,
     private timekeepingService: ReceptionistTimekeepingService,
     private toastr: ToastrService,
     private router: Router
   ) {
+    moment.locale('vi');
+    moment.tz.setDefault('Asia/Ho_Chi_Minh');
+    this.viewDate = moment().startOf('week').toDate();
+
     //Get Date
     this.currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
     this.currentTimeGMT7 = moment.tz('Asia/Ho_Chi_Minh').format('HH:mm');
     //Set epoch to body
     this.currentDateTimeStamp = this.dateToTimestamp(this.currentDateGMT7);
+    console.log("Current Date Timestamp: ", this.currentDateTimeStamp);
     this.currentTimeTimeStamp = this.timeAndDateToTimestamp(this.currentTimeGMT7, this.currentDateGMT7);
+    console.log("CurrentTimes: ", this.currentTimeTimeStamp);
+    //Set week
+    for (let i = 0; i < 7; i++) {
+      this.weekTimestamps.push(moment.tz('Asia/Ho_Chi_Minh').startOf('week').add(i, 'days').unix());
+    }
+    console.log("WeekTimes: ", this.weekTimestamps);
+    this.startTime = this.weekTimestamps[0];
+    this.endTime = this.weekTimestamps[6];
 
-    this.Body = {
-      epoch: 0,
-      sub_id: "",
-      staff_name: "",
-      staff_avt: "",
-      clock_in: 0,
-      clock_out: 0,
-      timekeeper_name: "",
-      timekeeper_avt: "",
-      status: 1
-    } as RequestBodyTimekeeping
-
+    this.startOfWeek = moment(this.viewDate).startOf('isoWeek').toDate();
+    this.endOfWeek = moment(this.viewDate).endOf('isoWeek').toDate();
   }
 
   ngOnInit(): void {
+    // let ro = sessionStorage.getItem('role');
+    // if (ro != null) {
+    //   this.roleId = ro.split(',');
+    //   console.log(this.roleId);
+    // }
+    this.getStaffs();
     this.getTimekeeping();
-    let ro = sessionStorage.getItem('role');
-    if (ro != null) {
-      this.roleId = ro.split(',');
-    }
   }
 
-  timekeepingOnWeeks: any
+  getStaffs() {
+    this.cognitoService.getListStaff()
+      .subscribe((res) => {
+        this.Staff = res.message.map((StaffMember: any) => {
+          let newStaff: StaffRegisterWorkSchedule = {
+            name: '',
+            role: '',
+            sub: '',
+            staff_avt: '',
+            locale: '',
+            clock_in: 0,
+            clock_out: 0,
+            register_clock_in: "",
+            register_clock_out: "",
+            registerSchedules: {}
+          };
+
+          let isNotAdmin = true;
+          StaffMember.Attributes.forEach((attribute: any) => {
+            switch (attribute.Name) {
+              case 'sub':
+                newStaff.sub = attribute.Value;
+                break;
+              case 'locale':
+                newStaff.locale = attribute.Value;
+                break;
+              case 'name':
+                newStaff.name = attribute.Value;
+                break;
+              case 'custom:role':
+                newStaff.role = attribute.Value;
+                if (attribute.Value === '1') {
+                  isNotAdmin = false;
+                }
+                break;
+            }
+          });
+
+          return isNotAdmin ? newStaff : null;
+        }).filter((staff: any) => staff !== null);
+        console.log(this.Staff);
+      },
+      )
+  }
+
   getTimekeeping() {
-    this.timekeepingService.getTimekeeping(this.currentDateTimeStamp, this.currentDateTimeStamp)
+    console.log("Thứ 2: ", this.timestampToGMT7Date(this.startTime));
+    console.log("Chủ nhật: ", this.timestampToGMT7Date(this.endTime));
+    this.timekeepingService.getTimekeeping(this.startTime, this.endTime)
       .subscribe(data => {
-        // this.timekeepingOnWeeks = ConvertJson.processApiResponse(data);
-        this.timekeepingOnWeeks = data;
-        console.log("timekeepingOnWeeks ", this.timekeepingOnWeeks);
-      })
+        this.registerOnWeeks = data;
+        console.log("Api: ", data);
+        this.registerOnWeeks = this.organizeData(this.registerOnWeeks);
+        console.log("RegisterOnWeeks: ", this.registerOnWeeks);
+
+        this.Staff.forEach(staff => {
+          staff.registerSchedules = {};
+
+          this.weekTimestamps.forEach(weekTimestamp => {
+            staff.registerSchedules[weekTimestamp] = { startTime: '', endTime: '' };
+
+            this.registerOnWeeks.forEach((register: any) => {
+              let records = register.records.find((r: any) => r.subId === staff.sub);
+              if (register.records && register.records.length > 0) {
+                staff.registerSchedules[weekTimestamp].startTime = this.timestampToGMT7String(records.register_clock_in) || '';
+                staff.registerSchedules[weekTimestamp].endTime = this.timestampToGMT7String(records.register_clock_out) || '';
+              }
+            });
+          });
+        });
+        console.log("Staff Work Register: ", this.Staff);
+      },
+        (error) => {
+          ResponseHandler.HANDLE_HTTP_STATUS(this.timekeepingService.apiUrl + "/timekeeping/" + this.startTime + "/" + this.endTime, error);
+        }
+      )
+  }
+
+  //Tổ chức mảng:
+  organizeData(data: any[]): RegisterWorkScheduleRecord[] {
+    return data.map((item): RegisterWorkScheduleRecord => {
+      const timekeepingEntry: RegisterWorkScheduleRecord = {
+        epoch: item.epoch?.N,
+        type: item.type?.S,
+        records: []
+      };
+
+      Object.keys(item).forEach((key: string) => {
+        timekeepingEntry.records.push({
+          subId: key,
+          clock_in: item[key]?.M?.clock_in?.N,
+          clock_out: item[key]?.M?.clock_out?.N,
+          register_clock_in: item[key]?.M?.register_clock_in?.N,
+          register_clock_out: item[key]?.M?.register_clock_out?.N,
+          staff_name: item[key]?.M?.staff_name?.S,
+        });
+      });
+
+      return timekeepingEntry;
+    });
   }
 
   //Convert Date
@@ -410,12 +518,16 @@ export class RegisterWorkScheduleComponent implements OnInit {
     const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng của chuỗi ngày
     const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
     const timestamp = moment.tz(dateStr, format, timeZone).valueOf();
-    return timestamp;
+    return timestamp / 1000;
   }
 
   timestampToGMT7String(timestamp: number): string {
-    // Chuyển timestamp thành chuỗi ngày và thời gian dựa trên múi giờ GMT+7
-    const dateTimeString = moment.tz(timestamp * 1000, 'Asia/Ho_Chi_Minh').format('HH:mm:ss');
+    // Chắc chắn rằng timestamp được chuyển từ giây sang milliseconds
+    const timestampInMilliseconds = timestamp * 1000;
+
+    // Tạo đối tượng moment với múi giờ GMT+7
+    const dateTimeString = moment(timestampInMilliseconds).tz('Asia/Ho_Chi_Minh').format('HH:mm');
+
     return dateTimeString;
   }
 
@@ -436,8 +548,9 @@ export class RegisterWorkScheduleComponent implements OnInit {
     const timeZone = 'Asia/Ho_Chi_Minh';
     const dateTimeStr = `${dateStr} ${timeStr}`;
     const timestamp = moment.tz(dateTimeStr, format, timeZone).valueOf();
-    return timestamp;
+    return timestamp / 1000;
   }
+
 
   showSuccessToast(message: string) {
     this.toastr.success(message, 'Thành công', {
@@ -471,3 +584,4 @@ export class RegisterWorkScheduleComponent implements OnInit {
     }
   }
 }
+

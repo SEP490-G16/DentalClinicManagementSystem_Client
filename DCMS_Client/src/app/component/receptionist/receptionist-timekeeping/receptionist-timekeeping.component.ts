@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 import 'moment/locale/vi';
 import { ToastrService } from 'ngx-toastr';
-import { RequestBodyTimekeeping, StaffTimekeeping } from 'src/app/model/ITimekeeping';
+import { RequestBodyTimekeeping, StaffTimekeeping, TimekeepingDetail, TimekeepingRecord } from 'src/app/model/ITimekeeping';
 import { ConvertJson } from 'src/app/service/Lib/ConvertJson';
 import { CognitoService } from 'src/app/service/cognito.service';
 import { ResponseHandler } from "../../utils/libs/ResponseHandler";
@@ -32,7 +32,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
 
   timekeepingOnWeeks: any
   timeClockinColor: string = "onTime";
-  timeClockoutColor: string = "onTime";
+  timeClockoutColor: string = "lateTime";
   constructor(private cognitoService: CognitoService,
     private timekeepingService: ReceptionistTimekeepingService,
     private toastr: ToastrService,
@@ -55,11 +55,11 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     console.log("WeekTimes: ", this.weekTimestamps);
     this.startTime = this.weekTimestamps[0];
     this.endTime = this.weekTimestamps[6];
+    this.getListStaff();
+    this.getTimekeeping();
   }
 
   ngOnInit(): void {
-    this.getListStaff();
-    this.getTimekeeping();
   }
 
 
@@ -139,7 +139,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
                     // Debugging: Check if epochs match
                     // console.log(`Epoch match for sub: ${staff.sub} and epoch: ${record.epoch}`);
                     staff.weekTimekeeping[weekTimestamp].clockIn = this.timestampToGMT7String(detail.details.clock_in) || '';
-                    staff.weekTimekeeping[weekTimestamp].clockOut = this.timestampToGMT7String(detail.details.clock_out) || '';
+                    staff.weekTimekeeping[weekTimestamp].clockOut = this.timestampToGMT7String(detail.detai.clock_out) || '';
                   } else {
                     // Debugging: Log when epochs do not match
                     // console.log(`Epoch mismatch for sub: ${staff.sub}. Record epoch: ${record.epoch}, Week timestamp: ${weekTimestamp}`);
@@ -226,7 +226,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
 
   handleClockInChange(staff: StaffTimekeeping, newClockInValue: string) {
     if (staff.clock_out && newClockInValue >= staff.clock_out) {
-      this.toastr.error("Thời gian chấm công vào phải nhỏ hơn thời gian chấm công ra.");
+      this.toastr.error("Thời gian chấm công đến phải nhỏ hơn thời gian chấm công về.");
       return;
     }
     staff.clock_in = newClockInValue;
@@ -237,13 +237,13 @@ export class ReceptionistTimekeepingComponent implements OnInit {
   callClockinApi(staff: StaffTimekeeping) {
     this.timekeepingService.postTimekeeping(this.Body)
       .subscribe((res) => {
-        this.toastr.success(res.message, "Chấm công vào thành công");
+        this.toastr.success(res.message, "Chấm công đến thành công");
         //Update UI
         staff.isClockinDisabled = true;
         staff.isInputEnabled = true;
       },
         (error) => {
-          this.toastr.error("Không thể chấm công vào");
+          this.toastr.error("Không thể chấm công đến");
         });
   }
 
@@ -257,7 +257,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
 
   handleClockOutChange(staff: StaffTimekeeping, newClockoutValue: string) {
     if (staff.clock_in && staff.clock_out <= staff.clock_in) {
-      this.toastr.error("Thời gian chấm công ra phải lớn hơn thời gian chấm công vào.");
+      this.toastr.error("Thời gian chấm công về phải lớn hơn thời gian chấm công đến.");
       return;
     }
     staff.clock_out = newClockoutValue;
@@ -268,13 +268,13 @@ export class ReceptionistTimekeepingComponent implements OnInit {
   callClockoutApi(staff: StaffTimekeeping) {
     this.timekeepingService.postTimekeeping(this.Body)
       .subscribe((res) => {
-        this.toastr.success(res.message, "Chấm công ra thành công");
+        this.toastr.success(res.message, "Chấm công về thành công");
         // Update UI
         staff.isClockoutDisabled = true;
         staff.isInputEnabled = true;
       },
         (error) => {
-          this.toastr.error("Không thể chấm công ra");
+          this.toastr.error("Không thể chấm công về");
         });
   }
 
@@ -373,21 +373,4 @@ export class ReceptionistTimekeepingComponent implements OnInit {
       this.router.navigate(['/default-route']);
     }
   }
-}
-interface TimekeepingDetail {
-  clock_in?: string;
-  clock_out?: string;
-  register_clock_in?: string,
-  register_clock_out?: string,
-  staff_name?: string;
-}
-interface TimekeepingSubRecord {
-  subId: string;
-  details: TimekeepingDetail;
-}
-
-interface TimekeepingRecord {
-  epoch: string;
-  type?: string;
-  records: TimekeepingSubRecord[];
 }
