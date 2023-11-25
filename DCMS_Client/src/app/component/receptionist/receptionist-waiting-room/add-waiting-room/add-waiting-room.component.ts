@@ -15,7 +15,7 @@ import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureSe
 export class AddWaitingRoomComponent implements OnInit {
   patientList: any[] = [];
   patientInfor: any;
-
+  isAdd:boolean = false;
   POST_WAITTINGROOM: IPostWaitingRoom;
   name_suggest: string = '';
   constructor(
@@ -179,5 +179,11 @@ export class AddWaitingRoomComponent implements OnInit {
   private isVietnamesePhoneNumber(number: string): boolean {
     return /^(\+84|84|0)?[1-9]\d{8}$/
       .test(number);
+  }
+  toggleAdd(){
+    this.isAdd = true;
+  }
+  toggleCancel(){
+    this.isAdd = false;
   }
 }

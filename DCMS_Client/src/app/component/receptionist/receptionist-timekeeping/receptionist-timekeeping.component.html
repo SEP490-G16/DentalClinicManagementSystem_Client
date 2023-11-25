@@ -1,15 +1,15 @@
 <div class="sep-recent-orders">
-  <div class="row" style="margin-left: 10px">
+  <div class="link-tab">
     <ng-container *ngIf="roleId.includes('1') || roleId.includes('3')">
-      <div class="col-md-1">
+      <div class="cham-cong">
         <a routerLink="/cham-cong" routerLinkActive="active-link" class="page-title active-link">Chấm công</a>
       </div>
     </ng-container>
-    <div class="col-md-2">
+    <div class="dang-ki-lam-viec">
       <a routerLink="/dang-ky-lich-lam-viec" routerLinkActive="active-link" class="page-title">Đăng kí lịch làm
         việc</a>
     </div>
-    <div class="col-md-2">
+    <div class="theo-doi">
       <a routerLink="/theo-doi-cham-cong" routerLinkActive="active-link" class="page-title">Theo dõi
         chấm công</a>
     </div>
@@ -70,7 +70,7 @@
                 <td>
                   <button class="button-timekeeping" (click)="onClockin(staff)"
                           [disabled]="staff.isClockin">{{staff.clockInStatus}}</button> <br />
-                  
+
                   <p *ngIf="!roleId.includes('1')">{{staff.timeClockin}}</p>
                   <input type="time" [(ngModel)]="staff.timeClockin" [class]="timeClockinColor"
                          (change)="onClockin(staff)" *ngIf="roleId.includes('1')">

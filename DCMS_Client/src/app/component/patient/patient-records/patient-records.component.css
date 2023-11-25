@@ -49,13 +49,14 @@ a {
 
 .table__header .input-group {
   width: 40%;
-  height: 5vh;
+  height: 4vh;
   border-radius: 2rem;
   border: 1px solid #7B4C50;
   display: flex;
   justify-content: center;
   align-items: center;
   transition: .2s;
+  margin-right: 22%;
 }
 
 .table__header .input-group:hover {
@@ -63,7 +64,6 @@ a {
   background-color: #fff8;
   box-shadow: 0 .1rem .4rem #0002;
 }
-
 
 .table__header .input-group input {
   width: 100%;
@@ -84,10 +84,15 @@ a {
   padding: 10px 20px;
 }
 
+
 .hover-patient:hover {
   background-color: #e1dfdf;
 }
 
 .hover-patient:hover {
   background-color: #e1dfdf;
+}
+.table__header{
+  margin-top: 3%;
+  margin-bottom: 3%;
 }

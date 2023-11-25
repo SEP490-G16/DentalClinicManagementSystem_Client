@@ -182,7 +182,6 @@
 }
 
 .form-group input.form-control {
-  border: none;
   border-bottom: 1px solid #ccc;
 }
 
@@ -256,4 +255,74 @@
 
 .btn-cancel:hover {
   background-color: #6e6c6c;
+}
+.save-button{
+  background-color: #533daf;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  display: block;
+}
+.form-add{
+  display: flex;
+}
+.add-patient{
+  padding: 2rem 0;
+}
+.input-patient{
+  width: 100%;
+}
+.bi-plus-circle{
+  color: #FFFFFF;
+}
+.card .card-header {
+  font-weight: 500;
+}
+
+.card-header:first-child {
+  border-radius: 0.35rem 0.35rem 0 0;
+}
+
+.card-header {
+  padding: 1rem 1.35rem;
+  margin-bottom: 0;
+  background-color: rgba(33, 40, 50, 0.03);
+  border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+}
+
+.form-control,
+.dataTable-input {
+  display: block;
+  padding: 0.875rem 1.125rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1;
+  color: #69707a;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #c5ccd6;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0.35rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.required {
+  color: red;
+  margin-left: 3px;
+}
+.custom-input{
+  height: 100%;
+}
+.title-name-patient{
+  padding: 10px;
+  text-align: center;
+  background-color: #533daf;
+  color: #FFFFFF;
+}
+.add-confirm{
+  display: flex;
+  justify-content: end;
 }

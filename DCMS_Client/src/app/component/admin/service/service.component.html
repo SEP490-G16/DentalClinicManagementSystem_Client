@@ -3,7 +3,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
 
 <div class="sep-recent-orders">
-  <div class="row" style="margin-top:3%">
+  <section class="row table__header">
     <div class="col-2">
       <div class="form-group form-group-filter">
         <button href="#" class="btn button-add btn-add-group-service float-right" data-bs-toggle="modal"
@@ -13,19 +13,17 @@
     </div>
 
     <div class="col-8">
-      <section class="table__header">
         <div class="input-group">
           <input type="search search-custom" placeholder="Tìm kiếm" [(ngModel)]="searchTerm"
             (input)="onSearchInputChange()">
         </div>
-      </section>
     </div>
     <div class="col-2">
       <button href="#" class="btn button-add btn-add-service float-end" data-bs-toggle="modal"
         data-bs-target="#addServiceModal" style="margin-right: 1rem"><i class="bi bi-plus-circle"></i> Thêm mới
       </button>
     </div>
-  </div>
+  </section>
   <div class="row">
     <div class="col-4 table-container">
       <table>

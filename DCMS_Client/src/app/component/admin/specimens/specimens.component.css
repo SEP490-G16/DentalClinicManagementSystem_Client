@@ -30,3 +30,11 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   z-index: 999;
 }
+.custom-row{
+  margin-top: 2%;
+  margin-bottom: 2%;
+  display: flex;
+}
+.custom-row .dang-cho-duyet{
+  margin-left: 2%;
+}

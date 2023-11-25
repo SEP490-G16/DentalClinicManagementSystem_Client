@@ -509,7 +509,7 @@ b {
 }
 
 .sep-recent-orders {
-  margin-top: 1.3rem;
+  /*margin-top: 1.3rem;*/
   height: var(--main-container-height) !important;
 }
 
@@ -527,7 +527,6 @@ b {
   margin: 1rem auto;
 }
 
-/* table */
 table {
   background-color: var(--custom-color-white);
   width: 100%;
@@ -643,7 +642,6 @@ button:hover {
   font-weight: bold;
   outline: 0px;
   padding: 10px 20px;
-  margin-bottom: 15px;
 }
 
 /*end button*/

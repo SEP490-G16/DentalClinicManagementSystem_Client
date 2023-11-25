@@ -1,15 +1,15 @@
 <div class="recent-orders sep-recent-orders">
-  <section class="table__header sep-front-table">
-    <div class="col-4">
+  <section class="table__header row">
+    <div class="col-3">
       <button class="btn button-addPatient" data-bs-toggle="modal" data-bs-target="#myBNModal"><i
           class="bi bi-plus-circle"></i> Thêm
         bệnh nhân</button>
     </div>
-    <div class="input-group col-7">
+    <div class="input-group col-6">
       <input type="search search-custom" [(ngModel)]="search" (input)="searchPatient()" placeholder="Tìm kiếm theo tên">
     </div>
-    <div class="export__file">
-    </div>
+<!--    <div class="export__file">-->
+<!--    </div>-->
   </section>
   <div class="table-container">
     <table>
@@ -42,7 +42,6 @@
               <i class="bi bi-pencil-square"></i></button>
             <button href="#" class="btn btn-danger float-right btn-rounded" style="padding: 2px 5px"
               data-bs-toggle="modal" (click)="openDeletePatient(p.patient_id)"><i class="bi bi-trash"></i></button>
-            <!-- data-bs-target="#delete_patient"  -->
           </td>
         </tr>
       </tbody>
