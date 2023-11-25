@@ -592,7 +592,7 @@ table tbody .patient-id {
 }
 
 table tbody .patient-name {
-  text-align: start;
+  text-align: center;
   width: 180px;
 }
 
@@ -605,7 +605,7 @@ table tbody .patient-pn {
 }
 
 table tbody .patient-doctorname {
-  text-align: start;
+  text-align: center;
   width: 180px;
 }
 
