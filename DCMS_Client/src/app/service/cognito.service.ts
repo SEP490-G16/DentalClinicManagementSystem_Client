@@ -7,7 +7,6 @@ import { environment } from 'src/environments/environment';
 import * as AWS from 'aws-sdk';
 import { IStaff } from '../model/Staff';
 import { Router } from '@angular/router';
-import { Staff } from '../model/ITimekeeping';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
