@@ -17,6 +17,7 @@ import { ReceptionistWaitingRoomService } from 'src/app/service/ReceptionistServ
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ResponseHandler } from "../../utils/libs/ResponseHandler";
+import { IsThisSecondPipe } from 'ngx-date-fns';
 
 @Component({
   selector: 'app-receptionist-appointment-list',
@@ -33,6 +34,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   DELETE_APPOINTMENT_BODY: IEditAppointmentBody
 
   constructor(private appointmentService: ReceptionistAppointmentService,
+    private waitingRoomService: ReceptionistWaitingRoomService,
     private cognitoService: CognitoService, private router: Router,
     private toastr: ToastrService,
     private renderer: Renderer2,
@@ -264,31 +266,92 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     status: 1
   }
 
-  postExchangeAppointmentToWaitingRoom(a: any, b: any) {
-    const currentDateTimeGMT7 = moment().tz('Asia/Ho_Chi_Minh');
-    this.Exchange.epoch = Math.floor(currentDateTimeGMT7.valueOf() / 1000);
-    this.Exchange.patient_id = b.patient_id;
-    this.Exchange.patient_name = b.patient_name;
-    this.Exchange.produce_id = b.procedure_id;
-    this.Exchange.produce_name = b.procedure_name;
-    this.receptionistWaitingRoom.postWaitingRoom(this.Exchange).subscribe(
-      (data) => {
-        this.Exchange = {
-          epoch: 0,
-          produce_id: "0",
-          produce_name: '',
-          patient_id: '',
-          patient_name: '',
-          reason: '',
-          status: 1
-        }
-        alert("a")
-        window.location.href = "/letan/phong-cho";
+  waitingRoomData: any;
+  filteredWaitingRoomData: any[] = [];
+  listPatientId: any[] = [];
+  getWaitingRoomData() {
+    this.waitingRoomService.getWaitingRooms().subscribe(
+      data => {
+        this.waitingRoomData = data;
+        console.log(data)
+        this.waitingRoomData.forEach((i: any) => {
+          i.date = this.timestampToTime(i.epoch)
+        });
+        const statusOrder: { [key: number]: number } = { 2: 1, 3: 2, 1: 3, 4: 4 };
+        this.waitingRoomData.sort((a: any, b: any) => {
+          const orderA = statusOrder[a.status] ?? Number.MAX_VALUE; // Fallback if status is not a valid key
+          const orderB = statusOrder[b.status] ?? Number.MAX_VALUE; // Fallback if status is not a valid key
+          return orderA - orderB;
+        });
+        this.listPatientId = this.waitingRoomData.map((item: any) => item.patient_id);
+        localStorage.setItem('listPatientId', JSON.stringify(this.listPatientId));
+        this.filteredWaitingRoomData = [...this.waitingRoomData]; // Update the filtered list as well
+        console.log(this.filteredWaitingRoomData)
       },
       (error) => {
         this.loading = false;
-        ResponseHandler.HANDLE_HTTP_STATUS(this.receptionistWaitingRoom.apiUrl + "/waiting-room", error);
-        //this.showErrorToast('Lỗi khi tạo lịch hẹn!');
+        ResponseHandler.HANDLE_HTTP_STATUS(this.waitingRoomService.apiUrl + "/waiting-room", error);
+      }
+    );
+  }
+
+  status: boolean = true;
+  postExchangeAppointmentToWaitingRoom(a: any, b: any) {
+    let status = true;
+    this.waitingRoomService.getWaitingRooms().subscribe(
+      data => {
+        this.waitingRoomData = data;
+        console.log(data)
+        this.waitingRoomData.forEach((i: any) => {
+          i.date = this.timestampToTime(i.epoch)
+        });
+        const statusOrder: { [key: number]: number } = { 2: 1, 3: 2, 1: 3, 4: 4 };
+        this.waitingRoomData.sort((a: any, b: any) => {
+          const orderA = statusOrder[a.status] ?? Number.MAX_VALUE; // Fallback if status is not a valid key
+          const orderB = statusOrder[b.status] ?? Number.MAX_VALUE; // Fallback if status is not a valid key
+          return orderA - orderB;
+        });
+        this.listPatientId = this.waitingRoomData.map((item: any) => item.patient_id);
+        localStorage.setItem('listPatientId', JSON.stringify(this.listPatientId));
+        this.filteredWaitingRoomData = [...this.waitingRoomData]; // Update the filtered list as well
+        this.filteredWaitingRoomData.forEach((data: any) => {
+          if (data.patient_id == b.patient_id) {
+            status = false;
+            this.showErrorToast('Bệnh nhân đã có trong hàng chờ!');
+          }
+        })
+
+        if (status == true) {
+          const currentDateTimeGMT7 = moment().tz('Asia/Ho_Chi_Minh');
+          this.Exchange.epoch = Math.floor(currentDateTimeGMT7.valueOf() / 1000);
+          this.Exchange.patient_id = b.patient_id;
+          this.Exchange.patient_name = b.patient_name;
+          this.Exchange.produce_id = b.procedure_id;
+          this.Exchange.produce_name = b.procedure_name;
+          this.receptionistWaitingRoom.postWaitingRoom(this.Exchange).subscribe(
+            (data) => {
+              this.Exchange = {
+                epoch: 0,
+                produce_id: "0",
+                produce_name: '',
+                patient_id: '',
+                patient_name: '',
+                reason: '',
+                status: 1
+              }
+              window.location.href = "/letan/phong-cho";
+            },
+            (error) => {
+              this.loading = false;
+              ResponseHandler.HANDLE_HTTP_STATUS(this.receptionistWaitingRoom.apiUrl + "/waiting-room", error);
+              //this.showErrorToast('Lỗi khi tạo lịch hẹn!');
+            }
+          );
+        }
+      },
+      (error) => {
+        this.loading = false;
+        ResponseHandler.HANDLE_HTTP_STATUS(this.waitingRoomService.apiUrl + "/waiting-room", error);
       }
     );
   }

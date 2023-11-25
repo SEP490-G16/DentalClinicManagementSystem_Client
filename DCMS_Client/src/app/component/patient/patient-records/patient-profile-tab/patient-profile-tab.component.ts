@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {PatientService} from "../../../../service/PatientService/patient.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {ToastrService} from "ngx-toastr";
-import {CognitoService} from 'src/app/service/cognito.service';
-import {CommonService} from 'src/app/service/commonMethod/common.service';
-import {ResponseHandler} from "../../../utils/libs/ResponseHandler";
+import { Component, OnInit } from '@angular/core';
+import { PatientService } from "../../../../service/PatientService/patient.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
+import { CognitoService } from 'src/app/service/cognito.service';
+import { CommonService } from 'src/app/service/commonMethod/common.service';
+import { ResponseHandler } from "../../../utils/libs/ResponseHandler";
 import * as moment from "moment-timezone";
 
 @Component({
@@ -16,11 +16,11 @@ export class PatientProfileTabComponent implements OnInit {
   protected readonly window = window;
 
   constructor(private patientService: PatientService,
-              private route: ActivatedRoute,
-              private cognitoService: CognitoService,
-              private router: Router,
-              private commonService: CommonService,
-              private toastr: ToastrService) {
+    private route: ActivatedRoute,
+    private cognitoService: CognitoService,
+    private router: Router,
+    private commonService: CommonService,
+    private toastr: ToastrService) {
   }
 
   patient: any;
@@ -158,10 +158,12 @@ export class PatientProfileTabComponent implements OnInit {
 
   getPatient(id: string) {
     this.patientService.getPatientById(id).subscribe(data => {
-        this.patient = data;
-        this.patient.phone_number = this.normalizePhoneNumber(this.patient.phone_number);
-        console.log(data);
-      },
+      this.patient = data;
+      this.patient.phone_number = this.normalizePhoneNumber(this.patient.phone_number);
+      console.log(data);
+      sessionStorage.removeItem('patient');
+      sessionStorage.setItem('patient', this.patient)
+    },
       error => {
         ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test + "/patient/" + id, error);
       }
@@ -181,7 +183,7 @@ export class PatientProfileTabComponent implements OnInit {
     this.isSubmitted = false;
   }
 
-  cancelUpdate(){
+  cancelUpdate() {
     this.isEditing = false;
   }
 

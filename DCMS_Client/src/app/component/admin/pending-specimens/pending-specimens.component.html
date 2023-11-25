@@ -2,12 +2,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
 <div class="sep-recent-orders">
-  <section class="table__header">
-    <h1></h1>
-    <div class="export__file">
-    </div>
-  </section>
-
   <div class="row custom-row">
     <div class="col-md-1">
       <a routerLink="/mau" routerLinkActive="active-link" class="page-title">Quản lý mẫu</a>
@@ -25,12 +19,7 @@
       </div>
     </div>
     <div class="col-sm-6 col-md-7">
-        <div class="row custom-row">
-          <div class="col-md-1">
-            <a routerLink="/mau" routerLinkActive="active-link" class="page-title">Quản lý mẫu</a>
-          </div>
-          <div class="col-md-2">
-            <a routerLink="/mau-dang-cho" routerLinkActive="active-link" class="page-title">Mẫu đang chờ duyệt</a>
+
     </div>
     <div class="col-sm-2 col-md-2" style="padding: 0 10px">
       <button class="btn button-add p-2" style="margin-left: 8px;" (click)="togglePopup()">
@@ -87,6 +76,7 @@
             <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox10" (click)="toggleColumn(10)">
               Labo</li>
           </div>
+
         </div>
         <div class="row">
           <div class="col-md-6">
@@ -102,8 +92,7 @@
       </ul>
     </div>
   </div>
-  <!-- <h2>Mẫu vật</h2> -->
-  <div class="table-container" style="margin-top: 0.5%;">
+  <div class="table-container">
     <table>
       <thead class="sticky-thead">
         <tr>
