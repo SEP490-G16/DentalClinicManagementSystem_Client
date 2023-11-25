@@ -110,6 +110,8 @@ export class SpecimensComponent implements OnInit {
   }
 
   filterByOrderDate(order:string) {
+    alert(order);
+    return;
     this.orderDateFilter = this.dateToTimestamp(order).toString();
     this.filterSpecimenInSystem(this.laboFilter, this.orderDateFilter, this.receivedDateFilter, this.useDateFilter, this.statusFilter, this.pagingSearch.paging);
   }
@@ -210,14 +212,18 @@ export class SpecimensComponent implements OnInit {
       this.labos.forEach((lb: any) => {
         if (lb.labo_id === item) {
           this.laboName = lb.name;
+          console.log("trong if: ", this.laboName)
+          return this.laboName;
         }
+        console.log("labo:",this.laboName)
+        return null;
+
       })
     },
       error => {
         ResponseHandler.HANDLE_HTTP_STATUS(this.laboService.apiUrl+"/labo", error);
       }
       )
-    return this.laboName;
   }
   checkNextPage() {
     this.hasNextPage = this.filteredSpecimens.length > 10;
@@ -237,7 +243,7 @@ export class SpecimensComponent implements OnInit {
           this.specimenObject.ms_quantity = item.ms_quantity;
           this.specimenObject.ms_unit_price = item.ms_unit_price;
           this.specimenObject.lb_id = item.lb_id;
-          this.specimenObject.lb_name = this.getLaboName(item.lb_id);
+          this.specimenObject.lb_name = item.lb_name;
           this.specimenObject.ms_status = item.ms_status;
           this.specimenObject.ms_order_date = item.ms_order_date;
           this.specimenObject.ms_used_date = item.ms_used_date;
@@ -328,9 +334,22 @@ export class SpecimensComponent implements OnInit {
     this.AllLabos = this.labos;
   }
 
+  // pageChanged(event: number) {
+  //   if (event >= 1) {
+  //     this.getAllSpecimens(event);
+  //   }
+  // }
+  clicked: boolean = false;
+  lastClickTime: number = 0
   pageChanged(event: number) {
-    if (event >= 1) {
-      this.getAllSpecimens(event);
+    const currentTime = new Date().getTime();
+    if (!this.clicked || (currentTime - this.lastClickTime >= 600)) {
+      this.clicked = true;
+      this.lastClickTime = currentTime;
+
+      if (event >= 1) {
+        this.getAllSpecimens(event);
+      }
     }
   }
 

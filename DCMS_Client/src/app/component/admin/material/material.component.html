@@ -108,9 +108,14 @@
     </table>
   </div>
   <div class="sep-pagination" style="margin-top: 1%;">
-    <a (click)="pageChanged(currentPage - 1)" *ngIf="currentPage > 1">&laquo;</a>
+<!--    <a (click)="pageChanged(currentPage - 1)" *ngIf="currentPage > 1">&laquo;</a>-->
+<!--    <a>{{currentPage}}</a>-->
+<!--    <a (click)="pageChanged(currentPage + 1)" *ngIf="hasNextPage">&raquo;</a>-->
+    <a (click)="currentPage > 1 ? pageChanged(currentPage - 1) : null" [class.disabled]="currentPage <= 1"
+       style="color: black">&laquo;</a>
     <a>{{currentPage}}</a>
-    <a (click)="pageChanged(currentPage + 1)" *ngIf="hasNextPage">&raquo;</a>
+    <a [class.disabled]="!hasNextPage" (click)="hasNextPage && pageChanged(currentPage + 1)"
+       style="color: black">&raquo;</a>
   </div>
 </div>
 

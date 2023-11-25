@@ -743,8 +743,7 @@ textarea.form-control {
 }
 
 .popup {
-  width:350px;
-  height:280px;
+  width:25%;
   padding:30px 20px;
   background:#f5f5f5;
   border-radius:10px;
@@ -793,9 +792,8 @@ textarea.form-control {
 }
 .popup .dismiss-btn .button-custom {
   padding:10px 20px;
-  background:#111;
+  background:#664FC3;
   color:#f5f5f5;
-  border:2px solid #111;
   font-size:16px;
   font-weight:600;
   outline:none;

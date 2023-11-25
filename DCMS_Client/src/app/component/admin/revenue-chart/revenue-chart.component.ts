@@ -1,5 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import {Chart, ChartConfiguration, ChartData, ChartOptions, ChartType} from "chart.js";
+import {
+  Chart,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  LineController,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js';
+Chart.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  LineController,
+  Title,
+  Tooltip,
+  Legend
+);
 @Component({
   selector: 'app-revenue-chart',
   templateUrl: './revenue-chart.component.html',
@@ -23,6 +43,7 @@ export class RevenueChartComponent implements OnInit {
   //     // ... thêm các tùy chọn khác ở đây
   //   },
   // };
+
   constructor() { }
 
   ngOnInit(): void {
@@ -63,7 +84,8 @@ export class RevenueChartComponent implements OnInit {
           options: {
             scales: {
               y: {
-                beginAtZero: true
+                beginAtZero: true,
+                type: 'linear'
               }
             },
             elements: {

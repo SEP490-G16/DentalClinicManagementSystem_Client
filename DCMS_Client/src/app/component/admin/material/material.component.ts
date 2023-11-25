@@ -118,9 +118,22 @@ export class MaterialComponent implements OnInit {
       }
       )
   }
+  // pageChanged(event: number) {
+  //   if (event >= 1) {
+  //     this.loadPage(event);
+  //   }
+  // }
+  clicked: boolean = false;
+  lastClickTime: number = 0
   pageChanged(event: number) {
-    if (event >= 1) {
-      this.loadPage(event);
+    const currentTime = new Date().getTime();
+    if (!this.clicked || (currentTime - this.lastClickTime >= 600)) {
+      this.clicked = true;
+      this.lastClickTime = currentTime;
+
+      if (event >= 1) {
+        this.loadPage(event);
+      }
     }
   }
   deleteMaterial(id: string) {

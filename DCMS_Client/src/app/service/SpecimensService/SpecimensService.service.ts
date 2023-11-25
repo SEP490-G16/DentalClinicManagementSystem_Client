@@ -19,7 +19,7 @@ export class SpecimensService {
       'Authorization': `${idToken}`,
       'Accept': 'application/json',
     });
-      return this.http.get(`${this.apiUrl}/medical-supply/status/${2}/${paging}`, { headers });
+      return this.http.get(`${this.apiUrl}/medical-supply/status/${-1}/${paging}`, { headers });
   }
 
   async getSpecimensAsync(paging: number): Promise<any> {

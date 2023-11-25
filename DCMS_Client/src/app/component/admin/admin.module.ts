@@ -88,6 +88,7 @@ import { PopupEditAppointmentComponent } from '../utils/pop-up/appointment/popup
 import { AddWaitingRoomComponent } from '../receptionist/receptionist-waiting-room/add-waiting-room/add-waiting-room.component';
 import { PopupConfirmServiceComponent } from '../utils/pop-up/appointment/popup-confirm-service/popup-confirm-service.component';
 import { RegisterWorkScheduleComponent } from '../shared/register-work-schedule/register-work-schedule.component';
+import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
 
 @NgModule({
   declarations: [
@@ -187,7 +188,8 @@ import { RegisterWorkScheduleComponent } from '../shared/register-work-schedule/
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
-    NgSelectModule
+    NgSelectModule,
+    BsDatepickerModule
   ],
   exports: [
     PopupAddApproveSpecimensComponent,
