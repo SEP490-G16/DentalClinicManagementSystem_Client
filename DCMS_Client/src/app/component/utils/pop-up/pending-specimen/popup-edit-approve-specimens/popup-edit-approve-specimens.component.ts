@@ -4,6 +4,7 @@ import {ToastrService} from "ngx-toastr";
 import {PatientService} from "../../../../../service/PatientService/patient.service";
 import { LaboService } from 'src/app/service/LaboService/Labo.service';
 import {ResponseHandler} from "../../../libs/ResponseHandler";
+import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/TreatmentCourse.service';
 
 @Component({
   selector: 'app-popup-edit-approve-specimens',
@@ -14,6 +15,7 @@ export class PopupEditApproveSpecimensComponent implements OnChanges  {
   @Input() id:any;
   @Input() specimens: any;
   @Input() approveSpecimensList:any;
+  patientInfor: any;
   specimen={
     name:'',
     type:'',
@@ -28,6 +30,7 @@ export class PopupEditApproveSpecimensComponent implements OnChanges  {
     patientId: '',
     patientName:'',
     labo_id: '',
+    treatment_course_id: '',
     total:''
   }
   specimenBody={
@@ -42,6 +45,7 @@ export class PopupEditApproveSpecimensComponent implements OnChanges  {
     facility_id:'',
     patient_id:'',
     labo_id: '',
+    treatment_course_id: '',
     status:'',
   }
   validateSpecimens = {
@@ -74,6 +78,7 @@ export class PopupEditApproveSpecimensComponent implements OnChanges  {
   constructor(private medicalSupplyService: MedicalSupplyService,
               private toastr: ToastrService,
               private laboService:LaboService,
+              private treatmentCourseService: TreatmentCourseService,
               private patientSerivce:PatientService) { }
 
   ngOnInit(): void {
@@ -114,6 +119,17 @@ export class PopupEditApproveSpecimensComponent implements OnChanges  {
       )
   }
 
+  ChoosePatientBy: any[] = []
+  
+  clickPatient(patient:any) {
+    var pa = patient.split(' - ');
+    this.treatmentCourseService.getTreatmentCourse(pa[0]).subscribe((data) => {
+      this.ChoosePatientBy = data
+      console.log(this.ChoosePatientBy);
+      this.loading = false;
+    })
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     //this.getAllLabo();
     if (changes['id']){
@@ -139,8 +155,10 @@ export class PopupEditApproveSpecimensComponent implements OnChanges  {
       const usedDatePart = orginalUsedDate.split(" ");
       const formattedUsedDate = usedDatePart[0];
       this.specimen.usedDate = formattedUsedDate;
+      this.specimen.treatment_course_id = this.specimens.treatment_course_id;
       this.specimen.labo_id = this.specimens.lb_id;
       this.getPatient(this.specimens.p_patient_id);
+      this.patientInfor = this.specimens.p_patient_id + " - "+this.specimens.p_patient_name+ " - "+this.specimens.p_phone_number;
     }
   }
   patient:any;
@@ -280,6 +298,11 @@ export class PopupEditApproveSpecimensComponent implements OnChanges  {
     let orderDateTimestamp = (orderDate.getTime()/1000).toString();
     let receivedDateTimestamp = (receivedDate.getTime()/1000).toString();
     let userDateTimestamp = (usedDate.getTime()/1000).toString();
+    let faci = sessionStorage.getItem('locale');
+    if (faci != null) {
+      this.specimenBody.facility_id = faci;
+    }
+
     this.specimenBody = {
       name:this.specimen.name,
       type:this.specimen.type,
@@ -289,9 +312,10 @@ export class PopupEditApproveSpecimensComponent implements OnChanges  {
       orderer:this.specimen.orderer,
       received_date:receivedDateTimestamp,
       used_date: userDateTimestamp,
-      facility_id:'F-01',
+      facility_id: this.specimenBody.facility_id,
       patient_id:this.specimen.patientId,
       labo_id: this.specimen.labo_id,
+      treatment_course_id: this.specimen.treatment_course_id,
       status:'1',
     }
     this.loading = true;
