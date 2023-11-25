@@ -42,21 +42,18 @@ a {
 
 .table__header {
   width: 100%;
-  display: flex;
   align-items: center;
   margin-bottom: 1%;
 }
 
 .table__header .input-group {
   width: 40%;
-  height: 4vh;
+  height: 5vh;
   border-radius: 2rem;
   border: 1px solid #7B4C50;
   display: flex;
-  justify-content: center;
   align-items: center;
   transition: .2s;
-  margin-right: 22%;
 }
 
 .table__header .input-group:hover {
@@ -92,7 +89,8 @@ a {
 .hover-patient:hover {
   background-color: #e1dfdf;
 }
-.table__header{
+
+.table__header {
   margin-top: 3%;
   margin-bottom: 3%;
 }
