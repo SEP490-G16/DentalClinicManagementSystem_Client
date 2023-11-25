@@ -9,3 +9,14 @@
   text-decoration: none; /* Loại bỏ gạch chân mặc định của liên kết */
   transition: color 0.3s; /* Hiệu ứng chuyển đổi màu sắc */
 }
+.link-tab{
+  display: flex;
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+.link-tab .dang-ki-lam-viec{
+  margin-left: 2%;
+}
+.link-tab .theo-doi{
+  margin-left: 2%;
+}

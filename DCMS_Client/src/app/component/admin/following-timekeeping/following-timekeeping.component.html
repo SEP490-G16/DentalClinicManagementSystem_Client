@@ -15,24 +15,24 @@
         công</a>
     </div>
   </div> -->
-  <div class="row" style="margin-left: 10px">
+  <div class="link-tab">
     <ng-container *ngIf="roleId.includes('1') || roleId.includes('3')">
-      <div class="col-md-1">
-        <a routerLink="/cham-cong" routerLinkActive="active-link" class="page-title active-link">Chấm công</a>
+      <div class="cham-cong">
+        <a routerLink="/cham-cong" routerLinkActive="active-link" class="page-title">Chấm công</a>
       </div>
     </ng-container>
-    <div class="col-md-2">
+    <div class="dang-ki-lam-viec">
       <a routerLink="/dang-ky-lich-lam-viec" routerLinkActive="active-link" class="page-title">Đăng kí lịch làm
         việc</a>
     </div>
-    <div class="col-md-2">
+    <div class="theo-doi">
       <a routerLink="/theo-doi-cham-cong" routerLinkActive="active-link" class="page-title">Theo dõi
         chấm công</a>
     </div>
   </div>
 
-  <div class="mt-5" style="max-width: 100%;display: flex">
-    <div class="mb-5 check">
+  <div class="filter-timekeeping">
+    <div class="check">
       <div style="display: flex">
         <div class="check-in">
         </div>
@@ -43,7 +43,7 @@
 
     </div>
 
-    <div class="mb-5 check">
+    <div class="check">
       <div style="display: flex">
         <div class="check-out">
         </div>
@@ -54,7 +54,7 @@
 
     </div>
 
-    <div class="mb-5 check">
+    <div class="check">
       <div style="display: flex">
         <div class="nghi">
         </div>
@@ -68,21 +68,21 @@
       <input type="month" [(ngModel)]="selectedMonth" (change)="updateStartAndEndTime()" style="width: 85%"
              class="form-control input-custom  p-2">
     </div> -->
-    <div class="mb-5 row">
-      <div class="col-4">
+    <div class="row">
+      <div class="col-5">
         <label for="fromDate" class="form-label" style="padding: 10px"><b>Từ ngày:</b></label>
       </div>
-      <div class="col-8">
+      <div class="col-7">
         <input type="date" style="width: 90%" #input (change)="changeFromDate(input.value)" id="fromDate"
           class="form-control input-custom  p-2">
       </div>
     </div>
 
-    <div class="mb-5 row">
-      <div class="col-4">
+    <div class="row">
+      <div class="col-5">
         <label for="toDate" class="form-label" style="padding: 10px 0"><b>Đến ngày:</b></label>
       </div>
-      <div class="col-8">
+      <div class="col-7">
         <input type="date" [(ngModel)]="toDate" #inpu (change)="changeToDate(inpu.value)" style="width: 90%" id="toDate"
           class="form-control input-custom  p-2">
       </div>

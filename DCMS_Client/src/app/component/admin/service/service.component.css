@@ -8,7 +8,7 @@
   box-sizing: border-box;
 }
 .sep-recent-orders .row{
-  margin-top: 1.5%;
+  /*margin-top: 1.5%;*/
 }
 .button-add{
   font-family: "Poppins", sans-serif;
@@ -20,7 +20,6 @@
   font-weight: bold;
   outline: 0px;
   padding: 10px 20px;
-  margin-bottom: 15px;
 }
 .groupservice-body a{
   text-align: center;
@@ -31,13 +30,13 @@
 }
 .table__header {
   width: 100%;
-  height: 10%;
+  /*height: 10%;*/
   background-color: #fff4;
-  padding: .8rem 1rem;
+  /*padding: .8rem 1rem;*/
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 10px;
+  /*margin-top: 10px;*/
 }
 .table__header .input-group {
   width: 60%;
@@ -64,4 +63,14 @@
   background-color: transparent;
   border: none;
   outline: none;
+}
+.btn-primary:hover{
+  background-color: #1c42af;
+}
+.table__header{
+  margin-top: 3%;
+  margin-bottom: 3%;
+}
+.table__header .input-group{
+  margin: auto;
 }

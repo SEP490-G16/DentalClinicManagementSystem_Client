@@ -117,17 +117,17 @@ export class PopupEditStaffComponent implements OnInit {
       timeOut: 3000,
     });
   }
-  serviceGroups: any[] = [];
-  onChangeRole(role: any) {
-    if (role == 2) {
-      this.serviceGroup.getMedicalProcedureGroupList().subscribe(data => {
-        this.serviceGroups = data.data.map((s: any) => ({ ...s, checked: false }));
-      })
-    }
-    else {
-      this.serviceGroups = [];
-    }
-  }
+  // serviceGroups: any[] = [];
+  // onChangeRole(role: any) {
+  //   if (role == 2) {
+  //     this.serviceGroup.getMedicalProcedureGroupList().subscribe(data => {
+  //       this.serviceGroups = data.data.map((s: any) => ({ ...s, checked: false }));
+  //     })
+  //   }
+  //   else {
+  //     this.serviceGroups = [];
+  //   }
+  // }
 
 
   onFileSelected(event: any) {
@@ -202,25 +202,25 @@ export class PopupEditStaffComponent implements OnInit {
       return phoneNumber;
     }
   }
-  // serviceGroups:any[]=[];
-  // onChangeRole(role:any){
-  //   if (role == 2){
-  //     this.serviceGroup.getMedicalProcedureGroupList().subscribe(data=>{
-  //       this.serviceGroups = data.data.map((s:any)=>({ ...s, checked: false }));
-  //       this.serviceGroups.forEach((item:any) => {
-  //         this.listDisplaySpe.forEach((a:any) => {
-  //           if (item.medical_procedure_group_id == a) {
-  //             this.selectedServiceGroupIds.push(item.medical_procedure_group_id);
-  //             item.checked = true;
-  //           }
-  //         })
-  //       })
-  //     })
-  //   }
-  //   else {
-  //     this.serviceGroups =[];
-  //   }
-  // }
+  serviceGroups:any[]=[];
+  onChangeRole(role:any){
+    if (role == 2){
+      this.serviceGroup.getMedicalProcedureGroupList().subscribe(data=>{
+        this.serviceGroups = data.data.map((s:any)=>({ ...s, checked: false }));
+        this.serviceGroups.forEach((item:any) => {
+          this.listDisplaySpe.forEach((a:any) => {
+            if (item.medical_procedure_group_id == a) {
+              this.selectedServiceGroupIds.push(item.medical_procedure_group_id);
+              item.checked = true;
+            }
+          })
+        })
+      })
+    }
+    else {
+      this.serviceGroups =[];
+    }
+  }
   selectedServiceGroupIds: string[] = [];
   onCheckboxChange(serviceGroup: any) {
     if (serviceGroup.checked) {

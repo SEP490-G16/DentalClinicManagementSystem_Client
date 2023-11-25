@@ -41,10 +41,10 @@ a {
 }
 
 .table__header {
-  width: 90%;
-  height: 10%;
+  width: 100%;
+  /*height: 10%;*/
   background-color: #fff4;
-  padding: .8rem 1rem;
+  /*padding: .8rem 1rem;*/
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -52,7 +52,7 @@ a {
 
 .table__header .input-group {
   width: 50%;
-  height: 5vh;
+  height: 4vh;
   background-color: #fff5;
   padding: 0 .8rem;
   border-radius: 2rem;
@@ -61,13 +61,14 @@ a {
   justify-content: center;
   align-items: center;
   transition: .2s;
+  margin-right: 22%;
 }
 
-.table__header .input-group:hover {
-  width: 70%;
-  background-color: #fff8;
-  box-shadow: 0 .1rem .4rem #0002;
-}
+/*.table__header .input-group:hover {*/
+/*  width: 70%;*/
+/*  background-color: #fff8;*/
+/*  box-shadow: 0 .1rem .4rem #0002;*/
+/*}*/
 
 
 .table__header .input-group input {
@@ -88,7 +89,6 @@ a {
   font-weight: bold;
   outline: 0px;
   padding: 10px 20px;
-  margin-bottom: 15px;
 }
 
 button:hover {
@@ -106,4 +106,8 @@ button:active {
 
 .hover-patient:hover {
   background-color: #e1dfdf;
+}
+.table__header{
+  margin-top: 3%;
+  margin-bottom: 3%;
 }
