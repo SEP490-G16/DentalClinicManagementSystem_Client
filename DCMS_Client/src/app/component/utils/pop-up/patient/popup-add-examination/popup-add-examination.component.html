@@ -35,28 +35,24 @@
           <div class="examination-body-middle-title">
             <label>Khám tổng quát </label>
           </div>
-
           <div class="row" style="margin-bottom: 1%; margin-top:1%">
             <div class="col-md-4 custom-input-container">
               <label for="doctorId">Bác sĩ điều trị:</label>
-              <select class="form-select children-of-row1" id="doctorId">
-                <option selected>Open this select menu</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+              <select class="form-select children-of-row1" id="doctorId" [(ngModel)]="staff_id">
+                <option value="0">Open this select menu</option>
+                <option *ngFor="let bs of listStaffDisplay" value="{{bs.staffId}}">{{bs.staffUserName}}</option>
               </select>
             </div>
             <div class="col-md-4 custom-input-container">
               <label for="examinationDate">Ngày khám:</label>
-              <input type="date" id="examinationDate" class="form-input children-of-row1">
+              <input type="date" id="examinationDate" class="form-input children-of-row1" [(ngModel)]="currentDate">
             </div>
             <div class="col-md-4 custom-input-container">
               <label for="treatmentId">Lịch trình điều trị:</label>
-              <select class="form-select children-of-row1" aria-label="Default select example" id="treatmentId">
-                <option selected>Open this select menu</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+              <select class="form-select children-of-row1" aria-label="Default select example" id="treatmentId"
+                [(ngModel)]="treatmentCourse_Id">
+                <option value="0">Open this select menu</option>
+                <option *ngFor="let tr of listTreatmentCourse" value="{{tr.treatment_course_id}}">{{tr.name}}</option>
               </select>
             </div>
           </div>
@@ -80,11 +76,11 @@
           <div class="row" style="margin-bottom: 1%;">
             <div class="col-md-6 custom-input-container">
               <label for="diagnosis">Ghi chú chẩn đoán:</label>
-              <textarea id="diagnosis" rows="3"></textarea>
+              <textarea id="diagnosis" rows="3" [(ngModel)]="examination.diagnosis"></textarea>
             </div>
             <div class="col-md-6 custom-input-container">
               <label for="medicine">Đơn thuốc:</label>
-              <textarea id="medicine" rows="3"></textarea>
+              <textarea id="medicine" rows="3" [(ngModel)]="examination.medicine"></textarea>
             </div>
           </div>
         </div>
@@ -92,16 +88,86 @@
           <div class="examination-body-middle-title">
             <label> Sử dụng dịch vụ </label>
           </div>
+          <div class="btn-add-procedure">
+            <button class="btn btn-custom" (click)="toggleAdd()" *ngIf="!isAdd"><i class="bi bi-plus-circle"></i>Thêm
+              mới</button>
+          </div>
+          <div style="margin-top: 2%; margin-bottom:2%">
+            <table class="table-bordered">
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>Nhóm thủ thuật</th>
+                  <th>Tên thủ thuật</th>
+                  <th>Đơn giá</th>
+                  <th>Thành tiền</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let record of records; let i = index">
+                  <tr>
+                    <td>{{ i + 1 }}</td>
+                    <td>
+                      <ng-select *ngIf="isAdd && list" [items]="list" [(ngModel)]="record.nhomThuThuat"
+                        [searchable]="true" bindLabel="groupName" bindValue="groupId"
+                        [notFoundText]="'Không tìm thấy nhóm thủ thuật'"
+                        (ngModelChange)="updateTemporaryName(record, $event)">
+                      </ng-select>
+                      <p *ngIf="!isAdd">{{record.nhomThuThuat}}</p>
+                    </td>
+                    <td>
+                      <ng-select *ngIf="isAdd && materialList" [items]="materialList" [(ngModel)]="record.tenThuThuat"
+                        [searchable]="true" bindLabel="tenVatLieu" bindValue="id"
+                        [notFoundText]="'Không tìm thấy thủ thuật'"
+                        (ngModelChange)="updateTemporaryServiceName(record, $event)">
+                      </ng-select>
+                      <p *ngIf="!isAdd">{{record.tenThuThuat}}</p>
+                    </td>
+                    <td>
+                      <input type="text" [(ngModel)]="record.donGia" *ngIf="isAdd" class="form-control value-staff">
+                      <p *ngIf="!isAdd">{{record.donGia}}</p>
+                    </td>
+                    <td>
+                      <input type="text" [(ngModel)]="record.thanhTien" *ngIf="isAdd" class="form-control value-staff">
+                      <p *ngIf="!isAdd">{{record.thanhTien}}</p>
+                    </td>
+                    <td>
+                      <button class="save-button" *ngIf="isAdd" style="margin-right: 3px"><i class="bi bi-check-circle"
+                          (click)="toggleAdd()"></i></button>
+                      <button class="delete-button" (click)="deleteRecord(i)">
+                        x
+                      </button>
+                    </td>
+                  </tr>
+                </ng-container>
 
+              </tbody>
+            </table>
+          </div>
+
+          <div class="examination-body-middle-title">
+            <label> Đặt mẫu </label>
+          </div>
+          <div class="btn-add-procedure">
+            <button class="btn btn-custom" (click)="toggleAdd()" *ngIf="!isAdd"><i class="bi bi-plus-circle"></i>Thêm
+              mới</button>
+          </div>
           <div style="margin-top: 2%; margin-bottom:2%">
             <table class="table-bordered">
               <thead>
                 <tr>
-                  <th>Nhóm thủ thuật</th>
-                  <th>Tên thủ thuật</th>
-                  <th>Đơn giá</th>
-                  <th>Thành tiền</th>
-                  <th>Thao tác</th>
+                  <th>Tên mẫu</th>
+                  <th>Chất liệu</th>
+                  <th>Số lượng</th>
+                  <th>Đơn giá</th>
+                  <th>Labo</th>
+                  <th>Ngày đặt</th>
+                  <th>Người đặt</th>
+                  <th>Ngày nhận</th>
+                  <th>Người nhận</th>
+                  <th>Ngày lắp</th>
+                  <th>Thao tác</th>
                 </tr>
               </thead>
               <tbody>
@@ -115,47 +181,61 @@
               </tbody>
             </table>
           </div>
-          <div style="margin-top: 2%; margin-bottom:2%">
-            <table class="table-bordered">
-              <thead>
-                <tr>
-                  <th>Nhóm thủ thuật</th>
-                  <th>Tên thủ thuật</th>
-                  <th>Đơn giá</th>
-                  <th>Thành tiền</th>
-                  <th>Thao tác</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="examination-body-middle-title">
+            <label> Vật liệu </label>
+          </div>
+          <div class="btn-add-procedure">
+            <button class="btn btn-custom" (click)="toggleAddMaterial()" *ngIf="!isAddMaterial"><i
+                class="bi bi-plus-circle"></i>Thêm mới</button>
           </div>
           <div style="margin-top: 2%; margin-bottom:2%">
             <table class="table-bordered">
               <thead>
                 <tr>
-                  <th>Nhóm thủ thuật</th>
-                  <th>Tên thủ thuật</th>
-                  <th>Đơn giá</th>
-                  <th>Thành tiền</th>
-                  <th>Thao tác</th>
+                  <th>STT</th>
+                  <th>Tên vật liệu</th>
+                  <th>Đơn giá</th>
+                  <th>Số lượng</th>
+                  <th>Thành tiền</th>
+                  <th>Thao tác</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
+                <ng-container *ngFor="let record of recordsMaterial; let i = index">
+                  <tr>
+                    <td>{{ i + 1 }}</td>
+                    <td>
+                      <ng-select *ngIf="isAddMaterial && results" [items]="results" [(ngModel)]="record.materialName"
+                        [searchable]="true" bindLabel="materialName" bindValue="materialId"
+                        [notFoundText]="'Không tìm thấy vật liệu'"
+                        (ngModelChange)="updateTemporaryNameMaterial(record, $event)">
+                      </ng-select>
+                      <p *ngIf="!isAddMaterial">{{record.materialName}}</p>
+                    </td>
+                    <td>
+                      <input type="number" min="0" [(ngModel)]="record.price" *ngIf="isAddMaterial"
+                        class="form-control value-staff" (change)="changeUnitPrice(record)">
+                      <p *ngIf="!isAddMaterial">{{record.price}}</p>
+                    </td>
+                    <td>
+                      <input type="number" [(ngModel)]="record.quantity" *ngIf="isAddMaterial"
+                        class="form-control value-staff" (change)="changeQuantity(record)">
+                      <p *ngIf="!isAddMaterial">{{record.quantity}}</p>
+                    </td>
+                    <td>
+                      <input type="number" [(ngModel)]="record.totalPaid" *ngIf="isAddMaterial"
+                        class="form-control value-staff" disabled>
+                      <p *ngIf="!isAddMaterial">{{record.totalPaid}}</p>
+                    </td>
+                    <td>
+                      <button class="save-button" *ngIf="isAddMaterial" style="margin-right: 3px"><i
+                          class="bi bi-check-circle" (click)="toggleAdd()"></i></button>
+                      <button class="delete-button" (click)="deleteRecord(i)">
+                        x
+                      </button>
+                    </td>
+                  </tr>
+                </ng-container>
               </tbody>
             </table>
           </div>
