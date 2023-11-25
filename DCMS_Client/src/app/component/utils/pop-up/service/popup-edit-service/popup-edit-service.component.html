@@ -1,6 +1,3 @@
-<div *ngIf="loading" class="loading-overlay">
-  <div class="loading-spinner"></div>
-</div>
 <div *ngIf="!loading" class="modal" id="editServiceModal">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -19,32 +16,39 @@
               <div class="form-group row">
                 <label for="serviceName" class="col-3">Tên thủ thuật:</label>
                 <div class="col-9">
-                  <input type="text" [(ngModel)]="service.serviceName" required class="form-control" id="serviceName" name="serviceName" #name="ngModel">
-                  <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">{{validateService.serviceName}}</div>
+                  <input type="text" [(ngModel)]="service.serviceName" required class="form-control" id="serviceName"
+                    name="serviceName" #name="ngModel">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
+                    {{validateService.serviceName}}</div>
                 </div>
               </div>
               <div class="form-group row mt-3">
                 <label for="groupService" class="col-3">Nhóm thủ thuật:</label>
                 <div class="col-9">
-                  <select  class="form-select" [(ngModel)]="service.serviceGroupName" (change)="updateServiceRes()" id="groupService" required  aria-label="Default select example">
+                  <select class="form-select" [(ngModel)]="service.serviceGroupName" (change)="updateServiceRes()"
+                    id="groupService" required aria-label="Default select example">
                     <!--<option selected></option>-->
-                    <option *ngFor="let f of medicalProcedureGroupList" value="{{f.medical_procedure_group_id}}">{{f.name}}</option>
+                    <option *ngFor="let f of medicalProcedureGroupList" value="{{f.mg_id}}">{{f.mg_name}}</option>
                   </select>
-                  <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">{{validateService.serviceGroupName}}</div>
+                  <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
+                    {{validateService.serviceGroupName}}</div>
                 </div>
               </div>
               <div class="form-group row mt-3">
                 <label for="unitprice" class="col-3">Đơn giá:</label>
                 <div class="col-9">
-                  <input type="number"  [(ngModel)]="service.price" required class="form-control" id="unitprice" name="price" #name="ngModel">
-                  <div class="alert-danger-custom" style="color:#FF0000FF;" *ngIf="isSubmitted">{{validateService.price}}</div>
+                  <input type="number" [(ngModel)]="service.price" required class="form-control" id="unitprice"
+                    name="price" #name="ngModel">
+                  <div class="alert-danger-custom" style="color:#FF0000FF;" *ngIf="isSubmitted">
+                    {{validateService.price}}</div>
 
                 </div>
               </div>
               <div class="form-group row mt-3">
                 <label for="description" class="col-3">Mô tả:</label>
                 <div class="col-9">
-                  <textarea type="text" [(ngModel)]="service.description" class="form-control" id="description" name="description"></textarea>
+                  <textarea type="text" [(ngModel)]="service.description" class="form-control" id="description"
+                    name="description"></textarea>
                 </div>
               </div>
             </div>
@@ -53,14 +57,13 @@
 
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" id="cancel-service" class="btn btn-cancel" data-bs-dismiss="modal" (click)="resetValidate()">Hủy</button>
-          <button type="button" class="btn button-timekeeping" (click)="updateMedicalProcedure()"><i class="bi bi-floppy2"></i> Lưu</button>
+          <button type="button" id="cancel-service" class="btn btn-cancel" data-bs-dismiss="modal"
+            (click)="resetValidate()">Hủy</button>
+          <button type="button" class="btn button-timekeeping" (click)="updateMedicalProcedure()"><i
+              class="bi bi-floppy2"></i> Lưu</button>
         </div>
 
       </div>
     </div>
   </div>
 </div>
-
-
-

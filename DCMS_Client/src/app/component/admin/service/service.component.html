@@ -14,8 +14,8 @@
 
     <div class="col-8">
       <div class="input-group">
-        <!-- (input)="onSearchInputChange()" -->
-        <input type="search search-custom" placeholder="Tìm kiếm" [(ngModel)]="searchTerm">
+        <input type="search search-custom" placeholder="Tìm kiếm" [(ngModel)]="searchTerm"
+          (input)="getMedicalProcedureChildren(null)">
       </div>
     </div>
     <div class="col-2">
@@ -40,13 +40,12 @@
             <td>{{t.mg_id}}</td>
             <td><a class="title-group-service">{{t.mg_name}}</a></td>
             <td class="text-center">
-              <!-- (click)="openEditGroupService(t.medical_procedure_group_id,t.name,t.description)" -->
               <button href="#" class="btn btn-primary float-right btn-rounded" data-bs-toggle="modal"
                 data-bs-target="#editGroupModal" style="padding: 2px 5px; margin-right: 3px"><i
-                  class="bi bi-pencil-square"></i></button>
-              <!-- (click)="deleteMedicalProcedureGroup(t.medical_procedure_group_id)" -->
-              <button href="#" class="btn btn-danger float-right btn-rounded" style="padding: 2px 5px;"><i
-                  class="bi bi-trash"></i></button>
+                  class="bi bi-pencil-square"
+                  (click)="openEditGroupService(t.mg_id,t.mg_name,t.description)"></i></button>
+              <button href="#" class="btn btn-danger float-right btn-rounded" style="padding: 2px 5px;"
+                (click)="deleteMedicalProcedureGroup(t.mg_id)"><i class="bi bi-trash"></i></button>
             </td>
           </tr>
         </tbody>
@@ -73,13 +72,11 @@
             <td>{{s.mp_price}}</td>
             <td>{{s.mp_description}}</td>
             <td class="text-center">
-              <!-- (click)="openEditService(s.mp_id,s)" -->
-              <button href="#" class="btn btn-primary float-right btn-rounded"
+              <button href="#" class="btn btn-primary float-right btn-rounded" (click)="openEditService(s.mp_id,s)"
                 style="padding: 2px 5px; margin-right: 3px" data-bs-toggle="modal" data-bs-target="#editServiceModal"><i
                   class="bi bi-pencil-square"></i></button>
-              <!-- (click)="deleteMedicalProcedure(s.mp_id)" -->
-              <button href="#" style="padding: 2px 5px" class="btn btn-danger float-right btn-rounded"><i
-                  class="bi bi-trash"></i></button>
+              <button href="#" style="padding: 2px 5px" class="btn btn-danger float-right btn-rounded"
+                (click)="deleteMedicalProcedure(s.mp_id)"><i class="bi bi-trash"></i></button>
             </td>
           </tr>
         </tbody>
@@ -88,12 +85,12 @@
   </div>
 </div>
 
-<!-- <app-popup-add-group-service [medicalProcedureGroups]="medicalProcedureGroups"></app-popup-add-group-service>
+<app-popup-add-group-service [medicalProcedureGroups]="medicalProcedureGroups"></app-popup-add-group-service>
 <app-popup-delete-group-service></app-popup-delete-group-service>
-<app-popup-add-service [medicalProcedureList]="medicalProcedureList"
-  [medicalProcedureGroups]="medicalProcedureGroups"></app-popup-add-service>
 <app-popup-delete-service></app-popup-delete-service>
+<app-popup-add-service [filteredMgData]="filteredMgData"
+  [medicalProcedureGroups]="medicalProcedureGroups"></app-popup-add-service>
 <app-popup-edit-group-service [id]="id" [name]="name" [description]="description"
   [medicalProcedureGroups]="medicalProcedureGroups"></app-popup-edit-group-service>
-<app-popup-edit-service [medicalProcedureGroups]="medicalProcedureGroups" [medicalProcedureList]="medicalProcedureList"
-  [serviceObject]="service" [id]="idService"></app-popup-edit-service> -->
+<app-popup-edit-service [medicalProcedureGroups]="medicalProcedureGroups" [filteredMgData]="filteredMgData"
+  [serviceObject]="service" [id]="idService"></app-popup-edit-service>
