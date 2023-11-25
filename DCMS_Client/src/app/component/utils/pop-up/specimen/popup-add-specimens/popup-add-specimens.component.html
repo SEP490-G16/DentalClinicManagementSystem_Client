@@ -173,24 +173,22 @@
               <div class="form-group row mt-3">
                 <label for="patient" class="col-3 name-title">Bệnh nhân:</label>
                 <div class="col-9 value-staff">
-                  <!-- <input type="text" [(ngModel)]="specimen.receiver" #receiver="ngModel" required (input)="onsearch()" class="form-control date-input-custom" id="patient" name="patient">
-                  <ul *ngIf="patients.length > 0">
-                    <li *ngFor="let patient of patients" (click)="selectPatient(patient)">{{ patient.patient_name }}</li>
-                  </ul> -->
                   <ng-select [items]="patientList" bindLabel="patientInfor" [(ngModel)]="patientIdSelected" bindValue="patientId" (keyup)="onsearch($event)"
-                             [notFoundText]="'Không tìm thấy bệnh nhân'">
+                             [notFoundText]="'Không tìm thấy bệnh nhân'" (click)="clickPatient(patientIdSelected)">
                   </ng-select>
-                  <!-- <div *ngIf="receiver.invalid && (receiver.dirty || receiver.touched)"  class="alert-danger-custom" style="color:#FF0000FF;">
-                    <div *ngIf="receiver.errors?.['required']">
-                      Vui lòng nhập bệnh nhân!
-                    </div>
-                  </div> -->
                   <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.receiver}}
                     </p>
                   </div>
                 </div>
+              </div>
+              <div class="form-group row mt-3">
+                <label for="patient" class="col-3 name-title">Liệu trình:</label>
+                <select class="form-select p-2" id="patient" style="margin-left: 10px; width: 71%; border: 1px solid #664FC3;
+                                       border-radius: 10px;" aria-label="Default select example" [(ngModel)]="specimen.treatment_course_id">
+                  <option *ngFor="let tr of listTreatment" value="{{tr.treatment_course_id}}">{{tr.name}}</option>
+                </select>
               </div>
             </div>
 

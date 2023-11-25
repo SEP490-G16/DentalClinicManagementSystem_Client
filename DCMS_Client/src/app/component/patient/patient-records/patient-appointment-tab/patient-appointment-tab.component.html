@@ -43,7 +43,7 @@
               <th>Thời gian</th>
               <th>Bác sĩ</th>
               <th>Lý do</th>
-              <th>Tình trạng</th>
+              <th>Phân loại điều trị</th>
               <th>Option</th>
             </tr>
           </thead>
@@ -52,16 +52,22 @@
               <ng-container *ngFor="let gf of patientAppointments">
                 <ng-container *ngFor="let ap of gf.appointments">
                   <tr *ngFor="let detail of ap.details">
-                    <td>{{timestampToGMT7String(detail.time)}} - {{convertTimestampToVNDateString(gf.date)}}</td>
-                    <td>{{detail.doctor}}</td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                      <button *ngIf="gf.date === currentDateTimestamp" class="btn" data-bs-toggle="modal"
-                        data-bs-target="#editAppointmentModal" (click)="editAppointment(detail, gf.date)"><i
-                          class="bi bi-pencil-square"></i></button>
-                    </td>
+                    <ng-container *ngIf="detail.migrated == 'false'">
+                      <td>{{timestampToTime(detail.time)}} - {{timestampToDate(gf.date) | date: 'dd-MM-yyyy'}}</td>
+                      <td>{{detail.doctor}}</td>
+                      <td>{{detail.reason}}</td>
+                      <td>{{detail.procedure_name}}</td>
+                      <td>
+                        <button class="btn btn-primary p-1 m-r-3" style="padding: 2px 3px; margin-right: 3px"
+                          data-bs-toggle="modal" data-bs-target="#editAppointmentModal"
+                          (click)="editAppointment(detail, gf.date)">
+                          <i class="bi bi-pencil-square"></i></button>
+                        <button class="btn btn-danger p-1" style="padding: 2px 5px"
+                          (click)="deleteAppointment(detail, gf.date)"> <i class="bi bi-trash"></i></button>
+                      </td>
+                    </ng-container>
                   </tr>
+
                 </ng-container>
               </ng-container>
             </ng-container>
@@ -76,6 +82,5 @@
 </div>
 
 <app-popup-datlichtaikham [datesDisabled]="datesDisabled" [Patient]="Patient"></app-popup-datlichtaikham>
-<app-popup-sualichtaikham [datesDisabled]="datesDisabled" [Patient]="Patient"
-  [selectedAppointment]="selectedAppointment" [dateString]="dateString"
-  [timeString]="timeString"></app-popup-sualichtaikham>
+<app-popup-sualichtaikham [datesDisabled]="datesDisabled" [selectedAppointment]="selectedAppointment"
+  [dateString]="dateString" [timeString]="timeString"></app-popup-sualichtaikham>

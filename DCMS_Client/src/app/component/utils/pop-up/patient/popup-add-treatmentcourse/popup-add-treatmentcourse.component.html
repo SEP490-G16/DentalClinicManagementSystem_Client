@@ -19,12 +19,41 @@
             </div>
           </div>
         </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Lý do khám</label>
+              <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="TreatmentCouseBody.lydo"
+                aria-describedby="emailHelp">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Chuẩn đoán</label>
+              <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="TreatmentCouseBody.chuandoan"
+                aria-describedby="emailHelp">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Nguyên nhân</label>
+              <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="TreatmentCouseBody.nguyennhan"
+                aria-describedby="emailHelp">
+            </div>
+          </div>
+        </div>
 
         <div class="row">
           <div class="col-12">
             <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">Tên Liệu trình</label>
-              <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="Post_TreatmentCourse.name"
+              <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="TreatmentCouseBody.name"
                 aria-describedby="emailHelp">
             </div>
           </div>
@@ -34,11 +63,22 @@
           <div class="col-12">
             <div class="mb-3">
               <label for="procedureGroupSelect" class="form-label">Chọn nhóm thủ thuật</label>
-              <select id="procedureGroupSelect" class="form-control" (change)="onProcedureGroupSelectChange($event)">
-                <option>Chọn nhóm thủ thuật</option>
-                <option *ngFor="let group of ProcedureGroupList" [value]="group.medical_procedure_group_id">{{
-                  group.name }}</option>
-              </select>
+              <div class="select-checkbox">
+                <button class="drop-toggle btn flat" (click)="showDropDown=!showDropDown">
+                  <span style="color: #1e1e1e">Chọn nhóm thủ thuật</span>
+                  <i class="fa fa-angle-down"></i>
+                </button>
+                <div class="drop-show" *ngIf="showDropDown">
+                  <div class="group-list" *ngFor="let a of list">
+                    <div class="input-name">
+                      <input type="checkbox" [(ngModel)]="a.checked" (click)="getSelectedValue(a)"/>
+                    </div>
+                    <div class="name-title">
+                      <span> {{a.groupName}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -46,33 +86,27 @@
         <div class="row">
           <div class="col-12">
             <div class="mb-3">
-              <label for="procedureDetailSelect" class="form-label">Chọn thủ thuật</label>
-              <select id="procedureDetailSelect" class="form-control" (change)="onProcedureSelectChange($event)"
-                [disabled]="!selectedGroupId">
-                <option value="0">Chọn thủ thuật</option>
-                <option *ngFor="let detail of ProcedureDetailListFiltered" [value]="detail.mp_id">{{ detail.mp_name }}
-                </option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-12">
-            <table class="table">
-              <thead>
+              <table>
                 <tr>
-                  <th>Thủ thuật đã thêm</th>
+                  <th>Nhóm thủ thuật</th>
+                  <th>Thủ thuật</th>
+                  <th>Giá tiền</th>
+                  <th>Thành tiền</th>
                 </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let selected of ProcedureSelectedItems; let i = index">
-                  <td>{{ selected.mp_name }}</td>
-                  <td>
-                    <button class="btn btn-danger btn-sm" (click)="deleteProcedureSelectedItem(i)">Xóa</button>
-                  </td>
-              </tbody>
-            </table>
+                <ng-container *ngFor="let pro of list">
+                  <ng-container *ngIf="pro.checked == true">
+                    <ng-container *ngFor="let gro of pro.procedure">
+                      <tr>
+                        <td>{{pro.groupName}}</td>
+                        <td><input type="checkbox" (click)="checkProcedureUse(gro)"/>{{gro.procedureName}}</td>
+                        <td>{{gro.initPrice}}</td>
+                        <td><input type="text" [(ngModel)]="gro.price"></td>
+                      </tr>
+                    </ng-container>
+                  </ng-container>
+                </ng-container>
+              </table>
+            </div>
           </div>
         </div>
 

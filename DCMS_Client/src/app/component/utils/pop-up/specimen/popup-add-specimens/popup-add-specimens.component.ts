@@ -6,6 +6,7 @@ import { LaboService } from "../../../../../service/LaboService/Labo.service";
 import * as moment from 'moment-timezone';
 import { IsThisSecondPipe } from 'ngx-date-fns';
 import { ResponseHandler } from "../../../libs/ResponseHandler";
+import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/TreatmentCourse.service';
 
 @Component({
   selector: 'app-popup-add-specimens',
@@ -38,7 +39,8 @@ export class PopupAddSpecimensComponent implements OnInit {
     orderDate: '',
     receiver: '',
     total: '',
-    labo: ''
+    labo: '', 
+    treatment_course_id: ''
   }
   specimenBody = {
     name: '',
@@ -51,7 +53,8 @@ export class PopupAddSpecimensComponent implements OnInit {
     order_date: 0,
     patient_id: '',
     facility_id: '',
-    labo_id: ''
+    labo_id: '', 
+    treatment_course_id: ''
   }
   specimensRes = {
     medical_supply_id: '',
@@ -71,6 +74,7 @@ export class PopupAddSpecimensComponent implements OnInit {
   constructor(private medicalSupplyService: MedicalSupplyService,
     private toastr: ToastrService,
     private patientSerivce: PatientService,
+    private treatmentCourseService: TreatmentCourseService,
     private laboService: LaboService) { }
 
   ngOnInit(): void {
@@ -197,18 +201,14 @@ export class PopupAddSpecimensComponent implements OnInit {
       order_date: orderDateTimestamp,
       patient_id: this.patientIdSelected,
       facility_id: 'F-01',
-      labo_id: this.specimen.labo
+      labo_id: this.specimen.labo, 
+      treatment_course_id: this.specimen.treatment_course_id,
     }
     console.log(this.specimenBody)
     this.loading = true;
     this.medicalSupplyService.addMedicalSupply(this.specimenBody).subscribe(data => {
       this.toastr.success('Thêm mới mẫu thành công !');
-      /*let ref = document.getElementById('cancel-specimen');
-      ref?.click();*/
       window.location.reload();
-      /* this.updateSpecimensRes();
-       this.specimensRes.medical_supply_id = data.data.medical_supply_id;
-       this.approveSpecimensList.unshift(this.specimensRes);*/
     },
       error => {
         this.loading = false;
@@ -220,12 +220,7 @@ export class PopupAddSpecimensComponent implements OnInit {
   //test nha
   patientList: any[] = [];
   onsearch(event: any) {
-    // this.patientSerivce.getPatientPhoneNumber(this.specimen.receiver).subscribe(data => {
-    //   this.patients = data;
-    //   console.log(this.patients);
-    // })
     console.log(event.target.value)
-    //console.log(this.specimen.receiver)
     this.specimen.receiver = event.target.value;
     this.patientSerivce.getPatientByName(this.specimen.receiver, 1).subscribe(data => {
       const transformedMaterialList = data.data.map((item: any) => {
@@ -242,13 +237,17 @@ export class PopupAddSpecimensComponent implements OnInit {
       }
     )
   }
-  // selectPatient(patient: any) {
-  //   // Thiết lập giá trị của input và ID của bệnh nhân
-  //   this.specimen.receiver = patient.patient_name;
-  //   this.patientId = patient.patient_id;
-  //   // Xóa danh sách kết quả
-  //   this.patients = [];
-  // }
+  
+  listTreatment: any[] = []
+  clickPatient(patient:any) {
+    var pa = patient.split(' - ');
+    this.treatmentCourseService.getTreatmentCourse(pa[0]).subscribe((data) => {
+      this.listTreatment = data
+      console.log(this.listTreatment);
+      this.loading = false;
+    })
+  }
+
   private resetValidate() {
     this.validateSpecimens = {
       name: '',

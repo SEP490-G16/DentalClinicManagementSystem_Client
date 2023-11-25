@@ -44,7 +44,7 @@ export class PatientAppointmentTabComponent implements OnInit {
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
     this.currentDateTimestamp = this.dateToTimestamp2(currentDateGMT7);
     console.log("Hum nay: ", this.currentDateTimestamp);
-    this.endDateTimestamp = this.dateToTimestamp("2023-12-31");
+    this.endDateTimestamp = this.dateToTimestamp("2023-12-31 23:59:59");
     this.selectedAppointment = {} as ISelectedAppointment
   }
   ngOnInit(): void {
@@ -59,7 +59,6 @@ export class PatientAppointmentTabComponent implements OnInit {
   getAppointment() {
     this.APPOINTMENT_SERVICE.getAppointmentList(1696925134, this.endDateTimestamp).subscribe(data => {
       this.appointmentList = ConvertJson.processApiResponse(data);
-      console.log("Appointment List: ", this.appointmentList);
       this.patientAppointments = this.appointmentList.filter(appointment =>
         appointment.appointments.some(app =>
           app.details.some(detail =>
@@ -108,18 +107,42 @@ export class PatientAppointmentTabComponent implements OnInit {
     this.Patient.patient_name = this.patientAppointments[0].appointments[0].details[0].patient_name;
     this.Patient.phone_number = this.patientAppointments[0].appointments[0].details[0].phone_number;
   }
-  editAppointment(detail: any, dateTimestamp: any) {
-    this.dateString = this.convertTimestampToDateString(dateTimestamp);
-    this.timeString = this.timestampToGMT7String(detail.time);
-    console.log("DateString: ", this.dateString);
-    console.log("TimeString: ", this.timeString);
-    this.selectedAppointment = detail;
+
+  openEditModal(detail: any, dateTimestamp: any) {
+
+  }
+  editAppointment(appointment: any, dateTimestamp: any) {
+    console.log("DateTimestamp", dateTimestamp);
+    this.dateString = this.timestampToDate(dateTimestamp);
+    console.log("DateString", this.dateString);
+    console.log("Check appoin", appointment);
+    this.selectedAppointment = appointment;
+    this.timeString = this.timestampToTime(appointment.time);
+    console.log("Time, ", this.timeString);
   }
 
   deleteAppointment(detail: any, dateTimestamp: any) {
-
+    this.APPOINTMENT_SERVICE.deleteAppointment(dateTimestamp, detail.appointment_id).subscribe(response => {
+      console.log("Xóa thành công");
+      this.showSuccessToast('Xóa lịch hẹn thành công!');
+      window.location.reload();
+    }, error => {
+      this.showErrorToast("Lỗi khi cập nhật");
+      this.showErrorToast("Lỗi khi xóa");
+    });
   }
 
+  showSuccessToast(message: string) {
+    this.toastr.success(message, 'Thành công', {
+      timeOut: 3000, // Adjust the duration as needed
+    });
+  }
+
+  showErrorToast(message: string) {
+    this.toastr.error(message, 'Lỗi', {
+      timeOut: 3000, // Adjust the duration as needed
+    });
+  }
   //Convert Date
   dateToTimestamp(dateStr: string): number {
     const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng của chuỗi ngày
@@ -159,5 +182,25 @@ export class PatientAppointmentTabComponent implements OnInit {
 
   navigateHref(href: string) {
     this.commonService.navigateHref(href, this.id);
+  }
+
+  timestampToTime(timestamp: number): string {
+    const time = moment.unix(timestamp);
+    const timeStr = time.format('HH:mm');
+    return timeStr;
+  }
+
+  checkDate(date: any) {
+    const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
+    if (this.timestampToDate(date) < currentDateGMT7) {
+      return false;
+    }
+    return true;
+  }
+
+  timestampToDate(timestamp: number): string {
+    const date = moment.unix(timestamp);
+    const dateStr = date.format('YYYY-MM-DD');
+    return dateStr;
   }
 }
