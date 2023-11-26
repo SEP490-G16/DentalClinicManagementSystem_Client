@@ -27,10 +27,10 @@ body {
   text-align: center;
   margin: auto;
   justify-content: center;
-  font-style: italic;
   height: 6%;
   display: flex;
   align-items: center;
+  padding: 2%;
 }
 
 .examination-body-header label {
@@ -58,8 +58,7 @@ body {
   height: 5%;
   font-weight: 800;
   font-size: 18px;
-  font-style: italic;
-  color: rgb(248, 142, 142);
+  color: rgb(54, 25, 192);
 }
 
 .form-input {
@@ -90,6 +89,10 @@ body {
   text-align: center;
   width: 100%;
   margin-top: 5px;
+  padding: 10px;
+  color: #FFFFFF;
+  border-radius: 10px;
+  background-color: #664FC3;
 }
 
 .row2 {
@@ -156,7 +159,7 @@ body {
 
 
 
-/* 
+/*
 img {
   display: block;
   width: 100%;
@@ -763,7 +766,29 @@ textarea.form-control {
 .datalist-b-container.show {
   display: block;
 }
-
+ */
+.button-add {
+  background: #664FC3;
+  text-align: center;
+  cursor: pointer;
+  border: 0px solid white;
+  color: white;
+  font-weight: bold;
+  /*font-size: 24px;*/
+  outline: 0px;
+  padding: 10px 20px;
+  margin-bottom: 15px;
+  /* box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset; */
+}
+.btn-add-procedure{
+  float: right;
+}
+.header-title{
+  background-color: #9e92d1;
+}
+.button-add-img{
+float: right;
+}
 .popup-container {
   position: fixed;
   top: 0;
@@ -839,8 +864,8 @@ textarea.form-control {
   top:-200%;
   transform:translate(-50%,-50%) scale(0.5);
   transition: opacity 300ms ease-in-out,
-              top 1000ms ease-in-out,
-              transform 1000ms ease-in-out;
+  top 1000ms ease-in-out,
+  transform 1000ms ease-in-out;
 }
 .popup.active {
   opacity:1;
@@ -910,12 +935,12 @@ textarea.form-control {
 }
 .popup.active .dismiss-btn {
   transition: all 300ms ease-in-out 400ms;
-} */
-.button-add {
+}
+.btn-cancel:active,
+.btn-cancel {
   font-family: "Poppins", sans-serif;
-  background: #664FC3;
+  background-color: #838282;
   text-align: center;
-  cursor: pointer;
   border: 0px solid white;
   color: white;
   font-weight: bold;
@@ -923,14 +948,59 @@ textarea.form-control {
   outline: 0px;
   padding: 10px 20px;
   margin-bottom: 15px;
-  /* box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset; */
+  margin-right: 3px;
 }
-.btn-add-procedure{
+
+.btn-cancel:hover {
+  background-color: #6e6c6c;
+}
+.content-button{
+  display: flex;
+  justify-content: center;
+}
+.save-button{
+  background-color: #3260e1;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  display: block;
+}
+.delete-button {
+  background-color: red;
+  color: white;
+  border: none;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
   float: right;
 }
-.header-title{
-  background-color: #664FC3;
+.delete-button-container {
+  width: 100%;
+  text-align: right;
+  position: absolute;
+  top: 21%;
+  right: 0;
+  margin-top: -20px; /* Điều chỉnh khoảng cách nút xóa so với hình ảnh */
 }
-.button-add-img{
-float: right;
+.delete-button:hover {
+  background-color: darkred;
+}
+.delete-cell{
+  text-align: center;
+  vertical-align: middle;
+  display: flex;
+  justify-content: center;
+}
+.bi-check-circle{
+  color: #FFFFFF;
+}
+.save-img{
+  display: flex;
+  margin-top: 1%;
+  justify-content: end;
 }
