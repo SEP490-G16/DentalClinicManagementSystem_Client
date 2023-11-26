@@ -109,8 +109,7 @@ export class PopupAddExaminationComponent implements OnInit {
       facility_id: "",
       description: "",
       staff_id: "",
-      'x-ray-image': "",
-      'x-ray-image-des': "",
+      image: [] as ImageBody[],
       medicine: ""
     } as Examination;
 
@@ -405,6 +404,12 @@ export class PopupAddExaminationComponent implements OnInit {
   //   });
   // }
 
+  imageBody= {
+    base64: true,
+    image_data:'', 
+    description: ''
+  }
+
   postExamination() {
     const faci = sessionStorage.getItem('locale');
     if (faci != null) {
@@ -416,8 +421,20 @@ export class PopupAddExaminationComponent implements OnInit {
     if (this.recordsImage.length > 0) {
       this.recordsImage.forEach((item: any) => {
         if (item.typeImage != null) {
-          this.examination['x-ray-image'] += item.imageInsert + "|||";
-          this.examination['x-ray-image-des'] += item.description + "|||";
+          if (item.typeImage == 1) {
+            this.imageBody = {
+              base64: true,
+              image_data: item.imageInsert,
+              description: item.description
+            }
+          } else {
+            this.imageBody = {
+              base64: false,
+              image_data: item.imageInsert,
+              description: item.description
+            }
+          }
+          this.examination.image.push(this.imageBody);
         }
       })
     }
@@ -860,4 +877,10 @@ interface ProcedureOb {
   initPrice: string;
   price: string;
   checked: Boolean;
+}
+
+interface ImageBody {
+  base64: boolean,
+  image_data: string,
+  description: string,
 }

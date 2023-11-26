@@ -105,12 +105,10 @@ export class PopupEditExaminationComponent implements OnInit {
     this.examination = {
       treatment_course_id: "",
       diagnosis: "",
-      'x-ray-image': "",
       created_date: "",
       facility_id: "",
       description: "",
       staff_id: "",
-      'x-ray-image-des': "",
       medicine: ""
 
     } as Examination;
@@ -290,10 +288,8 @@ export class PopupEditExaminationComponent implements OnInit {
   }
 
   putExamination() {
-    //Put Examination
     console.log("Put Examination: ", this.examination);
     this.examination.staff_id = this.staff_id;
-    this.examination['x-ray-image'] = this.imageUrls.join(' ');
     this.tcDetailService.putExamination(this.examinationId, this.examination)
       .subscribe((res) => {
         this.toastr.success(res.message, 'Sửa lần khám thành công');
