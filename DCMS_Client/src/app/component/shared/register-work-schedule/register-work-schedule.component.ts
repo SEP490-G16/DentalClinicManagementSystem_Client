@@ -31,7 +31,7 @@ import * as moment from 'moment';
 import 'moment/locale/vi';
 import { ToastrService } from 'ngx-toastr';
 import { ReceptionistTimekeepingService } from 'src/app/service/ReceptionistService/receptionist-timekeeping.service';
-import { RegisterWorkScheduleRecord, RequestBodyTimekeeping, StaffRegisterWorkSchedule, TimekeepingDetail, TimekeepingRecord } from 'src/app/model/ITimekeeping';
+import { RegisterWorkSchedule, RequestBodyTimekeeping, StaffRegisterWorkSchedule } from 'src/app/model/ITimekeeping';
 import { Router } from "@angular/router";
 import { CognitoService } from 'src/app/service/cognito.service';
 
@@ -91,7 +91,42 @@ export class RegisterWorkScheduleComponent implements OnInit {
   ];
 
   refresh = new Subject<void>();
-
+  events: CalendarEvent[] = [
+    {
+      start: subDays(startOfDay(new Date()), 1),
+      end: addDays(new Date(), 1),
+      title: 'A 3 day event',
+      actions: this.actions,
+      allDay: true,
+      resizable: {
+        beforeStart: true,
+        afterEnd: true,
+      },
+      draggable: true,
+    },
+    {
+      start: startOfDay(new Date()),
+      title: 'An event with no end date',
+      actions: this.actions,
+    },
+    {
+      start: subDays(endOfMonth(new Date()), 3),
+      end: addDays(endOfMonth(new Date()), 3),
+      title: 'A long event that spans 2 months',
+      allDay: true,
+    },
+    {
+      start: addHours(startOfDay(new Date()), 2),
+      end: addHours(new Date(), 2),
+      title: 'A draggable and resizable event',
+      actions: this.actions,
+      resizable: {
+        beforeStart: true,
+        afterEnd: true,
+      },
+      draggable: true,
+    },
+  ];
   worksRegister: CalendarEvent[] = [
     {
       start: subDays(startOfDay(new Date()), 1),
@@ -159,6 +194,20 @@ export class RegisterWorkScheduleComponent implements OnInit {
     if (event && event.color) {
       event.color.secondaryText = this.tempSecondaryText;
       this.refresh.next();
+    }
+  }
+
+  isdayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+    if (isSameMonth(date, this.viewDate)) {
+      if (
+        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
+        events.length === 0
+      ) {
+        this.activeDayIsOpen = false;
+      } else {
+        this.activeDayIsOpen = true;
+      }
+      this.viewDate = date;
     }
   }
 
@@ -408,7 +457,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
     //   console.log(this.roleId);
     // }
     this.getStaffs();
-    this.getTimekeeping();
+    this.getRegisterWorkSchedule();
   }
 
   getStaffs() {
@@ -418,7 +467,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
           let newStaff: StaffRegisterWorkSchedule = {
             name: '',
             role: '',
-            sub: '',
+            subId: '',
             staff_avt: '',
             locale: '',
             clock_in: 0,
@@ -432,7 +481,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
           StaffMember.Attributes.forEach((attribute: any) => {
             switch (attribute.Name) {
               case 'sub':
-                newStaff.sub = attribute.Value;
+                newStaff.subId = attribute.Value;
                 break;
               case 'locale':
                 newStaff.locale = attribute.Value;
@@ -456,29 +505,51 @@ export class RegisterWorkScheduleComponent implements OnInit {
       )
   }
 
-  getTimekeeping() {
+  getRegisterWorkSchedule() {
     console.log("Thứ 2: ", this.timestampToGMT7Date(this.startTime));
     console.log("Chủ nhật: ", this.timestampToGMT7Date(this.endTime));
     this.timekeepingService.getTimekeeping(this.startTime, this.endTime)
       .subscribe(data => {
-        this.registerOnWeeks = data;
+        this.registerOnWeeks = this.organizeData(data);
         console.log("Api: ", data);
-        this.registerOnWeeks = this.organizeData(this.registerOnWeeks);
         console.log("RegisterOnWeeks: ", this.registerOnWeeks);
 
+        let recordsMap = new Map();
+        this.registerOnWeeks.forEach((registerWorkSchedule: any) => {
+          registerWorkSchedule.records.forEach((record: any) => {
+            if (!recordsMap.has(record.subId)) {
+              recordsMap.set(record.subId, []);
+            }
+            recordsMap.get(record.subId).push(record);
+          });
+        });
+
+        console.log(recordsMap);
+
+        console.log("Staff có undefined hay ko?: ", this.Staff);
         this.Staff.forEach(staff => {
           staff.registerSchedules = {};
 
           this.weekTimestamps.forEach(weekTimestamp => {
             staff.registerSchedules[weekTimestamp] = { startTime: '', endTime: '' };
 
-            this.registerOnWeeks.forEach((register: any) => {
-              let records = register.records.find((r: any) => r.subId === staff.sub);
-              if (register.records && register.records.length > 0) {
-                staff.registerSchedules[weekTimestamp].startTime = this.timestampToGMT7String(records.register_clock_in) || '';
-                staff.registerSchedules[weekTimestamp].endTime = this.timestampToGMT7String(records.register_clock_out) || '';
-              }
-            });
+            let Staff_RegisterWorkRecords = recordsMap.get(staff.subId);
+            if (Staff_RegisterWorkRecords) {
+              Staff_RegisterWorkRecords.forEach((record: any) => {
+                if (record.epoch === weekTimestamp.toString()) {
+                  staff.clock_in = (record.clock_in !== undefined) ? record.clock_in : 0;
+                  staff.clock_out = (record.clock_out !== undefined) ? record.clock_out : 0;
+                  staff.registerSchedules[weekTimestamp].startTime =
+                    (record.register_clock_in !== undefined && record.register_clock_in !== '0')
+                      ? this.timestampToGMT7String(record.register_clock_in)
+                      : '';
+                  staff.registerSchedules[weekTimestamp].endTime =
+                    (record.register_clock_out !== undefined && record.register_clock_out !== '0')
+                      ? this.timestampToGMT7String(record.register_clock_out)
+                      : '';
+                }
+              });
+            }
           });
         });
         console.log("Staff Work Register: ", this.Staff);
@@ -489,27 +560,31 @@ export class RegisterWorkScheduleComponent implements OnInit {
       )
   }
 
+
   //Tổ chức mảng:
-  organizeData(data: any[]): RegisterWorkScheduleRecord[] {
-    return data.map((item): RegisterWorkScheduleRecord => {
-      const timekeepingEntry: RegisterWorkScheduleRecord = {
+  organizeData(data: any[]): RegisterWorkSchedule[] {
+    return data.map((item) => {
+      const registerEntry: RegisterWorkSchedule = {
         epoch: item.epoch?.N,
         type: item.type?.S,
         records: []
       };
 
-      Object.keys(item).forEach((key: string) => {
-        timekeepingEntry.records.push({
-          subId: key,
-          clock_in: item[key]?.M?.clock_in?.N,
-          clock_out: item[key]?.M?.clock_out?.N,
-          register_clock_in: item[key]?.M?.register_clock_in?.N,
-          register_clock_out: item[key]?.M?.register_clock_out?.N,
-          staff_name: item[key]?.M?.staff_name?.S,
-        });
+      Object.keys(item).forEach((key) => {
+        if (key !== 'type') {
+          registerEntry.records.push({
+            epoch: item.epoch?.N,
+            subId: key,
+            clock_in: item[key]?.M?.clock_in?.N,
+            clock_out: item[key]?.M?.clock_out?.N,
+            register_clock_in: item[key]?.M?.register_clock_in?.N,
+            register_clock_out: item[key]?.M?.register_clock_out?.N,
+            staff_name: item[key]?.M?.staff_name?.S,
+          });
+        }
       });
 
-      return timekeepingEntry;
+      return registerEntry;
     });
   }
 

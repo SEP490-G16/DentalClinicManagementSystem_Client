@@ -53,7 +53,7 @@ export interface StaffTimekeeping {
 export interface StaffRegisterWorkSchedule {
   name: string,
   role: string,
-  sub: string,
+  subId: string,
   staff_avt: string,
   locale:string,
   clock_in: number,
@@ -64,17 +64,18 @@ export interface StaffRegisterWorkSchedule {
 }
 
 
-export interface RegisterWorkScheduleRecord {
+export interface RegisterWorkSchedule {
   epoch: string;
   type?: string;
-  records: RegisterWorkScheduleSubRecord[];
+  records: RegisterWorkScheduleRecord[];
 }
 
-export interface RegisterWorkScheduleSubRecord {
+export interface RegisterWorkScheduleRecord {
   subId: string;
   clock_in?: string;
   clock_out?: string;
-  register_clock_in?: string,
-  register_clock_out?: string,
+  register_clock_in?: string;
+  register_clock_out?: string;
   staff_name?: string;
+  epoch: string;
 }
