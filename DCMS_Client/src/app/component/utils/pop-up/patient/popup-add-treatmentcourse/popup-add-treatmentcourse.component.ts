@@ -35,7 +35,8 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     groupId:'',
     groupName: '',
     checked: true,
-    procedure: [] as ProcedureOb[]
+    procedure: [] as ProcedureOb[], 
+    isExpand: false,
   }
   ProcedureDetailListCheck: any[] = [];
   UniqueList: string[] = [];
@@ -66,8 +67,9 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
             procedureId: currentO.mp_id,
             procedureName: currentO.mp_name,
             initPrice: currentO.mp_price,
-            price: '',
-            checked: false
+            price: currentO.mp_price,
+            checked: false, 
+            isExpand: false,
           };
           this.groupProcedureO.groupId = currentO.mg_id;
           this.groupProcedureO.groupName = currentO.mg_name;
@@ -78,14 +80,16 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
             groupId: '',
             groupName: '',
             checked: true,
-            procedure: []
+            procedure: [], 
+            isExpand: false
           }
           proObject = {
             procedureId: '',
             procedureName: '',
             initPrice: '',
             price: '',
-            checked: true
+            checked: true, 
+            isExpand: false
           };
         } else {
           this.list.forEach((item: any) => {
@@ -94,8 +98,9 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
                 procedureId: currentO.mp_id,
                 procedureName: currentO.mp_name,
                 initPrice: currentO.mp_price,
-                price: '',
-                checked: false
+                price: currentO.mp_price,
+                checked: false,
+                isExpand: false,
               };
               item.procedure.push(proObject);
               proObject = {
@@ -103,7 +108,8 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
                 procedureName: currentO.mp_name,
                 initPrice: currentO.mp_price,
                 price: '',
-                checked: false
+                checked: false, 
+                isExpand: false
               };
             }
           })
@@ -129,20 +135,26 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     })
   }
 
+  checkListImport: string[] = [];
   checkProcedureUse(it:any) {
     this.list.forEach((item:any) => {
       item.procedure.forEach((pro:any) => {
         if (pro.procedureId == it.procedureId) {
           pro.checked = !it.checked;
-          console.log(it);
+          this.Post_Procedure_Material_Usage.forEach((item:any) => {
+            if (item.medical_procedure_id == it.procedureId) {
+              item.price = it.price;
+            }
+          })
         }
-        if (pro.checked == true) {
+        if (pro.checked == true && !this.checkListImport.includes(it.procedureId)) {
+          this.checkListImport.push(it.procedureId);
           let materialUsage = {
             medical_procedure_id: it.procedureId,
             treatment_course_id: '',
             quantity: '1',
-            price: it.initPrice,
-            total_paid: it.price,
+            price: it.price,
+            total_paid: '',
             description: ''
           }
           this.Post_Procedure_Material_Usage.push(materialUsage);
@@ -156,6 +168,15 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
           }
         }
       })
+    })
+  }
+
+  changePrice(gro:any, event:any) {
+    this.Post_Procedure_Material_Usage.forEach((item:any) => {
+      if (item.medical_procedure_id == gro.procedureId) {
+        item.price = event.target.value;
+        console.log(item.price);
+      }
     })
   }
 
@@ -239,13 +260,14 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
   // }
 
 
-
+  treatmentCourseId: any;
   postTreatmentCourse() {
     this.Post_TreatmentCourse.patient_id = this.Patient_Id;
     this.Post_TreatmentCourse.name = this.TreatmentCouseBody.name;
     this.Post_TreatmentCourse.chief_complaint = this.TreatmentCouseBody.lydo;
     this.Post_TreatmentCourse.differential_diagnosis = this.TreatmentCouseBody.nguyennhan;
     this.Post_TreatmentCourse.provisional_diagnosis = this.TreatmentCouseBody.chuandoan;
+    console.log(this.Post_Procedure_Material_Usage);
     this.treatmentCourseService.postTreatmentCourse(this.Post_TreatmentCourse).
       subscribe((res) => {
         console.log(res);
@@ -253,16 +275,17 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
         if (this.Post_Procedure_Material_Usage.length > 0) {
           this.Post_Procedure_Material_Usage.forEach((item) => {
             item.treatment_course_id = res.treatment_course_id;
+            this.treatmentCourseId = res.treatment_course_id;
             this.procedureMaterialService.postProcedureMaterialUsage(item)
               .subscribe((res) => {
-                  console.log("oki");
-                  this.toastr.success("Thêm Thủ thuật thành công");
-                  this.router.navigate(['/benhnhan/danhsach/tab/lichtrinhdieutri/' + this.Patient_Id + '/themlankham/' + res.treatment_course_id]);
+                console.log("oki");
+                this.toastr.success("Thêm Thủ thuật thành công");
+                this.router.navigate(['/benhnhan/danhsach/tab/lichtrinhdieutri/' + this.Patient_Id + '/themlankham/' + this.treatmentCourseId]);
               }, (err) => {
                 this.toastr.error(err.error.message, "Thêm Thủ thuật thất bại");
-              });
-          });
-        }
+              })
+          })
+      }
       },
         (error) => {
           ResponseHandler.HANDLE_HTTP_STATUS(this.treatmentCourseService.apiUrl + "/treatment-course", error);
@@ -275,8 +298,12 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     this.Post_Procedure_Material_Usage = []
   }
   isExpand:boolean = false;
-  toggleExpand(){
-    this.isExpand = !this.isExpand;
+  toggleExpand(check:any){
+    this.list.forEach((item:any) => {
+       if (item.groupId == check.groupId) {
+        item.isExpand = !check.isExpand;
+       }
+    })
   }
 }
 

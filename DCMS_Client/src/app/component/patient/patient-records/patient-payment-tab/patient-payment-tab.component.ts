@@ -56,7 +56,7 @@ export class PatientPaymentTabComponent implements OnInit {
 
 
   getMaterialUsageReport(startDATE: number, endDATE: number) {
-    this.materialUsageService.getMaterialUsageReport(startDATE, endDATE)
+    this.materialUsageService.getMaterialUsageReport(this.Patient_Id)
       .subscribe((res: any) => {
         console.log("Data: ", res.data);
         this.Material_Usage_Report

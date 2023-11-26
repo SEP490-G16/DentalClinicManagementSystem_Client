@@ -77,9 +77,7 @@
                       <span> {{a.groupName}}</span>
                     </div>
                   </div>
-
                 </div>
-
               </div>
             </div>
           </div>
@@ -106,17 +104,17 @@
                 <ng-container *ngFor="let pro of list">
                   <ng-container *ngIf="pro.checked == true">
 <!--                    <ng-container *ngFor="let gro of pro.procedure">-->
-                      <tr (click)="toggleExpand()">
+                      <tr (click)="toggleExpand(pro)">
                         <td style="padding: 10px">
                           <i class="bi"
                              [ngClass]="{'bi-chevron-double-right': !isExpand, 'bi-chevron-double-down': isExpand}"></i>
                         </td>
                         <td style="padding: 10px">{{pro.groupName}}</td>
-                        <td style="padding: 10px"><input type="checkbox" style="margin-right: 3px" (click)="checkProcedureUse(pro.procedure[0])"/>{{pro.procedure[0].procedureName}}</td>
-                        <td style="padding: 10px">{{pro.procedure[0].initPrice}}</td>
-                        <td style="padding: 10px"><input type="text" [(ngModel)]="pro.procedure[0].price"></td>
+                        <td style="padding: 10px"></td>
+                        <td style="padding: 10px"></td>
+                        <td style="padding: 10px"></td>
                       </tr>
-                      <tr *ngIf="isExpand">
+                      <tr *ngIf="pro.isExpand">
                         <td colspan="5">
                           <table>
                             <colgroup>
@@ -129,10 +127,12 @@
                             <tr *ngFor="let gro of pro.procedure">
                               <td style="padding: 10px"></td>
                               <td style="padding: 10px"></td>
-                              <td style="padding: 10px"><input type="checkbox" style="margin-right: 3px" (click)="checkProcedureUse(pro)"/>{{gro.procedureName}}</td>
+                              <td style="padding: 10px"><input type="checkbox" style="margin-right: 3px" (click)="checkProcedureUse(gro)"/>{{gro.procedureName}}</td>
                               <td style="padding: 10px"> {{gro.initPrice}}</td>
-                              <td style="padding: 10px"><input type="text" [(ngModel)]="pro.price"></td>
-
+                              <ng-container *ngIf="gro.checked">
+                                <td style="padding: 10px"><input type="text" [(ngModel)]="gro.price" (input)="changePrice(gro, $event)"></td>
+                              </ng-container>
+                              
                             </tr>
                           </table>
                         </td>
