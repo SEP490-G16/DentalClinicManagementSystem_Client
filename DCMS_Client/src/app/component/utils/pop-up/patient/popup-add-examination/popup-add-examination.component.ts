@@ -422,9 +422,10 @@ export class PopupAddExaminationComponent implements OnInit {
       this.recordsImage.forEach((item: any) => {
         if (item.typeImage != null) {
           if (item.typeImage == 1) {
+            let img = item.imageInsert.split('base64,');
             this.imageBody = {
               base64: true,
-              image_data: item.imageInsert,
+              image_data: img[1],
               description: item.description
             }
           } else {

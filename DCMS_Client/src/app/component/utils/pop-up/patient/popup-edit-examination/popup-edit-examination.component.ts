@@ -123,6 +123,7 @@ export class PopupEditExaminationComponent implements OnInit {
   currentDate: any;
   listTreatmentCourse: any[] = [];
   orderer: any = "";
+  examinationId: any = "";
 
   ngOnInit(): void {
     this.patient_Id = this.route.snapshot.params['id'];
@@ -131,15 +132,12 @@ export class PopupEditExaminationComponent implements OnInit {
       this.orderer = user;
     }
     this.treatmentCourse_Id = this.route.snapshot.params['tcId'];
-
+    this.examinationId = this.route.snapshot.params['examinationId'];
     const id = sessionStorage.getItem('sub-id');
     if (id != null) {
       this.staff_id = id;
     }
-    // this.getTreatmentCourse();
-    // this.getMedicalProcedureGroup();
-    // this.getMedicalProcedureGroupDetail();
-    // this.getMaterialWarehouse();
+    this.getExaminationById();
     this.getLabos();
     this.getMaterialList();
     this.getListStaff();
@@ -150,7 +148,17 @@ export class PopupEditExaminationComponent implements OnInit {
       .subscribe((res) => {
         this.listTreatmentCourse = res;
       })
+  }
 
+  getExaminationById() {
+    this.tcDetailService.getExamination(this.examinationId).subscribe((data) => {
+      console.log("data: ", data);
+      this.examination = data.data[0];
+    },
+      (error) => {
+        //this.toastr.error(err.error.message, 'Lỗi khi lấy dữ liệu lần khám');
+        ResponseHandler.HANDLE_HTTP_STATUS(this.tcDetailService.apiUrl + "/examination/" + this.examinationId, error);
+      })
   }
 
   staff = {
