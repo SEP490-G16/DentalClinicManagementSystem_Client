@@ -53,7 +53,6 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
     this.waitingRoomService.getWaitingRooms().subscribe(
       data => {
         this.waitingRoomData = data;
-        console.log(data)
         this.waitingRoomData.forEach((i: any) => {
           i.date = this.timestampToTime(i.epoch)
         });
@@ -66,7 +65,6 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
         this.listPatientId = this.waitingRoomData.map((item: any) => item.patient_id);
         localStorage.setItem('listPatientId', JSON.stringify(this.listPatientId));
         this.filteredWaitingRoomData = [...this.waitingRoomData]; // Update the filtered list as well
-        console.log(this.filteredWaitingRoomData)
       },
       (error) => {
         this.loading = false;
@@ -115,10 +113,8 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
       if (index != -1) {
         this.filteredWaitingRoomData.splice(index, 1);
       }
-      console.log("Waiting", localStorage.getItem('listPatientId'))
       this.listTemp = this.filteredWaitingRoomData;
       localStorage.setItem('listPatientId', JSON.stringify(this.listTemp));
-      console.log("Waiting", localStorage.getItem('listPatientId'))
       this.waitingRoomService.deleteWaitingRooms(this.PUT_WAITINGROOM)
         .subscribe((data) => {
           this.loading = false;

@@ -1,12 +1,14 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnInit, Renderer2, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IPostWaitingRoom } from 'src/app/model/IWaitingRoom';
 import { PatientService } from 'src/app/service/PatientService/patient.service';
-
+import { PopupAddPatientComponent } from 'src/app/component/utils/pop-up/patient/popup-add-patient/popup-add-patient.component';
 import * as moment from 'moment-timezone';
 import { ReceptionistWaitingRoomService } from 'src/app/service/ReceptionistService/receptionist-waitingroom.service';
 import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureService/medical-procedure-group.service';
+import { add } from 'date-fns';
+import { ResponseHandler } from 'src/app/component/utils/libs/ResponseHandler';
 @Component({
   selector: 'app-add-waiting-room',
   templateUrl: './add-waiting-room.component.html',
@@ -15,9 +17,38 @@ import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureSe
 export class AddWaitingRoomComponent implements OnInit {
   patientList: any[] = [];
   patientInfor: any;
-  isAdd:boolean = false;
+  isAdd: boolean = false;
   POST_WAITTINGROOM: IPostWaitingRoom;
   name_suggest: string = '';
+  patient1: any = {
+    patientName: '',
+    Email: '',
+    Gender: 1,
+    phone_Number: '',
+    Address: '',
+    full_medical_History: '',
+    dental_medical_History: '',
+    dob: ''
+  }
+  patientBody: any = {
+    patient_name: '',
+    email: '',
+    gender: '',
+    phone_number: '',
+    address: '',
+    full_medical_history: '',
+    dental_medical_history: '',
+    date_of_birth: '',
+    description: ''
+  }
+  validatePatient = {
+    name: '',
+    gender: '',
+    phone: '',
+    address: '',
+    dob: '',
+    email: ''
+  }
   constructor(
     private WaitingRoomService: ReceptionistWaitingRoomService,
     private PATIENT_SERVICE: PatientService,
@@ -48,6 +79,7 @@ export class AddWaitingRoomComponent implements OnInit {
   listGroupService: any[] = [];
   isSubmitted: boolean = false;
   ngOnInit(): void {
+
     this.getListGroupService();
     const patientData = localStorage.getItem("patient");
     if (patientData === null) {
@@ -57,7 +89,6 @@ export class AddWaitingRoomComponent implements OnInit {
       this.name_suggest = dataOfLocale.patient_name;
     }
   }
-
   onProcedureChange(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     const selectedValue = selectElement.value;
@@ -72,7 +103,10 @@ export class AddWaitingRoomComponent implements OnInit {
       this.POST_WAITTINGROOM.produce_name = selectedProcedure.name;
     }
   }
-
+  checkCancel() {
+    console.log("click")
+    this.isAdd = false;
+  }
   getListGroupService() {
     this.medicaoProcedureGroupService.getMedicalProcedureGroupList().subscribe((res: any) => {
       this.listGroupService = res.data;
@@ -112,7 +146,6 @@ export class AddWaitingRoomComponent implements OnInit {
       this.showErrorToast('Bệnh nhân đã tồn tại trong phòng chờ!');
       return;
     }
-    console.log("Hehe: ", this.POST_WAITTINGROOM);
     this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
       .subscribe((data) => {
         this.showSuccessToast("Thêm phòng chờ thành công!!");
@@ -123,6 +156,63 @@ export class AddWaitingRoomComponent implements OnInit {
         }
       );
 
+  }
+
+  addPatient() {
+    console.log(this.patient1.gender);
+    this.resetValidate();
+    if (!this.patient1.patientName) {
+      this.validatePatient.name = "Vui lòng nhập tên bệnh nhân!";
+      this.isSubmitted = true;
+    }
+    if (this.patient1.Email && !this.isValidEmail(this.patient1.Email)) {
+      this.validatePatient.email = "Email không hợp lệ!";
+      this.isSubmitted = true;
+    }
+    if (!this.patient1.Gender) {
+      this.validatePatient.gender = "Vui lòng chọn giới tính!";
+      this.isSubmitted = true;
+    }
+    if (!this.patient1.phone_Number) {
+      this.validatePatient.phone = "Vui lòng nhập số điện thoại!";
+      this.isSubmitted = true;
+    }
+    else if (!this.isVietnamesePhoneNumber(this.patient1.phone_Number)) {
+      this.validatePatient.phone = "Số điện thoại không hợp lệ!";
+      this.isSubmitted = true;
+    }
+    if (!this.patient1.dob) {
+      this.validatePatient.dob = "Vui lòng nhập ngày sinh!";
+      this.isSubmitted = true;
+    }
+    if (!this.patient1.Address) {
+      this.validatePatient.address = "Vui lòng nhập địa chỉ!";
+      this.isSubmitted = true;
+    }
+    if (this.isSubmitted) {
+      return;
+    }
+    this.patientBody = {
+      patient_id: null,
+      patient_name: this.patient1.patientName,
+      email: this.patient1.Email,
+      gender: this.patient1.Gender,
+      phone_number: this.patient1.phone_Number,
+      address: this.patient1.Address,
+      full_medical_history: this.patient1.full_medical_History,
+      dental_medical_history: this.patient1.dental_medical_History,
+      date_of_birth: this.patient1.dob
+    }
+    this.PATIENT_SERVICE.addPatient(this.patientBody).subscribe((data: any) => {
+      this.toastr.success('Thêm mới bệnh nhân thành công!');
+      let ref = document.getElementById('cancel-patient');
+      ref?.click();
+      this.patientBody.phone_number = this.normalizePhoneNumber(this.patientBody.phone_number);
+      this.patient1 = [];
+      this.onsearchPatientInWaitingRoom(this.patientBody.patient_name);
+    }, error => {
+      ResponseHandler.HANDLE_HTTP_STATUS(this.PATIENT_SERVICE.test + "/patient", error);
+    })
   }
   onsearchPatientInWaitingRoom(event: any) {
     this.PATIENT_SERVICE.getPatientByName(event.target.value, 1).subscribe(data => {
@@ -180,10 +270,22 @@ export class AddWaitingRoomComponent implements OnInit {
     return /^(\+84|84|0)?[1-9]\d{8}$/
       .test(number);
   }
-  toggleAdd(){
+  private isValidEmail(email: string): boolean {
+    // Thực hiện kiểm tra địa chỉ email ở đây, có thể sử dụng biểu thức chính quy
+    return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email);
+  }
+  toggleAdd() {
     this.isAdd = true;
   }
-  toggleCancel(){
+  toggleCancel() {
     this.isAdd = false;
+  }
+  normalizePhoneNumber(phoneNumber: string): string {
+    if (phoneNumber.startsWith('(+84)')) {
+      return '0' + phoneNumber.slice(5);
+    } else if (phoneNumber.startsWith('+84')) {
+      return '0' + phoneNumber.slice(3);
+    } else
+      return phoneNumber;
   }
 }
