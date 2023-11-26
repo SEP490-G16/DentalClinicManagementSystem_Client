@@ -200,7 +200,7 @@ button:active{
 
 /* Header styles */
 .sticky-thead th {
-  background-color: #7B4C50; /* Green background for headers */
+  background-color: #664FC3; /* Green background for headers */
   color: white; /* White text for headers */
   position: sticky;
   top: 0;

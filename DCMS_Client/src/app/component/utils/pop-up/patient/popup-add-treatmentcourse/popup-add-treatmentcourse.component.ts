@@ -26,13 +26,13 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
 
 
   TreatmentCouseBody = {
-    name: '', 
-    lydo: '', 
-    chuandoan: '', 
+    name: '',
+    lydo: '',
+    chuandoan: '',
     nguyennhan: '',
   }
   groupProcedureO = {
-    groupId:'', 
+    groupId:'',
     groupName: '',
     checked: true,
     procedure: [] as ProcedureOb[]
@@ -154,7 +154,7 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
             total_paid: '',
             description: ''
           }
-        } 
+        }
       })
     })
   }
@@ -274,6 +274,10 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     this.Post_TreatmentCourse = {}
     this.Post_Procedure_Material_Usage = []
   }
+  isExpand:boolean = false;
+  toggleExpand(){
+    this.isExpand = !this.isExpand;
+  }
 }
 
 interface IBodyProcedureMaterialUsage {
@@ -288,16 +292,16 @@ interface IBodyProcedureMaterialUsage {
 interface IBodyTreatmentCourse {
   patient_id: string,
   name: string,
-  description: string, 
+  description: string,
   chief_complaint: string;
   provisional_diagnosis: string;
   differential_diagnosis: string;
 }
 
 interface ProcedureOb {
-  procedureId: string; 
+  procedureId: string;
   procedureName: string;
-  initPrice: string; 
+  initPrice: string;
   price: string;
   checked: Boolean;
 }

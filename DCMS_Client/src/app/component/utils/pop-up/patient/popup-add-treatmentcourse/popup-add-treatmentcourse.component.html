@@ -77,9 +77,9 @@
                       <span> {{a.groupName}}</span>
                     </div>
                   </div>
-          
+
                 </div>
-                
+
               </div>
             </div>
           </div>
@@ -89,22 +89,55 @@
           <div class="col-12">
             <div class="mb-3">
               <table>
+                <colgroup>
+                  <col style="width: 2%">
+                  <col style="width: 5%">
+                  <col style="width: 5%">
+                  <col style="width: 5%">
+                  <col style="width: 5%">
+                </colgroup>
                 <tr>
-                  <th>Nhóm thủ thuật</th>
-                  <th>Thủ thuật</th>
-                  <th>Giá tiền</th>
-                  <th>Thành tiền</th>
+                  <th style="padding: 10px"></th>
+                  <th style="padding: 10px">Nhóm thủ thuật</th>
+                  <th style="padding: 10px">Thủ thuật</th>
+                  <th style="padding: 10px">Giá tiền</th>
+                  <th style="padding: 10px">Thành tiền</th>
                 </tr>
                 <ng-container *ngFor="let pro of list">
                   <ng-container *ngIf="pro.checked == true">
-                    <ng-container *ngFor="let gro of pro.procedure">
-                      <tr>
-                        <td>{{pro.groupName}}</td>
-                        <td><input type="checkbox" (click)="checkProcedureUse(gro)"/>{{gro.procedureName}}</td>
-                        <td>{{gro.initPrice}}</td>
-                        <td><input type="text" [(ngModel)]="gro.price"></td>
+<!--                    <ng-container *ngFor="let gro of pro.procedure">-->
+                      <tr (click)="toggleExpand()">
+                        <td style="padding: 10px">
+                          <i class="bi"
+                             [ngClass]="{'bi-chevron-double-right': !isExpand, 'bi-chevron-double-down': isExpand}"></i>
+                        </td>
+                        <td style="padding: 10px">{{pro.groupName}}</td>
+                        <td style="padding: 10px"><input type="checkbox" style="margin-right: 3px" (click)="checkProcedureUse(pro.procedure[0])"/>{{pro.procedure[0].procedureName}}</td>
+                        <td style="padding: 10px">{{pro.procedure[0].initPrice}}</td>
+                        <td style="padding: 10px"><input type="text" [(ngModel)]="pro.procedure[0].price"></td>
                       </tr>
-                    </ng-container>
+                      <tr *ngIf="isExpand">
+                        <td colspan="5">
+                          <table>
+                            <colgroup>
+                              <col style="width: 2%">
+                              <col style="width: 5%">
+                              <col style="width: 5%">
+                              <col style="width: 5%">
+                              <col style="width: 5%">
+                            </colgroup>
+                            <tr *ngFor="let gro of pro.procedure">
+                              <td style="padding: 10px"></td>
+                              <td style="padding: 10px"></td>
+                              <td style="padding: 10px"><input type="checkbox" style="margin-right: 3px" (click)="checkProcedureUse(pro)"/>{{gro.procedureName}}</td>
+                              <td style="padding: 10px"> {{gro.initPrice}}</td>
+                              <td style="padding: 10px"><input type="text" [(ngModel)]="pro.price"></td>
+
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+<!--                    </ng-container>-->
                   </ng-container>
                 </ng-container>
               </table>

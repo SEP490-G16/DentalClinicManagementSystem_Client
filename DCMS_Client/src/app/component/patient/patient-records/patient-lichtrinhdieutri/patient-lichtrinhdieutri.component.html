@@ -28,10 +28,10 @@
       </div>
     </div>
     <div class="tab-pane show active" id="TTCtab">
-      <div class="row" style="padding-top: 10px; padding-right: 80px;">
-        <div class="col-12">
-          <button class="btn button-add float-end" data-bs-toggle="modal" data-bs-target="#AddTreatmentModal"> <i
-              class="bi bi-plus-circle-fill"></i> Thêm lịệu trình</button>
+      <div class="row" style="padding: 0px 80px 50px;">
+        <div class="col-12 mt-4">
+          <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#AddTreatmentModal"> <i
+              class="bi bi-plus-circle-fill"></i> Thêm liệu trình</button>
         </div>
       </div>
 
@@ -39,7 +39,7 @@
         <div class="col-md-12" id="accordion">
           <ng-container *ngIf="ITreatmentCourse.length > 0; else noTreatmentCourse">
             <div class="card" *ngFor="let course of ITreatmentCourse; let i = index">
-              <div class="card-header" style="background-color: #7B4C50; color: aliceblue; cursor: pointer;"
+              <div class="card-header"
                 (click)="toggleCollapse(course.treatment_course_id);">
                 <div class="row">
                   <div class="col">
