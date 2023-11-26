@@ -70,9 +70,14 @@
             </div>
             <ng-container *ngFor="let record of recordsImage; let i = index">
               <div class="col-md-3 custom-input-container">
-                <div>
+                <div style="position: relative">
                   <label for="diagnosis">Hình ảnh:</label>
                   <img [src]="record.imageInsert" alt="Hình ảnh mặc định" style="height: 80%; border: 1px solid black">
+                  <div class="delete-button-container" *ngIf="!isAddImage">
+                    <button class="delete-button" (click)="deleteRecordImage(i)">
+                      x
+                    </button>
+                  </div>
                 </div>
                 <div>
                   <button class="btn-image" data-bs-toggle="modal" data-bs-target="#exampleModal"
@@ -83,11 +88,17 @@
                 <label for="image">Chẩn đoán hình ảnh:</label>
                 <textarea id="image" rows="3" [(ngModel)]="record.description"></textarea>
               </div>
-              <button class="save-button" *ngIf="isAddImage" style="margin-right: 3px"><i class="bi bi-check-circle"
-                  (click)="toggleAddImage()"></i></button>
-              <button class="delete-button" (click)="deleteRecordImage(i)">
-                x
-              </button>
+              <div class="save-img" *ngIf="isAddImage">
+                <div class="save">
+                  <button class="btn button-add" *ngIf="isAddImage" (click)="toggleAddImage()" style="margin-right: 3px"><i class="bi bi-check-circle"
+                  > Lưu ảnh</i></button>
+                </div>
+                <div class="cancel">
+                  <button type="button"  class="btn btn-cancel" (click)="deleteRecordImage(i)" >Hủy</button>
+                </div>
+              </div>
+
+
             </ng-container>
           </div>
 
@@ -151,11 +162,17 @@
                       <p *ngIf="!isAdd">{{record.total_paid}}</p>
                     </td>
                     <td>
-                      <button class="save-button" *ngIf="isAdd" style="margin-right: 3px"><i class="bi bi-check-circle"
+                      <div class="delete-cell">
+                        <div>
+                          <button class="save-button" *ngIf="isAdd" style="margin-right: 3px"><i class="bi bi-check-circle"
                           (click)="toggleAdd()"></i></button>
-                      <button class="delete-button" (click)="deleteRecord(i)">
-                        x
-                      </button>
+                        </div>
+                        <div>
+                          <button class="delete-button" (click)="deleteRecord(i)">
+                            x
+                          </button>
+                        </div>
+                      </div>
                     </td>
                   </tr>
                 </ng-container>
@@ -168,31 +185,31 @@
             <label> Đặt mẫu </label>
           </div>
           <div class="btn-add-procedure">
-            <button class="btn btn-custom" (click)="toggleAddSpecime()" *ngIf="!isAddSpeci"><i
+            <button class="btn  button-add" (click)="toggleAddSpecime()" *ngIf="!isAddSpeci"><i
                 class="bi bi-plus-circle"></i>Thêm
               mới</button>
           </div>
           <div style="margin-top: 2%; margin-bottom:2%">
             <table class="table-bordered">
-              <thead>
+              <thead class="header-title">
                 <tr>
                   <th>STT</th>
-                  <th>Tên mẫu</th>
+                  <th style="min-width: 120px;">Tên mẫu</th>
                   <th>Chất liệu</th>
                   <th>Số lượng</th>
                   <th>Đơn giá</th>
-                  <th>Labo</th>
+                  <th style="min-width: 150px;">Labo</th>
                   <th>Ngày đặt</th>
                   <th>Ngày nhận</th>
                   <th>Ngày lắp</th>
-                  <th>Thao tác</th>
+                  <th style="min-width: 80px;">Thao tác</th>
                 </tr>
               </thead>
               <tbody>
                 <ng-container *ngFor="let record of recordsSpecimen; let i = index">
                   <tr>
                     <td>{{i + 1}}</td>
-                    <td>
+                    <td style="min-width: 120px;">
                       <input type="text" [(ngModel)]="record.name" *ngIf="isAddSpeci" class="form-control value-staff">
                       <p *ngIf="!isAddSpeci">{{record.name}}</p>
                     </td>
@@ -208,7 +225,7 @@
                         class="form-control value-staff">
                       <p *ngIf="!isAddSpeci">{{record.unit_price}}</p>
                     </td>
-                    <td><ng-select *ngIf="isAddSpeci && listDisplay" [items]="listDisplay" [(ngModel)]="record.labo_id"
+                    <td style="min-width: 150px;"><ng-select *ngIf="isAddSpeci && listDisplay" [items]="listDisplay" [(ngModel)]="record.labo_id"
                         [searchable]="true" bindLabel="name" bindValue="labo_id"
                         [notFoundText]="'Không tìm thấy vật liệu'"
                         (ngModelChange)="updateTemporaryNameMaterial(record, $event)">
@@ -228,12 +245,20 @@
                         class="form-control value-staff">
                       <p *ngIf="!isAddSpeci">{{record.used_date}}</p>
                     </td>
-                    <td>
-                      <button class="save-button" *ngIf="isAddSpeci" style="margin-right: 3px"><i
-                          class="bi bi-check-circle" (click)="toggleAdd()"></i></button>
-                      <button class="delete-button" (click)="deleteRecord(i)">
-                        x
-                      </button>
+                    <td style="min-width: 80px;">
+                      <div class="delete-cell">
+                        <div>
+                          <button class="save-button" *ngIf="isAddSpeci" style="margin-right: 3px"><i
+                            class="bi bi-check-circle" (click)="toggleAddSpecime()"></i></button>
+                        </div>
+                        <div>
+                          <button class="delete-button" (click)="deleteRecord(i)">
+                            x
+                          </button>
+                        </div>
+                      </div>
+
+
                     </td>
                   </tr>
                 </ng-container>
@@ -244,12 +269,12 @@
             <label> Vật liệu </label>
           </div>
           <div class="btn-add-procedure">
-            <button class="btn btn-custom" (click)="toggleAddMaterial()" *ngIf="!isAddMaterial"><i
+            <button class="btn  button-add" (click)="toggleAddMaterial()" *ngIf="!isAddMaterial"><i
                 class="bi bi-plus-circle"></i>Thêm mới</button>
           </div>
           <div style="margin-top: 2%; margin-bottom:2%">
             <table class="table-bordered">
-              <thead>
+              <thead class="header-title">
                 <tr>
                   <th>STT</th>
                   <th>Tên vật liệu</th>
@@ -287,11 +312,19 @@
                       <p *ngIf="!isAddMaterial">{{record.totalPaid}}</p>
                     </td>
                     <td>
-                      <button class="save-button" *ngIf="isAddMaterial" style="margin-right: 3px"><i
-                          class="bi bi-check-circle" (click)="toggleAdd()"></i></button>
-                      <button class="delete-button" (click)="deleteRecord(i)">
-                        x
-                      </button>
+                      <div class="delete-cell">
+                        <div>
+                          <button class="save-button" *ngIf="isAddMaterial" style="margin-right: 3px"><i
+                            class="bi bi-check-circle" (click)="toggleAddMaterial()"></i></button>
+                        </div>
+                        <div>
+                          <button class="delete-button" (click)="deleteRecord(i)">
+                            x
+                          </button>
+                        </div>
+                      </div>
+
+
                     </td>
                   </tr>
                 </ng-container>
@@ -300,9 +333,9 @@
           </div>
         </div>
 
-        <div class="row row3" style="margin-top: 2%">
-          <button class="col-md-6">Hủy</button>
-          <button class="col-md-6" (click)="postExamination()">Thêm mới</button>
+        <div class="content-button" style="margin-top: 2%">
+          <button class="btn btn-cancel">Hủy</button>
+          <button class="btn button-add" (click)="postExamination()">Thêm mới</button>
         </div>
       </div>
     </div>
@@ -335,7 +368,7 @@
     </div>
   </div>
 </div>
-<!-- <div class="popup center" [class.active]="isPopup1Visible">
+ <div class="popup center" [class.active]="isPopup1Visible">
   <div class="icon">
     <i class="fa fa-check"></i>
   </div>
@@ -349,9 +382,9 @@
   <div class="dismiss-btn">
     <button class="button-custom" (click)="goAppointment(1)">Lịch hẹn</button>
     <button class="button-custom" (click)="goPayment(1)">Thanh toán</button>
-    <button class="button-custom" (click)="isPopup1Visible = false">Hủy</button>
+    <button class="button-custom" (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')">Hủy</button>
   </div>
-</div> -->
+</div>
 <!-- <div class="tab-pane" id="KvDTtab">
   <div class="KvDTtab-container mt-3">
     <h2>Khám tổng quát</h2>
