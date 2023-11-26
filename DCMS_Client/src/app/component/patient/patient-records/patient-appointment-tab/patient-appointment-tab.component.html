@@ -1,9 +1,9 @@
-<div class="recent-orders bg-white" style="border-radius: 15px;">
+<div class="sep-recent-orders bg-white patient_tab" style="border-radius: 15px;">
   <div class="content-wrapper">
     <div class="row">
       <div class="card-box">
         <ul class="nav nav-tabs">
-          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #7B4C50; cursor: pointer;"
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
               (click)="navigateHref('/benhnhan/danhsach/tab/hosobenhnhan/')">Thông tin
               chung</a>
           </li>
@@ -17,7 +17,7 @@
             <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
                 (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Mẫu vật</a>
             </li>
-            <li class="nav-item mr-2"><a class="nav-link active" style="padding: 10px; color: #000; cursor: pointer;"
+            <li class="nav-item mr-2"><a class="nav-link active" style="padding: 10px; color: #7B4C50; cursor: pointer;"
                 (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
             </li>
           </ng-container>
@@ -28,9 +28,9 @@
       </div>
     </div>
     <div class="tab-pane" id="LHtab">
-      <div class="row" style="padding-top: 10px; padding-right: 80px;">
+      <div class="row" style="padding-top: 10px;">
         <div class="col-12">
-          <button class="btn button-timekeeping float-end" (click)="setPatient()" data-bs-toggle="modal"
+          <button class="btn button-timekeeping float-start" (click)="setPatient()" data-bs-toggle="modal"
             data-bs-target="#myModal">
             <i class="bi bi-plus-circle-fill"></i>
             Đặt lịch tái khám</button>
@@ -47,8 +47,8 @@
               <th>Option</th>
             </tr>
           </thead>
-          <tbody>
-            <ng-container *ngIf="patientAppointments.length > 0; else noAppoitment">
+          <tbody *ngIf="patientAppointments.length > 0; else noAppoitment">
+            <ng-container>
               <ng-container *ngFor="let gf of patientAppointments">
                 <ng-container *ngFor="let ap of gf.appointments">
                   <tr *ngFor="let detail of ap.details">
@@ -73,14 +73,13 @@
             </ng-container>
           </tbody>
         </table>
-        <ng-template #noAppoitment>
-          <p class="no-appointment-message text-center">Không có "Lịch hẹn" nào được tìm thấy</p>
-        </ng-template>
       </div>
     </div>
   </div>
 </div>
-
+<ng-template #noAppoitment>
+  <p class="no-appointment-message text-center">Không có "Lịch hẹn" nào được tìm thấy</p>
+</ng-template>
 <app-popup-datlichtaikham [datesDisabled]="datesDisabled" [Patient]="Patient"></app-popup-datlichtaikham>
 <app-popup-sualichtaikham [datesDisabled]="datesDisabled" [selectedAppointment]="selectedAppointment"
   [dateString]="dateString" [timeString]="timeString"></app-popup-sualichtaikham>

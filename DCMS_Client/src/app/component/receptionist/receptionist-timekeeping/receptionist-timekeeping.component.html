@@ -67,28 +67,28 @@
           <ng-container *ngFor="let timestamp of weekTimestamps; let dayIndex = index">
             <ng-container *ngIf="timestamp === currentDateTimeStamp">
               <td>
-                <button class="button-timekeeping" (click)="onClockin(staff)" [disabled]="staff.isClockinDisabled">
+                <button class="button-timekeeping" (click)="onClockin(staff)" [disabled]="staff.isClockin">
                   {{ staff.clockInStatus }}
                 </button> <br />
                 <input type="time" [ngModel]="staff.clock_in" [class]="timeClockinColor"
-                [disabled]="!staff.isInputEnabled" (ngModelChange)="handleClockInChange(staff, $event)">
+                [disabled]="!staff.isClockin" (ngModelChange)="handleClockInChange(staff, $event)">
 
 
               </td>
               <td>
-                <button class="button-timekeeping" (click)="onClockout(staff)" [disabled]="staff.isClockoutDisabled">
+                <button class="button-timekeeping" (click)="onClockout(staff)" [disabled]="staff.isClockout && !staff.isClockin">
                   {{ staff.clockOutStatus }}
                 </button> <br />
                 <input type="time" [(ngModel)]="staff.clock_out" [class]="timeClockoutColor"
-                       [disabled]="!staff.isInputEnabled" (ngModelChange)="handleClockOutChange(staff, $event)">
+                       [disabled]="staff.isClockoutDisabled" (ngModelChange)="handleClockOutChange(staff, $event)">
 
               </td>
             </ng-container>
             <ng-container *ngIf="timestamp !== currentDateTimeStamp">
-              <td>
+              <td class="onTime">
                 {{ staff.weekTimekeeping[timestamp]?.clockIn || '' }}
               </td>
-              <td>
+              <td class="lateTime">
                 {{ staff.weekTimekeeping[timestamp]?.clockOut || '' }}
               </td>
             </ng-container>

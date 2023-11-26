@@ -55,11 +55,11 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     console.log("WeekTimes: ", this.weekTimestamps);
     this.startTime = this.weekTimestamps[0];
     this.endTime = this.weekTimestamps[6];
-    this.getListStaff();
-    this.getTimekeeping();
   }
 
   ngOnInit(): void {
+    this.getListStaff();
+    this.getTimekeeping();
   }
 
 
@@ -78,7 +78,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
             clock_in: "",
             clock_out: "",
             isClockin: false,
-            isClockout: true,
+            isClockout: false,
             register_clock_in: 0,
             register_clock_out: 0,
             weekTimekeeping: {}
@@ -123,6 +123,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
         this.timekeepingOnWeeks = this.organizeData(this.timekeepingOnWeeks);
         console.log("TimekeepingOnWeeks: ", this.timekeepingOnWeeks);
 
+        console.log("Staff có undefined hay ko?: ", this.Staff);
         this.Staff.forEach(staff => {
           staff.weekTimekeeping = {};
 
@@ -131,35 +132,35 @@ export class ReceptionistTimekeepingComponent implements OnInit {
 
             this.timekeepingOnWeeks.forEach((record: any) => {
               if (record.records && record.records.length > 0) {
-                let detail = record.records.find((r: any) => r.subId === staff.sub);
-                if (detail && detail.details) {
-                  // Debugging: Log the details if found
-                  // console.log(`Found details for sub: ${staff.sub}`, detail);
-                  if (record.epoch === weekTimestamp.toString()) {
-                    // Debugging: Check if epochs match
-                    // console.log(`Epoch match for sub: ${staff.sub} and epoch: ${record.epoch}`);
-                    staff.weekTimekeeping[weekTimestamp].clockIn = this.timestampToGMT7String(detail.details.clock_in) || '';
-                    staff.weekTimekeeping[weekTimestamp].clockOut = this.timestampToGMT7String(detail.detai.clock_out) || '';
-                  } else {
-                    // Debugging: Log when epochs do not match
-                    // console.log(`Epoch mismatch for sub: ${staff.sub}. Record epoch: ${record.epoch}, Week timestamp: ${weekTimestamp}`);
+                if (record.epoch === weekTimestamp.toString()) {
+                  let detail = record.records.find((r: any) => r.subId === staff.sub);
+                  if (detail && detail.details) {
+                    staff.register_clock_in = (detail.details.register_clock_in !== undefined) ? detail.details.register_clock_in : 0;
+                    staff.register_clock_out = (detail.details.register_clock_out !== undefined) ? detail.details.register_clock_out : 0;
+
+
+                    staff.weekTimekeeping[weekTimestamp].clockIn =
+                      (detail.details.clock_in !== undefined || detail.details.clock_in !== "0")
+                        ? this.timestampToGMT7String(detail.details.clock_in)
+                        : '';
+
+                    staff.weekTimekeeping[weekTimestamp].clockOut =
+                      (detail.details.clock_out !== undefined && detail.details.clock_out !== "0")
+                        ? this.timestampToGMT7String(detail.details.clock_out)
+                        : '';
+
                   }
                 }
               }
               const foundRecord = record.records.find((record: any) => record.subId === staff.sub);
               if (foundRecord) {
                 const details = foundRecord.details;
-                staff.clockInStatus = details.clock_in ? 'Đã chấm' : 'Chưa chấm';
-                staff.clockOutStatus = details.clock_out ? 'Đã chấm' : 'Chưa chấm';
-                staff.clock_in = details.clock_in ? this.timestampToGMT7String(+details.clock_in) : '';
-                staff.clock_out = details.clock_out ? this.timestampToGMT7String(+details.clock_out) : '';
+                staff.clockInStatus = (details.clock_in !== undefined && details.clock_in !== "0") ? 'Đã chấm' : 'Chưa chấm';
+                staff.clockOutStatus = (details.clock_out !== undefined && details.clock_out !== "0") ? 'Đã chấm' : 'Chưa chấm';
+                staff.clock_in = (details.clock_in !== undefined && details.clock_in !== "0") ? this.timestampToGMT7String(details.clock_in) : '';
+                staff.clock_out = (details.clock_out !== undefined && details.clock_out !== "0") ? this.timestampToGMT7String(details.clock_out) : '';
                 staff.isClockin = !!details.clock_in;
                 staff.isClockout = !!details.clock_out;
-
-                // input disable
-                staff.isClockinDisabled = !!details.clock_in;
-                staff.isClockoutDisabled = !!details.clock_out;
-                staff.isInputEnabled = !!(details.clock_in || details.clock_out);
               } else {
                 staff.clockInStatus = 'Chưa chấm';
                 staff.clockOutStatus = 'Chưa chấm';
@@ -167,6 +168,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
                 staff.clock_out = '';
                 staff.isClockin = false;
                 staff.isClockout = false;
+                staff.isClockoutDisabled = true;
               }
             });
           });
@@ -239,8 +241,9 @@ export class ReceptionistTimekeepingComponent implements OnInit {
       .subscribe((res) => {
         this.toastr.success(res.message, "Chấm công đến thành công");
         //Update UI
-        staff.isClockinDisabled = true;
-        staff.isInputEnabled = true;
+        staff.clock_in = this.currentTimeGMT7;
+        staff.isClockin = true;
+        staff.isClockout = false;
       },
         (error) => {
           this.toastr.error("Không thể chấm công đến");
@@ -249,7 +252,6 @@ export class ReceptionistTimekeepingComponent implements OnInit {
 
   onClockout(staff: StaffTimekeeping) {
     staff.clockOutStatus = "Đã chấm";
-    staff.isClockout = true;
 
     this.Body = this.setClockoutBody(staff);
     this.callClockoutApi(staff);
@@ -269,9 +271,9 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     this.timekeepingService.postTimekeeping(this.Body)
       .subscribe((res) => {
         this.toastr.success(res.message, "Chấm công về thành công");
-        // Update UI
-        staff.isClockoutDisabled = true;
-        staff.isInputEnabled = true;
+        staff.clock_out = this.currentTimeGMT7;
+        staff.isClockout = true;
+        staff.isClockoutDisabled = false;
       },
         (error) => {
           this.toastr.error("Không thể chấm công về");
