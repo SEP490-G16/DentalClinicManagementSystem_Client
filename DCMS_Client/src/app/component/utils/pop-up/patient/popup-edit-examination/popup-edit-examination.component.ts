@@ -142,6 +142,7 @@ export class PopupEditExaminationComponent implements OnInit {
     this.getMaterialList();
     this.getListStaff();
     this.getMedicalProcedureList();
+    this.getMedicalandProcedure()
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
     this.currentDate = currentDateGMT7;
     this.tcService.getTreatmentCourse(this.patient_Id)
@@ -150,15 +151,88 @@ export class PopupEditExaminationComponent implements OnInit {
       })
   }
 
+  examininationSelect: any;
+  imageContent: any;
+  imageDescription: any;
+  // recordImage = {
+  //   id: 0,
+  //   typeImage: "",
+  //   imageInsert: "",
+  //   description: ""
+  // }
+  //
+  //recordsImageImport: any[] = []
   getExaminationById() {
     this.tcDetailService.getExamination(this.examinationId).subscribe((data) => {
       console.log("data: ", data);
-      this.examination = data.data[0];
+      this.examininationSelect = data.data[0];
+      this.examination.diagnosis = this.examininationSelect.diagnosis;
+      this.examination.medicine = this.examininationSelect.medicine;
+      this.imageContent = this.examininationSelect['x-ray-image'].split('><');
+      this.imageDescription = this.examininationSelect['x-ray-image-des'].split('||');
+      this.imageContent.forEach((item:any) => {
+        this.id++;
+        this.recordImage = {
+          id: this.id,
+          typeImage: "",
+          imageInsert: item,
+          description: ""
+        }
+        this.recordsImage.push(this.recordImage);
+        this.recordImage = {
+          id: 0,
+          typeImage: "",
+          imageInsert: "",
+          description: ""
+        }
+      })
+
+      this.imageDescription.forEach((item: any) => {
+        const im = item.split('><');
+        for (let i = 0; i < im.length; i++) {
+          this.recordsImage.forEach((img: any) => {
+            if (im[i] % 2 !=0) {
+              img.description = im[i];
+            }
+          })
+        }
+      })
     },
       (error) => {
-        //this.toastr.error(err.error.message, 'Lỗi khi lấy dữ liệu lần khám');
         ResponseHandler.HANDLE_HTTP_STATUS(this.tcDetailService.apiUrl + "/examination/" + this.examinationId, error);
       })
+  }
+
+  listResponse:any[] = [];
+  getMedicalandProcedure() {
+    this.tcDetailService.getDetailByExamnination(this.examinationId).subscribe((data) => {
+        this.listResponse = data.data;
+        this.listResponse.forEach((item:any)=> {
+          if (item.mp_medical_procedure_id != null) {
+            this.records.push({
+              treatment_course_id: this.treatmentCourse_Id,
+              medical_procedure_id: item.mp_medical_procedure_id,
+              medical_name: item.mw_material_name,
+              examination_id: this.examinationId,
+              quantity: 1,
+              price: item.mu_price,
+              total_paid: item.mu_total_paid,
+              description: '',
+            });
+          } else {
+            this.recordsMaterial.push({
+              material_warehouse_id: item.mu_material_warehouse_id,
+              material_name: item.mw_material_name,
+              treatment_course_id: this.treatmentCourse_Id,
+              examination_id: this.examinationId,
+              quantity: '1',
+              price: item.mw_price,
+              totalPaid: '',
+              description: '',
+            })
+          }
+        })
+    })
   }
 
   staff = {

@@ -138,12 +138,12 @@
                   <tr>
                     <td>{{ i + 1 }}</td>
                     <td>
-                      <ng-select *ngIf="isAdd && list" [items]="list" [(ngModel)]="procedureGroupName"
+                      <ng-select *ngIf="isAdd && list" [items]="list" [(ngModel)]="record.groupId"
                         [searchable]="true" bindLabel="groupName" bindValue="groupId"
                         [notFoundText]="'Không tìm thấy nhóm thủ thuật'"
                         (ngModelChange)="updateTemporaryName(record, $event)">
                       </ng-select>
-                      <p *ngIf="!isAdd">{{procedureGroupName}}</p>
+                      <p *ngIf="!isAdd">{{record.groupId}}</p>
                     </td>
                     <td>
                       <ng-select *ngIf="isAdd && materialList" [items]="materialList"
@@ -294,7 +294,7 @@
                         bindValue="material_warehouse_id" [notFoundText]="'Không tìm thấy vật liệu'"
                         (ngModelChange)="updateTemporaryNameMaterial(record, $event)">
                       </ng-select>
-                      <p *ngIf="!isAddMaterial">{{materialName}}</p>
+                      <p *ngIf="!isAddMaterial">{{record.material_warehouse_id}}</p>
                     </td>
                     <td>
                       <input type="number" min="0" [(ngModel)]="record.price" *ngIf="isAddMaterial"
@@ -334,7 +334,7 @@
         </div>
 
         <div class="content-button" style="margin-top: 2%">
-          <button class="btn btn-cancel">Hủy</button>
+          <button class="btn btn-cancel" (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')">Hủy</button>
           <button class="btn button-add" (click)="postExamination()">Thêm mới</button>
         </div>
       </div>

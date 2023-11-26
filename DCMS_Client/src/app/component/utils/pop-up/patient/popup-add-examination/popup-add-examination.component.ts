@@ -465,6 +465,7 @@ export class PopupAddExaminationComponent implements OnInit {
             item.patient_id = this.patient_Id;
             item.facility_id = this.facility;
             item.treatment_course_id = this.treatmentCourse_Id;
+            item.orderer = this.orderer
             this.medicalSupplyService.addMedicalSupply(item).subscribe(data=>{
               isSuccess = true;
               this.toastr.success(data.message, 'Thêm mẫu vật sử dụng thành công');
