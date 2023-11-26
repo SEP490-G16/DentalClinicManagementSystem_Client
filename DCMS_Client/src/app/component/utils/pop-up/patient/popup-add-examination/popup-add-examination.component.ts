@@ -476,7 +476,7 @@ export class PopupAddExaminationComponent implements OnInit {
               })
         }
         console.log(isSuccess);
-        this.showNaviPopup(1)
+        this.isPopup1Visible = true;
       },
         (error) => {
           ResponseHandler.HANDLE_HTTP_STATUS(this.tcDetailService.apiUrl + "/examination", error);
@@ -814,7 +814,7 @@ export class PopupAddExaminationComponent implements OnInit {
     order_date: '',
     patient_id: '',
     facility_id: '',
-    labo_id: '', 
+    labo_id: '',
     treatment_course_id: ''
   }
 
