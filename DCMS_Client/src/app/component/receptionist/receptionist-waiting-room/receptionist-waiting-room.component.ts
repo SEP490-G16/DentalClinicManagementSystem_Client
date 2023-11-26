@@ -166,8 +166,12 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
       timeOut: 3000, // Adjust the duration as needed
     });
   }
-
-
+  stopClick(event: Event) {
+    event.stopPropagation();
+  }
+  details(id: any) {
+    this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', id])
+  }
   signOut() {
     this.cognitoService.signOut().then(() => {
       this.router.navigate(['dangnhap']);
