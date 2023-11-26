@@ -201,3 +201,9 @@ a {
   color: aliceblue;
   cursor: pointer;
 }
+.card-body{
+  margin-top: 0.5%;
+  padding: 10px;
+  background-color: #9e92d1;
+  border-bottom: 27px;
+}

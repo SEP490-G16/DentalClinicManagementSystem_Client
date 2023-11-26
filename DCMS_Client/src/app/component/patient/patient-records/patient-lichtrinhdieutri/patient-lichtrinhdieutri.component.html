@@ -66,8 +66,7 @@
               </div>
               <div *ngFor="let courseDetail of examinations; let i2 = index">
                 <ng-container *ngIf="courseDetail.treatment_course_id === course.treatment_course_id">
-                  <div class="card-body" *ngIf="toggleStates[course.treatment_course_id]"
-                    style="margin-top: 2%;padding: 10px; background-color: rgb(233, 197, 199); border-bottom: 27px;">
+                  <div class="card-body" *ngIf="toggleStates[course.treatment_course_id]">
                     <div class="row">
                       <div class="col">
                         <p style="cursor: pointer;" (click)="navigateEditExamination(courseDetail)"
