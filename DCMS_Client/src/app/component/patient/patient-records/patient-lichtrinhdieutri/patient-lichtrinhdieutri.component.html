@@ -1,4 +1,4 @@
-<div class="recent-orders bg-white" style="border-radius: 15px;">
+<div class="sep-recent-orders bg-white patient_tab" style="border-radius: 15px;">
   <!-- <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px; padding-top: 20px;">Hồ sơ bệnh nhân</h2> -->
 
   <div class="content-wrapper">
@@ -39,26 +39,23 @@
         <div class="col-md-12" id="accordion">
           <ng-container *ngIf="ITreatmentCourse.length > 0; else noTreatmentCourse">
             <div class="card" *ngFor="let course of ITreatmentCourse; let i = index">
-              <div class="card-header"
-                (click)="toggleCollapse(course.treatment_course_id);">
+              <div class="card-header" (click)="toggleCollapse(course.treatment_course_id);">
                 <div class="row">
                   <div class="col">
-
-                    <a class="float-start d-block"
-                      style="color: white; padding: 2px 8px 8px; padding-left: 20px; cursor: pointer;">
+                    <a style=" color: white;cursor: pointer; text-decoration: none; font-size: 15px;">
                       Liệu trình: {{ course.name }}
                     </a>
                   </div>
                   <div class="col">
                     <i class="bi bi-trash3 float-end"
-                      style="padding-right: 20px; padding-top: 20px; font-size: 20px; cursor: pointer;"
+                      style="padding-right: 20px; padding-top: 10px; font-size: 20px; cursor: pointer;"
                       (click)="deleteTreatmentCourse(course.treatment_course_id)" title="Xóa Liệu trình"></i>
                     <i class="bi bi-pencil-square float-end"
-                      style="padding-right: 20px; padding-top: 20px; font-size: 20px; cursor: pointer;"
+                      style="padding-right: 20px; padding-top: 10px; font-size: 20px; cursor: pointer;"
                       data-bs-toggle="modal" data-bs-target="#EditTreatmentModal"
                       (click)="editTreatmentCourse(course);$event.stopPropagation();" title="Sửa liệu trình"></i>
                     <i class="bi bi-patch-plus float-end"
-                      style="padding-right: 20px; padding-top: 20px; font-size: 20px; cursor: pointer;"
+                      style="padding-right: 20px; padding-top: 10px; font-size: 20px; cursor: pointer;"
                       (click)="navigateAddExamination(course.treatment_course_id)" title="Thêm lần khám">
                     </i>
                   </div>
@@ -67,7 +64,7 @@
               <div *ngFor="let courseDetail of examinations; let i2 = index">
                 <ng-container *ngIf="courseDetail.treatment_course_id === course.treatment_course_id">
                   <div class="card-body" *ngIf="toggleStates[course.treatment_course_id]"
-                    style="margin-top: 2%;padding: 10px; background-color: rgb(233, 197, 199); border-bottom: 27px;">
+                    style="margin-top:1px;padding: 10px; background-color: rgba(103, 80, 195,0.2);border-bottom: 27px;">
                     <div class="row">
                       <div class="col">
                         <p style="cursor: pointer;" (click)="navigateEditExamination(courseDetail)"
@@ -99,17 +96,18 @@
               </div>
             </div>
           </ng-template>
-          <button class="btn btn-secondary ml-2 mt-3" routerLink="/benhnhan/danhsach">Quay lại</button>
 
+        </div>
+        <div class="bottom-left">
+          <button class=" btn btn-secondary ml-2 mt-3" routerLink="/benhnhan/danhsach">Quay lại</button>
         </div>
       </div>
       <ng-template #noTreatmentCourse>
         <p class="no-appointment-message text-center">Bệnh nhân hiện chưa có liệu trình nào.</p>
       </ng-template>
     </div>
+
   </div>
-
-
 </div>
 
 

@@ -1,11 +1,11 @@
-<div class="recent-orders bg-white" style="border-radius: 15px;">
+<div class="sep-recent-orders bg-white patient_tab" style="border-radius: 15px;">
   <!-- <h2 class="text-center" style="font-family: Agbalumo; font-size: 29px; padding-top: 20px;">Hồ sơ bệnh nhân</h2> -->
 
   <div class="content-wrapper">
     <div class="row">
       <div class="card-box">
         <ul class="nav nav-tabs">
-          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #7B4C50; cursor: pointer;"
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
               (click)="navigateHref('/benhnhan/danhsach/tab/hosobenhnhan/')">Thông tin
               chung</a>
           </li>
@@ -13,10 +13,8 @@
             *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('4') || roleId.includes('5')">
             <li class="nav-item mr-2"><a class="nav-link"
                 (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')"
-                style="padding: 10px; color: #000; cursor: pointer;">Khám và
-                điều
-                trị</a></li>
-            <li class="nav-item mr-2"><a class="nav-link active" style="padding: 10px; color: #000; cursor: pointer;"
+                style="padding: 10px; color: #000; cursor: pointer;">Khám và điều trị</a></li>
+            <li class="nav-item mr-2"><a class="nav-link active" style="padding: 10px; color: #7B4C50; cursor: pointer;"
                 (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Mẫu vật</a>
             </li>
             <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
@@ -33,7 +31,7 @@
     <div class="tab-pane show active" id="TTCtab">
       <div class="row" style="padding-top: 10px; padding-right: 80px;">
         <div class="col-12">
-          <button class="btn button-timekeeping float-end" data-bs-toggle="modal" data-bs-target="#addSpecimensModal">
+          <button class="btn button-add btn-add-specimen" data-bs-toggle="modal" data-bs-target="#addSpecimensModal">
             <i class="bi bi-plus-circle-fill"></i> Đặt mẫu</button>
         </div>
       </div>
