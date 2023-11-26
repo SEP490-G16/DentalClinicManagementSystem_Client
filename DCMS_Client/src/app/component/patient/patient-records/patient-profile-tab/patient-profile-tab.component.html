@@ -157,6 +157,7 @@
               <div style="text-align: center; width: 24%; margin-left: 38%;" class="d-flex justify-content-around">
                 <!-- <button *ngIf="!isEditing" class="btn btn-secondary ml-2 mt-3" routerLink="/benhnhan/danhsach">Quay
                   lại</button> -->
+                <button *ngIf="!isEditing" class="btn btn-secondary ml-2" routerLink="/benhnhan/danhsach">Quay lại</button>
                 <button *ngIf="isEditing" class="btn btn-secondary ml-2" (click)="cancelUpdate()">Huỷ</button>
                 <button class="btn btn-primary" type="button" (click)="toggleEditing()">
                   {{ isEditing ? 'Lưu' : 'Cập nhật'}}</button>
