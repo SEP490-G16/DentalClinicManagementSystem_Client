@@ -60,7 +60,9 @@
               <th scope="col">Nợ trước/Tổng cộng (Debt/Total)</th>
               <th scope="col">Thanh toán (Payment)</th>
               <th scope="col">Còn nợ (Remain)</th>
-              <th scope="col">Nhập số tiền thanh toán</th>
+              <ng-container *ngIf="checkPayment ">
+                <th scope="col">Nhập số tiền thanh toán</th>
+              </ng-container>
             </tr>
           </thead>
           <tbody>
@@ -72,7 +74,10 @@
               <td>{{ mu.mu_total | currency:'VND' }}</td>
               <td>{{ mu.mu_total_paid | currency:'VND' }}</td>
               <td>{{ (mu.mu_total - mu.mu_total_paid) | currency:'VND' }}</td>
-              <td><input [disabled]="mu.mu_total - mu.mu_total_paid == 0" type="number" min="0" [(ngModel)]="mu.tempPaidAmount"></td>
+              <ng-container *ngIf="checkPayment ">
+                <td><input [disabled]="mu.mu_total - mu.mu_total_paid == 0" type="number" min="0"
+                    [(ngModel)]="mu.tempPaidAmount"></td>
+              </ng-container>
             </tr>
             <tr>
               <th colspan="4">Tổng cộng/Total: </th>
@@ -95,5 +100,7 @@
 <!-- Modal Footer -->
 <div class="modal-footer">
   <button type="button" class="btn btn-secondary" (click)="close()">Đóng</button>
-  <button type="button" class="btn btn-success" (click)="postPayment()">Thanh toán</button>
+  <ng-container *ngIf="remaining != 0">
+    <button type="button" class="btn btn-success" (click)="postPayment()">Thanh toán</button>
+  </ng-container>
 </div>

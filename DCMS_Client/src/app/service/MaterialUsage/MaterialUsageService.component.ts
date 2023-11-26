@@ -19,13 +19,13 @@ export class MaterialUsageService {
     return this.http.get(`${this.url}/material-usage/treatment-course/${id}`,{headers});
   }
 
-  getMaterialUsageReport(startDate:number, endDate:number) {
+  getMaterialUsageReport(id:any) {
     let idToken = sessionStorage.getItem("id_Token");
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`,
       'Accept': 'application/json',
     });
-    return this.http.get(`${this.url}/material-usage/report/${startDate}/${endDate}`,{headers});
+    return this.http.get(`${this.url}/material-usage/patient/${id}`,{headers});
   }
 
   postMaterialUsage(MaterialUsage:any): Observable<any> {
