@@ -35,6 +35,7 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
     this.currentDate = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
   }
 
+  checkPayment: boolean = false;
   ngOnInit(): void {
     console.log("Material :", this.MaterialUsage);
     console.log("Patient :", this.Patient);
@@ -43,6 +44,13 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
       const dateA = new Date(a.created_date).getTime();
       const dateB = new Date(b.created_date).getTime();
       return dateB - dateA;
+    })
+
+    this.MaterialUsage.forEach((mu: any) => {
+      if ((mu.mu_total - mu.mu_total_paid) != 0) {
+        this.checkPayment = true;
+        return;
+      }
     })
     console.log("Material Usage Sort: ", this.MaterialUsage);
     this.totalPaid = this.MaterialUsage.reduce((acc: any, mu: any) => acc + (Number(mu.mu_total_paid) || 0), 0);
@@ -65,8 +73,8 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
   postPayment() {
     console.log("Material Usage: ", this.MaterialUsage)
     this.Body_Paid_MU = this.MaterialUsage.map(mu => ({
+      treatment_course_id: this.TreatmentCourse.tc_treatment_course_id,
       material_usage_id: mu.mu_material_usage_id,
-      examination_id: mu.mu_examination_id,
       total_paid: mu.tempPaidAmount || 0
     }));
     console.log("Body_Paid_Mu: ", this.Body_Paid_MU);
@@ -107,7 +115,7 @@ interface MaterialUsage {
 }
 
 interface Paid_material_usage {
+  treatment_course_id: string,
   material_usage_id: string,
-  examination_id: string,
   total_paid: number
 }

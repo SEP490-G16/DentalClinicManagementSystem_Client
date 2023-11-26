@@ -7,8 +7,10 @@
               (click)="navigateHref('/benhnhan/danhsach/tab/hosobenhnhan/')">Thông tin
               chung</a>
           </li>
-          <ng-container *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('4') || roleId.includes('5')">
-            <li class="nav-item mr-2"><a class="nav-link" (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')"
+          <ng-container
+            *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('4') || roleId.includes('5')">
+            <li class="nav-item mr-2"><a class="nav-link"
+                (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')"
                 style="padding: 10px; color: #000; cursor: pointer;">Khám và
                 điều
                 trị</a></li>
@@ -31,17 +33,25 @@
       <div class="payment-grid-wrapper" *ngIf="Material_Usage_Report.length > 0; else noPaymentRecord">
         <div class="payment-container" *ngFor="let report of Material_Usage_Report">
           <div class="payment-header">
-            <h2 class="schedule-title" (click)="toggleDetails(report.tc_data.tc_treatment_course_id)">Lịch trình: {{report.tc_data.tc_name}}</h2>
+            <h2 class="schedule-title" (click)="toggleDetails(report.tc_data.tc_treatment_course_id)">Lịch trình:
+              {{report.tc_data.tc_name}}</h2>
             <div class="payment-summary">
               <span class="total-amount">Tổng tiền: {{ report.total | currency:'VND'}}</span>
               <span class="discount">Giảm giá:</span>
               <span class="paid-amount">Đã thanh toán: {{ report.totalPaid | currency:'VND'}}</span>
               <span class="remaining-amount">Còn lại: {{ report.remaining | currency:'VND'}}</span>
-              <button class="payment-button" (click)="thanhtoan(report.mu_data, report.tc_data, report.p_data)">Thanh
-                toán</button>
+              <ng-container *ngIf="report.remaining != 0">
+                <button class="payment-button" (click)="thanhtoan(report.mu_data, report.tc_data, report.p_data)">Thanh
+                  toán</button>
+              </ng-container>
+              <ng-container *ngIf="report.remaining == 0">
+                <button class="payment-button" (click)="thanhtoan(report.mu_data, report.tc_data, report.p_data)">Xem
+                  chi tiết</button>
+              </ng-container>
             </div>
           </div>
-          <div class="payment-details" *ngIf="showDetails[report.tc_data.tc_treatment_course_id]" [class.active]="showDetails[report.tc_data.tc_treatment_course_id]">
+          <div class="payment-details" *ngIf="showDetails[report.tc_data.tc_treatment_course_id]"
+            [class.active]="showDetails[report.tc_data.tc_treatment_course_id]">
             <ng-template ngFor let-mu [ngForOf]="report.mu_data">
               <div class="payment-row" *ngIf="mu.mu_total_paid > 0">
                 <span class="payment-date" (click)="examinationDetail(mu, report.tc_data, report.p_data)">Ngày thanh
@@ -58,7 +68,7 @@
       <button class="btn btn-secondary ml-2 mt-3 mb-3" routerLink="/benhnhan/danhsach">Quay lại</button>
 
       <ng-template #noPaymentRecord>
-<!--        <p class="no-appointment-message text-center">Không có "Lịch trình Thanh toán" nào được tìm thấy</p>-->
+        <!--        <p class="no-appointment-message text-center">Không có "Lịch trình Thanh toán" nào được tìm thấy</p>-->
       </ng-template>
     </div>
 
