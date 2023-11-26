@@ -418,8 +418,8 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   selectDoctor(doctor: any) {
     if (doctor.doctorName == this.selectedDoctor) {
       this.selectedDoctor = "";
+      this.AppointmentBody.appointment.doctor= "";
     } else {
-      ;
       this.selectedDoctor = doctor.doctorName;
       this.AppointmentBody.appointment.doctor = doctor.doctorName;
     }

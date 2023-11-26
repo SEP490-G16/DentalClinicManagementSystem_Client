@@ -175,9 +175,13 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
 
   selectedDoctor: any = null;
   selectDoctor(doctor: any) {
-    this.selectedDoctor = doctor;
-    console.log(this.EDIT_APPOINTMENT_BODY.appointment.doctor = doctor.name)
-    this.EDIT_APPOINTMENT_BODY.appointment.doctor = doctor.name;
+    if (doctor.doctorName == this.selectedDoctor) {
+      this.selectedDoctor = "";
+      this.EDIT_APPOINTMENT_BODY.appointment.doctor = "";
+    } else {
+      this.selectedDoctor = doctor.name;
+      this.EDIT_APPOINTMENT_BODY.appointment.doctor = doctor.name;
+    }
   }
 
   patientList: any[] = [];

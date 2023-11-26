@@ -16,6 +16,8 @@ import { ResponseHandler } from "../../../libs/ResponseHandler";
 import { IsThisSecondPipe } from 'ngx-date-fns';
 import * as moment from 'moment-timezone';
 import { MaterialService } from 'src/app/service/MaterialService/material.service';
+import { LaboService } from 'src/app/service/LaboService/Labo.service';
+import { getDate } from 'date-fns';
 @Component({
   selector: 'app-popup-add-examination',
   templateUrl: './popup-add-examination.component.html',
@@ -96,7 +98,9 @@ export class PopupAddExaminationComponent implements OnInit {
     private materialUsageService: MaterialUsageService,
     private materialWarehoseService: MaterialWarehouseService,
     private materialService: MaterialService,
-    private cdr: ChangeDetectorRef
+    private LaboService: LaboService,
+    private cdr: ChangeDetectorRef,
+    private medicalSupplyService: MedicalSupplyService
   ) {
     this.examination = {
       treatment_course_id: "",
@@ -120,10 +124,16 @@ export class PopupAddExaminationComponent implements OnInit {
 
   currentDate: any;
   listTreatmentCourse: any[] = [];
+  orderer:any = "";
 
   ngOnInit(): void {
     this.patient_Id = this.route.snapshot.params['id'];
+    const user = sessionStorage.getItem('username');
+    if (user != null) {
+      this.orderer = user;
+    }
     this.treatmentCourse_Id = this.route.snapshot.params['tcId'];
+
     const id = sessionStorage.getItem('sub-id');
     if (id != null) {
       this.staff_id = id;
@@ -132,6 +142,7 @@ export class PopupAddExaminationComponent implements OnInit {
     // this.getMedicalProcedureGroup();
     // this.getMedicalProcedureGroupDetail();
     // this.getMaterialWarehouse();
+    this.getLabos();
     this.getMaterialList();
     this.getListStaff();
     this.getMedicalProcedureList();
@@ -141,7 +152,7 @@ export class PopupAddExaminationComponent implements OnInit {
       .subscribe((res) => {
         this.listTreatmentCourse = res;
       })
-    
+
   }
 
   staff = {
@@ -262,12 +273,14 @@ export class PopupAddExaminationComponent implements OnInit {
   listService: any[] = [];
   uniqueList: string[] = [];
   materialList: any[] = [];
+  procedureGroupName: any;
   temporaryName: string = '';
   updateTemporaryName(record: any, event: any) {
     // event chứa tên vật liệu được chọn
     console.log(event);
     this.list.forEach((item: any) => {
       if (item.groupId == event) {
+        //this.procedureGroupName = item.groupName;
         item.procedure.forEach((it: any) => {
           let proObject = {
             procedureId: it.procedureId,
@@ -291,14 +304,16 @@ export class PopupAddExaminationComponent implements OnInit {
       };
     });
     this.materialList = transformedMaterialList;
-    console.log(this.listService);
+    console.log(this.materialList);
   }
 
+  serviceName: any;
   updateTemporaryServiceName(record: any, event: any) {
     const selectedMaterial = this.materialList.find((material: any) => material.id === event);
     if (selectedMaterial) {
-      record.donGia = selectedMaterial.giaTien;
-      console.log(record.donVi);
+      this.serviceName = selectedMaterial.tenVatLieu;
+      record.price = selectedMaterial.giaTien;
+      console.log(record.price);
     }
   }
 
@@ -390,64 +405,84 @@ export class PopupAddExaminationComponent implements OnInit {
   //   });
   // }
 
-  // postExamination() {
-  //   const faci = sessionStorage.getItem('locale');
-  //   if (faci != null) {
-  //     this.examination.facility_id = faci;
-  //   }
-  //   this.examination.treatment_course_id = this.treatmentCourse_Id;
-  //   this.examination.staff_id = this.staff_id;
-  //   this.examination.created_date = this.currentDate;
-  //   this.examination['x-ray-image'] = this.imageUrls.join(' ');
-  //   this.tcDetailService.postExamination(this.examination)
-  //     .subscribe((res) => {
-  //       this.toastr.success(res.message, 'Thêm lần khám thành công');
-  //       console.log("ExaminationId Response: ", res.data.examination_id);
-  //       const examinationId = res.data.examination_id;
-  //       let isSuccess = false;
-  //       this.Procedure_Material_Usage_Body.forEach((el) => {
-  //         el.examination_id = examinationId
-  //         if (this.areRequiredFieldsFilled(this.Procedure_Material_Usage_Body)) {
-  //           this.materialUsageService.postProcedureMaterialUsage(el)
-  //             .subscribe((res) => {
-  //               isSuccess = true;
-  //               this.toastr.success(res.message, 'Thêm Thủ thuật thành công');
-  //             },
-  //               (err) => {
-  //                 isSuccess = false;
-  //                 console.log(err);
-  //                 this.toastr.error(err.error.message, 'Thêm Thủ thuật thất bại');
-  //               })
-  //         }
-  //       }
-  //       )
-  //       this.Material_Usage_Body = this.Material_Usage_Body.map(item => {
-  //         const { mw_remaining, ...rest } = item;
-  //         return rest;
-  //       });
-  //       this.Material_Usage_Body.forEach((el) => {
-  //         el.examination_id = examinationId
-  //       })
-  //       if (this.areRequiredFieldsFilled(this.Material_Usage_Body)) {
-  //         this.materialUsageService.postMaterialUsage(this.Material_Usage_Body)
-  //           .subscribe((res) => {
-  //             isSuccess = true;
-  //             this.toastr.success(res.message, 'Thêm Vật liệu sử dụng thành công');
-  //           },
-  //             (err) => {
-  //               isSuccess = false;
-  //               console.log(err);
-  //               this.toastr.error(err.error.message, 'Thêm Vật liệu thất bại');
-  //             })
-  //       }
-  //       console.log(isSuccess);
-  //       this.showNaviPopup(1)
-  //     },
-  //       (error) => {
-  //         ResponseHandler.HANDLE_HTTP_STATUS(this.tcDetailService.apiUrl + "/examination", error);
-  //       }
-  //     )
-  // }
+  postExamination() {
+    const faci = sessionStorage.getItem('locale');
+    if (faci != null) {
+      this.examination.facility_id = faci;
+    }
+    this.examination.treatment_course_id = this.treatmentCourse_Id;
+    this.examination.staff_id = this.staff_id;
+    this.examination.created_date = this.currentDate;
+    if (this.recordsImage.length > 0) {
+      this.recordsImage.forEach((item: any) => {
+        if (item.typeImage != null) {
+          this.examination['x-ray-image'] += item.imageInsert + "|||";
+          this.examination['x-ray-image-des'] += item.description + "|||";
+        }
+      })
+    }
+    this.tcDetailService.postExamination(this.examination)
+      .subscribe((res) => {
+        this.toastr.success(res.message, 'Thêm lần khám thành công');
+        console.log("ExaminationId Response: ", res.data.examination_id);
+        const examinationId = res.data.examination_id;
+        let isSuccess = false;
+        if (this.records.length > 0) {
+          this.records.forEach((el) => {
+            el.examination_id = examinationId
+          })
+          this.materialUsageService.postMaterialUsage(this.records)
+            .subscribe((res) => {
+              isSuccess = true;
+              this.toastr.success(res.message, 'Thêm Thủ thuật thành công');
+            },
+              (err) => {
+                isSuccess = false;
+                console.log(err);
+                this.toastr.error(err.error.message, 'Thêm Thủ thuật thất bại');
+          })
+        }
+        if (this.recordsSpecimen.length > 0) {
+          this.recordsSpecimen.forEach((item:any) => {
+            item.patient_id = this.patient_Id;
+            item.facility_id = this.facility;
+            item.treatment_course_id = this.treatmentCourse_Id;
+            this.medicalSupplyService.addMedicalSupply(item).subscribe(data=>{
+              isSuccess = true;
+              this.toastr.success(data.message, 'Thêm mẫu vật sử dụng thành công');
+            }
+            ,
+                (err) => {
+                  isSuccess = false;
+                  console.log(err);
+                  this.toastr.error(err.error.message, 'Thêm mẫu vật thất bại');
+                }
+            )
+          })
+        }
+        if (this.recordsMaterial.length > 0) {
+          this.recordsMaterial.forEach((el) => {
+            el.examination_id = examinationId
+          })
+          this.materialUsageService.postMaterialUsage(this.recordsMaterial)
+            .subscribe((res) => {
+              isSuccess = true;
+              this.toastr.success(res.message, 'Thêm Vật liệu sử dụng thành công');
+            },
+              (err) => {
+                isSuccess = false;
+                console.log(err);
+                this.toastr.error(err.error.message, 'Thêm Vật liệu thất bại');
+              })
+        }
+        console.log(isSuccess);
+        this.showNaviPopup(1)
+      },
+        (error) => {
+          ResponseHandler.HANDLE_HTTP_STATUS(this.tcDetailService.apiUrl + "/examination", error);
+        }
+      )
+  }
   test() {
     this.showNaviPopup(1)
   }
@@ -465,36 +500,45 @@ export class PopupAddExaminationComponent implements OnInit {
       this.showPopup = false;
     }
   }
-  @ViewChild('fileInput') fileInputVariable!: ElementRef;
-  onFileSelected(event: any) {
-    const files = event.target.files;
-    console.log(files);
-    if (files) {
-      for (let file of files) {
-        const reader = new FileReader();
+  // @ViewChild('fileInput') fileInputVariable!: ElementRef;
+  // onFileSelected(event: any) {
+  //   // const files = event.target.files;
+  //   // console.log(files);
+  //   // if (files) {
+  //   //   for (let file of files) {
+  //   //     const reader = new FileReader();
 
-        reader.onload = (e: any) => {
-          this.imageUrls.push(e.target.result);
-          // this.resetFileInput();
-          this.showImages = true;
-          this.cdr.detectChanges();
-          console.log(this.imageUrls);
-        };
+  //   //     reader.onload = (e: any) => {
+  //   //       this.imageUrls.push(e.target.result);
+  //   //       this.showImages = true;
+  //   //       this.cdr.detectChanges();
+  //   //       console.log(this.imageUrls);
+  //   //     };
+  //   //     reader.readAsDataURL(file);
+  //   //   }
+  //   // }
+  //   const fileInput = event.target;
+  //   if (fileInput.files && fileInput.files[0]) {
+  //     const file = fileInput.files[0];
+  //     const reader = new FileReader();
+  //     reader.onload = (e: any) => {
+  //       const base64Data = e.target.result;
+  //       this.imageURL = base64Data;
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
 
-        reader.readAsDataURL(file);
-      }
-    }
-  }
+  // }
 
-  addImageUrl() {
-    if (this.imageLink) {
-      console.log('Adding image URL:', this.imageLink); // Kiểm tra URL
-      this.imageUrls.push(this.imageLink);
-      // this.imageLink = '';
-      console.log('Image URLs:', this.imageUrls); // Kiểm tra xem URL có được thêm vào mảng không
-      this.cdr.detectChanges();
-    }
-  }
+  // addImageUrl() {
+  //   if (this.imageLink) {
+  //     console.log('Adding image URL:', this.imageLink); // Kiểm tra URL
+  //     this.imageUrls.push(this.imageLink);
+  //     // this.imageLink = '';
+  //     console.log('Image URLs:', this.imageUrls); // Kiểm tra xem URL có được thêm vào mảng không
+  //     this.cdr.detectChanges();
+  //   }
+  // }
 
   private resetFileInput() {
     this.fileInputVariable.nativeElement.value = ""; // Reset trạng thái của input file
@@ -586,38 +630,41 @@ export class PopupAddExaminationComponent implements OnInit {
       this.router.navigate(['/default-route']);
     }
   }
+
   toggleAdd() {
     this.isAdd = !this.isAdd;
     if (this.isAdd) {
       this.records.push({
-        nhomThuThuat: '',
-        tenThuThuat: '',
-        donGia: '',
-        thanhTien: ''
+        treatment_course_id: this.treatmentCourse_Id,
+        medical_procedure_id: '',
+        examination_id: '',
+        quantity: 1,
+        price: '',
+        total_paid: '',
+        description: '',
       });
     }
   }
 
   recordsMaterial: any[] = [];
-  isAddMaterial: boolean =  false;
+  isAddMaterial: boolean = false;
   toggleAddMaterial() {
     this.isAddMaterial = !this.isAddMaterial;
     if (this.isAddMaterial) {
       this.recordsMaterial.push({
-        material_warehouse_id:'',
-        treatment_course_id: '',
-        materialId:'',
-        materialName: '',
-        examination_id: '', 
+        material_warehouse_id: '',
+        treatment_course_id: this.treatmentCourse_Id,
+        examination_id: '',
         quantity: '1',
-        price: '', 
-        totalPaid: '', 
+        price: '',
+        totalPaid: '',
         description: '',
       })
     }
   }
 
   wareHouseMaterial = {
+    material_warehouse_id: '',
     materialId: '',
     materialName: '',
     quantity: 0,
@@ -629,29 +676,25 @@ export class PopupAddExaminationComponent implements OnInit {
     this.materialService.getMaterials(1).subscribe(data => {
       this.materialList = [];
       this.materialList = data.data;
-       if (this.materialList) {
-        if (this.materialList.length >= 1 ){
-          for (let i = 0; i < this.materialList.length -1; i++) {
+      if (this.materialList) {
+        if (this.materialList.length >= 1) {
+          for (let i = 0; i < this.materialList.length - 1; i++) {
             const currentNumber = this.materialList[i];
             if (!this.uniqueList.includes(currentNumber.m_material_id)) {
               this.uniqueList.push(currentNumber.m_material_id);
+              this.wareHouseMaterial.material_warehouse_id = currentNumber.mw_material_warehouse_id,
               this.wareHouseMaterial.materialId = currentNumber.m_material_id,
               this.wareHouseMaterial.materialName = currentNumber.m_material_name,
               this.wareHouseMaterial.quantity = currentNumber.mw_quantity_import,
               this.wareHouseMaterial.unitPrice = currentNumber.mw_price,
               this.results.push(this.wareHouseMaterial);
               this.wareHouseMaterial = {
+                material_warehouse_id: '',
                 materialId: '',
                 materialName: '',
                 quantity: 1,
                 unitPrice: 0,
               }
-            } else {
-              this.results.forEach((e: any) => {
-                if (e.materialId == currentNumber.m_material_id) {
-                  e.quantity += currentNumber.mw_quantity_import;
-                }
-              })
             }
           }
         }
@@ -659,25 +702,151 @@ export class PopupAddExaminationComponent implements OnInit {
     })
   }
 
+  materialName: any;
   updateTemporaryNameMaterial(record: any, event: any) {
     const selectedMaterial = this.results.find((material: any) => material.materialId === event);
     if (selectedMaterial) {
-      //this.temporaryName = selectedMaterial.tenVatLieu;
+      this.materialName = selectedMaterial.tenVatLieu;
       record.price = selectedMaterial.unitPrice;
       record.totalPaid = selectedMaterial.unitPrice;
     }
   }
 
   changeUnitPrice(record: any) {
-    const selectedMaterial = this.results.find((material: any) => material.materialId === record.materialName);
-    record.totalPaid = selectedMaterial.price * selectedMaterial.quantity;
+    const selectedMaterial = this.results.find((material: any) => material.materialName === record.materialName);
+    record.totalPaid = selectedMaterial.unitPrice * selectedMaterial.quantity;
   }
 
   changeQuantity(record: any) {
-    const selectedMaterial = this.results.find((material: any) => material.materialId === record.materialName);
-    record.totalPaid = selectedMaterial.price * selectedMaterial.quantity;
+    console.log(record)
+    const selectedMaterial = this.results.find((material: any) => material.materialId === record.material_warehouse_id);
+    record.totalPaid = selectedMaterial.unitPrice * record.quantity;
+    console.log(record.totalPaid);
   }
-  
+
+  //image
+  isAddImage: boolean = false;
+  recordImage = {
+    id: 0,
+    typeImage: "",
+    imageInsert: "",
+    description: ""
+  }
+
+  recordsImage: any[] = []
+  id: number = 0;
+  toggleAddImage() {
+    this.isAddImage = !this.isAddImage;
+    if (this.isAddImage) {
+      const Id = this.id++;
+      this.recordImage = {
+        id: Id,
+        typeImage: "1",
+        imageInsert: "../../../../../../assets/img/noImage.png",
+        description: ""
+      }
+      this.recordsImage.push(this.recordImage);
+    }
+  }
+
+  deleteRecordImage(index: any) {
+    this.isAddImage = false;
+    this.recordsImage.splice(index, 1);
+  }
+
+  currentIndex: any;
+  onChangeIndex(index: any) {
+    this.currentIndex = index;
+  }
+
+  inputImageUrlInsert(event: any) {
+    this.recordImage = {
+      id: this.currentIndex,
+      typeImage: "2",
+      imageInsert: event.target.value,
+      description: ""
+    }
+  }
+
+  @ViewChild('fileInput') fileInputVariable!: ElementRef;
+  onFileSelected(event: any) {
+    const fileInput = event.target;
+    if (fileInput.files && fileInput.files[0]) {
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        const base64Data = e.target.result;
+        this.recordImage = {
+          id: this.currentIndex,
+          typeImage: "1",
+          imageInsert: base64Data,
+          description: ""
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  addImageUrl() {
+    this.recordsImage.forEach((item: any) => {
+      if (item.id == this.currentIndex) {
+        item.typeImage = this.recordImage.typeImage;
+        item.imageInsert = this.recordImage.imageInsert;
+      }
+    })
+    this.recordImage = {
+      id: 0,
+      typeImage: "1",
+      imageInsert: "",
+      description: ""
+    }
+  }
+
+  isAddSpeci: boolean = false;
+  specimenBody = {
+    name: '',
+    type: '',
+    received_date: '',
+    orderer: '',
+    used_date: '',
+    quantity: '',
+    unit_price: '',
+    order_date: '',
+    patient_id: '',
+    facility_id: '',
+    labo_id: '', 
+    treatment_course_id: ''
+  }
+
+  recordsSpecimen: any[] = [];
+  toggleAddSpecime() {
+    this.isAddSpeci = !this.isAddSpeci;
+    if (this.isAddSpeci) {
+        var now = new Date();
+        this.specimenBody.order_date = now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDate();
+      this.recordsSpecimen.push(this.specimenBody);
+    }
+  }
+
+  listLabo: any[] = []
+  listDisplay: any[] = []
+  laboO = {
+    labo_id: '',
+    name:''
+  }
+  getLabos() {
+    this.LaboService.getLabos()
+      .subscribe((res) => {
+        this.listLabo = res.data;
+        this.listLabo.forEach((item:any) => {
+          let laboO = {
+            labo_id: item.labo_id,
+            name: item.name
+          }
+          this.listDisplay.push(laboO);
+        })
+      })
+  }
 }
 
 interface ProcedureGroup {
