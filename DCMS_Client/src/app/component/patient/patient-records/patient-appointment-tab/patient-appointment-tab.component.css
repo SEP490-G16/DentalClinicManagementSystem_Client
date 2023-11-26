@@ -88,28 +88,6 @@ b {
   margin-bottom: 0.8rem;
 }
 
-.loading-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.loading-spinner {
-  border: 16px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 16px solid #3498db;
-  width: 120px;
-  height: 120px;
-  -webkit-animation: spin 2s linear infinite; /* Safari */
-  animation: spin 2s linear infinite;
-}
 
 .content-wrapper {
   padding-left: 40px;
@@ -123,105 +101,22 @@ a {
   color: var(--custom-color-primary);
 }
 
-
-@media screen and (max-width: 1200px) {
-
- .recent-orders {
-    width: 94%;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    margin: 2rem 0 0 0.8rem;
-  }
-
-}
-
-@media screen and (max-width: 768px) {
-
-  @keyframes showMenu {
-    to {
-      left: 0;
-    }
-  }
-
- .recent-orders {
-    position: relative;
-    margin: 3rem 0 0 0;
-    width: 100%;
-  }
-
-  table {
-    width: 100%;
-    margin: 0;
-  }
-
-}
-
-.button-timekeeping{
-  font-family: "Poppins", sans-serif;
-  background: #FEDDCC;
+.button-timekeeping {
+  background: #664FC3;
   text-align: center;
   cursor: pointer;
   border: 0px solid white;
-  color: #000;
-  border-radius: 55px;
-  /*font-size: 24px;*/
+  color: white;
+  font-weight: bold;
   outline: 0px;
   padding: 10px 20px;
-  margin-bottom: 15px;
-/* box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset; */
 }
-button:hover{
-  opacity: 0.9;
-}
-button:active{
-  transform: translateY(4px);
-  box-shadow: 0px -1px -1px #fff;
-}
+
 
 .table-container {
-  margin-top: 10px;
-  overflow-x: auto; /* Adds horizontal scrolling if the table is too wide */
-  border-collapse: collapse; /* Removes gaps between cells */
-}
-
-.table-container table {
-  width: 100%; /* Full width */
-  border-collapse: collapse; /* Removes gaps between cells */
-  table-layout: fixed; /* Ensures the table layout is fixed */
-}
-
-.table-container th, .table-container td {
-  text-align: left; /* Aligns text to the left */
-  padding: 10px; /* Adds padding for spacing */
-  border-bottom: 1px solid #ddd; /* Adds a bottom border to each cell */
-  width: 7.69%; /* Sets each column to have an equal width */
-}
-
-/* Header styles */
-.sticky-thead th {
-  background-color: #664FC3; /* Green background for headers */
-  color: white; /* White text for headers */
-  position: sticky;
-  top: 0;
-}
-
-/* Zebra striping for rows */
-.table-container tbody tr:nth-child(odd) {
-  background-color: #f2f2f2;
-}
-
-.table-container tbody tr:hover {
-  background-color: #ddd; /* Changes background on hover */
-}
-
-/* Button styles */
-.btn-primary {
-  background-color: #1B9C85; /* Blue */
-}
-
-.btn-danger {
-  background-color: #dc3545; /* Red */
+  margin-top: 1%;
+  overflow-x: auto;
+  border-collapse: collapse;
 }
 
 /* Tooltip styling */
@@ -254,11 +149,12 @@ button:active{
 .bi-pencil-square {
   font-size: 1rem;
 }
+
 .no-appointment-message {
-  text-align: center; /* Centers the text */
-  color: #6c757d; /* Bootstrap's default secondary text color for a muted look */
-  margin-top: 2rem; /* Adds some space at the top */
-  margin-bottom: 2rem; /* Adds some space at the bottom */
-  font-size: 1rem; /* Sets the font size */
-  font-style: italic; /* Italicize the font to indicate a different status from regular content */
+  text-align: center;
+  color: #6c757d;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+  font-style: italic;
 }
