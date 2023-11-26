@@ -12,7 +12,7 @@ export class PopupAddPatientComponent implements OnInit {
   patient1: any = {
     patientName: '',
     Email: '',
-    Gender: "1",
+    Gender: 1,
     phone_Number: '',
     Address: '',
     full_medical_History: '',
@@ -33,13 +33,13 @@ export class PopupAddPatientComponent implements OnInit {
   patientBody: any = {
     patient_name: '',
     email: '',
-    gender:"",
+    gender: "",
     phone_number: '',
     address: '',
     full_medical_history: '',
     dental_medical_history: '',
     date_of_birth: '',
-    description:''
+    description: ''
   }
   ngOnInit(): void {
   }
@@ -77,6 +77,7 @@ export class PopupAddPatientComponent implements OnInit {
     if (this.isSubmitted) {
       return;
     }
+    console.log(this.patient1.Gender);
     this.patientBody = {
       patient_id: null,
       patient_name: this.patient1.patientName,
