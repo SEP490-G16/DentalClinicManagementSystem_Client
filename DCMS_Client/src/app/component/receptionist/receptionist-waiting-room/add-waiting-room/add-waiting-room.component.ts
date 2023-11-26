@@ -207,9 +207,8 @@ export class AddWaitingRoomComponent implements OnInit {
       this.toastr.success('Thêm mới bệnh nhân thành công!');
       let ref = document.getElementById('cancel-patient');
       ref?.click();
-      this.patientBody.phone_number = this.normalizePhoneNumber(this.patientBody.phone_number);
       this.patient1 = [];
-      this.onsearchPatientInWaitingRoom(this.patientBody.patient_name);
+      this.patientInfor = data.data.patient_id + " - " + this.patientBody.patient_name + " - " + this.patientBody.phone_number;
     }, error => {
       ResponseHandler.HANDLE_HTTP_STATUS(this.PATIENT_SERVICE.test + "/patient", error);
     })
