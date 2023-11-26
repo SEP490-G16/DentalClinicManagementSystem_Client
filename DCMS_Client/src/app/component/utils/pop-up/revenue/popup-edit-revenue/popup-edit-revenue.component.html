@@ -1,13 +1,13 @@
 <div class="modal" id="editReportExpenditureModal">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
-  
+
         <!-- Modal Header -->
         <div class="modal-header color-header">
           <h4 class="modal-title text-center w-100">Cập nhật báo cáo chi</h4>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
-  
+
         <!-- Modal body -->
         <div class="modal-body">
           <div class="modal-body">
@@ -28,7 +28,12 @@
                 <div class="form-group row mt-3">
                   <label for="loaiChi" class="col-3 name-title">Loại chi:</label>
                   <div class="col-9">
-                    <input type="text" [(ngModel)]="EDIT_BILL_BODY.typeExpense" class="form-control value-staff" id="loaiChi" name="loaiChi">
+<!--                    <input type="text" [(ngModel)]="EDIT_BILL_BODY.typeExpense" class="form-control value-staff" id="loaiChi" name="loaiChi">-->
+                    <select type="text" [(ngModel)]="EDIT_BILL_BODY.typeExpense" class="form-select value-staff" id="loaiChi" aria-label="Default select example">
+                      <option value="1">Mẫu</option>
+                      <option value="2">Vật liệu sử dụng</option>
+                      <option value="3">Khác</option>
+                    </select>
                   </div>
                 </div>
                 <div class="form-group row mt-3">
@@ -46,15 +51,15 @@
               </div>
             </div>
           </div>
-  
+
           <!-- Modal footer -->
           <div class="modal-footer">
             <button type="button" id="cancel-addMaterial" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
             <button type="button" class="btn btn-save" (click)="putBillObjectEdit(EDIT_BILL_BODY)"><i class="bi bi-floppy2"></i> Lưu</button>
           </div>
-  
+
         </div>
       </div>
     </div>
   </div>
-  
+
