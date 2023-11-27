@@ -21,6 +21,7 @@ import { PopupExaminationDetailComponent } from './popup-examination-detail/popu
   styleUrls: ['./patient-payment-tab.component.css']
 })
 export class PatientPaymentTabComponent implements OnInit {
+  RoleId: any;
   Patient_Id: string = "";
   currentDate: string = "";
   showDetails: { [key: string]: boolean } = {};
@@ -42,6 +43,10 @@ export class PatientPaymentTabComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let role = sessionStorage.getItem('role');
+    if (role != null) {
+      this.RoleId = role.split(',');
+    }
     this.Patient_Id = this.route.snapshot.params['id'];
     const startDATE = 1698827581;
     const currentDATE = ConvertTimestamp.dateToTimestamp(moment().tz('Asia/Ho_Chi_Minh').add(1, 'days').format('YYYY-MM-DD'));
