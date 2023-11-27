@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureService/medical-procedure-group.service';
 import { ResponseHandler } from "../../utils/libs/ResponseHandler";
 import * as moment from 'moment';
+import { ReceptionistAppointmentService } from 'src/app/service/ReceptionistService/receptionist-appointment.service';
 
 @Component({
   selector: 'app-receptionist-waiting-room',
@@ -28,6 +29,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
   PUT_WAITINGROOM: IPostWaitingRoom;
   dataStorage: string = '';
   constructor(private waitingRoomService: ReceptionistWaitingRoomService,
+    private appointmentService: ReceptionistAppointmentService,
     private cognitoService: CognitoService,
     private router: Router,
     private toastr: ToastrService,
@@ -65,6 +67,8 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
         this.listPatientId = this.waitingRoomData.map((item: any) => item.patient_id);
         localStorage.setItem('listPatientId', JSON.stringify(this.listPatientId));
         this.filteredWaitingRoomData = [...this.waitingRoomData]; // Update the filtered list as well
+
+        console.log(this.filteredWaitingRoomData);
       },
       (error) => {
         this.loading = false;
@@ -136,6 +140,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
           this.showSuccessToast('Chỉnh sửa hàng chờ thành công');
           this.getWaitingRoomData();
+          
         },
           (error) => {
             this.loading = false;
@@ -166,8 +171,12 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
       timeOut: 3000, // Adjust the duration as needed
     });
   }
-
-
+  stopClick(event: Event) {
+    event.stopPropagation();
+  }
+  details(id: any) {
+    this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', id])
+  }
   signOut() {
     this.cognitoService.signOut().then(() => {
       this.router.navigate(['dangnhap']);

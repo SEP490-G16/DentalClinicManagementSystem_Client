@@ -50,6 +50,7 @@ registerLocaleData(localeVi);
     AdminModule,
     DoctorModule,
     NurseModule,
+    ReactiveFormsModule,
     //PatientModule,
     AuthModule,
     CommonModule,

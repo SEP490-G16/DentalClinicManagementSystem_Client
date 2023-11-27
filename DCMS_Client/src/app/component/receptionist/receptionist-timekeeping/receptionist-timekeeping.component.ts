@@ -59,7 +59,6 @@ export class ReceptionistTimekeepingComponent implements OnInit {
 
   ngOnInit(): void {
     this.getListStaff();
-    this.getTimekeeping();
   }
 
 
@@ -108,6 +107,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
         }).filter((staff: any) => staff !== null);
         console.log(this.Staff);
         this.StaffFilter = this.Staff;
+        this.getTimekeeping();
       },
       )
   }
@@ -358,21 +358,22 @@ export class ReceptionistTimekeepingComponent implements OnInit {
   navigateHref(href: string) {
     const userGroupsString = sessionStorage.getItem('userGroups');
 
-    if (userGroupsString) {
-      const userGroups = JSON.parse(userGroupsString) as string[];
+    // if (userGroupsString) {
+      this.router.navigate(['' + href]);
+    //   const userGroups = JSON.parse(userGroupsString) as string[];
 
-      if (userGroups.includes('dev-dcms-doctor')) {
-        this.router.navigate(['nhanvien' + href]);
-      } else if (userGroups.includes('dev-dcms-nurse')) {
-        this.router.navigate(['nhanvien' + href]);
-      } else if (userGroups.includes('dev-dcms-receptionist')) {
-        this.router.navigate(['nhanvien' + href]);
-      } else if (userGroups.includes('dev-dcms-admin')) {
-        this.router.navigate(['admin' + href]);
-      }
-    } else {
-      console.error('Không có thông tin về nhóm người dùng.');
-      this.router.navigate(['/default-route']);
-    }
+    //   if (userGroups.includes('dev-dcms-doctor')) {
+    //     this.router.navigate(['nhanvien' + href]);
+    //   } else if (userGroups.includes('dev-dcms-nurse')) {
+    //     this.router.navigate(['nhanvien' + href]);
+    //   } else if (userGroups.includes('dev-dcms-receptionist')) {
+    //     this.router.navigate(['nhanvien' + href]);
+    //   } else if (userGroups.includes('dev-dcms-admin')) {
+    //     this.router.navigate(['admin' + href]);
+    //   }
+    // } else {
+    //   console.error('Không có thông tin về nhóm người dùng.');
+    //   this.router.navigate(['/default-route']);
+    // }
   }
 }
