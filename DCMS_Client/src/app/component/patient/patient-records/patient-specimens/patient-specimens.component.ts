@@ -5,6 +5,7 @@ import { LaboService } from 'src/app/service/LaboService/Labo.service';
 import { MedicalSupplyService } from 'src/app/service/MedicalSupplyService/medical-supply.service';
 import { SpecimensService } from 'src/app/service/SpecimensService/SpecimensService.service';
 import { CommonService } from 'src/app/service/commonMethod/common.service';
+import * as moment from 'moment-timezone';
 @Component({
   selector: 'app-patient-specimens',
   templateUrl: './patient-specimens.component.html',
@@ -108,6 +109,12 @@ export class PatientSpecimensComponent implements OnInit {
 
   navigateHref(href: string) {
     this.commonService.navigateHref(href, this.Patient_Id);
+  }
+
+  timestampToDate(timestamp: number): string {
+    const date = moment.unix(timestamp);
+    const dateStr = date.format('YYYY-MM-DD');
+    return dateStr;
   }
 
 }
