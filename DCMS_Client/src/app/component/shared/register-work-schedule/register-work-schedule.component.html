@@ -1,17 +1,4 @@
 <div class="sep-recent-orders">
-  <!-- <div class="row" style="margin-bottom: 20px; margin-left: 10px;margin-top: 30px">
-    <div class="col-md-1">
-      <a routerLink="/cham-cong" routerLinkActive="active-link" class="page-title">Chấm công</a>
-    </div>
-    <div class="col-md-2">
-      <a routerLink="/dang-ky-lich-lam-viec" routerLinkActive="active-link" class="page-title">Đăng kí lịch
-        làm việc</a>
-    </div>
-    <div class="col-md-2">
-      <a routerLink="/theo-doi-cham-cong" routerLinkActive="active-link" class="page-title">Theo dõi chấm
-        công</a>
-    </div>
-  </div> -->
   <div class="link-tab" style="margin-left: 10px">
     <ng-container *ngIf="roleId.includes('1') || roleId.includes('3')">
       <div class="cham-cong">
@@ -27,165 +14,115 @@
         chấm công</a>
     </div>
   </div>
-
+  <div class="row text-center">
+    <div class="col-md-4">
+      <div class="btn-group">
+        <div
+          class="btn btn-primary"
+          mwlCalendarPreviousView
+          [view]="view"
+          [(viewDate)]="viewDate"
+          (viewDateChange)="closeOpenMonthViewDay()"
+        >
+         Tuần trước
+        </div>
+        <div
+          class="btn btn-outline-secondary"
+          mwlCalendarToday
+          [(viewDate)]="viewDate"
+        >
+          Tuần này
+        </div>
+        <div
+          class="btn btn-primary"
+          mwlCalendarNextView
+          [view]="view"
+          [(viewDate)]="viewDate"
+          (viewDateChange)="closeOpenMonthViewDay()"
+        >
+          Tuần sau
+        </div>
+      </div>
+    </div>
   <div class="row text-center">
     <div class="col-md-4">
     </div>
     <div class="col-md-4">
-      <h3 class="header-RegisterWork">{{ startOfWeek | date: 'dd/MM/yyyy' }} - {{ endOfWeek | date: 'dd/MM/yyyy' }}</h3>
+      <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'vi' }}</h3>
     </div>
     <div class="col-md-4">
     </div>
   </div>
   <br />
 
+  <div class="row">
+    <button class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Đăng ký làm việc
+    </button>
+  </div>
+
   <div [ngSwitch]="view">
 
-    <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="worksRegister"
-      [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
-      (eventTimesChanged)="eventTimesChanged($event)" [weekStartsOn]="1"
-      >
-    </mwl-calendar-week-view>
+    <mwl-calendar-week-view
+    *ngSwitchCase="CalendarView.Week"
+    [viewDate]="viewDate"
+    [events]="worksRegister"
+    [refresh]="refresh"
+    (eventClicked)="handleEventClick($event.event)"
+    (eventTimesChanged)="eventTimesChanged($event)"
+    [weekStartsOn]="1">
+  </mwl-calendar-week-view>
+
 
   </div>
 
-  <h3>
-    Edit events
-    <button class="btn btn-primary float-end" (click)="addEvent()">
-      Add new
-    </button>
-    <div class="clearfix"></div>
-  </h3>
 
-  <div class="table-responsive">
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Primary color</th>
-          <th>Secondary + text color</th>
-          <th>Starts at</th>
-          <th>Ends at</th>
-          <th>Remove</th>
-        </tr>
-      </thead>
 
-      <tbody>
-        <tr *ngFor="let event of events">
-          <td>
-            <input
-              type="text"
-              class="form-control"
-              [(ngModel)]="event.title"
-              (keyup)="refresh.next()"
-            />
-          </td>
-          <td>
-            <input
-              type="color"
-              (change)="refresh.next()"
-            />
-          </td>
-          <td>
-            <input
-              type="color"
-              (change)="refresh.next()"
-            />
-            <input
-              type="color"
-              (change)="refresh.next()"
-            />
-          </td>
-          <td>
-            <input
-              class="form-control"
-              type="text"
-              mwlFlatpickr
-              [(ngModel)]="event.start"
-              (ngModelChange)="refresh.next()"
-              [altInput]="true"
-              [convertModelValue]="true"
-              [enableTime]="true"
-              dateFormat="Y-m-dTH:i"
-              altFormat="F j, Y H:i"
-              placeholder="Not set"
-            />
-          </td>
-          <td>
-            <input
-              class="form-control"
-              type="text"
-              mwlFlatpickr
-              [(ngModel)]="event.end"
-              (ngModelChange)="refresh.next()"
-              [altInput]="true"
-              [convertModelValue]="true"
-              [enableTime]="true"
-              dateFormat="Y-m-dTH:i"
-              altFormat="F j, Y H:i"
-              placeholder="Not set"
-            />
-          </td>
-          <td>
-            <button class="btn btn-danger" (click)="deleteEvent(event)">
-              Delete
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="modal" id="exampleModal">
+  <div class="modal add-event-modal" id="exampleModal">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
 
         <!-- Modal Header -->
         <div class="modal-header color-main">
           <h4 class="modal-title text-center w-100">Thêm lịch làm việc</h4>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
 
         <!-- Modal body -->
         <div class="modal-body">
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-12">
-                <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">Tên nhiệm vụ</label>
-                  <input type="text" [(ngModel)]="title" class="form-control" id="exampleInputEmail1"
-                    aria-describedby="emailHelp">
-                </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Tên công việc</label>
+                <input type="text" class="form-control" [(ngModel)]="newEventTitle" placeholder="Tiêu đề sự kiện">
               </div>
             </div>
-
-            <div class="row">
-              <div class="col-12">
-                <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">Thời gian bắt đầu</label>
-                  <input type="datetime-local" [(ngModel)]="timeStart" class="form-control" id="exampleInputEmail1"
-                    aria-describedby="emailHelp">
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-12">
-                <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">Thời gian kết thúc</label>
-                  <input type="datetime-local" [(ngModel)]="timeEnd" class="form-control" id="exampleInputEmail1"
-                    aria-describedby="emailHelp">
-                </div>
-              </div>
-            </div>
-
-            <!-- Modal footer -->
-            <div class="button-conf float-end">
-              <button type="button" id="cancel" class="btn bg-white" data-bs-dismiss="modal">Hủy</button>
-              <button type="button" class="btn" style="background-color: rgba(139, 55, 19,.95); color:white"
-                (click)="addEvent()">Lưu</button>
-            </div>
-
           </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Thời gian bắt đầu</label>
+                <input type="datetime-local" class="form-control" [(ngModel)]="newEventStart" placeholder="Thời gian bắt đầu">
+
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Thời gian kết thúc</label>
+                <input type="datetime-local" class="form-control" [(ngModel)]="newEventEnd" placeholder="Thời gian kết thúc">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Hủy</button>
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" (click)="addEvent()">
+            Thêm mới
+          </button>
         </div>
       </div>
     </div>
@@ -193,7 +130,7 @@
 
   <ng-template #modalContent let-close="close">
     <div class="modal-header">
-      <h5 class="modal-title">Event action occurred</h5>
+      <h5 class="modal-title">Thông tin thời gian làm việc</h5>
       <button type="button" class="close" (click)="close()">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -202,7 +139,7 @@
       <div class="row">
         <div class="col-12">
           <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Tên nhiệm vụ</label>
+            <label for="exampleInputEmail1" class="form-label">Tên công việc</label>
             <input type="text" [(ngModel)]="editTitle" class="form-control" id="exampleInputEmail1"
               aria-describedby="emailHelp">
           </div>
@@ -230,9 +167,13 @@
       </div>
     </div>
     <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="cancelEdit()">
+        Hủy
+      </button>
       <button type="button" class="btn btn-outline-secondary" (click)="editEvent()">
-        OK
+        Cập nhật
       </button>
     </div>
   </ng-template>
 </div>
+

@@ -34,6 +34,8 @@ import { ReceptionistTimekeepingService } from 'src/app/service/ReceptionistServ
 import { RegisterWorkSchedule, RequestBodyTimekeeping, StaffRegisterWorkSchedule } from 'src/app/model/ITimekeeping';
 import { Router } from "@angular/router";
 import { CognitoService } from 'src/app/service/cognito.service';
+import { ConfirmDeleteModalComponent } from './ConfirmDeleteModal.component';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 
 const colors: Record<string, EventColor> = {
@@ -60,100 +62,48 @@ const colors: Record<string, EventColor> = {
 export class RegisterWorkScheduleComponent implements OnInit {
 
   @ViewChild('modalContent', { static: true }) modalContent!: TemplateRef<any>;
-
+  modalData!: {
+    action: string;
+    event: CalendarEvent;
+  };
   view: CalendarView = CalendarView.Week;
 
   CalendarView = CalendarView;
 
   viewDate: Date = new Date();
 
-  modalData!: {
-    action: string;
-    event: CalendarEvent;
-  };
+  eventForm = new FormGroup({
+    title: new FormControl('', Validators.required),
+    start: new FormControl('', Validators.required),
+    end: new FormControl('', Validators.required)
+  });
 
   actions: CalendarEventAction[] = [
     {
       label: '<i class="fas fa-fw fa-pencil-alt"></i>',
       a11yLabel: 'Edit',
       onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
+        this.handleEventClick(event);
       },
     },
     {
       label: '<i class="fas fa-fw fa-trash-alt"></i>',
       a11yLabel: 'Delete',
       onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.worksRegister = this.worksRegister.filter((iEvent) => iEvent !== event);
-        this.handleEvent('Deleted', event);
+        this.handleDeleteClick(event);
       },
     },
   ];
 
+
   refresh = new Subject<void>();
-  events: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'A 3 day event',
-      actions: this.actions,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      actions: this.actions,
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      allDay: true,
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
-      title: 'A draggable and resizable event',
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-  ];
   worksRegister: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'Lễ tân chấm công',
-      color: { ...colors['red'] },
-      actions: this.actions,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
     {
       start: startOfDay(new Date()),
       end: addDays(endOfMonth(new Date()), 3),
       title: 'Khám bệnh',
       color: { ...colors['yellow'] },
       actions: this.actions,
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'Khám bệnh',
-      color: { ...colors['blue'] },
-      allDay: true,
     },
     {
       start: addHours(startOfDay(new Date()), 2),
@@ -194,20 +144,6 @@ export class RegisterWorkScheduleComponent implements OnInit {
     if (event && event.color) {
       event.color.secondaryText = this.tempSecondaryText;
       this.refresh.next();
-    }
-  }
-
-  isdayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-    if (isSameMonth(date, this.viewDate)) {
-      if (
-        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-        events.length === 0
-      ) {
-        this.activeDayIsOpen = false;
-      } else {
-        this.activeDayIsOpen = true;
-      }
-      this.viewDate = date;
     }
   }
 
@@ -254,11 +190,49 @@ export class RegisterWorkScheduleComponent implements OnInit {
       this.editTitle = event.title;
       this.editTimeStart = this.formatDate(event.start);
       this.editTimeEnd = event.end ? this.formatDate(event.end) : "";
-    } else {
-      this.deleteEvent(event);
     }
+  }
+
+  handleEventClick(event: CalendarEvent): void {
+    this.openEditModal(event);
+  }
+
+  openEditModal(event: CalendarEvent): void {
+    this.eventForm.setValue({
+      title: event.title || '',
+      start: event.start ? this.formatDate(event.start) : '',
+      end: event.end ? this.formatDate(event.end) : ''
+    });
+    this.modalData = { event, action: 'Edited' };
+    this.modal.open(this.modalContent, { size: 'lg' });
+    this.editTitle = event.title;
+    this.editTimeStart = this.formatDate(event.start);
+    this.editTimeEnd = event.end ? this.formatDate(event.end) : "";
+  }
+
+  handleDeleteClick(eventToDelete: CalendarEvent): void {
+    const modalRef = this.modal.open(ConfirmDeleteModalComponent);
+    modalRef.componentInstance.event = eventToDelete;
+
+    modalRef.result.then(
+      (result) => {
+        if (result === 'delete') {
+          this.deleteEvent(eventToDelete);
+        }
+      },
+      (reason) => {
+
+      }
+    );
+  }
+
+  // Phương thức xóa sự kiện
+  deleteEvent(eventToDelete: CalendarEvent): void {
+    this.worksRegister = this.worksRegister.filter(event => event !== eventToDelete);
+    this.refresh.next();
 
   }
+
   formatDate(date: Date): string {
     const pad = (n: number) => (n < 10 ? `0${n}` : n);
     const formattedDate = `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
@@ -266,131 +240,69 @@ export class RegisterWorkScheduleComponent implements OnInit {
   }
 
 
-  editEvent() {
-    let sub = sessionStorage.getItem("sub");
-    let name = sessionStorage.getItem("name");
+  editEvent(): void {
 
-    if (sub !== null && name != null) {
-      const editedEvent: CalendarEvent = {
-        ...this.modalData.event,
-        title: this.editTitle,
-        start: new Date(this.editTimeStart),
-        end: this.editTimeEnd ? new Date(this.editTimeEnd) : undefined,
-      };
 
-      const index = this.worksRegister.findIndex((event) => event === this.modalData.event);
-
+    if (this.modalData && this.modalData.event) {
+      // Find the event in the worksRegister array
+      const index = this.worksRegister.findIndex(event => event === this.modalData.event);
       if (index !== -1) {
-        this.worksRegister[index] = editedEvent;
+        this.worksRegister[index].title = this.editTitle;
+        this.worksRegister[index].start = new Date(this.editTimeStart);
+        this.worksRegister[index].end = new Date(this.editTimeEnd);
 
-        const editedStartTimestamp = this.dateToTimestamp(this.editTimeStart);
-        const editedEndTimestamp = this.editTimeEnd ? this.dateToTimestamp(this.editTimeEnd) : undefined;
+        this.refresh.next();
 
-        this.Body = {
-          sub_id: sub,
-          staff_name: name,
-          epoch: editedStartTimestamp as number,
-          clock_in: editedStartTimestamp as number,
-          clock_out: editedEndTimestamp as number,
-          timekeeper_name: "",
-          staff_avt: "",
-          timekeeper_avt: "",
-          role: '',
-          status: 1
-        };
-
-        this.timekeepingService.postTimekeeping(this.Body as RequestBodyTimekeeping)
-          .subscribe(
-            (res) => {
-              this.showSuccessToast("Lịch làm việc đã được cập nhật.");
-              console.log("Body Sửa lịch làm việc", this.Body);
-            },
-            (err) => {
-              this.showErrorToast(err.error);
-            }
-          );
+        this.showSuccessToast('Cập nhật lịch làm việc thành công');
       } else {
-        this.showErrorToast("Không thể tìm thấy sự kiện để cập nhật.");
+        this.showErrorToast('Không thể tìm thấy lịch làm việc.');
       }
     }
 
-    // Close the modal after handling the edit
     this.modal.dismissAll();
   }
 
-  title: string = "Nhiệm vụ mới";
-  timeStart: string = "";
-  timeEnd: string = "";
+  cancelEdit(): void {
+    this.modal.dismissAll();
+  }
+
+  // export interface RequestBodyTimekeeping {
+  //   epoch: number
+  //   sub_id: string
+  //   role: string
+  //   register_clock_in?: number
+  //   register_clock_out?: number
+  //   staff_name: string
+  //   staff_avt: string
+  //   clock_in: number
+  //   clock_out: number
+  //   timekeeper_name?: string
+  //   timekeeper_avt?: string
+  //   status:number
+  // }
+
+  newEventTitle: string = '';
+  newEventStart: string = '';
+  newEventEnd: string = '';
   addEvent(): void {
-    let sub = sessionStorage.getItem("sub");
-    let name = sessionStorage.getItem("name");
 
-    if (sub !== null && name != null) {
-      const newEvent: CalendarEvent = {
-        title: this.title,
-        start: new Date(this.timeStart),
-        end: new Date(this.timeEnd),
-        color: { ...colors['red'] },
-        draggable: true,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true,
-        },
-      };
-
-      this.worksRegister = [...this.worksRegister, newEvent];
-
-      const newStartTimestamp = this.dateToTimestamp(this.timeStart);
-      const newEndTimestamp = this.dateToTimestamp(this.timeEnd);
-
-      this.Body = {
-        sub_id: sub,
-        staff_name: name,
-        epoch: newStartTimestamp,
-        clock_in: newStartTimestamp,
-        clock_out: newEndTimestamp,
-        timekeeper_name: "",
-        staff_avt: "",
-        timekeeper_avt: "",
-        role: '',
-        status: 1
-      };
-
-      this.timekeepingService.postTimekeeping(this.Body)
-        .subscribe(
-          (res) => {
-            this.showSuccessToast("Đăng ký lịch làm việc thành công");
-            console.log("Body Đăng ký lịch làm việc", this.Body);
-          },
-          (err) => {
-            this.showErrorToast(err.error);
-          }
-        );
-    }
+    const newEvent: CalendarEvent = {
+      title: this.newEventTitle,
+      start: new Date(this.newEventStart),
+      end: new Date(this.newEventEnd),
+      color: colors['red'],
+      actions: this.actions,
+      draggable: true,
+      resizable: {
+        beforeStart: true,
+        afterEnd: true,
+      },
+    };
+    this.toastr.success("Thêm lịch làm việc công việc mới thành công")
+    this.worksRegister = [...this.worksRegister, newEvent];
+    this.refresh.next(); // Refresh the view to reflect the new event
   }
 
-
-  deleteEvent(event: CalendarEvent) {
-    let sub = sessionStorage.getItem("sub");
-    let name = sessionStorage.getItem("name");
-    if (sub !== null && name != null) {
-
-      const startTimeStamp = event.start.getTime();
-      const endTimeStamp = event.end ? event.end.getTime() : null;
-
-      this.timekeepingService.deleteTimekeeping(this.currentDateTimeStamp, this.currentDateTimeStamp)
-        .subscribe(() => {
-          this.showSuccessToast("Xóa lịch làm việc thành công");
-          // Delete event in worksRegister
-          this.worksRegister = this.worksRegister.filter((e) => e !== event);
-        }, (err) => {
-          this.showErrorToast(err.error);
-        }
-        )
-    } else {
-      this.showErrorToast("Vui lòng đăng nhập để thực hiện thao tác");
-    }
-  }
 
   setView(view: CalendarView) {
     this.view = view;
@@ -450,14 +362,21 @@ export class RegisterWorkScheduleComponent implements OnInit {
     this.endOfWeek = moment(this.viewDate).endOf('isoWeek').toDate();
   }
 
+  UserObj: User | null = {} as User | null;
   ngOnInit(): void {
-    // let ro = sessionStorage.getItem('role');
-    // if (ro != null) {
-    //   this.roleId = ro.split(',');
-    //   console.log(this.roleId);
-    // }
+    var storedUserJsonString = sessionStorage.getItem('UserObj');
+
+    if (storedUserJsonString !== null) {
+      var storedUserObject: User = JSON.parse(storedUserJsonString);
+
+      console.log("Oki or Ok?: ", (storedUserObject !== null || undefined)?"Oki":"Ok");
+      this.UserObj = storedUserObject;
+    } else {
+      console.error('Stored user JSON string is null.');
+      this.UserObj = null;
+    }
+
     this.getStaffs();
-    this.getRegisterWorkSchedule();
   }
 
   getStaffs() {
@@ -501,10 +420,11 @@ export class RegisterWorkScheduleComponent implements OnInit {
           return isNotAdmin ? newStaff : null;
         }).filter((staff: any) => staff !== null);
         console.log(this.Staff);
+        this.getRegisterWorkSchedule();
       },
       )
   }
-
+  //Option Map
   getRegisterWorkSchedule() {
     console.log("Thứ 2: ", this.timestampToGMT7Date(this.startTime));
     console.log("Chủ nhật: ", this.timestampToGMT7Date(this.endTime));
@@ -523,8 +443,6 @@ export class RegisterWorkScheduleComponent implements OnInit {
             recordsMap.get(record.subId).push(record);
           });
         });
-
-        console.log(recordsMap);
 
         console.log("Staff có undefined hay ko?: ", this.Staff);
         this.Staff.forEach(staff => {
@@ -547,9 +465,13 @@ export class RegisterWorkScheduleComponent implements OnInit {
                     (record.register_clock_out !== undefined && record.register_clock_out !== '0')
                       ? this.timestampToGMT7String(record.register_clock_out)
                       : '';
+
+                  this.convertAPIDataToCalendarEvents();
+
                 }
               });
             }
+
           });
         });
         console.log("Staff Work Register: ", this.Staff);
@@ -587,6 +509,33 @@ export class RegisterWorkScheduleComponent implements OnInit {
       return registerEntry;
     });
   }
+
+  private convertAPIDataToCalendarEvents(): void {
+    const events: CalendarEvent[] = [];
+    this.Staff.forEach(staff => {
+      Object.keys(staff.registerSchedules).forEach((epoch: any) => {
+        const schedule = staff.registerSchedules[epoch];
+        if (schedule.startTime && schedule.endTime) {
+          console.log("Oki");
+          const startDateStr = this.timestampToGMT7Date(parseInt(epoch));
+          const startTimeStr = schedule.startTime;
+          const endTimeStr = schedule.endTime;
+
+          const event: CalendarEvent = {
+            start: new Date(this.timeAndDateToTimestamp(startTimeStr, startDateStr) * 1000),
+            end: new Date(this.timeAndDateToTimestamp(endTimeStr, startDateStr) * 1000),
+            title: staff.name,
+            color: colors['red'],
+          };
+          events.push(event);
+        }
+      });
+    });
+
+    this.worksRegister = events;
+  }
+
+
 
   //Convert Date
   dateToTimestamp(dateStr: string): number {
@@ -660,3 +609,9 @@ export class RegisterWorkScheduleComponent implements OnInit {
   }
 }
 
+interface User {
+  role: string;
+  subId: string;
+  username: string;
+  locale: string;
+}
