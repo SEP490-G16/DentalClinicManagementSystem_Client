@@ -252,7 +252,7 @@
                             class="bi bi-check-circle" (click)="toggleAddSpecime()"></i></button>
                         </div>
                         <div>
-                          <button class="delete-button" (click)="deleteRecord(i)">
+                          <button class="delete-button" (click)="deleteRecordSpeciment(i)">
                             x
                           </button>
                         </div>
@@ -280,7 +280,7 @@
                   <th>Tên vật liệu</th>
                   <th>Đơn giá</th>
                   <th>Số lượng</th>
-                  <th>Thành tiền</th>
+                  <!-- <th>Thành tiền</th> -->
                   <th>Thao tác</th>
                 </tr>
               </thead>
@@ -306,11 +306,11 @@
                         class="form-control value-staff" (ngModelChange)="changeQuantity(record)">
                       <p *ngIf="!isAddMaterial">{{record.quantity}}</p>
                     </td>
-                    <td>
+                    <!-- <td>
                       <input type="number" [(ngModel)]="record.totalPaid" *ngIf="isAddMaterial"
                         class="form-control value-staff">
                       <p *ngIf="!isAddMaterial">{{record.totalPaid}}</p>
-                    </td>
+                    </td> -->
                     <td>
                       <div class="delete-cell">
                         <div>

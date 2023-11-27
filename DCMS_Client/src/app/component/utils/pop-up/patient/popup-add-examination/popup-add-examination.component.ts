@@ -117,7 +117,7 @@ export class PopupAddExaminationComponent implements OnInit {
 
     const facility = sessionStorage.getItem("locale");
     if (facility) {
-      this.facility = facility;
+      this.facility = "F-05";
     }
   }
 
@@ -413,7 +413,7 @@ export class PopupAddExaminationComponent implements OnInit {
   postExamination() {
     const faci = sessionStorage.getItem('locale');
     if (faci != null) {
-      this.examination.facility_id = faci;
+      this.examination.facility_id = 'F-05';
     }
     this.examination.treatment_course_id = this.treatmentCourse_Id;
     this.examination.staff_id = this.staff_id;
@@ -447,7 +447,9 @@ export class PopupAddExaminationComponent implements OnInit {
         let isSuccess = false;
         if (this.records.length > 0) {
           this.records.forEach((el) => {
-            el.examination_id = examinationId
+            el.examination_id = examinationId;
+            el.price = el.price * el.quantity;
+            el.total_paid = 0;
           })
           this.materialUsageService.postMaterialUsage(this.records)
             .subscribe((res) => {
@@ -463,7 +465,7 @@ export class PopupAddExaminationComponent implements OnInit {
         if (this.recordsSpecimen.length > 0) {
           this.recordsSpecimen.forEach((item:any) => {
             item.patient_id = this.patient_Id;
-            item.facility_id = this.facility;
+            item.facility_id = 'F-05';
             item.treatment_course_id = this.treatmentCourse_Id;
             item.orderer = this.orderer
             this.medicalSupplyService.addMedicalSupply(item).subscribe(data=>{
@@ -630,24 +632,25 @@ export class PopupAddExaminationComponent implements OnInit {
   isHovering: boolean = false;
 
   navigateHref(href: string) {
-    const userGroupsString = sessionStorage.getItem('userGroups');
+    this.router.navigate([href + this.patient_Id]);
+    // const userGroupsString = sessionStorage.getItem('userGroups');
 
-    if (userGroupsString) {
-      const userGroups = JSON.parse(userGroupsString) as string[];
+    // if (userGroupsString) {
+    //   const userGroups = JSON.parse(userGroupsString) as string[];
 
-      if (userGroups.includes('dev-dcms-doctor')) {
-        this.router.navigate([href + this.patient_Id]);
-      } else if (userGroups.includes('dev-dcms-nurse')) {
-        this.router.navigate([href + this.patient_Id]);
-      } else if (userGroups.includes('dev-dcms-receptionist')) {
-        this.router.navigate([href + this.patient_Id]);
-      } else if (userGroups.includes('dev-dcms-admin')) {
-        this.router.navigate([href + this.patient_Id]);
-      }
-    } else {
-      console.error('Không có thông tin về nhóm người dùng.');
-      this.router.navigate(['/default-route']);
-    }
+    //   if (userGroups.includes('dev-dcms-doctor')) {
+    //     this.router.navigate([href + this.patient_Id]);
+    //   } else if (userGroups.includes('dev-dcms-nurse')) {
+    //     this.router.navigate([href + this.patient_Id]);
+    //   } else if (userGroups.includes('dev-dcms-receptionist')) {
+    //     this.router.navigate([href + this.patient_Id]);
+    //   } else if (userGroups.includes('dev-dcms-admin')) {
+    //     this.router.navigate([href + this.patient_Id]);
+    //   }
+    // } else {
+    //   console.error('Không có thông tin về nhóm người dùng.');
+    //   this.router.navigate(['/default-route']);
+    // }
   }
 
   toggleAdd() {
@@ -853,6 +856,12 @@ export class PopupAddExaminationComponent implements OnInit {
     labo_id: '',
     name:''
   }
+
+  deleteRecordSpeciment(index:any) {
+    this.isAddSpeci = false;
+    this.recordsSpecimen.splice(index, 1);
+  }
+  
   getLabos() {
     this.LaboService.getLabos()
       .subscribe((res) => {

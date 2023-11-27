@@ -486,10 +486,10 @@ export class PopupEditExaminationComponent implements OnInit {
   //   });
   // }
 
-  postExamination() {
+  putExamination() {
     const faci = sessionStorage.getItem('locale');
     if (faci != null) {
-      this.examination.facility_id = faci;
+      this.examination.facility_id = 'F-05';
     }
     this.examination.treatment_course_id = this.treatmentCourse_Id;
     this.examination.staff_id = this.staff_id;
@@ -500,15 +500,15 @@ export class PopupEditExaminationComponent implements OnInit {
         }
       })
     }
-    this.tcDetailService.postExamination(this.examination)
+    this.tcDetailService.putExamination(this.examinationId, this.examination)
       .subscribe((res) => {
-        this.toastr.success(res.message, 'Thêm lần khám thành công');
+        this.toastr.success(res.message, 'Chỉnh sửa lần khám thành công');
         console.log("ExaminationId Response: ", res.data.examination_id);
-        const examinationId = res.data.examination_id;
+        //const examinationId = res.data.examination_id;
         let isSuccess = false;
         if (this.records.length > 0) {
           this.records.forEach((el) => {
-            el.examination_id = examinationId
+            el.examination_id = this.examinationId
           })
           this.materialUsageService.postMaterialUsage(this.records)
             .subscribe((res) => {
@@ -541,7 +541,7 @@ export class PopupEditExaminationComponent implements OnInit {
         }
         if (this.recordsMaterial.length > 0) {
           this.recordsMaterial.forEach((el) => {
-            el.examination_id = examinationId
+            el.examination_id = this.examinationId
           })
           this.materialUsageService.postMaterialUsage(this.recordsMaterial)
             .subscribe((res) => {
@@ -905,6 +905,11 @@ export class PopupEditExaminationComponent implements OnInit {
       this.specimenBody.order_date = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
       this.recordsSpecimen.push(this.specimenBody);
     }
+  }
+
+  deleteRecordSpeciment(index:any) {
+    this.isAddSpeci = false;
+    this.recordsSpecimen.splice(index, 1);
   }
 
   listLabo: any[] = []

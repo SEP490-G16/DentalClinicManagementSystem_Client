@@ -231,7 +231,7 @@
                     <td>
                       <button class="save-button" *ngIf="isAddSpeci" style="margin-right: 3px"><i
                           class="bi bi-check-circle" (click)="toggleAdd()"></i></button>
-                      <button class="delete-button" (click)="deleteRecord(i)">
+                      <button class="delete-button" (click)="deleteRecordSpeciment(i)">
                         x
                       </button>
                     </td>
@@ -302,7 +302,7 @@
 
         <div class="row row3" style="margin-top: 2%">
           <button class="col-md-6" (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')">Hủy</button>
-          <button class="col-md-6" (click)="postExamination()">Lưu</button>
+          <button class="col-md-6" (click)="putExamination()">Lưu</button>
         </div>
       </div>
     </div>
