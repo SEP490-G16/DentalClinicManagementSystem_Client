@@ -60,6 +60,7 @@ export interface StaffRegisterWorkSchedule {
   clock_out: number,
   register_clock_in: string,
   register_clock_out: string,
+  epoch:number,
   registerSchedules: { [key: number]: { startTime: string, endTime: string } };
 }
 

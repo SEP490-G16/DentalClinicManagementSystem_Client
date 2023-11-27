@@ -39,6 +39,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 
 const colors: Record<string, EventColor> = {
+  gray: {
+    primary: '#666',
+    secondary: '#666'
+  },
   red: {
     primary: '#ad2121',
     secondary: '#FAE3E3',
@@ -51,7 +55,20 @@ const colors: Record<string, EventColor> = {
     primary: '#e3bc08',
     secondary: '#FDF1BA',
   },
+  green: {
+    primary: '#008000',
+    secondary: '#ADFF2F',
+  },
+  purple: {
+    primary: '#800080',
+    secondary: '#DA70D6',
+  },
+  orange: {
+    primary: '#FFA500',
+    secondary: '#FFDAB9',
+  }
 };
+
 
 @Component({
   selector: 'app-register-work-schedule',
@@ -97,27 +114,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
 
 
   refresh = new Subject<void>();
-  worksRegister: CalendarEvent[] = [
-    {
-      start: startOfDay(new Date()),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'Khám bệnh',
-      color: { ...colors['yellow'] },
-      actions: this.actions,
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
-      title: 'Khám bệnh 2',
-      color: { ...colors['yellow'] },
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-  ];
+  worksRegister: CalendarEvent[] = [];
 
   activeDayIsOpen: boolean = true;
 
@@ -179,6 +176,16 @@ export class RegisterWorkScheduleComponent implements OnInit {
     this.handleEvent('Dropped or resized', event);
   }
 
+  setColorByRole(role: string): EventColor {
+    switch (role) {
+      case '2': return colors["red"];
+      case '3': return colors["blue"];
+      case '4': return colors["yellow"];
+      case '5': return colors["green"];
+      default: return colors["gray"];
+    }
+  }
+
   editTitle: string = ""
   editTimeStart: string = ""
   editTimeEnd: string = ""
@@ -230,7 +237,6 @@ export class RegisterWorkScheduleComponent implements OnInit {
   deleteEvent(eventToDelete: CalendarEvent): void {
     this.worksRegister = this.worksRegister.filter(event => event !== eventToDelete);
     this.refresh.next();
-
   }
 
   formatDate(date: Date): string {
@@ -242,20 +248,45 @@ export class RegisterWorkScheduleComponent implements OnInit {
 
   editEvent(): void {
 
+    if (this.UserObj != null) {
+      const startDate = this.editTimeStart.split('T')[0];
+      const startTime = this.editTimeStart.split('T')[1];
+      const endDate = this.editTimeEnd.split('T')[0];
+      const endTime = this.editTimeEnd.split('T')[1];
 
-    if (this.modalData && this.modalData.event) {
-      // Find the event in the worksRegister array
-      const index = this.worksRegister.findIndex(event => event === this.modalData.event);
-      if (index !== -1) {
-        this.worksRegister[index].title = this.editTitle;
-        this.worksRegister[index].start = new Date(this.editTimeStart);
-        this.worksRegister[index].end = new Date(this.editTimeEnd);
+      const startTimestamp = this.timeAndDateToTimestamp(startTime, startDate);
+      const endTimestamp = this.timeAndDateToTimestamp(endTime, endDate);
+      const RequestBody: RequestBodyTimekeeping = {
+        epoch: this.currentDateTimeStamp,
+        sub_id: this.UserObj.subId,
+        staff_name: this.UserObj.username,
+        staff_avt: "",
+        role: this.UserObj.role,
+        register_clock_in: startTimestamp,
+        register_clock_out: endTimestamp,
+        clock_in: this.UserObj.clock_in,
+        clock_out: this.UserObj.clock_out,
+        timekeeper_name: "",
+        timekeeper_avt: "",
+        status: 1
+      };
+      console.log(RequestBody);
 
-        this.refresh.next();
+      //Uodate view
+      if (this.modalData && this.modalData.event) {
+        // Find the event in the worksRegister array
+        const index = this.worksRegister.findIndex(event => event === this.modalData.event);
+        if (index !== -1) {
+          this.worksRegister[index].title = this.editTitle;
+          this.worksRegister[index].start = new Date(this.editTimeStart);
+          this.worksRegister[index].end = new Date(this.editTimeEnd);
 
-        this.showSuccessToast('Cập nhật lịch làm việc thành công');
-      } else {
-        this.showErrorToast('Không thể tìm thấy lịch làm việc.');
+          this.refresh.next();
+
+          this.showSuccessToast('Cập nhật lịch làm việc thành công');
+        } else {
+          this.showErrorToast('Không thể tìm thấy lịch làm việc.');
+        }
       }
     }
 
@@ -266,43 +297,61 @@ export class RegisterWorkScheduleComponent implements OnInit {
     this.modal.dismissAll();
   }
 
-  // export interface RequestBodyTimekeeping {
-  //   epoch: number
-  //   sub_id: string
-  //   role: string
-  //   register_clock_in?: number
-  //   register_clock_out?: number
-  //   staff_name: string
-  //   staff_avt: string
-  //   clock_in: number
-  //   clock_out: number
-  //   timekeeper_name?: string
-  //   timekeeper_avt?: string
-  //   status:number
-  // }
 
   newEventTitle: string = '';
   newEventStart: string = '';
   newEventEnd: string = '';
   addEvent(): void {
+    if (this.UserObj != null) {
+      const newEvent: CalendarEvent = {
+        title: this.newEventTitle,
+        start: new Date(this.newEventStart),
+        end: new Date(this.newEventEnd),
+        color: this.setColorByRole(this.UserObj.role),
+        actions: this.actions,
+        draggable: true,
+        resizable: {
+          beforeStart: true,
+          afterEnd: true,
+        },
+      };
+      const startDate = this.newEventStart.split('T')[0];
+      const startTime = this.newEventStart.split('T')[1];
+      const endDate = this.newEventEnd.split('T')[0];
+      const endTime = this.newEventEnd.split('T')[1];
 
-    const newEvent: CalendarEvent = {
-      title: this.newEventTitle,
-      start: new Date(this.newEventStart),
-      end: new Date(this.newEventEnd),
-      color: colors['red'],
-      actions: this.actions,
-      draggable: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-    };
-    this.toastr.success("Thêm lịch làm việc công việc mới thành công")
-    this.worksRegister = [...this.worksRegister, newEvent];
-    this.refresh.next(); // Refresh the view to reflect the new event
+      const startTimestamp = this.timeAndDateToTimestamp(startTime, startDate);
+      const endTimestamp = this.timeAndDateToTimestamp(endTime, endDate);
+      const RequestBody: RequestBodyTimekeeping = {
+        epoch: this.currentDateTimeStamp,
+        sub_id: this.UserObj.subId,
+        staff_name: this.UserObj.username,
+        staff_avt: "",
+        role: this.UserObj.role,
+        register_clock_in: startTimestamp,
+        register_clock_out: endTimestamp,
+        clock_in: this.UserObj.clock_in,
+        clock_out: this.UserObj.clock_out,
+        timekeeper_name: "",
+        timekeeper_avt: "",
+        status: 1
+      };
+      console.log(RequestBody);
+      this.timekeepingService.postTimekeeping(RequestBody)
+        .subscribe((res) => {
+          this.toastr.success(res.message, "Thêm lịch làm việc mới thành công")
+          this.worksRegister = [...this.worksRegister, newEvent];
+          this.refresh.next();
+        },
+          (err) => {
+            this.toastr.error(err.error.message, "Đăng ký lịch làm việc thất bại");
+          })
+    }
   }
 
+  formatToDateTimeString(datetimeLocal: string): string {
+    return datetimeLocal.replace('T', ' ');
+  }
 
   setView(view: CalendarView) {
     this.view = view;
@@ -369,7 +418,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
     if (storedUserJsonString !== null) {
       var storedUserObject: User = JSON.parse(storedUserJsonString);
 
-      console.log("Oki or Ok?: ", (storedUserObject !== null || undefined)?"Oki":"Ok");
+      console.log("Oki or Ok?: ", (storedUserObject !== null || undefined) ? "Oki" : "Ok");
       this.UserObj = storedUserObject;
     } else {
       console.error('Stored user JSON string is null.');
@@ -391,6 +440,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
             locale: '',
             clock_in: 0,
             clock_out: 0,
+            epoch: 0,
             register_clock_in: "",
             register_clock_out: "",
             registerSchedules: {}
@@ -455,23 +505,25 @@ export class RegisterWorkScheduleComponent implements OnInit {
             if (Staff_RegisterWorkRecords) {
               Staff_RegisterWorkRecords.forEach((record: any) => {
                 if (record.epoch === weekTimestamp.toString()) {
+                  if (this.UserObj != null && record.subId === this.UserObj.subId) {
+                    this.UserObj.clock_in = record.clock_in;
+                    this.UserObj.clock_out = record.clock_out;
+                  }
                   staff.clock_in = (record.clock_in !== undefined) ? record.clock_in : 0;
                   staff.clock_out = (record.clock_out !== undefined) ? record.clock_out : 0;
                   staff.registerSchedules[weekTimestamp].startTime =
-                    (record.register_clock_in !== undefined && record.register_clock_in !== '0')
-                      ? this.timestampToGMT7String(record.register_clock_in)
-                      : '';
+                    (record.register_clock_in !== undefined && record.register_clock_in !== '0')? record.register_clock_in : '';
                   staff.registerSchedules[weekTimestamp].endTime =
                     (record.register_clock_out !== undefined && record.register_clock_out !== '0')
-                      ? this.timestampToGMT7String(record.register_clock_out)
+                      ? record.register_clock_out
                       : '';
-
-                  this.convertAPIDataToCalendarEvents();
+                  staff.epoch = record.epoch;
 
                 }
               });
             }
 
+            this.convertStaffToEvents();
           });
         });
         console.log("Staff Work Register: ", this.Staff);
@@ -482,6 +534,36 @@ export class RegisterWorkScheduleComponent implements OnInit {
       )
   }
 
+
+
+  convertStaffToEvents() {
+    this.worksRegister = [];
+
+    this.Staff.forEach(staffMember => {
+      Object.entries(staffMember.registerSchedules).forEach(([epoch, schedule]) => {
+        if (schedule.startTime && schedule.endTime) {
+
+          const startTime = new Date(parseInt(schedule.startTime) * 1000);
+          const endTime = new Date(parseInt(schedule.endTime) * 1000);
+
+          const newEvent = {
+            start: startTime,
+            end: endTime,
+            title: staffMember.name,
+            color: this.setColorByRole(staffMember.role),
+            actions: this.actions,
+            resizable: {
+              beforeStart: true,
+              afterEnd: true,
+            },
+            draggable: true,
+          };
+          this.worksRegister.push(newEvent);
+          this.refresh.next();
+        }
+      });
+    });
+  }
 
   //Tổ chức mảng:
   organizeData(data: any[]): RegisterWorkSchedule[] {
@@ -509,33 +591,6 @@ export class RegisterWorkScheduleComponent implements OnInit {
       return registerEntry;
     });
   }
-
-  private convertAPIDataToCalendarEvents(): void {
-    const events: CalendarEvent[] = [];
-    this.Staff.forEach(staff => {
-      Object.keys(staff.registerSchedules).forEach((epoch: any) => {
-        const schedule = staff.registerSchedules[epoch];
-        if (schedule.startTime && schedule.endTime) {
-          console.log("Oki");
-          const startDateStr = this.timestampToGMT7Date(parseInt(epoch));
-          const startTimeStr = schedule.startTime;
-          const endTimeStr = schedule.endTime;
-
-          const event: CalendarEvent = {
-            start: new Date(this.timeAndDateToTimestamp(startTimeStr, startDateStr) * 1000),
-            end: new Date(this.timeAndDateToTimestamp(endTimeStr, startDateStr) * 1000),
-            title: staff.name,
-            color: colors['red'],
-          };
-          events.push(event);
-        }
-      });
-    });
-
-    this.worksRegister = events;
-  }
-
-
 
   //Convert Date
   dateToTimestamp(dateStr: string): number {
@@ -614,4 +669,6 @@ interface User {
   subId: string;
   username: string;
   locale: string;
+  clock_in: number;
+  clock_out: number;
 }
