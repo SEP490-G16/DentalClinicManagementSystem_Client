@@ -215,3 +215,73 @@
 .btn-cancel:hover {
   background-color: #6e6c6c;
 }
+.button-add {
+  background: #664FC3;
+  text-align: center;
+  cursor: pointer;
+  border: 0px solid white;
+  color: white;
+  font-weight: bold;
+  /*font-size: 24px;*/
+  outline: 0px;
+  padding: 10px 20px;
+  margin-bottom: 15px;
+  /* box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset; */
+}
+.drop-toggle{
+  background-color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  cursor: hand;
+  border: 1px solid #ccc;
+  width: 233px;
+  text-align: left;
+}
+.drop-toggle i{
+  float:right;
+}
+.drop-show {
+  width: 14%;
+  padding: 4px;
+  background-color: #FFF;
+  border: 1px solid #BABABA;
+  position: absolute;
+  z-index: 100;
+  -webkit-box-shadow: 0 6px 10px rgba(0,0,0,.15);
+  -moz-box-shadow: 0 6px 10px rgba(0,0,0,.15);
+  box-shadow: 0 6px 10px rgba(0,0,0,.15);
+  margin-left: 1px;
+  border-radius: 5px;
+}
+.drop-show label{
+  display:block;
+  font-size:15px;
+  cursor: pointer;
+}
+.drop-show label input{
+  vertical-align: top;
+}
+.drop-show label span{
+  display:inline-block;
+}
+.fa-angle-down{
+  top: 1.1rem !important;
+  color: #1e1e1e;
+  line-height: inherit;
+}
+.group-list{
+  display: flex;
+  padding: 5px;
+}
+.name-title{
+  margin-left: 5px;
+}
+.sticky-thead{
+  background-color: #9e92d1;
+}
+table .tr-children:hover{
+  cursor: pointer;
+  background-color: #dad8d8;
+}
