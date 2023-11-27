@@ -18,7 +18,7 @@ export class CognitoService {
 
   cognitoUser: ICognitoUser;
 
-  constructor(private router:Router, private http: HttpClient) {
+  constructor(private router: Router, private http: HttpClient) {
     this.cognitoUser = {} as ICognitoUser;
 
     Amplify.configure({
@@ -93,7 +93,7 @@ export class CognitoService {
     });
   }
 
-  getListStaff():Observable<any> {
+  getListStaff(): Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
 
     const headers = new HttpHeaders({
@@ -103,7 +103,7 @@ export class CognitoService {
     return this.http.get('https://lipm11wja0.execute-api.ap-southeast-1.amazonaws.com/dev/staff', { headers });
   }
 
-  putStaff(userName:string, role:string, zoneinfo:string): Observable<any> {
+  putStaff(userName: string, role: string, zoneinfo: string): Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`,
@@ -113,18 +113,18 @@ export class CognitoService {
       zoneinfo: zoneinfo,
       'custom:role': role
     };
-    const requestBody = JSON.stringify({username: userName, user_attributes: attributes});
+    const requestBody = JSON.stringify({ username: userName, user_attributes: attributes });
     return this.http.put('https://lipm11wja0.execute-api.ap-southeast-1.amazonaws.com/dev/staff', requestBody, { headers });
   }
 
-  deleteStaff(staff:any):Observable<any> {
+  deleteStaff(staff: any): Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
 
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`,
       'Accept': 'application/json',
     });
-    return this.http.delete('https://lipm11wja0.execute-api.ap-southeast-1.amazonaws.com/dev/staff/'+staff.staffUserName, { headers });
+    return this.http.delete('https://lipm11wja0.execute-api.ap-southeast-1.amazonaws.com/dev/staff/' + staff.staffUserName, { headers });
   }
 
   addStaff(User: IStaff): Promise<any> {
@@ -202,8 +202,18 @@ export class CognitoService {
       sessionStorage.setItem('locale', this.cognitoUser.locale);
       sessionStorage.setItem('sub', this.cognitoUser.sub);
       sessionStorage.setItem('sub-id', this.cognitoUser.sub);
-      sessionStorage.setItem('role', this.cognitoUser.role);
-      sessionStorage.setItem('username', this.cognitoUser.Username);
+
+      //Set UserObject
+      var UserObj = {
+        role: this.cognitoUser.role,
+        subId: this.cognitoUser.sub,
+        username: this.cognitoUser.Username,
+        locale: userResult.attributes.locale
+      };
+
+      var userJsonString = JSON.stringify(UserObj);
+      sessionStorage.setItem('UserObj', userJsonString);
+
     });
   }
 

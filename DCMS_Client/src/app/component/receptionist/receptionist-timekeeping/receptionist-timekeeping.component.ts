@@ -59,7 +59,6 @@ export class ReceptionistTimekeepingComponent implements OnInit {
 
   ngOnInit(): void {
     this.getListStaff();
-    this.getTimekeeping();
   }
 
 
@@ -108,6 +107,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
         }).filter((staff: any) => staff !== null);
         console.log(this.Staff);
         this.StaffFilter = this.Staff;
+        this.getTimekeeping();
       },
       )
   }
