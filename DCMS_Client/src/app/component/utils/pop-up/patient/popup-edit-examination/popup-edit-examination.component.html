@@ -164,15 +164,15 @@
             </table>
           </div>
 
-          <div class="examination-body-middle-title">
+          <!-- <div class="examination-body-middle-title">
             <label> Đặt mẫu </label>
           </div>
           <div class="btn-add-procedure">
             <button class="btn btn-custom" (click)="toggleAddSpecime()" *ngIf="!isAddSpeci"><i
                 class="bi bi-plus-circle"></i>Thêm
               mới</button>
-          </div>
-          <div style="margin-top: 2%; margin-bottom:2%">
+          </div> -->
+          <!-- <div style="margin-top: 2%; margin-bottom:2%">
             <table class="table-bordered">
               <thead>
                 <tr>
@@ -239,7 +239,7 @@
                 </ng-container>
               </tbody>
             </table>
-          </div>
+          </div> -->
           <div class="examination-body-middle-title">
             <label> Vật liệu </label>
           </div>
@@ -284,7 +284,7 @@
                     <td>
                       <input type="number" [(ngModel)]="record.totalPaid" *ngIf="isAddMaterial"
                         class="form-control value-staff">
-                      <p *ngIf="!isAddMaterial">{{record.totalPaid}}</p>
+                      <p *ngIf="!isAddMaterial">{{record.total_paid}}</p>
                     </td>
                     <td>
                       <button class="save-button" *ngIf="isAddMaterial" style="margin-right: 3px"><i

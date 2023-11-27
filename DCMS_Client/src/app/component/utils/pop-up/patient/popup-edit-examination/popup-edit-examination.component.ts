@@ -510,7 +510,7 @@ export class PopupEditExaminationComponent implements OnInit {
           this.records.forEach((el) => {
             el.examination_id = this.examinationId
           })
-          this.materialUsageService.postMaterialUsage(this.records)
+          this.materialUsageService.puttMaterialUsage(this.records)
             .subscribe((res) => {
               isSuccess = true;
               this.toastr.success(res.message, 'Thêm Thủ thuật thành công');
@@ -521,29 +521,29 @@ export class PopupEditExaminationComponent implements OnInit {
                 this.toastr.error(err.error.message, 'Thêm Thủ thuật thất bại');
               })
         }
-        if (this.recordsSpecimen.length > 0) {
-          this.recordsSpecimen.forEach((item: any) => {
-            item.patient_id = this.patient_Id;
-            item.facility_id = this.facility;
-            item.treatment_course_id = this.treatmentCourse_Id;
-            this.medicalSupplyService.addMedicalSupply(item).subscribe(data => {
-              isSuccess = true;
-              this.toastr.success(data.message, 'Thêm mẫu vật sử dụng thành công');
-            }
-              ,
-              (err) => {
-                isSuccess = false;
-                console.log(err);
-                this.toastr.error(err.error.message, 'Thêm mẫu vật thất bại');
-              }
-            )
-          })
-        }
+        // if (this.recordsSpecimen.length > 0) {
+        //   this.recordsSpecimen.forEach((item: any) => {
+        //     item.patient_id = this.patient_Id;
+        //     item.facility_id = this.facility;
+        //     item.treatment_course_id = this.treatmentCourse_Id;
+        //     this.medicalSupplyService.updateApproveSpecimens(item).subscribe(data => {
+        //       isSuccess = true;
+        //       this.toastr.success(data.message, 'Thêm mẫu vật sử dụng thành công');
+        //     }
+        //       ,
+        //       (err) => {
+        //         isSuccess = false;
+        //         console.log(err);
+        //         this.toastr.error(err.error.message, 'Thêm mẫu vật thất bại');
+        //       }
+        //     )
+        //   })
+        // }
         if (this.recordsMaterial.length > 0) {
           this.recordsMaterial.forEach((el) => {
             el.examination_id = this.examinationId
           })
-          this.materialUsageService.postMaterialUsage(this.recordsMaterial)
+          this.materialUsageService.puttMaterialUsage(this.recordsMaterial)
             .subscribe((res) => {
               isSuccess = true;
               this.toastr.success(res.message, 'Thêm Vật liệu sử dụng thành công');
@@ -628,49 +628,49 @@ export class PopupEditExaminationComponent implements OnInit {
   }
 
   //Xử lý với bảng
-  addNewRow(status: number) {
-    switch (status) {
-      case 1:
-        this.Material_Usage_Body.push({
-          material_warehouse_id: "",
-          medical_procedure_id: "",
-          treatment_course_id: "",
-          examination_id: "",
-          quantity: 0,
-          price: 0,
-          total_paid: 0,
-          description: ''
-        });
-        console.log("Table row", this.Material_Usage_Body);
-        this.Material_Usage_Body[this.Material_Usage_Body.length - 1].animationClass = 'new-row-animation';
-        break;
-      default:
-        this.Procedure_Material_Usage_Body.push({
-          material_warehouse_id: "",
-          medical_procedure_id: "",
-          treatment_course_id: "",
-          examination_id: "",
-          quantity: 0,
-          price: 0,
-          total_paid: 0,
-          description: ''
-        });
-        console.log("Table row", this.Procedure_Material_Usage_Body);
-        this.Procedure_Material_Usage_Body[this.Procedure_Material_Usage_Body.length - 1].animationClass = 'new-row-animation';
-        break;
-    }
-  }
+  // addNewRow(status: number) {
+  //   switch (status) {
+  //     case 1:
+  //       this.Material_Usage_Body.push({
+  //         material_warehouse_id: "",
+  //         medical_procedure_id: "",
+  //         treatment_course_id: "",
+  //         examination_id: "",
+  //         quantity: 0,
+  //         price: 0,
+  //         total_paid: 0,
+  //         description: ''
+  //       });
+  //       console.log("Table row", this.Material_Usage_Body);
+  //       this.Material_Usage_Body[this.Material_Usage_Body.length - 1].animationClass = 'new-row-animation';
+  //       break;
+  //     default:
+  //       this.Procedure_Material_Usage_Body.push({
+  //         material_warehouse_id: "",
+  //         medical_procedure_id: "",
+  //         treatment_course_id: "",
+  //         examination_id: "",
+  //         quantity: 0,
+  //         price: 0,
+  //         total_paid: 0,
+  //         description: ''
+  //       });
+  //       console.log("Table row", this.Procedure_Material_Usage_Body);
+  //       this.Procedure_Material_Usage_Body[this.Procedure_Material_Usage_Body.length - 1].animationClass = 'new-row-animation';
+  //       break;
+  //   }
+  // }
 
-  removeRow(index: number, status: number) {
-    switch (status) {
-      case 1:
-        this.Material_Usage_Body.splice(index, 1);
-        break;
-      default:
-        this.Procedure_Material_Usage_Body.splice(index, 1);
-        break;
-    }
-  }
+  // removeRow(index: number, status: number) {
+  //   switch (status) {
+  //     case 1:
+  //       this.Material_Usage_Body.splice(index, 1);
+  //       break;
+  //     default:
+  //       this.Procedure_Material_Usage_Body.splice(index, 1);
+  //       break;
+  //   }
+  // }
   isPopup1Visible = false;
   isPopup2Visible = false;
 
@@ -690,30 +690,32 @@ export class PopupEditExaminationComponent implements OnInit {
   isHovering: boolean = false;
 
   navigateHref(href: string) {
-    const userGroupsString = sessionStorage.getItem('userGroups');
+    this.router.navigate([href + this.patient_Id]);
+    // const userGroupsString = sessionStorage.getItem('userGroups');
 
-    if (userGroupsString) {
-      const userGroups = JSON.parse(userGroupsString) as string[];
+    // if (userGroupsString) {
+    //   const userGroups = JSON.parse(userGroupsString) as string[];
 
-      if (userGroups.includes('dev-dcms-doctor')) {
-        this.router.navigate([href + this.patient_Id]);
-      } else if (userGroups.includes('dev-dcms-nurse')) {
-        this.router.navigate([href + this.patient_Id]);
-      } else if (userGroups.includes('dev-dcms-receptionist')) {
-        this.router.navigate([href + this.patient_Id]);
-      } else if (userGroups.includes('dev-dcms-admin')) {
-        this.router.navigate([href + this.patient_Id]);
-      }
-    } else {
-      console.error('Không có thông tin về nhóm người dùng.');
-      this.router.navigate(['/default-route']);
-    }
+    //   if (userGroups.includes('dev-dcms-doctor')) {
+    //     this.router.navigate([href + this.patient_Id]);
+    //   } else if (userGroups.includes('dev-dcms-nurse')) {
+    //     this.router.navigate([href + this.patient_Id]);
+    //   } else if (userGroups.includes('dev-dcms-receptionist')) {
+    //     this.router.navigate([href + this.patient_Id]);
+    //   } else if (userGroups.includes('dev-dcms-admin')) {
+    //     this.router.navigate([href + this.patient_Id]);
+    //   }
+    // } else {
+    //   console.error('Không có thông tin về nhóm người dùng.');
+    //   this.router.navigate(['/default-route']);
+    // }
   }
 
   toggleAdd() {
     this.isAdd = !this.isAdd;
     if (this.isAdd) {
       this.records.push({
+        material_usage_id:'',
         treatment_course_id: this.treatmentCourse_Id,
         medical_procedure_id: '',
         examination_id: '',
@@ -731,12 +733,13 @@ export class PopupEditExaminationComponent implements OnInit {
     this.isAddMaterial = !this.isAddMaterial;
     if (this.isAddMaterial) {
       this.recordsMaterial.push({
+        material_usage_id: '',
         material_warehouse_id: '',
         treatment_course_id: this.treatmentCourse_Id,
         examination_id: '',
         quantity: '1',
         price: '',
-        totalPaid: '',
+        total_paid: '',
         description: '',
       })
     }
@@ -965,6 +968,7 @@ interface Medical_Supply {
 }
 
 interface material_usage_body {
+  mu_material_usage_id: string,
   material_warehouse_id: string,
   treatment_course_id: string,
   examination_id: string,

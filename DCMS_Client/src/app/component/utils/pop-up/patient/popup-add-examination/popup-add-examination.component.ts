@@ -679,7 +679,7 @@ export class PopupAddExaminationComponent implements OnInit {
         examination_id: '',
         quantity: '1',
         price: '',
-        totalPaid: '',
+        total_paid: '',
         description: '',
       })
     }

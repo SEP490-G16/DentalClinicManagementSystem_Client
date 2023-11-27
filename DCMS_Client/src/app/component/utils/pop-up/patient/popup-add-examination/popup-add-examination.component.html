@@ -129,7 +129,7 @@
                   <th>Nhóm thủ thuật</th>
                   <th>Tên thủ thuật</th>
                   <th>Đơn giá</th>
-                  <th>Thành tiền</th>
+                  <!-- <th>Thành tiền</th> -->
                   <th>Thao tác</th>
                 </tr>
               </thead>
@@ -157,10 +157,10 @@
                       <input type="text" [(ngModel)]="record.price" *ngIf="isAdd" class="form-control value-staff">
                       <p *ngIf="!isAdd">{{record.price}}</p>
                     </td>
-                    <td>
+                    <!-- <td>
                       <input type="text" [(ngModel)]="record.total_paid" *ngIf="isAdd" class="form-control value-staff">
                       <p *ngIf="!isAdd">{{record.total_paid}}</p>
-                    </td>
+                    </td> -->
                     <td>
                       <div class="delete-cell">
                         <div>
@@ -280,7 +280,7 @@
                   <th>Tên vật liệu</th>
                   <th>Đơn giá</th>
                   <th>Số lượng</th>
-                  <!-- <th>Thành tiền</th> -->
+                  <th>Thành tiền</th>
                   <th>Thao tác</th>
                 </tr>
               </thead>
@@ -306,11 +306,11 @@
                         class="form-control value-staff" (ngModelChange)="changeQuantity(record)">
                       <p *ngIf="!isAddMaterial">{{record.quantity}}</p>
                     </td>
-                    <!-- <td>
-                      <input type="number" [(ngModel)]="record.totalPaid" *ngIf="isAddMaterial"
+                    <td>
+                      <input type="number" [(ngModel)]="record.total_paid" *ngIf="isAddMaterial"
                         class="form-control value-staff">
-                      <p *ngIf="!isAddMaterial">{{record.totalPaid}}</p>
-                    </td> -->
+                      <p *ngIf="!isAddMaterial">{{record.total_paid}}</p>
+                    </td>
                     <td>
                       <div class="delete-cell">
                         <div>
