@@ -17,6 +17,7 @@ import {
   addHours,
 } from 'date-fns';
 
+
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -178,10 +179,10 @@ export class RegisterWorkScheduleComponent implements OnInit {
 
   setColorByRole(role: string): EventColor {
     switch (role) {
-      case '2': return colors["red"];
+      case '2': return colors["green"];
       case '3': return colors["blue"];
       case '4': return colors["yellow"];
-      case '5': return colors["green"];
+      case '5': return colors["purple"];
       default: return colors["gray"];
     }
   }
@@ -297,6 +298,9 @@ export class RegisterWorkScheduleComponent implements OnInit {
     this.modal.dismissAll();
   }
 
+  openAddEventModal(content: TemplateRef<any>) {
+    this.modal.open(content, { size: 'lg' });
+  }
 
   newEventTitle: string = '';
   newEventStart: string = '';
