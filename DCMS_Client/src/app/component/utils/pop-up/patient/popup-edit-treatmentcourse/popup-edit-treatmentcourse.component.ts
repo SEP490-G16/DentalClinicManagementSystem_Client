@@ -11,7 +11,7 @@ import {ResponseHandler} from "../../../libs/ResponseHandler";
 export class PopupEditTreatmentcourseComponent implements OnInit {
   @Input() TreatmentCourse: any;
 
-
+  showDropDown:boolean = false;
   constructor(
     private treatmentCourseService:TreatmentCourseService,
     private toastr: ToastrService

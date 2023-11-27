@@ -182,4 +182,24 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
       this.router.navigate(['dangnhap']);
     })
   }
+  navigateHref(href: string, id:any) {
+    const userGroupsString = sessionStorage.getItem('userGroups');
+
+    if (userGroupsString) {
+      const userGroups = JSON.parse(userGroupsString) as string[];
+
+      if (userGroups.includes('dev-dcms-doctor')) {
+        this.router.navigate([href + id]);
+      } else if (userGroups.includes('dev-dcms-nurse')) {
+        this.router.navigate([href + id]);
+      } else if (userGroups.includes('dev-dcms-receptionist')) {
+        this.router.navigate([href + id]);
+      } else if (userGroups.includes('dev-dcms-admin')) {
+        this.router.navigate([href + id]);
+      }
+    } else {
+      console.error('Không có thông tin về nhóm người dùng.');
+      this.router.navigate(['/default-route']);
+    }
+  }
 }

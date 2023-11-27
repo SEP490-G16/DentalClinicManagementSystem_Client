@@ -28,6 +28,7 @@
           <th style="width:300px">Lý do khám</th>
           <th style="width:200px">Loại điều trị</th>
           <th style="width:200px">Trạng thái</th>
+          <th style="width:200px">Thanh toán</th>
         </tr>
       </thead>
       <tbody>
@@ -61,6 +62,10 @@
               <option value="3" class="status-option completed">Khám xong</option>
               <option value="4" class="status-option remove">Xóa hàng chờ</option> -->
             </select>
+          </td>
+          <td>
+            <button class="btn button-timekeeping" (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/',wtr.patient_id)">
+              Thanh toán</button>
           </td>
         </tr>
       </tbody>
