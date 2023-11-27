@@ -108,7 +108,6 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     const now = new Date();
     const start = now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDay()+" 00:00:00";
     const end = now.getFullYear()+"-"+(now.getMonth()+1)+"-"+(now.getDay()+1)+" 00:00:00";
-    alert(start);
     this.appointmentService.getAppointmentList(this.dateToTimestamp(start), this.dateToTimestamp(end)).subscribe(data => {
       this.appointmentList = ConvertJson.processApiResponse(data);
       this.filteredAppointments = this.appointmentList.filter(app => app.date === this.startDateTimestamp);
@@ -171,11 +170,11 @@ export class ReceptionistAppointmentListComponent implements OnInit {
 
   filterAppointments() {
     if (this.selectedProcedure) {
+      this.appointmentList = this.appointmentList.filter(app => app.date === this.startDateTimestamp);
       this.filteredAppointments = this.appointmentList
         .map((a: any) => {
           const filteredAppointments = a.appointments
             .filter((appointment: any) => appointment.procedure_id === this.selectedProcedure);
-          // Chỉ giữ lại các "appointment" có "details"
           return { ...a, appointments: filteredAppointments };
         })
         .filter((a: any) => a.appointments.length > 0);

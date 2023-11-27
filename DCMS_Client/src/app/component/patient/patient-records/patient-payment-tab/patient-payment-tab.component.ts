@@ -150,24 +150,25 @@ export class PatientPaymentTabComponent implements OnInit {
   }
 
   navigateHref(href: string) {
-    const userGroupsString = sessionStorage.getItem('userGroups');
+    this.router.navigate([href + this.Patient_Id]);
+    // const userGroupsString = sessionStorage.getItem('userGroups');
 
-    if (userGroupsString) {
-      const userGroups = JSON.parse(userGroupsString) as string[];
+    // if (userGroupsString) {
+    //   const userGroups = JSON.parse(userGroupsString) as string[];
 
-      if (userGroups.includes('dev-dcms-doctor')) {
-        this.router.navigate([href + this.Patient_Id]);
-      } else if (userGroups.includes('dev-dcms-nurse')) {
-        this.router.navigate([href + this.Patient_Id]);
-      } else if (userGroups.includes('dev-dcms-receptionist')) {
-        this.router.navigate([href + this.Patient_Id]);
-      } else if (userGroups.includes('dev-dcms-admin')) {
-        this.router.navigate([href + this.Patient_Id]);
-      }
-    } else {
-      console.error('Không có thông tin về nhóm người dùng.');
-      this.router.navigate(['/default-route']);
-    }
+    //   if (userGroups.includes('dev-dcms-doctor')) {
+    //     this.router.navigate([href + this.Patient_Id]);
+    //   } else if (userGroups.includes('dev-dcms-nurse')) {
+    //     this.router.navigate([href + this.Patient_Id]);
+    //   } else if (userGroups.includes('dev-dcms-receptionist')) {
+    //     this.router.navigate([href + this.Patient_Id]);
+    //   } else if (userGroups.includes('dev-dcms-admin')) {
+    //     this.router.navigate([href + this.Patient_Id]);
+    //   }
+    // } else {
+    //   console.error('Không có thông tin về nhóm người dùng.');
+    //   this.router.navigate(['/default-route']);
+    // }
   }
 
 }
