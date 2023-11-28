@@ -23,6 +23,128 @@
                              [notFoundText]="'Không tìm thấy bệnh nhân'" >
                   </ng-select>
                   <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.patientName}}</p>
+                  <div class="add-patient">
+                    <button class="save-button" style="margin-left: 3px" (click)="toggleAdd()"><i
+                      class="bi bi-plus-circle"></i></button>
+                  </div>
+              </div>
+              <div class="row" *ngIf="isAdd">
+                <div class="col-md-4">
+                  <div class="card mb-4 mb-xl-0">
+                    <div class="card-body text-center">
+                      <img class="img-account-profile mb-2"
+                           src="https://static.vecteezy.com/system/resources/thumbnails/004/141/669/small/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg"
+                           alt="">
+                      <button class="btn btn-primary" type="button">Chọn ảnh</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-8">
+                  <div class="card mb-4">
+                    <div class="card-body">
+                      <div class="mb-3">
+                        <div class="form-group mb-3">
+                          <label class="small mb-1" for="hovaten">Họ và tên<span class="required">*</span></label>
+                          <input class="form-control" [(ngModel)]="patient1.patientName" id="hovaten" type="text"
+                                 placeholder="Họ và tên">
+                          <div *ngIf="isSubmittedPatient" class="alert-danger-custom">
+                            <p style="color:#FF0000FF;">
+                              {{validatePatient.name}}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row gx-3 mb-3">
+                        <div class="col-md-6">
+                          <div class="form-group mb-3">
+                            <label class="small mb-1" for="createdDate">Ngày sinh<span class="required">*</span></label>
+                            <input class="form-control" [(ngModel)]="patient1.dob" id="createdDate" type="date">
+                            <div *ngIf="isSubmittedPatient" class="alert-danger-custom">
+                              <p style="color:#FF0000FF;">
+                                {{validatePatient.dob}}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group mb-3">
+                            <div class="small mb-1">
+                              <label>Giới tính<span class="required">*</span></label>
+                            </div>
+                            <div class="mb-6 sep-input-gender">
+                              <input type="radio" [(ngModel)]="patient1.Gender" class="radio m-2" [value]="1">
+                              <label for="male">Nam</label>
+                              <input type="radio" [(ngModel)]="patient1.Gender" class="radio m-2" value="0">
+                              <label for="female">Nữ</label>
+                            </div>
+                            <div *ngIf="isSubmittedPatient" class="alert-danger-custom">
+                              <p style="color:#FF0000FF;">
+                                {{validatePatient.gender}}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row gx-3 mb-3">
+                        <div class="col-md-6">
+                          <div class="form-group mb-3">
+                            <label class="small mb-1" for="inputPhone">Số điện thoại<span class="required">*</span></label>
+                            <div class="input-group mb-3">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text custom-input" id="basic-addon1">(+84)</span>
+                              </div>
+                              <input type="text" class="form-control" [(ngModel)]="patient1.phone_Number" id="inputPhone"
+                                     name="inputPhone" aria-label="phoneNumber" aria-describedby="basic-addon1">
+                            </div>
+                            <div *ngIf="isSubmittedPatient" class="alert-danger-custom">
+                              <p style="color:#FF0000FF;">
+                                {{validatePatient.phone}}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group mb-3">
+                            <label class="small mb-1" for="email">Email</label>
+                            <input class="form-control" [(ngModel)]="patient1.email" id="email" type="text" name="birthday"
+                                   placeholder="Email">
+                            <div *ngIf="isSubmittedPatient" class="alert-danger-custom">
+                              <p style="color:#FF0000FF;">
+                                {{validatePatient.email}}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="mb-3">
+                          <label class="small mb-1" for="tieuSuBenh">Địa chỉ</label>
+                          <input class="form-control" [(ngModel)]="patient1.Address" id="tieuSuBenh" type="text" />
+                          <div *ngIf="isSubmittedPatient" class="alert-danger-custom">
+                            <p style="color:#FF0000FF;">
+                              {{validatePatient.address}}
+                            </p>
+                          </div>
+                        </div>
+                        <div class="mb-3">
+                          <label class="small mb-1" for="note">Tiền sử toàn thân</label>
+                          <input class="form-control" [(ngModel)]="patient1.full_medical_History" id="note" type="text">
+                        </div>
+                        <div class="mb-3">
+                          <label class="small mb-1" for="note">Tiền sử răng miệng</label>
+                          <input class="form-control" [(ngModel)]="patient1.dental_medical_History" id="note" type="text">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-around" style="text-align: center; width: 50%; margin-left: 52%;">
+                  <div class="sep-patient-popupadd-button">
+                    <button type="button" id="cancel-patient" class="btn btn-cancel" (click)="checkCancel()">Hủy</button>
+                  </div>
+                  <div class="sep-patient-popupadd-button">
+                    <button type="button" class="btn button-timekeeping" (click)="addPatient()"> Thêm mới bệnh
+                      nhân</button>
+                  </div>
+                </div>
               </div>
               <div class="form-group mt-2">
                 <label for="treatment">Lý do khám</label>
@@ -88,9 +210,9 @@
             <div class="row mt-4">
               <div class="col">
                 <div class="float-end">
-                  <button type="button" class="btn btn-cancel" data-bs-dismiss="modal" (click)="close()">Huỷ</button>
+                  <button [disabled]="isAdd" type="button" class="btn btn-cancel" data-bs-dismiss="modal" (click)="close()">Huỷ</button>
                   <!-- <button type="button" class="btn btn-primary" (click)="onPostAppointment()" [disabled]="!isPatientInfoEditable">Xác nhận</button> -->
-                  <button type="button" class="btn button-timekeeping" (click)="onPostAppointment()"><i
+                  <button  [disabled]="isAdd" type="button" class="btn button-timekeeping" (click)="onPostAppointment()"><i
                       class="bi bi-plus-circle"></i> Thêm mới</button>
                 </div>
               </div>
