@@ -94,7 +94,6 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
       this.treatmentCourseService.deleteTreatmentCourse(treatment_course_id)
         .subscribe((res) => {
           this.toastr.success(res.message, 'Xóa liệu trình thành công');
-
           const index = this.ITreatmentCourse.findIndex((ex: any) => ex.treatment_course_id === treatment_course_id);
           if (index !== -1) {
             this.ITreatmentCourse.splice(index, 1);

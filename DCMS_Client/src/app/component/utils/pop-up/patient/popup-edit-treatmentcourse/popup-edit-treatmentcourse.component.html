@@ -26,7 +26,7 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Lý do khám</label>
-                <input type="text" class="form-control" id="exampleInputEmail1"
+                <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="Edit_TreatmentCourse.chief_complaint"
                        aria-describedby="emailHelp">
               </div>
             </div>
@@ -35,7 +35,7 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Chuẩn đoán</label>
-                <input type="text" class="form-control" id="exampleInputEmail1"
+                <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="Edit_TreatmentCourse.provisional_diagnosis"
                        aria-describedby="emailHelp">
               </div>
             </div>
@@ -44,7 +44,7 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Nguyên nhân</label>
-                <input type="text" class="form-control" id="exampleInputEmail1"
+                <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="Edit_TreatmentCourse.differential_diagnosis"
                        aria-describedby="emailHelp">
               </div>
             </div>
@@ -53,7 +53,7 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Tên Liệu trình</label>
-                <input type="text" class="form-control" id="exampleInputEmail1"
+                <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="Edit_TreatmentCourse.name"
                 [(ngModel)]="Edit_TreatmentCourse.name"
                 aria-describedby="emailHelp">
               </div>
@@ -70,12 +70,12 @@
                     <i class="fa fa-angle-down"></i>
                   </button>
                   <div class="drop-show" *ngIf="showDropDown">
-                    <div class="group-list">
+                    <div class="group-list" *ngFor="let a of list">
                       <div class="input-name">
-                        <input type="checkbox"/>
+                        <input type="checkbox" [(ngModel)]="a.checked" (click)="getSelectedValue(a)"/>
                       </div>
                       <div class="name-title">
-                        <span></span>
+                        <span> {{a.groupName}}</span>
                       </div>
                     </div>
                   </div>
@@ -83,7 +83,7 @@
               </div>
             </div>
           </div>
-
+  
           <div class="row">
             <div class="col-12">
               <div class="mb-3">
@@ -102,49 +102,48 @@
                     <th style="padding: 10px">Giá tiền</th>
                     <th style="padding: 10px">Thành tiền</th>
                   </tr>
-<!--                  <ng-container *ngFor="let pro of list">-->
-<!--                    <ng-container *ngIf="pro.checked == true">-->
-<!--                      &lt;!&ndash;                    <ng-container *ngFor="let gro of pro.procedure">&ndash;&gt;-->
-<!--                      <tr class="tr-children" (click)="toggleExpand(pro)">-->
-<!--                        <td style="padding: 10px;float: right">-->
-<!--                          <i class="bi"-->
-<!--                             [ngClass]="{'bi-chevron-double-right': !pro.isExpand, 'bi-chevron-double-down': pro.isExpand}"></i>-->
-<!--                        </td>-->
-<!--                        <td style="padding: 10px">{{pro.groupName}}</td>-->
-<!--                        <td style="padding: 10px"></td>-->
-<!--                        <td style="padding: 10px"></td>-->
-<!--                        <td style="padding: 10px"></td>-->
-<!--                      </tr>-->
-<!--                      <tr *ngIf="pro.isExpand">-->
-<!--                        <td colspan="5">-->
-<!--                          <table>-->
-<!--                            <colgroup>-->
-<!--                              <col style="width: 10%">-->
-<!--                              <col style="width: 30%">-->
-<!--                              <col style="width: 30%">-->
-<!--                              <col style="width: 10%">-->
-<!--                              <col style="width: 20%">-->
-<!--                            </colgroup>-->
-<!--                            <tr class="tr-children" *ngFor="let gro of pro.procedure">-->
-<!--                              <td style="padding: 10px"></td>-->
-<!--                              <td style="padding: 10px"><i class="bi bi-arrow-return-right"></i></td>-->
-<!--                              <td style="padding: 10px">-->
-<!--                                <input type="checkbox" style="margin-right: 3px" (click)="checkProcedureUse(gro)"/>{{gro.procedureName}}</td>-->
-<!--                              <td style="padding: 10px"> {{gro.initPrice}}</td>-->
-<!--                              <ng-container *ngIf="gro.checked">-->
-<!--                                <td style="padding: 10px"><input style="padding: 5px; border-radius: 5px" type="text" [(ngModel)]="gro.price" (input)="changePrice(gro, $event)"></td>-->
-<!--                              </ng-container>-->
-<!--                            </tr>-->
-<!--                          </table>-->
-<!--                        </td>-->
-<!--                      </tr>-->
-<!--                      &lt;!&ndash;                    </ng-container>&ndash;&gt;-->
-<!--                    </ng-container>-->
-<!--                  </ng-container>-->
+                  <ng-container *ngFor="let pro of list">
+                    <ng-container *ngIf="pro.checked == true">
+                        <tr class="tr-children" (click)="toggleExpand(pro)">
+                          <td style="padding: 10px;float: right">
+                            <i class="bi"
+                               [ngClass]="{'bi-chevron-double-right': !pro.isExpand, 'bi-chevron-double-down': pro.isExpand}"></i>
+                          </td>
+                          <td style="padding: 10px">{{pro.groupName}}</td>
+                          <td style="padding: 10px"></td>
+                          <td style="padding: 10px"></td>
+                          <td style="padding: 10px"></td>
+                        </tr>
+                        <tr *ngIf="pro.isExpand">
+                          <td colspan="5">
+                            <table>
+                              <colgroup>
+                                <col style="width: 10%">
+                                <col style="width: 30%">
+                                <col style="width: 30%">
+                                <col style="width: 10%">
+                                <col style="width: 20%">
+                              </colgroup>
+                              <tr class="tr-children" *ngFor="let gro of pro.procedure">
+                                <td style="padding: 10px"></td>
+                                <td style="padding: 10px"><i class="bi bi-arrow-return-right"></i></td>
+                                <td style="padding: 10px">
+                                  <input type="checkbox" style="margin-right: 3px" [(ngModel)]="gro.checked" (click)="checkProcedureUse(gro)"/>{{gro.procedureName}}</td>
+                                <td style="padding: 10px"> {{gro.initPrice}}</td>
+                                <ng-container *ngIf="gro.checked">
+                                  <td style="padding: 10px"><input style="padding: 5px; border-radius: 5px" type="text" [(ngModel)]="gro.price" (input)="changePrice(gro, $event)"></td>
+                                </ng-container>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                    </ng-container>
+                  </ng-container>
                 </table>
               </div>
             </div>
           </div>
+  
 
           <div class="row">
             <div class="col-12">

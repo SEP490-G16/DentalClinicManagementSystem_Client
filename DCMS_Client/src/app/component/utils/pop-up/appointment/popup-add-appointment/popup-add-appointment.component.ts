@@ -197,15 +197,15 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.datesDisabled && this.datesDisabled.length == 0) {
-    }
-    if (changes['datesDisabled'] && this.datesDisabled && this.datesDisabled.length > 0) {
-      this.datesDisabled = this.datesDisabled.map((timestamp: number) => {
-        const date = new Date(timestamp * 1000); // Chuyển đổi timestamp sang date
-        return date.toISOString().slice(0, 10); // Lấy phần yyyy-MM-dd
-      });
-      console.log("Date Parse: ", this.datesDisabled);
-    }
+    // if (this.datesDisabled && this.datesDisabled.length == 0) {
+    // }
+    // if (changes['datesDisabled'] && this.datesDisabled && this.datesDisabled.length > 0) {
+    //   this.datesDisabled = this.datesDisabled.map((timestamp: number) => {
+    //     const date = new Date(timestamp * 1000); // Chuyển đổi timestamp sang date
+    //     return date.toISOString().slice(0, 10); // Lấy phần yyyy-MM-dd
+    //   });
+    //   console.log("Date Parse: ", this.datesDisabled);
+    // }
 
   }
 
@@ -500,18 +500,23 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     this.AppointmentBody.appointment.phone_number = patientInfor[2];
     this.loading = true;
     console.log("aa", this.filteredAppointments);
+    var checkPatient = true;
     this.filteredAppointments.forEach((appo: any) => {
       appo.appointments.forEach((deta: any) => {
         deta.details.forEach((res: any) => {
           if (res.patient_id == this.AppointmentBody.appointment.patient_id) {
             this.validateAppointment.patientName = `Bệnh nhân đã lịch hẹn trong ngày ${selectedDate} !`;
-            this.isSubmitted = true;
-            this.loading = false;
+            checkPatient = false;
             return;
           }
         })
       })
     })
+
+    if (!checkPatient ) {
+      return;
+    }
+
     if (this.appointmentTime == '') {
       this.validateAppointment.appointmentTime = "Vui lòng chọn giờ khám!";
       this.isSubmitted = true;
