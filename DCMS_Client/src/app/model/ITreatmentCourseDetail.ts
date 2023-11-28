@@ -25,7 +25,12 @@ export interface Examination {
   facility_id: string,
   description: any,
   staff_id: string,
-  'x-ray-image': any,
-  'x-ray-image-des': any,
+  image: ImageBody[],
   medicine: any
+}
+
+export interface ImageBody {
+  base64: boolean,
+  image_data: string,
+  description: string,
 }

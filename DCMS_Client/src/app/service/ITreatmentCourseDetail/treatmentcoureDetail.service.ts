@@ -33,6 +33,16 @@ export class TreatmentCourseDetailService {
     return this.http.get(`${this.apiUrl}/examination/${id}`, { headers });
   }
 
+  getDetailByExamnination(id:any):Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      'Accept':'application/json'
+    });
+
+    return this.http.get(`https://834bsm6e7l.execute-api.ap-southeast-1.amazonaws.com/dev/material-usage/examination/${id}`, { headers });
+  }
+
   postExamination(PostTreatmentCourse:any): Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
     const headers = new HttpHeaders({

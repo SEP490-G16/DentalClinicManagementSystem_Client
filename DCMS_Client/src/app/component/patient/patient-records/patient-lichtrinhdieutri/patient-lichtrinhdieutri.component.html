@@ -43,7 +43,7 @@
                 <div class="row">
                   <div class="col">
                     <a style=" color: white;cursor: pointer; text-decoration: none; font-size: 15px;">
-                      Liệu trình: {{ course.name }}
+                      <b style="color: white;">Liệu trình: {{ course.name }} - {{course.created_date | date: 'dd/mm/yyyy'}}</b>
                     </a>
                   </div>
                   <div class="col">
@@ -69,7 +69,7 @@
                       <div class="col">
                         <p style="cursor: pointer;" (click)="navigateEditExamination(courseDetail)"
                           title="Xem chi tiết lần khám">Lần khám {{
-                          i2 + 1}}: <b>{{ courseDetail.created_date | VNdateTimeFormat}}</b></p>
+                          i2 + 1}}: <b>{{ courseDetail.created_date | date: 'dd/mm/yyyy'}}</b></p>
                       </div>
                       <div class="col">
                         <div class="action float-end" style="font-size: 20px; padding-right: 10px;">

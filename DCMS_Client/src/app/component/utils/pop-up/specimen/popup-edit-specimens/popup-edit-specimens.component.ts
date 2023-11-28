@@ -14,6 +14,7 @@ import * as moment from 'moment';
   styleUrls: ['./popup-edit-specimens.component.css']
 })
 export class PopupEditSpecimensComponent implements OnInit {
+  @Input() Patient_Id:any
   @Input() PutSpecimen: any;
   @Input() AllLabos: any;
   loading: boolean = false;

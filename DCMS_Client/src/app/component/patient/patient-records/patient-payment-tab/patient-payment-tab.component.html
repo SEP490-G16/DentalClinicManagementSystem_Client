@@ -13,7 +13,8 @@
                 (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')"
                 style="padding: 10px; color: #000; cursor: pointer;">Khám và
                 điều
-                trị</a></li>
+                trị</a>
+              </li>
             <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
                 (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Mẫu vật</a>
             </li>
@@ -56,8 +57,18 @@
               <div class="payment-row" *ngIf="mu.mu_total_paid > 0">
                 <span class="payment-date" (click)="examinationDetail(mu, report.tc_data, report.p_data)">Ngày thanh
                   toán:
-                  {{ mu.mu_created_date | VNdateTimeFormat}}</span>
-                <span class="amount-paid">Đã thanh toán: {{ mu.mu_total_paid | currency:'VND'}}</span>
+                  {{ mu.mu_created_date | date: 'dd/mm/yyyy'}}</span>
+                <span class="amount-paid">Đã trả: {{ mu.mu_total_paid | currency:'VND'}} 
+                </span>
+                <!-- <ng-container *ngIf="mu.mu_status == 1">
+                  <br>
+                  <span style="color: red;">Chưa thu tiền</span>
+                  <button class="btn btn-secondary" *ngIf="this.RoleId.includes('3')">Thu tiền</button>
+                </ng-container>
+                <ng-container *ngIf="mu.mu_status == 3">
+                  <br>
+                  <span style="color: green;">Đã thu tiền</span>
+                </ng-container> -->
               </div>
             </ng-template>
           </div>

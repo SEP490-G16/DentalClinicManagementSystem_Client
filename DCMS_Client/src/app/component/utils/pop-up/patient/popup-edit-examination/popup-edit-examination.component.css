@@ -156,7 +156,7 @@ body {
 
 
 
-/* 
+/*
 img {
   display: block;
   width: 100%;
@@ -936,4 +936,51 @@ textarea.form-control {
 
 .button-add-img {
   float: right;
+}
+.delete-button-container {
+  width: 100%;
+  text-align: right;
+  position: absolute;
+  top: 21%;
+  right: 0;
+  margin-top: -20px; /* Điều chỉnh khoảng cách nút xóa so với hình ảnh */
+}
+.delete-button:hover {
+  background-color: darkred;
+}
+.delete-cell{
+  text-align: center;
+  vertical-align: middle;
+  display: flex;
+  justify-content: center;
+}
+.bi-check-circle{
+  color: #FFFFFF;
+}
+.save-img{
+  display: flex;
+  margin-top: 1%;
+  justify-content: end;
+}
+.btn-cancel:active,
+.btn-cancel {
+  font-family: "Poppins", sans-serif;
+  background-color: #838282;
+  text-align: center;
+  border: 0px solid white;
+  color: white;
+  font-weight: bold;
+  /*font-size: 24px;*/
+  outline: 0px;
+  padding: 10px 20px;
+  margin-bottom: 15px;
+  margin-right: 3px;
+}
+
+.btn-cancel:hover {
+  background-color: #6e6c6c;
+}
+.content-button{
+  display: flex;
+  justify-content: center;
 }

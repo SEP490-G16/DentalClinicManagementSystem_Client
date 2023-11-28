@@ -42,6 +42,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   private itemsSource = new BehaviorSubject<any[]>([]);
   items = this.itemsSource.asObservable();
   isCheckProcedure: boolean = true;
+  reason: any;
 
   listGroupService: any[] = [];
   private intervalId: any;
@@ -49,9 +50,38 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   //doctors: any[] = [];
   procedure: string = "1";
   isPatientInfoEditable: boolean = false;
-
+  isAdd: boolean = false;
+  isSubmittedPatient:boolean = false;
   loading: boolean = false;
-
+  patient1: any = {
+    patientName: '',
+    Email: '',
+    Gender: 1,
+    phone_Number: '',
+    Address: '',
+    full_medical_History: '',
+    dental_medical_History: '',
+    dob: ''
+  }
+  patientBody: any = {
+    patient_name: '',
+    email: '',
+    gender: '',
+    phone_number: '',
+    address: '',
+    full_medical_history: '',
+    dental_medical_history: '',
+    date_of_birth: '',
+    description: ''
+  }
+  validatePatient = {
+    name: '',
+    gender: '',
+    phone: '',
+    address: '',
+    dob: '',
+    email: ''
+  }
   @Input() datesDisabled: any;
   @Input() filteredAppointments: any
 
@@ -78,52 +108,6 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     appointmentDate: '',
   }
   isSubmitted: boolean = false;
-  seedDateDisabled = [
-    {
-      "date": 1698836571,
-      "appointments": [
-        {
-          "procedure": 1,
-          "count": 16,
-          "details": [
-            {
-              appointment_id: "6e005b74-dc60-4ad9-9a4f-11954b94c2a7",
-              patient_id: "P-000001",
-              patient_name: "Nguyễn Văn An",
-              phone_number: "0123456789", procedure: 1,
-              doctor: "Bác sĩ A",
-              time: "1698688620",
-              attribute_name: "",
-              epoch: 0,
-              migrated: "false"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "date": 1698836571,
-      "appointments": [
-        {
-          "procedure": 1,
-          "count": 16,
-          "details": [
-            {
-              appointment_id: "6e005b74-dc60-4ad9-9a4f-11954b94c2a7",
-              patient_id: "P-000001",
-              patient_name: "Nguyễn Văn An",
-              phone_number: "0123456789", procedure: 1,
-              doctor: "Bác sĩ A",
-              time: "1698688620",
-              attribute_name: "",
-              epoch: 0,
-              migrated: "false"
-            }
-          ]
-        }
-      ]
-    },
-  ]
 
   currentDate: any;
 
@@ -197,15 +181,15 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.datesDisabled && this.datesDisabled.length == 0) {
-    }
-    if (changes['datesDisabled'] && this.datesDisabled && this.datesDisabled.length > 0) {
-      this.datesDisabled = this.datesDisabled.map((timestamp: number) => {
-        const date = new Date(timestamp * 1000); // Chuyển đổi timestamp sang date
-        return date.toISOString().slice(0, 10); // Lấy phần yyyy-MM-dd
-      });
-      console.log("Date Parse: ", this.datesDisabled);
-    }
+    // if (this.datesDisabled && this.datesDisabled.length == 0) {
+    // }
+    // if (changes['datesDisabled'] && this.datesDisabled && this.datesDisabled.length > 0) {
+    //   this.datesDisabled = this.datesDisabled.map((timestamp: number) => {
+    //     const date = new Date(timestamp * 1000); // Chuyển đổi timestamp sang date
+    //     return date.toISOString().slice(0, 10); // Lấy phần yyyy-MM-dd
+    //   });
+    //   console.log("Date Parse: ", this.datesDisabled);
+    // }
 
   }
 
@@ -499,19 +483,25 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     this.AppointmentBody.appointment.patient_name = patientInfor[1];
     this.AppointmentBody.appointment.phone_number = patientInfor[2];
     this.loading = true;
+
     console.log("aa", this.filteredAppointments);
+    var checkPatient = true;
     this.filteredAppointments.forEach((appo: any) => {
       appo.appointments.forEach((deta: any) => {
         deta.details.forEach((res: any) => {
           if (res.patient_id == this.AppointmentBody.appointment.patient_id) {
             this.validateAppointment.patientName = `Bệnh nhân đã lịch hẹn trong ngày ${selectedDate} !`;
-            this.isSubmitted = true;
-            this.loading = false;
+            checkPatient = false;
             return;
           }
         })
       })
     })
+
+    if (!checkPatient ) {
+      return;
+    }
+
     if (this.appointmentTime == '') {
       this.validateAppointment.appointmentTime = "Vui lòng chọn giờ khám!";
       this.isSubmitted = true;
@@ -526,6 +516,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
       }
     }
 
+    this.AppointmentBody.appointment.reason = this.reason;
     this.phoneErr = "";
 
     this.APPOINTMENT_SERVICE.postAppointment(this.AppointmentBody).subscribe(
@@ -545,6 +536,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
             procedure_id: "1",
             procedure_name: '',
             doctor: '',
+            reason: '',
             status: 2,
             time: 0
           }
@@ -640,6 +632,119 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
       appointmentDate: '',
     }
     this.isSubmitted = true;
+  }
+  checkCancel() {
+    console.log("click")
+    this.isAdd = false;
+  }
+  addPatient() {
+    console.log(this.patient1.Gender);
+    this.resetValidatePatient();
+    if (!this.patient1.patientName) {
+      this.validatePatient.name = "Vui lòng nhập tên bệnh nhân!";
+      this.isSubmittedPatient = true;
+    }
+    if (this.patient1.Email && !this.isValidEmail(this.patient1.Email)) {
+      this.validatePatient.email = "Email không hợp lệ!";
+      this.isSubmittedPatient = true;
+    }
+    if (!this.patient1.Gender) {
+      this.validatePatient.gender = "Vui lòng chọn giới tính!";
+      this.isSubmittedPatient = true;
+    }
+    if (!this.patient1.phone_Number) {
+      this.validatePatient.phone = "Vui lòng nhập số điện thoại!";
+      this.isSubmittedPatient = true;
+    }
+    else if (!this.isVietnamesePhoneNumber(this.patient1.phone_Number)) {
+      this.validatePatient.phone = "Số điện thoại không hợp lệ!";
+      this.isSubmittedPatient = true;
+    }
+    if (!this.patient1.dob) {
+      this.validatePatient.dob = "Vui lòng nhập ngày sinh!";
+      this.isSubmittedPatient = true;
+    }
+    if (!this.patient1.Address) {
+      this.validatePatient.address = "Vui lòng nhập địa chỉ!";
+      this.isSubmittedPatient = true;
+    }
+    if (this.isSubmittedPatient) {
+      return;
+    }
+    this.patientBody = {
+      patient_id: null,
+      patient_name: this.patient1.patientName,
+      email: this.patient1.Email,
+      gender: this.patient1.Gender,
+      phone_number: this.patient1.phone_Number,
+      address: this.patient1.Address,
+      full_medical_history: this.patient1.full_medical_History,
+      dental_medical_history: this.patient1.dental_medical_History,
+      date_of_birth: this.patient1.dob
+    }
+    if (this.patient1.phone_Number && this.patient1.phone_Number.length === 9) {
+      this.patientBody = {
+        patient_id: null,
+        patient_name: this.patient1.patientName,
+        email: this.patient1.Email,
+        gender: this.patient1.Gender,
+        phone_number: '+84' + this.patient1.phone_Number,
+        address: this.patient1.Address,
+        full_medical_history: this.patient1.full_medical_History,
+        dental_medical_history: this.patient1.dental_medical_History,
+        date_of_birth: this.patient1.dob
+      }
+    }
+    if (this.patient1.phone_Number && this.patient1.phone_Number.length === 10) {
+      this.patientBody = {
+        patient_id: null,
+        patient_name: this.patient1.patientName,
+        email: this.patient1.Email,
+        gender: this.patient1.Gender,
+        phone_number: '+84' + this.patient1.phone_Number.substring(1),
+        address: this.patient1.Address,
+        full_medical_history: this.patient1.full_medical_History,
+        dental_medical_history: this.patient1.dental_medical_History,
+        date_of_birth: this.patient1.dob
+      }
+    }
+
+
+    this.PATIENT_SERVICE.addPatient(this.patientBody).subscribe((data: any) => {
+      this.toastr.success('Thêm mới bệnh nhân thành công!');
+      let ref = document.getElementById('cancel-patient');
+      ref?.click();
+      this.patient1 = [];
+      this.patientInfor = data.data.patient_id + " - " + this.patientBody.patient_name + " - " + this.normalizePhoneNumber(this.patientBody.phone_number);
+    }, error => {
+      ResponseHandler.HANDLE_HTTP_STATUS(this.PATIENT_SERVICE.test + "/patient", error);
+    })
+  }
+  private isValidEmail(email: string): boolean {
+    // Thực hiện kiểm tra địa chỉ email ở đây, có thể sử dụng biểu thức chính quy
+    return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email);
+  }
+  toggleAdd() {
+    this.isAdd = true;
+  }
+  normalizePhoneNumber(phoneNumber: string): string {
+    if (phoneNumber.startsWith('(+84)')) {
+      return '0' + phoneNumber.slice(5);
+    } else if (phoneNumber.startsWith('+84')) {
+      return '0' + phoneNumber.slice(3);
+    } else
+      return phoneNumber;
+  }
+  private resetValidatePatient() {
+    this.validatePatient = {
+      name: '',
+      gender: '',
+      phone: '',
+      address: '',
+      dob: '',
+      email: ''
+    }
+    this.isSubmittedPatient = false;
   }
 }
 

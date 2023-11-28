@@ -38,7 +38,37 @@ export class MaterialUsageService {
     return this.http.post(`${this.url}/material-usage`, requestBody, { headers });
   }
 
+  // puttMaterialUsage(MaterialUsage:any): Observable<any> {
+  //   let idToken = sessionStorage.getItem("id_Token");
+  //   const headers = new HttpHeaders({
+  //     'Authorization': `${idToken}`,
+  //     "Content-Type": "application/json; charset=utf8"
+  //   });
+  //   const requestBody = JSON.stringify(MaterialUsage);
+  //   return this.http.put(`${this.url}/material-usage`, requestBody, { headers });
+  // }
+
+  putMaterialUsage(ID:any, MaterialUsage:any): Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      "Content-Type": "application/json; charset=utf8"
+    });
+    const requestBody = JSON.stringify(MaterialUsage);
+    return this.http.put(`${this.url}/material-usage/${ID}`, requestBody, { headers });
+  }
+
   postProcedureMaterialUsage(ProcedureMaterialUsage:any): Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      "Content-Type": "application/json; charset=utf8"
+    });
+    const requestBody = JSON.stringify(ProcedureMaterialUsage);
+    return this.http.post(`${this.url}/material-usage/procedure`, requestBody, { headers });
+  }
+
+  putProcedureMaterialUsage(ProcedureMaterialUsage:any): Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`,

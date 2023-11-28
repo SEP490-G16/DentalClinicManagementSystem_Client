@@ -129,7 +129,7 @@
                   <th>Nhóm thủ thuật</th>
                   <th>Tên thủ thuật</th>
                   <th>Đơn giá</th>
-                  <th>Thành tiền</th>
+                  <!-- <th>Thành tiền</th> -->
                   <th>Thao tác</th>
                 </tr>
               </thead>
@@ -138,12 +138,12 @@
                   <tr>
                     <td>{{ i + 1 }}</td>
                     <td>
-                      <ng-select *ngIf="isAdd && list" [items]="list" [(ngModel)]="procedureGroupName"
+                      <ng-select *ngIf="isAdd && list" [items]="list" [(ngModel)]="record.groupId"
                         [searchable]="true" bindLabel="groupName" bindValue="groupId"
                         [notFoundText]="'Không tìm thấy nhóm thủ thuật'"
                         (ngModelChange)="updateTemporaryName(record, $event)">
                       </ng-select>
-                      <p *ngIf="!isAdd">{{procedureGroupName}}</p>
+                      <p *ngIf="!isAdd">{{record.groupId}}</p>
                     </td>
                     <td>
                       <ng-select *ngIf="isAdd && materialList" [items]="materialList"
@@ -156,10 +156,6 @@
                     <td>
                       <input type="text" [(ngModel)]="record.price" *ngIf="isAdd" class="form-control value-staff">
                       <p *ngIf="!isAdd">{{record.price}}</p>
-                    </td>
-                    <td>
-                      <input type="text" [(ngModel)]="record.total_paid" *ngIf="isAdd" class="form-control value-staff">
-                      <p *ngIf="!isAdd">{{record.total_paid}}</p>
                     </td>
                     <td>
                       <div class="delete-cell">
@@ -252,7 +248,7 @@
                             class="bi bi-check-circle" (click)="toggleAddSpecime()"></i></button>
                         </div>
                         <div>
-                          <button class="delete-button" (click)="deleteRecord(i)">
+                          <button class="delete-button" (click)="deleteRecordSpeciment(i)">
                             x
                           </button>
                         </div>
@@ -280,7 +276,7 @@
                   <th>Tên vật liệu</th>
                   <th>Đơn giá</th>
                   <th>Số lượng</th>
-                  <th>Thành tiền</th>
+                  <!-- <th>Thành tiền</th> -->
                   <th>Thao tác</th>
                 </tr>
               </thead>
@@ -294,7 +290,7 @@
                         bindValue="material_warehouse_id" [notFoundText]="'Không tìm thấy vật liệu'"
                         (ngModelChange)="updateTemporaryNameMaterial(record, $event)">
                       </ng-select>
-                      <p *ngIf="!isAddMaterial">{{materialName}}</p>
+                      <p *ngIf="!isAddMaterial">{{record.material_warehouse_id}}</p>
                     </td>
                     <td>
                       <input type="number" min="0" [(ngModel)]="record.price" *ngIf="isAddMaterial"
@@ -303,14 +299,14 @@
                     </td>
                     <td>
                       <input type="number" [(ngModel)]="record.quantity" *ngIf="isAddMaterial"
-                        class="form-control value-staff" (ngModelChange)="changeQuantity(record)">
+                        class="form-control value-staff">
                       <p *ngIf="!isAddMaterial">{{record.quantity}}</p>
                     </td>
-                    <td>
-                      <input type="number" [(ngModel)]="record.totalPaid" *ngIf="isAddMaterial"
+                    <!-- <td>
+                      <input type="number" [(ngModel)]="record.total_paid" *ngIf="isAddMaterial"
                         class="form-control value-staff">
-                      <p *ngIf="!isAddMaterial">{{record.totalPaid}}</p>
-                    </td>
+                      <p *ngIf="!isAddMaterial">{{record.total_paid}}</p>
+                    </td> -->
                     <td>
                       <div class="delete-cell">
                         <div>
@@ -318,7 +314,7 @@
                             class="bi bi-check-circle" (click)="toggleAddMaterial()"></i></button>
                         </div>
                         <div>
-                          <button class="delete-button" (click)="deleteRecord(i)">
+                          <button class="delete-button" (click)="deleteRecordMaterial(i)">
                             x
                           </button>
                         </div>
@@ -334,7 +330,7 @@
         </div>
 
         <div class="content-button" style="margin-top: 2%">
-          <button class="btn btn-cancel">Hủy</button>
+          <button class="btn btn-cancel" (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')">Hủy</button>
           <button class="btn button-add" (click)="postExamination()">Thêm mới</button>
         </div>
       </div>
@@ -385,232 +381,3 @@
     <button class="button-custom" (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')">Hủy</button>
   </div>
 </div>
-<!-- <div class="tab-pane" id="KvDTtab">
-  <div class="KvDTtab-container mt-3">
-    <h2>Khám tổng quát</h2>
-    <div class="row content-child" style="padding-top: 10px;
-    padding-right: 80px;">
-      <div class="col-md-4">
-        <div class="form-group mb-3">
-          <label for="">Bác sĩ khám và điều trị:</label>
-          <select class="form-select" style="width: 60%;" id="doctorSelect" [(ngModel)]="staff_id">
-            <option *ngFor="let doctor of doctors" [value]="doctor.doctorid">
-              {{ doctor.doctorName }}
-            </option>
-          </select>
-        </div>
-      </div>
-
-
-      <div class="col-md-4">
-        <label for="">Ngày khám</label>
-        <input type="date" class="form-control" style="width: 60%;" [(ngModel)]="examination.created_date">
-      </div>
-
-      <div class="col-md-4">
-        <label for="">Lịch trình điều trị</label>
-        <select class="form-select" style="width: 60%;" aria-label="Chọn lịch trình điều trị"
-          id="treatmentCourseSelect" [(ngModel)]="treatmentCourse_Id">
-          <option *ngFor="let course of treatmentCourse" [value]="course.treatment_course_id">
-            {{ course.name }}
-          </option>
-        </select>
-      </div>
-    </div>
-
-    <div class="row mt-3">
-      <div class="col content-child">
-        <label for="">Ghi chú chuẩn đoán</label>
-      </div>
-      <div class="col content-child">
-        <label for="">Đơn thuốc</label>
-      </div>
-    </div>
-
-    <div class="row mt-3">
-      <div class="col content-child">
-        <textarea style="width: 100%;
-                    text-align: justify;
-                    border: 1px solid #000;
-                    height: 100px;
-                    " [(ngModel)]="examination.diagnosis"></textarea>
-      </div>
-      <div class="col content-child">
-        <textarea style="width: 100%;
-                    text-align: justify;
-                    height: 100px;
-                    border: 1px solid #000;" [(ngModel)]="examination.medicine"></textarea>
-      </div>
-    </div>
-
-    <h2>Hình ảnh</h2>
-    <div class="row mt-3 content-child">
-      <div class="col-md-3" #containerRef>
-        <div class="image-container" alt="" data-bs-toggle="modal" data-bs-target="#exampleModal">
-          <div *ngIf="showImages">
-            <div *ngFor="let url of imageUrls">
-              <div class="image-wrapper">
-                <img [src]="url" style="cursor: pointer; width: 100px; height: 250px; object-fit: contain;"
-                  alt="Ảnh đã chọn">
-                <button class="delete-button" (click)="removeImage(url); $event.stopPropagation()">X</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-1">
-
-      </div>
-      <div class="col-md-8">
-        <textarea class="form-control" style="border: 1px solid #000;
-                height: 100%;" [(ngModel)]="examination['x-ray-image-des']"
-          placeholder="Nhận xét về ảnh x-quang(nếu có ảnh)"></textarea>
-      </div>
-    </div>
-
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="submissionModalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="submissionModalLabel">Chọn ảnh</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div class="mb-3">
-              <label for="submission-files" class="form-label">Chọn file</label>
-              <input class="form-control" type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput
-                multiple id="submission-files">
-            </div>
-            <div class="mb-3">
-              <label for="link-submission" class="form-label" [(ngModel)]="imageLink">Link</label>
-              <input type="text" class="form-control" id="link-submission" required>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="addImageUrl()">Hoàn
-              thành</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row mt-3">
-      <div class="col-md-12">
-        <h2>Thủ thuật</h2>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-12">
-        <div class="table-custom">
-          <div style="position: relative;">
-            <i [ngStyle]="{ 'opacity': isHovering ? '1' : '0.5', 'cursor': 'pointer', 'font-size': '25px' }"
-              (mouseover)="isHovering = true" (mouseout)="isHovering = false" (click)="addNewRow(100);"
-              style="position: absolute; left: 0; padding-right: 10px;transform: translate(-100%, 130%);"
-              class="bi bi-plus-circle"></i>
-            <table>
-              <thead>
-                <tr>
-                  <th>Nhóm thủ thuật</th>
-                  <th>Tên thủ thuật</th>
-                  <th>Đơn giá</th>
-                  <th>Thành tiền</th>
-                  <th class="action-column text-center">Thao tác</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let row of Procedure_Material_Usage_Body; let i = index" [ngClass]="row.animationClass"
-                  @rowAnimation>
-                  <td><input list="procedureGroup" [(ngModel)]="pg_id" (change)="filterProcedureByPG(i)"
-                      name="browser" class="form-control" />
-                    <datalist id="procedureGroup">
-                      <option *ngFor="let pg of ProcedureGroupArray" [value]="pg.medical_procedure_group_id">
-                        {{pg.name}}</option>
-                    </datalist>
-                  </td>
-                  <td>
-                    <input list="procedure" [(ngModel)]="row.medical_procedure_id" name="procedure"
-                      class="form-control" (ngModelChange)="chooseProcedure(i, row.medical_procedure_id)" />
-                    <datalist id="procedure">
-                      <option *ngFor="let procedure of detailProcedureGroupArrayFilter" [value]="procedure.mp_id">
-                        {{procedure.mp_name}}</option>
-                    </datalist>
-                  </td>
-                  <td><input [(ngModel)]="row.price" type="number" min="0" class="form-control" /></td>
-                  <td><input [(ngModel)]="row.total_paid" type="number" min="0" class="form-control" /></td>
-                  <td>
-                    <i class="bi bi-trash d-block w-100 text-center" style="cursor: pointer;"
-                      (click)="removeRow(i, 100)"></i>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row mt-3">
-      <div class="col-md-12">
-        <h2>Vật liệu sử dụng</h2>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="table-custom">
-          <div style="position: relative;">
-            <i [ngStyle]="{ 'opacity': isHovering ? '1' : '0.5', 'cursor': 'pointer', 'font-size': '25px' }"
-              (mouseover)="isHovering = true" (mouseout)="isHovering = false" (click)="addNewRow(1);"
-              style="position: absolute; left: 0; padding-right: 10px; transform: translate(-100%, 130%);"
-              class="bi bi-plus-circle"></i>
-            <table>
-              <thead>
-                <tr>
-                  <th>Tên vật liệu</th>
-                  <th>Số lượng</th>
-                  <th>Đơn giá</th>
-                  <th>Thành tiền</th>
-                  <th>Ngày dùng</th>
-                  <th>Người thêm</th>
-                  <th class="action-column text-center">Thao tác</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let row of Material_Usage_Body; let i = index" [ngClass]="row.animationClass"
-                  @rowAnimation>
-                  <td><input [(ngModel)]="row.material_warehouse_id" list="warehouses"
-                      (change)="updateMaterialWarehouse(i, row.material_warehouse_id)" class="form-control" />
-                    <datalist id="warehouses">
-                      <option *ngFor="let mw of MaterialWarehouse_Array" [value]="mw.mw_material_warehouse_id">
-                        {{mw.m_material_name}}</option>
-                    </datalist>
-                  </td>
-                  <td><input [(ngModel)]="row.quantity" type="number" min="1" [max]="row.mw_remaining"
-                      (ngModelChange)="updateMaterialWarehouse(i, row.material_warehouse_id)"
-                      class="form-control" /></td>
-                  <td><input [(ngModel)]="row.price" type="number" min="0" class="form-control" disabled /></td>
-                  <td><input [(ngModel)]="row.total_paid" type="number" min="0" class="form-control" disabled />
-                  </td>
-                  <td><input [(ngModel)]="row.usage_date" type="text" class="form-control" /></td>
-                  <td><input [(ngModel)]="row.adder" type="text" class="form-control" /></td>
-                  <td>
-                    <i class="bi bi-trash d-block w-100 text-center" style="cursor: pointer;"
-                      (click)="removeRow(i, 1)"></i>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="save float-end" style="padding: 10px 0px;">
-        <button class="btn button-timekeeping" style="margin-right: 30px;" (click)="postExamination()">Lưu</button>
-        <button class="btn button-timekeeping" (click)="test()">Xem trước</button>
-      </div>
-    </div>
-  </div>
-</div> -->

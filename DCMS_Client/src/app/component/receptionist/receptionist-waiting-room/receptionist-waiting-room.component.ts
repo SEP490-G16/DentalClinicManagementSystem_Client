@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureService/medical-procedure-group.service';
 import { ResponseHandler } from "../../utils/libs/ResponseHandler";
 import * as moment from 'moment';
+import { ReceptionistAppointmentService } from 'src/app/service/ReceptionistService/receptionist-appointment.service';
 
 @Component({
   selector: 'app-receptionist-waiting-room',
@@ -28,6 +29,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
   PUT_WAITINGROOM: IPostWaitingRoom;
   dataStorage: string = '';
   constructor(private waitingRoomService: ReceptionistWaitingRoomService,
+    private appointmentService: ReceptionistAppointmentService,
     private cognitoService: CognitoService,
     private router: Router,
     private toastr: ToastrService,
@@ -65,6 +67,8 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
         this.listPatientId = this.waitingRoomData.map((item: any) => item.patient_id);
         localStorage.setItem('listPatientId', JSON.stringify(this.listPatientId));
         this.filteredWaitingRoomData = [...this.waitingRoomData]; // Update the filtered list as well
+
+        console.log(this.filteredWaitingRoomData);
       },
       (error) => {
         this.loading = false;
@@ -136,6 +140,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
           this.showSuccessToast('Chỉnh sửa hàng chờ thành công');
           this.getWaitingRoomData();
+          
         },
           (error) => {
             this.loading = false;
@@ -176,5 +181,25 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
     this.cognitoService.signOut().then(() => {
       this.router.navigate(['dangnhap']);
     })
+  }
+  navigateHref(href: string, id:any) {
+    const userGroupsString = sessionStorage.getItem('userGroups');
+
+    if (userGroupsString) {
+      const userGroups = JSON.parse(userGroupsString) as string[];
+
+      if (userGroups.includes('dev-dcms-doctor')) {
+        this.router.navigate([href + id]);
+      } else if (userGroups.includes('dev-dcms-nurse')) {
+        this.router.navigate([href + id]);
+      } else if (userGroups.includes('dev-dcms-receptionist')) {
+        this.router.navigate([href + id]);
+      } else if (userGroups.includes('dev-dcms-admin')) {
+        this.router.navigate([href + id]);
+      }
+    } else {
+      console.error('Không có thông tin về nhóm người dùng.');
+      this.router.navigate(['/default-route']);
+    }
   }
 }

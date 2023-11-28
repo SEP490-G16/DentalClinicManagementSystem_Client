@@ -197,12 +197,13 @@ export class CognitoService {
       sessionStorage.setItem('cognitoUser', JSON.stringify(this.cognitoUser));
       const groups = userResult.signInUserSession.idToken.payload['cognito:groups'];
       console.log('User Groups:', groups);
+      sessionStorage.setItem('role', this.cognitoUser.role);
       sessionStorage.setItem('userGroups', JSON.stringify(groups));
       sessionStorage.setItem('id_Token', this.cognitoUser.idToken);
       sessionStorage.setItem('locale', this.cognitoUser.locale);
       sessionStorage.setItem('sub', this.cognitoUser.sub);
       sessionStorage.setItem('sub-id', this.cognitoUser.sub);
-
+      
       //Set UserObject
       var UserObj = {
         role: this.cognitoUser.role,

@@ -203,12 +203,39 @@ export class AddWaitingRoomComponent implements OnInit {
       dental_medical_history: this.patient1.dental_medical_History,
       date_of_birth: this.patient1.dob
     }
+    if (this.patient1.phone_Number && this.patient1.phone_Number.length === 9) {
+      this.patientBody = {
+        patient_id: null,
+        patient_name: this.patient1.patientName,
+        email: this.patient1.Email,
+        gender: this.patient1.Gender,
+        phone_number: '+84' + this.patient1.phone_Number,
+        address: this.patient1.Address,
+        full_medical_history: this.patient1.full_medical_History,
+        dental_medical_history: this.patient1.dental_medical_History,
+        date_of_birth: this.patient1.dob
+      }
+    }
+    if (this.patient1.phone_Number && this.patient1.phone_Number.length === 10) {
+      this.patientBody = {
+        patient_id: null,
+        patient_name: this.patient1.patientName,
+        email: this.patient1.Email,
+        gender: this.patient1.Gender,
+        phone_number: '+84' + this.patient1.phone_Number.substring(1),
+        address: this.patient1.Address,
+        full_medical_history: this.patient1.full_medical_History,
+        dental_medical_history: this.patient1.dental_medical_History,
+        date_of_birth: this.patient1.dob
+      }
+    }
+
     this.PATIENT_SERVICE.addPatient(this.patientBody).subscribe((data: any) => {
       this.toastr.success('Thêm mới bệnh nhân thành công!');
       let ref = document.getElementById('cancel-patient');
       ref?.click();
       this.patient1 = [];
-      this.patientInfor = data.data.patient_id + " - " + this.patientBody.patient_name + " - " + this.patientBody.phone_number;
+      this.patientInfor = data.data.patient_id + " - " + this.patientBody.patient_name + " - " + this.normalizePhoneNumber(this.patientBody.phone_number);
     }, error => {
       ResponseHandler.HANDLE_HTTP_STATUS(this.PATIENT_SERVICE.test + "/patient", error);
     })

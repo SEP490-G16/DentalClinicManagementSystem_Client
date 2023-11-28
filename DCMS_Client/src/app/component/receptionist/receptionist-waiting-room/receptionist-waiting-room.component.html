@@ -5,7 +5,7 @@
 <div class="sep-recent-orders">
   <div class="row custom-row">
     <div class="col-6">
-      <button class="btn button-timekeeping" style="margin-right: 30px;" data-bs-toggle="modal"
+      <button class="btn button-add" style="margin-right: 30px;" data-bs-toggle="modal"
         data-bs-target="#wrModal"><i class="bi bi-plus-circle"></i>
         Thêm hàng chờ</button>
     </div>
@@ -28,6 +28,7 @@
           <th style="width:300px">Lý do khám</th>
           <th style="width:200px">Loại điều trị</th>
           <th style="width:200px">Trạng thái</th>
+          <th style="width:200px">Thanh toán</th>
         </tr>
       </thead>
       <tbody>
@@ -42,11 +43,25 @@
           <td style="width:200px" (click)="stopClick($event)">
             <select class="text-center status-selector" [(ngModel)]="wtr.status" (change)="onPutStatus(wtr, wtr.epoch)"
               [ngStyle]="{'color': selectedColor}">
-              <option value="1" class="status-option waiting">Đang chờ</option>
-              <option value="2" class="status-option in-progress">Đang khám</option>
-              <option value="3" class="status-option completed">Khám xong</option>
-              <option value="4" class="status-option remove">Xóa hàng chờ</option>
+              <ng-container *ngIf="wtr.status == 1">
+                <option value="1" class="status-option waiting">Đang chờ</option>
+                <option value="2" class="status-option in-progress">Đang khám</option>
+                <option value="4" class="status-option remove">Xóa hàng chờ</option>
+              </ng-container>
+              <ng-container *ngIf="wtr.status == 2">
+                <option value="2" class="status-option in-progress">Đang khám</option>
+                <option value="3" class="status-option completed">Khám xong</option>
+                <option value="4" class="status-option remove">Xóa hàng chờ</option>
+              </ng-container>
+              <ng-container *ngIf="wtr.status == 3">
+                <option value="3" class="status-option completed">Khám xong</option>
+                <option value="4" class="status-option remove">Xóa hàng chờ</option>
+              </ng-container>
             </select>
+          </td>
+          <td>
+            <button class="btn button-timekeeping" (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/',wtr.patient_id)">
+              Thanh toán</button>
           </td>
         </tr>
       </tbody>
