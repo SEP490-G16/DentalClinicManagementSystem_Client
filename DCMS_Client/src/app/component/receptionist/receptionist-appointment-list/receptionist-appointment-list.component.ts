@@ -148,7 +148,6 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     const currentDate = new Date();
     const vnTimezoneOffset = 7 * 60;
     const vietnamTime = new Date(currentDate.getTime() + vnTimezoneOffset * 60 * 1000);
-
     const nextWeekDate = new Date(vietnamTime.getTime());
     nextWeekDate.setDate(vietnamTime.getDate() + 7);
 
@@ -156,7 +155,6 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     const formattedDate = dateFormatter.format(nextWeekDate);
     var temp = formattedDate.split('/');
     var endTime = temp[2] + '-' + temp[0] + '-' + temp[1] + ' 23:59:59';
-    alert(endTime)
     this.appointmentService.getAppointmentList(startTime, this.dateToTimestamp(endTime)).subscribe(data => {
       this.listDate = ConvertJson.processApiResponse(data);
       this.listDate.forEach((a: any) => {

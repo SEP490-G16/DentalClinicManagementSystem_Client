@@ -31,6 +31,10 @@
                 </select>
                 <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.procedure}}</p>
               </div>
+              <div class="form-group mt-2">
+                <label for="treatment">Lý do khám</label>
+                <input type="text" class="form-control" [(ngModel)]="EDIT_APPOINTMENT_BODY.appointment.reason" >
+              </div>
               <div class="col mt-2">
                 <label for="treatment">Chọn ngày khám</label>
                 <form class="form-inline">

@@ -4,6 +4,7 @@ import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/T
 import {ResponseHandler} from "../../../libs/ResponseHandler";
 import { MaterialUsageService } from 'src/app/service/MaterialUsage/MaterialUsageService.component';
 import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureService/medical-procedure-group.service';
+import { error } from '@angular/compiler-cli/src/transformers/util';
 
 @Component({
   selector: 'app-popup-edit-treatmentcourse',
@@ -124,6 +125,7 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
     this.materialUsageService.getMaterialUsage_By_TreatmentCourse(this.Edit_TreatmentCourse.treatment_course_id).subscribe((data) => {
       this.listData = data.data;
       this.listData.forEach((item: any) => {
+        console.log("check list", this.listData)
         if (item.medical_procedure_id != null) {
           let precedureO = {
             procedure_id: item.medical_procedure_id,
@@ -136,6 +138,7 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
                 pro.checked = true;
                 pro.price = item.price;
                 let materialUsage = {
+                  material_usage_id: item.material_usage_id,
                   medical_procedure_id: item.medical_procedure_id,
                   treatment_course_id: item.treatment_course_id,
                   quantity: '1',
@@ -145,6 +148,7 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
                 }
                 this.Post_Procedure_Material_Usage.push(materialUsage);
                 materialUsage = {
+                  material_usage_id: '',
                   medical_procedure_id: '',
                   treatment_course_id: '',
                   quantity: '',
@@ -226,8 +230,17 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
   listDisplay: any[] = [];
 
   editTreatmentCourse() {
-    this.treatmentCourseService.putTreatmentCourse(this.TreatmentCourse.treatment_course_id, this.Edit_TreatmentCourse)
+    this.treatmentCourseService.putTreatmentCourse(this.Edit_TreatmentCourse.treatment_course_id, this.Edit_TreatmentCourse)
     .subscribe((res) => {
+        this.Post_Procedure_Material_Usage.forEach((item:any) => {
+          console.log(1)
+          this.materialUsageService.putMaterialUsage(item.medical_procedure_id, item).subscribe((data) => {
+            this.toastr.success(res.message, "Sửa thủ thuật thành công");
+          }, (error) => {
+            this.toastr.error(error.message, "Sửa thủ thuật thất bại");
+          }
+          )
+        })
         this.toastr.success(res.message, "Sửa Lịch trình điều trị");
         window.location.reload();
     },

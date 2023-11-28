@@ -204,8 +204,7 @@ export class PopupEditExaminationComponent implements OnInit {
           this.records.push({
             material_usage_id: item.mu_material_usage_id,
             treatment_course_id: this.treatmentCourse_Id,
-            medical_group_procedure_id: this.getPredureGroupId(item.mp_medical_procedure_id),
-            medical_group_procedure_name: this.getProcedureGroupName(item.mp_medical_procedure_id),
+            medical_group_procedure_id: item.mp_medical_procedure_group_id,
             medical_procedure_id: item.mp_medical_procedure_id,
             medical_procedure_name: item.mp_name,
             examination_id: this.examinationId,

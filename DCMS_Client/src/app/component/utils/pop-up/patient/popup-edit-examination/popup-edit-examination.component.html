@@ -139,7 +139,7 @@
                         [notFoundText]="'Không tìm thấy nhóm thủ thuật'"
                         (ngModelChange)="updateTemporaryName(record, $event)">
                       </ng-select>
-                      <p *ngIf="!isAdd">{{record.medical_group_procedure_name}}</p> 
+                      <p *ngIf="!isAdd">{{record.medical_group_procedure_id}}</p> 
                     </td>
                     <td>
                       <ng-select *ngIf="isAdd && materialList" [items]="materialList"

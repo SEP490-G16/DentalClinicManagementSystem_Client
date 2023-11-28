@@ -42,6 +42,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   private itemsSource = new BehaviorSubject<any[]>([]);
   items = this.itemsSource.asObservable();
   isCheckProcedure: boolean = true;
+  reason: any;
 
   listGroupService: any[] = [];
   private intervalId: any;
@@ -528,6 +529,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     this.AppointmentBody.appointment.patient_name = patientInfor[1];
     this.AppointmentBody.appointment.phone_number = patientInfor[2];
     this.loading = true;
+
     console.log("aa", this.filteredAppointments);
     var checkPatient = true;
     this.filteredAppointments.forEach((appo: any) => {
@@ -560,6 +562,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
       }
     }
 
+    this.AppointmentBody.appointment.reason = this.reason;
     this.phoneErr = "";
 
     this.APPOINTMENT_SERVICE.postAppointment(this.AppointmentBody).subscribe(
@@ -579,6 +582,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
             procedure_id: "1",
             procedure_name: '',
             doctor: '',
+            reason: '',
             status: 2,
             time: 0
           }
