@@ -56,19 +56,26 @@ a {
   margin-right: 10px;
 }
 
-.button-timekeeping {
-  font-family: "Poppins", sans-serif;
+.button-add {
   background: #664FC3;
   text-align: center;
   cursor: pointer;
   border: 0px solid white;
   color: white;
   font-weight: bold;
-  /*font-size: 24px;*/
   outline: 0px;
   padding: 10px 20px;
 }
-
+.button-timekeeping {
+  width: 50%;
+  background: #664FC3;
+  text-align: center;
+  cursor: pointer;
+  border: 0px solid white;
+  color: white;
+  outline: 0px;
+  padding: 5px;
+}
 .status-selector {
   width: 50%;
   /* Hoặc kích thước cố định theo yêu cầu của bạn */
