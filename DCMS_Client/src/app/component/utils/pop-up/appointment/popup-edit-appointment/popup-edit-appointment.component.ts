@@ -350,7 +350,6 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
         this.EDIT_APPOINTMENT_BODY.appointment.procedure_name = e.name;
       }
     })
-    console.log(this.EDIT_APPOINTMENT_BODY);
     this.resetValidate();
     if (this.EDIT_APPOINTMENT_BODY.appointment.procedure_id == "1") {
       this.validateAppointment.procedure = "Vui lòng chọn loại điều trị!";
