@@ -137,10 +137,6 @@ export class PopupAddExaminationComponent implements OnInit {
     if (id != null) {
       this.staff_id = id;
     }
-    // this.getTreatmentCourse();
-    // this.getMedicalProcedureGroup();
-    // this.getMedicalProcedureGroupDetail();
-    // this.getMaterialWarehouse();
     this.getLabos();
     this.getMaterialList();
     this.getListStaff();
@@ -321,89 +317,6 @@ export class PopupAddExaminationComponent implements OnInit {
     this.records.splice(index, 1);
   }
 
-  // getTreatmentCourse() {
-  //   this.tcService.getTreatmentCourse(this.patient_Id)
-  //     .subscribe((data) => {
-  //       console.log("data treatment: ", data);
-  //       this.treatmentCourse = data;
-  //       console.log("treatment course: ", this.treatmentCourse);
-  //     },
-  //       (error) => {
-  //         //this.toastr.error(error.error.message, "Lấy danh sách Liệu trình thất bại");
-  //         ResponseHandler.HANDLE_HTTP_STATUS(this.tcService.apiUrl + "/treatment-course/patient-id/" + this.patient_Id, error);
-  //       })
-  // }
-
-  // getMedicalProcedureGroup() {
-  //   this.medicalProcedureGroupService.getMedicalProcedureGroupList()
-  //     .subscribe((res) => {
-  //       console.log("Medical Procedure Group: ", res);
-  //       this.ProcedureGroupArray = res.data;
-  //     })
-  // }
-
-  // getMedicalProcedureGroupDetail() {
-  //   this.medicalProcedureGroupService.getMedicalProcedureGroupWithDetailList()
-  //     .subscribe((res) => {
-  //       console.log("Medical Procedure Group with Detail: ", res);
-  //       this.detailProcedureGroupArray = res.data;
-  //     })
-  // }
-
-  // getMaterialWarehouse() {
-  //   this.materialWarehoseService.getMaterialWarehousse_Remaining(1)
-  //     .subscribe((res) => {
-  //       this.MaterialWarehouse_Array = res.data;
-  //       console.log("Material Remaining: ", res.data);
-  //     })
-  // }
-
-  // detailProcedureGroupArrayFilter: any;
-  // filterProcedureByPG(index: number) {
-  //   if (this.pg_id != "")
-  //     this.detailProcedureGroupArrayFilter = this.detailProcedureGroupArray.filter(p => p.mg_id === this.pg_id)
-  //   console.log("Filter detail: ", this.detailProcedureGroupArrayFilter);
-  // }
-
-  // chooseProcedure(index: number, medicalProcedureId: number) {
-  //   const selectedProcedure = this.detailProcedureGroupArrayFilter.find((procedure: any) => procedure.mp_id === medicalProcedureId);
-  //   if (selectedProcedure) {
-  //     this.Procedure_Material_Usage_Body[index].treatment_course_id = this.treatmentCourse_Id;
-  //     this.Procedure_Material_Usage_Body[index].price = selectedProcedure.mp_price;
-  //     this.Procedure_Material_Usage_Body[index].total_paid = selectedProcedure.mp_price;
-  //   }
-  // }
-
-  // updateMaterialWarehouse(index: number, material_warehouse_id: any) {
-  //   const selectedMaterialW = this.MaterialWarehouse_Array.find((mw: any) => mw.mw_material_warehouse_id === material_warehouse_id);
-  //   console.log("Selected Material: ", selectedMaterialW);
-  //   if (selectedMaterialW) {
-  //     this.Material_Usage_Body[index].treatment_course_id = this.treatmentCourse_Id;
-  //     this.Material_Usage_Body[index].price = selectedMaterialW.mw_price;
-  //     this.Material_Usage_Body[index].mw_remaining = selectedMaterialW.mw_remaining;
-  //     // this.Material_Usage_Body[index].total_paid = this.Material_Usage_Body[index].price * this.Material_Usage_Body[index].quantity;
-  //     this.Material_Usage_Body[index].total_paid = 0;
-
-  //     console.log("updateMaterialWarehouse: ", this.Material_Usage_Body);
-  //   }
-  // }
-
-  // allowedEmptyFields: string[]
-  //   = ['usage_date', 'adder', 'description', 'examination_id',
-  //     'material_warehouse_id', 'medical_procedure_id'];
-
-  // areRequiredFieldsFilled(array: any[]): boolean {
-  //   return array.every(item => {
-  //     return Object.entries(item).every(([key, value]) => {
-  //       if (this.allowedEmptyFields.includes(key)) {
-  //         return true;
-  //       }
-
-  //       return value !== null && value !== '';
-  //     });
-  //   });
-  // }
-
   imageBody= {
     base64: true,
     image_data:'', 
@@ -463,21 +376,24 @@ export class PopupAddExaminationComponent implements OnInit {
           })
         }
         if (this.recordsSpecimen.length > 0) {
-          this.recordsSpecimen.forEach((item:any) => {
+          this.recordsSpecimen.forEach((item: any) => {
             item.patient_id = this.patient_Id;
             item.facility_id = 'F-05';
             item.treatment_course_id = this.treatmentCourse_Id;
             item.orderer = this.orderer
-            this.medicalSupplyService.addMedicalSupply(item).subscribe(data=>{
+            item.order_date = this.dateToTimestamp(item.order_date);
+            item.received_date = this.dateToTimestamp(item.received_date);
+            item.used_date = this.dateToTimestamp(item.used_date);
+            this.medicalSupplyService.addMedicalSupply(item).subscribe(data => {
               isSuccess = true;
               this.toastr.success(data.message, 'Thêm mẫu vật sử dụng thành công');
             }
-            ,
-                (err) => {
-                  isSuccess = false;
-                  console.log(err);
-                  this.toastr.error(err.error.message, 'Thêm mẫu vật thất bại');
-                }
+              ,
+              (err) => {
+                isSuccess = false;
+                console.log(err);
+                this.toastr.error(err.error.message, 'Thêm mẫu vật thất bại');
+              }
             )
           })
         }
@@ -521,45 +437,6 @@ export class PopupAddExaminationComponent implements OnInit {
       this.showPopup = false;
     }
   }
-  // @ViewChild('fileInput') fileInputVariable!: ElementRef;
-  // onFileSelected(event: any) {
-  //   // const files = event.target.files;
-  //   // console.log(files);
-  //   // if (files) {
-  //   //   for (let file of files) {
-  //   //     const reader = new FileReader();
-
-  //   //     reader.onload = (e: any) => {
-  //   //       this.imageUrls.push(e.target.result);
-  //   //       this.showImages = true;
-  //   //       this.cdr.detectChanges();
-  //   //       console.log(this.imageUrls);
-  //   //     };
-  //   //     reader.readAsDataURL(file);
-  //   //   }
-  //   // }
-  //   const fileInput = event.target;
-  //   if (fileInput.files && fileInput.files[0]) {
-  //     const file = fileInput.files[0];
-  //     const reader = new FileReader();
-  //     reader.onload = (e: any) => {
-  //       const base64Data = e.target.result;
-  //       this.imageURL = base64Data;
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-
-  // }
-
-  // addImageUrl() {
-  //   if (this.imageLink) {
-  //     console.log('Adding image URL:', this.imageLink); // Kiểm tra URL
-  //     this.imageUrls.push(this.imageLink);
-  //     // this.imageLink = '';
-  //     console.log('Image URLs:', this.imageUrls); // Kiểm tra xem URL có được thêm vào mảng không
-  //     this.cdr.detectChanges();
-  //   }
-  // }
 
   private resetFileInput() {
     this.fileInputVariable.nativeElement.value = ""; // Reset trạng thái của input file
@@ -633,24 +510,6 @@ export class PopupAddExaminationComponent implements OnInit {
 
   navigateHref(href: string) {
     this.router.navigate([href + this.patient_Id]);
-    // const userGroupsString = sessionStorage.getItem('userGroups');
-
-    // if (userGroupsString) {
-    //   const userGroups = JSON.parse(userGroupsString) as string[];
-
-    //   if (userGroups.includes('dev-dcms-doctor')) {
-    //     this.router.navigate([href + this.patient_Id]);
-    //   } else if (userGroups.includes('dev-dcms-nurse')) {
-    //     this.router.navigate([href + this.patient_Id]);
-    //   } else if (userGroups.includes('dev-dcms-receptionist')) {
-    //     this.router.navigate([href + this.patient_Id]);
-    //   } else if (userGroups.includes('dev-dcms-admin')) {
-    //     this.router.navigate([href + this.patient_Id]);
-    //   }
-    // } else {
-    //   console.error('Không có thông tin về nhóm người dùng.');
-    //   this.router.navigate(['/default-route']);
-    // }
   }
 
   toggleAdd() {
@@ -726,24 +585,17 @@ export class PopupAddExaminationComponent implements OnInit {
 
   materialName: any;
   updateTemporaryNameMaterial(record: any, event: any) {
-    const selectedMaterial = this.results.find((material: any) => material.materialId === event);
+    const selectedMaterial = this.results.find((material: any) => material.material_warehouse_id === event);
+    console.log("check selected",selectedMaterial);
     if (selectedMaterial) {
-      this.materialName = selectedMaterial.tenVatLieu;
       record.price = selectedMaterial.unitPrice;
       record.totalPaid = selectedMaterial.unitPrice;
     }
   }
 
-  changeUnitPrice(record: any) {
-    const selectedMaterial = this.results.find((material: any) => material.materialName === record.materialName);
-    record.totalPaid = selectedMaterial.unitPrice * selectedMaterial.quantity;
-  }
-
-  changeQuantity(record: any) {
-    console.log(record)
-    const selectedMaterial = this.results.find((material: any) => material.materialId === record.material_warehouse_id);
-    record.totalPaid = selectedMaterial.unitPrice * record.quantity;
-    console.log(record.totalPaid);
+  deleteRecordMaterial(index:any) {
+    this.isAddMaterial = false;
+    this.recordsMaterial.splice(index, 1);
   }
 
   //image
@@ -874,6 +726,13 @@ export class PopupAddExaminationComponent implements OnInit {
           this.listDisplay.push(laboO);
         })
       })
+  }
+
+  dateToTimestamp(dateStr: string): number {
+    const format = 'YYYY-MM-DD HH:mm'; // Định dạng của chuỗi ngày   const format = 'YYYY-MM-DD HH:mm:ss';
+    const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
+    var timestamp = moment.tz(dateStr, format, timeZone).valueOf() / 1000;
+    return timestamp;
   }
 }
 

@@ -53,33 +53,13 @@ export class PopupEditExaminationComponent implements OnInit {
   ProcedureGroupArray: any[] = [];
   detailProcedureGroupArray: any[] = [];
 
-  Procedure_Material_Usage_Body: any[] = [{
-    medical_procedure_id: null,
-    treatment_course_id: "",
-    examination_id: "",
-    quantity: 1,
-    price: 0,
-    total_paid: 0,
-    description: '',
-  }
-  ]
+  Procedure_Material_Usage_Body: any[] = []
 
   pg_id: any;
   //Thêm Vật liệu sử dụng Table
   MaterialWarehouse_Array: any[] = [];
   remainMaterial: number = 0;
-  Material_Usage_Body: any[] = [
-    {
-      material_warehouse_id: null,
-      treatment_course_id: "",
-      examination_id: "",
-      quantity: 1,
-      price: 0,
-      total_paid: 0,
-      description: '',
-      mw_remaining: 0
-    }
-  ];
+  Material_Usage_Body: any[] = [];
 
   examination: Examination = {} as Examination;
   treatmentCourse: ITreatmentCourse = [];
@@ -154,14 +134,7 @@ export class PopupEditExaminationComponent implements OnInit {
   examininationSelect: any;
   imageContent: any;
   imageDescription: any;
-  // recordImage = {
-  //   id: 0,
-  //   typeImage: "",
-  //   imageInsert: "",
-  //   description: ""
-  // }
-  //
-  //recordsImageImport: any[] = []
+
   getExaminationById() {
     this.tcDetailService.getExamination(this.examinationId).subscribe((data) => {
       console.log("data: ", data);
@@ -170,7 +143,7 @@ export class PopupEditExaminationComponent implements OnInit {
       this.examination.medicine = this.examininationSelect.medicine;
       this.imageContent = this.examininationSelect['x-ray-image'].split('><');
       this.imageDescription = this.examininationSelect['x-ray-image-des'].split('||');
-      this.imageContent.forEach((item:any) => {
+      this.imageContent.forEach((item: any) => {
         this.id++;
         this.recordImage = {
           id: this.id,
@@ -191,7 +164,7 @@ export class PopupEditExaminationComponent implements OnInit {
         const im = item.split('><');
         for (let i = 0; i < im.length; i++) {
           this.recordsImage.forEach((img: any) => {
-            if (im[i] % 2 !=0) {
+            if (im[i] % 2 != 0) {
               img.description = im[i];
             }
           })
@@ -203,35 +176,58 @@ export class PopupEditExaminationComponent implements OnInit {
       })
   }
 
-  listResponse:any[] = [];
+  getPredureGroupId(id: any): any {
+    this.list.forEach((item: any) => {
+      item.procedure.forEach((it: any) => {
+        if (it.procedureId == id) {
+          return item.groupId;
+        }
+      })
+    })
+  }
+
+  getProcedureGroupName(id: any): any {
+    this.list.forEach((item: any) => {
+      if (item.groupId == id) {
+        return item.groupName;
+      }
+    })
+  }
+
+  listResponse: any[] = [];
   getMedicalandProcedure() {
     this.tcDetailService.getDetailByExamnination(this.examinationId).subscribe((data) => {
-        this.listResponse = data.data;
-        this.listResponse.forEach((item:any)=> {
-          if (item.mp_medical_procedure_id != null) {
-            this.records.push({
-              treatment_course_id: this.treatmentCourse_Id,
-              medical_procedure_id: item.mp_medical_procedure_id,
-              medical_name: item.mw_material_name,
-              examination_id: this.examinationId,
-              quantity: 1,
-              price: item.mu_price,
-              total_paid: item.mu_total_paid,
-              description: '',
-            });
-          } else {
-            this.recordsMaterial.push({
-              material_warehouse_id: item.mu_material_warehouse_id,
-              material_name: item.mw_material_name,
-              treatment_course_id: this.treatmentCourse_Id,
-              examination_id: this.examinationId,
-              quantity: '1',
-              price: item.mw_price,
-              totalPaid: '',
-              description: '',
-            })
-          }
-        })
+      this.listResponse = data.data;
+      console.log("check recordMaterial", this.listResponse)
+      this.listResponse.forEach((item: any) => {
+        if (item.mp_medical_procedure_id != null) {
+          this.records.push({
+            material_usage_id: item.mu_material_usage_id,
+            treatment_course_id: this.treatmentCourse_Id,
+            medical_group_procedure_id: item.mp_medical_procedure_group_id,
+            medical_procedure_id: item.mp_medical_procedure_id,
+            medical_procedure_name: item.mp_name,
+            examination_id: this.examinationId,
+            quantity: item.mu_quantity,
+            price: item.mu_price,
+            total_paid: item.mu_total_paid,
+            description: '',
+          });
+        } else {
+          this.recordsMaterial.push({
+            material_usage_id: item.mu_material_usage_id,
+            material_warehouse_id: item.mu_material_warehouse_id,
+            material_name: item.mw_material_name,
+            treatment_course_id: this.treatmentCourse_Id,
+            examination_id: this.examinationId,
+            quantity: item.mu_quantity,
+            price: item.mw_price,
+            total_paid: item.mu_total_paid == undefined ? '' : item.mu_total_paid,
+            description: '',
+          })
+          //console.log("check recordMaterial", this.recordsMaterial)
+        }
+      })
     })
   }
 
@@ -357,11 +353,9 @@ export class PopupEditExaminationComponent implements OnInit {
   procedureGroupName: any;
   temporaryName: string = '';
   updateTemporaryName(record: any, event: any) {
-    // event chứa tên vật liệu được chọn
     console.log(event);
     this.list.forEach((item: any) => {
       if (item.groupId == event) {
-        //this.procedureGroupName = item.groupName;
         item.procedure.forEach((it: any) => {
           let proObject = {
             procedureId: it.procedureId,
@@ -403,88 +397,15 @@ export class PopupEditExaminationComponent implements OnInit {
     this.records.splice(index, 1);
   }
 
-  // getTreatmentCourse() {
-  //   this.tcService.getTreatmentCourse(this.patient_Id)
-  //     .subscribe((data) => {
-  //       console.log("data treatment: ", data);
-  //       this.treatmentCourse = data;
-  //       console.log("treatment course: ", this.treatmentCourse);
-  //     },
-  //       (error) => {
-  //         //this.toastr.error(error.error.message, "Lấy danh sách Liệu trình thất bại");
-  //         ResponseHandler.HANDLE_HTTP_STATUS(this.tcService.apiUrl + "/treatment-course/patient-id/" + this.patient_Id, error);
-  //       })
-  // }
+  imageBody = {
+    base64: true,
+    image_data: '',
+    description: ''
+  }
 
-  // getMedicalProcedureGroup() {
-  //   this.medicalProcedureGroupService.getMedicalProcedureGroupList()
-  //     .subscribe((res) => {
-  //       console.log("Medical Procedure Group: ", res);
-  //       this.ProcedureGroupArray = res.data;
-  //     })
-  // }
+  Procedure_Body: any[] = [];
+  Material_Body: any[] = [];
 
-  // getMedicalProcedureGroupDetail() {
-  //   this.medicalProcedureGroupService.getMedicalProcedureGroupWithDetailList()
-  //     .subscribe((res) => {
-  //       console.log("Medical Procedure Group with Detail: ", res);
-  //       this.detailProcedureGroupArray = res.data;
-  //     })
-  // }
-
-  // getMaterialWarehouse() {
-  //   this.materialWarehoseService.getMaterialWarehousse_Remaining(1)
-  //     .subscribe((res) => {
-  //       this.MaterialWarehouse_Array = res.data;
-  //       console.log("Material Remaining: ", res.data);
-  //     })
-  // }
-
-  // detailProcedureGroupArrayFilter: any;
-  // filterProcedureByPG(index: number) {
-  //   if (this.pg_id != "")
-  //     this.detailProcedureGroupArrayFilter = this.detailProcedureGroupArray.filter(p => p.mg_id === this.pg_id)
-  //   console.log("Filter detail: ", this.detailProcedureGroupArrayFilter);
-  // }
-
-  // chooseProcedure(index: number, medicalProcedureId: number) {
-  //   const selectedProcedure = this.detailProcedureGroupArrayFilter.find((procedure: any) => procedure.mp_id === medicalProcedureId);
-  //   if (selectedProcedure) {
-  //     this.Procedure_Material_Usage_Body[index].treatment_course_id = this.treatmentCourse_Id;
-  //     this.Procedure_Material_Usage_Body[index].price = selectedProcedure.mp_price;
-  //     this.Procedure_Material_Usage_Body[index].total_paid = selectedProcedure.mp_price;
-  //   }
-  // }
-
-  // updateMaterialWarehouse(index: number, material_warehouse_id: any) {
-  //   const selectedMaterialW = this.MaterialWarehouse_Array.find((mw: any) => mw.mw_material_warehouse_id === material_warehouse_id);
-  //   console.log("Selected Material: ", selectedMaterialW);
-  //   if (selectedMaterialW) {
-  //     this.Material_Usage_Body[index].treatment_course_id = this.treatmentCourse_Id;
-  //     this.Material_Usage_Body[index].price = selectedMaterialW.mw_price;
-  //     this.Material_Usage_Body[index].mw_remaining = selectedMaterialW.mw_remaining;
-  //     // this.Material_Usage_Body[index].total_paid = this.Material_Usage_Body[index].price * this.Material_Usage_Body[index].quantity;
-  //     this.Material_Usage_Body[index].total_paid = 0;
-
-  //     console.log("updateMaterialWarehouse: ", this.Material_Usage_Body);
-  //   }
-  // }
-
-  // allowedEmptyFields: string[]
-  //   = ['usage_date', 'adder', 'description', 'examination_id',
-  //     'material_warehouse_id', 'medical_procedure_id'];
-
-  // areRequiredFieldsFilled(array: any[]): boolean {
-  //   return array.every(item => {
-  //     return Object.entries(item).every(([key, value]) => {
-  //       if (this.allowedEmptyFields.includes(key)) {
-  //         return true;
-  //       }
-
-  //       return value !== null && value !== '';
-  //     });
-  //   });
-  // }
 
   putExamination() {
     const faci = sessionStorage.getItem('locale');
@@ -494,65 +415,85 @@ export class PopupEditExaminationComponent implements OnInit {
     this.examination.treatment_course_id = this.treatmentCourse_Id;
     this.examination.staff_id = this.staff_id;
     this.examination.created_date = this.currentDate;
+    console.log(this.recordsImage);
     if (this.recordsImage.length > 0) {
       this.recordsImage.forEach((item: any) => {
         if (item.typeImage != null) {
+          if (item.typeImage == 1) {
+            let img = item.imageInsert.split('base64,');
+            var a = '';
+            if (img.length == 1) {
+              a = img[0];
+            } else {
+              a = img[1];
+            }
+            this.imageBody = {
+              base64: true,
+              image_data: a,
+              description: item.description
+            }
+          } else {
+            this.imageBody = {
+              base64: false,
+              image_data: item.imageInsert,
+              description: item.description
+            }
+          }
+          this.examination.image.push(this.imageBody);
         }
       })
     }
     this.tcDetailService.putExamination(this.examinationId, this.examination)
       .subscribe((res) => {
         this.toastr.success(res.message, 'Chỉnh sửa lần khám thành công');
-        console.log("ExaminationId Response: ", res.data.examination_id);
-        //const examinationId = res.data.examination_id;
         let isSuccess = false;
         if (this.records.length > 0) {
           this.records.forEach((el) => {
-            el.examination_id = this.examinationId
+            let newProcedureBody = {
+              material_usage_id: el.material_usage_id,
+              medical_procedure_id: el.medical_procedure_id,
+              treatment_course_id: this.treatmentCourse_Id,
+              examination_id: this.examinationId,
+              quantity: '1',
+              price: el.price,
+              total_paid: el.total_paid,
+              description: '',
+            }
+            this.materialUsageService.putMaterialUsage(newProcedureBody.material_usage_id, newProcedureBody)
+              .subscribe((res) => {
+                isSuccess = true;
+                this.toastr.success(res.message, 'Chỉnh sửa Thủ thuật thành công');
+              },
+                (err) => {
+                  isSuccess = false;
+                  console.log(err);
+                  this.toastr.error(err.error.message, 'Chỉnh sửa Thủ thuật thất bại');
+                })
           })
-          this.materialUsageService.puttMaterialUsage(this.records)
-            .subscribe((res) => {
-              isSuccess = true;
-              this.toastr.success(res.message, 'Thêm Thủ thuật thành công');
-            },
-              (err) => {
-                isSuccess = false;
-                console.log(err);
-                this.toastr.error(err.error.message, 'Thêm Thủ thuật thất bại');
-              })
         }
-        // if (this.recordsSpecimen.length > 0) {
-        //   this.recordsSpecimen.forEach((item: any) => {
-        //     item.patient_id = this.patient_Id;
-        //     item.facility_id = this.facility;
-        //     item.treatment_course_id = this.treatmentCourse_Id;
-        //     this.medicalSupplyService.updateApproveSpecimens(item).subscribe(data => {
-        //       isSuccess = true;
-        //       this.toastr.success(data.message, 'Thêm mẫu vật sử dụng thành công');
-        //     }
-        //       ,
-        //       (err) => {
-        //         isSuccess = false;
-        //         console.log(err);
-        //         this.toastr.error(err.error.message, 'Thêm mẫu vật thất bại');
-        //       }
-        //     )
-        //   })
-        // }
         if (this.recordsMaterial.length > 0) {
           this.recordsMaterial.forEach((el) => {
-            el.examination_id = this.examinationId
+            let newMaterialBody = {
+              material_usage_id: el.material_usage_id,
+              material_warehouse_id: el.material_warehouse_id,
+              treatment_course_id: this.treatmentCourse_Id,
+              examination_id: this.examinationId,
+              quantity: el.quantity,
+              price: el.price,
+              total_paid: el.total_paid,
+              description: '',
+            }
+            this.materialUsageService.putMaterialUsage(newMaterialBody.material_usage_id, newMaterialBody)
+              .subscribe((res) => {
+                isSuccess = true;
+                this.toastr.success(res.message, 'Chỉnh sửa Vật liệu sử dụng thành công');
+              },
+                (err) => {
+                  isSuccess = false;
+                  console.log(err);
+                  this.toastr.error(err.error.message, 'Chỉnh sửa Vật liệu thất bại');
+                })
           })
-          this.materialUsageService.puttMaterialUsage(this.recordsMaterial)
-            .subscribe((res) => {
-              isSuccess = true;
-              this.toastr.success(res.message, 'Thêm Vật liệu sử dụng thành công');
-            },
-              (err) => {
-                isSuccess = false;
-                console.log(err);
-                this.toastr.error(err.error.message, 'Thêm Vật liệu thất bại');
-              })
         }
         console.log(isSuccess);
         this.showNaviPopup(1)
@@ -579,45 +520,6 @@ export class PopupEditExaminationComponent implements OnInit {
       this.showPopup = false;
     }
   }
-  // @ViewChild('fileInput') fileInputVariable!: ElementRef;
-  // onFileSelected(event: any) {
-  //   // const files = event.target.files;
-  //   // console.log(files);
-  //   // if (files) {
-  //   //   for (let file of files) {
-  //   //     const reader = new FileReader();
-
-  //   //     reader.onload = (e: any) => {
-  //   //       this.imageUrls.push(e.target.result);
-  //   //       this.showImages = true;
-  //   //       this.cdr.detectChanges();
-  //   //       console.log(this.imageUrls);
-  //   //     };
-  //   //     reader.readAsDataURL(file);
-  //   //   }
-  //   // }
-  //   const fileInput = event.target;
-  //   if (fileInput.files && fileInput.files[0]) {
-  //     const file = fileInput.files[0];
-  //     const reader = new FileReader();
-  //     reader.onload = (e: any) => {
-  //       const base64Data = e.target.result;
-  //       this.imageURL = base64Data;
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-
-  // }
-
-  // addImageUrl() {
-  //   if (this.imageLink) {
-  //     console.log('Adding image URL:', this.imageLink); // Kiểm tra URL
-  //     this.imageUrls.push(this.imageLink);
-  //     // this.imageLink = '';
-  //     console.log('Image URLs:', this.imageUrls); // Kiểm tra xem URL có được thêm vào mảng không
-  //     this.cdr.detectChanges();
-  //   }
-  // }
 
   private resetFileInput() {
     this.fileInputVariable.nativeElement.value = ""; // Reset trạng thái của input file
@@ -627,50 +529,6 @@ export class PopupEditExaminationComponent implements OnInit {
     console.log(this.imageUrls);
   }
 
-  //Xử lý với bảng
-  // addNewRow(status: number) {
-  //   switch (status) {
-  //     case 1:
-  //       this.Material_Usage_Body.push({
-  //         material_warehouse_id: "",
-  //         medical_procedure_id: "",
-  //         treatment_course_id: "",
-  //         examination_id: "",
-  //         quantity: 0,
-  //         price: 0,
-  //         total_paid: 0,
-  //         description: ''
-  //       });
-  //       console.log("Table row", this.Material_Usage_Body);
-  //       this.Material_Usage_Body[this.Material_Usage_Body.length - 1].animationClass = 'new-row-animation';
-  //       break;
-  //     default:
-  //       this.Procedure_Material_Usage_Body.push({
-  //         material_warehouse_id: "",
-  //         medical_procedure_id: "",
-  //         treatment_course_id: "",
-  //         examination_id: "",
-  //         quantity: 0,
-  //         price: 0,
-  //         total_paid: 0,
-  //         description: ''
-  //       });
-  //       console.log("Table row", this.Procedure_Material_Usage_Body);
-  //       this.Procedure_Material_Usage_Body[this.Procedure_Material_Usage_Body.length - 1].animationClass = 'new-row-animation';
-  //       break;
-  //   }
-  // }
-
-  // removeRow(index: number, status: number) {
-  //   switch (status) {
-  //     case 1:
-  //       this.Material_Usage_Body.splice(index, 1);
-  //       break;
-  //     default:
-  //       this.Procedure_Material_Usage_Body.splice(index, 1);
-  //       break;
-  //   }
-  // }
   isPopup1Visible = false;
   isPopup2Visible = false;
 
@@ -691,58 +549,40 @@ export class PopupEditExaminationComponent implements OnInit {
 
   navigateHref(href: string) {
     this.router.navigate([href + this.patient_Id]);
-    // const userGroupsString = sessionStorage.getItem('userGroups');
-
-    // if (userGroupsString) {
-    //   const userGroups = JSON.parse(userGroupsString) as string[];
-
-    //   if (userGroups.includes('dev-dcms-doctor')) {
-    //     this.router.navigate([href + this.patient_Id]);
-    //   } else if (userGroups.includes('dev-dcms-nurse')) {
-    //     this.router.navigate([href + this.patient_Id]);
-    //   } else if (userGroups.includes('dev-dcms-receptionist')) {
-    //     this.router.navigate([href + this.patient_Id]);
-    //   } else if (userGroups.includes('dev-dcms-admin')) {
-    //     this.router.navigate([href + this.patient_Id]);
-    //   }
-    // } else {
-    //   console.error('Không có thông tin về nhóm người dùng.');
-    //   this.router.navigate(['/default-route']);
-    // }
   }
 
   toggleAdd() {
     this.isAdd = !this.isAdd;
-    if (this.isAdd) {
-      this.records.push({
-        material_usage_id:'',
-        treatment_course_id: this.treatmentCourse_Id,
-        medical_procedure_id: '',
-        examination_id: '',
-        quantity: 1,
-        price: '',
-        total_paid: '',
-        description: '',
-      });
-    }
+    // if (this.isAdd) {
+    //   this.records.push({
+    //     material_usage_id:'',
+    //     treatment_course_id: this.treatmentCourse_Id,
+    //     medical_procedure_id: '',
+    //     examination_id: '',
+    //     quantity: 1,
+    //     price: '',
+    //     total_paid: '',
+    //     description: '',
+    //   });
+    // }
   }
 
   recordsMaterial: any[] = [];
   isAddMaterial: boolean = false;
   toggleAddMaterial() {
     this.isAddMaterial = !this.isAddMaterial;
-    if (this.isAddMaterial) {
-      this.recordsMaterial.push({
-        material_usage_id: '',
-        material_warehouse_id: '',
-        treatment_course_id: this.treatmentCourse_Id,
-        examination_id: '',
-        quantity: '1',
-        price: '',
-        total_paid: '',
-        description: '',
-      })
-    }
+    // if (this.isAddMaterial) {
+    //   this.recordsMaterial.push({
+    //     material_usage_id: '',
+    //     material_warehouse_id: '',
+    //     treatment_course_id: this.treatmentCourse_Id,
+    //     examination_id: '',
+    //     quantity: '1',
+    //     price: '',
+    //     total_paid: '',
+    //     description: '',
+    //   })
+    // }
   }
 
   wareHouseMaterial = {
@@ -786,24 +626,12 @@ export class PopupEditExaminationComponent implements OnInit {
 
   materialName: any;
   updateTemporaryNameMaterial(record: any, event: any) {
-    const selectedMaterial = this.results.find((material: any) => material.materialId === event);
+    const selectedMaterial = this.results.find((material: any) => material.material_warehouse_id === event);
     if (selectedMaterial) {
-      this.materialName = selectedMaterial.tenVatLieu;
+      record.material_name = selectedMaterial.materialName;
       record.price = selectedMaterial.unitPrice;
       record.totalPaid = selectedMaterial.unitPrice;
     }
-  }
-
-  changeUnitPrice(record: any) {
-    const selectedMaterial = this.results.find((material: any) => material.materialName === record.materialName);
-    record.totalPaid = selectedMaterial.unitPrice * selectedMaterial.quantity;
-  }
-
-  changeQuantity(record: any) {
-    console.log(record)
-    const selectedMaterial = this.results.find((material: any) => material.materialId === record.material_warehouse_id);
-    record.totalPaid = selectedMaterial.unitPrice * record.quantity;
-    console.log(record.totalPaid);
   }
 
   //image
@@ -819,16 +647,16 @@ export class PopupEditExaminationComponent implements OnInit {
   id: number = 0;
   toggleAddImage() {
     this.isAddImage = !this.isAddImage;
-    if (this.isAddImage) {
-      const Id = this.id++;
-      this.recordImage = {
-        id: Id,
-        typeImage: "1",
-        imageInsert: "../../../../../../assets/img/noImage.png",
-        description: ""
-      }
-      this.recordsImage.push(this.recordImage);
-    }
+    // if (this.isAddImage) {
+    //   const Id = this.id++;
+    //   this.recordImage = {
+    //     id: Id,
+    //     typeImage: "1",
+    //     imageInsert: "../../../../../../assets/img/noImage.png",
+    //     description: ""
+    //   }
+    //   this.recordsImage.push(this.recordImage);
+    // }
   }
 
   deleteRecordImage(index: any) {
@@ -848,6 +676,7 @@ export class PopupEditExaminationComponent implements OnInit {
       imageInsert: event.target.value,
       description: ""
     }
+    this.resetFileInput();
   }
 
   @ViewChild('fileInput') fileInputVariable!: ElementRef;
@@ -867,6 +696,7 @@ export class PopupEditExaminationComponent implements OnInit {
       };
       reader.readAsDataURL(file);
     }
+    this.resetFileInput();
   }
 
   addImageUrl() {
@@ -910,7 +740,7 @@ export class PopupEditExaminationComponent implements OnInit {
     }
   }
 
-  deleteRecordSpeciment(index:any) {
+  deleteRecordSpeciment(index: any) {
     this.isAddSpeci = false;
     this.recordsSpecimen.splice(index, 1);
   }

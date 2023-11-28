@@ -35,6 +35,7 @@ export interface AppointmentObject {
   phone_number: string
   procedure_id: string, 
   procedure_name: string,
+  reason: string,
   doctor: string, 
   status: number,
   time: number
@@ -66,6 +67,7 @@ export interface EditAppointment {
   phone_number: string
   procedure_id: string, 
   procedure_name: string,
+  reason: string,
   doctor: string, 
   status: number,
   time: number

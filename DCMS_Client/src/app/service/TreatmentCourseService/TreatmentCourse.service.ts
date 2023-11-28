@@ -39,7 +39,7 @@ export class TreatmentCourseService {
       "Content-Type": "application/json; charset=utf8"
     });
     const requestBody = JSON.stringify(PutTreatmentCourse);
-    return this.http.put(`${this.apiUrl}/treatment-course/${id}`, requestBody, { headers });
+    return this.http.put(`https://ltmup12v3i.execute-api.ap-southeast-1.amazonaws.com/dev/treatment-course/${id}`, requestBody, { headers });
   }
 
   deleteTreatmentCourse(id:string):Observable<any> {

@@ -18,6 +18,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ResponseHandler } from "../../utils/libs/ResponseHandler";
 import { IsThisSecondPipe } from 'ngx-date-fns';
+import { end } from '@popperjs/core';
 
 @Component({
   selector: 'app-receptionist-appointment-list',
@@ -136,17 +137,25 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     procedure: '',
     count: 0,
   }
-  //datesDisabled: DateDisabledItem[] = [];
+ 
   datesDisabled: any[] = [];
   listDate: any[] = [];
   appointmentDateInvalid() {
     var today = new Date();
-    var date = today.getFullYear() + ' - ' + (today.getMonth() + 1) + ' - ' + today.getDate();
-    var time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
+    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     var dateTime = date + ' ' + "00:00:00";
     var startTime = this.dateToTimestamp(dateTime);
-    var endTime = this.dateToTimestamp(today.getFullYear() + ' - ' + (today.getMonth() + 1) + ' - ' + (today.getDate() + 4) + ' ' + "23:59:59");
-    this.appointmentService.getAppointmentList(startTime, endTime).subscribe(data => {
+    const currentDate = new Date();
+    const vnTimezoneOffset = 7 * 60;
+    const vietnamTime = new Date(currentDate.getTime() + vnTimezoneOffset * 60 * 1000);
+    const nextWeekDate = new Date(vietnamTime.getTime());
+    nextWeekDate.setDate(vietnamTime.getDate() + 7);
+
+    const dateFormatter = new Intl.DateTimeFormat('en', { year: 'numeric', month: '2-digit', day: '2-digit' });
+    const formattedDate = dateFormatter.format(nextWeekDate);
+    var temp = formattedDate.split('/');
+    var endTime = temp[2] + '-' + temp[0] + '-' + temp[1] + ' 23:59:59';
+    this.appointmentService.getAppointmentList(startTime, this.dateToTimestamp(endTime)).subscribe(data => {
       this.listDate = ConvertJson.processApiResponse(data);
       this.listDate.forEach((a: any) => {
         a.appointments.forEach((b: any) => {
@@ -333,6 +342,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
           this.Exchange.patient_name = b.patient_name;
           this.Exchange.produce_id = b.procedure_id;
           this.Exchange.produce_name = b.procedure_name;
+          this.Exchange.reason = b.reason;
           this.receptionistWaitingRoom.postWaitingRoom(this.Exchange).subscribe(
             (data) => {
               this.Exchange = {
@@ -367,7 +377,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   }
 
   openAddAppointmentModal() {
-    // this.datesDisabled = this.datesDisabled;
+     this.datesDisabled = this.datesDisabled;
   }
 
   //Convert Date

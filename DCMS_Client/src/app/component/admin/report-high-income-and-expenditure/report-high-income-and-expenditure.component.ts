@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from "moment-timezone";
-import {MaterialUsageReportService} from "../../../service/MaterialUsageService/material-usage-report.service";
-import {ResponseHandler} from "../../utils/libs/ResponseHandler";
+import { MaterialUsageReportService } from "../../../service/MaterialUsageService/material-usage-report.service";
+import { ResponseHandler } from "../../utils/libs/ResponseHandler";
 @Component({
   selector: 'app-report-high-income-and-expenditure',
   templateUrl: './report-high-income-and-expenditure.component.html',
@@ -9,12 +9,16 @@ import {ResponseHandler} from "../../utils/libs/ResponseHandler";
 })
 export class ReportHighIncomeAndExpenditureComponent implements OnInit {
 
-  getReports:any[] = [];
-  constructor(private materialUsageService:MaterialUsageReportService) { }
-  startDate:string='';
-  endDate:string = '';
-  searchName:string = '';
+  getReports: any[] = [];
+  status: string = "0";
+  constructor(private materialUsageService: MaterialUsageReportService) { }
+  startDate: string = '';
+  endDate: string = '';
+  searchName: string = '';
   ngOnInit(): void {
+    var today = new Date();
+    this.startDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    this.endDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
     this.getReportMaterialUsage();
   }
   dateToTimestamp(dateStr: string): number {
@@ -47,20 +51,31 @@ export class ReportHighIncomeAndExpenditureComponent implements OnInit {
   uniqueList: any[] = [];
   stastisticRevenuePatient: any[] = [];
 
-  getReportMaterialUsage(){
-    const startTime = this.dateToTimestamp(this.startDate+'00:00:00');
-    const endTime = this.dateToTimestamp(this.endDate+'23:59:59');
-    this.materialUsageService.getMaterialUsages(startTime,endTime).subscribe(data=>{
+  getReportMaterialUsage() {
+    this.uniqueList.splice(0, this.uniqueList.length)
+    this.stastisticTotal = {
+      initialTotalAmount: 0,
+      totalAmount: 0,
+      discount: 0,
+      totalPay: 0,
+      totalLeft: 0
+    };
+    const startTime = this.dateToTimestamp(this.startDate + '00:00:00');
+    const endTime = this.dateToTimestamp(this.endDate + '23:59:59');
+    this.stastisticRevenuePatient.splice(0, this.stastisticRevenuePatient.length);
+    this.materialUsageService.getMaterialUsages(startTime, endTime).subscribe(data => {
       this.getReports = data.data;
-      this.getReports.forEach((s:any) => {
-        console.log(s);
+      console.log(this.getReports);
+      this.getReports.forEach((s: any) => {
         const currentObject = s;
         currentObject.mu_data.forEach((item: any) => {
           this.stastisticTotal.initialTotalAmount += parseInt(item.mu_price) * parseInt(item.mu_quantity);;
           this.stastisticTotal.totalAmount += parseInt(item.mu_price) * parseInt(item.mu_quantity);;
           this.stastisticTotal.discount += 0;
-          this.stastisticTotal.totalPay += parseInt(item.mu_total_paid);
-          this.stastisticTotal.totalLeft += parseInt(item.mu_price) * parseInt(item.mu_quantity) - parseInt(item.mu_total_paid);
+          if (item.mu_total_paid != undefined && item.mu_total_paid != null) {
+            this.stastisticTotal.totalPay += parseInt(item.mu_total_paid);
+            this.stastisticTotal.totalLeft += parseInt(item.mu_price) * parseInt(item.mu_quantity) - parseInt(item.mu_total_paid);
+          }
         })
         if (!this.uniqueList.includes(currentObject.p_data.p_patient_id)) {
           this.uniqueList.push(currentObject.p_data.p_patient_id);
@@ -89,8 +104,9 @@ export class ReportHighIncomeAndExpenditureComponent implements OnInit {
           }
         } else {
           this.stastisticRevenuePatient.forEach((patient: any) => {
+            console.log(patient.patientCode)
             if (patient.patientCode == currentObject.p_data.p_patient_id) {
-              currentObject.mu_data.forEach((item:any) => {
+              currentObject.mu_data.forEach((item: any) => {
                 patient.initialAmount += (parseInt(item.mu_price) * parseInt(item.mu_quantity));
                 patient.discount = 0;
                 patient.totalAmount += (parseInt(item.mu_price) * parseInt(item.mu_quantity));
@@ -103,9 +119,9 @@ export class ReportHighIncomeAndExpenditureComponent implements OnInit {
       })
     },
       error => {
-        ResponseHandler.HANDLE_HTTP_STATUS(this.materialUsageService.url+"/material-usage/report/"+startTime+"/"+endTime, error);
+        ResponseHandler.HANDLE_HTTP_STATUS(this.materialUsageService.url + "/material-usage/report/" + startTime + "/" + endTime, error);
       }
-      )
+    )
     this.stastisticRevenuePatientSearch = this.stastisticRevenuePatient;
   }
 
@@ -115,7 +131,7 @@ export class ReportHighIncomeAndExpenditureComponent implements OnInit {
     const search = this.searchName.toLowerCase().trim();
     if (search) {
       this.stastisticRevenuePatientSearch = this.stastisticRevenuePatient
-        .filter((patient:any) => {
+        .filter((patient: any) => {
           const patientName = patient.patientName.toLowerCase();
           return patientName.includes(search);
         });
@@ -123,5 +139,34 @@ export class ReportHighIncomeAndExpenditureComponent implements OnInit {
       this.stastisticRevenuePatientSearch = this.stastisticRevenuePatient;
     }
   }
+
+  onValueChangeStartDate(event: any) {
+    // alert(this.startDate);
+    // alert(this.endDate);
+    var today = new Date();
+    if (event != null) {
+      this.startDate = event;
+    } else {
+      this.startDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    }
+    this.stastisticRevenuePatient.splice(0, this.stastisticRevenuePatient.length);
+    this.getReportMaterialUsage();
+  }
+
+  onValueChangeEndDate(event: any) {
+    var today = new Date();
+    if (event != null) {
+      this.endDate = event;
+    } else {
+      this.endDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    }
+    this.stastisticRevenuePatient.splice(0, this.stastisticRevenuePatient.length);
+    this.getReportMaterialUsage();
+  }
+
+  // onValueChangeSelectedStatus(event: any) {
+  //   this.status = event;
+  //   this.getReportMaterialUsage();
+  // }
 
 }

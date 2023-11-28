@@ -81,6 +81,7 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
         phone_number: '', //x
         procedure_id: "1",  //x
         doctor: '',
+        reason: '',
         status: 2, //x
         time: 0  //x
       }
@@ -141,6 +142,7 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
           procedure_id: this.selectedAppointment.procedure_id,
           procedure_name: this.selectedAppointment.procedure_name,
           phone_number: this.selectedAppointment.phone_number,
+          reason: this.selectedAppointment.reason,
           doctor: this.selectedAppointment.doctor,
           status: 2,
           time: this.selectedAppointment.time,

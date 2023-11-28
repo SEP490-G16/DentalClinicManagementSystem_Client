@@ -63,11 +63,11 @@
                 <td>{{specimens.ms_quantity}}</td> <!--4-->
                 <td>{{specimens.ms_unit_price}}</td> <!--5-->
                 <td>{{specimens.lb_id}}</td> <!--6-->
-                <td>{{specimens.ms_status == 1? "Đã nhận": (specimens.ms_status ==
-                  2)?"Chưa nhận":"Trả lại"}}</td> <!--7-->
-                <td>{{specimens.ms_order_date | VNdateTimeFormat}}</td> <!--8-->
+                <td>{{specimens.ms_status == 1 ? "Chờ duyệt":(specimens.ms_status == 2)? "Chưa nhận":
+                  (specimens.ms_status == 3) ?"Đã nhận":"Hàng lỗi"}}</td> <!--7-->
+                <td>{{specimens.ms_order_date | date: 'dd/mm/yyyy'}}</td> <!--8-->
                 <td>{{specimens.ms_orderer}}</td> <!--9-->
-                <td>{{specimens.ms_received_date | VNdateTimeFormat }}</td>
+                <td>{{specimens.ms_received_date | date: 'dd/mm/yyyy' }}</td>
                 <!--10-->
                 <td>{{specimens.ms_receiver}}</td> <!--11-->
                 <td></td> <!--12-->
@@ -92,5 +92,5 @@
     </ng-template>
   </div>
 </div>
-<app-popup-add-specimens [approveSpecimensList]="approveSpecimensList"></app-popup-add-specimens>
-<app-popup-edit-specimens [PutSpecimen]="PutSpecimen" [AllLabos]="AllLabos"></app-popup-edit-specimens>
+<app-popup-add-specimens [approveSpecimensList]="approveSpecimensList" [Patient_Id]="Patient_Id"></app-popup-add-specimens>
+<app-popup-edit-specimens [PutSpecimen]="PutSpecimen" [AllLabos]="AllLabos" [Patient_Id]="Patient_Id"></app-popup-edit-specimens>

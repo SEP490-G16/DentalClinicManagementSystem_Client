@@ -7,6 +7,7 @@ import * as moment from 'moment-timezone';
 import { IsThisSecondPipe } from 'ngx-date-fns';
 import { ResponseHandler } from "../../../libs/ResponseHandler";
 import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/TreatmentCourse.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-popup-add-specimens',
@@ -15,6 +16,7 @@ import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/T
 })
 export class PopupAddSpecimensComponent implements OnInit {
   @Input() approveSpecimensList: any;
+  @Input() Patient_Id:any;
   validateSpecimens = {
     name: '',
     type: '',
@@ -71,13 +73,21 @@ export class PopupAddSpecimensComponent implements OnInit {
   patientIdSelected: any;
   isSubmitted: boolean = false;
   loading: boolean = false;
+  patientFind: any;
   constructor(private medicalSupplyService: MedicalSupplyService,
     private toastr: ToastrService,
     private patientSerivce: PatientService,
     private treatmentCourseService: TreatmentCourseService,
-    private laboService: LaboService) { }
+    private laboService: LaboService,
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    if (this.Patient_Id != null) {
+      this.patientSerivce.getPatientById(this.Patient_Id).subscribe((data) => {
+        this.patientFind = data;
+        this.patientIdSelected = this.patientFind.patient_id + " - " + this.patientFind.patient_name + " - " + this.patientFind.phone_number;
+      })
+    }
     this.getAllLabo();
     this.specimen.quantity = '1';
     this.specimen.orderer = sessionStorage.getItem('username') + '';
@@ -190,6 +200,7 @@ export class PopupAddSpecimensComponent implements OnInit {
     let receivedDateTimestamp = this.dateToTimestamp(this.specimen.receiverDate);
     let userDateTimestamp = this.dateToTimestamp(this.specimen.usedDate);
 
+    const pa = this.patientIdSelected.split(" - ");
     this.specimenBody = {
       name: this.specimen.name,
       type: this.specimen.type,
@@ -227,7 +238,7 @@ export class PopupAddSpecimensComponent implements OnInit {
         return {
           patientId: item.patient_id,
           patientName: item.patient_name,
-          patientInfor: item.patient_name + " - " + item.phone_number,
+          patientInfor: item.patient_id+" - "+item.patient_name + " - " + item.phone_number,
         };
       });
       this.patientList = transformedMaterialList;
