@@ -59,7 +59,7 @@ export class ReceptionistAppointmentService {
     }
   }
 
-  deleteAppointment(epoch:string, appointmentId: string):Observable<any> {
+  deleteAppointment(epoch:number, appointmentId: string):Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`

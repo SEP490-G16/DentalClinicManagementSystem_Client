@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&family=Dancing+Script:wght@700&display=swap');
 .web-wrapper {
-  background-image: url(https://i.pinimg.com/originals/1e/14/5b/1e145b7b9133b8d24cd7184a8208621d.jpg);
+  background-image: url(https://www.parkavenuedc.com/assets/img/portfolio/portfolio-2.jpg);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -26,11 +26,12 @@
 
 .container {
   max-width: 600px;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.5);
   padding: 20px;
   border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 .text-center {
   margin-bottom: 20px;
 }
@@ -42,7 +43,7 @@
   padding: 8px;
 }
 .date-display {
-  background-color: #f4f4f4;
+  background-color: #fff;
   border-radius: 20px;
   padding: 10px;
   width: 100%;
@@ -135,10 +136,10 @@ h3 {
 
 .btn-custom {
   width: 100%;
-  background-color: #eab676;
+  background-color: #664FC3;
   border-radius: 20px;
   padding: 10px 20px;
-  color: #555;
+  color: #fff;
   border: 2px solid #ddd;
   transition: all 0.3s ease;
 }
@@ -167,31 +168,3 @@ button.example-custom-date-class {
   align-items: center;
 }
 
-.icon-box {
-  color: #f15e5e;
-  display: inline-block;
-  margin-bottom: 15px;
-  padding: 15px;
-  border: 2px solid;
-  border-radius: 50%;
-}
-
-.modal-header .btn-close {
-  margin: -1rem -1rem -1rem auto;
-}
-
-.modal-title {
-  margin-bottom: 10px;
-}
-
-.modal-footer .btn {
-  min-width: 100px;
-}
-
-.modal-footer .btn-secondary:hover {
-  background-color: #6c757d;
-}
-
-.modal-footer .btn-danger:hover {
-  background-color: #dc3545;
-}

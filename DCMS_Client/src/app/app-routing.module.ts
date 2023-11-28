@@ -7,6 +7,7 @@ import { RegisterWorkScheduleComponent } from './component/shared/register-work-
 import { ProfilePersonalComponent } from './component/shared/profile-personal/profile-personal.component';
 import { ConfirmAppointmentComponent } from "./component/confirm-appointment/confirm-appointment.component";
 import { AuthGuard } from './service/auth-guard.service';
+import { CancelSuccessComponent } from './component/patient/change-appointment/cancel-success/cancel-success.component';
 
 const routes: Routes = [
   {
@@ -82,6 +83,10 @@ const routes: Routes = [
   {
     path: 'xac-nhan-lich-hen',
     component: ConfirmAppointmentComponent
+  },
+  {
+    path: 'huy-lich-hen',
+    component: CancelSuccessComponent
   },
 ];
 

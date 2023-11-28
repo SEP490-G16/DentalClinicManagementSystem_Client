@@ -9,10 +9,12 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ChangeAppointmentComponent } from './change-appointment/change-appointment.component';
 import { BenhnhanRoutingModule } from './benhnhan-routing.module';
+import { CancelAppointmentComponent } from './change-appointment/cancel-appointment/cancel-appointment.component';
 
 @NgModule({
   declarations: [
       ChangeAppointmentComponent,
+      CancelAppointmentComponent
   ],
   imports: [
     CommonModule,

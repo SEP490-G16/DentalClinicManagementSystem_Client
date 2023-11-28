@@ -1,0 +1,55 @@
+.modal-content {
+  border-radius: 0.3rem;
+}
+
+.modal-header {
+  background-color: #664FC3;
+  color: white;
+  border-top-left-radius: calc(0.3rem - 1px);
+  border-top-right-radius: calc(0.3rem - 1px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.modal-title {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.modal-body {
+  padding: 1rem;
+  font-size: 1rem;
+  color: #333;
+}
+
+.modal-footer {
+  padding: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modal-footer .btn {
+  min-width: 90px; /* Đảm bảo các nút có kích thước tương đối như nhau */
+}
+
+.btn-secondary {
+  background-color: #6c757d; /* Màu nút 'Không' */
+  color: white;
+}
+
+.btn-primary {
+  background-color: #664FC3; /* Màu nút 'Có' */
+  color: white;
+}
+
+.close {
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1;
+  color: white;
+  text-shadow: none;
+  opacity: 1;
+}
+
