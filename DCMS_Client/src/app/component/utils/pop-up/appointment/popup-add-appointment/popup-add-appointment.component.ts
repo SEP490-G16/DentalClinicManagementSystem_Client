@@ -108,52 +108,6 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     appointmentDate: '',
   }
   isSubmitted: boolean = false;
-  seedDateDisabled = [
-    {
-      "date": 1698836571,
-      "appointments": [
-        {
-          "procedure": 1,
-          "count": 16,
-          "details": [
-            {
-              appointment_id: "6e005b74-dc60-4ad9-9a4f-11954b94c2a7",
-              patient_id: "P-000001",
-              patient_name: "Nguyễn Văn An",
-              phone_number: "0123456789", procedure: 1,
-              doctor: "Bác sĩ A",
-              time: "1698688620",
-              attribute_name: "",
-              epoch: 0,
-              migrated: "false"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "date": 1698836571,
-      "appointments": [
-        {
-          "procedure": 1,
-          "count": 16,
-          "details": [
-            {
-              appointment_id: "6e005b74-dc60-4ad9-9a4f-11954b94c2a7",
-              patient_id: "P-000001",
-              patient_name: "Nguyễn Văn An",
-              phone_number: "0123456789", procedure: 1,
-              doctor: "Bác sĩ A",
-              time: "1698688620",
-              attribute_name: "",
-              epoch: 0,
-              migrated: "false"
-            }
-          ]
-        }
-      ]
-    },
-  ]
 
   currentDate: any;
 

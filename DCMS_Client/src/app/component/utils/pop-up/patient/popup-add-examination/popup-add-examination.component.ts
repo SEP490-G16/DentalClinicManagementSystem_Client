@@ -272,6 +272,8 @@ export class PopupAddExaminationComponent implements OnInit {
   temporaryName: string = '';
   updateTemporaryName(record: any, event: any) {
     // event chứa tên vật liệu được chọn
+    this.materialList.splice(0, this.materialList.length);
+    this.listService.splice(0, this.listService.length);
     console.log(event);
     this.list.forEach((item: any) => {
       if (item.groupId == event) {
