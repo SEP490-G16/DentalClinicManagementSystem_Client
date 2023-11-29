@@ -22,7 +22,7 @@
                 (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
             </li>
           </ng-container>
-          <li class="nav-item mr-2"><a class="nav-link active" style="padding: 10px; color: #7B4C50; cursor: pointer;"
+          <li class="nav-item mr-2"><a class="nav-link active" style="padding: 10px; color: #664FC3; cursor: pointer;"
               (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/')">Thanh toán</a>
           </li>
         </ul>
@@ -58,7 +58,7 @@
                 <span class="payment-date" (click)="examinationDetail(mu, report.tc_data, report.p_data)">Ngày thanh
                   toán:
                   {{ mu.mu_created_date | date: 'dd/mm/yyyy'}}</span>
-                <span class="amount-paid">Đã trả: {{ mu.mu_total_paid | currency:'VND'}} 
+                <span class="amount-paid">Đã trả: {{ mu.mu_total_paid | currency:'VND'}}
                 </span>
                 <!-- <ng-container *ngIf="mu.mu_status == 1">
                   <br>
