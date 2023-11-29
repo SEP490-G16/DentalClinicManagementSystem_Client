@@ -277,7 +277,9 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     patient_id: '',
     patient_name: '',
     reason: '',
-    status: 1
+    status: 1, 
+    appointment_id: '',
+    appointment_epoch: '',
   }
 
   waitingRoomData: any;
@@ -345,6 +347,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
           this.Exchange.reason = b.reason;
           this.receptionistWaitingRoom.postWaitingRoom(this.Exchange).subscribe(
             (data) => {
+              alert("");
               this.Exchange = {
                 epoch: 0,
                 produce_id: "0",
@@ -352,7 +355,8 @@ export class ReceptionistAppointmentListComponent implements OnInit {
                 patient_id: '',
                 patient_name: '',
                 reason: '',
-                status: 1
+                status: 1,appointment_id: '',
+                appointment_epoch: '',
               }
               window.location.href = "/letan/phong-cho";
             },
