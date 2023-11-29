@@ -28,7 +28,9 @@
           <th style="width:300px">Lý do khám</th>
           <th style="width:200px">Loại điều trị</th>
           <th style="width:200px">Trạng thái</th>
-          <th style="width:200px">Thanh toán</th>
+          <ng-container *ngIf="roleId.includes('3') || roleId.includes('1')">
+            <th style="width:200px">Thanh toán</th>
+          </ng-container>
         </tr>
       </thead>
       <tbody>
@@ -40,29 +42,39 @@
           <td style="width:250px">{{ wtr.patient_name }}</td>
           <td style="width:300px" class="truncate" data-bs-toggle="tooltip" title="{{wtr.reason}}">{{wtr.reason }}</td>
           <td style="width:200px">{{ wtr.produce_name }}</td>
-          <td style="width:200px" (click)="stopClick($event)">
-            <select class="text-center status-selector" [(ngModel)]="wtr.status" (change)="onPutStatus(wtr, wtr.epoch)"
-              [ngStyle]="{'color': selectedColor}">
-              <ng-container *ngIf="wtr.status == 1">
-                <option value="1" class="status-option waiting">Đang chờ</option>
-                <option value="2" class="status-option in-progress">Đang khám</option>
-                <option value="4" class="status-option remove">Xóa hàng chờ</option>
-              </ng-container>
-              <ng-container *ngIf="wtr.status == 2">
-                <option value="2" class="status-option in-progress">Đang khám</option>
-                <option value="3" class="status-option completed">Khám xong</option>
-                <option value="4" class="status-option remove">Xóa hàng chờ</option>
-              </ng-container>
-              <ng-container *ngIf="wtr.status == 3">
-                <option value="3" class="status-option completed">Khám xong</option>
-                <option value="4" class="status-option remove">Xóa hàng chờ</option>
-              </ng-container>
-            </select>
-          </td>
-          <td>
-            <button class="btn button-timekeeping" (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/',wtr.patient_id)">
-              Thanh toán</button>
-          </td>
+          <ng-container *ngIf="roleId.includes('3') || roleId.includes('1')">
+            <td style="width:200px" (click)="stopClick($event)">
+              <select class="text-center status-selector" [(ngModel)]="wtr.status" (change)="onPutStatus(wtr, wtr.epoch)"
+                [ngStyle]="{'color': selectedColor}">
+                <ng-container *ngIf="wtr.status == 1">
+                  <option value="1" class="status-option waiting">Đang chờ</option>
+                  <option value="2" class="status-option in-progress">Đang khám</option>
+                  <option value="4" class="status-option remove">Xóa hàng chờ</option>
+                </ng-container>
+                <ng-container *ngIf="wtr.status == 2">
+                  <option value="2" class="status-option in-progress">Đang khám</option>
+                  <option value="3" class="status-option completed">Khám xong</option>
+                  <option value="4" class="status-option remove">Xóa hàng chờ</option>
+                </ng-container>
+                <ng-container *ngIf="wtr.status == 3">
+                  <option value="3" class="status-option completed">Khám xong</option>
+                  <option value="4" class="status-option remove">Xóa hàng chờ</option>
+                </ng-container>
+              </select>
+            </td>
+          </ng-container>
+          <ng-container *ngIf="roleId.includes('2') || roleId.includes('4') || roleId.includes('5')">
+            <td>
+              Đang khám
+            </td>
+          </ng-container>
+          <ng-container *ngIf="roleId.includes('3') || roleId.includes('1')">
+            <td>
+              <button class="btn button-timekeeping" (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/',wtr.patient_id)">
+                Thanh toán</button>
+            </td>
+          </ng-container>
+          
         </tr>
       </tbody>
     </table>
