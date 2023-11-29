@@ -28,6 +28,8 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
   listPatientId: any[] = [];
   PUT_WAITINGROOM: IPostWaitingRoom;
   dataStorage: string = '';
+  intervalId: any;
+  roleId: any;
   constructor(private waitingRoomService: ReceptionistWaitingRoomService,
     private appointmentService: ReceptionistAppointmentService,
     private cognitoService: CognitoService,
@@ -48,9 +50,20 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let co = sessionStorage.getItem('role');
+    if (co != null) {
+      this.roleId = co.split(',');
+    }
     this.getListGroupService();
-    this.getWaitingRoomData();
+    if (this.roleId.includes('2') || this.roleId.includes('4') || this.roleId.includes('5')) {
+      // this.intervalId = setInterval(() => {
+      //   this.getWaitingRoomData();
+      // }, 1000);
+    } else {
+      this.getWaitingRoomData();
+    }
   }
+  
   getWaitingRoomData() {
     this.waitingRoomService.getWaitingRooms().subscribe(
       data => {
@@ -67,7 +80,9 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
         this.listPatientId = this.waitingRoomData.map((item: any) => item.patient_id);
         localStorage.setItem('listPatientId', JSON.stringify(this.listPatientId));
         this.filteredWaitingRoomData = [...this.waitingRoomData]; // Update the filtered list as well
-
+        if (this.roleId.includes('2') || this.roleId.includes('4') || this.roleId.includes('5')) {
+          this.filteredWaitingRoomData = this.filteredWaitingRoomData.filter((item) => item.status == "2");
+        }
         console.log(this.filteredWaitingRoomData);
       },
       (error) => {
@@ -183,23 +198,6 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
     })
   }
   navigateHref(href: string, id:any) {
-    const userGroupsString = sessionStorage.getItem('userGroups');
-
-    if (userGroupsString) {
-      const userGroups = JSON.parse(userGroupsString) as string[];
-
-      if (userGroups.includes('dev-dcms-doctor')) {
-        this.router.navigate([href + id]);
-      } else if (userGroups.includes('dev-dcms-nurse')) {
-        this.router.navigate([href + id]);
-      } else if (userGroups.includes('dev-dcms-receptionist')) {
-        this.router.navigate([href + id]);
-      } else if (userGroups.includes('dev-dcms-admin')) {
-        this.router.navigate([href + id]);
-      }
-    } else {
-      console.error('Không có thông tin về nhóm người dùng.');
-      this.router.navigate(['/default-route']);
-    }
+    this.router.navigate([href + id]);
   }
 }
