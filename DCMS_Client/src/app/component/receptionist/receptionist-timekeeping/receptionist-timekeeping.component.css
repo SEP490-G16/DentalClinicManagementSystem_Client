@@ -78,7 +78,7 @@
   top: 0;
   /* Giữ phần thead ở vị trí trên cùng khi cuộn */
   background-color: white;
-  border: 1px solid #7B4C50;
+  border: 1px solid #664FC3;
   z-index: 1;
   /* Đảm bảo phần thead nằm trên cùng của bảng */
 }
@@ -107,7 +107,7 @@ table {
   border-spacing: 0;
   table-layout: fixed;
   background-color: white;
-  border: 1px solid #324D67;
+  border: 1px solid #664FC3;
   border-radius: 10px;
   overflow: hidden;
 }
@@ -116,7 +116,7 @@ th,
 td {
   padding: 10px;
   text-align: left;
-  border: 1px solid #324D67;
+  border: 1px solid #664FC3;
 }
 
 th {
@@ -141,7 +141,7 @@ tbody tr:last-child td:last-child {
 
 .button-timekeeping {
   background-color: #D9E1EC;
-  color: #324D67;
+  color: #664FC3;
   padding: 2px 6px;
   font-size: 0.8em;
   border: none;

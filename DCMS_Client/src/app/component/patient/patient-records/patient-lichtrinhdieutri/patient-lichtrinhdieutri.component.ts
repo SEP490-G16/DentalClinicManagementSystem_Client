@@ -6,6 +6,8 @@ import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/T
 import { CognitoService } from 'src/app/service/cognito.service';
 import { CommonService } from 'src/app/service/commonMethod/common.service';
 import { ResponseHandler } from "../../../utils/libs/ResponseHandler";
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmDeleteModalComponent } from 'src/app/component/utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component';
 @Component({
   selector: 'app-patient-lichtrinhdieutri',
   templateUrl: './patient-lichtrinhdieutri.component.html',
@@ -26,6 +28,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     private treatmentCourseService: TreatmentCourseService,
     private commonService: CommonService,
     private TreatmentCourseDetailService: TreatmentCourseDetailService,
+    private modalService: NgbModal
   ) { }
 
   navigateHref(href: string) {
@@ -87,47 +90,55 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     this.TreatmentCourse = course;
   }
 
-  deleteTreatmentCourse(treatment_course_id: string) {
-    console.log("course treatment id", treatment_course_id);
-    const cf = confirm('Bạn có muốn xóa lộ trình này không?');
-    if (cf) {
-      this.treatmentCourseService.deleteTreatmentCourse(treatment_course_id)
-        .subscribe((res) => {
-          this.toastr.success(res.message, 'Xóa liệu trình thành công');
-          const index = this.ITreatmentCourse.findIndex((ex: any) => ex.treatment_course_id === treatment_course_id);
-          if (index !== -1) {
-            this.ITreatmentCourse.splice(index, 1);
-          }
-          this.loading = false;
-
-        },
-          (error) => {
-            //this.toastr.error(err.error.message, 'Xóa liệu trình thất bại');
-            ResponseHandler.HANDLE_HTTP_STATUS(this.treatmentCourseService.apiUrl + "/treatment-course/" + treatment_course_id, error);
-          }
-        )
-    }
+  openConfirmationModal(message: string): Promise<any> {
+    const modalRef = this.modalService.open(ConfirmDeleteModalComponent);
+    modalRef.componentInstance.message = message;
+    return modalRef.result;
   }
 
+  deleteTreatmentCourse(treatment_course_id: string) {
+    this.openConfirmationModal('Bạn có muốn xóa liệu trình này không?').then((result) => {
+      if (result === 'confirm') {
+        this.treatmentCourseService.deleteTreatmentCourse(treatment_course_id)
+          .subscribe((res) => {
+            this.toastr.success(res.message, 'Xóa liệu trình thành công');
+            const index = this.ITreatmentCourse.findIndex((ex: any) => ex.treatment_course_id === treatment_course_id);
+            if (index !== -1) {
+              this.ITreatmentCourse.splice(index, 1);
+            }
+            this.loading = false;
+
+          },
+            (error) => {
+              //this.toastr.error(err.error.message, 'Xóa liệu trình thất bại');
+              ResponseHandler.HANDLE_HTTP_STATUS(this.treatmentCourseService.apiUrl + "/treatment-course/" + treatment_course_id, error);
+            }
+          )
+      }
+    });
+  }
+
+
   deleteExamination(examination_id: string) {
-    const cf = confirm('Bạn có muốn xóa lần khám này không?');
-    if (cf) {
-      this.TreatmentCourseDetailService.deleteExamination(examination_id)
-        .subscribe(() => {
-          this.toastr.success('Xóa Lần khám thành công!');
+    this.openConfirmationModal('Bạn có muốn xóa lần khám này không?').then((result) => {
+      if (result === 'confirm') {
+        this.TreatmentCourseDetailService.deleteExamination(examination_id)
+          .subscribe(() => {
+            this.toastr.success('Xóa Lần khám thành công!');
 
-          const index = this.examinations.findIndex((ex: any) => ex.examination_id === examination_id);
-          if (index !== -1) {
-            this.examinations.splice(index, 1);
-          }
-          this.loading = false;
+            const index = this.examinations.findIndex((ex: any) => ex.examination_id === examination_id);
+            if (index !== -1) {
+              this.examinations.splice(index, 1);
+            }
+            this.loading = false;
 
-        },
-          (error) => {
-            //this.toastr.error(err.error.message, "Xóa lần khám thất bại!");
-            ResponseHandler.HANDLE_HTTP_STATUS(this.TreatmentCourseDetailService.apiUrl + "/examination/" + examination_id, error);
-          })
-    }
+          },
+            (error) => {
+              //this.toastr.error(err.error.message, "Xóa lần khám thất bại!");
+              ResponseHandler.HANDLE_HTTP_STATUS(this.TreatmentCourseDetailService.apiUrl + "/examination/" + examination_id, error);
+            })
+      }
+    });
   }
 
   TreatmentCourseDetail: any;

@@ -1,5 +1,5 @@
 import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepickerModule, NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { ReceptionistAppointmentService } from "../../../service/ReceptionistService/receptionist-appointment.service";
 import { CognitoService } from "../../../service/cognito.service";
@@ -19,6 +19,7 @@ import { BehaviorSubject } from 'rxjs';
 import { ResponseHandler } from "../../utils/libs/ResponseHandler";
 import { IsThisSecondPipe } from 'ngx-date-fns';
 import { end } from '@popperjs/core';
+import { ConfirmDeleteModalComponent } from '../../utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component';
 
 @Component({
   selector: 'app-receptionist-appointment-list',
@@ -39,6 +40,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     private cognitoService: CognitoService, private router: Router,
     private toastr: ToastrService,
     private renderer: Renderer2,
+    private modalService: NgbModal,
     private webSocketService: WebsocketService,
     private medicaoProcedureGroupService: MedicalProcedureGroupService,
     private receptionistWaitingRoom: ReceptionistWaitingRoomService
@@ -107,8 +109,8 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     this.loading = true;
     this.startDateTimestamp = this.dateToTimestamp(this.startDate);
     const now = new Date();
-    const start = now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDay()+" 00:00:00";
-    const end = now.getFullYear()+"-"+(now.getMonth()+1)+"-"+(now.getDay()+1)+" 00:00:00";
+    const start = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDay() + " 00:00:00";
+    const end = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + (now.getDay() + 1) + " 00:00:00";
     this.appointmentService.getAppointmentList(this.startDateTimestamp, this.endDateTimestamp).subscribe(data => {
       this.appointmentList = ConvertJson.processApiResponse(data);
       this.filteredAppointments = this.appointmentList.filter(app => app.date === this.startDateTimestamp);
@@ -137,7 +139,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     procedure: '',
     count: 0,
   }
- 
+
   datesDisabled: any[] = [];
   listDate: any[] = [];
   appointmentDateInvalid() {
@@ -244,30 +246,39 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   }
 
   deleteAppointment(appointment: any, dateTimestamp: any, event: Event) {
-    this.DELETE_APPOINTMENT_BODY = {
-      epoch: dateTimestamp,
-      new_epoch: 0,
-      appointment: {
-        patient_id: ' ',
-        patient_name: ' ',
-        procedure_id: ' ',
-        procedure_name: ' ',
-        phone_number: ' ',
-        doctor: ' ',
-        status: 2,
-        time: 0
-      }
-
-    } as IEditAppointmentBody;
-    this.appointmentService.deleteAppointment(dateTimestamp, appointment.appointment_id).subscribe(response => {
-      console.log("Xóa thành công");
-      this.showSuccessToast('Xóa lịch hẹn thành công!');
-      window.location.reload();
-    }, error => {
-      this.showErrorToast("Lỗi khi cập nhật");
-      this.showErrorToast("Lỗi khi xóa");
-    });
     event.stopPropagation();
+    const modalRef = this.modalService.open(ConfirmDeleteModalComponent);
+    modalRef.componentInstance.message = 'Bạn có chắc chắn muốn xóa lịch hẹn này không?';
+    modalRef.result.then((result) => {
+      if (result === true) {
+        this.DELETE_APPOINTMENT_BODY = {
+          epoch: dateTimestamp,
+          new_epoch: 0,
+          appointment: {
+            patient_id: ' ',
+            patient_name: ' ',
+            procedure_id: ' ',
+            procedure_name: ' ',
+            phone_number: ' ',
+            doctor: ' ',
+            status: 2,
+            time: 0
+          }
+
+        } as IEditAppointmentBody;
+        this.appointmentService.deleteAppointment(dateTimestamp, appointment.appointment_id).subscribe(response => {
+          console.log("Xóa thành công");
+          this.showSuccessToast('Xóa lịch hẹn thành công!');
+          window.location.reload();
+        }, error => {
+          this.showErrorToast("Lỗi khi cập nhật");
+          this.showErrorToast("Lỗi khi xóa");
+        });
+      }
+    }, (reason) => {
+
+    });
+
   }
 
   Exchange = {
@@ -377,7 +388,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   }
 
   openAddAppointmentModal() {
-     this.datesDisabled = this.datesDisabled;
+    this.datesDisabled = this.datesDisabled;
   }
 
   //Convert Date

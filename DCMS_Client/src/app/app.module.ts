@@ -36,6 +36,7 @@ import { TableComponent } from './component/shared/table/table.component';
 import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
 import { ConfirmationModalComponent } from './component/utils/pop-up/common/confirm-modal/confirm-modal.component';
 import { CancelSuccessComponent } from './component/patient/change-appointment/cancel-success/cancel-success.component';
+import { ConfirmDeleteModalComponent } from './component/utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component';
 // Register the Vietnamese locale data
 registerLocaleData(localeVi);
 @NgModule({
@@ -43,7 +44,8 @@ registerLocaleData(localeVi);
     AppComponent,
     RegisterWorkScheduleComponent,
     ConfirmationModalComponent,
-    CancelSuccessComponent
+    CancelSuccessComponent,
+    ConfirmDeleteModalComponent
   ],
   imports: [
     FormsModule,

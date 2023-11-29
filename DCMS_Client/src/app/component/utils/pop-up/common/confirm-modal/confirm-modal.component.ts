@@ -8,8 +8,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ConfirmationModalComponent {
   @Input() message: string = "";
-  @Input() confirmButtonText: string = "Có";
-  @Input() cancelButtonText: string = "Không";
+  @Input() confirmButtonText: string = "Xác nhận";
+  @Input() cancelButtonText: string = "Hủy";
   constructor(public activeModal: NgbActiveModal) {}
 
   dismiss() {

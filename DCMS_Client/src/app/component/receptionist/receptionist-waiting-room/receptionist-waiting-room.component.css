@@ -51,7 +51,7 @@ a {
 .input-custom {
   width: 30%;
   padding: 10px 20px;
-  border: 1px solid #7B4C50;
+  border: 1px solid #664FC3;
   border-radius: 10px;
   margin-right: 10px;
 }
@@ -77,21 +77,41 @@ a {
   padding: 5px;
 }
 .status-selector {
-  width: 50%;
-  /* Hoặc kích thước cố định theo yêu cầu của bạn */
-  padding: 5px;
+  padding: 10px 15px;
+  border: 2px solid #ccc;
   border-radius: 5px;
-  border: 1px solid #ced4da;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  font-size: 15px;
-  /* Kích thước font theo yêu cầu của bạn */
+  background-image: linear-gradient(to bottom, #ffffff, #f2f2f2);
+  font-size: 14px;
+  color: #333;
+  appearance: none;
+  background-clip: padding-box;
+  position: relative;
+  background-position: right 10px center;
+  background-repeat: no-repeat;
+  background-size: 10px;
+  cursor: pointer;
+  outline: none;
+}
+
+.status-selector {
+  background-image: linear-gradient(45deg, transparent 50%, gray 50%),
+                    linear-gradient(135deg, gray 50%, transparent 50%),
+                    linear-gradient(to right, #dedede, #dedede);
+  background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) 0.5em;
+  background-size: 5px 5px, 5px 5px, 1px 1.5em;
+  background-repeat: no-repeat;
+}
+
+.status-selector:focus {
+  border-color: #664FC3;
+  box-shadow: 0 0 5px #7e57c2;
 }
 
 .status-option {
-  padding: 5px;
-  font-size: 15px;
+  font-weight: normal;
 }
+
+
 
 .custom-row{
   margin-top: 3%;

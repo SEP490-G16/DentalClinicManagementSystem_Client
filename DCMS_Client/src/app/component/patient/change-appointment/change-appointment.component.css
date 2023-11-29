@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&family=Dancing+Script:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&family=Dancing+Script:wght@700&display=swap');
 .web-wrapper {
   background-image: url(https://www.parkavenuedc.com/assets/img/portfolio/portfolio-2.jpg);
   background-size: cover;
@@ -14,23 +15,33 @@
 
 .header-font {
   font-family: 'Open Sans', sans-serif;
+  font-size: 2rem;
   font-weight: 400;
-  color: #2E2E2E;
+  color: #2c3e50;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  margin-bottom: 0.5rem;
 }
 
 .cursive-font {
   font-family: 'Dancing Script', cursive;
-  font-weight: 700;
+  font-size: 1.5rem;
   color: #2E2E2E;
 }
 
 .container {
-  max-width: 600px;
-  background-color: rgba(255, 255, 255, 0.5);
-  padding: 20px;
-  border-radius: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
 }
+
+.container:hover {
+  transform: translateY(-10px);
+}
+
 
 .text-center {
   margin-bottom: 20px;
@@ -49,6 +60,7 @@
   width: 100%;
   margin-bottom: 10px;
 }
+
 .form-control {
   border-radius: 20px;
 }
@@ -140,15 +152,16 @@ h3 {
   border-radius: 20px;
   padding: 10px 20px;
   color: #fff;
-  border: 2px solid #ddd;
-  transition: all 0.3s ease;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 .btn-custom:hover {
-  background-color: #f2f2f2;
-  color: #333;
-  border-color: #ccc;
+  background-color: #2980b9;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
+
 
 .btn-custom:active {
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);

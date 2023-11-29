@@ -1,55 +1,85 @@
 .modal-content {
-  border-radius: 0.3rem;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  border: none;
 }
 
 .modal-header {
   background-color: #664FC3;
   color: white;
-  border-top-left-radius: calc(0.3rem - 1px);
-  border-top-right-radius: calc(0.3rem - 1px);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
+  padding: 16px 24px;
+  font-size: 1.5rem;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
 
-.modal-title {
-  margin: 0;
-  line-height: 1.5;
+.modal-header .close {
+  color: white;
+  opacity: 0.9;
+  font-size: 2rem;
+  position: absolute;
+  top: 12px;
+  right: 16px;
+}
+
+.modal-header .close:hover,
+.modal-header .close:focus {
+  opacity: 1;
+  color: #f2f2f2;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .modal-body {
-  padding: 1rem;
-  font-size: 1rem;
+  padding: 20px;
+  text-align: center;
   color: #333;
 }
 
+.modal-body p {
+  font-size: 1rem;
+  margin-top: 1rem;
+  color: #000;
+  font-weight: bold;
+}
+
+.modal-image {
+  width: 80px;
+  height: auto;
+  margin-top: -3rem;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
 .modal-footer {
-  padding: 1rem;
+  padding: 16px 24px;
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
 }
 
 .modal-footer .btn {
-  min-width: 90px; /* Đảm bảo các nút có kích thước tương đối như nhau */
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 25px;
+  border: none;
 }
 
-.btn-secondary {
-  background-color: #6c757d; /* Màu nút 'Không' */
+.modal-footer .btn-secondary {
+  background-color: #f8f9fa;
+  color: #555;
+}
+
+.modal-footer .btn-primary {
+  background-color: #007bff;
   color: white;
 }
 
-.btn-primary {
-  background-color: #664FC3; /* Màu nút 'Có' */
-  color: white;
-}
-
-.close {
-  font-size: 1.4rem;
-  font-weight: 700;
-  line-height: 1;
-  color: white;
-  text-shadow: none;
-  opacity: 1;
+.modal-footer .btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
 }
 
