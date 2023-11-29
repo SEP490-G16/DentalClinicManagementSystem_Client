@@ -13,7 +13,7 @@ import { error } from '@angular/compiler-cli/src/transformers/util';
 })
 export class PopupEditTreatmentcourseComponent implements OnInit {
   @Input() TreatmentCourse: any;
-  
+
   Post_Procedure_Material_Usage: any[] = []
   showDropDown:boolean = false;
   constructor(
@@ -26,8 +26,8 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
       treatment_course_id: "",
       patient_id: "",
       description: "",
-      chief_complaint: "", 
-      created_date: "", 
+      chief_complaint: "",
+      created_date: "",
       differential_diagnosis: "",
       provisional_diagnosis: "",
       name: "",
@@ -44,7 +44,7 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
     groupId:'',
     groupName: '',
     checked: true,
-    procedure: [] as ProcedureOb[], 
+    procedure: [] as ProcedureOb[],
     isExpand: false,
   }
   list: any[] = [];
@@ -64,7 +64,7 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
             procedureName: currentO.mp_name,
             initPrice: currentO.mp_price,
             price: currentO.mp_price,
-            checked: false, 
+            checked: false,
             isExpand: false,
           };
           this.groupProcedureO.groupId = currentO.mg_id;
@@ -76,7 +76,7 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
             groupId: '',
             groupName: '',
             checked: true,
-            procedure: [], 
+            procedure: [],
             isExpand: false
           }
           proObject = {
@@ -84,7 +84,7 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
             procedureName: '',
             initPrice: '',
             price: '',
-            checked: true, 
+            checked: true,
             isExpand: false
           };
         } else {

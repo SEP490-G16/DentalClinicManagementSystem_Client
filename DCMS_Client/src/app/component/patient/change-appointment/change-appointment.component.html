@@ -42,7 +42,7 @@
 
     <div class="row mt-5">
       <div class="col-sm-12 text-center">
-        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#cancelModal">Huỷ lịch hẹn</button>
+        <button class="btn btn-secondary" (click)="cancelAppointment()">Huỷ lịch hẹn</button>
         <button class="btn btn-custom" (click)="onPutAppointment()">Xác nhận</button>
       </div>
     </div>
@@ -50,24 +50,4 @@
 
 </div>
 
-<!-- Modal HTML -->
-<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header flex-column">
-        <h5 class="modal-title w-100" id="modalTitle">Xác nhận hủy lịch hẹn</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body text-center">
-        <div class="icon-box mx-auto">
-          <i class="material-icons">&#xE5CD;</i>
-        </div>
-        <p>Bạn có thực sự muốn xóa lịch hẹn vào ngày <b>{{selectedDate | date:'dd/MM/yyyy'}}</b> không?</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn" (click)="cancelAppointment()">Đồng ý</button>
-      </div>
-    </div>
-  </div>
-</div>
+

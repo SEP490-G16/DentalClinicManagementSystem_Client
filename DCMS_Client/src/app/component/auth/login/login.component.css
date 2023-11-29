@@ -84,7 +84,7 @@
 
 .web-wrapper{
     background-color: #c9d6ff;
-    background: url('https://bambufit.vn/images/image/nhakhoavietsing3.jpg');
+    background: url('https://www.parkavenuedc.com/assets/img/portfolio/portfolio-2.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -125,7 +125,7 @@
 }
 
 .container-custom button{
-    background-color: #785362;
+    background-color: #664FC3;
     color: #fff;
     font-size: 12px;
     padding: 10px 45px;
@@ -141,7 +141,7 @@
 .container-custom button:hover{
   background-color: #fff;
   color: #000;
-  border-color: #785362;
+  border-color: #664FC3;
 }
 
 .container-custom button.hidden{
@@ -245,9 +245,9 @@
 }
 
 .toggle{
-    background-color: #785362;
+    background-color: #664FC3;
     height: 100%;
-    background: linear-gradient(to right, rgb(64, 77, 150), #785362);
+    background: linear-gradient(to right, rgb(64, 77, 150), #664FC3);
     color: #fff;
     position: relative;
     left: -100%;
@@ -255,6 +255,10 @@
     width: 200%;
     transform: translateX(0);
     transition: all 0.6s ease-in-out;
+}
+
+.toggle p {
+  color: #fff;
 }
 
 .container-custom.active .toggle{

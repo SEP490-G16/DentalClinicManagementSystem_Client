@@ -1,0 +1,56 @@
+/* Định dạng header của modal */
+.modal-header {
+  background-color: #664FC3; /* Màu chủ đạo */
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-top-left-radius: .3rem;
+  border-top-right-radius: .3rem;
+}
+
+/* Định dạng tiêu đề trong header */
+.modal-header h4 {
+  margin: 0;
+}
+
+/* Định dạng nút đóng */
+.close {
+  border: none;
+  background: none;
+  color: white;
+  font-size: 1.5rem;
+}
+
+/* Định dạng nội dung của modal */
+.modal-body {
+  padding: 20px;
+  font-size: 1.1rem;
+}
+
+/* Định dạng footer của modal */
+.modal-footer {
+  padding: 15px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Định dạng các nút trong footer */
+.modal-footer .btn {
+  margin-left: 10px;
+}
+
+/* Nút "Không" */
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+/* Nút "Có" */
+.btn-primary {
+  background-color: #664FC3;
+  color: white;
+}
+
+/* Thêm một số định dạng tùy chỉnh nếu bạn muốn */
