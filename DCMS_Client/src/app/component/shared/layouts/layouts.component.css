@@ -260,6 +260,7 @@ main .new-users .user-list .user img {
   border-radius: 50%;
 }
 
+
 .profile {
   display: flex;
   align-items: center;
@@ -275,11 +276,46 @@ main .new-users .user-list .user img {
   justify-items: flex-end;
 }
 
-.profile .icon {
-  border-radius: 23px;
-  padding-right: 10px;
-  justify-items: flex-start;
-  font-size: 20px;
+.select-style {
+  border-radius: 30px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  color: white;
+  background: linear-gradient(135deg, #664FC3 0%, #a8a8d9 100%);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.3s ease;
+}
+
+.select-style:after {
+  content: '';
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid white;
+}
+
+.select-style:hover {
+  background: linear-gradient(135deg, #5d48b1 0%, #9a97c8 100%);
+}
+
+.select-style:focus {
+  box-shadow: 0 0 0 3px rgba(102, 79, 195, 0.5);
+}
+
+.select-style option {
+  background: linear-gradient(135deg, #664FC3 0%, #a8a8d9 100%);
+  color: black;
+  padding: 10px;
+  border: none;
 }
 
 .btn-add-custom {

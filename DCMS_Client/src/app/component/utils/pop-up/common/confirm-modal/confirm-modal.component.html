@@ -1,0 +1,17 @@
+<div class="modal-header">
+  <h4 class="modal-title">Xác nhận thông tin</h4>
+  <a class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </a>
+</div>
+<div class="modal-body">
+  <div class="image-container">
+    <img src="../../../../../../assets/icon/clean.png" alt="Dental Image" class="modal-image">
+  </div>
+  <p>{{ message }}</p>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="dismiss()">{{ cancelButtonText }}</button>
+  <button type="button" class="btn btn-primary" (click)="confirm()">{{ confirmButtonText }}</button>
+</div>
+

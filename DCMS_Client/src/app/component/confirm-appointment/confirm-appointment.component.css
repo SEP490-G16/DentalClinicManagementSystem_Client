@@ -1,38 +1,61 @@
 .confirmation-container {
-  text-align: center;
+  background-image: url(https://www.parkavenuedc.com/assets/img/portfolio/portfolio-2.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4; /* Light grey background for contrast */
+  padding: 20px;
 }
 
 .confirmation-box {
   background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  max-width: 500px; /* Set a max-width for larger screens */
+  text-align: left; /* Align text to the left */
+}
+
+.header {
+  font-size: 80px; /* Adjust for better scaling */
+  color: #4CAF50;
+  animation: pulse 1s infinite; /* Add a pulsing animation */
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
 }
 
 .confirmation-box h2 {
   color: #4CAF50;
+  margin-top: 0;
+  font-weight: 600; /* Make the header font a bit bolder */
+  font-size: 32px; /* Increase font size for better visibility */
 }
 
 .confirmation-box p {
   color: #333;
-  margin-bottom: 20px;
+  margin-bottom: 30px; /* Increase space below the paragraph */
+  font-size: 18px; /* Increase font size for better readability */
 }
 
 .confirmation-box button {
   background-color: #4CAF50;
   color: #fff;
   border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
+  padding: 15px 30px; /* Increase padding for a larger button */
+  border-radius: 50px; /* Rounded borders for a modern look */
   cursor: pointer;
-  font-size: 16px;
+  font-size: 18px; /* Increase font size for better readability */
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
 }
 
 .confirmation-box button:hover {
-  background-color: #45a049;
-}
-.header {
-  font-size: 100px;
-  color: #4CAF50;
-  margin-bottom: 20px;
+  background-color: #368c3c; /* Darken the button on hover for better interaction feedback */
 }

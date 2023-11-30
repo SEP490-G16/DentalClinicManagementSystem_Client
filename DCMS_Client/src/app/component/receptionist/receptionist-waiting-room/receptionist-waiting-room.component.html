@@ -11,7 +11,7 @@
     </div>
     <div class="col-6">
       <select class="form-select input-custom float-end" aria-label="Default select example" [(ngModel)]="procedure"
-        (change)="filterProcedure()" style="width: 40%;">
+        (change)="filterProcedure()" style="width: 25%;">
         <option selected value="0">Tất cả loại điều trị</option>
         <option *ngFor="let a of listGroupService" value={{a.medical_procedure_group_id}}>{{a.name}}</option>
       </select>

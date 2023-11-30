@@ -1,0 +1,14 @@
+<div class="modal-header" style="background-color: #664FC3; color: white;">
+  <h4 class="modal-title">Hủy Lịch Hẹn</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p>Bạn có chắc chắn muốn hủy lịch hẹn này không?</p>
+  <!-- Thêm các icon nha khoa tại đây nếu cần -->
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="dismiss()">Không</button>
+  <button type="button" class="btn btn-primary" (click)="confirm()">Có</button>
+</div>

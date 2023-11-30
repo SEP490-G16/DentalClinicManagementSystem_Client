@@ -18,6 +18,8 @@ import * as moment from 'moment-timezone';
 import { MaterialService } from 'src/app/service/MaterialService/material.service';
 import { LaboService } from 'src/app/service/LaboService/Labo.service';
 import { getDate } from 'date-fns';
+import { ConfirmationModalComponent } from '../../common/confirm-modal/confirm-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-popup-add-examination',
   templateUrl: './popup-add-examination.component.html',
@@ -99,6 +101,7 @@ export class PopupAddExaminationComponent implements OnInit {
     private materialWarehoseService: MaterialWarehouseService,
     private materialService: MaterialService,
     private LaboService: LaboService,
+    private modalService: NgbModal,
     private cdr: ChangeDetectorRef,
     private medicalSupplyService: MedicalSupplyService
   ) {
@@ -123,7 +126,7 @@ export class PopupAddExaminationComponent implements OnInit {
 
   currentDate: any;
   listTreatmentCourse: any[] = [];
-  orderer:any = "";
+  orderer: any = "";
 
   ngOnInit(): void {
     this.patient_Id = this.route.snapshot.params['id'];
@@ -319,108 +322,119 @@ export class PopupAddExaminationComponent implements OnInit {
     this.records.splice(index, 1);
   }
 
-  imageBody= {
+  imageBody = {
     base64: true,
-    image_data:'', 
+    image_data: '',
     description: ''
   }
+  openConfirmationModal() {
+    const modalRef = this.modalService.open(ConfirmationModalComponent);
+    modalRef.componentInstance.message = 'Bạn có chắc chắn muốn thêm lần khám mới không?';
+    modalRef.componentInstance.confirmButtonText = 'Thêm mới';
+    modalRef.componentInstance.cancelButtonText = 'Hủy';
 
+    return modalRef.result;
+  }
   postExamination() {
-    const faci = sessionStorage.getItem('locale');
-    if (faci != null) {
-      this.examination.facility_id = 'F-05';
-    }
-    this.examination.treatment_course_id = this.treatmentCourse_Id;
-    this.examination.staff_id = this.staff_id;
-    this.examination.created_date = this.currentDate;
-    if (this.recordsImage.length > 0) {
-      this.recordsImage.forEach((item: any) => {
-        if (item.typeImage != null) {
-          if (item.typeImage == 1) {
-            let img = item.imageInsert.split('base64,');
-            this.imageBody = {
-              base64: true,
-              image_data: img[1],
-              description: item.description
-            }
-          } else {
-            this.imageBody = {
-              base64: false,
-              image_data: item.imageInsert,
-              description: item.description
-            }
-          }
-          this.examination.image.push(this.imageBody);
+    this.openConfirmationModal().then((result) => {
+      if (result === 'confirm') {
+        const faci = sessionStorage.getItem('locale');
+        if (faci != null) {
+          this.examination.facility_id = 'F-05';
         }
-      })
-    }
-    this.tcDetailService.postExamination(this.examination)
-      .subscribe((res) => {
-        this.toastr.success(res.message, 'Thêm lần khám thành công');
-        console.log("ExaminationId Response: ", res.data.examination_id);
-        const examinationId = res.data.examination_id;
-        let isSuccess = false;
-        if (this.records.length > 0) {
-          this.records.forEach((el) => {
-            el.examination_id = examinationId;
-            el.price = el.price * el.quantity;
-            el.total_paid = 0;
-          })
-          this.materialUsageService.postMaterialUsage(this.records)
-            .subscribe((res) => {
-              isSuccess = true;
-              this.toastr.success(res.message, 'Thêm Thủ thuật thành công');
-            },
-              (err) => {
-                isSuccess = false;
-                console.log(err);
-                this.toastr.error(err.error.message, 'Thêm Thủ thuật thất bại');
-          })
-        }
-        if (this.recordsSpecimen.length > 0) {
-          this.recordsSpecimen.forEach((item: any) => {
-            item.patient_id = this.patient_Id;
-            item.facility_id = 'F-05';
-            item.treatment_course_id = this.treatmentCourse_Id;
-            item.orderer = this.orderer
-            item.order_date = this.dateToTimestamp(item.order_date);
-            item.received_date = this.dateToTimestamp(item.received_date);
-            item.used_date = this.dateToTimestamp(item.used_date);
-            this.medicalSupplyService.addMedicalSupply(item).subscribe(data => {
-              isSuccess = true;
-              this.toastr.success(data.message, 'Thêm mẫu vật sử dụng thành công');
-            }
-              ,
-              (err) => {
-                isSuccess = false;
-                console.log(err);
-                this.toastr.error(err.error.message, 'Thêm mẫu vật thất bại');
+        this.examination.treatment_course_id = this.treatmentCourse_Id;
+        this.examination.staff_id = this.staff_id;
+        this.examination.created_date = this.currentDate;
+        if (this.recordsImage.length > 0) {
+          this.recordsImage.forEach((item: any) => {
+            if (item.typeImage != null) {
+              if (item.typeImage == 1) {
+                let img = item.imageInsert.split('base64,');
+                this.imageBody = {
+                  base64: true,
+                  image_data: img[1],
+                  description: item.description
+                }
+              } else {
+                this.imageBody = {
+                  base64: false,
+                  image_data: item.imageInsert,
+                  description: item.description
+                }
               }
-            )
+              this.examination.image.push(this.imageBody);
+            }
           })
         }
-        if (this.recordsMaterial.length > 0) {
-          this.recordsMaterial.forEach((el) => {
-            el.examination_id = examinationId
-          })
-          this.materialUsageService.postMaterialUsage(this.recordsMaterial)
-            .subscribe((res) => {
-              isSuccess = true;
-              this.toastr.success(res.message, 'Thêm Vật liệu sử dụng thành công');
-            },
-              (err) => {
-                isSuccess = false;
-                console.log(err);
-                this.toastr.error(err.error.message, 'Thêm Vật liệu thất bại');
+        this.tcDetailService.postExamination(this.examination)
+          .subscribe((res) => {
+            this.toastr.success(res.message, 'Thêm lần khám thành công');
+            console.log("ExaminationId Response: ", res.data.examination_id);
+            const examinationId = res.data.examination_id;
+            let isSuccess = false;
+            if (this.records.length > 0) {
+              this.records.forEach((el) => {
+                el.examination_id = examinationId;
+                el.price = el.price * el.quantity;
+                el.total_paid = 0;
               })
-        }
-        console.log(isSuccess);
-        this.isPopup1Visible = true;
-      },
-        (error) => {
-          ResponseHandler.HANDLE_HTTP_STATUS(this.tcDetailService.apiUrl + "/examination", error);
-        }
-      )
+              this.materialUsageService.postMaterialUsage(this.records)
+                .subscribe((res) => {
+                  isSuccess = true;
+                  this.toastr.success(res.message, 'Thêm Thủ thuật thành công');
+                },
+                  (err) => {
+                    isSuccess = false;
+                    console.log(err);
+                    this.toastr.error(err.error.message, 'Thêm Thủ thuật thất bại');
+                  })
+            }
+            if (this.recordsSpecimen.length > 0) {
+              this.recordsSpecimen.forEach((item: any) => {
+                item.patient_id = this.patient_Id;
+                item.facility_id = 'F-05';
+                item.treatment_course_id = this.treatmentCourse_Id;
+                item.orderer = this.orderer
+                item.order_date = this.dateToTimestamp(item.order_date);
+                item.received_date = this.dateToTimestamp(item.received_date);
+                item.used_date = this.dateToTimestamp(item.used_date);
+                this.medicalSupplyService.addMedicalSupply(item).subscribe(data => {
+                  isSuccess = true;
+                  this.toastr.success(data.message, 'Thêm mẫu vật sử dụng thành công');
+                }
+                  ,
+                  (err) => {
+                    isSuccess = false;
+                    console.log(err);
+                    this.toastr.error(err.error.message, 'Thêm mẫu vật thất bại');
+                  }
+                )
+              })
+            }
+            if (this.recordsMaterial.length > 0) {
+              this.recordsMaterial.forEach((el) => {
+                el.examination_id = examinationId
+              })
+              this.materialUsageService.postMaterialUsage(this.recordsMaterial)
+                .subscribe((res) => {
+                  isSuccess = true;
+                  this.toastr.success(res.message, 'Thêm Vật liệu sử dụng thành công');
+                },
+                  (err) => {
+                    isSuccess = false;
+                    console.log(err);
+                    this.toastr.error(err.error.message, 'Thêm Vật liệu thất bại');
+                  })
+            }
+            console.log(isSuccess);
+            this.isPopup1Visible = true;
+          },
+            (error) => {
+              ResponseHandler.HANDLE_HTTP_STATUS(this.tcDetailService.apiUrl + "/examination", error);
+            }
+          )
+      }
+    })
   }
   test() {
     this.showNaviPopup(1)
@@ -566,11 +580,11 @@ export class PopupAddExaminationComponent implements OnInit {
             if (!this.uniqueList.includes(currentNumber.m_material_id)) {
               this.uniqueList.push(currentNumber.m_material_id);
               this.wareHouseMaterial.material_warehouse_id = currentNumber.mw_material_warehouse_id,
-              this.wareHouseMaterial.materialId = currentNumber.m_material_id,
-              this.wareHouseMaterial.materialName = currentNumber.m_material_name,
-              this.wareHouseMaterial.quantity = currentNumber.mw_quantity_import,
-              this.wareHouseMaterial.unitPrice = currentNumber.mw_price,
-              this.results.push(this.wareHouseMaterial);
+                this.wareHouseMaterial.materialId = currentNumber.m_material_id,
+                this.wareHouseMaterial.materialName = currentNumber.m_material_name,
+                this.wareHouseMaterial.quantity = currentNumber.mw_quantity_import,
+                this.wareHouseMaterial.unitPrice = currentNumber.mw_price,
+                this.results.push(this.wareHouseMaterial);
               this.wareHouseMaterial = {
                 material_warehouse_id: '',
                 materialId: '',
@@ -588,14 +602,14 @@ export class PopupAddExaminationComponent implements OnInit {
   materialName: any;
   updateTemporaryNameMaterial(record: any, event: any) {
     const selectedMaterial = this.results.find((material: any) => material.material_warehouse_id === event);
-    console.log("check selected",selectedMaterial);
+    console.log("check selected", selectedMaterial);
     if (selectedMaterial) {
       record.price = selectedMaterial.unitPrice;
       record.totalPaid = selectedMaterial.unitPrice;
     }
   }
 
-  deleteRecordMaterial(index:any) {
+  deleteRecordMaterial(index: any) {
     this.isAddMaterial = false;
     this.recordsMaterial.splice(index, 1);
   }
@@ -698,8 +712,8 @@ export class PopupAddExaminationComponent implements OnInit {
   toggleAddSpecime() {
     this.isAddSpeci = !this.isAddSpeci;
     if (this.isAddSpeci) {
-        var now = new Date();
-        this.specimenBody.order_date = now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDate();
+      var now = new Date();
+      this.specimenBody.order_date = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
       this.recordsSpecimen.push(this.specimenBody);
     }
   }
@@ -708,19 +722,19 @@ export class PopupAddExaminationComponent implements OnInit {
   listDisplay: any[] = []
   laboO = {
     labo_id: '',
-    name:''
+    name: ''
   }
 
-  deleteRecordSpeciment(index:any) {
+  deleteRecordSpeciment(index: any) {
     this.isAddSpeci = false;
     this.recordsSpecimen.splice(index, 1);
   }
-  
+
   getLabos() {
     this.LaboService.getLabos()
       .subscribe((res) => {
         this.listLabo = res.data;
-        this.listLabo.forEach((item:any) => {
+        this.listLabo.forEach((item: any) => {
           let laboO = {
             labo_id: item.labo_id,
             name: item.name

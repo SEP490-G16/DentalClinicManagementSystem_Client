@@ -15,7 +15,7 @@
     <div class="col-6">
       <input type="date" class="date-input-custom" [(ngModel)]="startDate" (change)="getAppointmentList()">
       <select class="form-select input-custom float-end" aria-label="Default select example"
-        [(ngModel)]="selectedProcedure" (change)="filterAppointments()" style="width: 40%;">
+        [(ngModel)]="selectedProcedure" (change)="filterAppointments()" style="width: 25%;">
         <option selected value="">Tất cả loại điều trị</option>
         <option *ngFor="let a of listGroupService" value={{a.medical_procedure_group_id}}>{{a.name}}</option>
       </select>
@@ -32,7 +32,7 @@
           <th>Loại điều trị</th>
           <th>Bác sĩ</th>
           <th>Thời gian hẹn khám</th>
-          <th>Thao tắc</th>
+          <th>Thao tác</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -64,8 +64,7 @@
                     (click)="deleteAppointment(detail, a.date, $event)"> <i class="bi bi-trash"></i></button>
                 </td>
                 <td *ngIf="detail.status == 2 && checkDate(a.date)" class="direct-click">
-                  <button class="btn btn-redirect" (click)="postExchangeAppointmentToWaitingRoom(a.date, detail,$event)"
-                    style="width: 100px; color: black;">
+                  <button class="btn btn-redirect" (click)="postExchangeAppointmentToWaitingRoom(a.date, detail,$event)">
                     Đến phòng chờ
                   </button>
                 </td>

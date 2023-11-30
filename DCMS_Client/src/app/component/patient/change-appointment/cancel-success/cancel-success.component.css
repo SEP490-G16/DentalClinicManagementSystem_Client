@@ -1,0 +1,65 @@
+.cancellation-container {
+  background-image: url(https://www.parkavenuedc.com/assets/img/portfolio/portfolio-2.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+  padding: 20px;
+}
+
+.cancellation-box {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  text-align: left;
+}
+
+.header {
+  font-size: 80px;
+  color: #e74c3c;
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+.cancellation-box h2 {
+  color: #e74c3c;
+  margin-top: 0;
+  font-weight: 600;
+  font-size: 32px;
+}
+
+.cancellation-box p {
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 18px;
+}
+
+.cancellation-box button {
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s ease;
+}
+
+.cancellation-box button:hover {
+  background-color: #c0392b;
+}

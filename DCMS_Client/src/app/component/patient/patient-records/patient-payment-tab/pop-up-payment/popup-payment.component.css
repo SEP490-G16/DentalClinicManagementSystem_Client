@@ -5,8 +5,8 @@
 }
 
 .modal-header {
-    background-color: #f7f7f7;
-    border-bottom: 1px solid #eaeaea;
+    background-color: #664FC3;
+    /*border-bottom: 1px solid #eaeaea;*/
 }
 
 .modal-header h5 {
@@ -20,7 +20,7 @@
 }
 
 .table thead th {
-    background-color: #eaeaea;
+    background-color: #9e92d1;
     font-weight: bold;
 }
 
@@ -59,11 +59,72 @@
 
 /* Typography */
 .header-header {
-  color: #007bff;
+  color: rgb(54, 25, 192);
   margin-bottom: 15px;
 }
 
 p {
   color: #555;
   line-height: 1.5;
+}
+.modal-title{
+  text-align: center;
+  color: #FFFFFF;
+}
+.modal-header button{
+  background-color: #664FC3;
+  color: #FFFFFF;
+  border: none;
+  font-size: 25px;
+}
+.button-add {
+  background: #664FC3;
+  text-align: center;
+  cursor: pointer;
+  border: 0px solid white;
+  color: white;
+  font-weight: bold;
+  /*font-size: 24px;*/
+  outline: 0px;
+  padding: 10px 20px;
+  /* box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset; */
+}
+.btn-cancel:active,
+.btn-cancel {
+  font-family: "Poppins", sans-serif;
+  background-color: #838282;
+  text-align: center;
+  border: 0px solid white;
+  color: white;
+  font-weight: bold;
+  /*font-size: 24px;*/
+  outline: 0px;
+  padding: 10px 20px;
+  margin-right: 3px;
+}
+
+.btn-cancel:hover {
+  background-color: #6e6c6c;
+}
+.sticky-thead {
+  position: sticky;
+  top: 0;
+  /* Giữ phần thead ở vị trí trên cùng khi cuộn */
+  background-color: white;
+  z-index: 1;
+  /* Đảm bảo phần thead nằm trên cùng của bảng */
+}
+
+.sticky-thead {
+  background-color: #9e92d1;
+}
+
+.table-container {
+  position: relative;
+}
+.sticky-thead tr th{
+  height: 3rem;
+}
+.row .right p{
+  float: right;
 }

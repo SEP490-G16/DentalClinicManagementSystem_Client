@@ -34,12 +34,18 @@ import { PopupAddReportExpenditureComponent } from './component/utils/pop-up/rev
 import { PopupConfirmServiceComponent } from './component/utils/pop-up/appointment/popup-confirm-service/popup-confirm-service.component';
 import { TableComponent } from './component/shared/table/table.component';
 import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
+import { ConfirmationModalComponent } from './component/utils/pop-up/common/confirm-modal/confirm-modal.component';
+import { CancelSuccessComponent } from './component/patient/change-appointment/cancel-success/cancel-success.component';
+import { ConfirmDeleteModalComponent } from './component/utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component';
 // Register the Vietnamese locale data
 registerLocaleData(localeVi);
 @NgModule({
   declarations: [
     AppComponent,
     RegisterWorkScheduleComponent,
+    ConfirmationModalComponent,
+    CancelSuccessComponent,
+    ConfirmDeleteModalComponent
   ],
   imports: [
     FormsModule,
