@@ -97,3 +97,7 @@
   color: #FF0000FF;
   margin-top: 2%;
 }
+.required {
+  color: red;
+  margin-left: 3px;
+}

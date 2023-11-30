@@ -25,7 +25,7 @@
       <button class="btn button-add p-2" style="margin-left: 8px;" (click)="togglePopup()">
         Hiển thị
       </button>
-      <ul *ngIf="showPopup" class="popup">
+      <ul *ngIf="showPopup" (mouseleave)="hiddenPopup()" class="popup">
         <div class="row">
           <div class="col-md-6">
             <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox1" (click)="toggleColumn(1)"> Mã
@@ -120,11 +120,11 @@
           <td *ngIf="checkbox4" style="padding: 20px;">{{m.ms_type}}</td><!--4-->
           <td *ngIf="checkbox5" style="padding: 20px;">{{m.ms_quantity}}</td><!--5-->
           <td *ngIf="checkbox6" style="padding: 20px;">{{m.ms_unit_price}}</td><!--6-->
-          <td *ngIf="checkbox7" style="padding: 20px;"></td><!--7-->
-          <td *ngIf="checkbox8" style="padding: 20px;"></td><!--8-->
-          <td *ngIf="checkbox9" style="padding: 20px;">{{ m.ms_used_date | date:'yyyy-MM-dd' }}</td><!--9-->
-          <td *ngIf="checkbox10" style="padding: 20px;"></td><!--10-->
-          <td *ngIf="checkbox11" style="padding: 20px;"></td> <!--11-->
+          <td *ngIf="checkbox7" style="padding: 20px;">{{m.ms_order_date | date:'yyyy-MM-dd'}}</td><!--7-->
+          <td *ngIf="checkbox8" style="padding: 20px;">{{m.ms_received_date | date:'yyyy-MM-dd'}}</td><!--8-->
+          <td *ngIf="checkbox9" style="padding: 20px;">{{m.ms_used_date | date:'yyyy-MM-dd' }}</td><!--9-->
+          <td *ngIf="checkbox10" style="padding: 20px;">{{m.lb_name}}</td><!--10-->
+          <td *ngIf="checkbox11" style="padding: 20px;">{{m.ms_orderer}}</td> <!--11-->
           <td *ngIf="checkbox12" style="padding: 20px;">{{ m.ms_quantity * m.ms_unit_price}}</td><!--12-->
           <td class="text-center" style="min-width: 150px">
             <button href="#" class="btn btn-primary float-right btn-rounded" style="padding: 2px 5px; margin-right: 3px"

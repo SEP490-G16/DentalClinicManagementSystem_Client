@@ -45,7 +45,6 @@ export class ChatComponent implements OnInit,OnDestroy  {
       this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
       this.messageContent = '';
     }
-
   }
   close(){
     this.webSocketService.closeConnection();

@@ -4,6 +4,7 @@ import { ICognitoUser } from 'src/app/model/ICognitoUser';
 import { IStaff } from 'src/app/model/Staff';
 import { CognitoService } from 'src/app/service/cognito.service';
 import imageCompression from 'browser-image-compression';
+import * as moment from "moment-timezone";
 @Component({
   selector: 'app-profile-personal',
   templateUrl: './profile-personal.component.html',
@@ -56,7 +57,7 @@ export class ProfilePersonalComponent implements OnInit {
       this.staff = attributes;
       const cognitoAttributes: any = attributes;
       this.staff.role = cognitoAttributes['custom:role'] || '';
-      this.staff.DOB = cognitoAttributes['custom:DOB'] || '';
+      this.staff.DOB = this.timestampToDate(cognitoAttributes['custom:DOB']) || '';
       this.staff.image = cognitoAttributes['custom:image'] || '';
       this.imageURL = this.staff.image;
       this.staff.phone = cognitoAttributes.phone_number || '';
@@ -199,5 +200,9 @@ export class ProfilePersonalComponent implements OnInit {
     }
     this.isSubmitted = false;
   }
-
+  timestampToDate(timestamp: number): string {
+    const date = moment.unix(timestamp);
+    const dateStr = date.format('YYYY-MM-DD');
+    return dateStr;
+  }
 }
