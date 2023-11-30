@@ -163,7 +163,7 @@
             <td class="text-center" style="min-width: 101px;padding: 10px"> <!--14-->
               <button class="btn btn-primary p-1 m-2"><i class="bi bi-pencil-square" data-bs-toggle="modal"
                   data-bs-target="#editSpecimensModal" (click)="openEditSpecimen(specimens)"></i></button>
-              <button class="btn btn-danger p-1" (click)="deleteSpecimens(specimens.ms_id)"><i
+              <button class="btn btn-danger p-1" (click)="deleteSpecimens(specimens.ms_id, specimens.ms_name)"><i
                   class="bi bi-trash"></i></button>
             </td>
           </ng-container>

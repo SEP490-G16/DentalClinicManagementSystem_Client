@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { IPostLabo } from 'src/app/model/ILabo';
 import {ResponseHandler} from "../../../libs/ResponseHandler";
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-popup-add-labo',

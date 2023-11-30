@@ -1,13 +1,14 @@
 import { SpecimensService } from './../../../service/SpecimensService/SpecimensService.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import { NgbDateStruct, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { CognitoService } from 'src/app/service/cognito.service';
 import { ResponseHandler } from "../../utils/libs/ResponseHandler";
 import * as moment from 'moment-timezone';
 import { SpecimensRoot } from 'src/app/model/ISpecimens';
 import { ToastrService } from 'ngx-toastr';
 import { LaboService } from 'src/app/service/LaboService/Labo.service';
+import { ConfirmDeleteModalComponent } from '../../utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component';
 @Component({
   selector: 'app-specimens',
   templateUrl: './specimens.component.html',
@@ -47,6 +48,7 @@ export class SpecimensComponent implements OnInit {
     private SpecimensService: SpecimensService,
     private laboService: LaboService,
     private cognitoService: CognitoService,
+    private modalService: NgbModal,
     private toastr: ToastrService,
     private router: Router
   ) {
@@ -403,24 +405,30 @@ export class SpecimensComponent implements OnInit {
       this.checkbox12 = !this.checkbox12;
     }
   }
+  openConfirmationModal(message: string): Promise<any> {
+    const modalRef = this.modalService.open(ConfirmDeleteModalComponent);
+    modalRef.componentInstance.message = message;
+    return modalRef.result;
+  }
 
-  deleteSpecimens(id: string) {
-    const cf = confirm("Bạn có muốn xóa mẫu vật này không?");
-    if (cf) {
-      this.loading = true;
-      this.SpecimensService.deleteSpecimens(id)
-        .subscribe((res) => {
-          this.loading = false;
-          this.showSuccessToast('Xóa mẫu vật thành công');
-          this.getAllSpecimens(this.currentPage);
-        },
-          (error) => {
+  deleteSpecimens(id: string, ms_name:string) {
+    this.openConfirmationModal(`Bạn có chắc chắn muốn xóa mẫu ${ms_name} không?`).then((result) => {
+      if (result === 'confirm') {
+        this.loading = true;
+        this.SpecimensService.deleteSpecimens(id)
+          .subscribe((res) => {
             this.loading = false;
-            //this.showErrorToast('Xóa mẫu vật thất bại');
-            ResponseHandler.HANDLE_HTTP_STATUS(this.SpecimensService.apiUrl + "/medical-supply/" + id, error);
-          }
-        )
-    }
+            this.showSuccessToast('Xóa mẫu vật thành công');
+            this.getAllSpecimens(this.currentPage);
+          },
+            (error) => {
+              this.loading = false;
+              //this.showErrorToast('Xóa mẫu vật thất bại');
+              ResponseHandler.HANDLE_HTTP_STATUS(this.SpecimensService.apiUrl + "/medical-supply/" + id, error);
+            }
+          )
+      }
+    });
   }
 
   //Convert Date

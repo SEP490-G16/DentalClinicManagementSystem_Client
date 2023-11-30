@@ -5,6 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ILabos } from 'src/app/model/ILabo';
 import { CognitoService } from 'src/app/service/cognito.service';
 import {ResponseHandler} from "../../utils/libs/ResponseHandler";
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmDeleteModalComponent } from '../../utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component';
 
 @Component({
   selector: 'app-labo',
@@ -20,6 +22,7 @@ export class LaboComponent implements OnInit {
     private LaboService: LaboService,
     private cognitoService: CognitoService,
     private router: Router,
+    private modalService: NgbModal,
     private toastr: ToastrService
   ) {
     this.LaboEdit = {
@@ -32,11 +35,11 @@ export class LaboComponent implements OnInit {
       active: 1
     } as ILabos
 
-    this.getLabos();
   }
 
   ngOnInit(): void {
 
+    this.getLabos();
     // this.seedLabos();
   }
 
@@ -64,17 +67,22 @@ export class LaboComponent implements OnInit {
     console.log(this.Labos);
   }
 
+  openConfirmationModal(message: string): Promise<any> {
+    const modalRef = this.modalService.open(ConfirmDeleteModalComponent);
+    modalRef.componentInstance.message = message;
+    return modalRef.result;
+  }
 
-  deleteLabo(laboId: string) {
-    this.LaboId = laboId;
-    //console.log(this.LaboId);
-    const conf = confirm("Bạn có chắc chắn xóa Labo số " + laboId + " không?");
-    if(conf == true) {
+
+  deleteLabo(labo:any) {
+    this.LaboId = labo.labo_id;
+    this.openConfirmationModal(`Bạn có chắc chắn muốn xóa Labo ${labo.name} không?`).then((result) => {
+      if (result === 'confirm') {
       //this.loading=true;
-      this.LaboService.deleteLabo(laboId).subscribe((res) => {
+      this.LaboService.deleteLabo(this.LaboId).subscribe((res) => {
         this.showSuccessToast("Xóa Labo thành công!");
           //window.location.reload();
-        const index = this.Labos.findIndex((item:any) => item.labo_id == laboId);
+        const index = this.Labos.findIndex((item:any) => item.labo_id == this.LaboId);
         if (index != -1) {
           this.Labos.splice(index, 1);
         }
@@ -89,10 +97,11 @@ export class LaboComponent implements OnInit {
           //     this.loading=false;
           //     this.showErrorToast("Không tìm thấy Labo có Id: " + laboId);
           //   }
-          ResponseHandler.HANDLE_HTTP_STATUS(this.LaboService.apiUrl+"/labo/"+laboId, error);
+          ResponseHandler.HANDLE_HTTP_STATUS(this.LaboService.apiUrl+"/labo/"+this.LaboId, error);
         }
       )
     }
+  });
   }
 
   LaboEdit: ILabos;

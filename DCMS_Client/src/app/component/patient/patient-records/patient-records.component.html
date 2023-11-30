@@ -23,26 +23,28 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="hover-patient" *ngFor="let p of searchPatientsList" (click)="detail(p.patient_id)"
+        <tr class="hover-patient" *ngFor="let p of searchPatientsList"
           [ngClass]="{'new-record': p.isNew,'pulse': p.isPulsing}" style="cursor: pointer;">
-          <td style="width: 100px;">
-            <!--HE153724-->{{p.patient_id}}
-          </td>
-          <td style="width: 300px;">
-            <a style="cursor: pointer;">{{p.patient_name}}</a>
-          </td>
-          <td style="width: 150px;">
-            {{p.phone_number}}
-          </td>
-          <td style="width: 250px;">
-            {{p.address}}
-          </td>
+
+          <!-- <ng-container (click)="detail(p.patient_id)"> -->
+            <td (click)="detail(p.patient_id)" style="width: 100px;">
+              <!--HE153724-->{{p.patient_id}}
+            </td>
+            <td (click)="detail(p.patient_id)" style="width: 300px;">
+              <a style="cursor: pointer;">{{p.patient_name}}</a>
+            </td>
+            <td (click)="detail(p.patient_id)" style="width: 150px;">
+              {{p.phone_number}}
+            </td>
+            <td (click)="detail(p.patient_id)" style="width: 250px;">
+              {{p.address}}
+            </td>
+          <!-- </ng-container> -->
           <td style="width: 100px;">
             <button class="btn btn-primary" style="padding: 2px 5px; margin-right: 3px">
               <i class="bi bi-pencil-square"></i></button>
             <button href="#" class="btn btn-danger float-right btn-rounded" style="padding: 2px 5px"
-              data-bs-toggle="modal" (click)="openDeletePatient(p.patient_id,$event)"><i
-                class="bi bi-trash"></i></button>
+              (click)="openDeletePatient(p.patient_id, p.patient_name, $event)"><i class="bi bi-trash"></i></button>
           </td>
         </tr>
       </tbody>
