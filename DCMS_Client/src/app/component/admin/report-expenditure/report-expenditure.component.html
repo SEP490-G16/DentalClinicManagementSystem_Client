@@ -45,11 +45,6 @@
     </div>
   </div>
   <div class="row row-content">
-
-    <!--<div class="col-md-3 text-center mt-2">
-      <p>Tổng tiền chi:</p>
-      <p>30.000.000</p>
-    </div>-->
     <div class="col-md-12">
 
       <div class="table-container" style="margin-top: 10px;">
@@ -68,7 +63,7 @@
             <tr *ngFor="let bill of listFilterDate">
               <td>{{bill.createDate}}</td>
               <td>{{bill.createBy}}</td>
-              <td>{{bill.typeExpense}}</td>
+              <td>{{bill.typeExpense? 'Mẫu' : bill.typeExpense == 2? 'Vật liệu sử dụng' : 'Khác'}}</td>
               <td>{{bill.totalAmount}}</td>
               <td>{{bill.note}}</td>
               <td>
