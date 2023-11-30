@@ -1,7 +1,7 @@
 import { IEditAppointmentBody, RootObject } from './../../../model/IAppointment';
 import { ConvertJson } from './../../../service/Lib/ConvertJson';
 import { IPatient } from './../../../model/IPatient';
-import { Component, OnInit, OnChanges, SimpleChanges, DoCheck, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, DoCheck, ViewChild, TemplateRef, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbCalendar, NgbDate, NgbDateStruct, NgbDatepickerConfig, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { PatientService } from 'src/app/service/PatientService/patient.service';
@@ -19,7 +19,6 @@ import { CancelAppointmentComponent } from './cancel-appointment/cancel-appointm
 })
 
 export class ChangeAppointmentComponent implements OnInit {
-
   epoch_PathParam: number = 0;  // Lưu giá trị của epoch
   appointmentId_Pathparam: string = '';  // Lưu giá trị của appointmentId
 
@@ -32,6 +31,15 @@ export class ChangeAppointmentComponent implements OnInit {
   selectedDate: any;
 
   timeString: any;
+  currentDate: any;
+  minTime: any;
+
+  isSubmitted: boolean = false;
+
+  validateAppointment = {
+    appointmentTime: '',
+    appointmentDate: '',
+  }
   constructor(
     private patientService: PatientService,
     private route: ActivatedRoute,
@@ -51,7 +59,8 @@ export class ChangeAppointmentComponent implements OnInit {
         phone_number: '', //x
         procedure_id: "",  //x
         doctor: '', //x
-        time: 0  //x
+        time: 0,  //x,
+        status: 1
       }
     } as IEditAppointmentBody;
 
@@ -67,6 +76,30 @@ export class ChangeAppointmentComponent implements OnInit {
         ? true
         : false;
     };
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    this.minTime = `${hours}:${minutes}`;
+    this.mindate = new Date();
+
+    const currentTime = new Date();
+
+    // Set date time hiện tại
+    const currentTimeGMT7 = moment.tz('Asia/Ho_Chi_Minh').format('HH:mm');
+
+    const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
+
+    this.model = {
+      year: parseInt(currentDateGMT7.split('-')[0]),
+      month: parseInt(currentDateGMT7.split('-')[1]),
+      day: parseInt(currentDateGMT7.split('-')[2])
+    };
+
+    this.currentDate = {
+      year: parseInt(currentDateGMT7.split('-')[0]),
+      month: parseInt(currentDateGMT7.split('-')[1]),
+      day: parseInt(currentDateGMT7.split('-')[2])
+    }
   }
 
   //config ng bootstrap
@@ -87,10 +120,11 @@ export class ChangeAppointmentComponent implements OnInit {
     this.fetchAPI();
   }
 
+
+
   isMigrated: boolean = true;
   async fetchAPI() {
     while (this.isMigrated) {
-      console.log("isMigrated Work");
       if (this.appointmentId_Pathparam === '' && this.epoch_PathParam === 0) {
         this.route.params.subscribe(params => {
           this.epoch_PathParam = params['epoch'];
@@ -99,7 +133,6 @@ export class ChangeAppointmentComponent implements OnInit {
       }
 
       const data = await this.appointmentService.getAppointmentByPatient(this.epoch_PathParam, this.epoch_PathParam);
-      console.log("Data response: ", data);
 
       // Kiểm tra xem data có giá trị không
       const AppointmentParent = ConvertJson.processApiResponse(data);
@@ -187,14 +220,37 @@ export class ChangeAppointmentComponent implements OnInit {
 
   EDIT_APPOINTMENT_BODY: IEditAppointmentBody
   onPutAppointment() {
-
+    this.resetValidate();
     //Convert model to string
     const selectedYear = this.model.year;
     const selectedMonth = this.model.month.toString().padStart(2, '0'); // Đảm bảo có 2 chữ số
     const selectedDay = this.model.day.toString().padStart(2, '0'); // Đảm bảo có 2 chữ số
     const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
-    console.log(selectedDate); // Đây là ngày dưới dạng "YYYY-MM-DD"
-    console.log(this.timeString);
+
+    const currentTime = new Date().toTimeString();
+    const currentDate = moment().format('YYYY-MM-DD');
+    if (selectedDate == '') {
+      this.validateAppointment.appointmentDate = "Vui lòng chọn ngày khám!";
+      this.isSubmitted = true;
+      return;
+    } else if (selectedDate < currentDate) {
+      this.validateAppointment.appointmentDate = "Vui lòng chọn ngày lớn hơn ngày hiện tại";
+      this.isSubmitted = true;
+      return;
+    }
+
+    if (this.timeString == '') {
+      this.validateAppointment.appointmentTime = "Vui lòng chọn giờ khám!";
+      this.isSubmitted = true;
+      return;
+    } else if (this.timeString != '' && selectedDate <= currentDate) {
+      if ((currentDate + " " + this.timeString) < (currentDate + " " + currentTime)) {
+        this.validateAppointment.appointmentTime = "Vui lòng chọn giờ khám lớn hơn giờ hiện tại!";
+        this.isSubmitted = true;
+        return;
+      }
+    }
+
     this.EDIT_APPOINTMENT_BODY = {
       epoch: Number(this.epoch_PathParam),    //x
       new_epoch: this.dateToTimestamp(selectedDate),
@@ -204,20 +260,22 @@ export class ChangeAppointmentComponent implements OnInit {
         phone_number: this.appointment.phone_number, //x
         procedure_id: this.appointment.procedure_id,  //x
         doctor: this.appointment.doctor, //x
-        time: this.timeAndDateToTimestamp(this.timeString, this.selectedDate) //x
+        time: this.timeAndDateToTimestamp(this.timeString, this.selectedDate),
+        status: 1
+        //x
       }
     } as IEditAppointmentBody;
     console.log("EDIT_Appointment: ", this.EDIT_APPOINTMENT_BODY);
-    this.appointmentService.putAppointment(this.EDIT_APPOINTMENT_BODY, this.appointmentId_Pathparam)
-      .subscribe((res) => {
-        this.showSuccessToast("Sửa lịch hẹn thành công");
-        this.router.navigate(['/xac-nhan-lich-hen']);
-      },
-        (err) => {
-          this.showErrorToast("Sửa lịch hẹn thất bại");
-          ResponseHandler.HANDLE_HTTP_STATUS(this.appointmentService.apiUrl + "/appointment/" + this.appointmentId_Pathparam, err)
-        }
-      )
+    // this.appointmentService.putAppointment(this.EDIT_APPOINTMENT_BODY, this.appointmentId_Pathparam)
+    //   .subscribe((res) => {
+    //     this.showSuccessToast("Sửa lịch hẹn thành công");
+    //     this.router.navigate(['/xac-nhan-lich-hen']);
+    //   },
+    //     (err) => {
+    //       this.showErrorToast("Sửa lịch hẹn thất bại");
+    //       ResponseHandler.HANDLE_HTTP_STATUS(this.appointmentService.apiUrl + "/appointment/" + this.appointmentId_Pathparam, err)
+    //     }
+    //   )
   }
 
   cancelAppointment() {
@@ -236,6 +294,14 @@ export class ChangeAppointmentComponent implements OnInit {
 
       }
     });
+  }
+
+  resetValidate() {
+    this.validateAppointment = {
+      appointmentTime: '',
+      appointmentDate: '',
+    }
+    this.isSubmitted = true;
   }
   dateToTimestamp(dateStr: string): number {
     const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng của chuỗi ngày

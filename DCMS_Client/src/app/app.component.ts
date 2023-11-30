@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Nha khoa Nguyên Trần';
+  title = 'Nha khoa Nguyễn Trần';
 
   constructor() { }
 

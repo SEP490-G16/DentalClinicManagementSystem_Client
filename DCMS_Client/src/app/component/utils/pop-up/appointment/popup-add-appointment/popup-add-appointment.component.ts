@@ -164,19 +164,12 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
 
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
 
-    this.model = {
-      year: parseInt(currentDateGMT7.split('-')[0]),
-      month: parseInt(currentDateGMT7.split('-')[1]),
-      day: parseInt(currentDateGMT7.split('-')[2])
-    };
-
     this.currentDate = {
       year: parseInt(currentDateGMT7.split('-')[0]),
       month: parseInt(currentDateGMT7.split('-')[1]),
       day: parseInt(currentDateGMT7.split('-')[2])
     }
-    console.log("mới", this.model);
-    console.log(this.appointmentDate);
+
   }
 
 
