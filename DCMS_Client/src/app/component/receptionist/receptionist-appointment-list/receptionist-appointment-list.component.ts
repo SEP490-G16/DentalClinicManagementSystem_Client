@@ -20,6 +20,7 @@ import { ResponseHandler } from "../../utils/libs/ResponseHandler";
 import { IsThisSecondPipe } from 'ngx-date-fns';
 import { end } from '@popperjs/core';
 import { ConfirmDeleteModalComponent } from '../../utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component';
+import { TimeKeepingService } from 'src/app/service/Follow-TimeKeepingService/time-keeping.service';
 
 @Component({
   selector: 'app-receptionist-appointment-list',
@@ -37,13 +38,13 @@ export class ReceptionistAppointmentListComponent implements OnInit {
 
   constructor(private appointmentService: ReceptionistAppointmentService,
     private waitingRoomService: ReceptionistWaitingRoomService,
-    private cognitoService: CognitoService, private router: Router,
+    private router: Router,
     private toastr: ToastrService,
-    private renderer: Renderer2,
     private modalService: NgbModal,
     private webSocketService: WebsocketService,
     private medicaoProcedureGroupService: MedicalProcedureGroupService,
-    private receptionistWaitingRoom: ReceptionistWaitingRoomService
+    private receptionistWaitingRoom: ReceptionistWaitingRoomService,
+    private cognito: CognitoService
   ) {
     this.DELETE_APPOINTMENT_BODY = {
       epoch: 0,    //x
@@ -75,7 +76,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   listGroupService: any[] = [];
 
   startDate: any;
-  endDate: string = "2023-12-31";
+  endDate: string = "2024-1-31";
 
 
   startDateTimestamp: number = 0;
@@ -89,11 +90,61 @@ export class ReceptionistAppointmentListComponent implements OnInit {
 
     this.getAppointmentList();
     this.getListGroupService();
+    this.getListDoctor();
+  }
+
+  doctorObject = {
+    sub_id: '',
+    doctorName: '',
+    phoneNumber: '',
+    roleId: '',
+    zoneInfo: ''
+  }
+
+  listDoctor: any[] = [];
+  listDoctorDisplay: any[] = [];
+
+  getListDoctor() {
+    this.cognito.getListStaff().subscribe((res) => {
+      this.listDoctor = res.message;
+      this.listDoctorDisplay.splice(0, this.listDoctorDisplay.length);
+      this.listDoctor.forEach((staff: any) => {
+        staff.Attributes.forEach((attr: any) => {
+          if (attr.Name == 'custom:role') {
+            this.doctorObject.roleId = attr.Value;
+          }
+          if (attr.Name == 'sub') {
+            this.doctorObject.sub_id = attr.Value;
+          }
+          if (attr.Name == 'name') {
+            this.doctorObject.doctorName = attr.Value;
+          }
+          if (attr.Name == 'phone_number') {
+            this.doctorObject.phoneNumber = attr.Value;
+          }
+          if (attr.Name == 'zoneinfo') {
+            this.doctorObject.zoneInfo = attr.Value;
+          }
+        })
+        if (this.doctorObject.roleId == "2") {
+          this.listDoctorDisplay.push(this.doctorObject);
+        }
+        this.doctorObject = {
+          sub_id: '',
+          doctorName: '',
+          phoneNumber: '',
+          roleId: '',
+          zoneInfo: ''
+        }
+      })
+      localStorage.setItem("listDoctor", JSON.stringify(this.listDoctorDisplay));
+    })
   }
 
   getListGroupService() {
     this.medicaoProcedureGroupService.getMedicalProcedureGroupList().subscribe((res: any) => {
       this.listGroupService = res.data;
+      localStorage.setItem("listGroupService", JSON.stringify(this.listGroupService));
     },
       error => {
         ResponseHandler.HANDLE_HTTP_STATUS(this.medicaoProcedureGroupService.url + "/medical-procedure-group", error);
@@ -113,6 +164,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     const end = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + (now.getDay() + 1) + " 00:00:00";
     this.appointmentService.getAppointmentList(this.startDateTimestamp, this.endDateTimestamp).subscribe(data => {
       this.appointmentList = ConvertJson.processApiResponse(data);
+      localStorage.setItem("ListAppointment", JSON.stringify(this.appointmentList));
       this.filteredAppointments = this.appointmentList.filter(app => app.date === this.startDateTimestamp);
       this.filteredAppointments.forEach((a: any) => {
         this.dateEpoch = this.timestampToDate(a.date);
@@ -282,13 +334,13 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   }
 
   Exchange = {
-    epoch: 0,
+    epoch: "",
     produce_id: "0",
     produce_name: '',
     patient_id: '',
     patient_name: '',
     reason: '',
-    status: 1, 
+    status: "1", 
     appointment_id: '',
     appointment_epoch: '',
   }
@@ -350,23 +402,26 @@ export class ReceptionistAppointmentListComponent implements OnInit {
 
         if (status == true) {
           const currentDateTimeGMT7 = moment().tz('Asia/Ho_Chi_Minh');
-          this.Exchange.epoch = Math.floor(currentDateTimeGMT7.valueOf() / 1000);
+          this.Exchange.epoch = Math.floor(currentDateTimeGMT7.valueOf() / 1000).toString();
           this.Exchange.patient_id = b.patient_id;
           this.Exchange.patient_name = b.patient_name;
           this.Exchange.produce_id = b.procedure_id;
           this.Exchange.produce_name = b.procedure_name;
           this.Exchange.reason = b.reason;
+          this.Exchange.appointment_id = b.appointment_id;
+          this.Exchange.appointment_epoch = '';
           this.receptionistWaitingRoom.postWaitingRoom(this.Exchange).subscribe(
             (data) => {
               alert("");
               this.Exchange = {
-                epoch: 0,
+                epoch: "0",
                 produce_id: "0",
                 produce_name: '',
                 patient_id: '',
                 patient_name: '',
                 reason: '',
-                status: 1,appointment_id: '',
+                status: "1",
+                appointment_id: '',
                 appointment_epoch: '',
               }
               window.location.href = "/letan/phong-cho";
@@ -386,8 +441,70 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     );
     event.stopPropagation();
   }
+
+  // listRegisterTime: any[] = [];
+  // uniqueList: string[] = [];
+  // listDoctorFilter: any[] = [];
+  // totalDoctorFilter: number = 0;
+
+  // getTimeKeeping(date: any) {
+  //   const selectedYear = this.model.year;
+  //   const selectedMonth = this.model.month.toString().padStart(2, '0'); // Đảm bảo có 2 chữ số
+  //   const selectedDay = this.model.day.toString().padStart(2, '0'); // Đảm bảo có 2 chữ số
+
+  //   const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
+  //   this.timeKeepingService.getFollowingTimekeeping(this.dateToTimestamp(selectedDate + " 00:00:00"), this.dateToTimestamp(selectedDate + " 23:59:59")).subscribe(data => {
+  //     this.listRegisterTime = this.organizeData(data);
+  //     this.listDoctorFilter.splice(0, this.listDoctorFilter.length);
+  //     this.listRegisterTime.forEach((res: any) => {
+  //       res.records.forEach((doc: any) => {
+  //         if (doc.details.register_clock_in < this.timeToTimestamp(date) && this.timeToTimestamp(date) < doc.details.register_clock_out) {
+  //           if (!this.uniqueList.includes(doc.subId)) {
+  //             this.uniqueList.push(doc.subId);
+  //             let newDoctorInfor = {
+  //               doctorId: doc.subId,
+  //               docterName: doc.details.staff_name
+  //             }
+  //             this.listDoctorFilter.push(newDoctorInfor);
+  //           }
+  //         }
+  //       })
+  //     })
+  //   });
+  // }
+
+  organizeData(data: any[]): TimekeepingRecord[] {
+    return data.map((item): TimekeepingRecord => {
+      const timekeepingEntry: TimekeepingRecord = {
+        epoch: item.epoch?.N,
+        type: item.type?.S,
+        records: []
+      };
+
+      Object.keys(item).forEach((key: string) => {
+        if (key !== 'epoch' && key !== 'type') {
+          const details: TimekeepingDetail = {
+            register_clock_in: item[key]?.M?.register_clock_in?.N,
+            register_clock_out: item[key]?.M?.register_clock_out?.N,
+            staff_name: item[key]?.M?.staff_name?.S,
+          };
+          timekeepingEntry.records.push({
+            subId: key,
+            details: details
+          });
+        }
+      });
+
+      return timekeepingEntry;
+    });
+  }
+
+  private isVietnamesePhoneNumber(number: string): boolean {
+    return /^(\+84|84|0)?[1-9]\d{8}$/
+      .test(number);
+  }
+
   navigateToPatientDetail(patientId: any) {
-    console.log("check", patientId)
     this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', patientId]);
   }
 
@@ -395,6 +512,11 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     this.datesDisabled = this.datesDisabled;
   }
 
+  timeToTimestamp(timeStr: string): number {
+    const time = moment(timeStr, "HH:mm:ss");
+    const timestamp = time.unix(); // Lấy timestamp tính bằng giây
+    return timestamp;
+  }
   //Convert Date
   dateToTimestamp(dateStr: string): number {
     const format = 'YYYY-MM-DD HH:mm'; // Định dạng của chuỗi ngày
@@ -463,4 +585,20 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   details(id: any) {
     this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', id])
   }
+}
+
+interface TimekeepingDetail {
+  register_clock_in?: string;
+  register_clock_out?: string;
+  staff_name?: string;
+}
+interface TimekeepingSubRecord {
+  subId: string;
+  details: TimekeepingDetail;
+}
+
+interface TimekeepingRecord {
+  epoch: string;
+  type?: string;
+  records: TimekeepingSubRecord[];
 }

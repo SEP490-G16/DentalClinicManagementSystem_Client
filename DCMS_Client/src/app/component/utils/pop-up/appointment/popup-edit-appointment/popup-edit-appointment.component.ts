@@ -110,21 +110,14 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    console.log("oninit") 
     this.getListGroupService();
-    this.selectDateToGetDoctor("2023-11-24");
-   
   }
 
   getListGroupService() {
-    this.medicaoProcedureGroupService.getMedicalProcedureGroupList().subscribe((res: any) => {
-      this.listGroupService = res.data;
-      console.log(res.data);
-    },
-      error => {
-        ResponseHandler.HANDLE_HTTP_STATUS(this.medicaoProcedureGroupService.url + "/medical-procedure-group", error);
-      }
-    )
+    const storeList = localStorage.getItem("listGroupService");
+    if (storeList != null) {
+      this.listGroupService = JSON.parse(storeList);
+    }
   }
 
   oldDate: string = ''
@@ -154,7 +147,6 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     if (changes['dateString']) {
       this.oldDate = this.dateString;
       this.EDIT_APPOINTMENT_BODY.epoch = this.dateString;
-      console.log("Old Date", this.oldDate);
       this.model = {
         year: parseInt(this.dateString.split('-')[0]),
         month: parseInt(this.dateString.split('-')[1]),
@@ -166,13 +158,13 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
       this.timeString = this.oldTime;
     }
 
-    if (changes['datesDisabled'] && this.datesDisabled && this.datesDisabled.length > 0) {
-      this.datesDisabled = this.datesDisabled.map((timestamp: number) => {
-        const date = new Date(timestamp * 1000); // Chuyển đổi timestamp sang date
-        return date.toISOString().slice(0, 10); // Lấy phần yyyy-MM-dd
-      });
-      console.log("Date Parse: ", this.datesDisabled);
-    }
+    // if (changes['datesDisabled'] && this.datesDisabled && this.datesDisabled.length > 0) {
+    //   this.datesDisabled = this.datesDisabled.map((timestamp: number) => {
+    //     const date = new Date(timestamp * 1000); 
+    //     return date.toISOString().slice(0, 10); 
+    //   });
+    //   console.log("Date Parse: ", this.datesDisabled);
+    // }
   }
 
   selectedDoctor: any = null;
@@ -189,7 +181,6 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
   patientList: any[] = [];
   patientInfor: any;
   onsearch(event: any) {
-    console.log(event.target.value)
     this.EDIT_APPOINTMENT_BODY.appointment.patient_name = event.target.value;
     this.PATIENT_SERVICE.getPatientByName(this.EDIT_APPOINTMENT_BODY.appointment.patient_name, 1).subscribe(data => {
       const transformedMaterialList = data.data.map((item: any) => {
@@ -214,39 +205,10 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
   listDoctor: any[] = [];
   listDoctorDisplay: any[] = [];
   getListDoctor() {
-    this.cognito.getListStaff().subscribe((res) => {
-      this.listDoctor = res.message;
-      this.listDoctorDisplay.splice(0, this.listDoctorDisplay.length);
-      this.listDoctor.forEach((staff: any) => {
-        staff.Attributes.forEach((attr: any) => {
-          if (attr.Name == 'custom:role') {
-            this.doctorObject.roleId = attr.Value;
-          }
-          if (attr.Name == 'sub') {
-            this.doctorObject.sub_id = attr.Value;
-          }
-          if (attr.Name == 'name') {
-            this.doctorObject.doctorName = attr.Value;
-          }
-          if (attr.Name == 'phone_number') {
-            this.doctorObject.phoneNumber = attr.Value;
-          }
-          if (attr.Name == 'zoneinfo') {
-            this.doctorObject.zoneInfo = attr.Value;
-          }
-        })
-        if (this.doctorObject.roleId == "2") {
-          this.listDoctorDisplay.push(this.doctorObject);
-        }
-        this.doctorObject = {
-          sub_id: '',
-          doctorName: '',
-          phoneNumber: '',
-          roleId: '',
-          zoneInfo: ''
-        }
-      })
-    })
+    const storeList = localStorage.getItem("listDoctor");
+    if (storeList != null) {
+      this.listDoctorDisplay = JSON.parse(storeList);
+    }
   }
 
 
@@ -255,19 +217,20 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
   listDoctorFilter: any[] = [];
   totalDoctorFilter: number = 0;
 
-  selectDateToGetDoctor(date: any) {
+  selectDateToGetDoctor(time: any) {
     this.getListDoctor();
     const selectedYear = this.model.year;
-    const selectedMonth = this.model.month.toString().padStart(2, '0'); // Đảm bảo có 2 chữ số
-    const selectedDay = this.model.day.toString().padStart(2, '0'); // Đảm bảo có 2 chữ số
+    const selectedMonth = this.model.month.toString().padStart(2, '0');
+    const selectedDay = this.model.day.toString().padStart(2, '0');
 
     const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
+    alert(selectedDate);
     this.timeKeepingService.getFollowingTimekeeping(this.dateToTimestamp(selectedDate + " 00:00:00"), this.dateToTimestamp(selectedDate + " 23:59:59")).subscribe(data => {
       this.listRegisterTime = this.organizeData(data);
       this.listDoctorFilter.splice(0, this.listDoctorFilter.length);
       this.listRegisterTime.forEach((res: any) => {
         res.records.forEach((doc: any) => {
-          if (doc.details.register_clock_in < this.timeToTimestamp(date) && this.timeToTimestamp(date) < doc.details.register_clock_out) {
+          if (doc.details.register_clock_in < this.timeToTimestamp(time) && this.timeToTimestamp(time) < doc.details.register_clock_out) {
             if (!this.uniqueList.includes(doc.subId)) {
               this.uniqueList.push(doc.subId);
               let newDoctorInfor = {
@@ -282,7 +245,6 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     });
 
     this.listDoctorDisplay.forEach((item: any) => {
-      console.log(item);
       const zone = item.zoneInfo.split(',');
       var count = 0;
       zone.forEach((zo: any) => {
@@ -338,11 +300,7 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     const selectedDay = this.model.day.toString().padStart(2, '0'); // Đảm bảo có 2 chữ số
 
     const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
-    console.log(selectedDate); // Đây là ngày dưới dạng "YYYY-MM-DD"
-
-    //console.log(this.oldDate, this.oldTime);
     this.EDIT_APPOINTMENT_BODY.new_epoch = this.dateToTimestamp(selectedDate);
-    //console.log(this.dateString, this.timeString);
     this.EDIT_APPOINTMENT_BODY.appointment.time = this.timeToTimestamp(this.timeString);
 
     this.listGroupService.forEach(e => {
@@ -404,29 +362,47 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     this.EDIT_APPOINTMENT_BODY.appointment.patient_id = patientInfor[0];
     this.EDIT_APPOINTMENT_BODY.appointment.patient_name = patientInfor[1];
     this.EDIT_APPOINTMENT_BODY.appointment.phone_number = patientInfor[2];
+    var checkPatient = true;
     if (this.EDIT_APPOINTMENT_BODY.epoch !== this.EDIT_APPOINTMENT_BODY.new_epoch) {
-      this.APPOINTMENT_SERVICE.getAppointmentList(this.dateToTimestamp(selectedDate + " 00:00:00"), this.dateToTimestamp(selectedDate + " 23:59:59")).subscribe(data => {
-        this.appointmentList = ConvertJson.processApiResponse(data);
-        this.filteredAppointments.forEach((appo: any) => {
-          appo.appointments.forEach((deta: any) => {
-            deta.details.forEach((res: any) => {
-              if (appo.date == this.dateToTimestamp(selectedDate)) {
-                if (res.patient_id == this.EDIT_APPOINTMENT_BODY.appointment.patient_id) {
-                  this.validateAppointment.patientName = `Bệnh nhân đã có lịch hẹn trong ngày ${this.timestampToDate(appo.date)} !`;
-                  this.isSubmitted = true;
-                  this.loading = false;
-                  return;
-                }
-              }
-            })
+      let listAppointment;
+      const storeList = localStorage.getItem("ListAppointment");
+      if (storeList != null) {
+        listAppointment = JSON.parse(storeList);
+      }
+      this.filteredAppointments = listAppointment.filter((ap:any) => ap.date === this.dateToTimestamp(selectedDate));
+      this.filteredAppointments.forEach((appo: any) => {
+        appo.appointments.forEach((deta: any) => {
+          deta.details.forEach((res: any) => {
+            if (res.patient_id == this.EDIT_APPOINTMENT_BODY.appointment.patient_id) {
+              this.validateAppointment.patientName = `Bệnh nhân đã lịch hẹn trong ngày ${selectedDate} !`;
+              checkPatient = false;
+              return;
+            }
           })
         })
       })
+      // this.APPOINTMENT_SERVICE.getAppointmentList(this.dateToTimestamp(selectedDate + " 00:00:00"), this.dateToTimestamp(selectedDate + " 23:59:59")).subscribe(data => {
+      //   this.appointmentList = ConvertJson.processApiResponse(data);
+      //   this.filteredAppointments.forEach((appo: any) => {
+      //     appo.appointments.forEach((deta: any) => {
+      //       deta.details.forEach((res: any) => {
+      //         if (appo.date == this.dateToTimestamp(selectedDate)) {
+      //           if (res.patient_id == this.EDIT_APPOINTMENT_BODY.appointment.patient_id) {
+      //             this.validateAppointment.patientName = `Bệnh nhân đã có lịch hẹn trong ngày ${this.timestampToDate(appo.date)} !`;
+      //             this.isSubmitted = true;
+      //             this.loading = false;
+      //             return;
+      //           }
+      //         }
+      //       })
+      //     })
+      //   })
+      // })
     }
-
+    if (!checkPatient ) {
+      return;
+    }
     this.APPOINTMENT_SERVICE.putAppointment(this.EDIT_APPOINTMENT_BODY, this.selectedAppointment.appointment_id).subscribe(response => {
-      console.log("Cập nhật thành công");
-      alert("wait");
       this.showSuccessToast('Sửa Lịch hẹn thành công!');
       window.location.reload();
     }, error => {

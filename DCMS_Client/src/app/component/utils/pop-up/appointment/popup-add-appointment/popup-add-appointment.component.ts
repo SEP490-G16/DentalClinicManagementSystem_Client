@@ -212,12 +212,12 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.getListGroupService();
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
+    const a = parseInt(currentDateGMT7.split('-')[0])+"-"+parseInt(currentDateGMT7.split('-')[1])+"-"+(parseInt(currentDateGMT7.split('-')[2]));
     this.startDate = currentDateGMT7;
-
     this.startDateTimestamp = this.dateToTimestamp(currentDateGMT7);
     this.endDateTimestamp = this.dateToTimestamp(this.endDate);
     this.getListAppountment();
-    this.selectDateToGetDoctor("2023-11-22");
+    ///this.selectDateToGetDoctor(a);
   }
   getListAppountment() {
     this.startDateTimestamp = this.dateToTimestamp(this.startDate);
@@ -234,13 +234,17 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   }
 
   getListGroupService() {
-    this.medicaoProcedureGroupService.getMedicalProcedureGroupList().subscribe((res: any) => {
-      this.listGroupService = res.data;
-    },
-      error => {
-        ResponseHandler.HANDLE_HTTP_STATUS(this.medicaoProcedureGroupService.url + "/medical-procedure-group", error);
-      }
-    )
+    var storeList = localStorage.getItem("listGroupService");
+    if (storeList != null) {
+      this.listGroupService = JSON.parse(storeList);    
+    }
+    // this.medicaoProcedureGroupService.getMedicalProcedureGroupList().subscribe((res: any) => {
+    //   this.listGroupService = res.data;
+    // },
+    //   error => {
+    //     ResponseHandler.HANDLE_HTTP_STATUS(this.medicaoProcedureGroupService.url + "/medical-procedure-group", error);
+    //   }
+    // )
   }
 
   getDisableDate() {
@@ -261,60 +265,27 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   listDoctor: any[] = [];
   listDoctorDisplay: any[] = [];
   getListDoctor() {
-    this.cognito.getListStaff().subscribe((res) => {
-      this.listDoctor = res.message;
-      this.listDoctorDisplay.splice(0, this.listDoctorDisplay.length);
-      this.listDoctor.forEach((staff: any) => {
-        staff.Attributes.forEach((attr: any) => {
-          if (attr.Name == 'custom:role') {
-            this.doctorObject.roleId = attr.Value;
-          }
-          if (attr.Name == 'sub') {
-            this.doctorObject.sub_id = attr.Value;
-          }
-          if (attr.Name == 'name') {
-            this.doctorObject.doctorName = attr.Value;
-          }
-          if (attr.Name == 'phone_number') {
-            this.doctorObject.phoneNumber = attr.Value;
-          }
-          if (attr.Name == 'zoneinfo') {
-            this.doctorObject.zoneInfo = attr.Value;
-          }
-        })
-        if (this.doctorObject.roleId == "2") {
-          this.listDoctorDisplay.push(this.doctorObject);
-        }
-        this.doctorObject = {
-          sub_id: '',
-          doctorName: '',
-          phoneNumber: '',
-          roleId: '',
-          zoneInfo: ''
-        }
-      })
-    })
+    const storeList = localStorage.getItem("listDoctor");
+    if (storeList != null) {
+      this.listDoctorDisplay = JSON.parse(storeList);
+    }
   }
-
 
   listRegisterTime: any[] = [];
   uniqueList: string[] = [];
   listDoctorFilter: any[] = [];
   totalDoctorFilter: number = 0;
 
-  selectDateToGetDoctor(date: any) {
+  selectDateToGetDoctor(time: any) {
     this.getListDoctor();
-    const selectedYear = this.model.year;
-    const selectedMonth = this.model.month.toString().padStart(2, '0'); // Đảm bảo có 2 chữ số
-    const selectedDay = this.model.day.toString().padStart(2, '0'); // Đảm bảo có 2 chữ số
-
-    const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
-    this.timeKeepingService.getFollowingTimekeeping(this.dateToTimestamp(selectedDate + " 00:00:00"), this.dateToTimestamp(selectedDate + " 23:59:59")).subscribe(data => {
+    const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
+    const a = parseInt(currentDateGMT7.split('-')[0])+"-"+parseInt(currentDateGMT7.split('-')[1])+"-"+(parseInt(currentDateGMT7.split('-')[2]));
+    this.timeKeepingService.getFollowingTimekeeping(this.dateToTimestamp(a + " 00:00:00"), this.dateToTimestamp(a + " 23:59:59")).subscribe(data => {
       this.listRegisterTime = this.organizeData(data);
       this.listDoctorFilter.splice(0, this.listDoctorFilter.length);
       this.listRegisterTime.forEach((res: any) => {
         res.records.forEach((doc: any) => {
-          if (doc.details.register_clock_in < this.timeToTimestamp(date) && this.timeToTimestamp(date) < doc.details.register_clock_out) {
+          if (doc.details.register_clock_in < this.timeToTimestamp(time) && this.timeToTimestamp(time) < doc.details.register_clock_out) {
             if (!this.uniqueList.includes(doc.subId)) {
               this.uniqueList.push(doc.subId);
               let newDoctorInfor = {
@@ -346,7 +317,6 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     })
     this.totalDoctorFilter = this.listDoctorFilter.length;
     console.log("aaa", this.listDoctorFilter)
-    this.listDoctorFilter.push(this.noDoctor);
   }
 
   organizeData(data: any[]): TimekeepingRecord[] {
@@ -486,6 +456,12 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
 
     console.log("aa", this.filteredAppointments);
     var checkPatient = true;
+    let listAppointment;
+    const storeList = localStorage.getItem("ListAppointment");
+    if (storeList != null) {
+      listAppointment = JSON.parse(storeList);
+    }
+    this.filteredAppointments = listAppointment.filter((ap:any) => ap.date === this.dateToTimestamp(selectedDate));
     this.filteredAppointments.forEach((appo: any) => {
       appo.appointments.forEach((deta: any) => {
         deta.details.forEach((res: any) => {

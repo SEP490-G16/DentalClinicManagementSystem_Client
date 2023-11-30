@@ -59,13 +59,15 @@ export class AddWaitingRoomComponent implements OnInit {
   ) {
 
     this.POST_WAITTINGROOM = {
-      epoch: 0,
+      epoch: "",
       produce_id: '',
       produce_name: '',
       patient_id: '',
       patient_name: '',
       reason: '',
-      status: 1
+      status: "1", 
+      appointment_id: '', 
+      appointment_epoch: '',
     } as IPostWaitingRoom
 
   }
@@ -121,14 +123,14 @@ export class AddWaitingRoomComponent implements OnInit {
     let patientIn = this.patientInfor.split(' - ');
     this.POST_WAITTINGROOM.patient_id = patientIn[0];
     this.POST_WAITTINGROOM.patient_name = patientIn[1];
-    this.POST_WAITTINGROOM.status = 1;
+    this.POST_WAITTINGROOM.status = "1";
     const storedPatientIdsString = localStorage.getItem('listPatientId');
     let storedPatientIds = [];
     if (storedPatientIdsString) {
       storedPatientIds = JSON.parse(storedPatientIdsString);
     }
     const currentDateTimeGMT7 = moment().tz('Asia/Ho_Chi_Minh');
-    this.POST_WAITTINGROOM.epoch = Math.floor(currentDateTimeGMT7.valueOf() / 1000);
+    this.POST_WAITTINGROOM.epoch = Math.floor(currentDateTimeGMT7.valueOf() / 1000).toString();
     this.resetValidate();
     if (this.patientInfor == '' || this.patientInfor == null) {
       this.validateWatingRoom.patientName = "Vui lòng chọn bệnh nhân!";
@@ -273,13 +275,13 @@ export class AddWaitingRoomComponent implements OnInit {
 
   close() {
     this.POST_WAITTINGROOM = {
-      epoch: 0,
+      epoch: "0",
       produce_id: '',
       produce_name: '',
       patient_id: '',
       patient_name: '',
       reason: '',
-      status: 0
+      status: "0"
     } as IPostWaitingRoom
   }
   private resetValidate() {

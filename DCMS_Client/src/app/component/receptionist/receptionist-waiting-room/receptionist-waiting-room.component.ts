@@ -39,13 +39,13 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
   ) {
 
     this.PUT_WAITINGROOM = {
-      epoch: 0,
+      epoch: "0",
       produce_id: "1",
       produce_name: '',
       patient_id: '',
       patient_name: '',
       reason: '',
-      status: 1
+      status: "1"
     } as IPostWaitingRoom
   }
 
