@@ -22,24 +22,25 @@
     </div>
     <div class="col-md-3 col-xl-2" style="margin-right: 10px;">
       <select class="form-select" aria-label="Default select example" style="padding: 10px; border: 1px solid black;">
-        <option selected>Chọn người nhập</option>
+        <option selected>Chọn người lập</option>
+        <option *ngFor="let s of listStaffDisplay" value="{{s.staffName}}">{{s.staffName}}</option>
       </select>
     </div>
     <div class="datetime col-md-3 col-xl-2">
     <div class="form-group form-group-filter">
       <label for="fromDate">Từ ngày:</label>
-      <input type="date" class="date-input-custom" id="fromDate" name="fromDate">
+      <input type="date" [(ngModel)]="startDate" class="date-input-custom" id="fromDate" name="fromDate">
       </div>
     </div>
     <div class="datetime col-md-3 col-xl-2">
       <div class="form-group form-group-filter">
       <label for="toDate">Đến ngày:</label>
-      <input type="date" class="date-input-custom" id="toDate" name="fromDate">
+      <input type="date" [(ngModel)]="endDate" class="date-input-custom" id="toDate" name="fromDate">
       </div>
     </div>
     <div class="col-md-3 col-xl-2" style="margin-left: 20px;">
       <div class="form-group form-group-filter">
-        <button class="btn button-add">Lọc
+        <button class="btn button-add" (click)="loadPage(currentPage)">Lọc
         </button>
       </div>
     </div>

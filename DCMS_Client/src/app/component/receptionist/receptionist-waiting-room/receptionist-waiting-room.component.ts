@@ -116,25 +116,28 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
   }
 
   selectedColor: string = '#000';
+  PUT_WAITINGROO: any;
   onPutStatus(wtr: any, epoch: number) {
-    this.PUT_WAITINGROOM = {
+    this.PUT_WAITINGROO = {
       epoch: epoch,
       produce_id: wtr.produce_id,
       produce_name: wtr.produce_name,
       patient_id: wtr.patient_id,
       patient_name: wtr.patient_name,
       reason: wtr.reason,
-      status: Number(wtr.status)
-    } as IPostWaitingRoom
+      status_value: Number(wtr.status), 
+      appointment_id: '3 df18abe-750 f-4350-b7f4-03 d289050f17',
+      appointment_epoch: '1701277200',
+    } 
     this.loading = true;
-    if (this.PUT_WAITINGROOM.status == 4) {
-      const index = this.filteredWaitingRoomData.findIndex((item: any) => item.patient_id == this.PUT_WAITINGROOM.patient_id);
+    if (this.PUT_WAITINGROO.status_value == 4) {
+      const index = this.filteredWaitingRoomData.findIndex((item: any) => item.patient_id == this.PUT_WAITINGROO.patient_id);
       if (index != -1) {
         this.filteredWaitingRoomData.splice(index, 1);
       }
       this.listTemp = this.filteredWaitingRoomData;
       localStorage.setItem('listPatientId', JSON.stringify(this.listTemp));
-      this.waitingRoomService.deleteWaitingRooms(this.PUT_WAITINGROOM)
+      this.waitingRoomService.deleteWaitingRooms(this.PUT_WAITINGROO)
         .subscribe((data) => {
           this.loading = false;
           this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
@@ -145,11 +148,11 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           (error) => {
             this.loading = false;
             //this.showErrorToast('Xóa hàng chờ thất bại');
-            ResponseHandler.HANDLE_HTTP_STATUS(this.waitingRoomService.apiUrl + "/waiting-room/" + this.PUT_WAITINGROOM, error);
+            ResponseHandler.HANDLE_HTTP_STATUS(this.waitingRoomService.apiUrl + "/waiting-room/" + this.PUT_WAITINGROO, error);
           }
         )
     } else {
-      this.waitingRoomService.putWaitingRoom(this.PUT_WAITINGROOM)
+      this.waitingRoomService.putWaitingRoom(this.PUT_WAITINGROO)
         .subscribe(data => {
           this.loading = false;
           this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
@@ -160,7 +163,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           (error) => {
             this.loading = false;
             //this.showErrorToast('Chỉnh sửa hàng chờ thất bại');
-            ResponseHandler.HANDLE_HTTP_STATUS(this.waitingRoomService.apiUrl + "/waiting-room/" + this.PUT_WAITINGROOM, error);
+            ResponseHandler.HANDLE_HTTP_STATUS(this.waitingRoomService.apiUrl + "/waiting-room/" + this.PUT_WAITINGROO, error);
           }
         )
     }

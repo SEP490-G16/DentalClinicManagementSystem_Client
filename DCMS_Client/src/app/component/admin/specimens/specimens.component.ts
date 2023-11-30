@@ -362,8 +362,12 @@ export class SpecimensComponent implements OnInit {
   checkbox11: boolean = true;
   checkbox12: boolean = true;
 
+
   togglePopup(): void {
     this.showPopup = !this.showPopup;
+  }
+  hiddenPopup():void{
+    this.showPopup = false;
   }
 
   toggleColumn(columnNumber: number): void {

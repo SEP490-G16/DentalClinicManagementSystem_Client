@@ -50,7 +50,7 @@
       <button class="btn button-add p-2" style="margin-left: 8px;" (click)="togglePopup()">
         Hiển thị
       </button>
-      <ul *ngIf="showPopup" class="popup">
+      <ul *ngIf="showPopup" (mouseleave)="hiddenPopup()" class="popup">
         <div class="row">
           <div class="col-md-6">
             <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox1" (click)="toggleColumn(2)"> Tên

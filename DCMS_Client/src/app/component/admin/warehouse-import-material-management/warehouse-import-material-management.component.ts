@@ -6,6 +6,7 @@ import { MaterialWarehouseService } from "../../../service/MaterialService/mater
 import { MaterialService } from "../../../service/MaterialService/material.service";
 import * as moment from 'moment-timezone';
 import {ResponseHandler} from "../../utils/libs/ResponseHandler";
+import {CognitoService} from "../../../service/cognito.service";
 @Component({
   selector: 'app-warehouse-import-material-management',
   templateUrl: './warehouse-import-material-management.component.html',
@@ -19,6 +20,7 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
   constructor(private importMaterialService: ImportMaterialService,
     private materialWarehouseService: MaterialWarehouseService,
     private toastr: ToastrService,
+    private cognitoService: CognitoService,
     private materialService: MaterialService) { }
   importBills: any[] = [];
   pagingBill = {
@@ -42,9 +44,29 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
   materialList: any[] = [];
   totalAmount: number = 0;
   loading: boolean = false;
+  staff = {
+    staffId: '',
+    staffName: '',
+    staffUserName: '',
+    dob: '',
+    address: '',
+    note: '',
+    email: '',
+    phoneNumber: '',
+    roleId: '',
+    roleName:'',
+    gender: '',
+    image: '',
+    locale: '',
+    zoneInfor: '',
+  }
+  listStaffDisplay:any [] = [];
+
+  listStaff: any [] = [];
   ngOnInit(): void {
     this.loadPage(this.pagingBill.paging);
     this.getMaterials(this.pagingBill.paging);
+    this.getListStaff();
   }
   checkNextPage() {
     this.hasNextPage = this.importBills.length > 10;
@@ -54,7 +76,9 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
     this.loading = true;
     this.currentPage = page;
     if (this.startDate != '' && this.endDate != '') {
-      this.importMaterialService.getImportMaterialsFromDateToDate(this.startDate, this.endDate,this.currentPage).subscribe(data=>{
+      const startTime = this.dateToTimestamp(this.startDate + '00:00:00');
+      const endTime = this.dateToTimestamp(this.endDate + '23:59:59');
+      this.importMaterialService.getImportMaterialsFromDateToDate(startTime, endTime,this.currentPage).subscribe(data=>{
         this.importBills = [];
         this.importBills = data.data;
         this.checkNextPage();
@@ -62,6 +86,24 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
         if (this.importBills.length > 10) {
           this.importBills.pop();
         }
+          this.displayWarehouse = [];
+          console.log("Checkdate", this.importBills);
+          this.importBills.forEach((p: any) => {
+            this.materbyId.Id = p.id;
+            this.materbyId.CreateDate = p.created_date;
+            this.materbyId.CreateBy = p.creator;
+            this.materbyId.Note = p.description;
+            this.materbyId.TotalAmount = p.total;
+            this.displayWarehouse.push(this.materbyId);
+            //total = 0;
+            this.materbyId = {
+              Id: '',
+              CreateDate: '',
+              Note: '',
+              TotalAmount: 0,
+              CreateBy: ''
+            }
+          })
       },
         error => {
           ResponseHandler.HANDLE_HTTP_STATUS(this.importMaterialService.url+"/import-material/date/"+this.startDate+"/"+this.endDate+"/"+this.currentPage, error);
@@ -185,10 +227,113 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
         )
     }
   }
-  dateToTimestamp(dateStr: string): number {
+  dateToTimestamp(dateStr: string): any {
     const format = 'YYYY-MM-DD HH:mm'; // Định dạng của chuỗi ngày
     const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
     const timestamp = moment.tz(dateStr, format, timeZone).valueOf() / 1000;
     return timestamp;
+  }
+
+  getListStaff() {
+    this.cognitoService.getListStaff()
+      .subscribe((res) => {
+          this.listStaff = res.message;
+          console.log("ListStaff:",this.listStaff);
+          this.listStaff.forEach((staff:any) => {
+            this.staff = {
+              staffId: '',
+              staffName: '',
+              staffUserName: '',
+              dob: '',
+              address: '',
+              note: '',
+              email: '',
+              phoneNumber: '',
+              roleId: '',
+              roleName:'',
+              gender: '',
+              image: '',
+              locale: '',
+              zoneInfor: ''
+            }
+            this.staff.staffUserName = staff.Username;
+            staff.Attributes.forEach((attr:any) => {
+              if (attr.Name == 'sub') {
+                this.staff.staffId = attr.Value;
+              }
+              if (attr.Name == 'address') {
+                this.staff.address = attr.Value;
+              }
+              if (attr.Name == 'email') {
+                this.staff.email = attr.Value;
+              }
+              if (attr.Name == 'phone_number') {
+                this.staff.phoneNumber = this.normalizePhoneNumber(attr.Value);
+              }
+              if (attr.Name == 'custom:role') {
+                this.staff.roleId = attr.Value;
+                this.staff.roleName = this.getStaffName(this.staff.roleId);
+              }
+              if (attr.Name == 'gender') {
+                this.staff.gender = attr.Value;
+                if (this.staff.gender == 'male'){
+                  this.staff.gender = 'Nam'
+                }
+                if (this.staff.gender == 'female'){
+                  this.staff.gender = 'Nữ'
+                }
+              }
+              if (attr.Name == 'custom:DOB') {
+                this.staff.dob = this.timestampToDate(attr.Value);
+              }
+              if (attr.Name == 'name') {
+                this.staff.staffName = attr.Value;
+              }
+              if (attr.Name == 'custom:image') {
+                this.staff.staffName = attr.Value;
+              }
+              if (attr.Name == 'name') {
+                this.staff.staffName = attr.Value;
+              }
+              if (attr.Name == 'zoneinfo') {
+                this.staff.zoneInfor = attr.Value;
+              }
+            })
+            this.listStaffDisplay.push(this.staff);
+          })
+
+        },
+      )
+  }
+
+  getStaffName(id:any):any {
+    if (id == "1") {
+      return "Admin";
+    } else if (id == "2") {
+      return "Bác sĩ"
+    } else if (id == "3") {
+      return "Lễ tân";
+    } else if (id == "4") {
+      return "Y tá";
+    } else if (id == "5") {
+      return "Y tá trưởng";
+    }
+  }
+  timestampToDate(timestamp: number): string {
+    try {
+      const date = moment.unix(timestamp);
+      const dateStr = date.format('YYYY-MM-DD');
+      return dateStr;
+    } catch(err) {
+      return '';
+    }
+  }
+  normalizePhoneNumber(phoneNumber: string): string {
+    if(phoneNumber.startsWith('(+84)')){
+      return '0'+phoneNumber.slice(5);
+    }else if(phoneNumber.startsWith('+84')){
+      return '0'+phoneNumber.slice(3);
+    }else
+      return phoneNumber;
   }
 }

@@ -4,7 +4,7 @@
 
       <!-- Modal Header -->
       <div class="modal-header color-main">
-        <h4 class="modal-title title text-center w-100">Thêm liệu trình</h4>
+        <h4 class="modal-title title text-center w-100">Đợt khám</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
@@ -32,7 +32,17 @@
         <div class="row">
           <div class="col-12">
             <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Chuẩn đoán</label>
+              <label for="exampleInputEmail1" class="form-label">Nguyên nhân</label>
+              <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="TreatmentCouseBody.nguyennhan"
+                     aria-describedby="emailHelp">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Chẩn đoán</label>
               <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="TreatmentCouseBody.chuandoan"
                 aria-describedby="emailHelp">
             </div>
@@ -42,17 +52,7 @@
         <div class="row">
           <div class="col-12">
             <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Nguyên nhân</label>
-              <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="TreatmentCouseBody.nguyennhan"
-                aria-describedby="emailHelp">
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-12">
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Tên Liệu trình</label>
+              <label for="exampleInputEmail1" class="form-label">Phương án điều trị</label>
               <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="TreatmentCouseBody.name"
                 aria-describedby="emailHelp">
             </div>

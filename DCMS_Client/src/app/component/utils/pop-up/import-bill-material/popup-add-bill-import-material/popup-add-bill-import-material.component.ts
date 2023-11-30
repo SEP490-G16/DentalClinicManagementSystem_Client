@@ -32,7 +32,7 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
 
     let createBy = sessionStorage.getItem('username');
     if (createBy != null) {
-      this.importBill.creator = createBy; 
+      this.importBill.creator = createBy;
     }
   }
 
@@ -51,7 +51,7 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
   }
   importBillBody = {
     created_date:0,
-    creator: '', 
+    creator: '',
     facility_id: ''
   }
   importMaterialBody = {
@@ -71,6 +71,13 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
     thanhTien: '',
     chietKhau: 0
   }
+  validateMaterial = {
+    tenVatLieu:'',
+    soLuong:'',
+    donGia:'',
+    hanSuDung:''
+  }
+
   materialList: any;
   records_body: any[] = []
   isAdd: boolean = false;
@@ -80,16 +87,18 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
   totalAmount: number = 0;
   loading: boolean = false;
   count: number = 0;
-
+  isAddBill:boolean = false;
   toggleAdd() {
     this.isAdd = !this.isAdd;
+    this.isAddBill = true;
     console.log("A", this.isAdd);
     if (this.isAdd) {
-      this.getMaterials(this.pagingMaterial.paging);
-      this.records.push({...this.materialInput});
+        this.getMaterials(this.pagingMaterial.paging);
+        this.records.push({...this.materialInput});
     }
     this.calculateTotalAmount();
   }
+
 
   toggleSave() {
     this.isAdd = false;
@@ -115,7 +124,7 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
     //return;
     this.importBillBody = {
       created_date: createDateTimestamp,
-      creator: this.importBill.creator, 
+      creator: this.importBill.creator,
       facility_id: this.importBillBody.facility_id
     }
     this.importMaterialService.addImportBill(this.importBillBody).subscribe(data => {

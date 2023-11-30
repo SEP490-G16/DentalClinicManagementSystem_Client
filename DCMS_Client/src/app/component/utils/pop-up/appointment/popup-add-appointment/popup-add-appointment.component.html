@@ -17,13 +17,18 @@
         <div class="container">
           <div class="row">
             <div class="col-12 col-md-12">
-              <label for="patientName">Tên bệnh nhân</label>
-              <div class="mt-2 flex-container">
-                <ng-select class="flex-item" [items]="patientList" bindLabel="patientInfor" [(ngModel)]="patientInfor"
-                  bindValue="patientInfor" (keyup)="onsearch($event)" [notFoundText]="'Không tìm thấy bệnh nhân'">
-                </ng-select>
-                <button class="button save-button" (click)="toggleAdd()"><i class="bi bi-plus-circle"></i></button>
-                <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.patientName}}</p>
+              <div class="form-add">
+                <div class="form-group mt-2 input-patient">
+                  <label for="patientName">Tên bệnh nhân</label>
+                  <ng-select [items]="patientList" bindLabel="patientInfor" [(ngModel)]="patientInfor"
+                    bindValue="patientInfor" (keyup)="onsearch($event)" [notFoundText]="'Không tìm thấy bệnh nhân'">
+                  </ng-select>
+                  <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.patientName}}</p>
+                </div>
+                <div class="add-patient">
+                  <button class="save-button" style="margin-left: 3px" (click)="toggleAdd()"><i
+                      class="bi bi-plus-circle"></i></button>
+                </div>
               </div>
               <div class="row" *ngIf="isAdd">
                 <div class="col-md-4">

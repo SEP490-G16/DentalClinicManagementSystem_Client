@@ -138,6 +138,8 @@ table.table td h2 a {
 .delete-cell{
   text-align: center;
   vertical-align: middle;
+  display: flex;
+  justify-content: center;
 }
 .form-select{
   border: 1px solid #7B4C50;
@@ -232,4 +234,7 @@ button:active{
   border-radius: 5px;
   box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
   color: red;
+}
+.sticky-thead th{
+  height: 3rem;
 }

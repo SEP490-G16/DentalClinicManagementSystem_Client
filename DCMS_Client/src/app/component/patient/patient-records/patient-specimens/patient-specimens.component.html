@@ -14,7 +14,7 @@
             <li class="nav-item mr-2"><a class="nav-link"
                 (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')"
                 style="padding: 10px; color: #000; cursor: pointer;">Khám và điều trị</a></li>
-            <li class="nav-item mr-2"><a class="nav-link active" style="padding: 10px; color: #7B4C50; cursor: pointer;"
+            <li class="nav-item mr-2"><a class="nav-link active" style="padding: 10px; color: #664FC3; cursor: pointer;"
                 (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Mẫu vật</a>
             </li>
             <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
@@ -55,39 +55,45 @@
             </tr>
           </thead>
           <tbody *ngIf="PatientSpecimens.length > 0;else noData">
-              <tr *ngFor="let specimens of PatientSpecimens">
-                <td class="truncate" data-bs-toggle="tooltip" title="{{specimens.ms_name}}">{{specimens.ms_name}}</td>
-                <!--2-->
-                <td>{{specimens.ms_type}}</td> <!--3-->
-                <td>{{specimens.ms_quantity}}</td> <!--4-->
-                <td>{{specimens.ms_unit_price}}</td> <!--5-->
-                <td>{{specimens.lb_id}}</td> <!--6-->
-                <td>{{specimens.ms_status == 1 ? "Chờ duyệt":(specimens.ms_status == 2)? "Chưa nhận":
-                  (specimens.ms_status == 3) ?"Đã nhận":"Hàng lỗi"}}</td> <!--7-->
-                <td>{{specimens.ms_order_date | date: 'dd/mm/yyyy'}}</td> <!--8-->
-                <td>{{specimens.ms_orderer}}</td> <!--9-->
-                <td>{{specimens.ms_received_date | date: 'dd/mm/yyyy' }}</td>
-                <!--10-->
-                <td>{{specimens.ms_receiver}}</td> <!--11-->
-                <td></td> <!--12-->
-                <td>{{specimens.ms_warranty}}</td> <!--13-->
-                <td> <!--14-->
-                  <button class="btn btn-primary p-1 m-2" (click)="openEditSpecimen(specimens)"><i
-                      class="bi bi-pencil-square" data-bs-toggle="modal"
-                      data-bs-target="#editSpecimensModal"></i></button>
-                  <button class="btn btn-danger p-1" (click)="deleteSpecimens(specimens.ms_id)"><i
-                      class="bi bi-trash"></i></button>
-                </td>
-              </tr>
+            <tr *ngFor="let specimens of PatientSpecimens">
+              <td class="truncate" data-bs-toggle="tooltip" title="{{specimens.ms_name}}">{{specimens.ms_name}}</td>
+              <!--2-->
+              <td>{{specimens.ms_type}}</td> <!--3-->
+              <td>{{specimens.ms_quantity}}</td> <!--4-->
+              <td>{{specimens.ms_unit_price}}</td> <!--5-->
+              <td>{{specimens.lb_id}}</td> <!--6-->
+              <td>{{specimens.ms_status == 1 ? "Chờ duyệt":(specimens.ms_status == 2)? "Chưa nhận":
+                (specimens.ms_status == 3) ?"Đã nhận":"Hàng lỗi"}}</td> <!--7-->
+              <td>{{specimens.ms_order_date | date: 'dd/mm/yyyy'}}</td> <!--8-->
+              <td>{{specimens.ms_orderer}}</td> <!--9-->
+              <td>{{specimens.ms_received_date | date: 'dd/mm/yyyy' }}</td>
+              <!--10-->
+              <td>{{specimens.ms_receiver}}</td> <!--11-->
+              <td></td> <!--12-->
+              <td>{{specimens.ms_warranty}}</td> <!--13-->
+              <td> <!--14-->
+                <button class="btn btn-primary p-1 m-2" (click)="openEditSpecimen(specimens)"><i
+                    class="bi bi-pencil-square" data-bs-toggle="modal"
+                    data-bs-target="#editSpecimensModal"></i></button>
+                <button class="btn btn-danger p-1" (click)="deleteSpecimens(specimens.ms_id)"><i
+                    class="bi bi-trash"></i></button>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
       <button class="btn btn-secondary ml-2 mt-3 mb-3" routerLink="/benhnhan/danhsach">Quay lại</button>
     </div>
+    <ng-template #noData>
+      <p class="no-appointment-message text-center">Không có "Mẫu" nào được tìm thấy!</p>
+    </ng-template>
+
   </div>
 </div>
 <ng-template #noData>
-       <p class="no-appointment-message">Bệnh nhân hiện không có sử dụng Mẫu nào</p>
+  <p class="no-appointment-message">Bệnh nhân hiện không có sử dụng Mẫu nào</p>
 </ng-template>
-<app-popup-add-specimens [approveSpecimensList]="approveSpecimensList" [Patient_Id]="Patient_Id"></app-popup-add-specimens>
-<app-popup-edit-specimens [PutSpecimen]="PutSpecimen" [AllLabos]="AllLabos" [Patient_Id]="Patient_Id"></app-popup-edit-specimens>
+<app-popup-add-specimens [approveSpecimensList]="approveSpecimensList"
+  [Patient_Id]="Patient_Id"></app-popup-add-specimens>
+<app-popup-edit-specimens [PutSpecimen]="PutSpecimen" [AllLabos]="AllLabos"
+  [Patient_Id]="Patient_Id"></app-popup-edit-specimens>

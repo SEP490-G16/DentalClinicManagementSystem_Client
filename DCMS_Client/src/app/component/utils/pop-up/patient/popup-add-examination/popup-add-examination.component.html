@@ -223,10 +223,10 @@
                     </td>
                     <td style="min-width: 150px;"><ng-select *ngIf="isAddSpeci && listDisplay" [items]="listDisplay" [(ngModel)]="record.labo_id"
                         [searchable]="true" bindLabel="name" bindValue="labo_id"
-                        [notFoundText]="'Không tìm thấy vật liệu'"
-                        (ngModelChange)="updateTemporaryNameMaterial(record, $event)">
+                        [notFoundText]="'Không tìm thấy labo'"
+                        (ngModelChange)="updateTemporaryLaboName(record, $event)">
                       </ng-select>
-                      <p *ngIf="!isAddSpeci">{{materialName}}</p>
+                      <p *ngIf="!isAddSpeci">{{laboName}}</p>
                     </td>
                     <td><input type="date" min="0" [(ngModel)]="record.order_date" *ngIf="isAddSpeci"
                         class="form-control value-staff">

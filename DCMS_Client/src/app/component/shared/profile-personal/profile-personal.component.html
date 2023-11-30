@@ -2,7 +2,7 @@
   <div class="row mt-5">
     <div class="col-md-3 custom-content">
       <div class="image-container" (click)="fileInput.click()">
-        <img [src]="imageURL" alt="Ảnh nhân viên">
+        <img [src]="imageURL ||'https://i.pinimg.com/736x/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'" alt="Ảnh nhân viên">
         <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput style="display: none;">
       </div>
     </div>
@@ -75,7 +75,7 @@
           <label for="role">Vai trò:</label>
         </div>
         <div class="col-md-9">
-          <select id="role" [(ngModel)]="staff.role" class="form-select" aria-label="Default select example" disabled>
+          <select id="role" [(ngModel)]="staff.role" class="form-select" aria-label="Default select example" [disabled]="staff.role !== '1'">
             <option value="1">Admin</option>
             <option value="2">Bác sĩ</option>
             <option value="3">Lễ tân</option>
@@ -91,11 +91,20 @@
         <div class="col-md-3 name-title">
           <label for="gender">Giới tính:</label>
         </div>
-        <div class="col-md-9">
-          <label for="male">Nam</label>
-          <input type="radio" class="radio m-2" [(ngModel)]="staff.gender" id="male" name="gender" value="male">
-          <label for="female">Nữ</label>
-          <input type="radio" class="radio m-2" [(ngModel)]="staff.gender" value="female" id="female" name="gender">
+        <div class="col-md-9 gender">
+          <div>
+            <label for="male" class="m-2">Nam</label>
+          </div>
+         <div>
+           <input type="radio" class="radio m-2" [(ngModel)]="staff.gender" id="male" name="gender" value="male">
+         </div>
+          <div>
+            <label for="female" class="m-2">Nữ</label>
+          </div>
+          <div>
+            <input type="radio" class="radio m-2" [(ngModel)]="staff.gender" value="female" id="female" name="gender">
+
+          </div>
           <div *ngIf="isSubmitted" class="alert-danger-custom" style="color: #FF0000FF;">
             <p>{{vailidateStaff.gender}}</p>
           </div>
@@ -110,7 +119,7 @@
       <div class="form-group row mt-3">
         <label for="account" class="col-3 name-title">Tên đăng nhập:</label>
         <div class="col-6">
-          <input type="text" [(ngModel)]="staff.username" id="account" class="form-control value-staff" disabled>
+          <input type="text" [(ngModel)]="staff.username" id="account" class="form-control value-staff">
           <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
             <p>
               <!-- {{vailidateStaff.username}} -->
@@ -167,11 +176,12 @@
         </div>
       </div>
     </div>
-
-    <div class="text-start custom-btn">
-      <button type="button" class="btn btn-save" (click)="saveEditedStaff()">
-        <i class="bi bi-floppy2"></i> Lưu
-      </button>
-      <button type="button" style="margin-left: 10px" class="btn btn-cancel">Hủy</button>
-    </div>
+  </div>
+  <div class="text-end mt-4 custom-btn">
+    <button type="button" class="btn button-timekeeping" (click)="saveEditedStaff()">
+      <i class="bi bi-floppy2"></i> Lưu
+    </button>
+    <button type="button" style="margin-left: 10px" class="btn btn-cancel">Hủy</button>
+  </div>
+</div>
 

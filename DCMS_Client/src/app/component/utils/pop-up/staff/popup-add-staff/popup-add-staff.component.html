@@ -22,7 +22,7 @@
 
             <div class="col-md-8">
               <div class="form-group row">
-                <label for="fullName" class="col-3">Họ và tên:</label>
+                <label for="fullName" class="col-3">Họ và tên <span class="required">*</span></label>
                 <div class="col-9">
                   <input type="text" class="form-control"
                   [(ngModel)]="staff.name"
@@ -36,7 +36,7 @@
 
               </div>
               <div class="form-group row mt-3">
-                <label for="dob" class="col-3">Ngày sinh:</label>
+                <label for="dob" class="col-3">Ngày sinh <span class="required">*</span></label>
                 <div class="col-9">
                   <input type="date"
                   [(ngModel)]="staff.DOB"
@@ -49,7 +49,7 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="address" class="col-3">Địa chỉ:</label>
+                <label for="address" class="col-3">Địa chỉ <span class="required">*</span></label>
                 <div class="col-9">
                   <input type="text"
                   [(ngModel)]="staff.address"
@@ -63,13 +63,18 @@
               </div>
               <div class="form-group row mt-3">
                 <div class="col-md-3 name-title">
-                  <label for="role">Cơ sở</label>
+                  <label for="role">Cơ sở <span class="required">*</span></label>
                 </div>
                 <div class="col-md-9">
                   <select id="role" [(ngModel)]="facility" class="form-select" aria-label="Default select example">
                     <option value="0">Chọn cơ sở</option>
-                    <option *ngFor="let faci of listFacility" value={{faci.facility_id}}>{{faci.name}}</option>
+                    <option *ngFor="let faci of listFacility" value="{{faci.facility_id}}">{{faci.name}}</option>
                   </select>
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                    <p>
+                      {{vailidateStaff.facility}}
+                    </p>
+                  </div>
                 </div>
               </div>
               <div class="form-group row mt-3">
@@ -87,7 +92,7 @@
             <div class="col-md-6 mt-3">
               <div class="form-group row">
                 <div class="col-md-3 name-title">
-                  <label for="email">Email</label>
+                  <label for="email">Email <span class="required">*</span></label>
                 </div>
                 <div class="col-md-9">
                   <input type="email"
@@ -105,7 +110,7 @@
             <div class="col-md-6 mt-3">
               <div class="form-group row">
                 <div class="col-md-3 name-title">
-                  <label for="phone">Số điện thoại</label>
+                  <label for="phone">Số điện thoại <span class="required">*</span></label>
                 </div>
                 <div class="col-md-9">
                   <div class="input-group mb-3">
@@ -125,7 +130,7 @@
             <div class="col-md-6 mt-3">
               <div class="form-group row">
                 <div class="col-md-3 name-title">
-                  <label for="role">Vai trò</label>
+                  <label for="role">Vai trò <span class="required">*</span></label>
                 </div>
                 <div class="col-md-9">
                   <select id="role"
@@ -155,7 +160,7 @@
             <div class="col-md-6 mt-3">
               <div class="form-group row">
                 <div class="col-md-3 name-title">
-                  <label for="phone">Giới tính</label>
+                  <label for="phone">Giới tính <span class="required">*</span></label>
                 </div>
                 <div class="col-md-9">
                   <label for="male">Nam</label>
@@ -177,7 +182,7 @@
             <div class="header-account">Tài khoản đăng nhập</div>
             <div class="account-content">
               <div class="form-group row mt-3">
-                <label for="account" class="col-3 name-title">Tên đăng nhập:</label>
+                <label for="account" class="col-3 name-title">Tên đăng nhập <span class="required">*</span></label>
                 <div class="col-6">
                   <input type="text"
                   [(ngModel)]="staff.username"
@@ -190,7 +195,7 @@
                 </div>
               </div>
               <div class="form-group row mt-2">
-                <label for="password" class="col-3 name-title">Mật khẩu:</label>
+                <label for="password" class="col-3 name-title">Mật khẩu <span class="required">*</span></label>
                 <div class="col-6" style="position: relative;">
                   <div style="position: relative;">
                     <input [type]="showPassword ? 'password' : 'text'" id="password"
@@ -207,7 +212,7 @@
 
               </div>
               <div class="form-group row mt-2">
-                <label for="password-repeat" class="col-3 name-title">Nhập lại mật khẩu:</label>
+                <label for="password-repeat" class="col-3 name-title">Nhập lại mật khẩu <span class="required">*</span></label>
                 <div class="col-6" style="position: relative;">
                   <div style="position: relative;">
                     <input [type]="showPasswordRepeat ? 'password' : 'text'" id="password-repeat"
