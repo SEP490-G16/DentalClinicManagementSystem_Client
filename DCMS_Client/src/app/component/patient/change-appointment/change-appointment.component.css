@@ -180,3 +180,22 @@ button.example-custom-date-class {
   justify-content: center;
   align-items: center;
 }
+
+:host ::ng-deep .ngb-dp-months {
+  background-color: #664FC3;
+}
+
+:host ::ng-deep .ngb-dp-day {
+  color: #000;
+  background-color: white;
+}
+
+:host ::ng-deep .ngb-dp-day.disabled {
+  background-color: #f0f0f0;
+  color: #ccc;
+}
+
+:host ::ng-deep .ngb-dp-day.focused {
+  background-color: #664FC3;
+}
+

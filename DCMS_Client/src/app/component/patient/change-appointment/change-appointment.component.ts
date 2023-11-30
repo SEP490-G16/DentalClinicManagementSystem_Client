@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment-timezone';
 import { ResponseHandler } from "../../utils/libs/ResponseHandler";
 import { CancelAppointmentComponent } from './cancel-appointment/cancel-appointment.component';
+import { ConfirmationModalComponent } from '../../utils/pop-up/common/confirm-modal/confirm-modal.component';
 
 
 @Component({
@@ -203,19 +204,9 @@ export class ChangeAppointmentComponent implements OnInit {
 
 
   timestampToGMT7HourString(timestamp: number): string {
-    const date = new Date(timestamp * 1000);
-    date.setHours(date.getHours() + 7); // Thêm 7 giờ để chuyển sang GMT+7
-
-    // Định cấu hình tùy chọn định dạng giờ
-    const options: Intl.DateTimeFormatOptions = {
-      timeZone: 'Asia/Ho_Chi_Minh', // GMT+7
-      hour12: false, // 24 giờ
-      hour: '2-digit',
-      minute: '2-digit',
-    };
-
-    // Sử dụng tùy chọn để định dạng giờ
-    return date.toLocaleString('en-US', options);
+    const time = moment.unix(timestamp);
+    const timeStr = time.format('HH:mm');
+    return timeStr;
   }
 
   EDIT_APPOINTMENT_BODY: IEditAppointmentBody
@@ -266,16 +257,30 @@ export class ChangeAppointmentComponent implements OnInit {
       }
     } as IEditAppointmentBody;
     console.log("EDIT_Appointment: ", this.EDIT_APPOINTMENT_BODY);
-    // this.appointmentService.putAppointment(this.EDIT_APPOINTMENT_BODY, this.appointmentId_Pathparam)
-    //   .subscribe((res) => {
-    //     this.showSuccessToast("Sửa lịch hẹn thành công");
-    //     this.router.navigate(['/xac-nhan-lich-hen']);
-    //   },
-    //     (err) => {
-    //       this.showErrorToast("Sửa lịch hẹn thất bại");
-    //       ResponseHandler.HANDLE_HTTP_STATUS(this.appointmentService.apiUrl + "/appointment/" + this.appointmentId_Pathparam, err)
-    //     }
-    //   )
+    this.openConfirmationModal().then((result) => {
+      if (result === 'confirm') {
+        this.appointmentService.putAppointment(this.EDIT_APPOINTMENT_BODY, this.appointmentId_Pathparam)
+          .subscribe((res) => {
+            this.showSuccessToast("Sửa lịch hẹn thành công");
+            this.router.navigate(['/xac-nhan-lich-hen']);
+          },
+            (err) => {
+              this.showErrorToast("Sửa lịch hẹn thất bại");
+              ResponseHandler.HANDLE_HTTP_STATUS(this.appointmentService.apiUrl + "/appointment/" + this.appointmentId_Pathparam, err)
+            }
+          )
+      }
+    })
+
+  }
+
+  openConfirmationModal() {
+    const modalRef = this.modalService.open(ConfirmationModalComponent);
+    modalRef.componentInstance.message = 'Bạn có chắc chắn muốn thay đổi lịch hẹn không?';
+    modalRef.componentInstance.confirmButtonText = 'Tôi chắc chắn';
+    modalRef.componentInstance.cancelButtonText = 'Hủy';
+
+    return modalRef.result;
   }
 
   cancelAppointment() {
@@ -303,6 +308,7 @@ export class ChangeAppointmentComponent implements OnInit {
     }
     this.isSubmitted = true;
   }
+
   dateToTimestamp(dateStr: string): number {
     const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng của chuỗi ngày
     const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ

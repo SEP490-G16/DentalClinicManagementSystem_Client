@@ -417,7 +417,7 @@ export class SpecimensComponent implements OnInit {
 
   deleteSpecimens(id: string, ms_name:string) {
     this.openConfirmationModal(`Bạn có chắc chắn muốn xóa mẫu ${ms_name} không?`).then((result) => {
-      if (result === 'confirm') {
+      if (result) {
         this.loading = true;
         this.SpecimensService.deleteSpecimens(id)
           .subscribe((res) => {

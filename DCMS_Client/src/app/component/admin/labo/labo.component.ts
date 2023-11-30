@@ -77,7 +77,7 @@ export class LaboComponent implements OnInit {
   deleteLabo(labo:any) {
     this.LaboId = labo.labo_id;
     this.openConfirmationModal(`Bạn có chắc chắn muốn xóa Labo ${labo.name} không?`).then((result) => {
-      if (result === 'confirm') {
+      if (result) {
       //this.loading=true;
       this.LaboService.deleteLabo(this.LaboId).subscribe((res) => {
         this.showSuccessToast("Xóa Labo thành công!");
