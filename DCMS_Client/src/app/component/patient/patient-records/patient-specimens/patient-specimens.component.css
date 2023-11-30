@@ -135,3 +135,7 @@ a {
   outline: 0px;
   padding: 10px 20px;
 }
+.no-appointment-message{
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}

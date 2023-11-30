@@ -101,10 +101,10 @@ export class PopupEditSpecimensComponent implements OnInit {
       if (this.IPutSpecimens.ms_quantity !== undefined && this.PutSpecimen.ms_unit_price !== undefined) {
         this.total = this.PutSpecimen.ms_quantity * this.PutSpecimen.ms_unit_price;
       }
-      // alert(this.PutSpecimen.p_patient_id);
-      // return;
+      //alert(this.PutSpecimen.p_patient_id);
+      //return;
       this.getPatient(this.PutSpecimen.p_patient_id);
-
+      this.IPutSpecimens.ms_status = this.PutSpecimen.ms_status;
       this.id = this.PutSpecimen.ms_id;
       //console.log(this.IPutSpecimens);
     }
@@ -200,7 +200,7 @@ export class PopupEditSpecimensComponent implements OnInit {
       used_date: this.dateToTimestamp(this.IPutSpecimens.ms_use_date).toString(),
       warranty: this.IPutSpecimens.ms_warranty,
       description: this.IPutSpecimens.ms_description,
-      status: 2,
+      status: this.IPutSpecimens.ms_status,
       facility_id: 'F-08',
       labo_id:this.IPutSpecimens.lb_id,
       patient_id:this.IPutSpecimens.p_patient_id
@@ -242,7 +242,7 @@ export class PopupEditSpecimensComponent implements OnInit {
         const transformedMaterial = {
           patientId: data.patient_id,
           patientName: data.patient_name,
-          patientInfor: data.patient_name + " - " + data.phone_number,
+          patientInfor: data.patient_name + " - " + this.normalizePhoneNumber(data.phone_number),
         };
         console.log(transformedMaterial)
         if (!this.patientListShow.some(p => p.patientId === transformedMaterial.patientId)) {
@@ -308,5 +308,13 @@ export class PopupEditSpecimensComponent implements OnInit {
   }
   private formatDate(dateString:any):boolean{
     return  /^\d{4}-(0[1-9]|1[0-2])-([0-2][0-9]|3[01])$/.test(dateString);
+  }
+  normalizePhoneNumber(phoneNumber: string): string {
+    if (phoneNumber.startsWith('(+84)')) {
+      return '0' + phoneNumber.slice(5);
+    } else if (phoneNumber.startsWith('+84')) {
+      return '0' + phoneNumber.slice(3);
+    } else
+      return phoneNumber;
   }
 }

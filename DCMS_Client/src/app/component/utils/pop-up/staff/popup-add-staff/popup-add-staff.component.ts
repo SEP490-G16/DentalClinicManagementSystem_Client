@@ -32,7 +32,8 @@ export class PopupAddStaffComponent implements OnInit {
     email: '',
     username: '',
     password: '',
-    passwordRepate: ''
+    passwordRepate: '',
+    facility:''
   }
   isSubmitted: boolean = false;
   gender: string = "male";
@@ -102,6 +103,10 @@ export class PopupAddStaffComponent implements OnInit {
     }
     if (!this.staff.password) {
       this.vailidateStaff.password = "Vui lòng nhập mật khẩu!";
+      this.isSubmitted = true;
+    }
+    if (this.facility === '0'){
+      this.vailidateStaff.facility = "Vui lòng chọn cơ sở";
       this.isSubmitted = true;
     }
 
@@ -285,7 +290,8 @@ export class PopupAddStaffComponent implements OnInit {
       email: '',
       username: '',
       password: '',
-      passwordRepate: ''
+      passwordRepate: '',
+      facility: ''
     }
     this.isSubmitted = false;
   }

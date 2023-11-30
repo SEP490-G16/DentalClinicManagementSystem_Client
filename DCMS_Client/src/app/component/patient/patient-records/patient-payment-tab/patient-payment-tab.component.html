@@ -34,7 +34,7 @@
       <div class="payment-grid-wrapper" *ngIf="Material_Usage_Report.length > 0; else noPaymentRecord">
         <div class="payment-container" *ngFor="let report of Material_Usage_Report">
           <div class="payment-header">
-            <h2 class="schedule-title" (click)="toggleDetails(report.tc_data.tc_treatment_course_id)">Lịch trình:
+            <h2 class="schedule-title" (click)="toggleDetails(report.tc_data.tc_treatment_course_id)">Đợt khám:
               {{report.tc_data.tc_name}}</h2>
             <div class="payment-summary">
               <span class="total-amount">Tổng tiền: {{ report.total | currency:'VND'}}</span>

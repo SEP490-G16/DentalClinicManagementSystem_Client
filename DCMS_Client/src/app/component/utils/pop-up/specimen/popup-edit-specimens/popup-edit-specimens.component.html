@@ -90,6 +90,13 @@
                   </p>
                 </div>
               </div>
+              <div class="form-group row mt-3">
+                <label for="receiver" class="col-3 name-title">Người nhận:</label>
+                <div class="col-9 value-staff">
+                  <input type="text" [(ngModel)]="IPutSpecimens.ms_receiver" class="form-control" id="receiver"
+                         name="receiver">
+                </div>
+              </div>
             </div>
             <div class="col-md-6">
               <div class="form-group row mt-3">
@@ -151,11 +158,18 @@
               <div class="form-group row mt-3">
                 <label for="status" class="col-3 name-title">Trạng thái:</label>
                 <div class="col-9 value-staff">
-                  <select class="form-select" id="status" [(ngModel)]="status" aria-label="Default select example">
+                  <select class="form-select" id="status" [(ngModel)]="IPutSpecimens.ms_status" aria-label="Default select example">
                     <option value="2">Chưa nhận</option>
                     <option value="3">Đã nhận</option>
                     <option value="4">Hàng lỗi</option>
                   </select>
+                </div>
+              </div>
+              <div class="form-group row mt-3">
+                <label for="warranty" class="col-3 name-title">Ngày bảo hành:</label>
+                <div class="col-9 value-staff">
+                  <input type="date" class="form-control date-input-custom" id="warranty"
+                         name="warranty" [(ngModel)]="IPutSpecimens.ms_warranty">
                 </div>
               </div>
             </div>

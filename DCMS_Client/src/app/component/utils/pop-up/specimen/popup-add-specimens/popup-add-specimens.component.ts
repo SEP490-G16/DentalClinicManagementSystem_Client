@@ -41,7 +41,7 @@ export class PopupAddSpecimensComponent implements OnInit {
     orderDate: '',
     receiver: '',
     total: '',
-    labo: '', 
+    labo: '',
     treatment_course_id: ''
   }
   specimenBody = {
@@ -55,7 +55,7 @@ export class PopupAddSpecimensComponent implements OnInit {
     order_date: 0,
     patient_id: '',
     facility_id: '',
-    labo_id: '', 
+    labo_id: '',
     treatment_course_id: ''
   }
   specimensRes = {
@@ -151,7 +151,7 @@ export class PopupAddSpecimensComponent implements OnInit {
       this.isSubmitted = true;
     }
 
-    else if (this.specimen.receiverDate > this.specimen.usedDate && this.formatDate(this.specimen.receiverDate)) {
+    else if (this.specimen.receiverDate > this.specimen.usedDate && this.formatDate(this.specimen.receiverDate) || this.specimen.receiverDate < this.specimen.orderDate) {
       this.validateSpecimens.receiverDate = 'Vui lòng chọn lại ngày nhận!';
       this.isSubmitted = true;
     }
@@ -159,7 +159,7 @@ export class PopupAddSpecimensComponent implements OnInit {
       this.validateSpecimens.usedDate = 'Vui lòng nhập ngày lắp!';
       this.isSubmitted = true;
     }
-    else if (this.specimen.usedDate < this.specimen.receiverDate && this.formatDate(this.specimen.usedDate)) {
+    else if (this.specimen.usedDate < this.specimen.receiverDate && this.formatDate(this.specimen.usedDate) || this.specimen.usedDate < this.specimen.orderDate) {
       this.validateSpecimens.usedDate = 'Vui lòng chọn lại ngày lắp!';
       this.isSubmitted = true;
     }
@@ -212,7 +212,7 @@ export class PopupAddSpecimensComponent implements OnInit {
       order_date: orderDateTimestamp,
       patient_id: this.patientIdSelected,
       facility_id: 'F-01',
-      labo_id: this.specimen.labo, 
+      labo_id: this.specimen.labo,
       treatment_course_id: this.specimen.treatment_course_id,
     }
     console.log(this.specimenBody)
@@ -248,7 +248,7 @@ export class PopupAddSpecimensComponent implements OnInit {
       }
     )
   }
-  
+
   listTreatment: any[] = []
   clickPatient(patient:any) {
     var pa = patient.split(' - ');

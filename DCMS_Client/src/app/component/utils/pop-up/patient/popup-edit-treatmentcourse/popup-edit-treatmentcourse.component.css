@@ -285,3 +285,7 @@ table .tr-children:hover{
   cursor: pointer;
   background-color: #dad8d8;
 }
+.form-label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}

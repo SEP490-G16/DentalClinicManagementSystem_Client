@@ -8,6 +8,8 @@ import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
   styleUrls: ['./layouts.component.css']
 })
 export class LayoutsComponent implements OnInit,AfterViewInit {
+  userName:string='';
+  roleName:string='';
   ngAfterViewInit(): void {
     const menuToggle = document.querySelector('.sep-menuToggle') as HTMLElement;
     const navigation = document.querySelector('.sep-navigation') as HTMLElement;
@@ -37,6 +39,10 @@ export class LayoutsComponent implements OnInit,AfterViewInit {
   currentRoute: string='';
   roleId: string[] = [];
   ngOnInit(): void {
+    let user = sessionStorage.getItem('username');
+    if (user != null){
+      this.userName = user;
+    }
     console.log("oninit");
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -58,6 +64,23 @@ export class LayoutsComponent implements OnInit,AfterViewInit {
     if (ro != null) {
       this.roleId = ro.split(',') ;
     }
+    else if (this.roleId.includes('1')){
+      this.roleName = 'Admin';
+    }
+    else if (this.roleId.includes('2')){
+      this.roleName = 'Bác sĩ'
+    }
+    else if (this.roleId.includes('3')){
+      this.roleName = 'Lễ tân';
+    }
+    else if (this.roleId.includes('4')){
+      this.roleName = 'Y tá';
+    }
+    else if (this.roleId.includes('5')){
+      this.roleName = 'Y tá trưởng';
+    }
+
+
   }
   signOut() {
     this.cognitoService.signOut().then(() => {
