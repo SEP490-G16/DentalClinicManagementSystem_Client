@@ -71,16 +71,14 @@
                   {{ staff.clockInStatus }}
                 </button> <br />
                 <input type="time" [ngModel]="staff.clock_in" [class]="timeClockinColor"
-                [disabled]="!staff.isClockin" (ngModelChange)="handleClockInChange(staff, $event)">
-
-
+                [disabled]="!staff.isClockin || role!= '1'" (change)="handleClockInChange(staff, $event)">
               </td>
               <td>
-                <button class="button-timekeeping" (click)="onClockout(staff)" [disabled]="staff.isClockout && !staff.isClockin">
+                <button class="button-timekeeping" (click)="onClockout(staff)" [disabled]="staff.isClockout && staff.isClockin">
                   {{ staff.clockOutStatus }}
                 </button> <br />
                 <input type="time" [(ngModel)]="staff.clock_out" [class]="timeClockoutColor"
-                       [disabled]="staff.isClockoutDisabled" (ngModelChange)="handleClockOutChange(staff, $event)">
+                       [disabled]="staff.isClockoutDisabled || role!= '1'" (change)="handleClockOutChange(staff, $event)">
 
               </td>
             </ng-container>
