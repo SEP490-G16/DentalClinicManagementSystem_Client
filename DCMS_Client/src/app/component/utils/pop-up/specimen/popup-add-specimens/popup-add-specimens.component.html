@@ -17,7 +17,7 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group row mt-3">
-                <label for="name-specimens" class="col-3 name-title">Tên mẫu:</label>
+                <label for="name-specimens" class="col-3 name-title">Tên mẫu <span class="required">*</span></label>
                 <div class="col-9 value-staff">
                   <input type="text" [(ngModel)]="specimen.name" required class="form-control" id="name-specimens" name="specimensName" #name="ngModel">
                   <div *ngIf="name.invalid && (name.dirty || name.touched)"  class="alert-danger-custom" style="color:#FF0000FF;">
@@ -33,7 +33,7 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="material" class="col-3 name-title">Chất liệu:</label>
+                <label for="material" class="col-3 name-title">Chất liệu <span class="required">*</span></label>
                 <div class="col-9 value-staff">
                   <input type="text" [(ngModel)]="specimen.type" required class="form-control" id="material" name="material" #type="ngModel">
                   <div *ngIf="type.invalid && (type.dirty || type.touched)"  class="alert-danger-custom" style="color:#FF0000FF;">
@@ -49,7 +49,7 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="orderdate" class="col-3 name-title">Ngày đặt:</label>
+                <label for="orderdate" class="col-3 name-title">Ngày đặt <span class="required">*</span></label>
                 <div class="col-9 value-staff">
                   <input type="date" [(ngModel)]="specimen.orderDate" #orderDate="ngModel" required class="form-control date-input-custom" id="orderdate" name="orderdate">
                   <div *ngIf="orderDate.invalid && (orderDate.dirty || orderDate.touched)"  class="alert-danger-custom" style="color:#FF0000FF;">
@@ -66,7 +66,7 @@
 
               </div>
               <div class="form-group row mt-3">
-                <label for="receiverdate" class="col-3 name-title">Ngày nhận:</label>
+                <label for="receiverdate" class="col-3 name-title">Ngày nhận <span class="required">*</span></label>
                 <div class="col-9 value-staff">
                   <input type="date" [(ngModel)]="specimen.receiverDate" required class="form-control date-input-custom" id="receiverdate" name="receiverdate" #receiverDate="ngModel">
                   <div *ngIf="receiverDate.invalid && (receiverDate.dirty || receiverDate.touched)"  class="alert-danger-custom" style="color:#FF0000FF;">
@@ -82,7 +82,7 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="installationdate" class="col-3 name-title">Ngày lắp:</label>
+                <label for="installationdate" class="col-3 name-title">Ngày lắp <span class="required">*</span></label>
                 <div class="col-9 value-staff">
                   <input type="date" [(ngModel)]="specimen.usedDate" #usedDate="ngModel" required class="form-control date-input-custom" id="installationdate" name="installationdate">
                   <div *ngIf="usedDate.invalid && (usedDate.dirty || usedDate.touched)"  class="alert-danger-custom" style="color:#FF0000FF;">
@@ -98,7 +98,7 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="patient" class="col-3 name-title">Labo:</label>
+                <label for="patient" class="col-3 name-title">Labo <span class="required">*</span></label>
                 <div class="col-9">
                   <select class="form-select p-2" id="patient" style="margin-left: 10px; width: 98%; border: 1px solid #664FC3;
                        border-radius: 10px;" aria-label="Default select example" [(ngModel)]="specimen.labo"
@@ -117,7 +117,7 @@
 
             <div class="col-md-6">
               <div class="form-group row mt-3">
-                <label for="quantity" class="col-3 name-title">Số lượng:</label>
+                <label for="quantity" class="col-3 name-title">Số lượng <span class="required">*</span></label>
                 <div class="col-9 value-staff">
                   <input type="number" [(ngModel)]="specimen.quantity" #quantity="ngModel" required class="form-control date-input-custom" id="quantity" name="quantity">
                   <div *ngIf="quantity.invalid && (quantity.dirty || quantity.touched)"  class="alert-danger-custom" style="color:#FF0000FF;">
@@ -133,7 +133,7 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="unitprice" class="col-3 name-title">Đơn giá:</label>
+                <label for="unitprice" class="col-3 name-title">Đơn giá <span class="required">*</span></label>
                 <div class="col-9 value-staff">
                   <input type="number" [(ngModel)]="specimen.price" #price="ngModel" required (input)="calculateTotal()" class="form-control" id="unitprice" name="unitprice">
                   <div *ngIf="price.invalid && (price.dirty || price.touched)"  class="alert-danger-custom" style="color:#FF0000FF;">
@@ -155,7 +155,7 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="orderby" class="col-3 name-title">Người đặt:</label>
+                <label for="orderby" class="col-3 name-title">Người đặt <span class="required">*</span></label>
                 <div class="col-9 value-staff">
                   <input type="text" [(ngModel)]="specimen.orderer" required class="form-control" id="orderby" name="orderby" #order="ngModel">
                   <div *ngIf="order.invalid && (order.dirty || order.touched)"  class="alert-danger-custom" style="color:#FF0000FF;">
@@ -171,7 +171,7 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="patient" class="col-3 name-title">Bệnh nhân:</label>
+                <label for="patient" class="col-3 name-title">Bệnh nhân <span class="required">*</span></label>
                 <div class="col-9 value-staff">
                   <ng-select [items]="patientList" bindLabel="patientInfor" [(ngModel)]="patientIdSelected" bindValue="patientId" (keyup)="onsearch($event)"
                              [notFoundText]="'Không tìm thấy bệnh nhân'" (click)="clickPatient(patientIdSelected)">

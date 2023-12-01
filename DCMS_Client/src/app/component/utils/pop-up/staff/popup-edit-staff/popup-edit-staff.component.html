@@ -23,7 +23,7 @@
 
             <div class="col-md-8">
               <div class="form-group row">
-                <label for="fullName" class="col-3">Họ và tên:</label>
+                <label for="fullName" class="col-3">Họ và tên <span class="required">*</span></label>
                 <div class="col-9">
                   <input type="text" disabled class="form-control" [(ngModel)]="staff.name" id="fullName" name="fullName">
                   <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
@@ -35,7 +35,7 @@
 
               </div>
               <div class="form-group row mt-3">
-                <label for="dob" class="col-3">Ngày sinh:</label>
+                <label for="dob" class="col-3">Ngày sinh <span class="required">*</span></label>
                 <div class="col-9">
                   <input type="date" disabled [(ngModel)]="staff.DOB" class="form-control date-input-custom" id="dob" name="dob">
                   <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
@@ -46,7 +46,7 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="address"  class="col-3">Địa chỉ:</label>
+                <label for="address"  class="col-3">Địa chỉ <span class="required">*</span></label>
                 <div class="col-9">
                   <input type="text" disabled [(ngModel)]="staff.address" class="form-control" id="address" name="address">
                   <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
@@ -70,7 +70,7 @@
             <div class="col-md-6 mt-3">
               <div class="form-group row">
                 <div class="col-md-3 name-title">
-                  <label for="email">Email</label>
+                  <label for="email">Email <span class="required">*</span></label>
                 </div>
                 <div class="col-md-9">
                   <input type="email" disabled [(ngModel)]="staff.email" class="form-control" id="email" name="email">
@@ -86,7 +86,7 @@
             <div class="col-md-6 mt-3">
               <div class="form-group row">
                 <div class="col-md-3 name-title">
-                  <label for="phone">Số điện thoại</label>
+                  <label for="phone">Số điện thoại <span class="required">*</span></label>
                 </div>
                 <div class="col-md-9">
                   <div class="input-group mb-3">
@@ -106,7 +106,7 @@
             <div class="col-md-6 mt-3">
               <div class="form-group row">
                 <div class="col-md-3 name-title">
-                  <label for="role">Vai trò</label>
+                  <label for="role">Vai trò <span class="required">*</span></label>
                 </div>
                 <div class="col-md-9">
                   <select id="role" [(ngModel)]="staff.role" (change)="onChangeRole(role)" class="form-select" aria-label="Default select example">
@@ -141,7 +141,7 @@
             <div class="col-md-6 mt-3">
               <div class="form-group row">
                 <div class="col-md-3 name-title">
-                  <label for="phone">Giới tính</label>
+                  <label for="phone">Giới tính <span class="required">*</span></label>
                 </div>
                 <div class="form-group col-md-9">
                   <ng-container *ngIf="staff.gender == 'Nam'">

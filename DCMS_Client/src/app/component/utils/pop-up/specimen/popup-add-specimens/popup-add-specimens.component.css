@@ -113,3 +113,7 @@ li.selected {
 .modal-body div p{
   color: #FF0000FF;
 }
+.required {
+  color: red;
+  margin-left: 3px;
+}

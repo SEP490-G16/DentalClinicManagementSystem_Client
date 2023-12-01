@@ -336,4 +336,49 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
     }else
       return phoneNumber;
   }
+  staffName:string='';
+  filteredBills: any[] = [];
+  filterByStaff(){
+    if (this.staffName){
+      this.filteredBills=this.importBills.filter((s:any) => s.creator.includes(this.staffName));
+      this.displayWarehouse = [];
+      this.filteredBills.forEach((s:any) => {
+        this.materbyId.Id = s.id;
+        this.materbyId.CreateDate = s.created_date;
+        this.materbyId.CreateBy = s.creator;
+        this.materbyId.Note = s.description;
+        this.materbyId.TotalAmount = s.total;
+        this.displayWarehouse.push(this.materbyId);
+        //total = 0;
+        this.materbyId = {
+          Id: '',
+          CreateDate: '',
+          Note: '',
+          TotalAmount: 0,
+          CreateBy: ''
+        }
+      })
+      console.log(this.filteredBills)
+    }
+    else {
+      this.filteredBills = this.importBills;
+      this.displayWarehouse = [];
+      this.filteredBills.forEach((s:any) => {
+        this.materbyId.Id = s.id;
+        this.materbyId.CreateDate = s.created_date;
+        this.materbyId.CreateBy = s.creator;
+        this.materbyId.Note = s.description;
+        this.materbyId.TotalAmount = s.total;
+        this.displayWarehouse.push(this.materbyId);
+        //total = 0;
+        this.materbyId = {
+          Id: '',
+          CreateDate: '',
+          Note: '',
+          TotalAmount: 0,
+          CreateBy: ''
+        }
+      })
+    }
+  }
 }
