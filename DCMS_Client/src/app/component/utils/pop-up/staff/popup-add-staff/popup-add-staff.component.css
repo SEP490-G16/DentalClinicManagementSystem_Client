@@ -1,7 +1,9 @@
 .color-header {
-  background-color: #D9B3A6;
+  background-color: #664FC3;
 }
-
+.modal-title{
+  color: #FFFFFF;
+}
 .w-100 {
   width: 100%;
 }

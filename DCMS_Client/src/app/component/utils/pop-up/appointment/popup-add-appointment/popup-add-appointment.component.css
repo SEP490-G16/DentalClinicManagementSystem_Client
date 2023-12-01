@@ -220,3 +220,7 @@ button.example-custom-date-class {
   display: flex;
   justify-content: end;
 }
+.required {
+  color: red;
+  margin-left: 3px;
+}

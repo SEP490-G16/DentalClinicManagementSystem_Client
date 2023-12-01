@@ -17,7 +17,7 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group row mt-3">
-                <label for="name-specimens" class="col-3 name-title">Tên mẫu:</label>
+                <label for="name-specimens" class="col-3 name-title">Tên mẫu <span class="required">*</span></label>
                 <div class="col-9 value-staff">
                   <input type="text" class="form-control" id="name-specimens" [(ngModel)]="IPutSpecimens.ms_name"
                     name="specimensName">
@@ -29,7 +29,7 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="material" class="col-3 name-title">Chất liệu:</label>
+                <label for="material" class="col-3 name-title">Chất liệu <span class="required">*</span></label>
                 <div class="col-9 value-staff">
                   <input type="text" [(ngModel)]="IPutSpecimens.ms_type" class="form-control" id="material"
                     name="material">
@@ -41,7 +41,7 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="orderdate" class="col-3 name-title">Ngày đặt:</label>
+                <label for="orderdate" class="col-3 name-title">Ngày đặt <span class="required">*</span></label>
                 <div class="col-9 value-staff">
                   <input type="date" [(ngModel)]="IPutSpecimens.ms_order_date" class="form-control date-input-custom"
                     id="orderdate" name="orderdate">
@@ -53,7 +53,7 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="receiverdate" class="col-3 name-title">Ngày nhận:</label>
+                <label for="receiverdate" class="col-3 name-title">Ngày nhận <span class="required">*</span></label>
                 <div class="col-9 value-staff">
                   <input type="date" [(ngModel)]="IPutSpecimens.ms_received_date" class="form-control date-input-custom"
                     id="receiverdate" name="receiverdate">
@@ -65,7 +65,7 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="installationdate" class="col-3 name-title">Ngày lắp:</label>
+                <label for="installationdate" class="col-3 name-title">Ngày lắp <span class="required">*</span></label>
                 <div class="col-9 value-staff">
                   <input type="date" class="form-control date-input-custom" id="installationdate"
                     name="installationdate" [(ngModel)]="IPutSpecimens.ms_use_date">
@@ -77,7 +77,7 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="patient" class="col-3 name-title">Labo:</label>
+                <label for="patient" class="col-3 name-title">Labo <span class="required">*</span></label>
                 <select class="form-select p-2" style="margin-left: 10px; width: 71%; border: 1px solid #664FC3;
               border-radius: 10px;" aria-label="Default select example" [(ngModel)]="IPutSpecimens.lb_id"
                  >
@@ -100,7 +100,7 @@
             </div>
             <div class="col-md-6">
               <div class="form-group row mt-3">
-                <label for="quantity" class="col-3 name-title">Số lượng:</label>
+                <label for="quantity" class="col-3 name-title">Số lượng <span class="required">*</span></label>
                 <div class="col-9 value-staff">
                   <input type="number" [(ngModel)]="IPutSpecimens.ms_quantity" class="form-control date-input-custom"
                     id="quantity" name="quantity">
@@ -112,7 +112,7 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="unitprice" class="col-3 name-title">Đơn giá:</label>
+                <label for="unitprice" class="col-3 name-title">Đơn giá <span class="required">*</span></label>
                 <div class="col-9 value-staff">
                   <input type="number" [(ngModel)]="IPutSpecimens.ms_unit_price" class="form-control" id="unitprice"
                     name="unitprice">
@@ -124,13 +124,13 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="intomoney" class="col-3 name-title">Thành tiền:</label>
+                <label for="intomoney" class="col-3 name-title">Thành tiền</label>
                 <div class="col-9 value-staff">
                   <input type="text" [(ngModel)]="total" class="form-control" disabled id="intomoney" name="intomoney">
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="orderby" class="col-3 name-title">Người đặt:</label>
+                <label for="orderby" class="col-3 name-title">Người đặt <span class="required">*</span></label>
                 <div class="col-9 value-staff">
                   <input type="text" [(ngModel)]="IPutSpecimens.ms_orderer" class="form-control" id="orderby"
                     name="orderby">
@@ -142,7 +142,7 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="patient" class="col-3 name-title">Bệnh nhân:</label>
+                <label for="patient" class="col-3 name-title">Bệnh nhân <span class="required">*</span></label>
                 <div class="col-9 value-staff">
                   <ng-select [items]="patientList" bindLabel="patientInfor" [(ngModel)]="IPutSpecimens.p_patient_id" bindValue="patientId" (keyup)="onsearch($event)"
                              [notFoundText]="'Không tìm thấy bệnh nhân'">
@@ -156,7 +156,7 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="status" class="col-3 name-title">Trạng thái:</label>
+                <label for="status" class="col-3 name-title">Trạng thái</label>
                 <div class="col-9 value-staff">
                   <select class="form-select" id="status" [(ngModel)]="IPutSpecimens.ms_status" aria-label="Default select example">
                     <option value="2">Chưa nhận</option>
@@ -166,7 +166,7 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="warranty" class="col-3 name-title">Ngày bảo hành:</label>
+                <label for="warranty" class="col-3 name-title">Ngày bảo hành</label>
                 <div class="col-9 value-staff">
                   <input type="date" class="form-control date-input-custom" id="warranty"
                          name="warranty" [(ngModel)]="IPutSpecimens.ms_warranty">

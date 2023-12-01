@@ -9,7 +9,7 @@
           </li>
           <li class="nav-item mr-2"><a class="nav-link active"
               (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')"
-              style="color: #7B4C50; cursor: pointer;">Khám và
+              style="color: #664FC3; cursor: pointer;">Khám và
               điều
               trị</a></li>
           <li class="nav-item mr-2"><a class="nav-link" style="color: #000; cursor: pointer;"
@@ -139,7 +139,7 @@
                         [notFoundText]="'Không tìm thấy nhóm thủ thuật'"
                         (ngModelChange)="updateTemporaryName(record, $event)">
                       </ng-select>
-                      <p *ngIf="!isAdd">{{record.medical_group_procedure_id}}</p> 
+                      <p *ngIf="!isAdd">{{record.medical_group_procedure_id}}</p>
                     </td>
                     <td>
                       <ng-select *ngIf="isAdd && materialList" [items]="materialList"
@@ -326,7 +326,7 @@
           </div>
         </div>
         <div class="content-button" style="margin-top: 2%">
-          <button class="btn btn-cancel">Hủy</button>
+          <button class="btn btn-cancel" (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')">Hủy</button>
 
           <button class="btn button-add" (click)="putExamination()">Chỉnh sửa</button>
 

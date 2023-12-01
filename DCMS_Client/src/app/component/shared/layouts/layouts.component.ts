@@ -63,24 +63,23 @@ export class LayoutsComponent implements OnInit,AfterViewInit {
     let ro = sessionStorage.getItem('role');
     if (ro != null) {
       this.roleId = ro.split(',') ;
+      if (this.roleId.includes('1')){
+        this.roleName = 'Admin';
+        console.log("role",this.roleName)
+      }
+      else if (this.roleId.includes('2')){
+        this.roleName = 'Bác sĩ'
+      }
+      else if (this.roleId.includes('3')){
+        this.roleName = 'Lễ tân';
+      }
+      else if (this.roleId.includes('4')){
+        this.roleName = 'Y tá';
+      }
+      else if (this.roleId.includes('5')){
+        this.roleName = 'Y tá trưởng';
+      }
     }
-    else if (this.roleId.includes('1')){
-      this.roleName = 'Admin';
-    }
-    else if (this.roleId.includes('2')){
-      this.roleName = 'Bác sĩ'
-    }
-    else if (this.roleId.includes('3')){
-      this.roleName = 'Lễ tân';
-    }
-    else if (this.roleId.includes('4')){
-      this.roleName = 'Y tá';
-    }
-    else if (this.roleId.includes('5')){
-      this.roleName = 'Y tá trưởng';
-    }
-
-
   }
   signOut() {
     this.cognitoService.signOut().then(() => {
