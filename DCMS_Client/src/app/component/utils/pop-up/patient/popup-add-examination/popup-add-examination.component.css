@@ -1004,3 +1004,7 @@ float: right;
   margin-top: 1%;
   justify-content: end;
 }
+.button-content{
+  display: flex;
+  justify-content: right;
+}

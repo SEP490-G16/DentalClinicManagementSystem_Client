@@ -779,6 +779,27 @@ export class PopupEditExaminationComponent implements OnInit {
         })
       })
   }
+  onMedicineChange() {
+    this.showPrescriptionContent = this.examination.medicine !== '';
+    // Nếu cần thực hiện thêm logic nào đó dựa trên lựa chọn, thực hiện ở đây
+  }
+  recordsMedicine: any[] = [];
+  isAddMedicine: boolean = false;
+  showPrescriptionContent: boolean = false;
+  toggleAddMedicine() {
+    this.isAddMedicine = !this.isAddMedicine;
+    if (this.isAddMedicine) {
+      this.recordsMedicine.push({
+        soLuong:'',
+        lieuDung:'',
+        ghiChu:''
+      })
+    }
+  }
+  deleteRecordMedicine(index: any) {
+    this.isAddMedicine = false;
+    this.recordsMedicine.splice(index, 1);
+  }
 }
 
 interface ProcedureGroup {

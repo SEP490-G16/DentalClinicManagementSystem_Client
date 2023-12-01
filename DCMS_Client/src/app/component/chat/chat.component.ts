@@ -1,6 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {WebsocketService} from "../../service/Chat/websocket.service";
+import {ResponseHandler} from "../utils/libs/ResponseHandler";
+import {ReceptionistWaitingRoomService} from "../../service/ReceptionistService/receptionist-waitingroom.service";
+import * as moment from "moment/moment";
 
 @Component({
   selector: 'app-chat',
@@ -11,22 +14,33 @@ export class ChatComponent implements OnInit,OnDestroy  {
 
   messageContent:string='';
   receivedMessages:any[]=[];
+  messageSound = new Audio('assets/Messenger_Facebook.mp3');
   messageBody={
     action: '',
     message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
   }
   isHovered = false;
   unreadMessagesCount = 0;
-  constructor(private webSocketService: WebsocketService) { }
+  constructor(private webSocketService: WebsocketService,
+              private waitingRoomService: ReceptionistWaitingRoomService) { }
   ngOnInit(): void {
     this.webSocketService.connect();
     this.webSocketService.messageReceived.subscribe((message:any)=>{
       const parsedMessage = JSON.parse(message);
-      this.receivedMessages.push({ message: parsedMessage, timestamp: new Date() });
-      if (!this.chatContainerVisible) {
-        this.unreadMessagesCount++;
+      console.log("message", parsedMessage.content);
+      if (parsedMessage.content == 'CheckRealTime'){
+        window.location.reload();
+        console.log("Load lại trang")
+        this.webSocketService.closeConnection();
+      }else {
+        this.receivedMessages.push({ message: parsedMessage, timestamp: new Date() });
+        if (!this.chatContainerVisible) {
+          this.unreadMessagesCount++;
+        }
+        this.playMessageSound();
+        console.log(this.receivedMessages)
       }
-      console.log(this.receivedMessages)
+
     })
   }
   ngOnDestroy() {
@@ -61,5 +75,8 @@ export class ChatComponent implements OnInit,OnDestroy  {
   connectWebSocket() {
     this.unreadMessagesCount = 0;
     this.chatContainerVisible = true;
+  }
+  playMessageSound() {
+    this.messageSound.play().catch(error => console.error('Error playing sound:', error));
   }
 }
