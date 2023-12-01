@@ -984,3 +984,7 @@ textarea.form-control {
   display: flex;
   justify-content: center;
 }
+.button-content{
+  display: flex;
+  justify-content: right;
+}

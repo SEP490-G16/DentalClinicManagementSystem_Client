@@ -628,7 +628,7 @@ export class PopupAddExaminationComponent implements OnInit {
     imageInsert: "",
     description: ""
   }
-
+  showPrescriptionContent: boolean = false;
   recordsImage: any[] = []
   id: number = 0;
   toggleAddImage() {
@@ -755,6 +755,26 @@ export class PopupAddExaminationComponent implements OnInit {
     const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
     var timestamp = moment.tz(dateStr, format, timeZone).valueOf() / 1000;
     return timestamp;
+  }
+  onMedicineChange() {
+    this.showPrescriptionContent = this.examination.medicine !== '';
+    // Nếu cần thực hiện thêm logic nào đó dựa trên lựa chọn, thực hiện ở đây
+  }
+  recordsMedicine: any[] = [];
+  isAddMedicine: boolean = false;
+  toggleAddMedicine() {
+    this.isAddMedicine = !this.isAddMedicine;
+    if (this.isAddMedicine) {
+      this.recordsMedicine.push({
+        soLuong:'',
+        lieuDung:'',
+        ghiChu:''
+      })
+    }
+  }
+  deleteRecordMedicine(index: any) {
+    this.isAddMedicine = false;
+    this.recordsMedicine.splice(index, 1);
   }
 }
 

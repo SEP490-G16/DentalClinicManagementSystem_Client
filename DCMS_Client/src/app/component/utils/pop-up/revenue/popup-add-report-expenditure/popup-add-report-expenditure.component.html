@@ -28,12 +28,14 @@
               <div class="form-group row mt-3">
                 <label for="loaiChi" class="col-3 name-title">Loại chi:</label>
                 <div class="col-9">
-                  <select type="text" [(ngModel)]="paidExpense.typeExpense" class="form-select value-staff" id="loaiChi" aria-label="Default select example">
-                    <option value="0">Chọn loại chi</option>
-                    <option value="1">Mẫu</option>
-                    <option value="2">Vật liệu sử dụng</option>
-                    <option value="3">Khác</option>
-                  </select>
+<!--                  <select type="text" [(ngModel)]="paidExpense.typeExpense" class="form-select value-staff" id="loaiChi" aria-label="Default select example">-->
+<!--                    <option value="0">Chọn loại chi</option>-->
+<!--                    <option value="1">Mẫu</option>-->
+<!--                    <option value="2">Vật liệu sử dụng</option>-->
+<!--                    <option value="3">Khác</option>-->
+<!--                  </select>-->
+                  <input type="text" [(ngModel)]="paidExpense.typeExpense" placeholder="Khác" class="form-control date-input-custom value-staff" id="loaiChi" name="nguoiChi">
+
                 </div>
               </div>
               <div class="form-group row mt-3">

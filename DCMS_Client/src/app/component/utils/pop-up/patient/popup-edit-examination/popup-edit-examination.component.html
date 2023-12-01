@@ -100,13 +100,74 @@
           </div>
 
           <div class="row" style="margin-bottom: 1%;">
-            <div class="col-md-6 custom-input-container">
+            <div class="col-md-12 custom-input-container">
               <label for="diagnosis">Ghi chú chẩn đoán:</label>
               <textarea id="diagnosis" rows="3" [(ngModel)]="examination.diagnosis"></textarea>
             </div>
-            <div class="col-md-6 custom-input-container">
+            <div class="col-md-3 mt-5 custom-input-container">
               <label for="medicine">Đơn thuốc:</label>
-              <textarea id="medicine" rows="3" [(ngModel)]="examination.medicine"></textarea>
+              <select class="form-select p-2" id="medicine" style="width: 98%; border: 1px solid #664FC3;
+                       border-radius: 10px;" aria-label="Default select example" (change)="onMedicineChange()" [(ngModel)]="examination.medicine"
+              >
+                <option value="">Chọn mẫu đơn thuốc</option>
+                <option value="1">Mẫu 1</option>
+                <option value="2">Mẫu 2</option>
+                <option value="3">Mẫu 3</option>
+              </select>
+            </div>
+            <div class="button-content" *ngIf="showPrescriptionContent">
+              <div class="btn-add-procedure">
+                <button class="btn button-add" style="margin-right: 3px" *ngIf="!isAddMedicine" (click)="toggleAddMedicine()"><i class="bi bi-plus-circle"></i>Thêm
+                  mới</button>
+              </div>
+              <div>
+                <button class="btn button-add">In đơn thuốc</button>
+              </div>
+            </div>
+            <div style="margin-top: 2%; margin-bottom:2%" *ngIf="showPrescriptionContent">
+              <table class="table-bordered">
+                <thead class="header-title">
+                <tr>
+                  <td>STT</td>
+                  <th>Tên thuốc</th>
+                  <th>Số lượng</th>
+                  <th>Liều dùng</th>
+                  <th>Ghi chú</th>
+                  <th>Thao tác</th>
+                </tr>
+                </thead>
+                <tbody>
+                <ng-container *ngFor="let record of recordsMedicine; let i = index">
+                  <tr>
+                    <td>{{ i + 1 }}</td>
+                    <td>Augmentin</td>
+                    <td>
+                      <input type="text" *ngIf="isAddMedicine" class="form-control value-staff">
+                      <p *ngIf="!isAddMedicine"></p>
+                    </td>
+                    <td>
+                      <input type="text" *ngIf="isAddMedicine" class="form-control value-staff">
+                      <p *ngIf="!isAddMedicine"></p>
+                    </td>
+                    <td>
+                      <input type="text" *ngIf="isAddMedicine" class="form-control value-staff">
+                      <p *ngIf="!isAddMedicine"></p>
+                    </td>
+                    <td>
+                      <div class="delete-cell">
+                        <div>
+                          <button class="save-button" *ngIf="isAddMedicine" style="margin-right: 3px"><i class="bi bi-check-circle"
+                                                                                                         (click)="toggleAddMedicine()"></i></button>
+                        </div>
+                        <button class="delete-button" (click)="deleteRecordMedicine(i)">
+                          x
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-container>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

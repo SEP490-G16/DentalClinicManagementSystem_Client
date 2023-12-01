@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 
 
 import { Auth } from 'aws-amplify';
@@ -11,6 +11,7 @@ import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureSe
 import { ResponseHandler } from "../../utils/libs/ResponseHandler";
 import * as moment from 'moment';
 import { ReceptionistAppointmentService } from 'src/app/service/ReceptionistService/receptionist-appointment.service';
+import {WebsocketService} from "../../../service/Chat/websocket.service";
 import { NullValidationHandler } from 'angular-oauth2-oidc';
 
 @Component({
@@ -35,7 +36,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
     private appointmentService: ReceptionistAppointmentService,
     private cognitoService: CognitoService,
     private router: Router,
-    private toastr: ToastrService,
+    private toastr: ToastrService, private webSocketService: WebsocketService,
     private medicaoProcedureGroupService: MedicalProcedureGroupService
   ) {
 
@@ -64,7 +65,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
       this.getWaitingRoomData();
     }
   }
-  
+
   getWaitingRoomData() {
     this.waitingRoomService.getWaitingRooms().subscribe(
       data => {
@@ -127,10 +128,10 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
       patient_id: wtr.patient_id,
       patient_name: wtr.patient_name,
       reason: wtr.reason,
-      status_value: Number(wtr.status), 
+      status_value: Number(wtr.status),
       appointment_id: wtr.appointment_id,
       appointment_epoch: wtr.appointment_epoch,
-    } 
+    }
     this.loading = true;
     if (this.PUT_WAITINGROO.status_value == 4) {
       const index = this.filteredWaitingRoomData.findIndex((item: any) => item.patient_id == this.PUT_WAITINGROO.patient_id);
@@ -144,9 +145,11 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           this.loading = false;
           this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
           this.showSuccessToast('Xóa hàng chờ thành công');
+          ///this.getWaitingRoomData();
         },
           (error) => {
             this.loading = false;
+            //this.showErrorToast('Xóa hàng chờ thất bại');
             ResponseHandler.HANDLE_HTTP_STATUS(this.waitingRoomService.apiUrl + "/waiting-room/" + this.PUT_WAITINGROO, error);
           }
         )
@@ -159,19 +162,18 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
             if (storeList != null) {
                 listWaiting = JSON.parse(storeList);
             }
-            listWaiting.forEach((item:any) => {
-              if (item.appointment.patient_id == this.PUT_WAITINGROO.patient_id) {
-                item.appointment.status = "1";
-                this.appointmentService.putAppointment(item, this.PUT_WAITINGROO.appointment_id).subscribe((data) => {
-                  this.showSuccessToast(`${item.appointment.patient_name} đã khám xong`);
-                })
-              }
-            })
+            // listWaiting.forEach((item:any) => {
+            //   if (item.appointment.patient_id == this.PUT_WAITINGROO.patient_id) {
+            //     item.appointment.status = "1";
+            //     this.appointmentService.putAppointment(item, this.PUT_WAITINGROO.appointment_id).subscribe((data) => {
+            //       this.showSuccessToast(`${item.appointment.patient_name} đã khám xong`);
+            //     })
+            //   }
+            // })
           }
           this.loading = false;
           this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
           this.showSuccessToast('Chỉnh sửa hàng chờ thành công');
-          this.getWaitingRoomData(); 
         },
           (error) => {
             this.loading = false;
