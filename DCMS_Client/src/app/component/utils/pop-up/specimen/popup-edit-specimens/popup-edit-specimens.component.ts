@@ -253,21 +253,25 @@ export class PopupEditSpecimensComponent implements OnInit {
       })
     }
   }
-  patientList:any [] = [];
-  onsearch(event:any) {
-    console.log(event.target.value)
-    this.IPutSpecimens.p_patient_name = event.target.value;
-    this.patientService.getPatientByName(this.IPutSpecimens.p_patient_name, 1).subscribe(data => {
-      const transformedMaterialList = data.data.map((item:any) => {
-        return {
-          patientId: item.patient_id,
-          patientName: item.patient_name,
-          patientInfor: item.patient_name + " - "+ item.phone_number,
-        };
-      });
-      this.patientList = transformedMaterialList;
-    })
+
+  searchTimeout: any;
+  patientList: any[] = [];
+  onsearch(event: any) {
+    this.searchTimeout = setTimeout(() => {
+      this.IPutSpecimens.p_patient_name = event.target.value;
+      this.patientService.getPatientByName(this.IPutSpecimens.p_patient_name, 1).subscribe(data => {
+        const transformedMaterialList = data.data.map((item: any) => {
+          return {
+            patientId: item.patient_id,
+            patientName: item.patient_name,
+            patientInfor: item.patient_name + " - " + item.phone_number,
+          };
+        });
+        this.patientList = transformedMaterialList;
+      })
+    }, 2000);
   }
+  
   closePopup(){
     this.IPutSpecimens = {
       ms_type: "",

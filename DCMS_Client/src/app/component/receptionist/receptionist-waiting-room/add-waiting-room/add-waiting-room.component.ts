@@ -59,13 +59,15 @@ export class AddWaitingRoomComponent implements OnInit {
   ) {
 
     this.POST_WAITTINGROOM = {
-      epoch: 0,
+      epoch: "",
       produce_id: '',
       produce_name: '',
       patient_id: '',
       patient_name: '',
       reason: '',
-      status: 1
+      status: "1",
+      appointment_id: '',
+      appointment_epoch: '',
     } as IPostWaitingRoom
 
   }
@@ -108,27 +110,29 @@ export class AddWaitingRoomComponent implements OnInit {
     this.isAdd = false;
   }
   getListGroupService() {
-    this.medicaoProcedureGroupService.getMedicalProcedureGroupList().subscribe((res: any) => {
-      this.listGroupService = res.data;
-
-      if (this.listGroupService.length > 0) {
-        this.POST_WAITTINGROOM.produce_id = this.listGroupService[0].medical_procedure_group_id;
-        this.POST_WAITTINGROOM.produce_name = this.listGroupService[0].name;
-      }
-    });
+    const storeList = localStorage.getItem('ListGroupProcedure');
+    if (storeList != null) {
+      this.listGroupService = JSON.parse(storeList);
+    }
+    if (this.listGroupService.length > 0) {
+      this.POST_WAITTINGROOM.produce_id = this.listGroupService[0].medical_procedure_group_id;
+      this.POST_WAITTINGROOM.produce_name = this.listGroupService[0].name;
+    }
   }
   onPostWaitingRoom() {
     let patientIn = this.patientInfor.split(' - ');
     this.POST_WAITTINGROOM.patient_id = patientIn[0];
     this.POST_WAITTINGROOM.patient_name = patientIn[1];
-    this.POST_WAITTINGROOM.status = 1;
+    this.POST_WAITTINGROOM.status = "1";
+    this.POST_WAITTINGROOM.appointment_id = "";
+    this.POST_WAITTINGROOM.appointment_epoch = "";
     const storedPatientIdsString = localStorage.getItem('listPatientId');
     let storedPatientIds = [];
     if (storedPatientIdsString) {
       storedPatientIds = JSON.parse(storedPatientIdsString);
     }
     const currentDateTimeGMT7 = moment().tz('Asia/Ho_Chi_Minh');
-    this.POST_WAITTINGROOM.epoch = Math.floor(currentDateTimeGMT7.valueOf() / 1000);
+    this.POST_WAITTINGROOM.epoch = Math.floor(currentDateTimeGMT7.valueOf() / 1000).toString();
     this.resetValidate();
     if (this.patientInfor == '' || this.patientInfor == null) {
       this.validateWatingRoom.patientName = "Vui lòng chọn bệnh nhân!";
@@ -240,18 +244,24 @@ export class AddWaitingRoomComponent implements OnInit {
       ResponseHandler.HANDLE_HTTP_STATUS(this.PATIENT_SERVICE.test + "/patient", error);
     })
   }
+
+  searchTimeout: any;
   onsearchPatientInWaitingRoom(event: any) {
-    this.PATIENT_SERVICE.getPatientByName(event.target.value, 1).subscribe(data => {
-      const transformedMaterialList = data.data.map((item: any) => {
-        return {
-          patientId: item.patient_id,
-          patientName: item.patient_name,
-          patientInfor: item.patient_id + " - " + item.patient_name + " - " + item.phone_number,
-        };
-      });
-      this.patientList = transformedMaterialList;
-    })
+    clearTimeout(this.searchTimeout);
+    this.searchTimeout = setTimeout(() => {
+      this.PATIENT_SERVICE.getPatientByName(event.target.value, 1).subscribe(data => {
+        const transformedMaterialList = data.data.map((item: any) => {
+          return {
+            patientId: item.patient_id,
+            patientName: item.patient_name,
+            patientInfor: item.patient_id + " - " + item.patient_name + " - " + item.phone_number,
+          };
+        });
+        this.patientList = transformedMaterialList;
+      })
+    }, 2000);
   }
+
   dateToTimestamp(dateStr: string): number {
     const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng của chuỗi ngày
     const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
@@ -273,13 +283,13 @@ export class AddWaitingRoomComponent implements OnInit {
 
   close() {
     this.POST_WAITTINGROOM = {
-      epoch: 0,
+      epoch: "0",
       produce_id: '',
       produce_name: '',
       patient_id: '',
       patient_name: '',
       reason: '',
-      status: 0
+      status: "0"
     } as IPostWaitingRoom
   }
   private resetValidate() {
