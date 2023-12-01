@@ -14,6 +14,7 @@ export class ChatComponent implements OnInit,OnDestroy  {
 
   messageContent:string='';
   receivedMessages:any[]=[];
+  messageSound = new Audio('assets/Messenger_Facebook.mp3');
   messageBody={
     action: '',
     message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
@@ -36,6 +37,7 @@ export class ChatComponent implements OnInit,OnDestroy  {
         if (!this.chatContainerVisible) {
           this.unreadMessagesCount++;
         }
+        this.playMessageSound();
         console.log(this.receivedMessages)
       }
 
@@ -73,5 +75,8 @@ export class ChatComponent implements OnInit,OnDestroy  {
   connectWebSocket() {
     this.unreadMessagesCount = 0;
     this.chatContainerVisible = true;
+  }
+  playMessageSound() {
+    this.messageSound.play().catch(error => console.error('Error playing sound:', error));
   }
 }

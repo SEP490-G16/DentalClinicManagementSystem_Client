@@ -162,18 +162,19 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
             if (storeList != null) {
                 listWaiting = JSON.parse(storeList);
             }
-            // listWaiting.forEach((item:any) => {
-            //   if (item.appointment.patient_id == this.PUT_WAITINGROO.patient_id) {
-            //     item.appointment.status = "1";
-            //     this.appointmentService.putAppointment(item, this.PUT_WAITINGROO.appointment_id).subscribe((data) => {
-            //       this.showSuccessToast(`${item.appointment.patient_name} đã khám xong`);
-            //     })
-            //   }
-            // })
+            listWaiting.forEach((item:any) => {
+              if (item.appointment.patient_id == this.PUT_WAITINGROO.patient_id) {
+                item.appointment.status = "1";
+                this.appointmentService.putAppointment(item, this.PUT_WAITINGROO.appointment_id).subscribe((data) => {
+                  this.showSuccessToast(`${item.appointment.patient_name} đã khám xong`);
+                })
+              }
+            })
           }
           this.loading = false;
           this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
           this.showSuccessToast('Chỉnh sửa hàng chờ thành công');
+           this.sendMessageWaitingRoom();
         },
           (error) => {
             this.loading = false;
@@ -216,5 +217,21 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
   }
   navigateHref(href: string, id:any) {
     this.router.navigate([href + id]);
+  }
+
+  messageContent:string ='CheckRealTime';
+  messageBody={
+    action: '',
+    message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
+  }
+  sendMessageWaitingRoom(){
+
+    if (this.messageContent.trim() !== '' && sessionStorage.getItem('sub-id') != null && sessionStorage.getItem('username') != null) {
+      this.messageBody = {
+        action: "sendMessage",
+        message:`{"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}`
+      };
+      console.log(this.messageBody);
+      this.webSocketService.sendMessage(JSON.stringify(this.messageBody));}
   }
 }
