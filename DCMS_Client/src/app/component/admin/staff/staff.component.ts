@@ -50,66 +50,69 @@ export class StaffComponent implements OnInit {
         this.listStaff = res.message;
         console.log("ListStaff:",this.listStaff);
         this.listStaff.forEach((staff:any) => {
-          this.staff = {
-            staffId: '',
-            staffName: '',
-            staffUserName: '',
-            dob: '',
-            address: '',
-            note: '',
-            email: '',
-            phoneNumber: '',
-            roleId: '',
-            roleName:'',
-            gender: '',
-            image: '',
-            locale: '',
-            zoneInfor: ''
+          const roleAttribute = staff.Attributes.find((attr: any) => attr.Name === 'custom:role');
+          if (roleAttribute && roleAttribute.Value !== '1'){
+            this.staff = {
+              staffId: '',
+              staffName: '',
+              staffUserName: '',
+              dob: '',
+              address: '',
+              note: '',
+              email: '',
+              phoneNumber: '',
+              roleId: '',
+              roleName:'',
+              gender: '',
+              image: '',
+              locale: '',
+              zoneInfor: ''
+            }
+            this.staff.staffUserName = staff.Username;
+            staff.Attributes.forEach((attr:any) => {
+              if (attr.Name == 'sub') {
+                this.staff.staffId = attr.Value;
+              }
+              if (attr.Name == 'address') {
+                this.staff.address = attr.Value;
+              }
+              if (attr.Name == 'email') {
+                this.staff.email = attr.Value;
+              }
+              if (attr.Name == 'phone_number') {
+                this.staff.phoneNumber = this.normalizePhoneNumber(attr.Value);
+              }
+              if (attr.Name == 'custom:role') {
+                this.staff.roleId = attr.Value;
+                this.staff.roleName = this.getStaffName(this.staff.roleId);
+              }
+              if (attr.Name == 'gender') {
+                this.staff.gender = attr.Value;
+                if (this.staff.gender == 'male'){
+                  this.staff.gender = 'Nam'
+                }
+                if (this.staff.gender == 'female'){
+                  this.staff.gender = 'Nữ'
+                }
+              }
+              if (attr.Name == 'custom:DOB') {
+                this.staff.dob = this.timestampToDate(attr.Value);
+              }
+              if (attr.Name == 'name') {
+                this.staff.staffName = attr.Value;
+              }
+              if (attr.Name == 'custom:image') {
+                this.staff.staffName = attr.Value;
+              }
+              if (attr.Name == 'name') {
+                this.staff.staffName = attr.Value;
+              }
+              if (attr.Name == 'zoneinfo') {
+                this.staff.zoneInfor = attr.Value;
+              }
+            })
+            this.listStaffDisplay.push(this.staff);
           }
-          this.staff.staffUserName = staff.Username;
-          staff.Attributes.forEach((attr:any) => {
-            if (attr.Name == 'sub') {
-              this.staff.staffId = attr.Value;
-            }
-            if (attr.Name == 'address') {
-              this.staff.address = attr.Value;
-            }
-            if (attr.Name == 'email') {
-              this.staff.email = attr.Value;
-            }
-            if (attr.Name == 'phone_number') {
-              this.staff.phoneNumber = this.normalizePhoneNumber(attr.Value);
-            }
-            if (attr.Name == 'custom:role') {
-              this.staff.roleId = attr.Value;
-              this.staff.roleName = this.getStaffName(this.staff.roleId);
-            }
-            if (attr.Name == 'gender') {
-              this.staff.gender = attr.Value;
-              if (this.staff.gender == 'male'){
-                this.staff.gender = 'Nam'
-              }
-              if (this.staff.gender == 'female'){
-                this.staff.gender = 'Nữ'
-              }
-            }
-            if (attr.Name == 'custom:DOB') {
-              this.staff.dob = this.timestampToDate(attr.Value);
-            }
-            if (attr.Name == 'name') {
-              this.staff.staffName = attr.Value;
-            }
-            if (attr.Name == 'custom:image') {
-              this.staff.staffName = attr.Value;
-            }
-            if (attr.Name == 'name') {
-              this.staff.staffName = attr.Value;
-            }
-            if (attr.Name == 'zoneinfo') {
-              this.staff.zoneInfor = attr.Value;
-            }
-          })
-          this.listStaffDisplay.push(this.staff);
         })
 
       },

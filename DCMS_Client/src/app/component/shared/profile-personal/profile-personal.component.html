@@ -1,9 +1,13 @@
 <div class="container">
   <div class="row mt-5">
     <div class="col-md-3 custom-content">
-      <div class="image-container" (click)="fileInput.click()">
+      <div class="image-container" >
         <img [src]="imageURL ||'https://i.pinimg.com/736x/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'" alt="Ảnh nhân viên">
-        <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput style="display: none;">
+        <input type="file" accept="image/*" (change)="onFileSelected($event)" #fileInput style="display: none;">
+      </div>
+      <div class="button-container">
+        <button class="btn button-timekeeping" (click)="fileInput.click()"><i
+          class="bi bi-plus-circle"></i> Chọn ảnh</button>
       </div>
     </div>
 

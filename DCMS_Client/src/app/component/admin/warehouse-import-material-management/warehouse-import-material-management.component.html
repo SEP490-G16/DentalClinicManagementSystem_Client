@@ -21,8 +21,8 @@
       </div>
     </div>
     <div class="col-md-3 col-xl-2" style="margin-right: 10px;">
-      <select class="form-select" aria-label="Default select example" style="padding: 10px; border: 1px solid black;">
-        <option selected>Chọn người lập</option>
+      <select class="form-select" aria-label="Default select example" (change)="filterByStaff()" [(ngModel)]="staffName" style="padding: 10px; border: 1px solid black;">
+        <option value="" selected>Chọn người lập</option>
         <option *ngFor="let s of listStaffDisplay" value="{{s.staffName}}">{{s.staffName}}</option>
       </select>
     </div>

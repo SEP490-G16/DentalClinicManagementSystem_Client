@@ -61,7 +61,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let bill of listFilterDate">
-              <td>{{bill.createDate}}</td>
+              <td>{{ bill.createDate | date: 'dd-MM-yyyy'}}</td>
               <td>{{bill.createBy}}</td>
               <td>{{bill.typeExpense? 'Mẫu' : bill.typeExpense == 2? 'Vật liệu sử dụng' : 'Khác'}}</td>
               <td>{{bill.totalAmount}}</td>

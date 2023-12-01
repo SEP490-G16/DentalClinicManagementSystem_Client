@@ -244,3 +244,7 @@ button.example-custom-date-class {
   justify-content: end;
 }
 
+.required {
+  color: red;
+  margin-left: 3px;
+}

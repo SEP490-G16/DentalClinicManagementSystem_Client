@@ -10,7 +10,7 @@
           <div class="row">
             <div class="col-6 form-add">
               <div class="form-group mt-2 input-patient">
-                <label for="patientName">Tên bệnh nhân</label>
+                <label for="patientName">Tên bệnh nhân <span class="required">*</span></label>
                 <ng-select [items]="patientList" bindLabel="patientInfor" [(ngModel)]="patientInfor"
                   bindValue="patientInfor" (input)="onsearchPatientInWaitingRoom($event)"
                   [notFoundText]="'Không tìm thấy bệnh nhân'" [disabled]="isAdd">
@@ -24,7 +24,7 @@
             </div>
             <div class="col-6">
               <div class="form-group mt-2">
-                <label>Loại điều trị</label>
+                <label>Loại điều trị <span class="required">*</span></label>
                 <select [(ngModel)]="POST_WAITTINGROOM.produce_id" (change)="onProcedureChange($event)"
                   class="form-select input-custom float-end" aria-label="Default select example">
                   <option *ngFor="let a of listGroupService" [value]="a.medical_procedure_group_id">{{a.name}}</option>
