@@ -18,7 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import * as AWS from 'aws-sdk';
 import { environment } from 'src/environments/environment';
 import { ChatComponent } from './component/chat/chat.component';
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
@@ -37,6 +37,7 @@ import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
 import { ConfirmationModalComponent } from './component/utils/pop-up/common/confirm-modal/confirm-modal.component';
 import { CancelSuccessComponent } from './component/patient/change-appointment/cancel-success/cancel-success.component';
 import { ConfirmDeleteModalComponent } from './component/utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component';
+import { NgbDateCustomParserFormatter } from './component/utils/libs/datepickerfOrmat';
 // Register the Vietnamese locale data
 registerLocaleData(localeVi);
 @NgModule({
@@ -71,7 +72,7 @@ registerLocaleData(localeVi);
     }),
     BsDatepickerModule.forRoot()
   ],
-  providers: [CookieService, { provide: LOCALE_ID, useValue: 'vi' }],
+  providers: [CookieService, { provide: LOCALE_ID, useValue: 'vi' },  {provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter}],
   bootstrap: [AppComponent]
 })
 export class AppModule implements OnInit {

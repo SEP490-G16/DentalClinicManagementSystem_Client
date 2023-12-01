@@ -153,9 +153,32 @@ button.example-custom-date-class {
 .form-add{
   display: flex;
 }
-.add-patient{
-  padding: 2rem 0;
+
+.flex-container {
+  display: flex;
+  align-items: center;
 }
+
+.flex-container label {
+  margin-right: 8px;
+}
+
+.flex-item {
+  flex-grow: 1;
+  margin-right: 8px;
+}
+
+.button.save-button {
+  flex-shrink: 0;
+}
+
+.error {
+  color: red;
+  margin-top: 4px;
+  width: 100%;
+}
+
+
 .save-button{
   background-color: #533daf;
   border: none;
@@ -220,6 +243,7 @@ button.example-custom-date-class {
   display: flex;
   justify-content: end;
 }
+
 .required {
   color: red;
   margin-left: 3px;

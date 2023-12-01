@@ -135,7 +135,11 @@ a {
   outline: 0px;
   padding: 10px 20px;
 }
-.no-appointment-message{
+.no-appointment-message {
+  text-align: center;
+  color: #6c757d;
   margin-top: 2rem;
   margin-bottom: 2rem;
+  font-size: 1rem;
+  font-style: italic;
 }

@@ -1,13 +1,14 @@
 import { SpecimensService } from './../../../service/SpecimensService/SpecimensService.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import { NgbDateStruct, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { CognitoService } from 'src/app/service/cognito.service';
 import { ResponseHandler } from "../../utils/libs/ResponseHandler";
 import * as moment from 'moment-timezone';
 import { SpecimensRoot } from 'src/app/model/ISpecimens';
 import { ToastrService } from 'ngx-toastr';
 import { LaboService } from 'src/app/service/LaboService/Labo.service';
+import { ConfirmDeleteModalComponent } from '../../utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component';
 @Component({
   selector: 'app-specimens',
   templateUrl: './specimens.component.html',
@@ -49,6 +50,8 @@ export class SpecimensComponent implements OnInit {
   constructor(
     private SpecimensService: SpecimensService,
     private laboService: LaboService,
+    private cognitoService: CognitoService,
+    private modalService: NgbModal,
     private toastr: ToastrService,
   ) {
     this.SpecimensRoot = {
@@ -133,17 +136,17 @@ export class SpecimensComponent implements OnInit {
     if (orderFromDate != '') {
       querySearch += `?order_date_start=${orderFromDate}`;
     }
-    
+
     if (orderToDate != '') {
       querySearch += `?order_date_end=${orderToDate}`;
     }
 
     if (receivedFromDate != '') {
-      querySearch += `?received_date_start=${receivedFromDate}`; 
+      querySearch += `?received_date_start=${receivedFromDate}`;
     }
-    
+
     if(receivedToDate != '') {
-      querySearch += `?received_date_end=${receivedToDate}`; 
+      querySearch += `?received_date_end=${receivedToDate}`;
     }
 
     if (useFromDate != '') {
@@ -157,7 +160,7 @@ export class SpecimensComponent implements OnInit {
     //filter test
     this.SpecimensService.filterSpecimens(querySearch, paging).subscribe((sRoot) => {
       sRoot.data.forEach((item: any) => {
-        this.specimenObject.ms_id = item.ms_id;   
+        this.specimenObject.ms_id = item.ms_id;
         this.specimenObject.ms_name = item.ms_name;
         this.specimenObject.ms_type = item.ms_type;
         this.specimenObject.ms_quantity = item.ms_quantity;
@@ -220,7 +223,7 @@ export class SpecimensComponent implements OnInit {
   }
 
   laboName: string = '';
-  
+
   checkNextPage() {
     this.hasNextPage = this.filteredSpecimens.length > 10;
   }
@@ -357,29 +360,35 @@ export class SpecimensComponent implements OnInit {
     }
     if (columnNumber === 12) {
       this.checkbox11 = !this.checkbox11;
-    } 
+    }
     if (columnNumber === 13) {
       this.checkbox12 = !this.checkbox12;
     }
   }
+  openConfirmationModal(message: string): Promise<any> {
+    const modalRef = this.modalService.open(ConfirmDeleteModalComponent);
+    modalRef.componentInstance.message = message;
+    return modalRef.result;
+  }
 
-  deleteSpecimens(id: string) {
-    const cf = confirm("Bạn có muốn xóa mẫu vật này không?");
-    if (cf) {
-      this.loading = true;
-      this.SpecimensService.deleteSpecimens(id)
-        .subscribe((res) => {
-          this.loading = false;
-          this.showSuccessToast('Xóa mẫu vật thành công');
-          this.getAllSpecimens(this.currentPage);
-        },
-          (error) => {
+  deleteSpecimens(id: string, ms_name:string) {
+    this.openConfirmationModal(`Bạn có chắc chắn muốn xóa mẫu ${ms_name} không?`).then((result) => {
+      if (result) {
+        this.loading = true;
+        this.SpecimensService.deleteSpecimens(id)
+          .subscribe((res) => {
             this.loading = false;
-            //this.showErrorToast('Xóa mẫu vật thất bại');
-            ResponseHandler.HANDLE_HTTP_STATUS(this.SpecimensService.apiUrl + "/medical-supply/" + id, error);
-          }
-        )
-    }
+            this.showSuccessToast('Xóa mẫu vật thành công');
+            this.getAllSpecimens(this.currentPage);
+          },
+            (error) => {
+              this.loading = false;
+              //this.showErrorToast('Xóa mẫu vật thất bại');
+              ResponseHandler.HANDLE_HTTP_STATUS(this.SpecimensService.apiUrl + "/medical-supply/" + id, error);
+            }
+          )
+      }
+    });
   }
 
   //Convert Date
@@ -404,7 +413,7 @@ export class SpecimensComponent implements OnInit {
   }
 
   timeAndDateToTimestamp(timeStr: string, dateStr: string): number {
-    const format = 'YYYY-MM-DD HH:mm'; 
+    const format = 'YYYY-MM-DD HH:mm';
     const timeZone = 'Asia/Ho_Chi_Minh';
     const dateTimeStr = `${dateStr} ${timeStr}`;
     const timestamp = moment.tz(dateTimeStr, format, timeZone).valueOf() / 1000;
@@ -412,26 +421,26 @@ export class SpecimensComponent implements OnInit {
   }
 
 
-  showColumnSelector = false; 
+  showColumnSelector = false;
 
 
 
   showSuccessToast(message: string) {
     this.toastr.success(message, 'Thành công', {
-      timeOut: 3000, 
+      timeOut: 3000,
     });
   }
 
   showErrorToast(message: string) {
     this.toastr.error(message, 'Lỗi', {
-      timeOut: 3000, 
+      timeOut: 3000,
     });
   }
 
   convertToVietnamTime(timeString: string): any {
     const timeValue = timeString.split('(')[0].trim();
     const datetimeObject = new Date(timeValue);
-    const vietnamTimezone = 7; 
+    const vietnamTimezone = 7;
     const vietnamTime = new Date(datetimeObject.getTime() + vietnamTimezone * 60 * 60 * 1000);
     return vietnamTime;
   }

@@ -9,6 +9,7 @@ import { CognitoService } from 'src/app/service/cognito.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ResponseHandler } from '../../utils/libs/ResponseHandler';
 import { PopupDeletePatientComponent } from '../../utils/pop-up/patient/popup-delete-patient/popup-delete-patient.component';
+import { ConfirmDeleteModalComponent } from '../../utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component';
 @Component({
   selector: 'app-patient-records',
   templateUrl: './patient-records.component.html',
@@ -97,16 +98,27 @@ export class PatientRecordsComponent implements OnInit {
       }
     }
   }
-  openDeletePatient(id: any, event: Event) {
-    this.id = id;
+  openConfirmationModal(message: string): Promise<any> {
+    const modalRef = this.modalService.open(ConfirmDeleteModalComponent);
+    modalRef.componentInstance.message = message;
+    return modalRef.result;
+  }
 
-    this.patientService.deletePatient(id).subscribe((res) => {
-      const index = this.searchPatientsList.findIndex((item: any) => item.patient_id == id);
-      if (index != -1) {
-        this.searchPatientsList.splice(index, 1);
-      }
-    })
+  openDeletePatient(id: any, patientName:string,event: Event) {
     event.stopPropagation();
+    this.openConfirmationModal(`Bạn có muốn xóa bệnh nhân ${patientName} không?`).then((result) => {
+      console.log(result);
+      if (result === true) {
+        this.id = id;
+        this.patientService.deletePatient(id).subscribe((res) => {
+          const index = this.searchPatientsList.findIndex((item: any) => item.patient_id == id);
+          if (index != -1) {
+            this.toastr.success("Xóa bệnh nhân thành công");
+            this.searchPatientsList.splice(index, 1);
+          }
+        })
+      }
+    });
   }
 
   detail(id: any) {
