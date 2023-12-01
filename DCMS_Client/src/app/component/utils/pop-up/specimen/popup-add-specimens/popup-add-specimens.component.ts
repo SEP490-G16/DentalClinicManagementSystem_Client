@@ -230,23 +230,25 @@ export class PopupAddSpecimensComponent implements OnInit {
 
   //test nha
   patientList: any[] = [];
+  searchTimeout: any;
   onsearch(event: any) {
-    console.log(event.target.value)
-    this.specimen.receiver = event.target.value;
-    this.patientSerivce.getPatientByName(this.specimen.receiver, 1).subscribe(data => {
-      const transformedMaterialList = data.data.map((item: any) => {
-        return {
-          patientId: item.patient_id,
-          patientName: item.patient_name,
-          patientInfor: item.patient_id+" - "+item.patient_name + " - " + item.phone_number,
-        };
-      });
-      this.patientList = transformedMaterialList;
-    },
-      error => {
-        ResponseHandler.HANDLE_HTTP_STATUS(this.patientSerivce.test + "/patient/name/" + this.specimen.receiver + "/" + 1, error);
-      }
-    )
+    this.searchTimeout = setTimeout(() => {
+      this.specimen.receiver = event.target.value;
+      this.patientSerivce.getPatientByName(this.specimen.receiver, 1).subscribe(data => {
+        const transformedMaterialList = data.data.map((item: any) => {
+          return {
+            patientId: item.patient_id,
+            patientName: item.patient_name,
+            patientInfor: item.patient_id + " - " + item.patient_name + " - " + item.phone_number,
+          };
+        });
+        this.patientList = transformedMaterialList;
+      },
+        error => {
+          ResponseHandler.HANDLE_HTTP_STATUS(this.patientSerivce.test + "/patient/name/" + this.specimen.receiver + "/" + 1, error);
+        }
+      )
+    }, 2000);
   }
 
   listTreatment: any[] = []

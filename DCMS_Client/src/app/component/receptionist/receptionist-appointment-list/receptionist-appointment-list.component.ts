@@ -373,7 +373,8 @@ export class ReceptionistAppointmentListComponent implements OnInit {
       }
     );
   }
-
+  
+  ListPatientWaiting: any[] = []
   status: boolean = true;
   postExchangeAppointmentToWaitingRoom(a: any, b: any, event: Event) {
     let status = true;
@@ -399,7 +400,6 @@ export class ReceptionistAppointmentListComponent implements OnInit {
             this.showErrorToast('Bệnh nhân đã có trong hàng chờ!');
           }
         })
-
         if (status == true) {
           const currentDateTimeGMT7 = moment().tz('Asia/Ho_Chi_Minh');
           this.Exchange.epoch = Math.floor(currentDateTimeGMT7.valueOf() / 1000).toString();
@@ -409,10 +409,29 @@ export class ReceptionistAppointmentListComponent implements OnInit {
           this.Exchange.produce_name = b.procedure_name;
           this.Exchange.reason = b.reason;
           this.Exchange.appointment_id = b.appointment_id;
-          this.Exchange.appointment_epoch = '';
+          this.Exchange.appointment_epoch = a;
           this.receptionistWaitingRoom.postWaitingRoom(this.Exchange).subscribe(
             (data) => {
-              alert("");
+              let updatePatient = {
+                epoch: parseInt(a),
+                new_epoch: parseInt(a),
+                appointment: {
+                  patient_id: b.patient_id,
+                  patient_name: b.patient_name,
+                  phone_number: b.phone_number,
+                  procedure_id: b.procedure_id,
+                  procedure_name: b.procedure_name,
+                  reason: b.reason,
+                  doctor: b.doctor,
+                  status: 3,
+                  time: b.time,
+                }
+              } 
+              this.ListPatientWaiting.push(updatePatient);
+              this.appointmentService.putAppointment(updatePatient, this.Exchange.appointment_id).subscribe((data) => {
+                this.showSuccessToast(`Đã thêm bệnh nhân ${this.Exchange.patient_name} và hàng đợi`);
+              })
+              localStorage.setItem("ListPatientWaiting", JSON.stringify(this.ListPatientWaiting));
               this.Exchange = {
                 epoch: "0",
                 produce_id: "0",

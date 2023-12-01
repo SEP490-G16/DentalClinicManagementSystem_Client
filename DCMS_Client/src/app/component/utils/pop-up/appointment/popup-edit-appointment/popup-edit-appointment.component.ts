@@ -157,14 +157,6 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
       this.oldTime = this.timeString;
       this.timeString = this.oldTime;
     }
-
-    // if (changes['datesDisabled'] && this.datesDisabled && this.datesDisabled.length > 0) {
-    //   this.datesDisabled = this.datesDisabled.map((timestamp: number) => {
-    //     const date = new Date(timestamp * 1000); 
-    //     return date.toISOString().slice(0, 10); 
-    //   });
-    //   console.log("Date Parse: ", this.datesDisabled);
-    // }
   }
 
   selectedDoctor: any = null;
@@ -180,18 +172,22 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
 
   patientList: any[] = [];
   patientInfor: any;
+  searchTimeout: any;
   onsearch(event: any) {
-    this.EDIT_APPOINTMENT_BODY.appointment.patient_name = event.target.value;
-    this.PATIENT_SERVICE.getPatientByName(this.EDIT_APPOINTMENT_BODY.appointment.patient_name, 1).subscribe(data => {
-      const transformedMaterialList = data.data.map((item: any) => {
-        return {
-          patientId: item.patient_id,
-          patientName: item.patient_name,
-          patientInfor: item.patient_id + " - " + item.patient_name + " - " + item.phone_number,
-        };
-      });
-      this.patientList = transformedMaterialList;
-    })
+    clearTimeout(this.searchTimeout);
+    this.searchTimeout = setTimeout(() => {
+      this.EDIT_APPOINTMENT_BODY.appointment.patient_name = event.target.value;
+      this.PATIENT_SERVICE.getPatientByName(this.EDIT_APPOINTMENT_BODY.appointment.patient_name, 1).subscribe(data => {
+        const transformedMaterialList = data.data.map((item: any) => {
+          return {
+            patientId: item.patient_id,
+            patientName: item.patient_name,
+            patientInfor: item.patient_id + " - " + item.patient_name + " - " + item.phone_number,
+          };
+        });
+        this.patientList = transformedMaterialList;
+      })
+    }, 2000);
   }
 
   doctorObject = {
@@ -381,23 +377,6 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
           })
         })
       })
-      // this.APPOINTMENT_SERVICE.getAppointmentList(this.dateToTimestamp(selectedDate + " 00:00:00"), this.dateToTimestamp(selectedDate + " 23:59:59")).subscribe(data => {
-      //   this.appointmentList = ConvertJson.processApiResponse(data);
-      //   this.filteredAppointments.forEach((appo: any) => {
-      //     appo.appointments.forEach((deta: any) => {
-      //       deta.details.forEach((res: any) => {
-      //         if (appo.date == this.dateToTimestamp(selectedDate)) {
-      //           if (res.patient_id == this.EDIT_APPOINTMENT_BODY.appointment.patient_id) {
-      //             this.validateAppointment.patientName = `Bệnh nhân đã có lịch hẹn trong ngày ${this.timestampToDate(appo.date)} !`;
-      //             this.isSubmitted = true;
-      //             this.loading = false;
-      //             return;
-      //           }
-      //         }
-      //       })
-      //     })
-      //   })
-      // })
     }
     if (!checkPatient ) {
       return;

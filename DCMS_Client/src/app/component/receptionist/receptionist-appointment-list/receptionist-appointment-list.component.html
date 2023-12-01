@@ -64,7 +64,7 @@
                     (click)="deleteAppointment(detail, a.date, $event)"> <i class="bi bi-trash"></i></button>
                 </td>
                 <td *ngIf="detail.status == 2 && checkDate(a.date)" class="direct-click">
-                  <button class="btn btn-redirect" (click)="postExchangeAppointmentToWaitingRoom(a.date, detail,$event)">
+                  <button class="btn btn-redirect" (click)="postExchangeAppointmentToWaitingRoom(a.date, detail ,$event)">
                     Đến phòng chờ
                   </button>
                 </td>
@@ -75,6 +75,9 @@
                 </td>
                 <td *ngIf="detail.status == 1" class="direct-click">
                   <p style="color: green;"><b>Đã khám</b></p>
+                </td>
+                <td *ngIf="detail.status == 3" class="direct-click">
+                  <p style="color: green;"><b>Đã đến</b></p>
                 </td>
               </ng-container>
             </tr>

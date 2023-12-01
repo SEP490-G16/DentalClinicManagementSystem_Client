@@ -1,10 +1,9 @@
 import { Component, OnInit, Renderer2, ViewChild, EventEmitter, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { ReceptionistAppointmentService } from 'src/app/service/ReceptionistService/receptionist-appointment.service';
 import { IAddAppointment, RootObject } from 'src/app/model/IAppointment';
 import { PatientService } from 'src/app/service/PatientService/patient.service';
 import * as moment from 'moment-timezone';
+//import { setTimeout } from 'timers';
 
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -217,8 +216,8 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     this.startDateTimestamp = this.dateToTimestamp(currentDateGMT7);
     this.endDateTimestamp = this.dateToTimestamp(this.endDate);
     this.getListAppountment();
-    ///this.selectDateToGetDoctor(a);
   }
+  
   getListAppountment() {
     this.startDateTimestamp = this.dateToTimestamp(this.startDate);
     this.APPOINTMENT_SERVICE.getAppointmentList(this.startDateTimestamp, this.endDateTimestamp).subscribe(data => {
@@ -238,13 +237,6 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     if (storeList != null) {
       this.listGroupService = JSON.parse(storeList);    
     }
-    // this.medicaoProcedureGroupService.getMedicalProcedureGroupList().subscribe((res: any) => {
-    //   this.listGroupService = res.data;
-    // },
-    //   error => {
-    //     ResponseHandler.HANDLE_HTTP_STATUS(this.medicaoProcedureGroupService.url + "/medical-procedure-group", error);
-    //   }
-    // )
   }
 
   getDisableDate() {
@@ -353,19 +345,22 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
 
   patientList: any[] = [];
   patientInfor: any;
+  searchTimeout: any; 
   onsearch(event: any) {
-    console.log(event.target.value)
-    this.AppointmentBody.appointment.patient_name = event.target.value;
-    this.PATIENT_SERVICE.getPatientByName(this.AppointmentBody.appointment.patient_name, 1).subscribe(data => {
-      const transformedMaterialList = data.data.map((item: any) => {
-        return {
-          patientId: item.patient_id,
-          patientName: item.patient_name,
-          patientInfor: item.patient_id + " - " + item.patient_name + " - " + item.phone_number,
-        };
-      });
-      this.patientList = transformedMaterialList;
-    })
+    clearTimeout(this.searchTimeout);
+    this.searchTimeout = setTimeout(() => {
+      this.AppointmentBody.appointment.patient_name = event.target.value;
+      this.PATIENT_SERVICE.getPatientByName(this.AppointmentBody.appointment.patient_name, 1).subscribe(data => {
+        const transformedMaterialList = data.data.map((item: any) => {
+          return {
+            patientId: item.patient_id,
+            patientName: item.patient_name,
+            patientInfor: item.patient_id + " - " + item.patient_name + " - " + item.phone_number,
+          };
+        });
+        this.patientList = transformedMaterialList;
+      })
+    }, 2000);
   }
 
   selectedDoctor: any = null;
@@ -568,13 +563,13 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
 
   showSuccessToast(message: string) {
     this.toastr.success(message, 'Thành công', {
-      timeOut: 3000, // Adjust the duration as needed
+      timeOut: 3000, 
     });
   }
 
   showErrorToast(message: string) {
     this.toastr.error(message, 'Lỗi', {
-      timeOut: 3000, // Adjust the duration as needed
+      timeOut: 3000,
     });
   }
 

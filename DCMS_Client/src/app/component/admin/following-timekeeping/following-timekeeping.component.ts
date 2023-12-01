@@ -248,7 +248,6 @@ export class FollowingTimekeepingComponent implements OnInit {
           });
         }
       });
-
       return timekeepingEntry;
     });
   }
@@ -327,24 +326,25 @@ export class FollowingTimekeepingComponent implements OnInit {
   }
 
   navigateHref(href: string) {
-    const userGroupsString = sessionStorage.getItem('userGroups');
+    this.router.navigate(['' + href]);
+    // const userGroupsString = sessionStorage.getItem('userGroups');
 
-    if (userGroupsString) {
-      const userGroups = JSON.parse(userGroupsString) as string[];
+    // if (userGroupsString) {
+    //   const userGroups = JSON.parse(userGroupsString) as string[];
 
-      if (userGroups.includes('dev-dcms-doctor')) {
-        this.router.navigate(['nhanvien' + href]);
-      } else if (userGroups.includes('dev-dcms-nurse')) {
-        this.router.navigate(['nhanvien' + href]);
-      } else if (userGroups.includes('dev-dcms-receptionist')) {
-        this.router.navigate(['nhanvien' + href]);
-      } else if (userGroups.includes('dev-dcms-admin')) {
-        this.router.navigate(['admin' + href]);
-      }
-    } else {
-      console.error('Không có thông tin về nhóm người dùng.');
-      this.router.navigate(['/default-route']);
-    }
+    //   if (userGroups.includes('dev-dcms-doctor')) {
+    //     this.router.navigate(['nhanvien' + href]);
+    //   } else if (userGroups.includes('dev-dcms-nurse')) {
+    //     this.router.navigate(['nhanvien' + href]);
+    //   } else if (userGroups.includes('dev-dcms-receptionist')) {
+    //     this.router.navigate(['nhanvien' + href]);
+    //   } else if (userGroups.includes('dev-dcms-admin')) {
+    //     this.router.navigate(['admin' + href]);
+    //   }
+    // } else {
+    //   console.error('Không có thông tin về nhóm người dùng.');
+    //   this.router.navigate(['/default-route']);
+    // }
   }
   calculateTotalHours() {
     // Khởi tạo/reset đối tượng chứa tổng giờ làm việc

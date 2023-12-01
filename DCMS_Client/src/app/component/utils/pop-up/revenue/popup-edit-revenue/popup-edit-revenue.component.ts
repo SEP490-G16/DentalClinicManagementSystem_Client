@@ -25,6 +25,7 @@ export class PopupEditRevenueComponent implements OnInit {
     private toastr: ToastrService) { }
 
     messageBody={
+      epoch: '',
       expenses: `{"createBy":"", "createDate":"", "typeExpense": "", "totalAmount":"", "note":""}`
     }
 
@@ -45,7 +46,9 @@ export class PopupEditRevenueComponent implements OnInit {
   }
 
   putBillObjectEdit(bill: any) {
+    console.log(this.EDIT_BILL_BODY);
     this.messageBody = {
+      epoch: this.EDIT_BILL_BODY.epoch,
       expenses: `{\\\"createBy\\\":\\\"${this.EDIT_BILL_BODY.createBy}\\\", \\\"createDate\\\":\\\"${this.dateToTimestamp(this.EDIT_BILL_BODY.createDate)}\\\", \\\"typeExpense\\\": \\\"${this.EDIT_BILL_BODY.typeExpense}\\\", \\\"totalAmount\\\":\\\"${this.EDIT_BILL_BODY.totalAmount}\\\", \\\"note\\\":\\\"${this.EDIT_BILL_BODY.note}\\\"}`
     };
     this.paidMaterialUsageService.updatePaidMaterialUsage(bill.epoch, JSON.stringify(this.messageBody)).subscribe(
