@@ -26,6 +26,12 @@
   animation: pulse 1s infinite; /* Add a pulsing animation */
 }
 
+.header2 {
+  font-size: 80px; /* Adjust for better scaling */
+  color: red;
+  animation: pulse 1s infinite; /* Add a pulsing animation */
+}
+
 @keyframes pulse {
   0% { transform: scale(1); }
   50% { transform: scale(1.05); }
@@ -34,6 +40,22 @@
 
 .confirmation-box h2 {
   color: #4CAF50;
+  margin-top: 0;
+  font-weight: 600; /* Make the header font a bit bolder */
+  font-size: 32px; /* Increase font size for better visibility */
+}
+
+.confirmation-box2 {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  max-width: 500px; /* Set a max-width for larger screens */
+  text-align: left; /* Align text to the left */
+}
+
+.confirmation-box2 h2 {
+  color: red;
   margin-top: 0;
   font-weight: 600; /* Make the header font a bit bolder */
   font-size: 32px; /* Increase font size for better visibility */

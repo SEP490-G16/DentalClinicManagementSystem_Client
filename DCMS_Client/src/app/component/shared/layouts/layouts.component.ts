@@ -1,15 +1,15 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {CognitoService} from "../../../service/cognito.service";
-import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { CognitoService } from "../../../service/cognito.service";
+import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 
 @Component({
   selector: 'app-layouts',
   templateUrl: './layouts.component.html',
   styleUrls: ['./layouts.component.css']
 })
-export class LayoutsComponent implements OnInit,AfterViewInit {
-  userName:string='';
-  roleName:string='';
+export class LayoutsComponent implements OnInit, AfterViewInit {
+  userName: string = '';
+  roleName: string = '';
   ngAfterViewInit(): void {
     const menuToggle = document.querySelector('.sep-menuToggle') as HTMLElement;
     const navigation = document.querySelector('.sep-navigation') as HTMLElement;
@@ -27,20 +27,72 @@ export class LayoutsComponent implements OnInit,AfterViewInit {
     function activeLink(this: HTMLElement) {
       list.forEach((item) =>
         item.classList.remove('active'));
-        this.classList.add('active');
+      this.classList.add('active');
     }
     list.forEach((item) => item.addEventListener('click', activeLink));
   }
+
+  showNotifications = false;
+  notifications = [
+    {
+      id: 1,
+      userImage: './assets/images/avatar-mark-webber.webp',
+      message: 'Mark Webber reacted to your recent post My first tournament today!',
+      time: '1m ago',
+      unread: true,
+    },
+    {
+      id: 2,
+      userImage: './assets/images/avatar-angela-gray.webp',
+      message: 'Angela Gray followed you',
+      time: '5m ago',
+      unread: true,
+    },
+    {
+      id: 3,
+      userImage: './assets/images/avatar-jacob-thompson.webp',
+      message: 'Jacob Thompson has joined your group Chess Club',
+      time: '1 day ago',
+      unread: true,
+    },
+  ];
+
+  get notificationCount() {
+    return this.notifications.length;
+  }
+
+  toggleNotifications() {
+    this.showNotifications = !this.showNotifications;
+  }
+
+  addNotification() {
+    const newNotification = { id: this.notificationCount + 1, userImage: 'path-to-new-image.jpg', message: 'New notification message', time:'1h ago', unread:true };
+    this.notifications.push(newNotification);
+    this.playNotificationSound();
+  }
+
+  deleteNotification(notificationId: number) {
+    this.notifications = this.notifications.filter(notification => notification.id !== notificationId);
+  }
+
+  playNotificationSound() {
+    const audio = new Audio();
+    audio.src = '../../../../assets/audio/facebook_notification.mp3';
+    audio.load();
+    audio.play();
+  }
+
+
   userGroupString: string = ''; // Declare the variable
 
-  compareUserGroup:string = "";
+  compareUserGroup: string = "";
   constructor(private cognitoService: CognitoService, private router: Router, private activatedRoute: ActivatedRoute) { }
   chatContainerVisible = false;
-  currentRoute: string='';
+  currentRoute: string = '';
   roleId: string[] = [];
   ngOnInit(): void {
     let user = sessionStorage.getItem('username');
-    if (user != null){
+    if (user != null) {
       this.userName = user;
     }
     console.log("oninit");
@@ -62,21 +114,21 @@ export class LayoutsComponent implements OnInit,AfterViewInit {
 
     let ro = sessionStorage.getItem('role');
     if (ro != null) {
-      this.roleId = ro.split(',') ;
-      if (this.roleId.includes('1')){
+      this.roleId = ro.split(',');
+      if (this.roleId.includes('1')) {
         this.roleName = 'Admin';
-        console.log("role",this.roleName)
+        console.log("role", this.roleName)
       }
-      else if (this.roleId.includes('2')){
+      else if (this.roleId.includes('2')) {
         this.roleName = 'Bác sĩ'
       }
-      else if (this.roleId.includes('3')){
+      else if (this.roleId.includes('3')) {
         this.roleName = 'Lễ tân';
       }
-      else if (this.roleId.includes('4')){
+      else if (this.roleId.includes('4')) {
         this.roleName = 'Y tá';
       }
-      else if (this.roleId.includes('5')){
+      else if (this.roleId.includes('5')) {
         this.roleName = 'Y tá trưởng';
       }
     }

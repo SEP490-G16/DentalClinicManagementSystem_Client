@@ -25,7 +25,6 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { RegisterWorkScheduleComponent } from './component/shared/register-work-schedule/register-work-schedule.component';
 //import {WebSocketSubject} from "rxjs/internal/observable/dom/WebSocketSubject";
 import { WebSocketSubject } from 'rxjs/webSocket';
-import { ConfirmAppointmentComponent } from './component/confirm-appointment/confirm-appointment.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
@@ -35,7 +34,6 @@ import { PopupConfirmServiceComponent } from './component/utils/pop-up/appointme
 import { TableComponent } from './component/shared/table/table.component';
 import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
 import { ConfirmationModalComponent } from './component/utils/pop-up/common/confirm-modal/confirm-modal.component';
-import { CancelSuccessComponent } from './component/patient/change-appointment/cancel-success/cancel-success.component';
 import { ConfirmDeleteModalComponent } from './component/utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component';
 import { NgbDateCustomParserFormatter } from './component/utils/libs/datepickerfOrmat';
 // Register the Vietnamese locale data
@@ -45,7 +43,6 @@ registerLocaleData(localeVi);
     AppComponent,
     RegisterWorkScheduleComponent,
     ConfirmationModalComponent,
-    CancelSuccessComponent,
     ConfirmDeleteModalComponent
   ],
   imports: [

@@ -60,11 +60,13 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
       // this.intervalId = setInterval(() => {
       //   this.getWaitingRoomData();
       // }, 1000);
+      this.getWaitingRoomData();
+
     } else {
       this.getWaitingRoomData();
     }
   }
-  
+
   getWaitingRoomData() {
     this.waitingRoomService.getWaitingRooms().subscribe(
       data => {
@@ -127,10 +129,10 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
       patient_id: wtr.patient_id,
       patient_name: wtr.patient_name,
       reason: wtr.reason,
-      status_value: Number(wtr.status), 
+      status_value: Number(wtr.status),
       appointment_id: wtr.appointment_id,
       appointment_epoch: wtr.appointment_epoch,
-    } 
+    }
     this.loading = true;
     if (this.PUT_WAITINGROO.status_value == 4) {
       const index = this.filteredWaitingRoomData.findIndex((item: any) => item.patient_id == this.PUT_WAITINGROO.patient_id);
@@ -171,7 +173,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           this.loading = false;
           this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
           this.showSuccessToast('Chỉnh sửa hàng chờ thành công');
-          this.getWaitingRoomData(); 
+          this.getWaitingRoomData();
         },
           (error) => {
             this.loading = false;
