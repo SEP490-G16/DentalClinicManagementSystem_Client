@@ -1,5 +1,5 @@
 import { ReceptionistTimekeepingService } from './../../../service/ReceptionistService/receptionist-timekeeping.service';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import 'moment/locale/vi';
@@ -8,6 +8,8 @@ import { RequestBodyTimekeeping, StaffTimekeeping, TimekeepingDetail, Timekeepin
 import { ConvertJson } from 'src/app/service/Lib/ConvertJson';
 import { CognitoService } from 'src/app/service/cognito.service';
 import { ResponseHandler } from "../../utils/libs/ResponseHandler";
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationModalComponent } from '../../utils/pop-up/common/confirm-modal/confirm-modal.component';
 @Component({
   selector: 'app-receptionist-timekeeping',
   templateUrl: './receptionist-timekeeping.component.html',
@@ -30,12 +32,17 @@ export class ReceptionistTimekeepingComponent implements OnInit {
   startTime: number = 0;
   endTime: number = 0;
 
+  //Role
+  role: any;
+
   timekeepingOnWeeks: any
   timeClockinColor: string = "onTime";
   timeClockoutColor: string = "lateTime";
   constructor(private cognitoService: CognitoService,
     private timekeepingService: ReceptionistTimekeepingService,
     private toastr: ToastrService,
+    private modalService: NgbModal,
+    private cd: ChangeDetectorRef,
     private router: Router) {
 
     moment.locale('vi');
@@ -58,6 +65,11 @@ export class ReceptionistTimekeepingComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const role = sessionStorage.getItem("role");
+    if (role) {
+      this.role = role;
+    }
+
     this.getListStaff();
   }
 
@@ -160,7 +172,8 @@ export class ReceptionistTimekeepingComponent implements OnInit {
                 staff.clock_in = (details.clock_in !== undefined && details.clock_in !== "0") ? this.timestampToGMT7String(details.clock_in) : '';
                 staff.clock_out = (details.clock_out !== undefined && details.clock_out !== "0") ? this.timestampToGMT7String(details.clock_out) : '';
                 staff.isClockin = !!details.clock_in;
-                staff.isClockout = !!details.clock_out;
+                staff.isClockout = (details.clock_out !== undefined && details.clock_out !== "0") ? true : false;
+                staff.isClockoutDisabled = (details.clock_in !== undefined && details.clock_in !== "0") ? false : true;
               } else {
                 staff.clockInStatus = 'Chưa chấm';
                 staff.clockOutStatus = 'Chưa chấm';
@@ -226,22 +239,54 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     this.callClockinApi(staff);
   }
 
-  handleClockInChange(staff: StaffTimekeeping, newClockInValue: string) {
-    if (staff.clock_out && newClockInValue >= staff.clock_out) {
-      this.toastr.error("Thời gian chấm công đến phải nhỏ hơn thời gian chấm công về.");
-      return;
-    }
-    staff.clock_in = newClockInValue;
-    this.Body = this.setClockinBody(staff);
-    this.callClockinApi(staff);
+  openConfirmationModal(message: string) {
+    const modalRef = this.modalService.open(ConfirmationModalComponent, { centered: true });
+    modalRef.componentInstance.message = message;
+    modalRef.componentInstance.confirmButtonText = 'Thay đổi';
+    modalRef.componentInstance.cancelButtonText = 'Hủy';
+
+    return modalRef.result;
   }
+
+  handleClockInChange(staff: StaffTimekeeping, event: Event) {
+    const target = event.target as HTMLInputElement | null;
+    if (target) {
+      const newClockInValue = target.value;
+      const originalClockIn = staff.clock_in;
+
+      //Để có thể pbiet giữa thời gian trong 1 ngày thì phải convert sang Date cùng 1 ngày đó
+      const clockInDateTime = new Date(`1970-01-01T${newClockInValue}:00Z`);
+      const clockOutDateTime = staff.clock_out ? new Date(`1970-01-01T${staff.clock_out}:00Z`) : null;
+
+      this.openConfirmationModal("Bạn có chắc chắn muốn thay đổi thời gian chấm công đến không?")
+        .then((result) => {
+          if (result === 'confirm') {
+            if (clockOutDateTime && clockInDateTime >= clockOutDateTime) {
+              staff.clock_in = originalClockIn;
+              this.cd.detectChanges();
+              this.toastr.error("Thời gian chấm công đến phải nhỏ hơn thời gian chấm công về.");
+            } else {
+              staff.clock_in = newClockInValue;
+              this.Body = this.setClockinBody(staff);
+              this.callClockinApi(staff);
+            }
+          } else {
+            staff.clock_in = originalClockIn;
+          }
+        });
+    }
+  }
+
+
 
   callClockinApi(staff: StaffTimekeeping) {
     this.timekeepingService.postTimekeeping(this.Body)
       .subscribe((res) => {
         this.toastr.success(res.message, "Chấm công đến thành công");
         //Update UI
-        staff.clock_in = this.currentTimeGMT7;
+        if (staff.clock_in == "") {
+          staff.clock_in = this.currentTimeGMT7;
+        }
         staff.isClockin = true;
         staff.isClockout = false;
       },
@@ -257,21 +302,44 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     this.callClockoutApi(staff);
   }
 
-  handleClockOutChange(staff: StaffTimekeeping, newClockoutValue: string) {
-    if (staff.clock_in && staff.clock_out <= staff.clock_in) {
-      this.toastr.error("Thời gian chấm công về phải lớn hơn thời gian chấm công đến.");
-      return;
+  handleClockOutChange(staff: StaffTimekeeping, event: Event) {
+    const target = event.target as HTMLInputElement | null;
+    if (target) {
+      const newClockoutValue = target.value;
+      const originalClockOut = staff.clock_out;
+
+      const clockInDateTime = staff.clock_in ? new Date(`1970-01-01T${staff.clock_in}:00Z`) : null;
+      const newClockOutDateTime = new Date(`1970-01-01T${newClockoutValue}:00Z`);
+
+      this.openConfirmationModal("Bạn có chắc chắn muốn thay đổi thời gian chấm công về không?").then((result) => {
+        if (result === 'confirm') {
+          if (clockInDateTime && newClockOutDateTime <= clockInDateTime) {
+            this.toastr.error("Thời gian chấm công về phải lớn hơn thời gian chấm công đến.");
+            staff.clock_out = originalClockOut;
+          } else {
+            staff.clock_out = newClockoutValue;
+            this.Body = this.setClockoutBody(staff);
+            this.callClockoutApi(staff);
+          }
+        } else {
+          staff.clock_out = originalClockOut;
+        }
+      });
     }
-    staff.clock_out = newClockoutValue;
-    this.Body = this.setClockoutBody(staff);
-    this.callClockoutApi(staff);
   }
+
+
 
   callClockoutApi(staff: StaffTimekeeping) {
     this.timekeepingService.postTimekeeping(this.Body)
       .subscribe((res) => {
         this.toastr.success(res.message, "Chấm công về thành công");
-        staff.clock_out = this.currentTimeGMT7;
+
+        console.log(this.Body);
+        if (staff.clock_out == "") {
+          staff.clock_out = this.currentTimeGMT7;
+        }
+
         staff.isClockout = true;
         staff.isClockoutDisabled = false;
       },
@@ -359,7 +427,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     const userGroupsString = sessionStorage.getItem('userGroups');
 
     // if (userGroupsString) {
-      this.router.navigate(['' + href]);
+    this.router.navigate(['' + href]);
     //   const userGroups = JSON.parse(userGroupsString) as string[];
 
     //   if (userGroups.includes('dev-dcms-doctor')) {

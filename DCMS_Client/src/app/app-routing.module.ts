@@ -80,14 +80,6 @@ const routes: Routes = [
     path: 'benhnhan-zalo',
     loadChildren: () => import('./component/patient/benhnhan.module').then(m => m.BenhnhanModule)
   },
-  {
-    path: 'xac-nhan-lich-hen',
-    component: ConfirmAppointmentComponent
-  },
-  {
-    path: 'huy-lich-hen',
-    component: CancelSuccessComponent
-  },
 ];
 
 @NgModule({

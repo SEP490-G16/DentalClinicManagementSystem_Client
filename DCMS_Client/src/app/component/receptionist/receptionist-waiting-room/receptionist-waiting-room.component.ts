@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 
 import { Auth } from 'aws-amplify';
@@ -11,7 +11,7 @@ import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureSe
 import { ResponseHandler } from "../../utils/libs/ResponseHandler";
 import * as moment from 'moment';
 import { ReceptionistAppointmentService } from 'src/app/service/ReceptionistService/receptionist-appointment.service';
-import {WebsocketService} from "../../../service/Chat/websocket.service";
+import { WebsocketService } from "../../../service/Chat/websocket.service";
 import { NullValidationHandler } from 'angular-oauth2-oidc';
 
 @Component({
@@ -61,6 +61,8 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
       // this.intervalId = setInterval(() => {
       //   this.getWaitingRoomData();
       // }, 1000);
+      this.getWaitingRoomData();
+
     } else {
       this.getWaitingRoomData();
     }
@@ -83,7 +85,8 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
         localStorage.setItem('listPatientId', JSON.stringify(this.listPatientId));
         this.filteredWaitingRoomData = [...this.waitingRoomData]; // Update the filtered list as well
         if (this.roleId.includes('2') || this.roleId.includes('4') || this.roleId.includes('5')) {
-          this.filteredWaitingRoomData = this.filteredWaitingRoomData.filter((item) => item.status == "2");
+          this.filteredWaitingRoomData = this.filteredWaitingRoomData.filter((item) => item.status.includes('2'));
+          console.log("Test role: ", this.roleId.includes('2'));
         }
         console.log(this.filteredWaitingRoomData);
       },
@@ -178,8 +181,9 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
             const storeList = localStorage.getItem('ListPatientWaiting');
             let listWaiting;
             if (storeList != null) {
-                listWaiting = JSON.parse(storeList);
+              listWaiting = JSON.parse(storeList);
             }
+
             if (listWaiting != '' && listWaiting != null && listWaiting != undefined) {
               listWaiting.forEach((item: any) => {
                 if (item.appointment.patient_id == this.PUT_WAITINGROO.patient_id) {
@@ -235,23 +239,24 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
       this.router.navigate(['dangnhap']);
     })
   }
-  navigateHref(href: string, id:any) {
+  navigateHref(href: string, id: any) {
     this.router.navigate([href + id]);
   }
 
-  messageContent:string ='CheckRealTime';
-  messageBody={
+  messageContent: string = 'CheckRealTime';
+  messageBody = {
     action: '',
     message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
   }
-  sendMessageWaitingRoom(){
+  sendMessageWaitingRoom() {
 
     if (this.messageContent.trim() !== '' && sessionStorage.getItem('sub-id') != null && sessionStorage.getItem('username') != null) {
       this.messageBody = {
         action: "sendMessage",
-        message:`{"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}`
+        message: `{"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}`
       };
       console.log(this.messageBody);
-      this.webSocketService.sendMessage(JSON.stringify(this.messageBody));}
+      this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
+    }
   }
 }

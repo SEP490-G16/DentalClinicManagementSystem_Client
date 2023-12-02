@@ -1,9 +1,23 @@
-<div class="confirmation-container">
-  <div class="confirmation-box">
-    <div class="header">
-      <i class="bi bi-check-circle"></i>
+<ng-container *ngIf="STATUS === true; else FAILED">
+  <div class="confirmation-container">
+    <div class="confirmation-box">
+      <div class="header">
+        <i class="bi bi-check-circle"></i>
+      </div>
+      <h2>Lịch Hẹn Đã Được Xác Nhận!</h2>
+      <p>Cảm ơn bạn đã đặt lịch hẹn. Chúng tôi rất mong được gặp bạn!</p>
     </div>
-    <h2>Lịch Hẹn Đã Được Xác Nhận!</h2>
-    <p>Cảm ơn bạn đã đặt lịch hẹn. Chúng tôi rất mong được gặp bạn!</p>
   </div>
-</div>
+</ng-container>
+
+<ng-template #FAILED>
+  <div class="confirmation-container">
+    <div class="confirmation-box2">
+      <div class="header2">
+        <i class="bi bi-x-circle"></i>
+      </div>
+      <h2>Lịch Hẹn chưa được Xác Nhận!</h2>
+      <p>Có một số lỗi xảy ra trong quá trình xác nhận lịch hẹn. Vui lòng thử lại sau!</p>
+    </div>
+  </div>
+</ng-template>

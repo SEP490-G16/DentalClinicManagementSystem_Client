@@ -1,0 +1,23 @@
+.prescription-modal {
+  font-family: 'Arial', sans-serif;
+  color: black;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 20px;
+  width: fit-content;
+  margin: auto;
+}
+.prescription-header, .patient-info, .diagnosis, .medication, .footer {
+  margin-bottom: 10px;
+}
+.clinic-name, .prescription-title {
+  text-align: center;
+  font-weight: bold;
+}
+.doctor-info, .contact-info, .signature {
+  text-align: center;
+}
+ol {
+  padding-left: 20px;
+}
+

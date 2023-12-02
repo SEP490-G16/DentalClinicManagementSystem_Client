@@ -121,8 +121,6 @@ export class ChangeAppointmentComponent implements OnInit {
     this.fetchAPI();
   }
 
-
-
   isMigrated: boolean = true;
   async fetchAPI() {
     while (this.isMigrated) {
@@ -151,7 +149,6 @@ export class ChangeAppointmentComponent implements OnInit {
       } else {
         this.appointmentDate = this.timestampToDate(AppointmentParent[0].date);
         console.log("AppointmentParent:", this.appointmentDate);
-
         this.selectedDate = this.timestampToDate(AppointmentParent[0].date);
         console.log("selectedDate: ", this.selectedDate);
         this.model = {
@@ -250,7 +247,9 @@ export class ChangeAppointmentComponent implements OnInit {
         patient_name: this.appointment.patient_name, //x
         phone_number: this.appointment.phone_number, //x
         procedure_id: this.appointment.procedure_id,  //x
-        doctor: this.appointment.doctor, //x
+        doctor: this.appointment.doctor, //x,
+        procedure_name: this.appointment.procedure_name,
+        reason: this.appointment.reason,
         time: this.timeAndDateToTimestamp(this.timeString, this.selectedDate),
         status: 1
         //x
@@ -262,7 +261,7 @@ export class ChangeAppointmentComponent implements OnInit {
         this.appointmentService.putAppointment(this.EDIT_APPOINTMENT_BODY, this.appointmentId_Pathparam)
           .subscribe((res) => {
             this.showSuccessToast("Sửa lịch hẹn thành công");
-            this.router.navigate(['/xac-nhan-lich-hen']);
+            this.router.navigate([`benhnhan-zalo/xac-nhan-lich-hen/${this.epoch_PathParam}/${this.appointmentId_Pathparam}`]);
           },
             (err) => {
               this.showErrorToast("Sửa lịch hẹn thất bại");
@@ -289,9 +288,8 @@ export class ChangeAppointmentComponent implements OnInit {
       if (result === 'confirmed') {
         this.appointmentService.deleteAppointment(this.epoch_PathParam, this.appointmentId_Pathparam)
           .subscribe((res) => {
+            this.router.navigate([`benhnhan-zalo/huy-lich-hen/${this.epoch_PathParam}/${this.appointmentId_Pathparam}`]);
             this.toastr.success(res.messgae, "Xóa lịch hẹn thành công")
-            this.router.navigate(['/huy-lich-hen']);
-
           },
             (err) => {
               this.toastr.error(err.error.message, "Xóa lịch hẹn thất bại");
