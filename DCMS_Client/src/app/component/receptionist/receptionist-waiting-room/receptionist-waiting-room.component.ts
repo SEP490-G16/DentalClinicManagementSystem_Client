@@ -84,7 +84,8 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
         localStorage.setItem('listPatientId', JSON.stringify(this.listPatientId));
         this.filteredWaitingRoomData = [...this.waitingRoomData]; // Update the filtered list as well
         if (this.roleId.includes('2') || this.roleId.includes('4') || this.roleId.includes('5')) {
-          this.filteredWaitingRoomData = this.filteredWaitingRoomData.filter((item) => item.status == "2");
+          this.filteredWaitingRoomData = this.filteredWaitingRoomData.filter((item) => item.status.includes('2'));
+          console.log("Test role: ", this.roleId.includes('2'));
         }
         console.log(this.filteredWaitingRoomData);
       },
