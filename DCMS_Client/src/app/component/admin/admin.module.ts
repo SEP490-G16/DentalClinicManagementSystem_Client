@@ -89,6 +89,7 @@ import { AddWaitingRoomComponent } from '../receptionist/receptionist-waiting-ro
 import { PopupConfirmServiceComponent } from '../utils/pop-up/appointment/popup-confirm-service/popup-confirm-service.component';
 import { RegisterWorkScheduleComponent } from '../shared/register-work-schedule/register-work-schedule.component';
 import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
+import { PopupGenMedicalPdfComponent } from '../utils/pop-up/patient/popup-add-examination/popup-gen-medical-pdf/popup-gen-medical-pdf.component';
 
 @NgModule({
   declarations: [
@@ -165,7 +166,8 @@ import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
     PopupEditAppointmentComponent,
     AddWaitingRoomComponent,
     PopupConfirmServiceComponent,
-    //RegisterWorkScheduleComponent,
+    //RegisterWorkScheduleComponent,,
+    PopupGenMedicalPdfComponent
   ],
   imports: [
     CommonModule,

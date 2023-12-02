@@ -43,7 +43,7 @@ registerLocaleData(localeVi);
     AppComponent,
     RegisterWorkScheduleComponent,
     ConfirmationModalComponent,
-    ConfirmDeleteModalComponent
+    ConfirmDeleteModalComponent,
   ],
   imports: [
     FormsModule,

@@ -19,7 +19,9 @@ import { MaterialService } from 'src/app/service/MaterialService/material.servic
 import { LaboService } from 'src/app/service/LaboService/Labo.service';
 import { getDate } from 'date-fns';
 import { ConfirmationModalComponent } from '../../common/confirm-modal/confirm-modal.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { PopupGenMedicalPdfComponent } from './popup-gen-medical-pdf/popup-gen-medical-pdf.component';
+import { PatientService } from 'src/app/service/PatientService/patient.service';
 @Component({
   selector: 'app-popup-add-examination',
   templateUrl: './popup-add-examination.component.html',
@@ -39,6 +41,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class PopupAddExaminationComponent implements OnInit {
   //Pathparam
   patient_Id: string = "";
+  Patient:any;
   treatmentCourse_Id: string = "0";
   //Image
   @ViewChild('containerRef', { static: true }) containerRef!: ElementRef;
@@ -94,6 +97,7 @@ export class PopupAddExaminationComponent implements OnInit {
     private cognitoService: CognitoService, private router: Router,
     private toastr: ToastrService,
     private route: ActivatedRoute,
+    private patientService: PatientService,
     private tcService: TreatmentCourseService,
     private tcDetailService: TreatmentCourseDetailService,
     private medicalProcedureGroupService: MedicalProcedureGroupService,
@@ -130,6 +134,7 @@ export class PopupAddExaminationComponent implements OnInit {
 
   ngOnInit(): void {
     this.patient_Id = this.route.snapshot.params['id'];
+    this.getPatient();
     const user = sessionStorage.getItem('username');
     if (user != null) {
       this.orderer = user;
@@ -151,6 +156,17 @@ export class PopupAddExaminationComponent implements OnInit {
         this.listTreatmentCourse = res;
       })
 
+  }
+
+  getPatient() {
+    this.patientService.getPatientById(this.patient_Id)
+    .subscribe((res)=> {
+        this.Patient = res;
+    },
+    (err) => {
+      this.toastr.error(err.error.message, "Lỗi khi lấy thông tin bệnh nhân")
+    }
+    )
   }
 
   staff = {
@@ -644,6 +660,18 @@ export class PopupAddExaminationComponent implements OnInit {
       }
       this.recordsImage.push(this.recordImage);
     }
+  }
+
+
+  modalOption: NgbModalOptions = {
+    size: 'lg',
+    centered: true
+  }
+
+  openGeneratePdfModal() {
+    const modalRef = this.modalService.open(PopupGenMedicalPdfComponent, this.modalOption);
+    modalRef.componentInstance.Medical = this.recordsMedicine;
+    modalRef.componentInstance.Patient = this.Patient;
   }
 
   deleteRecordImage(index: any) {

@@ -33,7 +33,7 @@ export class PatientService {
     let idToken = sessionStorage.getItem("id_Token");
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`,
-      'Content-Type': 'application/json'
+      'Accept': 'application/json'
     });
     return this.http.get(`${this.test}/patient/${id}`, { headers })
   }

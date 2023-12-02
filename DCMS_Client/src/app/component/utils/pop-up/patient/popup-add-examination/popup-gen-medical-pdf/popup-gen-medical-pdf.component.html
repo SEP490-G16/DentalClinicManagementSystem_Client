@@ -1,0 +1,76 @@
+<div class="modal-header">
+  <h4 class="modal-title">In đơn thuốc cho lần khám</h4>
+  <p class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </p>
+</div>
+<div class="modal-body prescription-modal" #pdfContent>
+  <div class="prescription-header">
+    <h2 class="clinic-name">NHA KHOA NGUYỄN TRẦN – 11 Phùng Chí Kiên</h2>
+    <p class="doctor-info">Ths. BSNT Nguyễn Ngọc Hoa</p>
+    <p class="contact-info"><b>0906 235 460/ 097 906 6759/ 0243 791 7869</b></p>
+  </div>
+
+  <h3 class="prescription-title">ĐƠN THUỐC</h3>
+
+  <div class="patient-info mt-3">
+    <div class="row">
+      <div class="col-6">
+        Họ và tên: <span>{{ Patient.patient_name }}</span>
+      </div>
+      <div class="col-6">
+        <div class="float-end mr-3" style="margin-right: 20px">Giới: <span>{{ (Patient.gender == 1) ? "Nam": "Nữ" }}</span></div>
+        <div class="float-end mr-3" style="margin-right: 30px">Tuổi: <span>{{ Patient.date_of_birth }}</span></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div>Địa chỉ: <span>{{ Patient.address }}</span></div>
+      </div>
+      <div class="col-6">
+        <div class="float-end" style="margin-right: 20px">Điện thoại: <span>{{ Patient.phone_number }}</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="diagnosis mt-3">
+    Chẩn đoán:
+  </div>
+
+  <div class="medication">
+    <ol>
+      <li *ngFor="let med of Medical">{{ med.ten }} {{ med.soluong }} {{ med.donvi ? med.donvi : '' }} - {{ med.lieuDung }}</li>
+    </ol>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col-6">
+      <div>Cộng: ....... khoản.</div>
+    </div>
+    <div class="col-6">
+      <div class="text-center">Hà Nội, ngày {{ currentDay }} tháng {{ currentMonth }} năm {{ currentYear }}</div>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-6">
+
+    </div>
+    <div class="col-6">
+      <div class="text-center">Bác sỹ</div>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-6">
+      <i class="text-center">Khám lại xin mang theo đơn này!</i>
+    </div>
+    <div class="col-6">
+      <div class="text-center">Nguyễn Ngọc Hoa</div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="dismiss()">Hủy</button>
+  <button type="button" class="btn btn-primary" (click)="generateExDetailPdf()">In đơn thuốc</button>
+</div>
