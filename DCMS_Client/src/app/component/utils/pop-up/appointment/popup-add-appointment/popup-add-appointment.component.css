@@ -248,3 +248,6 @@ button.example-custom-date-class {
   color: red;
   margin-left: 3px;
 }
+.add-patient{
+  padding: 2rem 0;
+}

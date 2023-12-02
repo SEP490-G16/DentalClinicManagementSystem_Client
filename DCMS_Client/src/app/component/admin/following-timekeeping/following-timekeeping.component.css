@@ -866,7 +866,7 @@ button:active{
 }
 .scrollable-col{
   max-width: 100%;
-  max-height: 450px;
+  max-height: 550px;
   overflow-y: auto;
   overflow-x: auto;
   scrollbar-width: thin;

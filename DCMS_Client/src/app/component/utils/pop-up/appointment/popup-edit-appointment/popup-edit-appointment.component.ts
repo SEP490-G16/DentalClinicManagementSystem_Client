@@ -425,8 +425,8 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
   }
 
   timeToTimestamp(timeStr: string): number {
-    const time = moment(timeStr, "HH:mm:ss");
-    const timestamp = time.unix(); // Lấy timestamp tính bằng giây
+    const time = moment(timeStr, "HH:mm:ss", "Asia/Ho_Chi_Minh");
+    const timestamp = time.unix();
     return timestamp;
   }
 

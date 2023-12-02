@@ -159,20 +159,41 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
     } else {
       this.waitingRoomService.putWaitingRoom(this.PUT_WAITINGROO)
         .subscribe(data => {
+          if (this.PUT_WAITINGROO.status_value == "2") {
+            const storeList = localStorage.getItem('ListPatientWaiting');
+            let listWaiting;
+            if (storeList != null) {
+                listWaiting = JSON.parse(storeList);
+            }
+            if (listWaiting != '' && listWaiting != null && listWaiting != undefined) {
+              listWaiting.forEach((item: any) => {
+                if (item.appointment.patient_id == this.PUT_WAITINGROO.patient_id) {
+                  item.appointment.status = "3";
+                  this.appointmentService.putAppointment(item, this.PUT_WAITINGROO.appointment_id).subscribe((data) => {
+                    this.showSuccessToast(`${item.appointment.patient_name} đang khám`);
+                  })
+                }
+              })
+            }
+          }
+
           if (this.PUT_WAITINGROO.status_value == "3") {
             const storeList = localStorage.getItem('ListPatientWaiting');
             let listWaiting;
             if (storeList != null) {
               listWaiting = JSON.parse(storeList);
             }
-            listWaiting.forEach((item: any) => {
-              if (item.appointment.patient_id == this.PUT_WAITINGROO.patient_id) {
-                item.appointment.status = "1";
-                this.appointmentService.putAppointment(item, this.PUT_WAITINGROO.appointment_id).subscribe((data) => {
-                  this.showSuccessToast(`${item.appointment.patient_name} đã khám xong`);
-                })
-              }
-            })
+
+            if (listWaiting != '' && listWaiting != null && listWaiting != undefined) {
+              listWaiting.forEach((item: any) => {
+                if (item.appointment.patient_id == this.PUT_WAITINGROO.patient_id) {
+                  item.appointment.status = "1";
+                  this.appointmentService.putAppointment(item, this.PUT_WAITINGROO.appointment_id).subscribe((data) => {
+                    this.showSuccessToast(`${item.appointment.patient_name} đã khám xong`);
+                  })
+                }
+              })
+            }
           }
           this.loading = false;
           this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
