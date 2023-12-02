@@ -29,6 +29,18 @@ export interface Examination {
   medicine: any
 }
 
+export interface EditExamination {
+  treatment_course_id: string,
+  diagnosis: any,
+  created_date: string,
+  facility_id: string,
+  description: any,
+  staff_id: string,
+  'x-ray-image': string,
+  'x-ray-image-des':string,
+  medicine: any
+}
+
 export interface ImageBody {
   base64: boolean,
   image_data: string,
