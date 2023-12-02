@@ -194,9 +194,9 @@
             </select>
           </div>
           <div class="notification">
-            <i class="bi bi-bell"></i>
+            <i class="bi bi-bell" (click)="toggleNotifications()"></i>
             <div class="notification-counter">{{ notifications.length }}</div>
-            <div class="notification-dropdown" *ngIf="notificationCount > 0">
+            <div class="notification-dropdown" *ngIf="notificationCount > 0 && showNotifications">
               <!-- Notification items -->
               <div class="notification-item">
                 <div class="container">
@@ -205,7 +205,7 @@
                       <h2 class="title">Thông báo</h2>
                       <span id="notifes">{{ notificationCount }}</span>
                     </div>
-                    <p id="mark_all">Đánh dấu là đã đọc hết</p>
+                    <p id="mark_all" (click)="markAll()">Đánh dấu là đã đọc hết</p>
                   </header>
                   <main>
                     <div class="notif_card" *ngFor="let notification of notifications"

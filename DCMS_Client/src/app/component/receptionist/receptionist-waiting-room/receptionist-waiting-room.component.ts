@@ -32,6 +32,8 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
   dataStorage: string = '';
   intervalId: any;
   roleId: any;
+
+  NEW: string = "new";
   constructor(private waitingRoomService: ReceptionistWaitingRoomService,
     private appointmentService: ReceptionistAppointmentService,
     private cognitoService: CognitoService,
@@ -56,6 +58,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
     if (co != null) {
       this.roleId = co.split(',');
     }
+
     this.getListGroupService();
     if (this.roleId.includes('2') || this.roleId.includes('4') || this.roleId.includes('5')) {
       // this.intervalId = setInterval(() => {

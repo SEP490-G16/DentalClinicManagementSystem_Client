@@ -5,7 +5,8 @@ export interface IPostWaitingRoom {
   patient_id: string
   patient_name: string
   reason: string
-  status: string, 
+  status: string,
+  patient_created_date: string,
   appointment_id:string,
   appointment_epoch:string
 }

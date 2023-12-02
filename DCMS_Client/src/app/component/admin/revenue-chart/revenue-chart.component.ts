@@ -61,8 +61,9 @@ export class RevenueChartComponent implements OnInit {
           this.toastr.error(err.error.message, "Lấy doanh thu thất bại");
         });
   }
+
   createRevenueChart(): void {
-    let combinedData = [...this.Expenses.medical_supply, ...this.Expenses.import_material];
+    let combinedData = [...this.Expenses.medical_supply, ...this.Expenses.import_material, ...this.Expenses.dynamo];
     combinedData.sort((a, b) => {
       const dateA = a.created_date || a.received_date;
       const dateB = b.created_date || b.received_date;
@@ -72,7 +73,6 @@ export class RevenueChartComponent implements OnInit {
 
       return parsedDateA.getTime() - parsedDateB.getTime();
     });
-
 
     let labels = combinedData.map(item => item.created_date || item.received_date);
     let data = combinedData.map(item => item.total_price);
@@ -107,38 +107,61 @@ export class RevenueChartComponent implements OnInit {
   }
 
 
-  private transformDynamoData(dynamoString: string) {
-    let processedString = dynamoString.replace(/Decimal\(/g, "").replace(/\)/g, "");
-
-    processedString = processedString.replace(/'([^']+)'/g, (match, p1) => {
-      if (p1.startsWith("{") && p1.endsWith("}")) {
-        return match;
-      }
-      return `"${p1}"`;
-    });
-
-    let dynamoArray;
+  private transformDynamoData(dynamoData: string): any[] {
     try {
-      dynamoArray = JSON.parse(processedString);
+      let normalizedData = dynamoData
+        .replace(/'/g, "\"")
+        .replace(/Decimal\("\d+"\)/g, "0")
+        .replace(/"({.*?})"/g, "$1")
+        .replace(/\\\"/g, '"');
+
+      console.log("Normalized Data:", normalizedData);
+
+      let parsedDynamoArray = JSON.parse(normalizedData);
+
+      return parsedDynamoArray.map((entry: any) => {
+        let keyToTransform = null;
+
+        // Find the key that matches the criteria for transformation
+        Object.keys(entry).forEach((key) => {
+          const isUUID = /^[a-f\d]{8}-(?:[a-f\d]{4}-){3}[a-f\d]{12}$/i.test(key);
+
+          // Check if the UUID is associated with "admin"
+          if (isUUID && entry[key].createBy === "admin") {
+            keyToTransform = key;
+          }
+        });
+
+        // Perform the transformation
+        if (keyToTransform) {
+          entry.expenses = entry[keyToTransform];
+          delete entry[keyToTransform];
+        }
+
+        try {
+          let expenseData = entry.expenses ? JSON.parse(JSON.stringify(entry.expenses)) : null;
+
+          if (expenseData) {
+            const date = new Date(expenseData.createDate * 1000).toISOString().split('T')[0];
+
+            return {
+              createBy: expenseData.createBy,
+              typeExpense: expenseData.typeExpense,
+              created_date: date,
+              total_price: parseFloat(expenseData.totalAmount),
+              note: expenseData.note
+            };
+          }
+        } catch (error) {
+          console.error('Error parsing individual expense data:', error, 'Entry:', entry);
+        }
+
+        return null;
+      }).filter((item: any) => item !== null);
     } catch (error) {
       console.error('Error parsing dynamo data:', error);
       return [];
     }
-
-    return dynamoArray.map((entry:any) => {
-      let expenseData;
-      try {
-        expenseData = JSON.parse(entry.expenses);
-      } catch (error) {
-        console.error('Error parsing individual expense data:', error, 'Entry:', entry);
-        return null;
-      }
-
-      return {
-        created_date: expenseData.createDate,
-        total_amount: parseFloat(expenseData.totalAmount),
-      };
-    }).filter((item:any) => item !== null);
   }
 
   onDateChange(): void {

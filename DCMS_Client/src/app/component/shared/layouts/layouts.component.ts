@@ -43,16 +43,16 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
     },
     {
       id: 2,
-      userImage: './assets/images/avatar-angela-gray.webp',
-      message: 'Angela Gray followed you',
-      time: '5m ago',
+      userImage: './assets/images/avatar-mark-webber.webp',
+      message: 'Mark Webber reacted to your recent post My first tournament today!',
+      time: '1m ago',
       unread: true,
     },
     {
       id: 3,
-      userImage: './assets/images/avatar-jacob-thompson.webp',
-      message: 'Jacob Thompson has joined your group Chess Club',
-      time: '1 day ago',
+      userImage: './assets/images/avatar-mark-webber.webp',
+      message: 'Mark Webber reacted to your recent post My first tournament today!',
+      time: '1m ago',
       unread: true,
     },
   ];
@@ -66,7 +66,10 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
   }
 
   addNotification() {
-    const newNotification = { id: this.notificationCount + 1, userImage: 'path-to-new-image.jpg', message: 'New notification message', time:'1h ago', unread:true };
+    const newNotification = { id: this.notificationCount + 1, userImage: './assets/images/avatar-mark-webber.webp',
+    message: 'Mark Webber reacted to your recent post My first tournament today!',
+    time: '1m ago',
+    unread: true, };
     this.notifications.push(newNotification);
     this.playNotificationSound();
   }
@@ -82,6 +85,9 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
     audio.play();
   }
 
+  markAll() {
+    this.notifications = [];
+  }
 
   userGroupString: string = ''; // Declare the variable
 

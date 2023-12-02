@@ -294,7 +294,7 @@ main .new-users .user-list .user img {
 }
 
 .notification-dropdown {
-  display: none;
+  display: block;
   position: absolute;
   top: 120%;
   right: 0;
@@ -314,15 +314,6 @@ main .new-users .user-list .user img {
 
 .notification-message {
   flex-grow: 1;
-}
-
-/* .notification:hover .notification-dropdown {
-  display: block;
-} */
-
-.profile:hover .notification-dropdown {
-  display: block;
-  /* Show on hover */
 }
 
 .notification-dropdown::before {
@@ -443,15 +434,16 @@ strong {
   cursor: pointer;
 }
 
-.unread {
+/* .unread {
   background-color: #5d48b1 !important;
-}
+} */
 
 .unread p:first-of-type::after {
   content: " ";
   background-color: hsl(1, 90%, 64%);
   width: 10px;
   height: 10px;
+  margin-left: 20px;
   display: inline-block;
   border-radius: 50%;
 }
