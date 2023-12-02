@@ -46,9 +46,9 @@
               <th>Labo</th> <!--6-->
               <th>Trạng thái</th> <!--7-->
               <th>Ngày đặt</th> <!--8-->
-              <th>Người đặt</th> <!--9-->
+              <!-- <th>Người đặt</th>  -->
               <th>Ngày nhận</th> <!--10-->
-              <th>Người nhận</th> <!--11-->
+              <!-- <th>Người nhận</th> -->
               <th>Ngày lắp</th> <!--12-->
               <th>Bảo hành</th> <!--13-->
               <th>Thao tác</th> <!--14-->
@@ -64,12 +64,9 @@
               <td>{{specimens.lb_id}}</td> <!--6-->
               <td>{{specimens.ms_status == 1 ? "Chờ duyệt":(specimens.ms_status == 2)? "Chưa nhận":
                 (specimens.ms_status == 3) ?"Đã nhận":"Hàng lỗi"}}</td> <!--7-->
-              <td>{{specimens.ms_order_date | date: 'dd/mm/yyyy'}}</td> <!--8-->
-              <td>{{specimens.ms_orderer}}</td> <!--9-->
-              <td>{{specimens.ms_received_date | date: 'dd/mm/yyyy' }}</td>
-              <!--10-->
-              <td>{{specimens.ms_receiver}}</td> <!--11-->
-              <td></td> <!--12-->
+              <td>{{ specimens.ms_order_date | date:'dd/MM/yyyy'}}</td> <!--8-->
+              <td>{{ specimens.ms_received_date | date:'dd/MM/yyyy'}}</td>
+              <td>{{ specimens.ms_used_date | date:'dd/MM/yyyy'}}</td> <!--12-->
               <td>{{specimens.ms_warranty}}</td> <!--13-->
               <td> <!--14-->
                 <button class="btn btn-primary p-1 m-2" (click)="openEditSpecimen(specimens)"><i

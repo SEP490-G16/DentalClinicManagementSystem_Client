@@ -27,4 +27,4 @@ export class ConvertJson{
       });
     return JSON.parse(formattedData);
   }
-}
+} 

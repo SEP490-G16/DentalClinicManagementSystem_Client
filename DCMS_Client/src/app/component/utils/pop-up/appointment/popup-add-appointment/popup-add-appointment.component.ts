@@ -388,8 +388,6 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     const selectedDay = this.model.day.toString().padStart(2, '0'); // Đảm bảo có 2 chữ số
 
     const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
-    console.log(selectedDate); // Đây là ngày dưới dạng "YYYY-MM-DD"
-
     this.AppointmentBody.epoch = this.dateToTimestamp(selectedDate);
     this.AppointmentBody.appointment.time = this.timeToTimestamp(this.appointmentTime);
     this.listGroupService.forEach(e => {
@@ -417,12 +415,33 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     const currentDate = moment().format('YYYY-MM-DD');
     console.log("Heree", currentDate);
 
+    var store = localStorage.getItem("listGroupService");
+    if (store != null) {
+      this.listGroupService = JSON.parse(store);    
+    }
+
+    let procedureNameSelected;
     if (this.procedure != "1") {
       this.datesDisabled.forEach((date: any) => {
-        if (this.timestampToDate(date.date) == selectedDate && this.procedure == date.procedure)
-          if (date.count >= 8) {
-            this.isCheckProcedure = false;
-          }
+        this.listGroupService.forEach((it:any) => {
+          if (this.timestampToDate(date.date) == selectedDate && this.procedure == date.procedure && it.medical_procedure_group_id == this.procedure && it.name == 'Điều trị tủy răng') {
+            if (date.count >= 8) {
+              procedureNameSelected = "Điều trị tủy răng";
+              this.isCheckProcedure = false;
+            }
+          } else if (this.timestampToDate(date.date) == selectedDate && this.procedure == date.procedure && it.medical_procedure_group_id == this.procedure && it.name == 'Chỉnh răng') {
+            if (date.count >= 10) {
+              procedureNameSelected = "Chỉnh răng";
+              this.isCheckProcedure = false;
+            }
+          } else if (this.timestampToDate(date.date) == selectedDate && this.procedure == date.procedure && it.medical_procedure_group_id == this.procedure && it.name == 'Nhổ răng khôn') {
+            if (date.count >= 4) {
+              procedureNameSelected = "Nhổ răng khôn";
+              this.isCheckProcedure = false;
+            }
+          } 
+        })
+          
       })
     }
 
@@ -437,7 +456,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
       this.loading = false;
       return;
     } else if (!this.isCheckProcedure) {
-      if (!window.confirm("Thủ thuật mà bạn chọn đã có đủ 8 người trong trong ngày đó. Bạn có muốn tiếp tục?")) {
+      if (!window.confirm(`Thủ thuật ${this.procedure} mà bạn chọn đã có đủ số lượng người trong trong ngày ${selectedDate}. Bạn có muốn tiếp tục?`)) {
         this.validateAppointment.appointmentDate = "Vui lòng chọn ngày khác";
         return;
       }
@@ -525,15 +544,15 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   }
 
   dateToTimestamp(dateStr: string): number {
-    const format = 'YYYY-MM-DD HH:mm'; // Định dạng của chuỗi ngày   const format = 'YYYY-MM-DD HH:mm:ss';
-    const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
+    const format = 'YYYY-MM-DD HH:mm'; 
+    const timeZone = 'Asia/Ho_Chi_Minh'; 
     var timestamp = moment.tz(dateStr, format, timeZone).valueOf() / 1000;
     return timestamp;
   }
 
   timeToTimestamp(timeStr: string): number {
-    const time = moment(timeStr, "HH:mm:ss");
-    const timestamp = time.unix(); // Lấy timestamp tính bằng giây
+    const time = moment(timeStr, "HH:mm:ss", "Asia/Ho_Chi_Minh");
+    const timestamp = time.unix(); 
     return timestamp;
   }
 
