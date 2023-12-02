@@ -1,5 +1,5 @@
 .confirmation-container {
-  background-image: url(https://www.parkavenuedc.com/assets/img/portfolio/portfolio-2.jpg);
+  background-image: url(../../../assets/img/367364734_751635086786788_6419976937035634327_n.jpg);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -7,29 +7,29 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f4f4f4; /* Light grey background for contrast */
-  padding: 20px;
+  background-color: #f4f4f4;
+  padding: 1rem;
 }
 
 .confirmation-box {
   background-color: #fff;
-  padding: 40px;
+  padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  max-width: 500px; /* Set a max-width for larger screens */
-  text-align: left; /* Align text to the left */
+  max-width: 80vw;
+  text-align: left;
 }
 
 .header {
-  font-size: 80px; /* Adjust for better scaling */
+  font-size: 80px;
   color: #4CAF50;
-  animation: pulse 1s infinite; /* Add a pulsing animation */
+  animation: pulse 1s infinite;
 }
 
 .header2 {
-  font-size: 80px; /* Adjust for better scaling */
+  font-size: 80px;
   color: red;
-  animation: pulse 1s infinite; /* Add a pulsing animation */
+  animation: pulse 1s infinite;
 }
 
 @keyframes pulse {
@@ -41,8 +41,8 @@
 .confirmation-box h2 {
   color: #4CAF50;
   margin-top: 0;
-  font-weight: 600; /* Make the header font a bit bolder */
-  font-size: 32px; /* Increase font size for better visibility */
+  font-weight: 600;
+  font-size: 2rem;
 }
 
 .confirmation-box2 {
@@ -50,34 +50,49 @@
   padding: 40px;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  max-width: 500px; /* Set a max-width for larger screens */
-  text-align: left; /* Align text to the left */
+  max-width: 500px;
+  text-align: left;
 }
 
 .confirmation-box2 h2 {
   color: red;
   margin-top: 0;
-  font-weight: 600; /* Make the header font a bit bolder */
-  font-size: 32px; /* Increase font size for better visibility */
+  font-weight: 600;
+  font-size: 2rem;
 }
 
 .confirmation-box p {
   color: #333;
-  margin-bottom: 30px; /* Increase space below the paragraph */
-  font-size: 18px; /* Increase font size for better readability */
+  margin-bottom: 30px;
+  font-size: 1rem;
 }
 
 .confirmation-box button {
   background-color: #4CAF50;
   color: #fff;
   border: none;
-  padding: 15px 30px; /* Increase padding for a larger button */
-  border-radius: 50px; /* Rounded borders for a modern look */
+  padding: 15px 30px;
+  border-radius: 50px;
   cursor: pointer;
-  font-size: 18px; /* Increase font size for better readability */
-  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  font-size: 18px;
+  transition: background-color 0.3s ease;
 }
 
 .confirmation-box button:hover {
-  background-color: #368c3c; /* Darken the button on hover for better interaction feedback */
+  background-color: #368c3c;
+}
+
+@media (max-width: 600px) {
+  .confirmation-box {
+    padding: 1rem;
+    max-width: 90%;
+  }
+
+  .confirmation-box h2 {
+    font-size: 24px;
+  }
+
+  .confirmation-box p {
+    font-size: 16px;
+  }
 }

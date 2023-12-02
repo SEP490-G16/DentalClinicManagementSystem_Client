@@ -341,9 +341,10 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     patient_id: '',
     patient_name: '',
     reason: '',
-    status: "1", 
+    status: "1",
     appointment_id: '',
     appointment_epoch: '',
+    patient_created_date: '',
   }
 
   waitingRoomData: any;
@@ -374,7 +375,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
       }
     );
   }
-  
+
   ListPatientWaiting: any[] = []
   status: boolean = true;
   postExchangeAppointmentToWaitingRoom(a: any, b: any, event: Event) {
@@ -411,6 +412,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
           this.Exchange.reason = b.reason;
           this.Exchange.appointment_id = b.appointment_id;
           this.Exchange.appointment_epoch = a;
+          this.Exchange.patient_created_date = b.patient_created_date;
           this.receptionistWaitingRoom.postWaitingRoom(this.Exchange).subscribe(
             (data) => {
               let updatePatient = {
@@ -427,7 +429,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
                   status: 3,
                   time: b.time,
                 }
-              } 
+              }
               this.ListPatientWaiting.push(updatePatient);
               this.appointmentService.putAppointment(updatePatient, this.Exchange.appointment_id).subscribe((data) => {
                 this.showSuccessToast(`Đã thêm bệnh nhân ${this.Exchange.patient_name} và hàng đợi`);
@@ -443,6 +445,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
                 status: "1",
                 appointment_id: '',
                 appointment_epoch: '',
+                patient_created_date: '',
               }
               window.location.href = "/letan/phong-cho";
             },

@@ -41,7 +41,7 @@
           <td style="width:100px">{{wtr.date}}</td>
           <td style="width:100px">{{ wtr.patient_id }}</td>
           <td>{{ wtr.patient_name }}</td>
-          <td class="new-patient"></td>
+          <td><span class="new-patient" *ngIf="wtr.patient_created_date === NEW"></span></td>
           <td style="width:300px" class="truncate" data-bs-toggle="tooltip" title="{{wtr.reason}}">{{wtr.reason }}</td>
           <td style="width:200px">{{ wtr.produce_name }}</td>
           <ng-container *ngIf="roleId.includes('3') || roleId.includes('1')">

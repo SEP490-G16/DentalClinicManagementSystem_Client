@@ -67,7 +67,7 @@
 }
 
 .background {
-  background: url('https://bambufit.vn/images/image/nhakhoavietsing3.jpg')
+  background: url('../../../../assets/img/398317722_354288244205338_4816789849175050023_n.jpg')
     rgba(0, 0, 0, 0.66);
   background-size: contain;
   background-blend-mode: darken;
@@ -84,7 +84,7 @@
 
 .web-wrapper{
     background-color: #c9d6ff;
-    background: url('https://www.parkavenuedc.com/assets/img/portfolio/portfolio-2.jpg');
+    background: url('../../../../assets/img/398317722_354288244205338_4816789849175050023_n.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

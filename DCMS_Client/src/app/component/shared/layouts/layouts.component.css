@@ -443,15 +443,16 @@ strong {
   cursor: pointer;
 }
 
-.unread {
+/* .unread {
   background-color: #5d48b1 !important;
-}
+} */
 
 .unread p:first-of-type::after {
   content: " ";
   background-color: hsl(1, 90%, 64%);
   width: 10px;
   height: 10px;
+  margin-left: 20px;
   display: inline-block;
   border-radius: 50%;
 }

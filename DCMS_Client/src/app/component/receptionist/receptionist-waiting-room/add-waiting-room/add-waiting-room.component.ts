@@ -68,6 +68,7 @@ export class AddWaitingRoomComponent implements OnInit {
       status: "1",
       appointment_id: '',
       appointment_epoch: '',
+      patient_created_date: '',
     } as IPostWaitingRoom
 
   }
@@ -150,6 +151,12 @@ export class AddWaitingRoomComponent implements OnInit {
       this.showErrorToast('Bệnh nhân đã tồn tại trong phòng chờ!');
       return;
     }
+    const wrPatientId = sessionStorage.getItem("WaitingRoomPatientId");
+    if(this.POST_WAITTINGROOM.patient_id === wrPatientId) {
+      console.log("vao r day");
+      this.POST_WAITTINGROOM.patient_created_date = "new";
+    }
+    console.log("POST Waiting room: ", this.POST_WAITTINGROOM);
     this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
       .subscribe((data) => {
         this.showSuccessToast("Thêm phòng chờ thành công!!");
@@ -205,7 +212,7 @@ export class AddWaitingRoomComponent implements OnInit {
       address: this.patient1.Address,
       full_medical_history: this.patient1.full_medical_History,
       dental_medical_history: this.patient1.dental_medical_History,
-      date_of_birth: this.patient1.dob
+      date_of_birth: this.patient1.dob,
     }
     if (this.patient1.phone_Number && this.patient1.phone_Number.length === 9) {
       this.patientBody = {
@@ -217,7 +224,7 @@ export class AddWaitingRoomComponent implements OnInit {
         address: this.patient1.Address,
         full_medical_history: this.patient1.full_medical_History,
         dental_medical_history: this.patient1.dental_medical_History,
-        date_of_birth: this.patient1.dob
+        date_of_birth: this.patient1.dob,
       }
     }
     if (this.patient1.phone_Number && this.patient1.phone_Number.length === 10) {
@@ -230,16 +237,17 @@ export class AddWaitingRoomComponent implements OnInit {
         address: this.patient1.Address,
         full_medical_history: this.patient1.full_medical_History,
         dental_medical_history: this.patient1.dental_medical_History,
-        date_of_birth: this.patient1.dob
+        date_of_birth: this.patient1.dob,
       }
     }
-
+    console.log("Patient body: ", this.patientBody);
     this.PATIENT_SERVICE.addPatient(this.patientBody).subscribe((data: any) => {
       this.toastr.success('Thêm mới bệnh nhân thành công!');
       let ref = document.getElementById('cancel-patient');
       ref?.click();
       this.patient1 = [];
       this.patientInfor = data.data.patient_id + " - " + this.patientBody.patient_name + " - " + this.normalizePhoneNumber(this.patientBody.phone_number);
+      sessionStorage.setItem("WaitingRoomPatientId", data.data.patient_id);
     }, error => {
       ResponseHandler.HANDLE_HTTP_STATUS(this.PATIENT_SERVICE.test + "/patient", error);
     })
