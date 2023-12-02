@@ -36,8 +36,7 @@ export interface EditExamination {
   facility_id: string,
   description: any,
   staff_id: string,
-  'x-ray-image': string,
-  'x-ray-image-des':string,
+  image: ImageBody[],
   medicine: any
 }
 
