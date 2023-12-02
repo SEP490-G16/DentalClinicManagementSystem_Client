@@ -15,7 +15,7 @@
                 điều
                 trị</a></li>
             <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
-                (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Mẫu vật</a>
+                (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Mẫu</a>
             </li>
             <li class="nav-item mr-2"><a class="nav-link active" style="padding: 10px; color: #664FC3; cursor: pointer;"
                 (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
@@ -58,11 +58,11 @@
                       <td>{{detail.reason}}</td>
                       <td>{{detail.procedure_name}}</td>
                       <td>
-                        <button class="btn btn-primary p-1 m-r-3" style="padding: 2px 3px; margin-right: 3px"
+                        <button class="btn btn-primary p-1 m-r-3" style="padding: 2px 3px; margin-right: 3px" title="Sửa lịch hẹn"
                           data-bs-toggle="modal" data-bs-target="#editAppointmentModal"
                           (click)="editAppointment(detail, gf.date)">
                           <i class="bi bi-pencil-square"></i></button>
-                        <button class="btn btn-danger p-1" style="padding: 2px 5px"
+                        <button class="btn btn-danger p-1" style="padding: 2px 5px" title="Xoá lịch hẹn"
                           (click)="deleteAppointment(detail, gf.date)"> <i class="bi bi-trash"></i></button>
                       </td>
                     </ng-container>

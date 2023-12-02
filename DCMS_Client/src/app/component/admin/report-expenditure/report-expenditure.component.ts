@@ -5,6 +5,12 @@ import { ConvertJson } from 'src/app/service/Lib/ConvertJson';
 import { error } from '@angular/compiler-cli/src/transformers/util';
 import * as moment from 'moment-timezone';
 import { IsThisSecondPipeModule } from 'ngx-date-fns';
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {
+  ConfirmDeleteModalComponent
+} from "../../utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component";
+import {DatePipe} from "@angular/common";
+import {ResponseHandler} from "../../utils/libs/ResponseHandler";
 
 @Component({
   selector: 'app-report-expenditure',
@@ -18,6 +24,8 @@ export class ReportExpenditureComponent implements OnInit {
   toDate: string = '';
   endDate: any;
   constructor(private paidMaterialUsageService: PaidMaterialUsageService,
+              private modalService: NgbModal,
+              private datePipe: DatePipe,
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
@@ -26,11 +34,11 @@ export class ReportExpenditureComponent implements OnInit {
 
 
   billObject = {
-    epoch: '', 
-    createDate: '', 
-    createBy: '', 
-    typeExpense: '', 
-    note: '', 
+    epoch: '',
+    createDate: '',
+    createBy: '',
+    typeExpense: '',
+    note: '',
     totalAmount: ''
   }
 
@@ -43,7 +51,7 @@ export class ReportExpenditureComponent implements OnInit {
 
   getListExpense() {
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
-    
+
     const currentDate1 = parseInt(currentDateGMT7.split('-')[0])+"-"+parseInt(currentDateGMT7.split('-')[1])+"-"+(parseInt(currentDateGMT7.split('-')[2]))+ " 00:00:00";
     const currentDate2 = parseInt(currentDateGMT7.split('-')[0])+"-"+parseInt(currentDateGMT7.split('-')[1])+"-"+parseInt(currentDateGMT7.split('-')[2])+ " 23:59:59" ;
     this.paidMaterialUsageService.getListExpense(this.dateToTimestamp(currentDate1).toString(), this.dateToTimestamp(currentDate2).toString()).subscribe((res) => {
@@ -110,16 +118,35 @@ export class ReportExpenditureComponent implements OnInit {
   openEditBill(bill:any) {
     this.billEdit = bill;
   }
+  openConfirmationModal(message: string): Promise<any> {
+    const modalRef = this.modalService.open(ConfirmDeleteModalComponent);
+    modalRef.componentInstance.message = message;
+    return modalRef.result;
+  }
+  deleteBill(epoch: any,createDate:any) {
+    const formattedDate = this.datePipe.transform(createDate, 'dd-MM-yyyy');
 
-  deleteBill(epoch: any) {
-    this.paidMaterialUsageService.deletePaidMaterialUsage(epoch).subscribe((res) => {
-      this.showSuccessToast("Xóa Labo thành công!");
-      window.location.reload();
-    },
-      (err) => {
-        this.showErrorToast("xóa không thành công");
+    // this.paidMaterialUsageService.deletePaidMaterialUsage(epoch).subscribe((res) => {
+    //   this.showSuccessToast("Xóa Labo thành công!");
+    //   window.location.reload();
+    // },
+    //   (err) => {
+    //     this.showErrorToast("xóa không thành công");
+    //   }
+    // )
+    this.openConfirmationModal(`Bạn có chắc chắn muốn xóa phiếu chi ngày ${formattedDate} không?`).then((result) => {
+      if (result) {
+        this.paidMaterialUsageService.deletePaidMaterialUsage(epoch)
+          .subscribe((res) => {
+              this.toastr.success('Xoá phiếu chi thành công !');
+              window.location.reload();
+            },
+            (error) => {
+              this.showErrorToast("Xóa phiếu chi thất bại!");
+            }
+          )
       }
-    )
+    });
   }
 
   onChangeFromDate(fromDate: any) {
@@ -166,17 +193,17 @@ export class ReportExpenditureComponent implements OnInit {
           this.listExpense = JSON.parse(`[${itemsString[1]}]`);
         }
       })
-    } 
+    }
 
     this.listExpense.forEach((item:any) => {
       console.log(ConvertJson.formatAndParse(item.expenses.S));
       this.ex = ConvertJson.formatAndParse(item.expenses.S);
       this.billObject = {
         epoch: item.epoch.N,
-        createDate: this.timestampToDate(this.ex.createDate), 
-        createBy: this.ex.createBy, 
-        typeExpense: this.ex.typeExpense, 
-        note: this.ex.note, 
+        createDate: this.timestampToDate(this.ex.createDate),
+        createBy: this.ex.createBy,
+        typeExpense: this.ex.typeExpense,
+        note: this.ex.note,
         totalAmount: this.ex.totalAmount
       }
       this.totalBill += parseInt(this.ex.totalAmount);

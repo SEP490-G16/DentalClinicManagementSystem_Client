@@ -35,7 +35,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let wtr of filteredWaitingRoomData; let i = index" (click)="details(wtr.patient_id)"
+        <tr title="Xem thông tin bệnh nhân {{ wtr.patient_name }}" *ngFor="let wtr of filteredWaitingRoomData; let i = index" (click)="details(wtr.patient_id)"
           style="cursor: pointer;">
           <td style="width:100px">{{ i + 1 }}</td>
           <td style="width:100px">{{wtr.date}}</td>

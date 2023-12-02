@@ -3,6 +3,10 @@ import { MaterialService } from "../../../service/MaterialService/material.servi
 import { ToastrService } from "ngx-toastr";
 import { MaterialWarehouseService } from 'src/app/service/MaterialService/material-warehouse.service';
 import {ResponseHandler} from "../../utils/libs/ResponseHandler";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {
+  ConfirmDeleteModalComponent
+} from "../../utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component";
 
 @Component({
   selector: 'app-material',
@@ -22,6 +26,7 @@ export class MaterialComponent implements OnInit {
   loading: boolean = false;
   constructor(private materialService: MaterialService,
     private matMaterialWarehouseService: MaterialWarehouseService,
+    private modalService: NgbModal,
     private toastr: ToastrService) { }
 
   pagingMaterial = {
@@ -136,24 +141,46 @@ export class MaterialComponent implements OnInit {
       }
     }
   }
-  deleteMaterial(id: string) {
-    const isConfirmed = window.confirm('Bạn có chắc muốn xoá vật liệu này không ?');
-    if (isConfirmed) {
-      this.loading = true;
-      this.matMaterialWarehouseService.deleteMaterialImportMaterial(id).subscribe(data => {
-        this.toastr.success('Xoá vật liệu thành công !');
-        const index = this.materialList.findIndex((material: any) => material.material_id === id);
-        if (index !== -1) {
-          this.materialList.splice(index, 1);
-        }
-        this.loading = false;
-      },
-        error => {
-          //this.toastr.error('Xoá vật liệu thất bại !');
-          ResponseHandler.HANDLE_HTTP_STATUS(this.matMaterialWarehouseService.url+"/material-warehouse/material_warehouse_id/"+id, error);
-        }
-      )
-    }
+  openConfirmationModal(message: string): Promise<any> {
+    const modalRef = this.modalService.open(ConfirmDeleteModalComponent);
+    modalRef.componentInstance.message = message;
+    return modalRef.result;
+  }
+  deleteMaterial(id: string,materialName:string) {
+    // const isConfirmed = window.confirm('Bạn có chắc muốn xoá vật liệu này không ?');
+    // if (isConfirmed) {
+    //   this.loading = true;
+    //   this.matMaterialWarehouseService.deleteMaterialImportMaterial(id).subscribe(data => {
+    //     this.toastr.success('Xoá vật liệu thành công !');
+    //     const index = this.materialList.findIndex((material: any) => material.material_id === id);
+    //     if (index !== -1) {
+    //       this.materialList.splice(index, 1);
+    //     }
+    //     this.loading = false;
+    //   },
+    //     error => {
+    //       //this.toastr.error('Xoá vật liệu thất bại !');
+    //       ResponseHandler.HANDLE_HTTP_STATUS(this.matMaterialWarehouseService.url+"/material-warehouse/material_warehouse_id/"+id, error);
+    //     }
+    //   )
+    // }
+    this.openConfirmationModal(`Bạn có chắc chắn muốn xóa vật liệu ${materialName} không?`).then((result) => {
+      if (result) {
+        this.matMaterialWarehouseService.deleteMaterialImportMaterial(id)
+          .subscribe((res) => {
+              this.toastr.success('Xoá vật liệu thành công !');
+              const index = this.materialList.findIndex((material: any) => material.material_id === id);
+                  if (index !== -1) {
+                    this.materialList.splice(index, 1);
+                  }
+            },
+            (error) => {
+              //this.toastr.error('Xoá vật liệu thất bại !');
+              ResponseHandler.HANDLE_HTTP_STATUS(this.matMaterialWarehouseService.url+"/material-warehouse/material_warehouse_id/"+id, error);
+            }
+          )
+      }
+    });
   }
   openEditMaterial(item:any, detail:any) {
     this.material = item;

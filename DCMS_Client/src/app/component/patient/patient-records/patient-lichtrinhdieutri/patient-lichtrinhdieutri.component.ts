@@ -97,11 +97,11 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
   }
 
   deleteTreatmentCourse(treatment_course_id: string) {
-    this.openConfirmationModal('Bạn có muốn xóa liệu trình này không?').then((result) => {
+    this.openConfirmationModal('Bạn có muốn xóa đợt khám này không?').then((result) => {
       if (result === 'confirm') {
         this.treatmentCourseService.deleteTreatmentCourse(treatment_course_id)
           .subscribe((res) => {
-            this.toastr.success(res.message, 'Xóa liệu trình thành công');
+            this.toastr.success(res.message, 'Xóa đợt khám thành công');
             const index = this.ITreatmentCourse.findIndex((ex: any) => ex.treatment_course_id === treatment_course_id);
             if (index !== -1) {
               this.ITreatmentCourse.splice(index, 1);

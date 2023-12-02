@@ -92,7 +92,13 @@ export class PopupAddSpecimensComponent implements OnInit {
     this.specimen.quantity = '1';
     this.specimen.orderer = sessionStorage.getItem('username') + '';
     const currentDate = new Date();
-    this.specimen.orderDate = currentDate.getFullYear().toString() + "-" + (currentDate.getMonth() + 1).toString() + "-" + currentDate.getDate().toString();
+    // this.specimen.orderDate = currentDate.getFullYear().toString() + "-" + (currentDate.getMonth() + 1).toString() + "-" + currentDate.getDate().toString();
+    const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
+    const year = currentDateGMT7.split('-')[0];
+    const month = currentDateGMT7.split('-')[1];
+    const day = currentDateGMT7.split('-')[2];
+    this.specimen.orderDate = `${year}-${month}-${day}`;
+     alert(this.specimen.orderDate)
   }
 
 

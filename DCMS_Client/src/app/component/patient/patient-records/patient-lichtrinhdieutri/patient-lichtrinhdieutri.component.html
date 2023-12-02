@@ -15,7 +15,7 @@
                 (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')"
                 style="padding: 10px; color: #664FC3; cursor: pointer;">Khám và điều trị</a></li>
             <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
-                (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Mẫu vật</a>
+                (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Mẫu</a>
             </li>
             <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
                 (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
@@ -42,7 +42,7 @@
               <div class="card-header" (click)="toggleCollapse(course.treatment_course_id);">
                 <div class="row">
                   <div class="col">
-                    <a style=" color: white;cursor: pointer; text-decoration: none; font-size: 15px;">
+                    <a title="Xem thông tin lần khám của đợt khám {{ course.name }}" style=" color: white;cursor: pointer; text-decoration: none; font-size: 15px;">
                       <b style="color: white;">Đợt khám: {{ course.name }} - {{course.created_date | date: 'dd/mm/yyyy'}}</b>
                     </a>
                   </div>

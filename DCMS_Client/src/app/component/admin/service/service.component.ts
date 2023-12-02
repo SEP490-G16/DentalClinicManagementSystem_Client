@@ -5,6 +5,10 @@ import { MedicalProcedureService } from "../../../service/MedicalProcedureServic
 import { Router } from '@angular/router';
 import { CognitoService } from 'src/app/service/cognito.service';
 import { ResponseHandler } from "../../utils/libs/ResponseHandler";
+import {
+  ConfirmDeleteModalComponent
+} from "../../utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-service',
@@ -19,6 +23,7 @@ export class ServiceComponent implements OnInit {
     private medicalProcedure: MedicalProcedureService,
     private cognitoService: CognitoService,
     private router: Router,
+    private modalService: NgbModal,
     private toastr: ToastrService) { }
   id: any;
   idService: any;
@@ -75,38 +80,49 @@ export class ServiceComponent implements OnInit {
       }
     }
   }
-  deleteMedicalProcedureGroup(id: string) {
-    const cf = confirm("Bạn có muốn xóa nhóm thủ thuật này không?");
-    if (cf) {
-      this.medicalProcedureGroupService.deleteMedicalProcedureGroup(id).subscribe(data => {
-        this.toastr.success('Xoá nhóm thủ thuật thành công !');
-        const index = this.filteredMgData.findIndex((medicalGroup: any) => medicalGroup.mg_id === id);
-        if (index !== -1) {
-          this.filteredMgData.splice(index, 1);
-        }
-      },
-        error => {
-          ResponseHandler.HANDLE_HTTP_STATUS(this.medicalProcedureGroupService.url + "/medical-procedure-group/" + id, error);
-        }
-      )
-    }
+  openConfirmationModal(message: string): Promise<any> {
+    const modalRef = this.modalService.open(ConfirmDeleteModalComponent);
+    modalRef.componentInstance.message = message;
+    return modalRef.result;
+  }
+  deleteMedicalProcedureGroup(id: string,mg_name:string) {
+    this.openConfirmationModal(`Bạn có chắc chắn muốn xóa nhóm thủ thuật ${mg_name} không?`).then((result) => {
+      if (result) {
+        this.medicalProcedureGroupService.deleteMedicalProcedureGroup(id)
+          .subscribe((res) => {
+              this.toastr.success('Xoá nhóm thủ thuật thành công !');
+              const index = this.filteredMgData.findIndex((medicalGroup: any) => medicalGroup.mg_id === id);
+                  if (index !== -1) {
+                    this.filteredMgData.splice(index, 1);
+                  }
+            },
+            (error) => {
+              //this.showErrorToast('Xóa mẫu vật thất bại');
+              ResponseHandler.HANDLE_HTTP_STATUS(this.medicalProcedureGroupService.url + "/medical-procedure-group/" + id, error);
+            }
+          )
+      }
+    });
   }
 
-  deleteMedicalProcedure(id: string) {
-    const cf = confirm("Bạn có muốn xóa thủ thuật này không?");
-    if (cf) {
-      this.medicalProcedure.deleteMedicalProcedure(id).subscribe(data => {
-        this.toastr.success('Xoá thủ thuật thành công !');
-        const index = this.medicalProcedureList.findIndex((medicalG: any) => medicalG.mp_id === id);
-        if (index !== -1) {
-          this.medicalProcedureList.splice(index, 1);
-        }
-      },
-        error => {
-          ResponseHandler.HANDLE_HTTP_STATUS(this.medicalProcedure.url + "/medical-procedure/" + id, error);
-        }
-      )
-    }
+  deleteMedicalProcedure(id: string,mp_name:string) {
+    this.openConfirmationModal(`Bạn có chắc chắn muốn xóa thủ thuật ${mp_name} không?`).then((result) => {
+      if (result) {
+        this.medicalProcedure.deleteMedicalProcedure(id)
+          .subscribe((res) => {
+              this.toastr.success('Xoá thủ thuật thành công !');
+              const index = this.medicalProcedureList.findIndex((medicalG: any) => medicalG.mp_id === id);
+                  if (index !== -1) {
+                    this.medicalProcedureList.splice(index, 1);
+                  }
+            },
+            (error) => {
+              //this.showErrorToast('Xóa mẫu vật thất bại');
+              ResponseHandler.HANDLE_HTTP_STATUS(this.medicalProcedure.url + "/medical-procedure/" + id, error);
+            }
+          )
+      }
+    });
   }
 
   openEditGroupService(id: any, name: any, description: any) {

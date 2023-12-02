@@ -3,6 +3,10 @@ import {MedicalSupplyService} from "../../../service/MedicalSupplyService/medica
 import {ToastrService} from "ngx-toastr";
 import * as moment from 'moment-timezone';
 import {ResponseHandler} from "../../utils/libs/ResponseHandler";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {
+  ConfirmDeleteModalComponent
+} from "../../utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component";
 
 @Component({
   selector: 'app-pending-specimens',
@@ -12,6 +16,7 @@ import {ResponseHandler} from "../../utils/libs/ResponseHandler";
 export class PendingSpecimensComponent implements OnInit {
   approveSpecimensList:any;
   constructor(private medicalSupplyService: MedicalSupplyService,
+              private modalService: NgbModal,
               private toastr: ToastrService) { }
   status:any;
   paging:any;
@@ -90,26 +95,30 @@ export class PendingSpecimensComponent implements OnInit {
       }
       )
   }
-  deleteApproveSpecimens(id:string){
+  openConfirmationModal(message: string): Promise<any> {
+    const modalRef = this.modalService.open(ConfirmDeleteModalComponent);
+    modalRef.componentInstance.message = message;
+    return modalRef.result;
+  }
+  deleteApproveSpecimens(id:string,ms_name:string){
     console.log(id);
-    const isConfirmed = window.confirm('Bạn có chắc muốn xoá mẫu này?');
-    if (isConfirmed){
-      this.loading = true;
-      this.medicalSupplyService.deleteApproveSpecimens(id).subscribe(data=>{
-          this.toastr.success('Xoá thủ thuật thành công !');
-          const index = this.approveSpecimensList.findIndex((specimens:any) => specimens.ms_id === id);
-          if (index !== -1) {
-            this.approveSpecimensList.splice(index, 1);
-          }
-          this.loading = false;
-        },
-        error => {
-        this.loading = false;
-          //this.toastr.error('Xoá  thủ thuật thất bại!');
-          ResponseHandler.HANDLE_HTTP_STATUS(this.medicalSupplyService.url+"/medical-supply/"+id, error);
-        }
-      )
-    }
+    this.openConfirmationModal(`Bạn có chắc chắn muốn xóa mẫu ${ms_name} không?`).then((result) => {
+      if (result) {
+        this.medicalSupplyService.deleteApproveSpecimens(id)
+          .subscribe((res) => {
+              this.toastr.success('Xoá mẫu thành công !');
+              const index = this.approveSpecimensList.findIndex((specimens:any) => specimens.ms_id === id);
+                    if (index !== -1) {
+                      this.approveSpecimensList.splice(index, 1);
+                    }
+            },
+            (error) => {
+              //this.showErrorToast('Xóa mẫu vật thất bại');
+              ResponseHandler.HANDLE_HTTP_STATUS(this.medicalSupplyService.url+"/medical-supply/"+id, error);
+            }
+          )
+      }
+    });
 
   }
   openEditApproveSpecimens(id:any, specimens:any){

@@ -91,10 +91,10 @@
                         <p style="color: red;"><b>Hết Hàng</b></p>
                       </td>
                       <td style="padding-top: 10px;padding-bottom: 10px;">
-                        <button class="btn btn-primary p-1 m-r-3" style="margin-right: 3px" data-bs-toggle="modal"
+                        <button class="btn btn-primary p-1 m-r-3" title="Sửa vật liệu" style="margin-right: 3px" data-bs-toggle="modal"
                           data-bs-target="#editMaterialModal" (click)="openEditMaterial(item,detail)">
                           <i class="bi bi-pencil-square"></i></button>
-                        <button class="btn btn-danger p-1" (click)="deleteMaterial(detail.mw_material_warehouse_id)"> <i
+                        <button class="btn btn-danger p-1" title="Xoá vật liệu" (click)="deleteMaterial(detail.mw_material_warehouse_id,item.materialName)"> <i
                             class="bi bi-trash"></i></button>
                       </td>
                     </tr>

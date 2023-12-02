@@ -14,13 +14,20 @@ export class PopupEditRevenueComponent implements OnInit {
 
 
   EDIT_BILL_BODY = {
-    epoch: '', 
-    createDate: '', 
-    createBy: '', 
-    typeExpense: '', 
-    note: '', 
+    epoch: '',
+    createDate: '',
+    createBy: '',
+    typeExpense: '',
+    note: '',
     totalAmount: ''
   }
+  validate = {
+    createDate:'',
+    createBy:'',
+    type:'',
+    totalAmount:''
+  }
+  isSubmitted:boolean = false;
   constructor(private paidMaterialUsageService: PaidMaterialUsageService,
     private toastr: ToastrService) { }
 
@@ -47,6 +54,30 @@ export class PopupEditRevenueComponent implements OnInit {
 
   putBillObjectEdit(bill: any) {
     console.log(this.EDIT_BILL_BODY);
+    this.resetValidate();
+    if (!this.EDIT_BILL_BODY.createBy){
+      this.validate.createBy = "Vui lòng nhập người chi!";
+      this.isSubmitted = true;
+    }
+    if (!this.EDIT_BILL_BODY.typeExpense){
+      this.validate.type = "Vui lòng nhập loại chi!";
+      this.isSubmitted = true;
+    }
+    if (!this.EDIT_BILL_BODY.createDate || !this.formatDate(this.EDIT_BILL_BODY.createDate)) {
+      this.validate.createDate = 'Vui lòng nhập nhập ngày tạo!';
+      this.isSubmitted = true;
+    }
+    if (!this.EDIT_BILL_BODY.totalAmount){
+      this.validate.totalAmount = "Vui lòng nhập số tiền!";
+      this.isSubmitted = true;
+    }
+    else if (this.EDIT_BILL_BODY.totalAmount && !this.checkNumber(this.EDIT_BILL_BODY.totalAmount)){
+      this.validate.totalAmount = "Số tiền không hợp lệ!";
+      this.isSubmitted = true;
+    }
+    if (this.isSubmitted){
+      return;
+    }
     this.messageBody = {
       epoch: this.EDIT_BILL_BODY.epoch,
       expenses: `{\\\"createBy\\\":\\\"${this.EDIT_BILL_BODY.createBy}\\\", \\\"createDate\\\":\\\"${this.dateToTimestamp(this.EDIT_BILL_BODY.createDate)}\\\", \\\"typeExpense\\\": \\\"${this.EDIT_BILL_BODY.typeExpense}\\\", \\\"totalAmount\\\":\\\"${this.EDIT_BILL_BODY.totalAmount}\\\", \\\"note\\\":\\\"${this.EDIT_BILL_BODY.note}\\\"}`
@@ -80,5 +111,19 @@ export class PopupEditRevenueComponent implements OnInit {
     var timestamp = moment.tz(dateStr, format, timeZone).valueOf() / 1000;
     return timestamp;
   }
-
+  resetValidate(){
+    this.validate = {
+      createDate: '',
+      createBy:'',
+      type:'',
+      totalAmount:''
+    }
+    this.isSubmitted = false;
+  }
+  private checkNumber(number: any): boolean {
+    return /^[1-9]\d*$/.test(number);
+  }
+  private formatDate(dateString: any): boolean {
+    return /^\d{4}-(0[1-9]|1[0-2])-([0-2][0-9]|3[01])$/.test(dateString);
+  }
 }

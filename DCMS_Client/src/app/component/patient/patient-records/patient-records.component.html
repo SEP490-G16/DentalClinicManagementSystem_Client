@@ -23,7 +23,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="hover-patient" *ngFor="let p of searchPatientsList"
+        <tr class="hover-patient" title="Xem thông tin bệnh nhân {{p.patient_name}}" *ngFor="let p of searchPatientsList"
           [ngClass]="{'new-record': p.isNew,'pulse': p.isPulsing}" style="cursor: pointer;">
 
           <!-- <ng-container (click)="detail(p.patient_id)"> -->
@@ -41,9 +41,9 @@
             </td>
           <!-- </ng-container> -->
           <td style="width: 100px;">
-            <button class="btn btn-primary" style="padding: 2px 5px; margin-right: 3px">
+            <button class="btn btn-primary" title="Sửa bệnh nhân" style="padding: 2px 5px; margin-right: 3px">
               <i class="bi bi-pencil-square"></i></button>
-            <button href="#" class="btn btn-danger float-right btn-rounded" style="padding: 2px 5px"
+            <button href="#" class="btn btn-danger float-right btn-rounded" title="Xoá bệnh nhân" style="padding: 2px 5px"
               (click)="openDeletePatient(p.patient_id, p.patient_name, $event)"><i class="bi bi-trash"></i></button>
           </td>
         </tr>
@@ -53,10 +53,10 @@
   </div>
   <div class="sep-pagination">
     <a (click)="currentPage > 1 ? pageChanged(currentPage - 1) : null" [class.disabled]="currentPage <= 1"
-      style="color: black">&laquo;</a>
+      style="color: black" title="Trang trước">&laquo;</a>
     <a>{{currentPage}}</a>
     <a [class.disabled]="!hasNextPage" (click)="hasNextPage && pageChanged(currentPage + 1)"
-      style="color: black">&raquo;</a>
+      style="color: black" title="Trang sau">&raquo;</a>
   </div>
 </div>
 <!-- End of Recent Orders -->
