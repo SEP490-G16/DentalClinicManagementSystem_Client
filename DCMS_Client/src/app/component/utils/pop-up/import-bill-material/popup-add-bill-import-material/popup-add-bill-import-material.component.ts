@@ -77,7 +77,22 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
     donGia:'',
     hanSuDung:''
   }
-
+  material = {
+    name:'',
+    unit:'',
+    unitPrice:''
+  }
+  materialBody={
+    material_name:'',
+    unit:'',
+    total:''
+  }
+  validate={
+    name:'',
+    unit:'',
+    unitPrice:''
+  }
+  isAddMaterial:boolean = false;
   materialList: any;
   records_body: any[] = []
   isAdd: boolean = false;
@@ -88,6 +103,7 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
   loading: boolean = false;
   count: number = 0;
   isAddBill:boolean = false;
+  isSubmitted:boolean = false;
   toggleAdd() {
     this.isAdd = !this.isAdd;
     this.isAddBill = true;
@@ -98,7 +114,56 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
     }
     this.calculateTotalAmount();
   }
+  toggleAddMaterial(){
+    this.isAddMaterial = true;
+    this.isAddBill = false;
+  }
+  toggleCancelMaterial(){
+    this.isAddMaterial = false;
+  }
+  addMaterial(){
+    this.resetValidate();
+    if (!this.material.name){
+      this.validate.name = "Vui lòng nhập tên vật liệu!";
+      this.isSubmitted = true;
+    }
+    if (!this.material.unit){
+      this.validate.unit = "Vui lòng nhập đơn vị!";
+      this.isSubmitted = true;
+    }
+    if (this.isSubmitted){
+      return;
+    }
+    this.materialBody = {
+      material_name: this.material.name,
+      unit: this.material.unit,
+      total:this.material.unitPrice
+    }
+    this.materialService.addMaterial(this.materialBody).subscribe(data=>{
+        this.toastr.success('Thêm mới vật liệu thành công!');
+        window.location.reload();
+        // const newMaterialId = data.data.medical_id;
+        // this.materialBody.material_id = newMaterialId;
+        // this.materialList.unshift(this.materialBody);
 
+      },
+      error => {
+        //this.toastr.error('Thêm mới vật liệu thất bại!');
+        ResponseHandler.HANDLE_HTTP_STATUS(this.materialService.url+"/material", error);
+      }
+    )
+  }
+  private resetValidate(){
+    this.validate = {
+      name:'',
+      unit:'',
+      unitPrice:''
+    }
+    this.isSubmitted = false;
+  }
+  private checkNumber(number:any):boolean{
+    return /^[1-9]\d*$/.test(number);
+  }
 
   toggleSave() {
     this.isAdd = false;

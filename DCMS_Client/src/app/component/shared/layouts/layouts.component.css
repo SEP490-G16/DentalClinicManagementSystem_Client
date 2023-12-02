@@ -624,3 +624,6 @@ main .new-users .user-list .user img {
   opacity: 0.9;
 
 }
+.list:hover{
+  background-color: #e4e0ef;
+}
