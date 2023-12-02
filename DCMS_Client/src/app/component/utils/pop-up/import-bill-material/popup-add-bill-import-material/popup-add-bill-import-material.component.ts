@@ -141,11 +141,16 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
     }
     this.materialService.addMaterial(this.materialBody).subscribe(data=>{
         this.toastr.success('Thêm mới vật liệu thành công!');
-        window.location.reload();
         // const newMaterialId = data.data.medical_id;
         // this.materialBody.material_id = newMaterialId;
         // this.materialList.unshift(this.materialBody);
-
+        this.isAddMaterial = false;
+        this.materialList.push({
+          id: data.data.medical_id,
+          tenVatLieu: this.materialBody.material_name,
+          donVi: this.materialBody.unit,
+          donGia:this.materialBody.total
+        })
       },
       error => {
         //this.toastr.error('Thêm mới vật liệu thất bại!');
@@ -239,7 +244,8 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
         return {
           id: item.material_id,
           tenVatLieu: item.material_name,
-          donVi: item.unit
+          donVi: item.unit,
+          donGia:item.total
         };
       });
       this.materialList = transformedMaterialList;

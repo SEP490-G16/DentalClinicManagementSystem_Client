@@ -18,7 +18,13 @@ export class PopupAddReportExpenditureComponent implements OnInit {
     totalAmount: '',
     note: ''
   }
-
+  validate = {
+    createDate:'',
+    createBy:'',
+    type:'',
+    totalAmount:''
+  }
+  isSubmitted:boolean = false;
   messageBody={
     epoch: '',
     expenses: `{"createBy":"", "createDate":"", "typeExpense": "", "totalAmount":"", "note":""}`
@@ -36,17 +42,39 @@ export class PopupAddReportExpenditureComponent implements OnInit {
     if (user != null) {
       this.paidExpense.createBy = user;
     }
-    const currentDate = new Date();
-    const year = currentDate.getFullYear().toString();
-    // Thêm số 0 vào trước nếu tháng là một chữ số
-    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-    // Thêm số 0 vào trước nếu ngày là một chữ số
-    const day = currentDate.getDate().toString().padStart(2, '0');
+    const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
+    const year = currentDateGMT7.split('-')[0];
+    const month = currentDateGMT7.split('-')[1];
+    const day = currentDateGMT7.split('-')[2];
 
     this.paidExpense.createDate = `${year}-${month}-${day}`;
   }
 
   AddNewExpense() {
+    this.resetValidate();
+    if (!this.paidExpense.createBy){
+      this.validate.createBy = "Vui lòng nhập người chi!";
+      this.isSubmitted = true;
+    }
+    if (!this.paidExpense.typeExpense){
+      this.validate.type = "Vui lòng nhập loại chi!";
+      this.isSubmitted = true;
+    }
+    if (!this.paidExpense.createDate || !this.formatDate(this.paidExpense.createDate)) {
+      this.validate.createDate = 'Vui lòng nhập nhập ngày tạo!';
+      this.isSubmitted = true;
+    }
+    if (!this.paidExpense.totalAmount){
+      this.validate.totalAmount = "Vui lòng nhập số tiền!";
+      this.isSubmitted = true;
+    }
+    else if (this.paidExpense.totalAmount && !this.checkNumber(this.paidExpense.totalAmount)){
+      this.validate.totalAmount = "Số tiền không hợp lệ!";
+      this.isSubmitted = true;
+    }
+    if (this.isSubmitted){
+      return;
+    }
     this.paidExpense.createDate = this.dateToTimestamp(this.paidExpense.createDate)+"";
     this.messageBody = {
       epoch: this.paidExpense.createDate,
@@ -70,7 +98,15 @@ export class PopupAddReportExpenditureComponent implements OnInit {
     );
   }
 
-
+  resetValidate(){
+    this.validate = {
+      createDate: '',
+      createBy:'',
+      type:'',
+      totalAmount:''
+    }
+    this.isSubmitted = false;
+  }
   showSuccessToast(message: string) {
     this.toastr.success(message, 'Thành công', {
       timeOut: 3000, // Adjust the duration as needed
@@ -89,5 +125,10 @@ export class PopupAddReportExpenditureComponent implements OnInit {
     var timestamp = moment.tz(dateStr, format, timeZone).valueOf() / 1000;
     return timestamp;
   }
-
+  private checkNumber(number: any): boolean {
+    return /^[1-9]\d*$/.test(number);
+  }
+  private formatDate(dateString: any): boolean {
+    return /^\d{4}-(0[1-9]|1[0-2])-([0-2][0-9]|3[01])$/.test(dateString);
+  }
 }

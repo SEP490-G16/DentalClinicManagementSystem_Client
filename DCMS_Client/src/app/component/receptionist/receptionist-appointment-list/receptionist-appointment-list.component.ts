@@ -301,7 +301,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   deleteAppointment(appointment: any, dateTimestamp: any, event: Event) {
     event.stopPropagation();
     const modalRef = this.modalService.open(ConfirmDeleteModalComponent);
-    modalRef.componentInstance.message = 'Bạn có chắc chắn muốn xóa lịch hẹn này không?';
+    modalRef.componentInstance.message = `Bạn có chắc chắn muốn xóa lịch hẹn của bệnh nhân ${appointment.patient_name} không?`;
     modalRef.result.then((result) => {
       if (result === true) {
         this.DELETE_APPOINTMENT_BODY = {

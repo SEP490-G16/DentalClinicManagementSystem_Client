@@ -31,8 +31,8 @@
             <td>{{f.manager_phone_number}}</td>
             <td>{{f.address}}</td>
             <td class="text-center">
-              <button href="#" class="btn btn-primary float-right btn-rounded" style="padding: 2px 3px;margin-right: 3px" data-bs-toggle="modal" data-bs-target="#editFacilityModal" (click)="openEditFacility(f)"><i class="bi bi-pencil-square"></i></button>
-              <button href="#" class="btn btn-danger float-right btn-rounded" style="padding: 2px 3px" (click)="deleteFacility(f.facility_id)"><i class="bi bi-trash"></i></button>
+              <button href="#" class="btn btn-primary float-right btn-rounded" title="Sửa cơ sở" style="padding: 2px 3px;margin-right: 3px" data-bs-toggle="modal" data-bs-target="#editFacilityModal" (click)="openEditFacility(f)"><i class="bi bi-pencil-square"></i></button>
+              <button href="#" class="btn btn-danger float-right btn-rounded" title="Xoá cơ sở" style="padding: 2px 3px" (click)="deleteFacility(f.facility_id,f.name)"><i class="bi bi-trash"></i></button>
             </td>
           </tr>
           </tbody>

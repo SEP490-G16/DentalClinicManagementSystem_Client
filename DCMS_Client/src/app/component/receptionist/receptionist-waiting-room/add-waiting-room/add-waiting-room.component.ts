@@ -109,6 +109,7 @@ export class AddWaitingRoomComponent implements OnInit {
   checkCancel() {
     console.log("click")
     this.isAdd = false;
+    this.resetValidate()
   }
   getListGroupService() {
     const storeList = localStorage.getItem('ListGroupProcedure');
@@ -316,7 +317,7 @@ export class AddWaitingRoomComponent implements OnInit {
     return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email);
   }
   toggleAdd() {
-    this.isAdd = true;
+    this.isAdd = !this.isAdd;
   }
   toggleCancel() {
     this.isAdd = false;

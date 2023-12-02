@@ -14,19 +14,29 @@
           <div class="row">
             <div class="col-md-12">
               <div class="form-group row mt-3">
-                <label for="createDate" class="col-3 name-title">Ngày tạo:</label>
+                <label for="createDate" class="col-3 name-title">Ngày tạo <span class="required">*</span></label>
                 <div class="col-9">
                   <input type="date" [(ngModel)]="paidExpense.createDate"  class="form-control date-input-custom" id="createDate" name="createDate">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                    <p>
+                      {{validate.createDate}}
+                    </p>
+                  </div>
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="nguoiChi" class="col-3 name-title">Người chi:</label>
+                <label for="nguoiChi" class="col-3 name-title">Người chi <span class="required">*</span></label>
                 <div class="col-9">
                   <input type="text" [(ngModel)]="paidExpense.createBy" class="form-control date-input-custom value-staff" id="nguoiChi" name="nguoiChi">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                    <p>
+                      {{validate.createBy}}
+                    </p>
+                  </div>
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="loaiChi" class="col-3 name-title">Loại chi:</label>
+                <label for="loaiChi" class="col-3 name-title">Loại chi <span class="required">*</span></label>
                 <div class="col-9">
 <!--                  <select type="text" [(ngModel)]="paidExpense.typeExpense" class="form-select value-staff" id="loaiChi" aria-label="Default select example">-->
 <!--                    <option value="0">Chọn loại chi</option>-->
@@ -35,13 +45,22 @@
 <!--                    <option value="3">Khác</option>-->
 <!--                  </select>-->
                   <input type="text" [(ngModel)]="paidExpense.typeExpense" placeholder="Khác" class="form-control date-input-custom value-staff" id="loaiChi" name="nguoiChi">
-
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                    <p>
+                      {{validate.type}}
+                    </p>
+                  </div>
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="price" class="col-3 name-title">Số tiền:</label>
+                <label for="price" class="col-3 name-title">Số tiền <span class="required">*</span></label>
                 <div class="col-9">
                   <input type="number" [(ngModel)]="paidExpense.totalAmount" class="form-control date-input-custom value-staff" id="price" name="price">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                    <p>
+                      {{validate.totalAmount}}
+                    </p>
+                  </div>
                 </div>
               </div>
               <div class="form-group row mt-3">
@@ -56,7 +75,7 @@
 
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" id="cancel-addMaterial" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
+          <button type="button" id="cancel-addMaterial" class="btn btn-cancel" (click)="resetValidate()" data-bs-dismiss="modal">Hủy</button>
 
           <button type="button" (click)="AddNewExpense()" class="btn button-timekeeping"><i
             class="bi bi-plus-circle"></i> Thêm mới</button>

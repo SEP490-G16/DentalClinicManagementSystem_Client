@@ -35,17 +35,18 @@
           </tr>
         </thead>
         <tbody class="groupservice-body">
-          <tr *ngFor="let t of filteredMgData" [ngClass]="{'new-recordd': t.isNew,'pulsee': t.isPulsing}"
+          <tr *ngFor="let t of filteredMgData" title="Xem thông tin thủ thuật của nhóm {{t.mg_name}}" [ngClass]="{'new-recordd': t.isNew,'pulsee': t.isPulsing}"
             (click)="getMedicalProcedureChildren(t.mg_id);">
             <td>{{t.mg_id}}</td>
             <td><a class="title-group-service">{{t.mg_name}}</a></td>
             <td class="text-center">
-              <button href="#" class="btn btn-primary float-right btn-rounded" data-bs-toggle="modal"
+              <button href="#" class="btn btn-primary float-right btn-rounded" title="Sửa nhóm thủ thuật" data-bs-toggle="modal"
                 data-bs-target="#editGroupModal" style="padding: 2px 5px; margin-right: 3px"><i
                   class="bi bi-pencil-square"
-                  (click)="openEditGroupService(t.mg_id,t.mg_name,t.description)"></i></button>
-              <button href="#" class="btn btn-danger float-right btn-rounded" style="padding: 2px 5px;"
-                (click)="deleteMedicalProcedureGroup(t.mg_id)"><i class="bi bi-trash"></i></button>
+                  (click)="openEditGroupService(t.mg_id,t.mg_name,t.description)"></i>
+              </button>
+              <button href="#" class="btn btn-danger float-right btn-rounded" title="Xoá nhóm thủ thuật" style="padding: 2px 5px;"
+                (click)="deleteMedicalProcedureGroup(t.mg_id,t.mg_name)"><i class="bi bi-trash"></i></button>
             </td>
           </tr>
         </tbody>
@@ -72,11 +73,11 @@
             <td>{{s.mp_price}}</td>
             <td>{{s.mp_description}}</td>
             <td class="text-center">
-              <button href="#" class="btn btn-primary float-right btn-rounded" (click)="openEditService(s.mp_id,s)"
+              <button href="#" class="btn btn-primary float-right btn-rounded" title="Sửa thủ thuật" (click)="openEditService(s.mp_id,s)"
                 style="padding: 2px 5px; margin-right: 3px" data-bs-toggle="modal" data-bs-target="#editServiceModal"><i
                   class="bi bi-pencil-square"></i></button>
-              <button href="#" style="padding: 2px 5px" class="btn btn-danger float-right btn-rounded"
-                (click)="deleteMedicalProcedure(s.mp_id)"><i class="bi bi-trash"></i></button>
+              <button href="#" style="padding: 2px 5px" class="btn btn-danger float-right btn-rounded" title="Xoá thủ thuật"
+                (click)="deleteMedicalProcedure(s.mp_id,s.mp_name)"><i class="bi bi-trash"></i></button>
             </td>
           </tr>
         </tbody>

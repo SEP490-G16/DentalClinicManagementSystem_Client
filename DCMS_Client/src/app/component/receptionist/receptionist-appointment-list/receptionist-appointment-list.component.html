@@ -39,7 +39,7 @@
       <tbody>
         <ng-container *ngFor="let a of filteredAppointments">
           <ng-container *ngFor="let ap of a.appointments">
-            <tr class="hover-patient" *ngFor="let detail of ap.details" (click)="details(detail.patient_id)">
+            <tr class="hover-patient" title="Xem thông tin bệnh nhân {{detail.patient_name}}" *ngFor="let detail of ap.details" (click)="details(detail.patient_id)">
               <ng-container *ngIf="detail.migrated == 'false'">
                 <td class="patient-id">
                   {{detail.patient_id}}
@@ -56,11 +56,11 @@
                 <td class="patient-doctorname">{{ detail.doctor }}</td>
                 <td class="appointments-time">{{timestampToTime(detail.time)}} - {{timestampToDate(a.date) | date: 'dd-MM-yyyy'}}</td>
                 <td class="table_button">
-                  <button class="btn btn-primary p-1 m-r-3" style="padding: 2px 3px; margin-right: 3px"
+                  <button class="btn btn-primary p-1 m-r-3" style="padding: 2px 3px; margin-right: 3px" title="Sửa lịch hẹn"
                     data-bs-toggle="modal" data-bs-target="#editAppointmentModal"
                     (click)="openEditModal(detail, a.date, $event)">
                     <i class="bi bi-pencil-square"></i></button>
-                  <button class="btn btn-danger p-1" style="padding: 2px 5px"
+                  <button class="btn btn-danger p-1" style="padding: 2px 5px" title="Xoá lịch hẹn"
                     (click)="deleteAppointment(detail, a.date, $event)"> <i class="bi bi-trash"></i></button>
                 </td>
                 <td *ngIf="detail.status == 2 && checkDate(a.date)" class="direct-click">

@@ -55,3 +55,10 @@
 .value-staff{
   padding: 6px 12px;
 }
+.modal-body div p{
+  color: #FF0000FF;
+}
+.required {
+  color: red;
+  margin-left: 3px;
+}
