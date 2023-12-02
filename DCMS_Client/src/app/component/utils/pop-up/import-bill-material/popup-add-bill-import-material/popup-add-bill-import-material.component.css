@@ -238,3 +238,16 @@ button:active{
 .sticky-thead th{
   height: 3rem;
 }
+.button-footer{
+  float: right;
+}
+@media (min-width: 1200px){
+  .modal-xl {
+    --bs-modal-width: 1300px;
+  }
+
+}
+.add-material{
+  border: 1px solid;
+  border-radius: 5px;
+}

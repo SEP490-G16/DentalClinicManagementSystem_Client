@@ -43,12 +43,12 @@
             <div class="col-md-3 row">
               <!--              <button href="add-employee.html" class="btn" [ngClass]="{'btn-custom':!isAdd, 'btn-save':isAdd}" (click)="toggleAdd()"  ><i class="bi" [ngClass]="{'bi-plus-circle': !isAdd, 'bi-floppy2': isAdd}"></i> {{isAdd ? "Lưu" : "Thêm mới"}}-->
               <!--              </button>-->
-              <div class="col-md-4">
+              <div class="col-md-1">
 
               </div>
-              <div class="col-md-8">
+              <div class="col-md-11">
                 <button class="btn button-timekeeping" (click)="toggleAdd()" *ngIf="!isAdd"><i
-                    class="bi bi-plus-circle"></i> Thêm mới</button>
+                    class="bi bi-plus-circle"></i> Thêm mới vật liệu</button>
 
               </div>
               <!--              <button *ngIf="isAdd" (click)="toggleCancel()" type="button" class="btn btn-cancel">Huỷ</button>-->
@@ -83,8 +83,7 @@
                             <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
                               <div class="not-found">
                                 <div class="add-materials">
-                                  <a class="btn button-timekeeping" data-bs-toggle="modal"
-                                    data-bs-target="#addMaterialModal"><i class="bi bi-plus-circle"> Thêm mới</i></a>
+                                  <a class="btn button-timekeeping" (click)="toggleAddMaterial()"><i class="bi bi-plus-circle"> Thêm mới</i></a>
                                 </div>
 
                               </div>
@@ -144,6 +143,44 @@
                     </ng-container>
                   </tbody>
                 </table>
+              </div>
+              <div class="row mt-3" *ngIf="isAddMaterial">
+                <div class="col-md-8 add-material">
+                  <div class="form-group row mt-3">
+                    <label for="materialName" class="col-3 name-title">Tên vật liệu:</label>
+                    <div class="col-9">
+                      <input type="text" class="form-control" [(ngModel)]="material.name" id="materialName" name="materialName">
+<!--                      <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">-->
+<!--                        <p>-->
+<!--                          {{validateMaterial.name}}-->
+<!--                        </p>-->
+<!--                      </div>-->
+                    </div>
+                  </div>
+                  <div class="form-group row mt-3">
+                    <label for="unit" class="col-3 name-title">Đơn vị:</label>
+                    <div class="col-9">
+                      <input type="text"class="form-control date-input-custom value-staff" [(ngModel)]="material.unit" id="unit" name="unit">
+<!--                      <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">-->
+<!--                        <p>-->
+<!--                          {{validateMaterial.unit}}-->
+<!--                        </p>-->
+<!--                      </div>-->
+                    </div>
+                  </div>
+                  <div class="form-group row mt-3">
+                    <label for="unitPrice" class="col-3 name-title">Đơn giá:</label>
+                    <div class="col-9">
+                      <input type="text"class="form-control date-input-custom value-staff" [(ngModel)]="material.unitPrice" id="unitPrice" name="unit">
+                    </div>
+                  </div>
+                  <div class="button-footer mt-3">
+                    <button type="button" id="cancel-addMaterial" class="btn btn-cancel" (click)="toggleCancelMaterial()">Hủy</button>
+                    <button type="button" class="btn button-timekeeping" (click)="addMaterial()"><i
+                      class="bi bi-plus-circle"></i> Thêm mới vật liệu</button>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>
