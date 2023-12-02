@@ -152,10 +152,7 @@ export class AddWaitingRoomComponent implements OnInit {
       return;
     }
     const wrPatientId = sessionStorage.getItem("WaitingRoomPatientId");
-    if(this.POST_WAITTINGROOM.patient_id === wrPatientId) {
-      console.log("vao r day");
-      this.POST_WAITTINGROOM.patient_created_date = "new";
-    }
+    this.POST_WAITTINGROOM.patient_created_date = "new" + 1;
     console.log("POST Waiting room: ", this.POST_WAITTINGROOM);
     this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
       .subscribe((data) => {
@@ -247,7 +244,7 @@ export class AddWaitingRoomComponent implements OnInit {
       ref?.click();
       this.patient1 = [];
       this.patientInfor = data.data.patient_id + " - " + this.patientBody.patient_name + " - " + this.normalizePhoneNumber(this.patientBody.phone_number);
-      sessionStorage.setItem("WaitingRoomPatientId", data.data.patient_id);
+      // sessionStorage.setItem("WaitingRoomPatientId", data.data.patient_id);
     }, error => {
       ResponseHandler.HANDLE_HTTP_STATUS(this.PATIENT_SERVICE.test + "/patient", error);
     })
