@@ -294,7 +294,7 @@ main .new-users .user-list .user img {
 }
 
 .notification-dropdown {
-  display: none;
+  display: block;
   position: absolute;
   top: 120%;
   right: 0;
@@ -314,15 +314,6 @@ main .new-users .user-list .user img {
 
 .notification-message {
   flex-grow: 1;
-}
-
-/* .notification:hover .notification-dropdown {
-  display: block;
-} */
-
-.profile:hover .notification-dropdown {
-  display: block;
-  /* Show on hover */
 }
 
 .notification-dropdown::before {
