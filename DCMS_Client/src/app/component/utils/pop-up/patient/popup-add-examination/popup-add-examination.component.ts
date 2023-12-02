@@ -345,6 +345,7 @@ export class PopupAddExaminationComponent implements OnInit {
         this.examination.treatment_course_id = this.treatmentCourse_Id;
         this.examination.staff_id = this.staff_id;
         this.examination.created_date = this.currentDate;
+        this.examination.medicine = JSON.stringify(this.recordsMedicine);
         if (this.recordsImage.length > 0) {
           this.recordsImage.forEach((item: any) => {
             if (item.typeImage != null) {
@@ -628,7 +629,7 @@ export class PopupAddExaminationComponent implements OnInit {
     imageInsert: "",
     description: ""
   }
-
+  showPrescriptionContent: boolean = false;
   recordsImage: any[] = []
   id: number = 0;
   toggleAddImage() {
@@ -755,6 +756,104 @@ export class PopupAddExaminationComponent implements OnInit {
     const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
     var timestamp = moment.tz(dateStr, format, timeZone).valueOf() / 1000;
     return timestamp;
+  }
+
+  selectMedicine: string = '0';
+  onMedicineChange() {
+    this.recordsMedicine.splice(0, this.recordsMedicine.length);
+    this.showPrescriptionContent = this.selectMedicine !== '0';
+    this.listSample.forEach((item: any) => {
+      if (item.Id == this.selectMedicine) {
+        item.Medical.forEach((it: any) => {
+          this.recordsMedicine.push({
+            id: item.Id,
+            ten: it.MedicalName,
+            soLuong: it.Quantity,
+            donvi: it.Unit,
+            lieuDung: it.Dosage,
+            ghiChu: it.Note
+          })
+        })
+      }
+    })
+
+  }
+
+  listSample = [
+    {
+      "Id": "1",
+      "Medical": [
+        {
+          "MedicalName": "Augmentin 1g",
+          "Quantity": "1",
+          "Unit": "Viên(Glaxo Smith)",
+          "Dosage": "Ngày uống 1 viên sau ăn",
+          "Note": ""
+        },
+        {
+          "MedicalName": "Metronidazol 250mg",
+          "Quantity": "1",
+          "Unit": "Viên",
+          "Dosage": "Ngày uống 4 viên chia 2 lần sau ăn",
+          "Note": ""
+        },
+        {
+          "MedicalName": "Medrol 16mg",
+          "Quantity": "1",
+          "Unit": "Viên",
+          "Dosage": "Ngày uống 1 viên sau ăn",
+          "Note": ""
+        },
+        {
+          "MedicalName": "Efferalgan codein 500mg",
+          "Quantity": "1",
+          "Unit": "Viên",
+          "Dosage": "Uống khi đau mỗi lần 1 viên sau ăn no.Nếu đau sau 6-8 tiếng sau uống 1 viên tiếp. Pha 1 viên vào 200 ml nước lọc",
+          "Note": ""
+
+        }
+      ]
+    },
+    {
+      "Id": "2",
+      "Medical": [
+        {
+          "MedicalName": "Augmentin 1g",
+          "Quantity": "1",
+          "Unit": "Viên(Glaxo Smith)",
+          "Dosage": "Ngày uống 1 viên sau ăn",
+          "Note": ""
+        },
+        {
+          "MedicalName": "Efferalgan codein 500mg",
+          "Quantity": "1",
+          "Unit": "Viên",
+          "Dosage": "Uống khi đau mỗi lần 1 viên sau ăn no.Nếu đau sau 6-8 tiếng sau uống 1 viên tiếp. Pha 1 viên vào 200 ml nước lọc",
+          "Note": ""
+
+        }
+      ]
+    }
+  ]
+
+  recordsMedicine: any[] = [];
+  isAddMedicine: boolean = false;
+  toggleAddMedicine() {
+    this.isAddMedicine = !this.isAddMedicine;
+    if (this.isAddMedicine) {
+      this.recordsMedicine.push({
+        id: this.selectMedicine,
+        ten:'',
+        soLuong:'',
+        donvi: '',
+        lieuDung:'',
+        ghiChu:''
+      })
+    }
+  }
+  deleteRecordMedicine(index: any) {
+    this.isAddMedicine = false;
+    this.recordsMedicine.splice(index, 1);
   }
 }
 

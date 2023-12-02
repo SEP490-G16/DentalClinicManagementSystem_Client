@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChi
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ITreatmentCourse } from 'src/app/model/ITreatment-Course';
-import { Examination } from 'src/app/model/ITreatmentCourseDetail';
+import { EditExamination, Examination } from 'src/app/model/ITreatmentCourseDetail';
 import { TreatmentCourseDetailService } from 'src/app/service/ITreatmentCourseDetail/treatmentcoureDetail.service';
 import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/TreatmentCourse.service';
 import { CognitoService } from 'src/app/service/cognito.service';
@@ -63,7 +63,7 @@ export class PopupEditExaminationComponent implements OnInit {
   remainMaterial: number = 0;
   Material_Usage_Body: any[] = [];
 
-  examination: Examination = {} as Examination;
+  examination: EditExamination = {} as EditExamination;
   treatmentCourse: ITreatmentCourse = [];
   staff_id: string = "0";
   doctorId: any;
@@ -93,7 +93,7 @@ export class PopupEditExaminationComponent implements OnInit {
       description: "",
       staff_id: "",
       medicine: ""
-    } as Examination;
+    } as EditExamination;
 
     this.examination.created_date = new Date().toISOString().substring(0, 10);
 
@@ -146,14 +146,31 @@ export class PopupEditExaminationComponent implements OnInit {
       this.examination.medicine = this.examininationSelect.medicine;
       this.imageContent = this.examininationSelect['x-ray-image'].split('><');
       this.imageDescription = this.examininationSelect['x-ray-image-des'].split('||');
+      const listThuoc = JSON.parse(this.examination.medicine);
+      if (listThuoc != null && listThuoc != '') {
+        listThuoc.forEach((item:any) => {
+          this.selectMedicine = item.id;
+          this.recordsMedicine.push({
+            id: this.selectMedicine,
+            ten: item.ten,
+            soLuong: item.soLuong,
+            donvi: item.donvi,
+            lieuDung: item.lieuDung,
+            ghiChu: item.ghiChu
+          })
+        })
+      }
       this.imageContent.forEach((item: any) => {
         this.id++;
-        this.recordImage = {
-          id: this.id,
-          typeImage: "",
-          imageInsert: item,
-          description: ""
+        if (item != '' && item != null && item != undefined) {
+          this.recordImage = {
+            id: this.id,
+            typeImage: "",
+            imageInsert: item,
+            description: ""
+          }
         }
+        
         this.recordsImage.push(this.recordImage);
         this.recordImage = {
           id: 0,
@@ -201,7 +218,6 @@ export class PopupEditExaminationComponent implements OnInit {
   getMedicalandProcedure() {
     this.tcDetailService.getDetailByExamnination(this.examinationId).subscribe((data) => {
       this.listResponse = data.data;
-      console.log("check recordMaterial", this.listResponse)
       this.listResponse.forEach((item: any) => {
         if (item.mp_medical_procedure_id != null) {
           this.records.push({
@@ -419,8 +435,8 @@ export class PopupEditExaminationComponent implements OnInit {
   }
 
   putExamination() {
-    this.openConfirmationModal().then((result) => {
-      if (result === 'confirm') {
+    // this.openConfirmationModal().then((result) => {
+    //   if (result === '') {
         const faci = sessionStorage.getItem('locale');
         if (faci != null) {
           this.examination.facility_id = 'F-05';
@@ -428,31 +444,18 @@ export class PopupEditExaminationComponent implements OnInit {
         this.examination.treatment_course_id = this.treatmentCourse_Id;
         this.examination.staff_id = this.staff_id;
         this.examination.created_date = this.currentDate;
-        console.log(this.recordsImage);
+        if (this.recordsMedicine.length > 0) {
+          this.examination.medicine = JSON.stringify(this.recordsMedicine);
+        } else {
+          this.examination.medicine = '';
+        }
         if (this.recordsImage.length > 0) {
           this.recordsImage.forEach((item: any) => {
             if (item.typeImage != null) {
-              if (item.typeImage == 1) {
-                let img = item.imageInsert.split('base64,');
-                var a = '';
-                if (img.length == 1) {
-                  a = img[0];
-                } else {
-                  a = img[1];
-                }
-                this.imageBody = {
-                  base64: true,
-                  image_data: a,
-                  description: item.description
-                }
-              } else {
-                this.imageBody = {
-                  base64: false,
-                  image_data: item.imageInsert,
-                  description: item.description
-                }
+              if (item.imageInsert != undefined) {
+                this.examination['x-ray-image'] += item.imageInsert+"><";
+                this.examination['x-ray-image-des'] = item.imageInsert+"||"+item.description+"><";
               }
-              this.examination.image.push(this.imageBody);
             }
           })
         }
@@ -515,9 +518,10 @@ export class PopupEditExaminationComponent implements OnInit {
               ResponseHandler.HANDLE_HTTP_STATUS(this.tcDetailService.apiUrl + "/examination", error);
             }
           )
-      }
-    })
+    //   }
+    // })
   }
+  
   test() {
     this.showNaviPopup(1)
   }
@@ -778,6 +782,32 @@ export class PopupEditExaminationComponent implements OnInit {
           this.listDisplay.push(laboO);
         })
       })
+  }
+  selectMedicine: string = '0';
+  onMedicineChange() {
+    this.recordsMedicine.splice(0, this.recordsMedicine.length);
+    this.showPrescriptionContent = this.selectMedicine !== '0';
+
+  }
+  recordsMedicine: any[] = [];
+  isAddMedicine: boolean = false;
+  showPrescriptionContent: boolean = true;
+  toggleAddMedicine() {
+    this.isAddMedicine = !this.isAddMedicine;
+    if (this.isAddMedicine) {
+      this.recordsMedicine.push({
+        id: this.selectMedicine,
+        ten:'',
+        soLuong:'',
+        donvi: '',
+        lieuDung:'',
+        ghiChu:''
+      })
+    }
+  }
+  deleteRecordMedicine(index: any) {
+    this.isAddMedicine = false;
+    this.recordsMedicine.splice(index, 1);
   }
 }
 
