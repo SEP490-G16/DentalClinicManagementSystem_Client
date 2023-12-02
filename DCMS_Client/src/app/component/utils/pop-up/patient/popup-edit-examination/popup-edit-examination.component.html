@@ -89,11 +89,11 @@
               </div>
               <div class="save-img" *ngIf="isAddImage">
                 <div class="save">
-                  <button class="btn button-add" *ngIf="isAddImage" (click)="toggleAddImage()" style="margin-right: 3px"><i class="bi bi-check-circle"
-                  > Lưu ảnh</i></button>
+                  <button class="btn button-add" *ngIf="isAddImage" (click)="toggleAddImage()"
+                    style="margin-right: 3px"><i class="bi bi-check-circle"> Lưu ảnh</i></button>
                 </div>
                 <div class="cancel">
-                  <button type="button"  class="btn btn-cancel" (click)="deleteRecordImage(i)" >Hủy</button>
+                  <button type="button" class="btn btn-cancel" (click)="deleteRecordImage(i)">Hủy</button>
                 </div>
               </div>
             </ng-container>
@@ -107,18 +107,17 @@
             <div class="col-md-3 mt-5 custom-input-container">
               <label for="medicine">Đơn thuốc:</label>
               <select class="form-select p-2" id="medicine" style="width: 98%; border: 1px solid #664FC3;
-                       border-radius: 10px;" aria-label="Default select example" (change)="onMedicineChange()" [(ngModel)]="examination.medicine"
-              >
-                <option value="">Chọn mẫu đơn thuốc</option>
+                       border-radius: 10px;" aria-label="Default select example" (change)="onMedicineChange()"
+                [(ngModel)]="selectMedicine" disabled>
+                <option value="0">Chọn mẫu đơn thuốc</option>
                 <option value="1">Mẫu 1</option>
                 <option value="2">Mẫu 2</option>
-                <option value="3">Mẫu 3</option>
               </select>
             </div>
             <div class="button-content" *ngIf="showPrescriptionContent">
               <div class="btn-add-procedure">
-                <button class="btn button-add" style="margin-right: 3px" *ngIf="!isAddMedicine" (click)="toggleAddMedicine()"><i class="bi bi-plus-circle"></i>Thêm
-                  mới</button>
+                <button class="btn button-add" style="margin-right: 3px" *ngIf="!isAddMedicine"
+                  (click)="toggleAddMedicine()"><i class="bi bi-plus-circle"></i>Chỉnh sửa đơn thuốc</button>
               </div>
               <div>
                 <button class="btn button-add">In đơn thuốc</button>
@@ -127,45 +126,53 @@
             <div style="margin-top: 2%; margin-bottom:2%" *ngIf="showPrescriptionContent">
               <table class="table-bordered">
                 <thead class="header-title">
-                <tr>
-                  <td>STT</td>
-                  <th>Tên thuốc</th>
-                  <th>Số lượng</th>
-                  <th>Liều dùng</th>
-                  <th>Ghi chú</th>
-                  <th>Thao tác</th>
-                </tr>
+                  <tr>
+                    <td>STT</td>
+                    <th>Tên thuốc</th>
+                    <th>Số lượng</th>
+                    <th>Đơn vị</th>
+                    <th>Liều dùng</th>
+                    <!-- <th>Ghi chú</th> -->
+                    <th>Thao tác</th>
+                  </tr>
                 </thead>
                 <tbody>
-                <ng-container *ngFor="let record of recordsMedicine; let i = index">
-                  <tr>
-                    <td>{{ i + 1 }}</td>
-                    <td>Augmentin</td>
-                    <td>
-                      <input type="text" *ngIf="isAddMedicine" class="form-control value-staff">
-                      <p *ngIf="!isAddMedicine"></p>
-                    </td>
-                    <td>
-                      <input type="text" *ngIf="isAddMedicine" class="form-control value-staff">
-                      <p *ngIf="!isAddMedicine"></p>
-                    </td>
-                    <td>
-                      <input type="text" *ngIf="isAddMedicine" class="form-control value-staff">
-                      <p *ngIf="!isAddMedicine"></p>
-                    </td>
-                    <td>
-                      <div class="delete-cell">
-                        <div>
-                          <button class="save-button" *ngIf="isAddMedicine" style="margin-right: 3px"><i class="bi bi-check-circle"
-                                                                                                         (click)="toggleAddMedicine()"></i></button>
+                  <ng-container *ngFor="let record of recordsMedicine; let i = index">
+                    <tr>
+                      <td>{{ i + 1 }}</td>
+                      <td>
+                        <input type="text" *ngIf="isAddMedicine" [(ngModel)]="record.ten"
+                          class="form-control value-staff">
+                        <p *ngIf="!isAddMedicine">{{record.ten}}</p>
+                      </td>
+                      <td>
+                        <input type="text" *ngIf="isAddMedicine" [(ngModel)]="record.soLuong"
+                          class="form-control value-staff">
+                        <p *ngIf="!isAddMedicine">{{record.soLuong}}</p>
+                      </td>
+                      <td>
+                        <input type="text" *ngIf="isAddMedicine" [(ngModel)]="record.donvi"
+                          class="form-control value-staff">
+                        <p *ngIf="!isAddMedicine">{{record.donvi}}</p>
+                      </td>
+                      <td>
+                        <input type="text" *ngIf="isAddMedicine" [(ngModel)]="record.lieuDung"
+                          class="form-control value-staff">
+                        <p *ngIf="!isAddMedicine">{{record.lieuDung}}</p>
+                      </td>
+                      <td>
+                        <div class="delete-cell">
+                          <div>
+                            <button class="save-button" *ngIf="isAddMedicine" style="margin-right: 3px"><i
+                                class="bi bi-check-circle" (click)="toggleAddMedicine()"></i></button>
+                          </div>
+                          <button class="delete-button" (click)="deleteRecordMedicine(i)">
+                            x
+                          </button>
                         </div>
-                        <button class="delete-button" (click)="deleteRecordMedicine(i)">
-                          x
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                </ng-container>
+                      </td>
+                    </tr>
+                  </ng-container>
                 </tbody>
               </table>
             </div>
@@ -176,7 +183,8 @@
             <label> Sử dụng dịch vụ </label>
           </div>
           <div class="btn-add-procedure">
-            <button class="btn button-add" (click)="toggleAdd()" *ngIf="!isAdd"><i class="bi bi-plus-circle"></i>Chỉnh sửa</button>
+            <button class="btn button-add" (click)="toggleAdd()" *ngIf="!isAdd"><i class="bi bi-plus-circle"></i>Chỉnh
+              sửa</button>
           </div>
           <div style="margin-top: 2%; margin-bottom:2%">
             <table class="table-bordered">
@@ -222,8 +230,7 @@
                       <div class="delete-cell">
                         <div>
                           <button class="save-button" *ngIf="isAdd" style="margin-right: 3px"><i
-                            class="bi bi-check-circle"
-                            (click)="toggleAdd()"></i></button>
+                              class="bi bi-check-circle" (click)="toggleAdd()"></i></button>
                         </div>
                         <div>
                           <button class="delete-button" (click)="deleteRecord(i)">
@@ -359,7 +366,7 @@
                     </td>
                     <td>
                       <input type="number" [(ngModel)]="record.quantity" *ngIf="isAddMaterial"
-                        class="form-control value-staff" >
+                        class="form-control value-staff">
                       <p *ngIf="!isAddMaterial">{{record.quantity}}</p>
                     </td>
                     <td>
@@ -371,7 +378,7 @@
                       <div class="delete-cell">
                         <div>
                           <button class="save-button" *ngIf="isAddMaterial" style="margin-right: 3px"><i
-                            class="bi bi-check-circle" (click)="toggleAddMaterial()"></i></button>
+                              class="bi bi-check-circle" (click)="toggleAddMaterial()"></i></button>
                         </div>
                         <div>
                           <button class="delete-button" (click)="deleteRecord(i)">

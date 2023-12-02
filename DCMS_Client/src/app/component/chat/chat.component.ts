@@ -4,6 +4,7 @@ import {WebsocketService} from "../../service/Chat/websocket.service";
 import {ResponseHandler} from "../utils/libs/ResponseHandler";
 import {ReceptionistWaitingRoomService} from "../../service/ReceptionistService/receptionist-waitingroom.service";
 import * as moment from "moment/moment";
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-chat',
@@ -22,15 +23,18 @@ export class ChatComponent implements OnInit,OnDestroy  {
   isHovered = false;
   unreadMessagesCount = 0;
   constructor(private webSocketService: WebsocketService,
-              private waitingRoomService: ReceptionistWaitingRoomService) { }
+              private waitingRoomService: ReceptionistWaitingRoomService,
+              private location: Location) { }
   ngOnInit(): void {
     this.webSocketService.connect();
     this.webSocketService.messageReceived.subscribe((message:any)=>{
       const parsedMessage = JSON.parse(message);
       console.log("message", parsedMessage.content);
       if (parsedMessage.content == 'CheckRealTime'){
-        window.location.reload();
-        console.log("Load lại trang")
+        const currentUrl = this.location.path();
+        if (currentUrl.includes('phong-cho')) {
+          window.location.reload();
+        } 
         this.webSocketService.closeConnection();
       }else {
         this.receivedMessages.push({ message: parsedMessage, timestamp: new Date() });
@@ -38,7 +42,7 @@ export class ChatComponent implements OnInit,OnDestroy  {
           this.unreadMessagesCount++;
         }
         this.playMessageSound();
-        console.log(this.receivedMessages)
+        this.webSocketService.closeConnection();
       }
 
     })
