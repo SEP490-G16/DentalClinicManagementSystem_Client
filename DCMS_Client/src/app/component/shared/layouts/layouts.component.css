@@ -316,6 +316,10 @@ main .new-users .user-list .user img {
   flex-grow: 1;
 }
 
+/* .notification:hover .notification-dropdown {
+  display: block;
+} */
+
 .profile:hover .notification-dropdown {
   display: block;
   /* Show on hover */
