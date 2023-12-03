@@ -25,6 +25,8 @@
 
 .modal-footer {
   padding: 10px 15px;
+  background-color: #f2eaf9;
+  border-top: 1px solid #eaddf6;
 }
 
 .row div[class^="col-"] p {
@@ -91,4 +93,15 @@ b {
   color: #ffffff;
   opacity: 1;
   text-decoration: none;
+}
+.table thead tr th{
+  display: table-cell;
+  vertical-align: middle;
+}
+.table tbody tr td{
+  display: table-cell;
+  vertical-align: middle;
+}
+.modal-header button{
+  color: #FFFFFF;
 }

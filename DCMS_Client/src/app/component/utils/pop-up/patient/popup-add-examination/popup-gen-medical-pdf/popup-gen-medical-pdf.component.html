@@ -1,8 +1,8 @@
 <div class="modal-header">
   <h4 class="modal-title">In đơn thuốc cho lần khám</h4>
-  <p class="close" aria-label="Close" (click)="dismiss()">
-    <span aria-hidden="true">&times;</span>
-  </p>
+<!--  <p class="close" aria-label="Close" (click)="dismiss()">-->
+<!--    <span aria-hidden="true">&times;</span>-->
+<!--  </p>-->
 </div>
 <div class="modal-body prescription-modal" #pdfContent>
   <div class="prescription-header">
@@ -71,6 +71,6 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-secondary" (click)="dismiss()">Hủy</button>
-  <button type="button" class="btn btn-primary" (click)="generateExDetailPdf()">In đơn thuốc</button>
+  <button type="button" class="btn btn-cancel" (click)="dismiss()">Hủy</button>
+  <button type="button" class="btn button-timekeeping" (click)="generateExDetailPdf()">In đơn thuốc</button>
 </div>
