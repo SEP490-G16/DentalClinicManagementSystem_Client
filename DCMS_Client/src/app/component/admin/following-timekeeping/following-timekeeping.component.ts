@@ -46,7 +46,7 @@ export class FollowingTimekeepingComponent implements OnInit {
     if (ro != null) {
       this.roleId = ro.split(',');
     }
-    
+
     let subId = sessionStorage.getItem('sub');
     if (subId != null) {
       this.ownSubId = subId;
@@ -153,8 +153,10 @@ export class FollowingTimekeepingComponent implements OnInit {
       const daysInMonth = new Date(current.getFullYear(), (current.getMonth() + 1), 0).getDate();
       this.totalDate = daysInMonth + '';
       console.log("Check dates",this.totalDate);
-      const frDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + current.getDay();
-      const tDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + daysInMonth;
+      //const frDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + current.getDate();
+      //const tDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + daysInMonth;
+      const frDate = current.getFullYear() + "-" + (current.getMonth() + 1).toString().padStart(2, '0') + "-01";
+      const tDate = current.getFullYear() + "-" + (current.getMonth() + 1).toString().padStart(2, '0') + "-" + daysInMonth.toString().padStart(2, '0');
       this.getDateinFromDatetoToDate(frDate, tDate);
       const startTime = this.dateToTimestamp(this.startTime);
       console.log(startTime);
@@ -281,14 +283,17 @@ export class FollowingTimekeepingComponent implements OnInit {
       parseInt(startDateParts[1]) - 1,
       parseInt(startDateParts[2])
     );
+    //const formatStartDate = startDate.toLocaleDateString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
+
     const endDate = new Date(
       parseInt(endDateParts[0]),
       parseInt(endDateParts[1]) - 1,
       parseInt(endDateParts[2])
     );
+    // const startDate = moment(frDate, 'DD-MM-YYYY');
+    // const endDate = moment(tDate, 'DD-MM-YYYY');
     var count = 0;
     let currentDate = startDate;
-    alert(startDate);
     while (currentDate <= endDate) {
       // if (count == 0 && this.first == 1) {
       //   this.listDayInMonth.push("1" + "/" + (current.getMonth() + 1) + "/" + current.getFullYear())
@@ -301,6 +306,10 @@ export class FollowingTimekeepingComponent implements OnInit {
       currentDate.setDate(currentDate.getDate() + 1);
       count++;
     }
+    // while (currentDate.isSameOrBefore(endDate)) {
+    //   this.listDayInMonth.push(currentDate.format('DD/MM/YYYY'));
+    //   currentDate.add(1, 'days');
+    // }
   }
 
   isSameDay(epoch: number, compareDate: Date): boolean {
