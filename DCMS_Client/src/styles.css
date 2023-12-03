@@ -474,6 +474,7 @@ b {
 }
 
 .sep-pagination a.active {
+  cursor: pointer !important;
   background-color: #4CAF50;
   color: white;
   border: 1px solid #4CAF50;
@@ -481,6 +482,7 @@ b {
 
 .sep-pagination a:hover:not(.active) {
   background-color: #ddd;
+  cursor: pointer !important;
 }
 
 .sep-pagination a:first-child {
