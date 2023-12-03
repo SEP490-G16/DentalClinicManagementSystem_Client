@@ -60,7 +60,6 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
     if (co != null) {
       this.roleId = co.split(',');
     }
-
     this.getListGroupService();
     if (this.roleId.includes('2') || this.roleId.includes('4') || this.roleId.includes('5')) {
       this.getWaitingRoomData();
@@ -71,7 +70,6 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
       this.filteredWaitingRoomData = dataList; 
     })
   }
-
 
   CheckRealTimeWaiting: any[] = [];
   getWaitingRoomData() {
@@ -94,9 +92,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           this.CheckRealTimeWaiting = this.CheckRealTimeWaiting.filter((item) => item.status.includes('2'));
           console.log("Test role: ", this.roleId.includes('2'));
         }
-        //this.CheckRealTimeWaiting = this.filteredWaitingRoomData;
         this.waitingRoomService.updateData(this.CheckRealTimeWaiting);
-        //console.log(this.filteredWaitingRoomData);
       },
       (error) => {
         this.loading = false;
@@ -140,6 +136,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
       patient_id: wtr.patient_id,
       patient_name: wtr.patient_name,
       reason: wtr.reason,
+      patient_created_date: wtr.patient_created_date,
       status_value: Number(wtr.status),
       appointment_id: wtr.appointment_id,
       appointment_epoch: wtr.appointment_epoch,
@@ -202,6 +199,10 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           }
 
           if (this.PUT_WAITINGROO.status_value == "3") {
+            if (wtr.patient_created_date == "1") {
+              this.waitingRoomService.putNewPatientId(wtr.patient_id).subscribe((data) => {
+              })
+            }
             const storeList = localStorage.getItem('ListPatientWaiting');
             let listWaiting;
             if (storeList != null) {

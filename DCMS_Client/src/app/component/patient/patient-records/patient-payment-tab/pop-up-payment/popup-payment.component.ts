@@ -70,6 +70,12 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
     return Math.abs(value);
   }
 
+  receipt = {
+    patient_id : "",
+    payment_type: "1" ,
+    receipt: [] as Paid_material_usage[]
+  }
+
   postPayment() {
     console.log("Material Usage: ", this.MaterialUsage)
     this.Body_Paid_MU = this.MaterialUsage.map(mu => ({
@@ -78,7 +84,12 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
       total_paid: mu.tempPaidAmount || 0
     }));
     console.log("Body_Paid_Mu: ", this.Body_Paid_MU);
-    this.paidMaterialUsageService.postPaidMaterialUsage(this.Body_Paid_MU)
+    this.receipt = {
+      patient_id : this.Patient.p_patient_id,
+      payment_type: this.receipt.payment_type,
+      receipt: this.Body_Paid_MU
+    }
+    this.paidMaterialUsageService.postPaidMaterialUsage(this.receipt)
       .subscribe((res: any) => {
         this.toastr.success(res.message, "Thanh toán thành công!");
         window.location.reload();

@@ -166,8 +166,8 @@
           </div>
         </div>
         <div class="button-conf float-end">
-          <button [disabled]="isAdd" type="button" class="btn btn-cancel" data-bs-dismiss="modal" (click)="close()">Hủy</button>
-          <button [disabled]="isAdd" type="button" class="btn button-timekeeping" (click)="onPostWaitingRoom()">
+          <button [disabled]="isAdd" type="button" class="btn btn-cancel" data-bs-dismiss="modal" (click)="close()" id="cancel-add-waiting">Hủy</button>
+          <button [disabled]="isAdd" type="button" class="btn button-timekeeping" (click)="onPostWaitingRoom()" >
             <i class="bi bi-plus-circle"></i> Thêm mới hàng chờ</button>
         </div>
       </div>

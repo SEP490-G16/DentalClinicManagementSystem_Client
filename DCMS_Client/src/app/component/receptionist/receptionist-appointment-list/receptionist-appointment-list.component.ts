@@ -428,6 +428,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
                   doctor: b.doctor,
                   status: 3,
                   time: b.time,
+                  patient_created_date: ''
                 }
               }
               this.ListPatientWaiting.push(updatePatient);
