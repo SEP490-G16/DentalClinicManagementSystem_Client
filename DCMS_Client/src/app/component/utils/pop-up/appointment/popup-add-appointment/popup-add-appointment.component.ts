@@ -141,6 +141,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
         patient_id: '',  //x
         patient_name: '', //x
         phone_number: '', //x
+        patient_created_date: '',
         procedure_id: "1",
         procedure_name: '', //x
         doctor: '', //x
@@ -510,7 +511,6 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
 
     this.AppointmentBody.appointment.reason = this.reason;
     this.phoneErr = "";
-
 
     if (this.checkNewPatent == true) {
       this.AppointmentBody.appointment.patient_created_date = "1";
