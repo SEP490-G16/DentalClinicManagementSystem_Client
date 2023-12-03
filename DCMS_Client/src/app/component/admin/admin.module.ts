@@ -207,6 +207,5 @@ import {
     PopupAddSpecimensComponent,
     PopupEditSpecimensComponent
   ],
-  providers: [DatePipe]
 })
 export class AdminModule { }

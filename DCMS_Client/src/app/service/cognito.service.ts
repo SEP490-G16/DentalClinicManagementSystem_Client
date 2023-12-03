@@ -231,22 +231,22 @@ export class CognitoService {
     });;
   }
 
-  refreshToken(): Promise<string> {
-    if (!this.cognitoUser) {
-      return Promise.reject('User is not authenticated');
-    }
+  // refreshToken(): Promise<string> {
+  //   if (!this.cognitoUser) {
+  //     return Promise.reject('User is not authenticated');
+  //   }
 
-    return Auth.currentSession()
-      .then((session) => {
-        const accessToken = session.getAccessToken();
-        const newAccessToken = accessToken.getJwtToken();
-        sessionStorage.setItem('id_Token', newAccessToken);
-        return newAccessToken;
-      })
-      .catch((error) => {
-        throw error;
-      });
-  }
+  //   return Auth.currentSession()
+  //     .then((session) => {
+  //       const accessToken = session.getAccessToken();
+  //       const newAccessToken = accessToken.getJwtToken();
+  //       sessionStorage.setItem('id_Token', newAccessToken);
+  //       return newAccessToken;
+  //     })
+  //     .catch((error) => {
+  //       throw error;
+  //     });
+  // }
 
   changePassword(oldPassword: string, newPassword: string): Promise<void> {
     return Auth.currentAuthenticatedUser()

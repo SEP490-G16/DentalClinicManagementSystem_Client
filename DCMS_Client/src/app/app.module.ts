@@ -3,7 +3,7 @@ import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 
 import { ReceptionistModule } from './component/receptionist/receptionist.module';
@@ -36,6 +36,7 @@ import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
 import { ConfirmationModalComponent } from './component/utils/pop-up/common/confirm-modal/confirm-modal.component';
 import { ConfirmDeleteModalComponent } from './component/utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component';
 import { NgbDateCustomParserFormatter } from './component/utils/libs/datepickerfOrmat';
+// import { AuthInterceptor } from './service/RefreshToken/auth.interceptor';
 // Register the Vietnamese locale data
 registerLocaleData(localeVi);
 @NgModule({
@@ -69,7 +70,14 @@ registerLocaleData(localeVi);
     }),
     BsDatepickerModule.forRoot()
   ],
-  providers: [CookieService, { provide: LOCALE_ID, useValue: 'vi' },  {provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter}],
+  providers: [CookieService, { provide: LOCALE_ID, useValue: 'vi' },
+    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: AuthInterceptor,
+    //   multi: true,
+    // },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule implements OnInit {

@@ -58,8 +58,6 @@ export class PatientPaymentTabComponent implements OnInit {
     }
   }
 
-
-
   getMaterialUsageReport(startDATE: number, endDATE: number) {
     this.materialUsageService.getMaterialUsagePatientReport(this.Patient_Id)
       .subscribe((res: any) => {

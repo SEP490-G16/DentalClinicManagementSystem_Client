@@ -15,10 +15,10 @@
   <!-- Date and Payment Type -->
   <div class="row">
     <div class="col-md-6 col-sm-12">
-      <p>Ngày tạo: <b></b></p>
+      <p>Ngày tạo: <b>{{ receiptDetails?.r_created_date }}</b></p>
     </div>
     <div class="col-md-6 col-sm-12">
-      <p>Hình thức/Type: <b></b></p> <!-- Assuming you have a variable for Payment Type -->
+      <p>Hình thức/Type: <b>{{ receiptDetails?.payment_type }}</b></p> <!-- Assuming you have a variable for Payment Type -->
     </div>
   </div>
 
@@ -66,20 +66,21 @@
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td>1</td>
+          <tr *ngFor="let rc of receiptDetails">
             <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{rc.mp_name
+            }}</td>
+            <td>{{rc.mu_price | currency:'VND':'symbol':'1.0-0'}}</td>
+            <td>{{rc.mu_quantity}}</td>
+            <td>{{rc.mu_total | currency:'VND':'symbol':'1.0-0'}}</td>
+            <td>{{rc.p_total_paid | currency:'VND':'symbol':'1.0-0'}}</td>
+            <td>{{rc.mu_total - rc.p_total_paid | currency:'VND':'symbol':'1.0-0'}}</td>
           </tr>
           <tr>
             <th colspan="4">Tổng cộng/Total: </th>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ getTotalDebtTotal() | currency:'VND':'symbol':'1.0-0' }}</td>
+            <td>{{ getTotalPayment() | currency:'VND':'symbol':'1.0-0' }}</td>
+            <td>{{ getTotalRemain() | currency:'VND':'symbol':'1.0-0' }}</td>
           </tr>
           </tbody>
         </table>
