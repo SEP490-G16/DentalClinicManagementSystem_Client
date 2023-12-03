@@ -40,7 +40,6 @@ export interface AppointmentObject {
   doctor: string,
   status: number,
   time: number, 
-  patient_created_date: string
 }
 
 

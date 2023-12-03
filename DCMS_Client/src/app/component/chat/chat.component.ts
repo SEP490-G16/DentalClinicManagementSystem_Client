@@ -61,7 +61,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.waitingRoomService.data$.subscribe((dataList) => {
       this.filteredWaitingRoomData = dataList;
     })
-    var shouldBreakFor = false;
 
     this.webSocketService.connect();
     this.webSocketService.messageReceived.subscribe((message: any) => {
@@ -69,6 +68,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       const check = parsedMessage.content.split(',');
       console.log("Check messageContent", parsedMessage.content);
       var checkPa = true;
+      var shouldBreakFor = false;
       let postInfo = check[1].split(' - ');
       this.POST_WAITTINGROOM.epoch = postInfo[0];
       this.POST_WAITTINGROOM.produce_id = postInfo[1];
@@ -86,6 +86,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         if (currentUrl.includes('phong-cho')) {
           this.filteredWaitingRoomData.forEach((item: any) => {
             if (item.patient_id == check[1]) {
+              console.log("check update")
               if (check[2] == 4 && checkPa) {
                 const index = this.filteredWaitingRoomData.findIndex((item: any) => { item.patient_id == check[1] });
                 this.filteredWaitingRoomData.splice(index, 1);
@@ -93,7 +94,8 @@ export class ChatComponent implements OnInit, OnDestroy {
               } else {
                 item.status = check[2];
               }
-            } else if (shouldBreakFor == false) {
+            } else if (shouldBreakFor == false && this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_id != undefined && this.POST_WAITTINGROOM.patient_id != null) {
+              console.log("check add")
               this.filteredWaitingRoomData.push(this.POST_WAITTINGROOM);
               console.log(this.filteredWaitingRoomData);
               shouldBreakFor = true;
