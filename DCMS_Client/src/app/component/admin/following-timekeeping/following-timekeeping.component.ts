@@ -288,10 +288,11 @@ export class FollowingTimekeepingComponent implements OnInit {
     );
     var count = 0;
     let currentDate = startDate;
+    alert(startDate);
     while (currentDate <= endDate) {
-      if (count == 0 && this.first == 1) {
-        this.listDayInMonth.push("1" + "/" + (current.getMonth() + 1) + "/" + current.getFullYear())
-      }
+      // if (count == 0 && this.first == 1) {
+      //   this.listDayInMonth.push("1" + "/" + (current.getMonth() + 1) + "/" + current.getFullYear())
+      // }
       const day = currentDate.getDate();
       const month = currentDate.getMonth() + 1;
       const year = currentDate.getFullYear();

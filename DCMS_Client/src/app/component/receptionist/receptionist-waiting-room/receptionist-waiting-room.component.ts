@@ -34,6 +34,8 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
   roleId: any;
 
   NEW: string = "new";
+  public dataArray: any[] = [];
+
   constructor(private waitingRoomService: ReceptionistWaitingRoomService,
     private appointmentService: ReceptionistAppointmentService,
     private cognitoService: CognitoService,
@@ -61,16 +63,17 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
 
     this.getListGroupService();
     if (this.roleId.includes('2') || this.roleId.includes('4') || this.roleId.includes('5')) {
-      // this.intervalId = setInterval(() => {
-      //   this.getWaitingRoomData();
-      // }, 1000);
       this.getWaitingRoomData();
-
     } else {
       this.getWaitingRoomData();
     }
+    this.waitingRoomService.data$.subscribe((dataList) => {
+      this.filteredWaitingRoomData = dataList; 
+    })
   }
 
+
+  CheckRealTimeWaiting: any[] = [];
   getWaitingRoomData() {
     this.waitingRoomService.getWaitingRooms().subscribe(
       data => {
@@ -80,18 +83,20 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
         });
         const statusOrder: { [key: number]: number } = { 2: 1, 3: 2, 1: 3, 4: 4 };
         this.waitingRoomData.sort((a: any, b: any) => {
-          const orderA = statusOrder[a.status] ?? Number.MAX_VALUE; // Fallback if status is not a valid key
-          const orderB = statusOrder[b.status] ?? Number.MAX_VALUE; // Fallback if status is not a valid key
+          const orderA = statusOrder[a.status] ?? Number.MAX_VALUE; 
+          const orderB = statusOrder[b.status] ?? Number.MAX_VALUE; 
           return orderA - orderB;
         });
         this.listPatientId = this.waitingRoomData.map((item: any) => item.patient_id);
         localStorage.setItem('listPatientId', JSON.stringify(this.listPatientId));
-        this.filteredWaitingRoomData = [...this.waitingRoomData]; // Update the filtered list as well
+        this.CheckRealTimeWaiting = [...this.waitingRoomData];
         if (this.roleId.includes('2') || this.roleId.includes('4') || this.roleId.includes('5')) {
-          this.filteredWaitingRoomData = this.filteredWaitingRoomData.filter((item) => item.status.includes('2'));
+          this.CheckRealTimeWaiting = this.CheckRealTimeWaiting.filter((item) => item.status.includes('2'));
           console.log("Test role: ", this.roleId.includes('2'));
         }
-        console.log(this.filteredWaitingRoomData);
+        //this.CheckRealTimeWaiting = this.filteredWaitingRoomData;
+        this.waitingRoomService.updateData(this.CheckRealTimeWaiting);
+        //console.log(this.filteredWaitingRoomData);
       },
       (error) => {
         this.loading = false;
@@ -126,6 +131,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
 
   selectedColor: string = '#000';
   PUT_WAITINGROO: any;
+  patient_Id: any = "";
   onPutStatus(wtr: any, epoch: number) {
     this.PUT_WAITINGROO = {
       epoch: epoch,
@@ -138,6 +144,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
       appointment_id: wtr.appointment_id,
       appointment_epoch: wtr.appointment_epoch,
     }
+    this.patient_Id = wtr.patient_id;
     this.loading = true;
     if (this.PUT_WAITINGROO.status_value == 4) {
       const index = this.filteredWaitingRoomData.findIndex((item: any) => item.patient_id == this.PUT_WAITINGROO.patient_id);
@@ -151,11 +158,25 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           this.loading = false;
           this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
           this.showSuccessToast('Xóa hàng chờ thành công');
-          ///this.getWaitingRoomData();
+          this.getWaitingRoomData();
+
+          this.messageContent = `CheckRealTimeWaitingRoom@@@,${wtr.patient_id},${Number('4')}`;
+          this.messageBody = {
+            action: '',
+            message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
+          }
+          if (this.messageContent.trim() !== '' && sessionStorage.getItem('sub-id') != null && sessionStorage.getItem('username') != null) {
+            this.messageBody = {
+              action: "sendMessage",
+              message: `{"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}`
+            };
+            console.log(this.messageBody);
+            this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
+          }
+
         },
           (error) => {
             this.loading = false;
-            //this.showErrorToast('Xóa hàng chờ thất bại');
             ResponseHandler.HANDLE_HTTP_STATUS(this.waitingRoomService.apiUrl + "/waiting-room/" + this.PUT_WAITINGROO, error);
           }
         )
@@ -201,7 +222,21 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           this.loading = false;
           this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
           this.showSuccessToast('Chỉnh sửa hàng chờ thành công');
-          this.sendMessageWaitingRoom();
+          this.getWaitingRoomData();
+          this.messageContent = `CheckRealTimeWaitingRoom@@@,${wtr.patient_id},${Number(wtr.status)}`;
+          this.messageBody = {
+            action: '',
+            message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
+          }
+          if (this.messageContent.trim() !== '' && sessionStorage.getItem('sub-id') != null && sessionStorage.getItem('username') != null) {
+            this.messageBody = {
+              action: "sendMessage",
+              message: `{"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}`
+            };
+            console.log(this.messageBody);
+            this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
+          }
+
         },
           (error) => {
             this.loading = false;
@@ -246,7 +281,11 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
     this.router.navigate([href + id]);
   }
 
-  messageContent: string = 'CheckRealTime';
+  updateStatus(id:any, status:any) {
+    this.getWaitingRoomData();
+  }
+
+  messageContent: string = `CheckRealTime,${this.patient_Id}`;
   messageBody = {
     action: '',
     message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`

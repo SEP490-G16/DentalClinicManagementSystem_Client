@@ -9,6 +9,7 @@ import { SpecimensRoot } from 'src/app/model/ISpecimens';
 import { ToastrService } from 'ngx-toastr';
 import { LaboService } from 'src/app/service/LaboService/Labo.service';
 import { ConfirmDeleteModalComponent } from '../../utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component';
+import { textChangeRangeIsUnchanged } from 'typescript';
 @Component({
   selector: 'app-specimens',
   templateUrl: './specimens.component.html',
@@ -34,6 +35,7 @@ export class SpecimensComponent implements OnInit {
   SpecimensFilter = {
     ms_order_date: "",
     ms_received_date: "",
+    ms_used_date: "",
   }
 
   filteredSpecimens: any[] = [];
@@ -128,35 +130,51 @@ export class SpecimensComponent implements OnInit {
   filterSpecimenInSystem(laboId: string, orderFromDate: string, orderToDate: string, receivedFromDate: string, receivedToDate:string, useFromDate: string, useToDate: string, statusId: string, paging: number) {
     var querySearch = "";
     if (parseInt(laboId) != 0) {
-      querySearch = `?labo_id=${laboId}`;
+      querySearch = `&labo_id=${laboId}`;
+    } else {
+      querySearch = `&labo_id=`;
     }
     if (parseInt(statusId) != 0) {
-      querySearch += `?status=${statusId}`;
+      querySearch += `&status=${statusId}`;
+    } else {
+      querySearch += `&status=`;
     }
     if (orderFromDate != '') {
-      querySearch += `?order_date_start=${orderFromDate}`;
+      querySearch += `&order_date_start=${orderFromDate}`;
+    } else {
+      querySearch += `&order_date_start=`;
     }
 
     if (orderToDate != '') {
-      querySearch += `?order_date_end=${orderToDate}`;
+      querySearch += `&order_date_end=${orderToDate}`;
+    } else {
+      querySearch += `&order_date_end=`;
     }
 
     if (receivedFromDate != '') {
-      querySearch += `?received_date_start=${receivedFromDate}`;
+      querySearch += `&received_date_start=${receivedFromDate}`;
+    } else {
+      querySearch += `&received_date_start=`;
     }
 
     if(receivedToDate != '') {
-      querySearch += `?received_date_end=${receivedToDate}`;
+      querySearch += `&received_date_end=${receivedToDate}`;
+    } else {
+      querySearch += `&received_date_end=`;
     }
 
     if (useFromDate != '') {
-      querySearch += `?used_date_start=${useFromDate}`;
+      querySearch += `&used_date_start=${useFromDate}`;
+    } else {
+      querySearch += `&used_date_start=`;
     }
 
     if (useToDate != '') {
-      querySearch += `?used_date_end=${useToDate}`;
+      querySearch += `&used_date_end=${useToDate}`;
+    } else {
+      querySearch += `&used_date_end=`;
     }
-
+    this.filteredSpecimens.splice(0, this.filteredSpecimens.length);
     //filter test
     this.SpecimensService.filterSpecimens(querySearch, paging).subscribe((sRoot) => {
       sRoot.data.forEach((item: any) => {
@@ -228,6 +246,9 @@ export class SpecimensComponent implements OnInit {
     this.hasNextPage = this.filteredSpecimens.length > 10;
   }
   getAllSpecimens(paging: number) {
+    this.SpecimensFilter.ms_order_date = '';
+    this.SpecimensFilter.ms_received_date = '';
+    this.SpecimensFilter.ms_used_date = '';
     this.loading = true;
     this.currentPage = paging;
     this.filteredSpecimens = []
