@@ -141,6 +141,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
         patient_id: '',  //x
         patient_name: '', //x
         phone_number: '', //x
+        patient_created_date: '',
         procedure_id: "1",
         procedure_name: '', //x
         doctor: '', //x
@@ -217,7 +218,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     this.endDateTimestamp = this.dateToTimestamp(this.endDate);
     this.getListAppountment();
   }
-  
+
   getListAppountment() {
     this.startDateTimestamp = this.dateToTimestamp(this.startDate);
     this.APPOINTMENT_SERVICE.getAppointmentList(this.startDateTimestamp, this.endDateTimestamp).subscribe(data => {
@@ -235,7 +236,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   getListGroupService() {
     var storeList = localStorage.getItem("listGroupService");
     if (storeList != null) {
-      this.listGroupService = JSON.parse(storeList);    
+      this.listGroupService = JSON.parse(storeList);
     }
   }
 
@@ -345,7 +346,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
 
   patientList: any[] = [];
   patientInfor: any;
-  searchTimeout: any; 
+  searchTimeout: any;
   onsearch(event: any) {
     clearTimeout(this.searchTimeout);
     this.searchTimeout = setTimeout(() => {
@@ -417,7 +418,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
 
     var store = localStorage.getItem("listGroupService");
     if (store != null) {
-      this.listGroupService = JSON.parse(store);    
+      this.listGroupService = JSON.parse(store);
     }
 
     let procedureNameSelected;
@@ -439,9 +440,9 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
               procedureNameSelected = "Nhổ răng khôn";
               this.isCheckProcedure = false;
             }
-          } 
+          }
         })
-          
+
       })
     }
 
@@ -508,7 +509,8 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
 
     this.AppointmentBody.appointment.reason = this.reason;
     this.phoneErr = "";
-
+    //Set
+    this.AppointmentBody.appointment.patient_created_date = "1";
     this.APPOINTMENT_SERVICE.postAppointment(this.AppointmentBody).subscribe(
       (response) => {
         this.loading = false;
@@ -544,15 +546,15 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   }
 
   dateToTimestamp(dateStr: string): number {
-    const format = 'YYYY-MM-DD HH:mm'; 
-    const timeZone = 'Asia/Ho_Chi_Minh'; 
+    const format = 'YYYY-MM-DD HH:mm';
+    const timeZone = 'Asia/Ho_Chi_Minh';
     var timestamp = moment.tz(dateStr, format, timeZone).valueOf() / 1000;
     return timestamp;
   }
 
   timeToTimestamp(timeStr: string): number {
     const time = moment(timeStr, "HH:mm:ss", "Asia/Ho_Chi_Minh");
-    const timestamp = time.unix(); 
+    const timestamp = time.unix();
     return timestamp;
   }
 
@@ -582,7 +584,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
 
   showSuccessToast(message: string) {
     this.toastr.success(message, 'Thành công', {
-      timeOut: 3000, 
+      timeOut: 3000,
     });
   }
 
