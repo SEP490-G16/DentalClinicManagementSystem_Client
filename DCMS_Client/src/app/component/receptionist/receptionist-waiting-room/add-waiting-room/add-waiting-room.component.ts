@@ -9,6 +9,7 @@ import { ReceptionistWaitingRoomService } from 'src/app/service/ReceptionistServ
 import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureService/medical-procedure-group.service';
 import { add } from 'date-fns';
 import { ResponseHandler } from 'src/app/component/utils/libs/ResponseHandler';
+import { WebsocketService } from 'src/app/service/Chat/websocket.service';
 @Component({
   selector: 'app-add-waiting-room',
   templateUrl: './add-waiting-room.component.html',
@@ -49,12 +50,13 @@ export class AddWaitingRoomComponent implements OnInit {
     dob: '',
     email: ''
   }
+  currentPatientCreated : boolean = false;
   constructor(
     private WaitingRoomService: ReceptionistWaitingRoomService,
     private PATIENT_SERVICE: PatientService,
     private renderer: Renderer2,
     private toastr: ToastrService,
-    private router: Router,
+    private router: Router,private webSocketService: WebsocketService,
     private medicaoProcedureGroupService: MedicalProcedureGroupService
   ) {
 
@@ -107,8 +109,8 @@ export class AddWaitingRoomComponent implements OnInit {
     }
   }
   checkCancel() {
-    console.log("click")
     this.isAdd = false;
+    this.resetValidate()
   }
   getListGroupService() {
     const storeList = localStorage.getItem('ListGroupProcedure');
@@ -147,23 +149,63 @@ export class AddWaitingRoomComponent implements OnInit {
     if (this.isSubmitted) {
       return;
     }
+
     if (storedPatientIds.includes(this.POST_WAITTINGROOM.patient_id)) {
       this.showErrorToast('Bệnh nhân đã tồn tại trong phòng chờ!');
       return;
     }
     const wrPatientId = sessionStorage.getItem("WaitingRoomPatientId");
+
+    if (this.currentPatientCreated == true) {
+      this.POST_WAITTINGROOM.patient_created_date = '1';
+      this.currentPatientCreated = false;
+    } else {
+      const storeLi = localStorage.getItem('listSearchPateint');
+      var ListPatientStore = [];
+      if (storeLi != null) {
+        ListPatientStore = JSON.parse(storeLi);
+      }
+      if (ListPatientStore.length != 0) {
+        ListPatientStore.forEach((item: any) => {
+          if (item.patientId == this.POST_WAITTINGROOM.patient_id) {
+            if (item.patientDescription != null && item.patientDescription.includes('@@isnew##')) {
+              this.POST_WAITTINGROOM.patient_created_date = '1';
+            } else {
+              this.POST_WAITTINGROOM.patient_created_date = '2';
+            }
+          }
+        })
+      }
+    }
+
     this.POST_WAITTINGROOM.patient_created_date = "new" + 1;
-    console.log("POST Waiting room: ", this.POST_WAITTINGROOM);
+    const postInfo = this.POST_WAITTINGROOM.epoch + ' - ' + this.POST_WAITTINGROOM.produce_id + ' - ' + this.POST_WAITTINGROOM.produce_name + ' - ' 
+    + this.POST_WAITTINGROOM.patient_id + ' - ' +this.POST_WAITTINGROOM.patient_name + ' - ' + this.POST_WAITTINGROOM.reason + ' - '
+    + this.POST_WAITTINGROOM.status + ' - ' + this.POST_WAITTINGROOM.appointment_id + ' - ' + this.POST_WAITTINGROOM.appointment_epoch + ' - ' + this.POST_WAITTINGROOM.patient_created_date;
     this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
       .subscribe((data) => {
         this.showSuccessToast("Thêm phòng chờ thành công!!");
-        window.location.reload();
+        let ref = document.getElementById('cancel-add-waiting');
+          ref?.click();
+        this.messageContent = `CheckRealTimeWaitingRoom@@@,${postInfo},${Number('1')}`;
+          this.messageBody = {
+            action: '',
+            message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
+          }
+          if (this.messageContent.trim() !== '' && sessionStorage.getItem('sub-id') != null && sessionStorage.getItem('username') != null) {
+            this.messageBody = {
+              action: "sendMessage",
+              message: `{"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}`
+            };
+            console.log(this.messageBody);
+            this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
+          }
+        
       },
         (err) => {
           this.showErrorToast('Lỗi khi thêm phòng chờ');
         }
       );
-
   }
 
   addPatient() {
@@ -240,6 +282,7 @@ export class AddWaitingRoomComponent implements OnInit {
     console.log("Patient body: ", this.patientBody);
     this.PATIENT_SERVICE.addPatient(this.patientBody).subscribe((data: any) => {
       this.toastr.success('Thêm mới bệnh nhân thành công!');
+      this.currentPatientCreated = true;
       let ref = document.getElementById('cancel-patient');
       ref?.click();
       this.patient1 = [];
@@ -249,6 +292,7 @@ export class AddWaitingRoomComponent implements OnInit {
       ResponseHandler.HANDLE_HTTP_STATUS(this.PATIENT_SERVICE.test + "/patient", error);
     })
   }
+
 
   searchTimeout: any;
   onsearchPatientInWaitingRoom(event: any) {
@@ -260,11 +304,13 @@ export class AddWaitingRoomComponent implements OnInit {
             patientId: item.patient_id,
             patientName: item.patient_name,
             patientInfor: item.patient_id + " - " + item.patient_name + " - " + item.phone_number,
+            patientDescription: item.description
           };
         });
         this.patientList = transformedMaterialList;
+        localStorage.setItem("listSearchPateint", JSON.stringify(this.patientList));
       })
-    }, 2000);
+    }, 500);
   }
 
   dateToTimestamp(dateStr: string): number {
@@ -316,7 +362,7 @@ export class AddWaitingRoomComponent implements OnInit {
     return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email);
   }
   toggleAdd() {
-    this.isAdd = true;
+    this.isAdd = !this.isAdd;
   }
   toggleCancel() {
     this.isAdd = false;
@@ -328,5 +374,10 @@ export class AddWaitingRoomComponent implements OnInit {
       return '0' + phoneNumber.slice(3);
     } else
       return phoneNumber;
+  }
+  messageContent: string = ``;
+  messageBody = {
+    action: '',
+    message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
   }
 }

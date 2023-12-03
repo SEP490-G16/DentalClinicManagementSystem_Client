@@ -70,11 +70,11 @@
           <td *ngIf="p.TotalAmount == null">0</td>
           <td *ngIf="p.TotalAmount != null">{{p.TotalAmount}}</td>
           <td class="text-center">
-            <button href="#" style="padding: 2px 5px;" class="btn btn-primary float-right btn-rounded"
+            <button href="#" style="padding: 2px 5px;" class="btn btn-primary float-right btn-rounded" title="Sửa phiếu nhập"
               data-bs-toggle="modal" data-bs-target="#editImportBillModal" (click)="openEditImportMaterial(p.Id, p)"><i
                 class="bi bi-pencil-square"></i></button>
-                <button href="#" style="padding: 2px 5px; margin-left: 3px" class="btn btn-danger float-right btn-rounded"
-                (click)="deleteImportMaterial(p.Id)"><i class="bi bi-trash"></i></button>
+                <button href="#" style="padding: 2px 5px; margin-left: 3px" class="btn btn-danger float-right btn-rounded" title="Xoá phiếu nhập"
+                (click)="deleteImportMaterial(p.Id,p.CreateDate)"><i class="bi bi-trash"></i></button>
           </td>
         </tr>
       </tbody>

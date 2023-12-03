@@ -357,11 +357,13 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
             patientId: item.patient_id,
             patientName: item.patient_name,
             patientInfor: item.patient_id + " - " + item.patient_name + " - " + item.phone_number,
+            patientDescription: item.description
           };
         });
         this.patientList = transformedMaterialList;
+        localStorage.setItem("listSearchPateint", JSON.stringify(this.patientList));
       })
-    }, 2000);
+    }, 500);
   }
 
   selectedDoctor: any = null;
@@ -426,17 +428,17 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
       this.datesDisabled.forEach((date: any) => {
         this.listGroupService.forEach((it:any) => {
           if (this.timestampToDate(date.date) == selectedDate && this.procedure == date.procedure && it.medical_procedure_group_id == this.procedure && it.name == 'Điều trị tủy răng') {
-            if (date.count >= 8) {
+            if (date.count >= 4) {
               procedureNameSelected = "Điều trị tủy răng";
               this.isCheckProcedure = false;
             }
           } else if (this.timestampToDate(date.date) == selectedDate && this.procedure == date.procedure && it.medical_procedure_group_id == this.procedure && it.name == 'Chỉnh răng') {
-            if (date.count >= 10) {
+            if (date.count >= 8) {
               procedureNameSelected = "Chỉnh răng";
               this.isCheckProcedure = false;
             }
           } else if (this.timestampToDate(date.date) == selectedDate && this.procedure == date.procedure && it.medical_procedure_group_id == this.procedure && it.name == 'Nhổ răng khôn') {
-            if (date.count >= 4) {
+            if (date.count >= 2) {
               procedureNameSelected = "Nhổ răng khôn";
               this.isCheckProcedure = false;
             }
@@ -509,8 +511,29 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
 
     this.AppointmentBody.appointment.reason = this.reason;
     this.phoneErr = "";
-    //Set
-    this.AppointmentBody.appointment.patient_created_date = "1";
+
+    if (this.checkNewPatent == true) {
+      this.AppointmentBody.appointment.patient_created_date = "1";
+      this.checkNewPatent = false;
+    } else {
+      const storeLi = localStorage.getItem('listSearchPateint');
+      var ListPatientStore = [];
+      if (storeLi != null) {
+        ListPatientStore = JSON.parse(storeLi);
+      }
+      if (ListPatientStore.length != 0) {
+        ListPatientStore.forEach((item: any) => {
+          if (item.patientId == this.AppointmentBody.appointment.patient_id) {
+            if (item.patientDescription != null && item.patientDescription.includes('@@isnew##')) {
+              this.AppointmentBody.appointment.patient_created_date = '1';
+            } else {
+              this.AppointmentBody.appointment.patient_created_date = '2';
+            }
+          }
+        })
+      }
+    }
+
     this.APPOINTMENT_SERVICE.postAppointment(this.AppointmentBody).subscribe(
       (response) => {
         this.loading = false;
@@ -628,7 +651,10 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   checkCancel() {
     console.log("click")
     this.isAdd = false;
+    this.resetValidatePatient()
   }
+
+  checkNewPatent: boolean = false;
   addPatient() {
     console.log(this.patient1.Gender);
     this.resetValidatePatient();
@@ -704,6 +730,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
 
     this.PATIENT_SERVICE.addPatient(this.patientBody).subscribe((data: any) => {
       this.toastr.success('Thêm mới bệnh nhân thành công!');
+      this.checkNewPatent = true;
       let ref = document.getElementById('cancel-patient');
       ref?.click();
       this.patient1 = [];
@@ -717,7 +744,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email);
   }
   toggleAdd() {
-    this.isAdd = true;
+    this.isAdd = !this.isAdd;
   }
   normalizePhoneNumber(phoneNumber: string): string {
     if (phoneNumber.startsWith('(+84)')) {
@@ -727,7 +754,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     } else
       return phoneNumber;
   }
-  private resetValidatePatient() {
+   resetValidatePatient() {
     this.validatePatient = {
       name: '',
       gender: '',

@@ -1,0 +1,27 @@
+.button-timekeeping{
+  font-family: "Poppins", sans-serif;
+  background: #664FC3;
+  text-align: center;
+  border: 0px solid white;
+  color: white;
+  font-weight: bold;
+  /*font-size: 24px;*/
+  outline: 0px;
+  padding: 10px 20px;
+  /* box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset; */
+}
+
+.button-timekeeping:hover{
+  background: #533daf;
+}
+.table-responsive{
+  padding: 10px;
+}
+.table tbody tr td{
+  display: table-cell;
+  vertical-align: middle;
+}
+.table thead tr th{
+  display: table-cell;
+  vertical-align: middle;
+}

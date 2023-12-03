@@ -2,6 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CognitoService } from 'src/app/service/cognito.service';
 import * as moment from 'moment-timezone';
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {
+  ConfirmDeleteModalComponent
+} from "../../utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component";
+import {ResponseHandler} from "../../utils/libs/ResponseHandler";
+import {ToastrService} from "ngx-toastr";
 
 
 @Component({
@@ -12,7 +18,9 @@ import * as moment from 'moment-timezone';
 export class StaffComponent implements OnInit {
   constructor(
     private cognitoService: CognitoService,
-    private router:Router
+    private modalService: NgbModal,
+    private router:Router,
+    private toastr:ToastrService
 
   ) { }
 
@@ -137,14 +145,25 @@ export class StaffComponent implements OnInit {
   openEditPopup(staff:any) {
     this.staffEdit = staff;
   }
-
-  deleteStaff(staff: any) {
-    this.cognitoService.deleteStaff(staff).subscribe((res) => {
-      const index = this.listStaffDisplay.findIndex((item:any) => item.staffName == staff.staffName);
-      if (index != -1) {
-        this.listStaffDisplay.splice(index, 1);
+  openConfirmationModal(message: string): Promise<any> {
+    const modalRef = this.modalService.open(ConfirmDeleteModalComponent);
+    modalRef.componentInstance.message = message;
+    return modalRef.result;
+  }
+  deleteStaff(staff: any,staffName:string) {
+    this.openConfirmationModal(`Bạn có chắc chắn muốn xóa nhân viên ${staffName} không?`).then((result) => {
+      if (result) {
+        this.cognitoService.deleteStaff(staff)
+          .subscribe((res) => {
+              this.toastr.success('Xoá nhân viên thành công !');
+            const index = this.listStaffDisplay.findIndex((item:any) => item.staffName == staff.staffName);
+              if (index != -1) {
+                this.listStaffDisplay.splice(index, 1);
+              }
+            }
+          )
       }
-    })
+    });
   }
 
   signOut() {

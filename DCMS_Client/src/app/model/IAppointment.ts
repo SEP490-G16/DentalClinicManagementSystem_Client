@@ -39,7 +39,8 @@ export interface AppointmentObject {
   reason: string,
   doctor: string,
   status: number,
-  time: number
+  time: number, 
+  patient_created_date: string
 }
 
 
@@ -71,5 +72,6 @@ export interface EditAppointment {
   reason: string,
   doctor: string,
   status: number,
-  time: number
+  time: number,
+  patient_created_date: string
 }

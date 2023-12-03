@@ -15,7 +15,7 @@
                 (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')"
                 style="padding: 10px; color: #000; cursor: pointer;">Khám và điều trị</a></li>
             <li class="nav-item mr-2"><a class="nav-link active" style="padding: 10px; color: #664FC3; cursor: pointer;"
-                (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Mẫu vật</a>
+                (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Mẫu</a>
             </li>
             <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
                 (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
@@ -23,6 +23,9 @@
           </ng-container>
           <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
               (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/')">Thanh toán</a>
+          </li>
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
+             (click)="navigateHref('/benhnhan/danhsach/tab/phieu-thu/')">Phiếu thu</a>
           </li>
         </ul>
 
@@ -72,7 +75,7 @@
                 <button class="btn btn-primary p-1 m-2" (click)="openEditSpecimen(specimens)"><i
                     class="bi bi-pencil-square" data-bs-toggle="modal"
                     data-bs-target="#editSpecimensModal"></i></button>
-                <button class="btn btn-danger p-1" (click)="deleteSpecimens(specimens.ms_id)"><i
+                <button class="btn btn-danger p-1" (click)="deleteSpecimens(specimens.ms_id,specimens.ms_name)"><i
                     class="bi bi-trash"></i></button>
               </td>
             </tr>

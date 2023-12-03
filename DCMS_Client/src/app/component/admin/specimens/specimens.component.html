@@ -34,84 +34,92 @@
         [bsConfig]="{ isAnimated: true, dateInputFormat: 'DD/MM/YYYY' }">
     </div>
     <div class="col-sm-3 col-md-2 form-group" style="padding: 0 10px">
-      <input type="text" placeholder="Ngày lắp" #input (change)="filterByUseDate(input.value)"
+      <input type="text" placeholder="Ngày lắp" [(ngModel)]="SpecimensFilter.ms_used_date" #input 
+      (change)="filterByUseDate(input.value)"
         class="form-control input-custom  p-2" bsDaterangepicker [bsConfig]="{ isAnimated: true }">
     </div>
-    <div class="col-sm-2 col-md-2" style="padding: 0 10px">
-      <select class="form-select p-2" style="width: 70%; border: 1px solid #664FC3;
+    <div class="col-sm-2 col-md-2" style="padding: 0 10px;display: flex;">
+      <div style="width: 100%">
+        <select class="form-select p-2" style="width: 100%; border: 1px solid #664FC3;
             border-radius: 10px;" aria-label="Default select example" [(ngModel)]="status" (change)="filterStatus()">
-        <option value="" selected>Trạng thái</option>
-        <option value="2">Chưa Nhận</option>
-        <option value="3">Đã Nhận</option>
-        <option value="4">Hàng Lỗi</option>
-      </select>
+          <option value="" selected>Trạng thái</option>
+          <option value="2">Chưa Nhận</option>
+          <option value="3">Đã Nhận</option>
+          <option value="4">Hàng Lỗi</option>
+        </select>
+      </div>
+      <div>
+        <button class="btn button-add p-2" style="margin-left: 8px;" title="không lọc" (click)="getAllSpecimens(1)">
+          <i class="bi bi-arrow-clockwise"></i>
+        </button>
+      </div>
     </div>
     <div class="col-sm-2 col-md-2" style="padding: 0 10px">
-      <button class="btn button-add p-2" style="margin-left: 8px;" (click)="togglePopup()">
-        Hiển thị
-      </button>
-      <ul *ngIf="showPopup" (mouseleave)="hiddenPopup()" class="popup">
-        <div class="row">
-          <div class="col-md-6">
-            <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox1" (click)="toggleColumn(2)"> Tên
-              mẫu</li>
+        <button class="btn button-add p-2" style="margin-left: 8px;" (click)="togglePopup()">
+          Hiển thị
+        </button>
+        <ul *ngIf="showPopup" (mouseleave)="hiddenPopup()" class="popup">
+          <div class="row">
+            <div class="col-md-6">
+              <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox1" (click)="toggleColumn(2)"> Tên
+                mẫu</li>
+            </div>
+            <div class="col-md-6">
+              <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox2" (click)="toggleColumn(3)"> Chất
+                liệu</li>
+            </div>
           </div>
-          <div class="col-md-6">
-            <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox2" (click)="toggleColumn(3)"> Chất
-              liệu</li>
+          <div class="row">
+            <div class="col-md-6">
+              <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox3" (click)="toggleColumn(4)"> Số
+                lượng</li>
+            </div>
+            <div class="col-md-6">
+              <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox4" (click)="toggleColumn(5)"> Đơn
+                giá</li>
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox3" (click)="toggleColumn(4)"> Số
-              lượng</li>
+          <div class="row">
+            <div class="col-md-6">
+              <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox5" (click)="toggleColumn(6)"> Labo
+              </li>
+            </div>
+            <div class="col-md-6">
+              <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox6" (click)="toggleColumn(7)">
+                Trạng thái</li>
+            </div>
           </div>
-          <div class="col-md-6">
-            <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox4" (click)="toggleColumn(5)"> Đơn
-              giá</li>
+          <div class="row">
+            <div class="col-md-6">
+              <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox7" (click)="toggleColumn(8)"> Ngày
+                đặt</li>
+            </div>
+            <div class="col-md-6">
+              <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox8" (click)="toggleColumn(9)">
+                Người đặt</li>
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox5" (click)="toggleColumn(6)"> Labo
-            </li>
+          <div class="row">
+            <div class="col-md-6">
+              <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox9" (click)="toggleColumn(10)">
+                Ngày nhận</li>
+            </div>
+            <div class="col-md-6">
+              <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox10" (click)="toggleColumn(11)">
+                Người nhận</li>
+            </div>
           </div>
-          <div class="col-md-6">
-            <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox6" (click)="toggleColumn(7)">
-              Trạng thái</li>
+          <div class="row">
+            <div class="col-md-6">
+              <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox11" (click)="toggleColumn(12)">
+                Ngày lắp </li>
+            </div>
+            <div class="col-md-6">
+              <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox12" (click)="toggleColumn(13)">
+                Bảo hành</li>
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox7" (click)="toggleColumn(8)"> Ngày
-              đặt</li>
-          </div>
-          <div class="col-md-6">
-            <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox8" (click)="toggleColumn(9)">
-              Người đặt</li>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox9" (click)="toggleColumn(10)">
-              Ngày nhận</li>
-          </div>
-          <div class="col-md-6">
-            <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox10" (click)="toggleColumn(11)">
-              Người nhận</li>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox11" (click)="toggleColumn(12)">
-              Ngày lắp </li>
-          </div>
-          <div class="col-md-6">
-            <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox12" (click)="toggleColumn(13)">
-              Bảo hành</li>
-          </div>
-        </div>
-      </ul>
+        </ul>
     </div>
   </div>
   <!--<div class="row mt-3 mr-2">
@@ -161,9 +169,9 @@
             <td *ngIf="checkbox12" style="min-width: 90px;padding: 10px">{{specimens.ms_warranty | date:'dd-MM-yyyy'}}
             </td> <!--13-->
             <td class="text-center" style="min-width: 101px;padding: 10px"> <!--14-->
-              <button class="btn btn-primary p-1 m-2"><i class="bi bi-pencil-square" data-bs-toggle="modal"
+              <button class="btn btn-primary p-1 m-2" title="Sửa mẫu"><i class="bi bi-pencil-square" data-bs-toggle="modal"
                   data-bs-target="#editSpecimensModal" (click)="openEditSpecimen(specimens)"></i></button>
-              <button class="btn btn-danger p-1" (click)="deleteSpecimens(specimens.ms_id, specimens.ms_name)"><i
+              <button class="btn btn-danger p-1" title="Xoá mẫu" (click)="deleteSpecimens(specimens.ms_id, specimens.ms_name)"><i
                   class="bi bi-trash"></i></button>
             </td>
           </ng-container>

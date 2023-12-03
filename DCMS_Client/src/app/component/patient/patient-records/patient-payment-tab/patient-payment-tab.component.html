@@ -16,7 +16,7 @@
                 trị</a>
               </li>
             <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
-                (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Mẫu vật</a>
+                (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Mẫu</a>
             </li>
             <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
                 (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
@@ -24,6 +24,9 @@
           </ng-container>
           <li class="nav-item mr-2"><a class="nav-link active" style="padding: 10px; color: #664FC3; cursor: pointer;"
               (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/')">Thanh toán</a>
+          </li>
+          <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
+                                       (click)="navigateHref('/benhnhan/danhsach/tab/phieu-thu/')">Phiếu thu</a>
           </li>
         </ul>
       </div>
@@ -34,7 +37,7 @@
       <div class="payment-grid-wrapper" *ngIf="Material_Usage_Report.length > 0; else noPaymentRecord">
         <div class="payment-container" *ngFor="let report of Material_Usage_Report">
           <div class="payment-header">
-            <h2 class="schedule-title" (click)="toggleDetails(report.tc_data.tc_treatment_course_id)">Đợt khám:
+            <h2 class="schedule-title" title="Xem thông tin thanh toán" (click)="toggleDetails(report.tc_data.tc_treatment_course_id)">Đợt khám:
               {{report.tc_data.tc_name}}</h2>
             <div class="payment-summary">
               <span class="total-amount">Tổng tiền: {{ report.total | currency:'VND'}}</span>
@@ -55,7 +58,7 @@
             [class.active]="showDetails[report.tc_data.tc_treatment_course_id]">
             <ng-template ngFor let-mu [ngForOf]="report.mu_data">
               <div class="payment-row" *ngIf="mu.mu_total_paid > 0">
-                <span class="payment-date" (click)="examinationDetail(mu, report.tc_data, report.p_data)">Ngày thanh
+                <span class="payment-date" title="Xem thông tin phiếu thu ngày {{ mu.mu_created_date | date: 'dd/mm/yyyy'}}" (click)="examinationDetail(mu, report.tc_data, report.p_data)">Ngày thanh
                   toán:
                   {{ mu.mu_created_date | date: 'dd/mm/yyyy'}}</span>
                 <span class="amount-paid">Đã trả: {{ mu.mu_total_paid | currency:'VND'}}

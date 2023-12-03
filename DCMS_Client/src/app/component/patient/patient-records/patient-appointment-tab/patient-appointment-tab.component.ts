@@ -10,8 +10,12 @@ import { ConvertJson } from 'src/app/service/Lib/ConvertJson';
 import { ISelectedAppointment, RootObject } from 'src/app/model/IAppointment';
 import { CommonService } from 'src/app/service/commonMethod/common.service';
 import { ResponseHandler } from "../../../utils/libs/ResponseHandler";
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import {NgbDateStruct, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { IPatient } from 'src/app/model/IPatient';
+import {
+  ConfirmDeleteModalComponent
+} from "../../../utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component";
+import {DatePipe} from "@angular/common";
 @Component({
   selector: 'app-patient-appointment-tab',
   templateUrl: './patient-appointment-tab.component.html',
@@ -39,6 +43,8 @@ export class PatientAppointmentTabComponent implements OnInit {
     private cognitoService: CognitoService,
     private commonService: CommonService,
     private router: Router,
+    private modalService: NgbModal,
+    private datePipe: DatePipe,
     private toastr: ToastrService) {
 
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
@@ -120,15 +126,35 @@ export class PatientAppointmentTabComponent implements OnInit {
     this.timeString = this.timestampToTime(appointment.time);
     console.log("Time, ", this.timeString);
   }
-
+  openConfirmationModal(message: string): Promise<any> {
+    const modalRef = this.modalService.open(ConfirmDeleteModalComponent);
+    modalRef.componentInstance.message = message;
+    return modalRef.result;
+  }
   deleteAppointment(detail: any, dateTimestamp: any) {
-    this.APPOINTMENT_SERVICE.deleteAppointment(dateTimestamp, detail.appointment_id).subscribe(response => {
-      console.log("Xóa thành công");
-      this.showSuccessToast('Xóa lịch hẹn thành công!');
-      window.location.reload();
-    }, error => {
-      this.showErrorToast("Lỗi khi cập nhật");
-      this.showErrorToast("Lỗi khi xóa");
+    // this.APPOINTMENT_SERVICE.deleteAppointment(dateTimestamp, detail.appointment_id).subscribe(response => {
+    //   console.log("Xóa thành công");
+    //   this.showSuccessToast('Xóa lịch hẹn thành công!');
+    //   window.location.reload();
+    // }, error => {
+    //   this.showErrorToast("Lỗi khi cập nhật");
+    //   this.showErrorToast("Lỗi khi xóa");
+    // });
+
+    const formattedDate = this.datePipe.transform(this.timestampToDate(dateTimestamp), 'dd-MM-yyyy');
+    this.openConfirmationModal(`Bạn có chắc chắn muốn xoá lịch hẹn lúc ${this.timestampToTime(detail.time)}-${formattedDate} không?`).then((result) => {
+      if (result) {
+        this.APPOINTMENT_SERVICE.deleteAppointment(dateTimestamp, detail.appointment_id)
+          .subscribe((res) => {
+              this.toastr.success('Xóa lịch hẹn thành công!');
+              window.location.reload();
+            },
+            (error) => {
+              this.showErrorToast("Lỗi khi cập nhật");
+              this.showErrorToast("Lỗi khi xóa");
+          }
+          )
+      }
     });
   }
 

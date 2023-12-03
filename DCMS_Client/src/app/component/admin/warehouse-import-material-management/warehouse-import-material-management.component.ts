@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import {NgbDateStruct, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import { ImportMaterialService } from "../../../service/MaterialService/import-material.service";
 import { ToastrService } from "ngx-toastr";
 import { MaterialWarehouseService } from "../../../service/MaterialService/material-warehouse.service";
@@ -7,6 +7,10 @@ import { MaterialService } from "../../../service/MaterialService/material.servi
 import * as moment from 'moment-timezone';
 import {ResponseHandler} from "../../utils/libs/ResponseHandler";
 import {CognitoService} from "../../../service/cognito.service";
+import {
+  ConfirmDeleteModalComponent
+} from "../../utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component";
+import {DatePipe} from "@angular/common";
 @Component({
   selector: 'app-warehouse-import-material-management',
   templateUrl: './warehouse-import-material-management.component.html',
@@ -21,6 +25,7 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
     private materialWarehouseService: MaterialWarehouseService,
     private toastr: ToastrService,
     private cognitoService: CognitoService,
+    private modalService: NgbModal, private datePipe: DatePipe,
     private materialService: MaterialService) { }
   importBills: any[] = [];
   pagingBill = {
@@ -209,23 +214,44 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
       }
       )
   }
-  deleteImportMaterial(id: any) {
-    const cf = confirm("Bạn có muốn xóa phiếu nhập này không?");
-    if (cf) {
-      this.loading = true;
-      this.getMaterialsImportMaterialBills(id);
-      this.importMaterialService.deleteImportBill(id)
-        .subscribe((res) => {
-          this.toastr.success('Xóa phiếu nhập thành công!');
-          this.loadPage(this.currentPage);
-        },
-          (error) => {
-            this.loading = false;
-            //this.toastr.error('Xóa phiếu nhập thất bại!');
-            ResponseHandler.HANDLE_HTTP_STATUS(this.importMaterialService.url+"/import-material/"+id, error);
-          }
-        )
-    }
+  openConfirmationModal(message: string): Promise<any> {
+    const modalRef = this.modalService.open(ConfirmDeleteModalComponent);
+    modalRef.componentInstance.message = message;
+    return modalRef.result;
+  }
+  deleteImportMaterial(id: any,createDate:any) {
+    // const cf = confirm("Bạn có muốn xóa phiếu nhập này không?");
+    // if (cf) {
+    //   this.loading = true;
+    //   this.getMaterialsImportMaterialBills(id);
+    //   this.importMaterialService.deleteImportBill(id)
+    //     .subscribe((res) => {
+    //       this.toastr.success('Xóa phiếu nhập thành công!');
+    //       this.loadPage(this.currentPage);
+    //     },
+    //       (error) => {
+    //         this.loading = false;
+    //         //this.toastr.error('Xóa phiếu nhập thất bại!');
+    //         ResponseHandler.HANDLE_HTTP_STATUS(this.importMaterialService.url+"/import-material/"+id, error);
+    //       }
+    //     )
+    // }
+    const formattedDate = this.datePipe.transform(createDate, 'dd-MM-yyyy');
+    this.openConfirmationModal(`Bạn có chắc chắn muốn xóa phiếu nhập ngày ${formattedDate} không?`).then((result) => {
+      if (result) {
+        this.getMaterialsImportMaterialBills(id);
+        this.importMaterialService.deleteImportBill(id)
+          .subscribe((res) => {
+              this.toastr.success('Xóa phiếu nhập thành công!');
+              this.loadPage(this.currentPage);
+            },
+            (error) => {
+              //this.toastr.error('Xóa phiếu nhập thất bại!');
+              ResponseHandler.HANDLE_HTTP_STATUS(this.importMaterialService.url+"/import-material/"+id, error);
+            }
+          )
+      }
+    });
   }
   dateToTimestamp(dateStr: string): any {
     const format = 'YYYY-MM-DD HH:mm'; // Định dạng của chuỗi ngày
