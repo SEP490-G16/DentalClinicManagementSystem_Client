@@ -16,7 +16,12 @@
       <p>Ngày/Date: <b>{{currentDate | VNdateTimeFormat}}</b></p>
     </div>
     <div class="col-md-6 col-sm-12 right">
-      <p>Hình thức/Type: <b></b></p>
+      <p>Hình thức/Type:
+        <select [(ngModel)]="receipt.payment_type">
+          <option value="1">Tiền mặt</option>
+          <option value="2">Chuyển khoản</option>
+        </select>
+      </p>
     </div>
   </div>
 

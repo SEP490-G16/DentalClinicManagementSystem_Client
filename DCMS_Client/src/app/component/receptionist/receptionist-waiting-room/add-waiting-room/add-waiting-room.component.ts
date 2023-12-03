@@ -49,6 +49,7 @@ export class AddWaitingRoomComponent implements OnInit {
     dob: '',
     email: ''
   }
+  currentPatientCreated : boolean = false;
   constructor(
     private WaitingRoomService: ReceptionistWaitingRoomService,
     private PATIENT_SERVICE: PatientService,
@@ -148,13 +149,34 @@ export class AddWaitingRoomComponent implements OnInit {
     if (this.isSubmitted) {
       return;
     }
+
     if (storedPatientIds.includes(this.POST_WAITTINGROOM.patient_id)) {
       this.showErrorToast('Bệnh nhân đã tồn tại trong phòng chờ!');
       return;
     }
     const wrPatientId = sessionStorage.getItem("WaitingRoomPatientId");
-    this.POST_WAITTINGROOM.patient_created_date = "new" + 1;
-    console.log("POST Waiting room: ", this.POST_WAITTINGROOM);
+
+    if (this.currentPatientCreated == true) {
+      this.POST_WAITTINGROOM.patient_created_date = '1';
+      this.currentPatientCreated = false;
+    } else {
+      const storeLi = localStorage.getItem('listSearchPateint');
+      var ListPatientStore = [];
+      if (storeLi != null) {
+        ListPatientStore = JSON.parse(storeLi);
+      }
+      if (ListPatientStore.length != 0) {
+        ListPatientStore.forEach((item: any) => {
+          if (item.patientId == this.POST_WAITTINGROOM.patient_id) {
+            if (item.patientDescription != null && item.patientDescription.includes('@@isnew##')) {
+              this.POST_WAITTINGROOM.patient_created_date = '1';
+            } else {
+              this.POST_WAITTINGROOM.patient_created_date = '2';
+            }
+          }
+        })
+      }
+    }
     this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
       .subscribe((data) => {
         this.showSuccessToast("Thêm phòng chờ thành công!!");
@@ -164,7 +186,6 @@ export class AddWaitingRoomComponent implements OnInit {
           this.showErrorToast('Lỗi khi thêm phòng chờ');
         }
       );
-
   }
 
   addPatient() {
@@ -241,6 +262,7 @@ export class AddWaitingRoomComponent implements OnInit {
     console.log("Patient body: ", this.patientBody);
     this.PATIENT_SERVICE.addPatient(this.patientBody).subscribe((data: any) => {
       this.toastr.success('Thêm mới bệnh nhân thành công!');
+      this.currentPatientCreated = true;
       let ref = document.getElementById('cancel-patient');
       ref?.click();
       this.patient1 = [];
@@ -250,6 +272,7 @@ export class AddWaitingRoomComponent implements OnInit {
       ResponseHandler.HANDLE_HTTP_STATUS(this.PATIENT_SERVICE.test + "/patient", error);
     })
   }
+
 
   searchTimeout: any;
   onsearchPatientInWaitingRoom(event: any) {
@@ -261,9 +284,11 @@ export class AddWaitingRoomComponent implements OnInit {
             patientId: item.patient_id,
             patientName: item.patient_name,
             patientInfor: item.patient_id + " - " + item.patient_name + " - " + item.phone_number,
+            patientDescription: item.description
           };
         });
         this.patientList = transformedMaterialList;
+        localStorage.setItem("listSearchPateint", JSON.stringify(this.patientList));
       })
     }, 2000);
   }
