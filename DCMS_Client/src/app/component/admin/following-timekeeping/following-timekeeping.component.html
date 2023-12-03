@@ -98,13 +98,14 @@
         <tr class="text-center">
           <th style="min-width: 120px">Tên nhân viên</th>
           <th style="min-width: 80px"> Chức vụ</th>
-          <th [colSpan]="totalDate"> Ngày</th>
-          <!-- <th style="min-width: 120px"> Ngày đi làm</th> -->
+          <th [colSpan]="totalDate+1"> Ngày</th>
+          <th style="min-width: 120px"> Ngày đi làm</th>
         </tr>
         <tr>
           <td></td>
           <td></td>
           <td *ngFor="let day of listDayInMonth" style="min-width: 70px;">{{ day }}</td>
+          <td></td>
         </tr>
       </thead>
       <tbody class="text-center">
@@ -131,6 +132,7 @@
                   </div>
                 </ng-container>
               </td>
+              <td></td>
             </tr>
           </ng-container>
         </ng-container>
@@ -157,6 +159,7 @@
                   </div>
                 </ng-container>
               </td>
+              <td></td>
             </tr>
 
           </ng-container>
