@@ -362,7 +362,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
         this.patientList = transformedMaterialList;
         localStorage.setItem("listSearchPateint", JSON.stringify(this.patientList));
       })
-    }, 2000);
+    }, 500);
   }
 
   selectedDoctor: any = null;

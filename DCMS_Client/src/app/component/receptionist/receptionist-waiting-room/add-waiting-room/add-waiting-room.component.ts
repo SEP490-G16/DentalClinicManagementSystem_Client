@@ -185,6 +185,8 @@ export class AddWaitingRoomComponent implements OnInit {
     this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
       .subscribe((data) => {
         this.showSuccessToast("Thêm phòng chờ thành công!!");
+        let ref = document.getElementById('cancel-add-waiting');
+          ref?.click();
         this.messageContent = `CheckRealTimeWaitingRoom@@@,${postInfo},${Number('1')}`;
           this.messageBody = {
             action: '',
@@ -198,7 +200,7 @@ export class AddWaitingRoomComponent implements OnInit {
             console.log(this.messageBody);
             this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
           }
-        // window.location.reload();
+        
       },
         (err) => {
           this.showErrorToast('Lỗi khi thêm phòng chờ');
@@ -308,7 +310,7 @@ export class AddWaitingRoomComponent implements OnInit {
         this.patientList = transformedMaterialList;
         localStorage.setItem("listSearchPateint", JSON.stringify(this.patientList));
       })
-    }, 2000);
+    }, 500);
   }
 
   dateToTimestamp(dateStr: string): number {
