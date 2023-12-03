@@ -9,6 +9,7 @@ import { ReceptionistWaitingRoomService } from 'src/app/service/ReceptionistServ
 import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureService/medical-procedure-group.service';
 import { add } from 'date-fns';
 import { ResponseHandler } from 'src/app/component/utils/libs/ResponseHandler';
+import { WebsocketService } from 'src/app/service/Chat/websocket.service';
 @Component({
   selector: 'app-add-waiting-room',
   templateUrl: './add-waiting-room.component.html',
@@ -54,7 +55,7 @@ export class AddWaitingRoomComponent implements OnInit {
     private PATIENT_SERVICE: PatientService,
     private renderer: Renderer2,
     private toastr: ToastrService,
-    private router: Router,
+    private router: Router,private webSocketService: WebsocketService,
     private medicaoProcedureGroupService: MedicalProcedureGroupService
   ) {
 
@@ -107,7 +108,6 @@ export class AddWaitingRoomComponent implements OnInit {
     }
   }
   checkCancel() {
-    console.log("click")
     this.isAdd = false;
     this.resetValidate()
   }
@@ -154,11 +154,26 @@ export class AddWaitingRoomComponent implements OnInit {
     }
     const wrPatientId = sessionStorage.getItem("WaitingRoomPatientId");
     this.POST_WAITTINGROOM.patient_created_date = "new" + 1;
-    console.log("POST Waiting room: ", this.POST_WAITTINGROOM);
+    const postInfo = this.POST_WAITTINGROOM.epoch + ' - ' + this.POST_WAITTINGROOM.produce_id + ' - ' + this.POST_WAITTINGROOM.produce_name + ' - ' 
+    + this.POST_WAITTINGROOM.patient_id + ' - ' +this.POST_WAITTINGROOM.patient_name + ' - ' + this.POST_WAITTINGROOM.reason + ' - '
+    + this.POST_WAITTINGROOM.status + ' - ' + this.POST_WAITTINGROOM.appointment_id + ' - ' + this.POST_WAITTINGROOM.appointment_epoch + ' - ' + this.POST_WAITTINGROOM.patient_created_date;
     this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
       .subscribe((data) => {
         this.showSuccessToast("Thêm phòng chờ thành công!!");
-        window.location.reload();
+        this.messageContent = `CheckRealTimeWaitingRoom@@@,${postInfo},${Number('1')}`;
+          this.messageBody = {
+            action: '',
+            message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
+          }
+          if (this.messageContent.trim() !== '' && sessionStorage.getItem('sub-id') != null && sessionStorage.getItem('username') != null) {
+            this.messageBody = {
+              action: "sendMessage",
+              message: `{"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}`
+            };
+            console.log(this.messageBody);
+            this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
+          }
+        // window.location.reload();
       },
         (err) => {
           this.showErrorToast('Lỗi khi thêm phòng chờ');
@@ -329,5 +344,10 @@ export class AddWaitingRoomComponent implements OnInit {
       return '0' + phoneNumber.slice(3);
     } else
       return phoneNumber;
+  }
+  messageContent: string = ``;
+  messageBody = {
+    action: '',
+    message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
   }
 }
