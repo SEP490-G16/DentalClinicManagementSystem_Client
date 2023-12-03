@@ -7,11 +7,25 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
   styleUrls: ['./detail-receipts.component.css']
 })
 export class DetailReceiptsComponent implements OnInit {
-
+  public receiptDetails: any;
   constructor(private modalService: NgbModal) { }
 
   ngOnInit(): void {
+    console.log(this.receiptDetails)
   }
+
+  getTotalDebtTotal(): number {
+    return this.receiptDetails.reduce((acc:any, detail:any) => acc + detail.mu_total, 0);
+  }
+
+  getTotalPayment(): number {
+    return this.receiptDetails.reduce((acc:any, detail:any) => acc + detail.p_total_paid, 0);
+  }
+
+  getTotalRemain(): number {
+    return this.receiptDetails.reduce((acc:any, detail:any) => acc + (detail.mu_total - detail.p_total_paid), 0);
+  }
+
   close() {
     this.modalService.dismissAll('Modal closed');
   }

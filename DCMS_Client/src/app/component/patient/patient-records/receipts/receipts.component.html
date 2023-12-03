@@ -4,23 +4,23 @@
       <div class="card-box">
         <ul class="nav nav-tabs">
           <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
-                                       (click)="navigateHref('/benhnhan/danhsach/tab/hosobenhnhan/')">Thông tin
-            chung</a>
+              (click)="navigateHref('/benhnhan/danhsach/tab/hosobenhnhan/')">Thông tin
+              chung</a>
           </li>
           <ng-container
             *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('4') || roleId.includes('5')">
             <li class="nav-item mr-2"><a class="nav-link"
-                                         (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')"
-                                         style="padding: 10px; color: #000; cursor: pointer;">Khám và điều trị</a></li>
+                (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')"
+                style="padding: 10px; color: #000; cursor: pointer;">Khám và điều trị</a></li>
             <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
-                                         (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Mẫu</a>
+                (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Mẫu</a>
             </li>
             <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
-                                         (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
+                (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
             </li>
           </ng-container>
           <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
-                                       (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/')">Thanh toán</a>
+              (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/')">Thanh toán</a>
           </li>
           <li class="nav-item mr-2"><a class="nav-link active" style="padding: 10px; color: #664FC3; cursor: pointer;"
               (click)="navigateHref('/benhnhan/danhsach/tab/phieu-thu/')">Phiếu thu</a>
@@ -36,31 +36,31 @@
         <div class="table-responsive">
           <table class="table table-bordered">
             <thead class="sticky-thead">
-            <tr>
-              <th scope="col">STT</th>
-              <th scope="col">Ngày tạo</th>
-              <th scope="col">Thanh toán (Payment)</th>
-              <th scope="col">Hình thức thanh toán</th>
-              <th scope="col">Xác nhận thanh toán</th>
-            </tr>
+              <tr>
+                <th scope="col">Mã phiếu thu</th>
+                <th scope="col">Ngày tạo</th>
+                <th scope="col">Thanh toán (Payment)</th>
+                <th scope="col">Hình thức thanh toán</th>
+                <th scope="col">Xác nhận thanh toán</th>
+              </tr>
             </thead>
             <tbody>
-            <tr title="Xem chi tiết phiếu thu" (click)="openPopupDetail()" style="cursor: pointer">
-              <td>
-                  1
-              </td>
-              <td>abc</td>
-              <td>10000</td>
-              <td>
-                <select class="form-select p-2">
-                  <option value="1">Chuyển khoản</option>
-                  <option value="2">Tiền mặt</option>
-                </select>
-              </td>
-              <td>
-                <button class="btn button-timekeeping" title="Xác nhận thanh toán">Xác nhận thanh toán</button>
-              </td>
-            </tr>
+              <tr title="Xem chi tiết phiếu thu" *ngFor="let rec of ReceiptsList" style="cursor: pointer">
+                  <td (click)="openPopupDetail(rec.detail)">
+                    {{rec.r_receipt_id}}
+                  </td>
+                  <td (click)="openPopupDetail(rec.detail)">{{rec.r_created_date}}</td>
+                  <td (click)="openPopupDetail(rec.detail)">{{calculateTotalPayment(rec.detail) | currency:'VND':'symbol':'1.0-0'}}</td>
+                  <td>
+                    <select class="form-select p-2">
+                      <option value="1">Chuyển khoản</option>
+                      <option value="2">Tiền mặt</option>
+                    </select>
+                  </td>
+                  <td>
+                    <button class="btn button-timekeeping" title="Xác nhận thanh toán" (click)="confirmPayment()">Xác nhận thanh toán</button>
+                  </td>
+              </tr>
             </tbody>
           </table>
         </div>

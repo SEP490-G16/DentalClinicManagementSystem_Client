@@ -35,11 +35,11 @@ export interface AppointmentObject {
   phone_number: string
   procedure_id: string,
   procedure_name: string,
-  patient_created_date:string,
   reason: string,
   doctor: string,
   status: number,
-  time: number, 
+  time: number,
+  patient_created_date: string
 }
 
 
