@@ -8,6 +8,7 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { DetailReceiptsComponent } from "./detail-receipts/detail-receipts.component";
 import { ReceiptsService } from 'src/app/service/ReceiptService/ReceiptService.service';
 import { ToastrService } from 'ngx-toastr';
+import { PatientService } from 'src/app/service/PatientService/patient.service';
 
 @Component({
   selector: 'app-receipts',
@@ -17,10 +18,12 @@ import { ToastrService } from 'ngx-toastr';
 export class ReceiptsComponent implements OnInit {
   ReceiptsList:any = [];
   patientId: any;
+  Patient:any;
   roleId: string[] = [];
 
   constructor(private commonService: CommonService,
     private receiptsService: ReceiptsService,
+    private patientService: PatientService,
     private route: ActivatedRoute,
     private toastr: ToastrService,
     private modalService: NgbModal) { }
@@ -31,7 +34,16 @@ export class ReceiptsComponent implements OnInit {
     if (ro != null) {
       this.roleId = ro.split(',');
     }
+    this.getPatientInformation();
     this.getReceiptsByPatientId();
+  }
+
+  getPatientInformation() {
+    this.patientService.getPatientById(this.patientId)
+    .subscribe((res) => {
+      console.log("Res Patient: ", res);
+      this.Patient = res;
+    })
   }
 
   getReceiptsByPatientId() {
@@ -48,6 +60,8 @@ export class ReceiptsComponent implements OnInit {
   openPopupDetail(RecDetail:any) {
     const modalRef = this.modalService.open(DetailReceiptsComponent, { size: 'xl' });
     modalRef.componentInstance.receiptDetails = RecDetail;
+    modalRef.componentInstance.Patient = this.Patient;
+
   }
 
   confirmPayment() {
