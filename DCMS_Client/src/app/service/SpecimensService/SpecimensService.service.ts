@@ -45,7 +45,7 @@ export class SpecimensService {
       'Authorization': `${idToken}`,
       'Accept': 'application/json',
     });
-      return this.http.get(`${this.apiUrl}/medical-supply/search${querySearch}?paging=${paging}`, { headers });
+      return this.http.get(`${this.apiUrl}/medical-supply/search?paging=${paging}${querySearch}`, { headers });
   }
 
   // postSpecimens(PostLabo: IPostLabo): Observable<any> {
