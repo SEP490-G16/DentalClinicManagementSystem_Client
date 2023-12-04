@@ -21,11 +21,6 @@
                 <label for="name-specimens" class="col-3 name-title">Tên mẫu <span class="required">*</span></label>
                 <div class="col-9 value-staff">
                   <input type="text" [(ngModel)]="specimen.name" required #name="ngModel" class="form-control" id="name-specimens" name="specimensName">
-                  <div *ngIf="name.invalid && (name.dirty || name.touched)"  class="alert-danger-custom" style="color:#FF0000FF;">
-                    <div *ngIf="name.errors?.['required']">
-                      Vui lòng nhập tên mẫu!
-                    </div>
-                  </div>
                   <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.name}}
@@ -34,14 +29,9 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="material" class="col-3 name-title">Chất liệu <span class="required">*</span></label>
+                <label for="material" class="col-3 name-title">Chất liệu</label>
                 <div class="col-9 value-staff">
                   <input type="text" [(ngModel)]="specimen.type" required #type="ngModel" class="form-control" id="material" name="material">
-                  <div *ngIf="type.invalid && (type.dirty || type.touched)"  class="alert-danger-custom" style="color:#FF0000FF;">
-                    <div *ngIf="type.errors?.['required']">
-                      Vui lòng nhập chất liệu!
-                    </div>
-                  </div>
                   <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.type}}
@@ -53,11 +43,6 @@
                 <label for="orderdate" class="col-3 name-title">Ngày đặt <span class="required">*</span></label>
                 <div class="col-9 value-staff">
                   <input type="date" [(ngModel)]="specimen.orderDate" required #orderDate="ngModel" class="form-control date-input-custom" id="orderdate" name="orderdate">
-                  <div *ngIf="orderDate.invalid && (orderDate.dirty || orderDate.touched)"  class="alert-danger-custom" style="color:#FF0000FF;">
-                    <div *ngIf="orderDate.errors?.['required']">
-                      Vui lòng nhập ngày đặt!
-                    </div>
-                  </div>
                   <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.orderDate}}
@@ -67,14 +52,9 @@
 
               </div>
               <div class="form-group row mt-3">
-                <label for="receiverdate" class="col-3 name-title">Ngày nhận <span class="required">*</span></label>
+                <label for="receiverdate" class="col-3 name-title">Ngày nhận</label>
                 <div class="col-9 value-staff">
                   <input type="date" [(ngModel)]="specimen.receiverDate" required #receiverDate="ngModel" class="form-control date-input-custom" id="receiverdate" name="receiverdate">
-                  <div *ngIf="receiverDate.invalid && (receiverDate.dirty || receiverDate.touched)"  class="alert-danger-custom" style="color:#FF0000FF;">
-                    <div *ngIf="receiverDate.errors?.['required']">
-                      Vui lòng nhập ngày nhận!
-                    </div>
-                  </div>
                   <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.receiverDate}}
@@ -84,14 +64,9 @@
 
               </div>
               <div class="form-group row mt-3">
-                <label for="installationdate" class="col-3 name-title">Ngày lắp <span class="required">*</span></label>
+                <label for="installationdate" class="col-3 name-title">Ngày lắp</label>
                 <div class="col-9 value-staff">
                   <input type="date" [(ngModel)]="specimen.usedDate" required #usedDate="ngModel" class="form-control date-input-custom" id="installationdate" name="installationdate">
-                  <div *ngIf="usedDate.invalid && (usedDate.dirty || usedDate.touched)"  class="alert-danger-custom" style="color:#FF0000FF;">
-                    <div *ngIf="usedDate.errors?.['required']">
-                      Vui lòng nhập ngày lắp!
-                    </div>
-                  </div>
                   <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.usedDate}}
@@ -117,14 +92,9 @@
 
             <div class="col-md-6">
               <div class="form-group row mt-3">
-                <label for="quantity" class="col-3 name-title">Số lượng <span class="required">*</span></label>
+                <label for="quantity" class="col-3 name-title">Số lượng</label>
                 <div class="col-9 value-staff">
                   <input type="number" [(ngModel)]="specimen.quantity" required #quantity="ngModel" class="form-control date-input-custom" id="quantity" name="quantity">
-                  <div *ngIf="quantity.invalid && (quantity.dirty || quantity.touched)"  class="alert-danger-custom" style="color:#FF0000FF;">
-                    <div *ngIf="quantity.errors?.['required']">
-                      Vui lòng nhập số lượng!
-                    </div>
-                  </div>
                   <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.quantity}}
@@ -133,14 +103,9 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="unitprice" class="col-3 name-title">Đơn giá <span class="required">*</span></label>
+                <label for="unitprice" class="col-3 name-title">Đơn giá</label>
                 <div class="col-9 value-staff">
                   <input type="number" [(ngModel)]="specimen.price" required #price=ngModel (input)="calculateTotal()" class="form-control" id="unitprice" name="unitprice">
-                  <div *ngIf="price.invalid && (price.dirty || price.touched)"  class="alert-danger-custom" style="color:#FF0000FF;">
-                    <div *ngIf="price.errors?.['required']">
-                      Vui lòng nhập đơn giá!
-                    </div>
-                  </div>
                   <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.price}}
@@ -155,14 +120,9 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="orderby" class="col-3 name-title">Người đặt <span class="required">*</span></label>
+                <label for="orderby" class="col-3 name-title">Người đặt</label>
                 <div class="col-9 value-staff">
                   <input type="text" [(ngModel)]="specimen.orderer" required #order="ngModel" class="form-control" id="orderby" name="orderby">
-                  <div *ngIf="order.invalid && (order.dirty || order.touched)"  class="alert-danger-custom" style="color:#FF0000FF;">
-                    <div *ngIf="order.errors?.['required']">
-                      Vui lòng nhập người đặt!
-                    </div>
-                  </div>
                   <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.orderer}}

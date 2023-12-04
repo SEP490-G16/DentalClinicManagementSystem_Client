@@ -26,7 +26,9 @@ export class PatientPaymentTabComponent implements OnInit {
   currentDate: string = "";
   showDetails: { [key: string]: boolean } = {};
   Material_Usage_Report: any[] = [];
-  roleId: string[] = []
+  roleId: string[] = [];
+  patientName:any;
+  name:any
   constructor(
     private patientService: PatientService,
     private route: ActivatedRoute,
@@ -55,6 +57,11 @@ export class PatientPaymentTabComponent implements OnInit {
     let ro = sessionStorage.getItem('role');
     if (ro != null) {
       this.roleId = ro.split(',');
+    }
+    this.name = sessionStorage.getItem('patient');
+    if (this.name){
+      this.name = JSON.parse(this.name);
+      this.patientName = this.name.patient_name;
     }
   }
 
