@@ -49,4 +49,12 @@ a {
   background-color: #9e92d1;
   border-bottom: 27px;
 }
-
+.title-patientName{
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.title-patientName div b {
+  font-size: 30px;
+}

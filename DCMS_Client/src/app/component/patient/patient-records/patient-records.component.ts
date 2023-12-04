@@ -67,8 +67,6 @@ export class PatientRecordsComponent implements OnInit {
 
   errorStatus: number = 0;
   searchPatient() {
-
-    //temp:
     if (this.search) {
       this.searchPatientsList = this.searchPatientsList.filter(sP =>
         Normalize.normalizeDiacritics(sP.patient_name.toLowerCase()).includes(Normalize.normalizeDiacritics(this.search.toLocaleLowerCase())) ||
@@ -98,6 +96,24 @@ export class PatientRecordsComponent implements OnInit {
     // } else {
     //   this.loadPage(this.currentPage);
     // }
+    if(this.search != null && this.search != "" && this.search != undefined){
+      this.patientService.getPatientByName(this.search, this.pagingSearch.paging).subscribe(patients => {
+        this.searchPatientsList = [];
+        this.searchPatientsList = patients.data;
+        this.searchPatientsList.forEach((p: any) => {
+          p.phone_number = this.normalizePhoneNumber(p.phone_number);
+        })
+        this.checkNextPage();
+        if (this.searchPatientsList.length > 10) {
+          this.searchPatientsList.pop();
+        }
+      }, error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test + "/patient/name/" + this.search + "/" + this.pagingSearch.paging, error)
+      }
+      ) 
+    }else{
+      this.loadPage(this.currentPage);
+    }
   }
   ngAfterViewInit() {
     this.popupDeletePatientComponent.patientDeleted.subscribe(() => {

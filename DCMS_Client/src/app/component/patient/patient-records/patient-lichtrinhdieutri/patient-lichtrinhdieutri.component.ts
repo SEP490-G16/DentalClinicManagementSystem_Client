@@ -18,6 +18,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
 
   id: string = "";
   examinations: any;
+  patientName:any;
   ITreatmentCourse: any[] = [];
   collapsedStates: { [key: string]: boolean } = {};
   roleId: string[] = []
@@ -34,13 +35,18 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
   navigateHref(href: string) {
     this.commonService.navigateHref(href, this.id);
   }
-
+  name:any
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
     this.getTreatmentCourse();
     let ro = sessionStorage.getItem('role');
     if (ro != null) {
       this.roleId = ro.split(',');
+    }
+    this.name = sessionStorage.getItem('patient');
+    if (this.name){
+      this.name = JSON.parse(this.name);
+      this.patientName = this.name.patient_name;
     }
   }
 

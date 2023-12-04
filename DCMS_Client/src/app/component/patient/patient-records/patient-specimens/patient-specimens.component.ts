@@ -35,7 +35,8 @@ export class PatientSpecimensComponent implements OnInit {
   status:any;
   specimen:any;
   roleId: string[] = [];
-
+  patientName:any;
+  name:any
   constructor(
     private commonService: CommonService,
     private SpecimensService: SpecimensService,
@@ -58,6 +59,11 @@ export class PatientSpecimensComponent implements OnInit {
     let ro = sessionStorage.getItem('role');
     if (ro != null) {
       this.roleId = ro.split(',');
+    }
+    this.name = sessionStorage.getItem('patient');
+    if (this.name){
+      this.name = JSON.parse(this.name);
+      this.patientName = this.name.patient_name;
     }
   }
 

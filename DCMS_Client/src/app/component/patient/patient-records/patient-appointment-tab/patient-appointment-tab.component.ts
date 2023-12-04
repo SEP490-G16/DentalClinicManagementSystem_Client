@@ -29,6 +29,8 @@ export class PatientAppointmentTabComponent implements OnInit {
   patientAppointments: any;
   dateString: any;
   timeString: any;
+  patientName:any;
+  name:any
   selectedAppointment: ISelectedAppointment;
   dateDis = { date: 0, procedure: '', count: 0, }
   model!: NgbDateStruct;
@@ -59,6 +61,11 @@ export class PatientAppointmentTabComponent implements OnInit {
     let ro = sessionStorage.getItem('role');
     if (ro != null) {
       this.roleId = ro.split(',');
+    }
+    this.name = sessionStorage.getItem('patient');
+    if (this.name){
+      this.name = JSON.parse(this.name);
+      this.patientName = this.name.patient_name;
     }
   }
 

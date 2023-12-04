@@ -22,7 +22,8 @@ export class ReceiptsComponent implements OnInit {
   patientId: any;
   Patient: any;
   roleId: string[] = [];
-
+  patientName:any;
+  name:any
   constructor(private commonService: CommonService,
     private receiptsService: ReceiptsService,
     private patientService: PatientService,
@@ -39,6 +40,11 @@ export class ReceiptsComponent implements OnInit {
     }
     this.getPatientInformation();
     this.getReceiptsByPatientId();
+    this.name = sessionStorage.getItem('patient');
+    if (this.name){
+      this.name = JSON.parse(this.name);
+      this.patientName = this.name.patient_name;
+    }
   }
 
   getPatientInformation() {

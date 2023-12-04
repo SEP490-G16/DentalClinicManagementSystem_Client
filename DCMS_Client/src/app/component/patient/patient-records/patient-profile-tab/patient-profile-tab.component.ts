@@ -168,7 +168,7 @@ export class PatientProfileTabComponent implements OnInit {
       this.patient.phone_number = this.normalizePhoneNumber(this.patient.phone_number);
       console.log(data);
       sessionStorage.removeItem('patient');
-      sessionStorage.setItem('patient', this.patient)
+      sessionStorage.setItem('patient', JSON.stringify(this.patient))
     },
       error => {
         ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test + "/patient/" + id, error);
