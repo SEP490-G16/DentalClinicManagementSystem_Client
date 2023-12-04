@@ -14,7 +14,7 @@
 }
 
 .header-font {
-  font-family: 'Open Sans', sans-serif;
+  font-family: Tahoma, sans-serif;
   font-size: 2rem;
   font-weight: 400;
   color: #2c3e50;
@@ -23,7 +23,7 @@
 }
 
 .cursive-font {
-  font-family: 'Dancing Script', cursive;
+  font-family: Tahoma, sans-serif;
   font-size: 1.5rem;
   color: #2E2E2E;
 }
