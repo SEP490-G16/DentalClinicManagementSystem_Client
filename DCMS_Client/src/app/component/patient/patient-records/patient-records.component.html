@@ -41,7 +41,7 @@
             </td>
           <!-- </ng-container> -->
           <td style="width: 100px;">
-            <button class="btn btn-primary" title="Sửa bệnh nhân" style="padding: 2px 5px; margin-right: 3px">
+            <button class="btn btn-primary" title="Sửa bệnh nhân" (click)="detail(p.patient_id)" style="padding: 2px 5px; margin-right: 3px">
               <i class="bi bi-pencil-square"></i></button>
             <button href="#" class="btn btn-danger float-right btn-rounded" title="Xoá bệnh nhân" style="padding: 2px 5px"
               (click)="openDeletePatient(p.patient_id, p.patient_name, $event)"><i class="bi bi-trash"></i></button>

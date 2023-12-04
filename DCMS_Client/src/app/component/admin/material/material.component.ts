@@ -48,7 +48,7 @@ export class MaterialComponent implements OnInit {
     this.currentPage = paging;
     this.materialService.getMaterials(paging).subscribe(data => {
       this.materialList = data.data;
-      this.results = [];
+      //this.results = [];
       if (this.materialList) {
         if (this.materialList.length >= 1) {
           for (let i = 0; i < this.materialList.length; i++) {
@@ -111,7 +111,7 @@ export class MaterialComponent implements OnInit {
               )
             }
           }
-          this.checkNextPage();
+          //this.checkNextPage();
         } else {
           this.totalMaterial = this.materialList.length;
         }
