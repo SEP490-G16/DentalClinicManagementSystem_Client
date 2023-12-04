@@ -13,6 +13,7 @@ export class PopupGenMedicalPdfComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal) { }
   public Medical:any;
   public Patient:any;
+  public Disagnosis: any;
   currentDay!: string;
   currentMonth!: string;
   currentYear!: string;
@@ -23,7 +24,6 @@ export class PopupGenMedicalPdfComponent implements OnInit {
     this.currentYear = now.getFullYear().toString();
     console.log("Medical: ", this.Medical);
     console.log("Patient: ", this.Patient);
-
     this.Patient.date_of_birth = this.calculateAge(this.Patient.date_of_birth);
   }
 

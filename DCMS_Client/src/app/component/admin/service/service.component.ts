@@ -74,7 +74,7 @@ export class ServiceComponent implements OnInit {
           this.medicalProcedureList.push(this.medicalProcedureGroups[i]);
         }
       } else {
-        if (this.medicalProcedureGroups[i].mp_name.includes(this.searchTerm)) {
+        if (this.medicalProcedureGroups[i].mp_name.includes(this.searchTerm.toLocaleLowerCase())) {
           this.medicalProcedureList.push(this.medicalProcedureGroups[i]);
         }
       }

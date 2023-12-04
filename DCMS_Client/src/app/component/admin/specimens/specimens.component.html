@@ -29,12 +29,12 @@
     </div>
     <div class="col-sm-3 col-md-2 form-group" style="padding: 0 10px">
       <input type="text" placeholder="Ngày nhận" [(ngModel)]="SpecimensFilter.ms_received_date" #input
-        (change)="filterByReceivedDate(input.value)" class="form-control input-custom  p-2" bsDaterangepicker
+        (ngModelChange)="filterByReceivedDate(input.value)" class="form-control input-custom  p-2" bsDaterangepicker
         [bsConfig]="{ isAnimated: true, dateInputFormat: 'DD/MM/YYYY' }">
     </div>
     <div class="col-sm-3 col-md-2 form-group" style="padding: 0 10px">
       <input type="text" placeholder="Ngày lắp" [(ngModel)]="SpecimensFilter.ms_used_date" #input 
-      (change)="filterByUseDate(input.value)"
+      (ngModelChange)="filterByUseDate(input.value)"
         class="form-control input-custom  p-2" bsDaterangepicker [bsConfig]="{ isAnimated: true }">
     </div>
     <div class="col-sm-2 col-md-2" style="padding: 0 10px;display: flex;">

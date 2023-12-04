@@ -8,6 +8,7 @@ interface TimekeepingDetail {
   clock_in?: string;
   clock_out?: string;
   staff_name?: string;
+  role?:string;
 }
 interface TimekeepingSubRecord {
   subId: string;
@@ -178,7 +179,7 @@ export class FollowingTimekeepingComponent implements OnInit {
               }
               this.staffTimeKeeping.sub_id = currentObject.subId,
                 this.staffTimeKeeping.staff_name = currentObject.details.staff_name,
-                this.staffTimeKeeping.role_name = '',
+                this.staffTimeKeeping.role_name = currentObject.details.role == "1" ? "Admin" : currentObject.details.role == "2" ? 'Bác sĩ' : currentObject.details.role == "3" ? 'Lễ tân' : currentObject.details.role == "4" ? 'Y tá': 'Y tá trưởng',
                 this.staffTimeKeeping.timeKeeping.push(newtimeKeepingObject);
               this.listStaffTimeKeeping.push(this.staffTimeKeeping);
               newtimeKeepingObject = {
@@ -243,6 +244,7 @@ export class FollowingTimekeepingComponent implements OnInit {
             clock_in: item[key]?.M?.clock_in?.N,
             clock_out: item[key]?.M?.clock_out?.N,
             staff_name: item[key]?.M?.staff_name?.S,
+            role: item[key]?.M?.role?.S,
           };
           timekeepingEntry.records.push({
             subId: key,

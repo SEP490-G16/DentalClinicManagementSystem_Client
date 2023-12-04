@@ -249,9 +249,11 @@ export class SpecimensComponent implements OnInit {
     this.hasNextPage = this.filteredSpecimens.length > 10;
   }
   getAllSpecimens(paging: number) {
+    this.labo_id = '';
     this.SpecimensFilter.ms_order_date = '';
     this.SpecimensFilter.ms_received_date = '';
     this.SpecimensFilter.ms_used_date = '';
+    this.status = "";
     this.loading = true;
     this.currentPage = paging;
     this.filteredSpecimens = []

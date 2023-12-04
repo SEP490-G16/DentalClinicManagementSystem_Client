@@ -131,7 +131,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
   registerOnWeeks: any
   weekTimestamps: number[] = [];
 
-  roleId: string[] = [];
+  roleId: any;
 
   eventForm!: FormGroup;
   editEventForm!: FormGroup;
@@ -168,6 +168,11 @@ export class RegisterWorkScheduleComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    const role = sessionStorage.getItem("role");
+    if (role != null) {
+      this.roleId = role;
+    }
     var storedUserJsonString = sessionStorage.getItem('UserObj');
 
     if (storedUserJsonString !== null) {
@@ -175,6 +180,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
 
       console.log("Oki or Ok?: ", (storedUserObject !== null || undefined) ? "Oki" : "Ok");
       this.UserObj = storedUserObject;
+      console.log(this.UserObj);
     } else {
       console.error('Stored user JSON string is null.');
       this.UserObj = null;
@@ -549,9 +555,9 @@ export class RegisterWorkScheduleComponent implements OnInit {
   newEventTitle: string = '';
   newEventStart: string = '';
   newEventEnd: string = '';
-  addEvent(): void {
 
-    if (this.UserObj != null && this.eventForm.valid) {
+  addEvent(): void {
+    if (this.UserObj != null && !this.eventForm.valid) {
       const newEvent: CalendarEvent = {
         title: this.newEventTitle,
         start: new Date(this.newEventStart),
@@ -579,13 +585,17 @@ export class RegisterWorkScheduleComponent implements OnInit {
         role: this.UserObj.role,
         register_clock_in: startTimestamp,
         register_clock_out: endTimestamp,
-        clock_in: this.UserObj.clock_in,
-        clock_out: this.UserObj.clock_out,
+        //clock_in: this.UserObj.clock_in,
+        //clock_out: this.UserObj.clock_out,
+        clock_in: 0,
+        clock_out: 0,
         timekeeper_name: "",
         timekeeper_avt: "",
         status: 1
       };
+      console.log("check UserOb", this.UserObj)
       console.log(RequestBody);
+      //return;
       this.timekeepingService.postTimekeeping(RequestBody)
         .subscribe((res) => {
           this.toastr.success(res.message, "Thêm lịch làm việc mới thành công")
@@ -665,24 +675,25 @@ export class RegisterWorkScheduleComponent implements OnInit {
     });
   }
   navigateHref(href: string) {
-    const userGroupsString = sessionStorage.getItem('userGroups');
+    this.router.navigate(['' + href]);
+    // const userGroupsString = sessionStorage.getItem('userGroups');
 
-    if (userGroupsString) {
-      const userGroups = JSON.parse(userGroupsString) as string[];
+    // if (userGroupsString) {
+    //   const userGroups = JSON.parse(userGroupsString) as string[];
 
-      if (userGroups.includes('dev-dcms-doctor')) {
-        this.router.navigate(['nhanvien' + href]);
-      } else if (userGroups.includes('dev-dcms-nurse')) {
-        this.router.navigate(['nhanvien' + href]);
-      } else if (userGroups.includes('dev-dcms-receptionist')) {
-        this.router.navigate(['nhanvien' + href]);
-      } else if (userGroups.includes('dev-dcms-admin')) {
-        this.router.navigate(['admin' + href]);
-      }
-    } else {
-      console.error('Không có thông tin về nhóm người dùng.');
-      this.router.navigate(['/default-route']);
-    }
+    //   if (userGroups.includes('dev-dcms-doctor')) {
+    //     this.router.navigate(['nhanvien' + href]);
+    //   } else if (userGroups.includes('dev-dcms-nurse')) {
+    //     this.router.navigate(['nhanvien' + href]);
+    //   } else if (userGroups.includes('dev-dcms-receptionist')) {
+    //     this.router.navigate(['nhanvien' + href]);
+    //   } else if (userGroups.includes('dev-dcms-admin')) {
+    //     this.router.navigate(['admin' + href]);
+    //   }
+    // } else {
+    //   console.error('Không có thông tin về nhóm người dùng.');
+    //   this.router.navigate(['/default-route']);
+    // }
   }
 }
 

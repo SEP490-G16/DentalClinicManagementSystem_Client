@@ -69,19 +69,19 @@ export class ChatComponent implements OnInit, OnDestroy {
       console.log("Check messageContent", parsedMessage.content);
       var checkPa = true;
       var shouldBreakFor = false;
-      let postInfo = check[1].split(' - ');
-      this.POST_WAITTINGROOM.epoch = postInfo[0];
-      this.POST_WAITTINGROOM.produce_id = postInfo[1];
-      this.POST_WAITTINGROOM.produce_name = postInfo[2];
-      this.POST_WAITTINGROOM.patient_id = postInfo[3];
-      this.POST_WAITTINGROOM.patient_name = postInfo[4];
-      this.POST_WAITTINGROOM.reason = postInfo[5];
-      this.POST_WAITTINGROOM.status = postInfo[6];
-      this.POST_WAITTINGROOM.appointment_id = postInfo[7];
-      this.POST_WAITTINGROOM.appointment_epoch = postInfo[8];
-      this.POST_WAITTINGROOM.patient_created_date = postInfo[9];
-      this.POST_WAITTINGROOM.date = this.timestampToTime(postInfo[0]);
       if (check[0] == 'CheckRealTimeWaitingRoom@@@') {
+        let postInfo = check[1].split(' - ');
+        this.POST_WAITTINGROOM.epoch = postInfo[0];
+        this.POST_WAITTINGROOM.produce_id = postInfo[1];
+        this.POST_WAITTINGROOM.produce_name = postInfo[2];
+        this.POST_WAITTINGROOM.patient_id = postInfo[3];
+        this.POST_WAITTINGROOM.patient_name = postInfo[4];
+        this.POST_WAITTINGROOM.reason = postInfo[5];
+        this.POST_WAITTINGROOM.status = postInfo[6];
+        this.POST_WAITTINGROOM.appointment_id = postInfo[7];
+        this.POST_WAITTINGROOM.appointment_epoch = postInfo[8];
+        this.POST_WAITTINGROOM.patient_created_date = postInfo[9];
+        this.POST_WAITTINGROOM.date = this.timestampToTime(postInfo[0]);
         const currentUrl = this.location.path();
         if (currentUrl.includes('phong-cho')) {
           this.filteredWaitingRoomData.forEach((item: any) => {
