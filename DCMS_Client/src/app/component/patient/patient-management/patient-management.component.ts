@@ -8,6 +8,8 @@ export class PatientManagementComponent implements OnInit {
   showDropDown: boolean = false;
   list: any[] = [];
 
+  time = { hour: 13, minute: 30 };
+
   newMedicine: Medicine = this.createNewMedicine();
   createNewMedicine(): Medicine {
     return {

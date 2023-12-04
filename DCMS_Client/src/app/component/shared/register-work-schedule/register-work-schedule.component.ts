@@ -407,8 +407,8 @@ export class RegisterWorkScheduleComponent implements OnInit {
 
   setColorByRole(role: string): EventColor {
     switch (role) {
-      case '2': return colors["pink"];
-      case '3': return colors["blue"];
+      case '2': return colors["blue"];
+      case '3': return colors["yellow"];
       case '4': return colors["yellow"];
       case '5': return colors["purple"];
       default: return colors["gray"];

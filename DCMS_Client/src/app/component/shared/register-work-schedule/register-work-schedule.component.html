@@ -35,7 +35,7 @@
       <div class="col-md-4">
       </div>
       <div class="col-md-4">
-        <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'vi' }}</h3>
+        <h3 class="header-calendar">{{ viewDate | calendarDate:(view + 'ViewTitle'):'vi' }}</h3>
       </div>
       <div class="col-md-4">
       </div>
@@ -74,15 +74,6 @@
         <div class="row">
           <div class="col-12">
             <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Tên công việc</label>
-              <input type="text" class="form-control" [(ngModel)]="newEventTitle" placeholder="Tiêu đề sự kiện">
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-12">
-            <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">Thời gian bắt đầu</label>
               <input type="datetime-local" class="form-control" [(ngModel)]="newEventStart"
                 placeholder="Thời gian bắt đầu">
@@ -115,15 +106,6 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="row">
-          <div class="col-12">
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Tên công việc</label>
-              <input type="text" [(ngModel)]="editTitle" class="form-control" id="exampleInputEmail1"
-                aria-describedby="emailHelp">
-            </div>
-          </div>
-        </div>
 
         <div class="row">
           <div class="col-12">

@@ -10,12 +10,14 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ResponseHandler } from '../../utils/libs/ResponseHandler';
 import { PopupDeletePatientComponent } from '../../utils/pop-up/patient/popup-delete-patient/popup-delete-patient.component';
 import { ConfirmDeleteModalComponent } from '../../utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component';
+import { Normalize } from 'src/app/service/Lib/Normalize';
 @Component({
   selector: 'app-patient-records',
   templateUrl: './patient-records.component.html',
   styleUrls: ['./patient-records.component.css']
 })
 export class PatientRecordsComponent implements OnInit {
+  originPatientList: any[] = [];
   searchPatientsList: any[] = [];
   currentPage: number = 1;
   hasNextPage: boolean = false;
@@ -43,7 +45,9 @@ export class PatientRecordsComponent implements OnInit {
     this.pagingSearch.paging = paging;
     this.patientService.getPatientList(paging).subscribe(patients => {
       this.searchPatientsList = [];
+      this.originPatientList = patients.data;
       this.searchPatientsList = patients.data;
+      console.log(this.searchPatientsList);
       this.searchPatientsList.forEach((p: any) => {
         p.phone_number = this.normalizePhoneNumber(p.phone_number);
       })
@@ -63,24 +67,37 @@ export class PatientRecordsComponent implements OnInit {
 
   errorStatus: number = 0;
   searchPatient() {
-    if(this.search != null && this.search != "" && this.search != undefined){
-      this.patientService.getPatientByName(this.search, this.pagingSearch.paging).subscribe(patients => {
-        this.searchPatientsList = [];
-        this.searchPatientsList = patients.data;
-        this.searchPatientsList.forEach((p: any) => {
-          p.phone_number = this.normalizePhoneNumber(p.phone_number);
-        })
-        this.checkNextPage();
-        if (this.searchPatientsList.length > 10) {
-          this.searchPatientsList.pop();
-        }
-      }, error => {
-        ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test + "/patient/name/" + this.search + "/" + this.pagingSearch.paging, error)
-      }
-      ) 
-    }else{
-      this.loadPage(this.currentPage);
+
+    //temp:
+    if (this.search) {
+      this.searchPatientsList = this.searchPatientsList.filter(sP =>
+        Normalize.normalizeDiacritics(sP.patient_name.toLowerCase()).includes(Normalize.normalizeDiacritics(this.search.toLocaleLowerCase())) ||
+        new Date(sP.created_date).toLocaleDateString('en-GB').includes(this.search)
+      );
+      // console.log("Search: ", new Date(this.searchPatientsList[0].created_date).toLocaleDateString('en-GB'));
+
+    } else {
+      this.searchPatientsList = this.originPatientList;
     }
+
+    // if (this.search != null && this.search != "" && this.search != undefined) {
+    //   this.patientService.getPatientByName(this.search, this.pagingSearch.paging).subscribe(patients => {
+    //     this.searchPatientsList = [];
+    //     this.searchPatientsList = patients.data;
+    //     this.searchPatientsList.forEach((p: any) => {
+    //       p.phone_number = this.normalizePhoneNumber(p.phone_number);
+    //     })
+    //     this.checkNextPage();
+    //     if (this.searchPatientsList.length > 10) {
+    //       this.searchPatientsList.pop();
+    //     }
+    //   }, error => {
+    //     ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test + "/patient/name/" + this.search + "/" + this.pagingSearch.paging, error)
+    //   }
+    //   )
+    // } else {
+    //   this.loadPage(this.currentPage);
+    // }
   }
   ngAfterViewInit() {
     this.popupDeletePatientComponent.patientDeleted.subscribe(() => {
@@ -106,7 +123,7 @@ export class PatientRecordsComponent implements OnInit {
     return modalRef.result;
   }
 
-  openDeletePatient(id: any, patientName:string,event: Event) {
+  openDeletePatient(id: any, patientName: string, event: Event) {
     event.stopPropagation();
     this.openConfirmationModal(`Bạn có muốn xóa bệnh nhân ${patientName} không?`).then((result) => {
       console.log(result);

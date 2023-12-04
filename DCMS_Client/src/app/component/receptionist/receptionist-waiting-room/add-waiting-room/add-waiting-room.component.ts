@@ -10,6 +10,7 @@ import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureSe
 import { add } from 'date-fns';
 import { ResponseHandler } from 'src/app/component/utils/libs/ResponseHandler';
 import { WebsocketService } from 'src/app/service/Chat/websocket.service';
+import { Normalize } from 'src/app/service/Lib/Normalize';
 @Component({
   selector: 'app-add-waiting-room',
   templateUrl: './add-waiting-room.component.html',
@@ -179,7 +180,7 @@ export class AddWaitingRoomComponent implements OnInit {
     }
 
     this.POST_WAITTINGROOM.patient_created_date = "new" + 1;
-    const postInfo = this.POST_WAITTINGROOM.epoch + ' - ' + this.POST_WAITTINGROOM.produce_id + ' - ' + this.POST_WAITTINGROOM.produce_name + ' - ' 
+    const postInfo = this.POST_WAITTINGROOM.epoch + ' - ' + this.POST_WAITTINGROOM.produce_id + ' - ' + this.POST_WAITTINGROOM.produce_name + ' - '
     + this.POST_WAITTINGROOM.patient_id + ' - ' +this.POST_WAITTINGROOM.patient_name + ' - ' + this.POST_WAITTINGROOM.reason + ' - '
     + this.POST_WAITTINGROOM.status + ' - ' + this.POST_WAITTINGROOM.appointment_id + ' - ' + this.POST_WAITTINGROOM.appointment_epoch + ' - ' + this.POST_WAITTINGROOM.patient_created_date;
     this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
@@ -200,7 +201,7 @@ export class AddWaitingRoomComponent implements OnInit {
             console.log(this.messageBody);
             this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
           }
-        
+
       },
         (err) => {
           this.showErrorToast('Lỗi khi thêm phòng chờ');
@@ -297,8 +298,11 @@ export class AddWaitingRoomComponent implements OnInit {
   searchTimeout: any;
   onsearchPatientInWaitingRoom(event: any) {
     clearTimeout(this.searchTimeout);
+
+    const searchTermWithDiacritics = Normalize.normalizeDiacritics(event.target.value);
+
     this.searchTimeout = setTimeout(() => {
-      this.PATIENT_SERVICE.getPatientByName(event.target.value, 1).subscribe(data => {
+      this.PATIENT_SERVICE.getPatientByName(searchTermWithDiacritics, 1).subscribe(data => {
         const transformedMaterialList = data.data.map((item: any) => {
           return {
             patientId: item.patient_id,
@@ -308,10 +312,11 @@ export class AddWaitingRoomComponent implements OnInit {
           };
         });
         this.patientList = transformedMaterialList;
-        localStorage.setItem("listSearchPateint", JSON.stringify(this.patientList));
-      })
+        localStorage.setItem("listSearchPatient", JSON.stringify(this.patientList));
+      });
     }, 500);
   }
+
 
   dateToTimestamp(dateStr: string): number {
     const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng của chuỗi ngày
@@ -375,6 +380,7 @@ export class AddWaitingRoomComponent implements OnInit {
     } else
       return phoneNumber;
   }
+
   messageContent: string = ``;
   messageBody = {
     action: '',

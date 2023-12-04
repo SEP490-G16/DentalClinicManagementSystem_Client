@@ -69,13 +69,13 @@
   color: #ffffff;
 }
 
-h3 {
+.header-calendar {
   color: #6b3ba9;
   font-size: 24px;
   font-weight: bold;
 }
 
-h3:hover {
+.header-calendar:hover {
   text-decoration: underline;
 }
 
