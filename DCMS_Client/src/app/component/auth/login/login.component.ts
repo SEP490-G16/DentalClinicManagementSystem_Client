@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
       })
         .catch((err) => {
           this.loading = false;
-          alert(err);
+          alert("Tài khoản mật khẩu không chính xác");
         })
     } else {
       this.loading = false;

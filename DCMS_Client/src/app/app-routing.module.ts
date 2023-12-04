@@ -67,7 +67,7 @@ const routes: Routes = [
         loadChildren: () => import('./component/admin/admin.module').then(m => m.AdminModule),
         canActivate: [AuthGuard],
         data: {
-          allowedGroups: ['dev-dcms-doctor', 'dev-dcms-nurse', 'dev-dcms-receptionist', 'dev-dcms-patient', 'dev-dcms-admin']
+          allowedGroups: ['1', '2', '3', '4', '5']
         }
       },
     ]

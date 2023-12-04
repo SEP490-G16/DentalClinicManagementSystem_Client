@@ -6,7 +6,7 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -14,13 +14,17 @@ export class AuthGuard implements CanActivate {
   ): boolean {
     const allowedGroups = (next.data as { allowedGroups?: string[] })['allowedGroups'] || [];
 
-    const userGroupsString = sessionStorage.getItem('userGroups');
-    if (userGroupsString) {
-      const userGroups = JSON.parse(userGroupsString) as string[];
+    // const userGroupsString = sessionStorage.getItem('userGroups');
+    const userGroupsString = sessionStorage.getItem('role');
 
-      if (allowedGroups.some(group => userGroups.includes(group))) {
+    if (userGroupsString) {
+
+      // const userGroups = JSON.parse(userGroupsString) as string[];
+      // if (allowedGroups.some(group => userGroups.includes(group))) {
+      if (allowedGroups.some(group => group === userGroupsString)) {
         return true;
       }
+
     }
     //unauthorized
     this.router.navigate(['/dangnhap']);
