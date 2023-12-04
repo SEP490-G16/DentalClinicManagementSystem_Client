@@ -199,7 +199,10 @@ import {
       useFactory: adapterFactory,
     }),
     NgSelectModule,
-    BsDatepickerModule
+    BsDatepickerModule,
+  ],
+  providers: [
+    DatePipe, 
   ],
   exports: [
     PopupAddApproveSpecimensComponent,
