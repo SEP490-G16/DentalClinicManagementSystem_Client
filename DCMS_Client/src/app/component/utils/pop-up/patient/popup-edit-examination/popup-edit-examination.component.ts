@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChi
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ITreatmentCourse } from 'src/app/model/ITreatment-Course';
-import { EditExamination, Examination } from 'src/app/model/ITreatmentCourseDetail';
+import { EditExamination, Examination, ImageBody } from 'src/app/model/ITreatmentCourseDetail';
 import { TreatmentCourseDetailService } from 'src/app/service/ITreatmentCourseDetail/treatmentcoureDetail.service';
 import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/TreatmentCourse.service';
 import { CognitoService } from 'src/app/service/cognito.service';
@@ -19,7 +19,9 @@ import { MaterialService } from 'src/app/service/MaterialService/material.servic
 import { LaboService } from 'src/app/service/LaboService/Labo.service';
 import { getDate } from 'date-fns';
 import { ConfirmationModalComponent } from '../../common/confirm-modal/confirm-modal.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { PopupGenMedicalPdfComponent } from '../popup-add-examination/popup-gen-medical-pdf/popup-gen-medical-pdf.component';
+import { PatientService } from 'src/app/service/PatientService/patient.service';
 @Component({
   selector: 'app-popup-edit-examination',
   templateUrl: './popup-edit-examination.component.html',
@@ -83,7 +85,8 @@ export class PopupEditExaminationComponent implements OnInit {
     private LaboService: LaboService,
     private cdr: ChangeDetectorRef,
     private medicalSupplyService: MedicalSupplyService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private patientService: PatientService,
   ) {
     this.examination = {
       treatment_course_id: "",
@@ -92,7 +95,8 @@ export class PopupEditExaminationComponent implements OnInit {
       facility_id: "",
       description: "",
       staff_id: "",
-      medicine: ""
+      medicine: "", 
+      image: [] as ImageBody[]
     } as EditExamination;
 
     this.examination.created_date = new Date().toISOString().substring(0, 10);
@@ -120,6 +124,7 @@ export class PopupEditExaminationComponent implements OnInit {
     if (id != null) {
       this.staff_id = id;
     }
+    this.getPatient();
     this.getExaminationById();
     this.getLabos();
     this.getMaterialList();
@@ -173,7 +178,8 @@ export class PopupEditExaminationComponent implements OnInit {
               id: this.id,
               typeImage: "",
               imageInsert: item,
-              description: ""
+              description: "", 
+              isNew: "0"
             }
           }
 
@@ -182,7 +188,8 @@ export class PopupEditExaminationComponent implements OnInit {
             id: 0,
             typeImage: "",
             imageInsert: "",
-            description: ""
+            description: "", 
+            isNew: "0"
           }
         })
       }
@@ -228,7 +235,7 @@ export class PopupEditExaminationComponent implements OnInit {
     this.tcDetailService.getDetailByExamnination(this.examinationId).subscribe((data) => {
       this.listResponse = data.data;
       this.listResponse.forEach((item: any) => {
-        if (item.mp_medical_procedure_id != null) {
+        if (item.mp_medical_procedure_id != null && item.mp_medical_procedure_id != '' && item.mp_medical_procedure_id != undefined) {
           this.records.push({
             material_usage_id: item.mu_material_usage_id,
             treatment_course_id: this.treatmentCourse_Id,
@@ -241,6 +248,7 @@ export class PopupEditExaminationComponent implements OnInit {
             total_paid: item.mu_total_paid,
             description: '',
           });
+          console.log(this.records);
         } else {
           this.recordsMaterial.push({
             material_usage_id: item.mu_material_usage_id,
@@ -443,8 +451,6 @@ export class PopupEditExaminationComponent implements OnInit {
   }
 
   putExamination() {
-    // this.openConfirmationModal().then((result) => {
-    //   if (result === '') {
     const faci = sessionStorage.getItem('locale');
     if (faci != null) {
       this.examination.facility_id = 'F-05';
@@ -461,7 +467,7 @@ export class PopupEditExaminationComponent implements OnInit {
       this.recordsImage.forEach((item: any) => {
         if (item.typeImage != null) {
           if (item.imageInsert != undefined) {
-            if (item.typeImage == 1) {
+            if (item.typeImage == "1") {
               let img = item.imageInsert.split('base64,');
               var a = '';
               if (img.length == 1) {
@@ -474,16 +480,21 @@ export class PopupEditExaminationComponent implements OnInit {
                 image_data: a,
                 description: item.description
               }
+            } else if (item.typeImage == "2") {
+              this.imageBody = {
+                base64: false,
+                image_data: item.imageInsert,
+                description: item.description
+              }
             } else {
               this.imageBody = {
                 base64: false,
                 image_data: item.imageInsert,
                 description: item.description
               }
-              // this.examination['x-ray-image'] += item.imageInsert+"><";
-              // this.examination['x-ray-image-des'] = item.imageInsert+"||"+item.description+"><";
-              this.examination.image.push(this.imageBody);
             }
+            console.log("check",this.imageBody);
+            this.examination.image.push(this.imageBody);
           }
         }
       })
@@ -603,36 +614,44 @@ export class PopupEditExaminationComponent implements OnInit {
 
   toggleAdd() {
     this.isAdd = !this.isAdd;
-    // if (this.isAdd) {
-    //   this.records.push({
-    //     material_usage_id:'',
-    //     treatment_course_id: this.treatmentCourse_Id,
-    //     medical_procedure_id: '',
-    //     examination_id: '',
-    //     quantity: 1,
-    //     price: '',
-    //     total_paid: '',
-    //     description: '',
-    //   });
-    // }
+    if (this.isAdd) {
+      this.records.push({
+        // material_usage_id:'',
+        // treatment_course_id: this.treatmentCourse_Id,
+        // medical_procedure_id: '',
+        // examination_id: '',
+        // quantity: 1,
+        // price: '',
+        // total_paid: '',
+        // description: '',
+        material_usage_id: "",
+        medical_procedure_id: "",
+        treatment_course_id: this.treatmentCourse_Id,
+        examination_id: "",
+        quantity: "",
+        price: "",
+        total_paid: "",
+        description: '',
+      });
+    }
   }
 
   recordsMaterial: any[] = [];
   isAddMaterial: boolean = false;
   toggleAddMaterial() {
     this.isAddMaterial = !this.isAddMaterial;
-    // if (this.isAddMaterial) {
-    //   this.recordsMaterial.push({
-    //     material_usage_id: '',
-    //     material_warehouse_id: '',
-    //     treatment_course_id: this.treatmentCourse_Id,
-    //     examination_id: '',
-    //     quantity: '1',
-    //     price: '',
-    //     total_paid: '',
-    //     description: '',
-    //   })
-    // }
+    if (this.isAddMaterial) {
+      this.recordsMaterial.push({
+        material_usage_id: '',
+        material_warehouse_id: '',
+        treatment_course_id: this.treatmentCourse_Id,
+        examination_id: '',
+        quantity: '1',
+        price: '',
+        total_paid: '',
+        description: '',
+      })
+    }
   }
 
   wareHouseMaterial = {
@@ -684,29 +703,37 @@ export class PopupEditExaminationComponent implements OnInit {
     }
   }
 
+  deleteRecordMaterial(index:any) {
+    this.isAddMaterial = false;
+    this.recordsMaterial.splice(index, 1);
+  }
+
   //image
   isAddImage: boolean = false;
   recordImage = {
     id: 0,
     typeImage: "",
     imageInsert: "",
-    description: ""
+    description: "", 
+    isNew: ""
   }
 
   recordsImage: any[] = []
   id: number = 0;
+  indexImage = this.recordsImage.length-1;
   toggleAddImage() {
     this.isAddImage = !this.isAddImage;
-    // if (this.isAddImage) {
-    //   const Id = this.id++;
-    //   this.recordImage = {
-    //     id: Id,
-    //     typeImage: "1",
-    //     imageInsert: "../../../../../../assets/img/noImage.png",
-    //     description: ""
-    //   }
-    //   this.recordsImage.push(this.recordImage);
-    // }
+    if (this.isAddImage) {
+      const Id = this.recordsImage.length - 1;
+      this.recordImage = {
+        id: Id,
+        typeImage: "1",
+        imageInsert: "../../../../../../assets/img/noImage.png",
+        description: "", 
+        isNew: "0",
+      }
+      this.recordsImage.push(this.recordImage);
+    }
   }
 
   deleteRecordImage(index: any) {
@@ -716,6 +743,7 @@ export class PopupEditExaminationComponent implements OnInit {
 
   currentIndex: any;
   onChangeIndex(index: any) {
+    alert(index);
     this.currentIndex = index;
   }
 
@@ -724,7 +752,8 @@ export class PopupEditExaminationComponent implements OnInit {
       id: this.currentIndex,
       typeImage: "2",
       imageInsert: event.target.value,
-      description: ""
+      description: "", 
+      isNew: "1"
     }
     this.resetFileInput();
   }
@@ -741,7 +770,8 @@ export class PopupEditExaminationComponent implements OnInit {
           id: this.currentIndex,
           typeImage: "1",
           imageInsert: base64Data,
-          description: ""
+          description: "", 
+          isNew: "1"
         }
       };
       reader.readAsDataURL(file);
@@ -760,7 +790,8 @@ export class PopupEditExaminationComponent implements OnInit {
       id: 0,
       typeImage: "1",
       imageInsert: "",
-      description: ""
+      description: "", 
+      isNew: "1"
     }
   }
 
@@ -836,9 +867,46 @@ export class PopupEditExaminationComponent implements OnInit {
       })
     }
   }
+
+  toggleUpdateMedicine() {
+    this.isAddMedicine = !this.isAddMedicine;
+  }
+
+  toggleUpdateMaterial() {
+    this.isAddMaterial = !this.isAddMaterial;
+  }
+
   deleteRecordMedicine(index: any) {
     this.isAddMedicine = false;
     this.recordsMedicine.splice(index, 1);
+  }
+
+  modalOption: NgbModalOptions = {
+    size: 'lg',
+    centered: true
+  }
+  
+  Patient:any;
+  getPatient() {
+    this.patientService.getPatientById(this.patient_Id)
+    .subscribe((res)=> {
+        this.Patient = res;
+    },
+    (err) => {
+      this.toastr.error(err.error.message, "Lỗi khi lấy thông tin bệnh nhân")
+    }
+    )
+  }
+
+  openGeneratePdfModal() {
+    const modalRef = this.modalService.open(PopupGenMedicalPdfComponent, this.modalOption);
+    modalRef.componentInstance.Disagnosis = this.examination.diagnosis;
+    modalRef.componentInstance.Medical = this.recordsMedicine;
+    modalRef.componentInstance.Patient = this.Patient;
+  }
+
+  toggleUpdateService() {
+    this.isAdd = !this.isAdd;
   }
 }
 

@@ -333,6 +333,10 @@ export class PopupAddExaminationComponent implements OnInit {
     }
   }
 
+  toggleUpdateService() {
+    this.isAdd = !this.isAdd;
+  }
+
   deleteRecord(index: number) {
     this.isAdd = false;
     this.records.splice(index, 1);
@@ -418,12 +422,14 @@ export class PopupAddExaminationComponent implements OnInit {
                 this.medicalSupplyService.addMedicalSupply(item).subscribe(data => {
                   isSuccess = true;
                   this.toastr.success(data.message, 'Thêm mẫu vật sử dụng thành công');
+                  alert("đúng");
                 }
                   ,
                   (err) => {
                     isSuccess = false;
                     console.log(err);
                     this.toastr.error(err.error.message, 'Thêm mẫu vật thất bại');
+                    alert("sai");
                   }
                 )
               })
@@ -632,6 +638,11 @@ export class PopupAddExaminationComponent implements OnInit {
       this.laboName = selectedLabo.name;
     }
   }
+
+  toggleUpdateMaterial() {
+    this.isAddMaterial = !this.isAddMaterial;
+  }
+
   deleteRecordMaterial(index: any) {
     this.isAddMaterial = false;
     this.recordsMaterial.splice(index, 1);
@@ -670,6 +681,7 @@ export class PopupAddExaminationComponent implements OnInit {
 
   openGeneratePdfModal() {
     const modalRef = this.modalService.open(PopupGenMedicalPdfComponent, this.modalOption);
+    modalRef.componentInstance.Disagnosis = this.examination.diagnosis;
     modalRef.componentInstance.Medical = this.recordsMedicine;
     modalRef.componentInstance.Patient = this.Patient;
   }
@@ -758,6 +770,10 @@ export class PopupAddExaminationComponent implements OnInit {
   laboO = {
     labo_id: '',
     name: ''
+  }
+
+  toggleUpdateSpecime() {
+    this.isAddSpeci = !this.isAddSpeci;
   }
 
   deleteRecordSpeciment(index: any) {
@@ -879,6 +895,11 @@ export class PopupAddExaminationComponent implements OnInit {
       })
     }
   }
+
+  toggleUpdateMedicine() {
+    this.isAddMedicine = !this.isAddMedicine;
+  }
+  
   deleteRecordMedicine(index: any) {
     this.isAddMedicine = false;
     this.recordsMedicine.splice(index, 1);

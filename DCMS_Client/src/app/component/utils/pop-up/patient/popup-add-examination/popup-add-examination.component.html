@@ -104,7 +104,7 @@
 
           <div class="row" style="margin-bottom: 1%;">
             <div class="col-md-12 custom-input-container">
-              <label for="diagnosis">Ghi chú chẩn đoán:</label>
+              <label for="diagnosis">Chẩn đoán chi tiết:</label>
               <textarea id="diagnosis" rows="3" [(ngModel)]="examination.diagnosis"></textarea>
             </div>
 
@@ -133,7 +133,7 @@
               <table class="table-bordered">
                 <thead class="header-title">
                   <tr>
-                    <td>STT</td>
+                    <th>STT</th>
                     <th>Tên thuốc</th>
                     <th>Số lượng</th>
                     <th>Đơn vị</th>
@@ -173,8 +173,8 @@
                       <td>
                         <div class="delete-cell">
                           <div>
-                            <button class="save-button" *ngIf="isAddMedicine" style="margin-right: 3px"><i
-                                class="bi bi-check-circle" (click)="toggleAddMedicine()"></i></button>
+                            <button class="save-button" style="margin-right: 3px"><i
+                                class="bi bi-check-circle" (click)="toggleUpdateMedicine()"></i></button>
                           </div>
                           <button class="delete-button" (click)="deleteRecordMedicine(i)">
                             x
@@ -234,8 +234,8 @@
                     <td>
                       <div class="delete-cell">
                         <div>
-                          <button class="save-button" *ngIf="isAdd" style="margin-right: 3px"><i
-                              class="bi bi-check-circle" (click)="toggleAdd()"></i></button>
+                          <button class="save-button" style="margin-right: 3px"><i
+                              class="bi bi-check-circle" (click)="toggleUpdateService()"></i></button>
                         </div>
                         <div>
                           <button class="delete-button" (click)="deleteRecord(i)">
@@ -318,8 +318,8 @@
                     <td style="min-width: 80px;">
                       <div class="delete-cell">
                         <div>
-                          <button class="save-button" *ngIf="isAddSpeci" style="margin-right: 3px"><i
-                              class="bi bi-check-circle" (click)="toggleAddSpecime()"></i></button>
+                          <button class="save-button" style="margin-right: 3px"><i
+                              class="bi bi-check-circle" (click)="toggleUpdateSpecime()"></i></button>
                         </div>
                         <div>
                           <button class="delete-button" (click)="deleteRecordSpeciment(i)">
@@ -327,8 +327,6 @@
                           </button>
                         </div>
                       </div>
-
-
                     </td>
                   </tr>
                 </ng-container>
@@ -376,16 +374,11 @@
                         class="form-control value-staff">
                       <p *ngIf="!isAddMaterial">{{record.quantity}}</p>
                     </td>
-                    <!-- <td>
-                      <input type="number" [(ngModel)]="record.total_paid" *ngIf="isAddMaterial"
-                        class="form-control value-staff">
-                      <p *ngIf="!isAddMaterial">{{record.total_paid}}</p>
-                    </td> -->
                     <td>
                       <div class="delete-cell">
                         <div>
-                          <button class="save-button" *ngIf="isAddMaterial" style="margin-right: 3px"><i
-                              class="bi bi-check-circle" (click)="toggleAddMaterial()"></i></button>
+                          <button class="save-button" style="margin-right: 3px"><i
+                              class="bi bi-check-circle" (click)="toggleUpdateMaterial()"></i></button>
                         </div>
                         <div>
                           <button class="delete-button" (click)="deleteRecordMaterial(i)">
