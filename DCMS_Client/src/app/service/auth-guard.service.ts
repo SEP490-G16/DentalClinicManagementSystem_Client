@@ -22,9 +22,9 @@ export class AuthGuard implements CanActivate {
       // const userGroups = JSON.parse(userGroupsString) as string[];
       // if (allowedGroups.some(group => userGroups.includes(group))) {
       if (allowedGroups.some(group => group === userGroupsString)) {
+      // this.router.navigate([""]);
         return true;
       }
-
     }
     //unauthorized
     this.router.navigate(['/dangnhap']);

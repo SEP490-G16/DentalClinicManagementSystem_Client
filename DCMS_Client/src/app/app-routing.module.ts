@@ -16,22 +16,6 @@ const routes: Routes = [
     path: '', component: LayoutsComponent,
     children: [
       {
-        path: 'bacsi',
-        loadChildren: () => import('./component/doctor/doctor.module').then(m => m.DoctorModule),
-        canActivate: [AuthGuard],
-        data: {
-          allowedGroups: ['dev-dcms-doctor']
-        }
-      },
-      {
-        path: 'yta',
-        loadChildren: () => import('./component/nurse/nurse.module').then(m => m.NurseModule),
-        canActivate: [AuthGuard],
-        data: {
-          allowedGroups: ['dev-dcms-nurse']
-        }
-      },
-      {
         path: 'letan',
         loadChildren: () => import('./component/receptionist/receptionist.module').then(m => m.ReceptionistModule),
         // canActivate: [AuthGuard],
@@ -51,7 +35,7 @@ const routes: Routes = [
         path: "suahoso",
         component: ProfilePersonalComponent,
         data: {
-          allowedGroups: ['dev-dcms-doctor', 'dev-dcms-nurse', 'dev-dcms-receptionist', 'dev-dcms-patient']
+          // allowedGroups: ['dev-dcms-doctor', 'dev-dcms-nurse', 'dev-dcms-receptionist', 'dev-dcms-patient']
         }
       },
       {

@@ -8,8 +8,10 @@ import { CognitoService } from './cognito.service';
 export class IsLoginGuard implements CanActivate {
   constructor(private cognitoService: CognitoService, private router: Router) {}
 
-  async canActivate(): Promise<boolean> {
-    const isAuthenticated = await this.cognitoService.isAuthenticated();
+  // async canActivate(): Promise<boolean> {
+  //   const isAuthenticated = await this.cognitoService.isAuthenticated();
+   canActivate():boolean {
+    const isAuthenticated = sessionStorage.getItem('role');
     if (isAuthenticated) {
       const lastRoute = sessionStorage.getItem('lastRoute') || '';
       this.router.navigate([lastRoute]);
