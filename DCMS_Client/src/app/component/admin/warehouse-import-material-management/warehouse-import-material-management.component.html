@@ -63,8 +63,7 @@
       <tbody>
         <tr *ngFor="let p of displayWarehouse">
           <td>{{p.Id}}</td>
-          <td><a href="#" class="a-custom" style="text-align: center;" data-bs-toggle="modal"
-              data-bs-target="#detailModal">{{p.CreateDate | date:'dd-MM-yyyy'}}</a></td>
+          <td><a class="a-custom" style="text-align: center;">{{p.CreateDate | date:'dd-MM-yyyy'}}</a></td>
           <td>{{p.CreateBy}}</td>
           <td>{{p.Note}}</td>
           <td *ngIf="p.TotalAmount == null">0</td>
