@@ -175,23 +175,24 @@ export class SpecimensComponent implements OnInit {
       querySearch += `&used_date_end=`;
     }
     this.filteredSpecimens.splice(0, this.filteredSpecimens.length);
-    //filter test
     this.SpecimensService.filterSpecimens(querySearch, paging).subscribe((sRoot) => {
+      console.log("check sRoot", sRoot.data)
       sRoot.data.forEach((item: any) => {
-        this.specimenObject.ms_id = item.ms_id;
-        this.specimenObject.ms_name = item.ms_name;
-        this.specimenObject.ms_type = item.ms_type;
-        this.specimenObject.ms_quantity = item.ms_quantity;
-        this.specimenObject.ms_unit_price = item.ms_unit_price;
-        this.specimenObject.lb_id = item.lb_id;
-        this.specimenObject.lb_name = item.lb_name;
-        this.specimenObject.ms_status = item.ms_status;
-        this.specimenObject.ms_order_date = item.ms_order_date;
-        this.specimenObject.ms_used_date = item.ms_used_date;
-        this.specimenObject.ms_orderer = item.ms_orderer;
-        this.specimenObject.ms_received_date = item.ms_received_date;
-        this.specimenObject.ms_receiver = item.ms_receiver;
-        this.specimenObject.ms_warranty = item.ms_warranty;
+        if (item.status != 1) {
+        this.specimenObject.ms_id = item.medical_supply_id;
+        this.specimenObject.ms_name = item.name;
+        this.specimenObject.ms_type = item.type;
+        this.specimenObject.ms_quantity = item.quantity;
+        this.specimenObject.ms_unit_price = item.unit_price;
+        this.specimenObject.lb_id = item.labo_id;
+        this.specimenObject.lb_name = '';
+        this.specimenObject.ms_status = item.status;
+        this.specimenObject.ms_order_date = item.order_date;
+        this.specimenObject.ms_used_date = item.used_date;
+        this.specimenObject.ms_orderer = item.orderer;
+        this.specimenObject.ms_received_date = item.received_date;
+        this.specimenObject.ms_receiver = item.receiver;
+        this.specimenObject.ms_warranty = item.warranty;
         this.filteredSpecimens.push(this.specimenObject);
         this.specimenObject = {
           ms_id: '',
@@ -216,7 +217,9 @@ export class SpecimensComponent implements OnInit {
         if (this.filteredSpecimens.length > 10) {
           this.filteredSpecimens.pop();
         }
+        }
       })
+      console.log("Check Filter", this.filteredSpecimens);
       this.loading = false;
     })
   }

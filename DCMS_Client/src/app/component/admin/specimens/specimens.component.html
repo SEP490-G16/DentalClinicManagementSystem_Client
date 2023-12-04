@@ -19,7 +19,6 @@
           (change)="filterByLabo()">
           <option value="" selected>Labo</option>
           <option *ngFor="let labo of labos" [value]="labo.labo_id">{{labo.name}}</option>
-          <option value="null">Không có Labo</option>
         </select>
       </div>
     </div>

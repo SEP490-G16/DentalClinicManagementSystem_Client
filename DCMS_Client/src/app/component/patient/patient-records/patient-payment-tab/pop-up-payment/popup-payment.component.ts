@@ -72,7 +72,7 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
 
   receipt = {
     patient_id : "",
-    payment_type: "1" ,
+    payment_type: null ,
     receipt: [] as Paid_material_usage[]
   }
 
@@ -86,7 +86,7 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
     console.log("Body_Paid_Mu: ", this.Body_Paid_MU);
     this.receipt = {
       patient_id : this.Patient.p_patient_id,
-      payment_type: this.receipt.payment_type,
+      payment_type: null,
       receipt: this.Body_Paid_MU
     }
     this.paidMaterialUsageService.postPaidMaterialUsage(this.receipt)
