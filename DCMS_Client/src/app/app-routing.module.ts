@@ -8,12 +8,9 @@ import { ProfilePersonalComponent } from './component/shared/profile-personal/pr
 import { ConfirmAppointmentComponent } from "./component/confirm-appointment/confirm-appointment.component";
 import { AuthGuard } from './service/auth-guard.service';
 import { CancelSuccessComponent } from './component/patient/change-appointment/cancel-success/cancel-success.component';
+import { IsLoginGuard } from './service/IsLogin-guard.service';
 
 const routes: Routes = [
-  {
-    path: 'dangnhap',
-    loadChildren: () => import('./component/auth/auth.module').then(m => m.AuthModule)
-  },
 
   {
     path: '', component: LayoutsComponent,
@@ -68,12 +65,18 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: () => import('./component/admin/admin.module').then(m => m.AdminModule),
-        //canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
         data: {
           allowedGroups: ['dev-dcms-doctor', 'dev-dcms-nurse', 'dev-dcms-receptionist', 'dev-dcms-patient', 'dev-dcms-admin']
         }
       },
     ]
+  },
+
+  {
+    path: 'dangnhap',
+    loadChildren: () => import('./component/auth/auth.module').then(m => m.AuthModule),
+    canActivate: [IsLoginGuard]
   },
 
   {

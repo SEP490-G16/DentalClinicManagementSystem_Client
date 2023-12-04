@@ -9,6 +9,8 @@ import { DetailReceiptsComponent } from "./detail-receipts/detail-receipts.compo
 import { ReceiptsService } from 'src/app/service/ReceiptService/ReceiptService.service';
 import { ToastrService } from 'ngx-toastr';
 import { PatientService } from 'src/app/service/PatientService/patient.service';
+import { PaidMaterialUsageService } from 'src/app/service/PatientService/patientPayment.service';
+import { ConfirmationModalComponent } from 'src/app/component/utils/pop-up/common/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-receipts',
@@ -16,14 +18,15 @@ import { PatientService } from 'src/app/service/PatientService/patient.service';
   styleUrls: ['./receipts.component.css']
 })
 export class ReceiptsComponent implements OnInit {
-  ReceiptsList:any = [];
+  ReceiptsList: any = [];
   patientId: any;
-  Patient:any;
+  Patient: any;
   roleId: string[] = [];
 
   constructor(private commonService: CommonService,
     private receiptsService: ReceiptsService,
     private patientService: PatientService,
+    private paidMaterialUsageService: PaidMaterialUsageService,
     private route: ActivatedRoute,
     private toastr: ToastrService,
     private modalService: NgbModal) { }
@@ -40,10 +43,10 @@ export class ReceiptsComponent implements OnInit {
 
   getPatientInformation() {
     this.patientService.getPatientById(this.patientId)
-    .subscribe((res) => {
-      console.log("Res Patient: ", res);
-      this.Patient = res;
-    })
+      .subscribe((res) => {
+        console.log("Res Patient: ", res);
+        this.Patient = res;
+      })
   }
 
   getReceiptsByPatientId() {
@@ -57,15 +60,31 @@ export class ReceiptsComponent implements OnInit {
         })
   }
 
-  openPopupDetail(RecDetail:any) {
+  openPopupDetail(RecDetail: any) {
     const modalRef = this.modalService.open(DetailReceiptsComponent, { size: 'xl' });
     modalRef.componentInstance.receiptDetails = RecDetail;
     modalRef.componentInstance.Patient = this.Patient;
-
   }
 
-  confirmPayment() {
+  openConfirmationModal(message: string) {
+    const modalRef = this.modalService.open(ConfirmationModalComponent, { centered: true });
+    modalRef.componentInstance.message = message;
+    modalRef.componentInstance.confirmButtonText = 'Xác nhận thanh toán';
+    modalRef.componentInstance.cancelButtonText = 'Hủy';
 
+    return modalRef.result;
+  }
+
+  confirmPayment(RecDetail: any) {
+    console.log("RecDetail: ", RecDetail);
+    this.openConfirmationModal("Bạn có chắc chắn muốn thay đổi thời gian chấm công đến không?")
+      .then((result) => {
+        if (result === 'confirm') {
+          // this.paidMaterialUsageService.postPaidMaterialUsage()
+        } else {
+
+        }
+      });
   }
 
   calculateTotalPayment(details: any[]): number {

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-root',
@@ -8,9 +9,13 @@ import { ToastrService } from 'ngx-toastr';
 export class AppComponent {
   title = 'Nha khoa Nguyễn Trần';
 
-  constructor() { }
-
-
+  constructor(private router: Router) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd && event.url !== '/dangnhap') {
+        sessionStorage.setItem('lastRoute', event.url);
+      }
+    });
+  }
 
   ngOnInit(): void {
 
