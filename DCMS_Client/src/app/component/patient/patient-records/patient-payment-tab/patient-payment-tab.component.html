@@ -33,7 +33,11 @@
     </div>
 
     <div class="tab-pane" id="TTtab">
-
+      <div class="title-patientName">
+        <div>
+          <b>Bệnh nhân: {{patientName}}</b>
+        </div>
+      </div>
       <div class="payment-grid-wrapper" *ngIf="Material_Usage_Report.length > 0; else noPaymentRecord">
         <div class="payment-container" *ngFor="let report of Material_Usage_Report">
           <div class="payment-header">

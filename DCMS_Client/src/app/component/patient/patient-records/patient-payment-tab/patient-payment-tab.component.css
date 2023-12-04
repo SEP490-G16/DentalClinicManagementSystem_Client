@@ -454,3 +454,12 @@ button:active {
   white-space: nowrap;
   /* Prevent the text from wrapping */
 }
+.title-patientName{
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.title-patientName div b {
+  font-size: 30px;
+}

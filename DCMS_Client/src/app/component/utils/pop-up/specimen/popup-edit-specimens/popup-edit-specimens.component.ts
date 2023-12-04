@@ -133,52 +133,44 @@ export class PopupEditSpecimensComponent implements OnInit {
       this.validatePutSpecimens.name = 'Vui lòng nhập tên mẫu!';
       this.isSubmitted = true;
     }
-    if (!this.IPutSpecimens.ms_type){
-      this.validatePutSpecimens.type = 'Vui lòng nhập chất liệu!';
-      this.isSubmitted = true;
-    }
     if (!this.IPutSpecimens.ms_order_date || !this.formatDate(this.IPutSpecimens.ms_order_date)){
       this.validatePutSpecimens.orderDate = 'Vui lòng nhập ngày đặt!';
       this.isSubmitted = true;
     }
-    if (!this.IPutSpecimens.ms_received_date || !this.formatDate(this.IPutSpecimens.ms_received_date)){
-      this.validatePutSpecimens.receivedDate = 'Vui lòng nhập ngày nhận!';
+    if (this.IPutSpecimens.ms_received_date && !this.formatDate(this.IPutSpecimens.ms_received_date)){
+      this.validatePutSpecimens.receivedDate = 'Vui lòng nhập lại ngày nhận!';
+      this.isSubmitted = true;
+    }
+    else if (this.IPutSpecimens.ms_received_date < this.IPutSpecimens.ms_order_date && this.formatDate(this.IPutSpecimens.ms_received_date)){
+      this.validatePutSpecimens.receivedDate = 'Vui lòng chọn ngày nhận lớn hơn ngày đặt!';
       this.isSubmitted = true;
     }
     else if (this.IPutSpecimens.ms_received_date > this.IPutSpecimens.ms_use_date && this.formatDate(this.IPutSpecimens.ms_received_date)){
-      this.validatePutSpecimens.receivedDate = 'Vui lòng chọn lại ngày nhận!';
+      this.validatePutSpecimens.receivedDate = 'Vui lòng chọn ngày nhận nhỏ hơn ngày lắp!';
       this.isSubmitted = true;
     }
-    if (!this.IPutSpecimens.ms_use_date || !this.formatDate(this.IPutSpecimens.ms_use_date)){
-      this.validatePutSpecimens.useDate = 'Vui lòng nhập ngày lắp!';
+    if (this.IPutSpecimens.ms_use_date && !this.formatDate(this.IPutSpecimens.ms_use_date)){
+      this.validatePutSpecimens.useDate = 'Vui lòng nhập lại ngày lắp!';
+      this.isSubmitted = true;
+    }
+    else if (this.IPutSpecimens.ms_use_date < this.IPutSpecimens.ms_order_date && this.formatDate(this.IPutSpecimens.ms_use_date)){
+      this.validatePutSpecimens.useDate = 'Vui lòng chọn ngày lắp lớn hơn ngày đặt!';
       this.isSubmitted = true;
     }
     else if (this.IPutSpecimens.ms_use_date < this.IPutSpecimens.ms_received_date && this.formatDate(this.IPutSpecimens.ms_use_date)){
-      this.validatePutSpecimens.useDate = 'Vui lòng chọn lại ngày lắp!';
+      this.validatePutSpecimens.useDate = 'Vui lòng chọn ngày lắp lớn hơn ngày nhận!';
       this.isSubmitted = true;
     }
     if (!this.IPutSpecimens.lb_id){
       this.validatePutSpecimens.labo = 'Vui lòng chọn labo!';
       this.isSubmitted = true;
     }
-    if (!this.IPutSpecimens.ms_quantity){
-      this.validatePutSpecimens.quantity = 'Vui lòng nhập số lượng!';
-      this.isSubmitted = true;
-    }
-    else if (!this.checkNumber(this.IPutSpecimens.ms_quantity)){
+    if (this.IPutSpecimens.ms_quantity && !this.checkNumber(this.IPutSpecimens.ms_quantity)){
       this.validatePutSpecimens.quantity = 'Vui lòng nhập lại số lượng!';
       this.isSubmitted = true;
     }
-    if (!this.IPutSpecimens.ms_unit_price){
-      this.validatePutSpecimens.unitPrice = 'Vui lòng nhập đơn giá!';
-      this.isSubmitted = true;
-    }
-    else if (!this.checkNumber(this.IPutSpecimens.ms_unit_price)){
+    if (this.IPutSpecimens.ms_unit_price &&!this.checkNumber(this.IPutSpecimens.ms_unit_price)){
       this.validatePutSpecimens.unitPrice = 'Vui lòng nhập lại đơn giá!';
-      this.isSubmitted = true;
-    }
-    if (!this.IPutSpecimens.ms_orderer){
-      this.validatePutSpecimens.order = 'Vui lòng nhập người đặt!';
       this.isSubmitted = true;
     }
     if (!this.IPutSpecimens.p_patient_id){
@@ -271,7 +263,7 @@ export class PopupEditSpecimensComponent implements OnInit {
       })
     }, 2000);
   }
-  
+
   closePopup(){
     this.IPutSpecimens = {
       ms_type: "",
