@@ -15,6 +15,10 @@ import {
   isSameDay,
   isSameMonth,
   addHours,
+  isAfter,
+  startOfWeek,
+  isWithinInterval,
+  endOfWeek,
 } from 'date-fns';
 
 
@@ -37,7 +41,7 @@ import { Router } from "@angular/router";
 import { CognitoService } from 'src/app/service/cognito.service';
 import { ConfirmDeleteModalComponent } from './ConfirmDeleteModal.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-
+import { isThisWeek, addWeeks, isSameWeek } from 'date-fns';
 
 const colors: Record<string, EventColor> = {
   gray: {
@@ -168,6 +172,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     var storedUserJsonString = sessionStorage.getItem('UserObj');
 
     if (storedUserJsonString !== null) {
@@ -392,18 +397,25 @@ export class RegisterWorkScheduleComponent implements OnInit {
     newStart,
     newEnd,
   }: CalendarEventTimesChangedEvent): void {
-    this.worksRegister = this.worksRegister.map((iEvent) => {
-      if (iEvent === event) {
-        return {
-          ...event,
-          start: newStart,
-          end: newEnd,
-        };
-      }
-      return iEvent;
-    });
-    this.handleEvent('Dropped or resized', event);
+    if (this.isEventInNextWeek(newStart)) {
+      this.worksRegister = this.worksRegister.map((iEvent) => {
+        if (iEvent === event) {
+          return {
+            ...event,
+            start: newStart,
+            end: newEnd,
+            actions: this.actions
+          };
+        }
+        return iEvent;
+      });
+      this.refresh.next();
+    } else {
+      this.toastr.error('Bạn không thể thay đổi sự kiện trong tuần hiện tại hoặc quá khứ.');
+    }
   }
+
+
 
   setColorByRole(role: string): EventColor {
     switch (role) {
@@ -583,6 +595,27 @@ export class RegisterWorkScheduleComponent implements OnInit {
 
   }
 
+  isFutureWeek(viewDate: Date): boolean {
+    const startOfNextWeek = addWeeks(startOfWeek(new Date()), 1);
+    return isAfter(startOfDay(viewDate), startOfNextWeek);
+  }
+
+  isEventInCurrentOrPastWeek(eventStart: Date): boolean {
+    const startOfCurrentWeek = startOfWeek(new Date());
+    const endOfCurrentWeek = endOfWeek(new Date());
+    return isWithinInterval(eventStart, {
+      start: startOfCurrentWeek,
+      end: endOfCurrentWeek,
+    });
+  }
+
+  isEventInNextWeek(date: Date): boolean {
+    const today = startOfDay(new Date());
+    const startOfNextWeek = startOfWeek(addWeeks(today, 1));
+    return isAfter(startOfDay(date), startOfNextWeek);
+  }
+
+
   formatToDateTimeString(datetimeLocal: string): string {
     return datetimeLocal.replace('T', ' ');
   }
@@ -594,7 +627,6 @@ export class RegisterWorkScheduleComponent implements OnInit {
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
   }
-
 
 
   //Convert Date
