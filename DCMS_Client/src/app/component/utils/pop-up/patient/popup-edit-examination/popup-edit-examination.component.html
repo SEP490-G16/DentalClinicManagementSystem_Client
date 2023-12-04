@@ -64,7 +64,7 @@
             <div class="button-add-img">
               <div class="btn-add-procedure">
                 <button class="btn button-add" (click)="toggleAddImage()" *ngIf="!isAddImage"><i
-                    class="bi bi-plus-circle"></i>Chỉnh sửa</button>
+                    class="bi bi-plus-circle"></i>Thêm mới hình ảnh</button>
               </div>
             </div>
             <ng-container *ngFor="let record of recordsImage; let i = index">
@@ -80,7 +80,7 @@
                 </div>
                 <div>
                   <button class="btn-image" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                    (click)="onChangeIndex(i)">Chọn hình ảnh</button>
+                    (click)="onChangeIndex(record.id)">Chọn hình ảnh</button>
                 </div>
               </div>
               <div class="col-md-9 custom-input-container-image">
@@ -120,7 +120,7 @@
                   (click)="toggleAddMedicine()"><i class="bi bi-plus-circle"></i>Chỉnh sửa đơn thuốc</button>
               </div>
               <div>
-                <button class="btn button-add">In đơn thuốc</button>
+                <button class="btn button-add" (click)="openGeneratePdfModal()">In đơn thuốc</button>
               </div>
             </div>
             <div style="margin-top: 2%; margin-bottom:2%" *ngIf="showPrescriptionContent">
@@ -132,7 +132,6 @@
                     <th>Số lượng</th>
                     <th>Đơn vị</th>
                     <th>Liều dùng</th>
-                    <!-- <th>Ghi chú</th> -->
                     <th>Thao tác</th>
                   </tr>
                 </thead>
@@ -163,8 +162,8 @@
                       <td>
                         <div class="delete-cell">
                           <div>
-                            <button class="save-button" *ngIf="isAddMedicine" style="margin-right: 3px"><i
-                                class="bi bi-check-circle" (click)="toggleAddMedicine()"></i></button>
+                            <button class="save-button" style="margin-right: 3px"><i
+                                class="bi bi-check-circle" (click)="toggleUpdateMedicine()"></i></button>
                           </div>
                           <button class="delete-button" (click)="deleteRecordMedicine(i)">
                             x
@@ -183,8 +182,7 @@
             <label> Sử dụng dịch vụ </label>
           </div>
           <div class="btn-add-procedure">
-            <button class="btn button-add" (click)="toggleAdd()" *ngIf="!isAdd"><i class="bi bi-plus-circle"></i>Chỉnh
-              sửa</button>
+            <button class="btn button-add" (click)="toggleAdd()" *ngIf="!isAdd"><i class="bi bi-plus-circle"></i>Chỉnh sửa thủ thuật</button>
           </div>
           <div style="margin-top: 2%; margin-bottom:2%">
             <table class="table-bordered">
@@ -203,7 +201,7 @@
                   <tr>
                     <td>{{ i + 1 }}</td>
                     <td>
-                      <ng-select *ngIf="isAdd && list" [items]="list" [(ngModel)]="procedureGroupName"
+                      <ng-select *ngIf="isAdd && list" [items]="list" [(ngModel)]="record.medical_group_procedure_id"
                         [searchable]="true" bindLabel="groupName" bindValue="groupId"
                         [notFoundText]="'Không tìm thấy nhóm thủ thuật'"
                         (ngModelChange)="updateTemporaryName(record, $event)">
@@ -229,8 +227,8 @@
                     <td>
                       <div class="delete-cell">
                         <div>
-                          <button class="save-button" *ngIf="isAdd" style="margin-right: 3px"><i
-                              class="bi bi-check-circle" (click)="toggleAdd()"></i></button>
+                          <button class="save-button" style="margin-right: 3px"><i
+                              class="bi bi-check-circle" (click)="toggleUpdateService()"></i></button>
                         </div>
                         <div>
                           <button class="delete-button" (click)="deleteRecord(i)">
@@ -333,7 +331,7 @@
           </div>
           <div class="btn-add-procedure">
             <button class="btn button-add" (click)="toggleAddMaterial()" *ngIf="!isAddMaterial"><i
-                class="bi bi-plus-circle"></i>Chỉnh sửa</button>
+                class="bi bi-plus-circle"></i>Chỉnh sửa vật liệu</button>
           </div>
           <div style="margin-top: 2%; margin-bottom:2%">
             <table class="table-bordered">
@@ -343,7 +341,6 @@
                   <th>Tên vật liệu</th>
                   <th>Đơn giá</th>
                   <th>Số lượng</th>
-                  <th>Thành tiền</th>
                   <th>Thao tác</th>
                 </tr>
               </thead>
@@ -370,18 +367,13 @@
                       <p *ngIf="!isAddMaterial">{{record.quantity}}</p>
                     </td>
                     <td>
-                      <input type="number" [(ngModel)]="record.total_paid" *ngIf="isAddMaterial"
-                        class="form-control value-staff">
-                      <p *ngIf="!isAddMaterial">{{record.total_paid}}</p>
-                    </td>
-                    <td>
                       <div class="delete-cell">
                         <div>
-                          <button class="save-button" *ngIf="isAddMaterial" style="margin-right: 3px"><i
-                              class="bi bi-check-circle" (click)="toggleAddMaterial()"></i></button>
+                          <button class="save-button" style="margin-right: 3px"><i
+                              class="bi bi-check-circle" (click)="toggleUpdateMaterial()"></i></button>
                         </div>
                         <div>
-                          <button class="delete-button" (click)="deleteRecord(i)">
+                          <button class="delete-button" (click)="deleteRecordMaterial(i)">
                             x
                           </button>
                         </div>

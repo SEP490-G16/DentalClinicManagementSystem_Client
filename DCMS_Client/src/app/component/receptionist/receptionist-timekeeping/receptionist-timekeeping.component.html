@@ -1,15 +1,16 @@
-<div class="recent-orders">
-  <div class="row" style="margin-left: 10px">
-    <div class="col-md-1">
-      <a (click)="navigateHref('/cham-cong')" routerLinkActive="active-link" class="page-title active-link">Chấm
-        công</a>
-    </div>
-    <div class="col-md-2">
-      <a (click)="navigateHref('/dangkilichlamviec')" routerLinkActive="active-link" class="page-title">Đăng kí lịch làm
+<div class="sep-recent-orders">
+  <div class="link-tab">
+    <ng-container *ngIf="roleId.includes('1') || roleId.includes('3')">
+      <div class="cham-cong">
+        <a routerLink="/cham-cong" routerLinkActive="active-link" class="page-title">Chấm công</a>
+      </div>
+    </ng-container>
+    <div class="dang-ki-lam-viec">
+      <a routerLink="/dang-ky-lich-lam-viec" routerLinkActive="active-link" class="page-title">Đăng kí lịch làm
         việc</a>
     </div>
-    <div class="col-md-2">
-      <a (click)="navigateHref('/theo-doi-cham-cong')" routerLinkActive="active-link" class="page-title">Theo dõi
+    <div class="theo-doi">
+      <a routerLink="/theo-doi-cham-cong" routerLinkActive="active-link" class="page-title">Theo dõi
         chấm công</a>
     </div>
   </div>
@@ -71,14 +72,14 @@
                   {{ staff.clockInStatus }}
                 </button> <br />
                 <input type="time" [ngModel]="staff.clock_in" [class]="timeClockinColor"
-                [disabled]="!staff.isClockin || role!= '1'" (change)="handleClockInChange(staff, $event)">
+                [disabled]="!staff.isClockin || roleId!= '1'" (change)="handleClockInChange(staff, $event)">
               </td>
               <td>
                 <button class="button-timekeeping" (click)="onClockout(staff)" [disabled]="staff.isClockout && staff.isClockin">
                   {{ staff.clockOutStatus }}
                 </button> <br />
                 <input type="time" [(ngModel)]="staff.clock_out" [class]="timeClockoutColor"
-                       [disabled]="staff.isClockoutDisabled || role!= '1'" (change)="handleClockOutChange(staff, $event)">
+                       [disabled]="staff.isClockoutDisabled || roleId!= '1'" (change)="handleClockOutChange(staff, $event)">
 
               </td>
             </ng-container>

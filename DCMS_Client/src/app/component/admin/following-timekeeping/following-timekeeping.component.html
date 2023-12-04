@@ -3,18 +3,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
 
 <div class="sep-recent-orders">
-  <!-- <div class="row" style="margin-bottom: 20px">
-    <div class="col-md-1">
-      <a routerLink="/cham-cong" routerLinkActive="active-link" class="page-title">Chấm công</a>
-    </div>
-    <div class="col-md-2">
-      <a routerLink="/dang-ky-lich-lam-viec" routerLinkActive="active-link" class="page-title">Đăng kí lịch làm việc</a>
-    </div>
-    <div class="col-md-2">
-      <a routerLink="/theo-doi-cham-cong" routerLinkActive="active-link" class="page-title">Theo dõi chấm
-        công</a>
-    </div>
-  </div> -->
   <div class="link-tab">
     <ng-container *ngIf="roleId.includes('1') || roleId.includes('3')">
       <div class="cham-cong">
@@ -113,7 +101,7 @@
           <ng-container *ngFor="let timekeeping of listStaffTimeKeeping">
             <tr>
               <td>{{timekeeping.staff_name}}</td>
-              <td>Lế tân</td>
+              <td>{{timekeeping.role_name}}</td>
               <td *ngFor="let day of listDayInMonth">
                 <ng-container *ngFor="let p of timekeeping.timeKeeping">
                   <div style="display: flex" *ngIf="isClockInDay(day,p.epoch)">

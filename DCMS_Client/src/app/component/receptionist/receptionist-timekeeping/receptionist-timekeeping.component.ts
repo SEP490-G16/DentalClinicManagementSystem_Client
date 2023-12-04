@@ -33,7 +33,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
   endTime: number = 0;
 
   //Role
-  role: any;
+  roleId: any;
 
   timekeepingOnWeeks: any
   timeClockinColor: string = "onTime";
@@ -67,7 +67,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
   ngOnInit(): void {
     const role = sessionStorage.getItem("role");
     if (role) {
-      this.role = role;
+      this.roleId = role;
     }
 
     this.getListStaff();
@@ -424,7 +424,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
   }
 
   navigateHref(href: string) {
-    const userGroupsString = sessionStorage.getItem('userGroups');
+    //const userGroupsString = sessionStorage.getItem('userGroups');
 
     // if (userGroupsString) {
     this.router.navigate(['' + href]);
