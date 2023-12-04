@@ -7,7 +7,8 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
   styleUrls: ['./detail-receipts.component.css']
 })
 export class DetailReceiptsComponent implements OnInit {
-  public receiptDetails: any;
+  Patient:any;
+  receiptDetails: any;
   constructor(private modalService: NgbModal) { }
 
   ngOnInit(): void {

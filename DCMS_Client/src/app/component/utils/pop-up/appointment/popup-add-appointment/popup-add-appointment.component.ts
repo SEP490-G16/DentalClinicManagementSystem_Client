@@ -4,7 +4,6 @@ import { IAddAppointment, RootObject } from 'src/app/model/IAppointment';
 import { PatientService } from 'src/app/service/PatientService/patient.service';
 import * as moment from 'moment-timezone';
 //import { setTimeout } from 'timers';
-
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import {
@@ -23,6 +22,7 @@ import { CognitoService } from 'src/app/service/cognito.service';
 import { TimeKeepingService } from 'src/app/service/Follow-TimeKeepingService/time-keeping.service';
 import { ConvertJson } from 'src/app/service/Lib/ConvertJson';
 import { IsThisSecondPipe } from 'ngx-date-fns';
+import { Normalize } from 'src/app/service/Lib/Normalize';
 
 @Component({
   selector: 'app-popup-add-appointment',
@@ -50,7 +50,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   procedure: string = "1";
   isPatientInfoEditable: boolean = false;
   isAdd: boolean = false;
-  isSubmittedPatient:boolean = false;
+  isSubmittedPatient: boolean = false;
   loading: boolean = false;
   patient1: any = {
     patientName: '',
@@ -212,7 +212,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.getListGroupService();
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
-    const a = parseInt(currentDateGMT7.split('-')[0])+"-"+parseInt(currentDateGMT7.split('-')[1])+"-"+(parseInt(currentDateGMT7.split('-')[2]));
+    const a = parseInt(currentDateGMT7.split('-')[0]) + "-" + parseInt(currentDateGMT7.split('-')[1]) + "-" + (parseInt(currentDateGMT7.split('-')[2]));
     this.startDate = currentDateGMT7;
     this.startDateTimestamp = this.dateToTimestamp(currentDateGMT7);
     this.endDateTimestamp = this.dateToTimestamp(this.endDate);
@@ -272,7 +272,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   selectDateToGetDoctor(time: any) {
     this.getListDoctor();
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
-    const a = parseInt(currentDateGMT7.split('-')[0])+"-"+parseInt(currentDateGMT7.split('-')[1])+"-"+(parseInt(currentDateGMT7.split('-')[2]));
+    const a = parseInt(currentDateGMT7.split('-')[0]) + "-" + parseInt(currentDateGMT7.split('-')[1]) + "-" + (parseInt(currentDateGMT7.split('-')[2]));
     this.timeKeepingService.getFollowingTimekeeping(this.dateToTimestamp(a + " 00:00:00"), this.dateToTimestamp(a + " 23:59:59")).subscribe(data => {
       this.listRegisterTime = this.organizeData(data);
       this.listDoctorFilter.splice(0, this.listDoctorFilter.length);
@@ -349,9 +349,13 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   searchTimeout: any;
   onsearch(event: any) {
     clearTimeout(this.searchTimeout);
+
+    const searchTermWithDiacritics = Normalize.normalizeDiacritics(event.target.value);
+
     this.searchTimeout = setTimeout(() => {
-      this.AppointmentBody.appointment.patient_name = event.target.value;
-      this.PATIENT_SERVICE.getPatientByName(this.AppointmentBody.appointment.patient_name, 1).subscribe(data => {
+      this.AppointmentBody.appointment.patient_name = searchTermWithDiacritics;
+
+      this.PATIENT_SERVICE.getPatientByName(searchTermWithDiacritics, 1).subscribe(data => {
         const transformedMaterialList = data.data.map((item: any) => {
           return {
             patientId: item.patient_id,
@@ -361,16 +365,17 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
           };
         });
         this.patientList = transformedMaterialList;
-        localStorage.setItem("listSearchPateint", JSON.stringify(this.patientList));
-      })
+        localStorage.setItem("listSearchPatient", JSON.stringify(this.patientList));
+      });
     }, 500);
   }
+
 
   selectedDoctor: any = null;
   selectDoctor(doctor: any) {
     if (doctor.doctorName == this.selectedDoctor) {
       this.selectedDoctor = "";
-      this.AppointmentBody.appointment.doctor= "";
+      this.AppointmentBody.appointment.doctor = "";
     } else {
       this.selectedDoctor = doctor.doctorName;
       this.AppointmentBody.appointment.doctor = doctor.doctorName;
@@ -426,7 +431,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     let procedureNameSelected;
     if (this.procedure != "1") {
       this.datesDisabled.forEach((date: any) => {
-        this.listGroupService.forEach((it:any) => {
+        this.listGroupService.forEach((it: any) => {
           if (this.timestampToDate(date.date) == selectedDate && this.procedure == date.procedure && it.medical_procedure_group_id == this.procedure && it.name == 'Điều trị tủy răng') {
             if (date.count >= 4) {
               procedureNameSelected = "Điều trị tủy răng";
@@ -478,7 +483,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     if (storeList != null) {
       listAppointment = JSON.parse(storeList);
     }
-    this.filteredAppointments = listAppointment.filter((ap:any) => ap.date === this.dateToTimestamp(selectedDate));
+    this.filteredAppointments = listAppointment.filter((ap: any) => ap.date === this.dateToTimestamp(selectedDate));
     this.filteredAppointments.forEach((appo: any) => {
       appo.appointments.forEach((deta: any) => {
         deta.details.forEach((res: any) => {
@@ -491,7 +496,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
       })
     })
 
-    if (!checkPatient ) {
+    if (!checkPatient) {
       return;
     }
 
@@ -754,7 +759,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     } else
       return phoneNumber;
   }
-   resetValidatePatient() {
+  resetValidatePatient() {
     this.validatePatient = {
       name: '',
       gender: '',

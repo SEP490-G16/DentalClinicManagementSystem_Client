@@ -104,7 +104,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
 
   deleteTreatmentCourse(treatment_course_id: string) {
     this.openConfirmationModal('Bạn có muốn xóa đợt khám này không?').then((result) => {
-      if (result === 'confirm') {
+      if (result === true) {
         this.treatmentCourseService.deleteTreatmentCourse(treatment_course_id)
           .subscribe((res) => {
             this.toastr.success(res.message, 'Xóa đợt khám thành công');
@@ -127,7 +127,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
 
   deleteExamination(examination_id: string) {
     this.openConfirmationModal('Bạn có muốn xóa lần khám này không?').then((result) => {
-      if (result === 'confirm') {
+      if (result === true) {
         this.TreatmentCourseDetailService.deleteExamination(examination_id)
           .subscribe(() => {
             this.toastr.success('Xóa Lần khám thành công!');
