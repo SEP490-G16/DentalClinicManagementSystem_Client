@@ -216,3 +216,14 @@ td {
 .lateTime {
   color: #7B4C50;
 }
+.link-tab{
+  display: flex;
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+.link-tab .dang-ki-lam-viec{
+  margin-left: 1%;
+}
+.link-tab .theo-doi{
+  margin-left: 1%;
+}

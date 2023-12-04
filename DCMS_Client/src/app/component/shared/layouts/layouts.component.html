@@ -193,38 +193,38 @@
               <option value="">Cơ sở 3</option>
             </select>
           </div>
-          <div class="notification">
-            <i class="bi bi-bell" (click)="toggleNotifications()"></i>
-            <div class="notification-counter">{{ notifications.length }}</div>
-            <div class="notification-dropdown" *ngIf="notificationCount > 0 && showNotifications">
-              <!-- Notification items -->
-              <div class="notification-item">
-                <div class="container">
-                  <header>
-                    <div class="notif_box">
-                      <h2 class="title">Thông báo</h2>
-                      <span id="notifes">{{ notificationCount }}</span>
-                    </div>
-                    <p id="mark_all" (click)="markAll()">Đánh dấu là đã đọc hết</p>
-                  </header>
-                  <main>
-                    <div class="notif_card" *ngFor="let notification of notifications"
-                      [class.unread]="notification.unread">
-                      <img [src]="notification.userImage" alt="avatar" />
-                      <div class="description">
-                        <p class="user_activity" [innerHTML]="notification.message"></p>
-                        <p class="time">{{ notification.time }}</p>
-                      </div>
-                      <button class="delete-notification-btn" (click)="deleteNotification(notification.id)">
-                        X
-                      </button>
-                    </div>
-                  </main>
-                </div>
-              </div>
-            </div>
-          </div>
-          <button (click)="addNotification()"><i class="bi bi-plus-circle"></i></button>
+<!--          <div class="notification">-->
+<!--            <i class="bi bi-bell" (click)="toggleNotifications()"></i>-->
+<!--            <div class="notification-counter">{{ notifications.length }}</div>-->
+<!--            <div class="notification-dropdown" *ngIf="notificationCount > 0 && showNotifications">-->
+<!--              &lt;!&ndash; Notification items &ndash;&gt;-->
+<!--              <div class="notification-item">-->
+<!--                <div class="container">-->
+<!--                  <header>-->
+<!--                    <div class="notif_box">-->
+<!--                      <h2 class="title">Thông báo</h2>-->
+<!--                      <span id="notifes">{{ notificationCount }}</span>-->
+<!--                    </div>-->
+<!--                    <p id="mark_all" (click)="markAll()">Đánh dấu là đã đọc hết</p>-->
+<!--                  </header>-->
+<!--                  <main>-->
+<!--                    <div class="notif_card" *ngFor="let notification of notifications"-->
+<!--                      [class.unread]="notification.unread">-->
+<!--                      <img [src]="notification.userImage" alt="avatar" />-->
+<!--                      <div class="description">-->
+<!--                        <p class="user_activity" [innerHTML]="notification.message"></p>-->
+<!--                        <p class="time">{{ notification.time }}</p>-->
+<!--                      </div>-->
+<!--                      <button class="delete-notification-btn" (click)="deleteNotification(notification.id)">-->
+<!--                        X-->
+<!--                      </button>-->
+<!--                    </div>-->
+<!--                  </main>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <button (click)="addNotification()"><i class="bi bi-plus-circle"></i></button>-->
           <div class="info">
             <p>Xin chào, <b>{{userName}}</b></p>
             <small class="text-muted">{{roleName}}</small>

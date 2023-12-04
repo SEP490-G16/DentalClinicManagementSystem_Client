@@ -98,7 +98,7 @@ export class PopupAddSpecimensComponent implements OnInit {
     const month = currentDateGMT7.split('-')[1];
     const day = currentDateGMT7.split('-')[2];
     this.specimen.orderDate = `${year}-${month}-${day}`;
-     alert(this.specimen.orderDate)
+     //alert(this.specimen.orderDate)
   }
 
 

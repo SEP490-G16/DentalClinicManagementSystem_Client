@@ -35,12 +35,12 @@
   </div>
 
   <div class="diagnosis mt-3">
-    Chẩn đoán:
+    Chẩn đoán: {{Disagnosis}}
   </div>
 
   <div class="medication">
     <ol>
-      <li *ngFor="let med of Medical">{{ med.ten }} {{ med.soluong }} {{ med.donvi ? med.donvi : '' }} - {{ med.lieuDung }}</li>
+      <li *ngFor="let med of Medical">{{ med.ten }} - {{ med.soLuong }} {{ med.donvi ? med.donvi : '' }} - {{ med.lieuDung }}</li>
     </ol>
   </div>
 

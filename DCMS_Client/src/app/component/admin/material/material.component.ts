@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MaterialService } from "../../../service/MaterialService/material.service";
 import { ToastrService } from "ngx-toastr";
 import { MaterialWarehouseService } from 'src/app/service/MaterialService/material-warehouse.service';
-import {ResponseHandler} from "../../utils/libs/ResponseHandler";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import { ResponseHandler } from "../../utils/libs/ResponseHandler";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import {
   ConfirmDeleteModalComponent
 } from "../../utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component";
@@ -19,7 +19,7 @@ export class MaterialComponent implements OnInit {
   toggleExpand(item: any) {
     item.expanded = !item.expanded;
   }
-
+  results: any[] = [];
   materialList: any = [];
   material: any;
   item: any;
@@ -38,23 +38,20 @@ export class MaterialComponent implements OnInit {
     this.loadPage(this.pagingMaterial.paging);
   }
   checkNextPage() {
-    this.hasNextPage = this.materialList.length > 10;
+    this.hasNextPage = this.results.length > 10;
+    if (this.results.length > 10) {
+      this.results.pop();
+    }
   }
   totalMaterial: number = 1;
   loadPage(paging: number) {
-    this.loading = true;
     this.currentPage = paging;
     this.materialService.getMaterials(paging).subscribe(data => {
-      this.materialList = [];
       this.materialList = data.data;
-      this.checkNextPage();
-      if (this.materialList.length > 10) {
-        this.materialList.pop();
-      }
-      this.loading = false;
-       if (this.materialList) {
-        if (this.materialList.length >= 1 ){
-          for (let i = 0; i < this.materialList.length -1; i++) {
+      //this.results = [];
+      if (this.materialList) {
+        if (this.materialList.length >= 1) {
+          for (let i = 0; i < this.materialList.length; i++) {
             const currentNumber = this.materialList[i];
             if (!this.uniqueList.includes(currentNumber.m_material_id)) {
               this.uniqueList.push(currentNumber.m_material_id);
@@ -65,7 +62,7 @@ export class MaterialComponent implements OnInit {
                 discount: currentNumber.mw_discount,
                 expanded: false,
               };
-                this.wareHouseMaterial.materialId = currentNumber.m_material_id,
+              this.wareHouseMaterial.materialId = currentNumber.m_material_id,
                 this.wareHouseMaterial.materialName = currentNumber.m_material_name,
                 this.wareHouseMaterial.quantity = currentNumber.mw_quantity_import,
                 this.wareHouseMaterial.unitPrice = currentNumber.mw_price,
@@ -76,7 +73,7 @@ export class MaterialComponent implements OnInit {
                 mw_material_warehouse_id: '',
                 quantity: 0,
                 expiryDate: '',
-                discount:0,
+                discount: 0,
                 expanded: false,
               };
               this.results.push(this.wareHouseMaterial);
@@ -106,28 +103,25 @@ export class MaterialComponent implements OnInit {
                     mw_material_warehouse_id: currentNumber.mw_material_warehouse_id,
                     quantity: 0,
                     expiryDate: '',
-                    discount:0,
+                    discount: 0,
                     expanded: false,
                   };
                 }
-              })
+              }
+              )
             }
           }
+          //this.checkNextPage();
         } else {
           this.totalMaterial = this.materialList.length;
         }
       }
     },
       error => {
-        ResponseHandler.HANDLE_HTTP_STATUS(this.materialService.urlWarehouse+"/material-warehouse/remaining/"+paging, error);
+        ResponseHandler.HANDLE_HTTP_STATUS(this.materialService.urlWarehouse + "/material-warehouse/remaining/" + paging, error);
       }
-      )
+    )
   }
-  // pageChanged(event: number) {
-  //   if (event >= 1) {
-  //     this.loadPage(event);
-  //   }
-  // }
   clicked: boolean = false;
   lastClickTime: number = 0
   pageChanged(event: number) {
@@ -146,43 +140,26 @@ export class MaterialComponent implements OnInit {
     modalRef.componentInstance.message = message;
     return modalRef.result;
   }
-  deleteMaterial(id: string,materialName:string) {
-    // const isConfirmed = window.confirm('Bạn có chắc muốn xoá vật liệu này không ?');
-    // if (isConfirmed) {
-    //   this.loading = true;
-    //   this.matMaterialWarehouseService.deleteMaterialImportMaterial(id).subscribe(data => {
-    //     this.toastr.success('Xoá vật liệu thành công !');
-    //     const index = this.materialList.findIndex((material: any) => material.material_id === id);
-    //     if (index !== -1) {
-    //       this.materialList.splice(index, 1);
-    //     }
-    //     this.loading = false;
-    //   },
-    //     error => {
-    //       //this.toastr.error('Xoá vật liệu thất bại !');
-    //       ResponseHandler.HANDLE_HTTP_STATUS(this.matMaterialWarehouseService.url+"/material-warehouse/material_warehouse_id/"+id, error);
-    //     }
-    //   )
-    // }
+  deleteMaterial(id: string, materialName: string) {
     this.openConfirmationModal(`Bạn có chắc chắn muốn xóa vật liệu ${materialName} không?`).then((result) => {
       if (result) {
         this.matMaterialWarehouseService.deleteMaterialImportMaterial(id)
           .subscribe((res) => {
-              this.toastr.success('Xoá vật liệu thành công !');
-              const index = this.materialList.findIndex((material: any) => material.material_id === id);
-                  if (index !== -1) {
-                    this.materialList.splice(index, 1);
-                  }
-            },
+            this.toastr.success('Xoá vật liệu thành công !');
+            const index = this.materialList.findIndex((material: any) => material.material_id === id);
+            if (index !== -1) {
+              this.materialList.splice(index, 1);
+            }
+          },
             (error) => {
               //this.toastr.error('Xoá vật liệu thất bại !');
-              ResponseHandler.HANDLE_HTTP_STATUS(this.matMaterialWarehouseService.url+"/material-warehouse/material_warehouse_id/"+id, error);
+              ResponseHandler.HANDLE_HTTP_STATUS(this.matMaterialWarehouseService.url + "/material-warehouse/material_warehouse_id/" + id, error);
             }
           )
       }
     });
   }
-  openEditMaterial(item:any, detail:any) {
+  openEditMaterial(item: any, detail: any) {
     this.material = item;
     this.item = detail;
     console.log(this.item);
@@ -204,7 +181,6 @@ export class MaterialComponent implements OnInit {
   count: number = 0;
   dem: number = 0;
   uniqueList: string[] = [];
-  results: any[] = [];
 }
 
 interface ExpiryObject {

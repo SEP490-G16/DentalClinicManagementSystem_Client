@@ -46,20 +46,31 @@
             </thead>
             <tbody>
               <tr title="Xem chi tiết phiếu thu" *ngFor="let rec of ReceiptsList" style="cursor: pointer">
-                  <td (click)="openPopupDetail(rec.detail)">
-                    {{rec.r_receipt_id}}
-                  </td>
-                  <td (click)="openPopupDetail(rec.detail)">{{rec.r_created_date}}</td>
-                  <td (click)="openPopupDetail(rec.detail)">{{calculateTotalPayment(rec.detail) | currency:'VND':'symbol':'1.0-0'}}</td>
+                <td (click)="openPopupDetail(rec.detail)">
+                  {{rec.r_receipt_id}}
+                </td>
+                <td (click)="openPopupDetail(rec.detail)">{{rec.r_created_date | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+                <td (click)="openPopupDetail(rec.detail)">{{calculateTotalPayment(rec.detail) |
+                  currency:'VND':'symbol':'1.0-0'}}</td>
+                <ng-container *ngIf="rec.r_payment_type == null">
                   <td>
                     <select class="form-select p-2">
-                      <option value="1">Chuyển khoản</option>
-                      <option value="2">Tiền mặt</option>
+                      <option value="1">Tiền mặt</option>
+                      <option value="2">Chuyển khoản</option>
                     </select>
                   </td>
                   <td>
                     <button class="btn button-timekeeping" title="Xác nhận thanh toán" (click)="confirmPayment(rec.detail)">Xác nhận thanh toán</button>
                   </td>
+                </ng-container>
+                <ng-container *ngIf="rec.r_payment_type != null">
+
+                  <td (click)="openPopupDetail(rec.detail)">{{rec.r_payment_type == "1" ? 'Tiền mặt' : 'Chuyển
+                    khoản'}}</td>
+                  <td>
+                    <button class="btn button-timekeeping" title="Xác nhận thanh toán">Đã thu tiền</button>
+                  </td>
+                </ng-container>
               </tr>
             </tbody>
           </table>

@@ -60,10 +60,16 @@ export class ReceiptsComponent implements OnInit {
         })
   }
 
-  openPopupDetail(RecDetail: any) {
+  listResult:any[] = [];
+  openPopupDetail(RecDetail:any) {
+    this.listResult.splice(0, this.listResult.length);
     const modalRef = this.modalService.open(DetailReceiptsComponent, { size: 'xl' });
-    modalRef.componentInstance.receiptDetails = RecDetail;
-    modalRef.componentInstance.Patient = this.Patient;
+    RecDetail.forEach((item:any) => {
+      if (item.p_total_paid != 0) {
+        this.listResult.push(item);
+      }
+    })
+    modalRef.componentInstance.receiptDetails = this.listResult;
   }
 
   openConfirmationModal(message: string) {
@@ -88,7 +94,7 @@ export class ReceiptsComponent implements OnInit {
   }
 
   calculateTotalPayment(details: any[]): number {
-    return details.reduce((acc, detail) => acc + (detail.mu_total - detail.p_total_paid), 0);
+    return details.reduce((acc, detail) => acc + (detail.p_total_paid), 0);
   }
 
   navigateHref(href: string) {

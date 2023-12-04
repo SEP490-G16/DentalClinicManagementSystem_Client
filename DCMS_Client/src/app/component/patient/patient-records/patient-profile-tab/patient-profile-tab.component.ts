@@ -159,6 +159,12 @@ export class PatientProfileTabComponent implements OnInit {
   getPatient(id: string) {
     this.patientService.getPatientById(id).subscribe(data => {
       this.patient = data;
+      const check = this.patient.description.split('@@isnew##_');
+      if (check.length > 1) {
+        this.patient.description = check[1]
+      } else {
+        this.patient.description = check[0];
+      }
       this.patient.phone_number = this.normalizePhoneNumber(this.patient.phone_number);
       console.log(data);
       sessionStorage.removeItem('patient');

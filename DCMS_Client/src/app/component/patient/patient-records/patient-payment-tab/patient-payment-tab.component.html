@@ -58,9 +58,9 @@
             [class.active]="showDetails[report.tc_data.tc_treatment_course_id]">
             <ng-template ngFor let-mu [ngForOf]="report.mu_data">
               <div class="payment-row" *ngIf="mu.mu_total_paid > 0">
-                <span class="payment-date" title="Xem thông tin phiếu thu ngày {{ mu.mu_created_date | date: 'dd/mm/yyyy'}}" (click)="examinationDetail(mu, report.tc_data, report.p_data)">Ngày thanh
+                <span class="payment-date" title="Xem thông tin phiếu thu ngày {{ mu.mu_created_date | date: 'dd/MM/yyyy'}}" (click)="examinationDetail(mu, report.tc_data, report.p_data)">Ngày thanh
                   toán:
-                  {{ mu.mu_created_date | date: 'dd/mm/yyyy'}}</span>
+                  {{ mu.mu_created_date | date: 'dd/MM/yyyy'}}</span>
                 <span class="amount-paid">Đã trả: {{ mu.mu_total_paid | currency:'VND'}}
                 </span>
                 <!-- <ng-container *ngIf="mu.mu_status == 1">
