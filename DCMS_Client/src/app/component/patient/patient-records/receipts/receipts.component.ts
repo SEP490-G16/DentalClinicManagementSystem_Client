@@ -20,6 +20,8 @@ export class ReceiptsComponent implements OnInit {
   roleId: string[] = [];
   patientName:any;
   name:any
+
+  paymentType: any = '';
   constructor(private commonService: CommonService,
     private receiptsService: ReceiptsService,
     private route: ActivatedRoute,
@@ -63,8 +65,26 @@ export class ReceiptsComponent implements OnInit {
     modalRef.componentInstance.receiptDetails = this.listResult;
   }
 
-  confirmPayment() {
+  confirmPaymentCast(rec:any) {
+    this.receiptsService.putReceiptByPatientId(rec.r_receipt_id, "1").subscribe((data) =>{
+      this.ReceiptsList.forEach((item:any) => {
+        if (item.r_receipt_id == rec.r_receipt_id) {
+          item.r_payment_type = 1;
+          item.r_status = 2;
+        }
+      })
+    })
+  }
 
+  confirmPaymentTrans(rec:any) {
+    this.receiptsService.putReceiptByPatientId(rec.r_receipt_id, "2").subscribe((data) =>{
+      this.ReceiptsList.forEach((item:any) => {
+        if (item.r_receipt_id == rec.r_receipt_id) {
+          item.r_payment_type = 2;
+          item.r_status = 2;
+        }
+      })
+    })
   }
 
   calculateTotalPayment(details: any[]): number {

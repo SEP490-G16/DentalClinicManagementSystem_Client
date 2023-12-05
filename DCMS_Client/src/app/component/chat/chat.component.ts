@@ -7,6 +7,7 @@ import * as moment from "moment/moment";
 import { Location } from '@angular/common';
 import { CheckRealTimeService } from 'src/app/service/CheckRealTime/CheckRealTime.service';
 import { IPostWaitingRoom } from 'src/app/model/IWaitingRoom';
+import { DataService } from '../shared/services/DataService.service';
 
 @Component({
   selector: 'app-chat',
@@ -41,7 +42,8 @@ export class ChatComponent implements OnInit, OnDestroy {
   constructor(private webSocketService: WebsocketService,
     private waitingRoomService: ReceptionistWaitingRoomService,
     private location: Location,
-    private checkRealTime: CheckRealTimeService) {
+    private checkRealTime: CheckRealTimeService,
+    private dataService: DataService,) {
     // this.POST_WAITTINGROOM = {
     //   epoch: Math.floor(this.currentDateTimeGMT7.valueOf() / 1000).toString(),
     //   produce_id: '',
@@ -56,17 +58,25 @@ export class ChatComponent implements OnInit, OnDestroy {
     // } as IPostWaitingRoom
   }
   filteredWaitingRoomData: any[] = [];
+  analyses = {
+    total_appointment: 0,
+    total_waiting_room: 0,
+    total_patient: 0
+  }
   //CheckRealTimeWaiting: any[] = [];
   ngOnInit(): void {
     this.waitingRoomService.data$.subscribe((dataList) => {
       this.filteredWaitingRoomData = dataList;
     })
 
+    this.dataService.dataAn$.subscribe((data) => {
+      this.analyses = data;
+    })
+
     this.webSocketService.connect();
     this.webSocketService.messageReceived.subscribe((message: any) => {
       const parsedMessage = JSON.parse(message);
       const check = parsedMessage.content.split(',');
-      console.log("Check messageContent", parsedMessage.content);
       var checkPa = true;
       var shouldBreakFor = false;
       if (check[0] == 'CheckRealTimeWaitingRoom@@@') {
@@ -86,7 +96,6 @@ export class ChatComponent implements OnInit, OnDestroy {
         if (currentUrl.includes('phong-cho')) {
           this.filteredWaitingRoomData.forEach((item: any) => {
             if (item.patient_id == check[1]) {
-              console.log("check update")
               if (check[2] == 4 && checkPa) {
                 const index = this.filteredWaitingRoomData.findIndex((item: any) => { item.patient_id == check[1] });
                 this.filteredWaitingRoomData.splice(index, 1);
@@ -95,9 +104,9 @@ export class ChatComponent implements OnInit, OnDestroy {
                 item.status = check[2];
               }
             } else if (shouldBreakFor == false && this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_id != undefined && this.POST_WAITTINGROOM.patient_id != null) {
-              console.log("check add")
+
               this.filteredWaitingRoomData.push(this.POST_WAITTINGROOM);
-              console.log(this.filteredWaitingRoomData);
+
               shouldBreakFor = true;
             }
           })
@@ -110,6 +119,21 @@ export class ChatComponent implements OnInit, OnDestroy {
           this.waitingRoomService.updateData(this.filteredWaitingRoomData);
         }
         //this.webSocketService.closeConnection();
+      } else if (check[0] == 'UpdateAnalysesTotal@@@') {
+        if (check[1] == 'plus') {
+          if (check[2] == 'wtr') {
+            this.dataService.UpdateWaitingRoomTotal(1, 0);
+          } else if (check[2] == 'app') {
+            this.dataService.UpdateAppointmentTotal(1, 0);
+          }
+        }
+        else if (check[1] == 'minus') {
+          if (check[2] == 'wtr') {
+            this.dataService.UpdateWaitingRoomTotal(0, 0);
+          } else if (check[2] == 'app') {
+            this.dataService.UpdateAppointmentTotal(0, 0);
+          }
+        }
       } else {
         this.receivedMessages.push({ message: parsedMessage, timestamp: new Date() });
         if (!this.chatContainerVisible) {
@@ -134,7 +158,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         action: "sendMessage",
         message: `{"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}`
       };
-      console.log(this.messageBody);
+
       this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
       this.messageContent = '';
     }
@@ -147,9 +171,8 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.isHovered = value;
   }
   isSentMessage(subId: string): boolean {
-    console.log(subId)
+
     return subId === sessionStorage.getItem('sub-id');
-    console.log(subId);
   }
   connectWebSocket() {
     this.unreadMessagesCount = 0;

@@ -36,6 +36,8 @@ import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
 import { ConfirmationModalComponent } from './component/utils/pop-up/common/confirm-modal/confirm-modal.component';
 import { ConfirmDeleteModalComponent } from './component/utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component';
 import { NgbDateCustomParserFormatter } from './component/utils/libs/datepickerfOrmat';
+import { DataService } from './component/shared/services/DataService.service';
+import { SendMessageSocket } from './component/shared/services/SendMessageSocket.service';
 // import { AuthInterceptor } from './service/RefreshToken/auth.interceptor';
 // Register the Vietnamese locale data
 registerLocaleData(localeVi);

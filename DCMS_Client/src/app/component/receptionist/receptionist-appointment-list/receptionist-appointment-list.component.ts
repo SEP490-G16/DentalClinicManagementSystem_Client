@@ -21,6 +21,7 @@ import { IsThisSecondPipe } from 'ngx-date-fns';
 import { end } from '@popperjs/core';
 import { ConfirmDeleteModalComponent } from '../../utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component';
 import { TimeKeepingService } from 'src/app/service/Follow-TimeKeepingService/time-keeping.service';
+import { SendMessageSocket } from '../../shared/services/SendMessageSocket.service';
 
 @Component({
   selector: 'app-receptionist-appointment-list',
@@ -44,7 +45,8 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     private webSocketService: WebsocketService,
     private medicaoProcedureGroupService: MedicalProcedureGroupService,
     private receptionistWaitingRoom: ReceptionistWaitingRoomService,
-    private cognito: CognitoService
+    private cognito: CognitoService,
+    private sendMessageSocket: SendMessageSocket
   ) {
     this.DELETE_APPOINTMENT_BODY = {
       epoch: 0,    //x
@@ -158,10 +160,14 @@ export class ReceptionistAppointmentListComponent implements OnInit {
 
   getAppointmentList() {
     this.loading = true;
-    this.startDateTimestamp = this.dateToTimestamp(this.startDate);
-    const now = new Date();
-    const start = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDay() + " 00:00:00";
-    const end = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + (now.getDay() + 1) + " 00:00:00";
+    this.startDateTimestamp = this.dateToTimestamp(this.startDate + " 00:00:00");
+    this.endDateTimestamp = this.dateToTimestamp(this.startDate + " 23:59:59");
+    //const now = new Date();
+    //const start = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDay() + " 00:00:00";
+    //const end = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + (now.getDay() + 1) + " 00:00:00";
+    // console.log("startTime", this.startDateTimestamp);
+    // console.log("endTime", this.endDateTimestamp)
+    // return;
     this.appointmentService.getAppointmentList(this.startDateTimestamp, this.endDateTimestamp).subscribe(data => {
       console.log("check data appo", data);
       this.appointmentList = ConvertJson.processApiResponse(data);
@@ -322,6 +328,10 @@ export class ReceptionistAppointmentListComponent implements OnInit {
         this.appointmentService.deleteAppointment(dateTimestamp, appointment.appointment_id).subscribe(response => {
           console.log("Xóa thành công");
           this.showSuccessToast('Xóa lịch hẹn thành công!');
+          if (this.startDate == this.timestampToDate(this.DELETE_APPOINTMENT_BODY.epoch)) {
+            this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'minus', 'app');
+          }
+
           window.location.reload();
         }, error => {
           this.showErrorToast("Lỗi khi cập nhật");

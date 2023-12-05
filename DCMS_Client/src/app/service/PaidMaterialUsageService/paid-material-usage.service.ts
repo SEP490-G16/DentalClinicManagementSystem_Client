@@ -41,12 +41,12 @@ export class PaidMaterialUsageService {
     return this.http.put(`${this.url}/expenses/${epoch}`,expensesInput,{headers});
   }
 
-  deletePaidMaterialUsage(id:any):Observable<any>{
+  deletePaidMaterialUsage(epoch:any,id:any):Observable<any>{
     let idToken = sessionStorage.getItem("id_Token");
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`,
     });
-    return this.http.delete(`${this.url}/expenses/${id}`,{headers});
+    return this.http.delete(`${this.url}/expenses/${epoch}/${id}`,{headers});
   }
 
 }

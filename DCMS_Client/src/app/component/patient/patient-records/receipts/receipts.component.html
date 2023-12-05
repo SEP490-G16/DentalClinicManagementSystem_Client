@@ -45,7 +45,7 @@
                 <th scope="col">Mã phiếu thu</th>
                 <th scope="col">Ngày tạo</th>
                 <th scope="col">Thanh toán (Payment)</th>
-                <th scope="col">Hình thức thanh toán</th>
+                <!-- <th scope="col">Hình thức thanh toán</th> -->
                 <th scope="col">Xác nhận thanh toán</th>
               </tr>
             </thead>
@@ -54,28 +54,22 @@
                 <td (click)="openPopupDetail(rec.detail)">
                   {{rec.r_receipt_id}}
                 </td>
-                <td (click)="openPopupDetail(rec.detail)">{{rec.r_created_date | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+                <td (click)="openPopupDetail(rec.detail)">{{rec.r_created_date | date: 'dd/MM/yyyy'}}</td>
                 <td (click)="openPopupDetail(rec.detail)">{{calculateTotalPayment(rec.detail) |
                   currency:'VND':'symbol':'1.0-0'}}</td>
-                <ng-container *ngIf="rec.r_payment_type == null">
+                <ng-container *ngIf="rec.r_status == 1">
                   <td>
-                    <select class="form-select p-2">
-                      <option value="1">Tiền mặt</option>
-                      <option value="2">Chuyển khoản</option>
-                    </select>
-                  </td>
-                  <td>
-                    <button class="btn button-timekeeping" title="Xác nhận thanh toán" (click)="confirmPayment()">Xác
-                      nhận thanh toán</button>
+                    <button class="btn button-timekeeping" title="Xác nhận thanh toán" (click)="confirmPaymentCast(rec)">Thanh toán tiền mặt</button>
+                    <button class="btn button-timekeeping" title="Xác nhận thanh toán" (click)="confirmPaymentTrans(rec)">Thanh toán chuyển khoản
+                    </button>
                   </td>
                 </ng-container>
-                <ng-container *ngIf="rec.r_payment_type != null">
-
-                  <td (click)="openPopupDetail(rec.detail)">{{rec.r_payment_type == "1" ? 'Tiền mặt' : 'Chuyển
+                <ng-container *ngIf="rec.r_status == 2">
+                  <td (click)="openPopupDetail(rec.detail)">{{rec.r_payment_type == "1" ? 'Đã thanh toán bằng tiền mặt' : 'Đã thanh toán qua chuyển
                     khoản'}}</td>
-                  <td>
+                  <!-- <td>
                     <button class="btn button-timekeeping" title="Xác nhận thanh toán">Đã thu tiền</button>
-                  </td>
+                  </td> -->
                 </ng-container>
               </tr>
             </tbody>
