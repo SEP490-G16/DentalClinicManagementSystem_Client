@@ -162,12 +162,6 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     this.loading = true;
     this.startDateTimestamp = this.dateToTimestamp(this.startDate + " 00:00:00");
     this.endDateTimestamp = this.dateToTimestamp(this.startDate + " 23:59:59");
-    //const now = new Date();
-    //const start = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDay() + " 00:00:00";
-    //const end = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + (now.getDay() + 1) + " 00:00:00";
-    // console.log("startTime", this.startDateTimestamp);
-    // console.log("endTime", this.endDateTimestamp)
-    // return;
     this.appointmentService.getAppointmentList(this.startDateTimestamp, this.endDateTimestamp).subscribe(data => {
       console.log("check data appo", data);
       this.appointmentList = ConvertJson.processApiResponse(data);
