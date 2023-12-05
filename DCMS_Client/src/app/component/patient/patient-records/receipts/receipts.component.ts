@@ -8,6 +8,9 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { DetailReceiptsComponent } from "./detail-receipts/detail-receipts.component";
 import { ReceiptsService } from 'src/app/service/ReceiptService/ReceiptService.service';
 import { ToastrService } from 'ngx-toastr';
+import { PatientService } from 'src/app/service/PatientService/patient.service';
+import { PaidMaterialUsageService } from 'src/app/service/PatientService/patientPayment.service';
+import { ConfirmationModalComponent } from 'src/app/component/utils/pop-up/common/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-receipts',
@@ -15,8 +18,9 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./receipts.component.css']
 })
 export class ReceiptsComponent implements OnInit {
-  ReceiptsList:any = [];
+  ReceiptsList: any = [];
   patientId: any;
+  Patient: any;
   roleId: string[] = [];
   patientName:any;
   name:any
@@ -24,6 +28,8 @@ export class ReceiptsComponent implements OnInit {
   paymentType: any = '';
   constructor(private commonService: CommonService,
     private receiptsService: ReceiptsService,
+    private patientService: PatientService,
+    private paidMaterialUsageService: PaidMaterialUsageService,
     private route: ActivatedRoute,
     private toastr: ToastrService,
     private modalService: NgbModal) { }
@@ -34,12 +40,21 @@ export class ReceiptsComponent implements OnInit {
     if (ro != null) {
       this.roleId = ro.split(',');
     }
+    this.getPatientInformation();
     this.getReceiptsByPatientId();
     this.name = sessionStorage.getItem('patient');
     if (this.name){
       this.name = JSON.parse(this.name);
       this.patientName = this.name.patient_name;
     }
+  }
+
+  getPatientInformation() {
+    this.patientService.getPatientById(this.patientId)
+      .subscribe((res) => {
+        console.log("Res Patient: ", res);
+        this.Patient = res;
+      })
   }
 
   getReceiptsByPatientId() {
@@ -85,6 +100,28 @@ export class ReceiptsComponent implements OnInit {
         }
       })
     })
+  }
+
+  openConfirmationModal(message: string) {
+    const modalRef = this.modalService.open(ConfirmationModalComponent, { centered: true });
+    modalRef.componentInstance.message = message;
+    modalRef.componentInstance.confirmButtonText = 'Xác nhận thanh toán';
+    modalRef.componentInstance.cancelButtonText = 'Hủy';
+
+    return modalRef.result;
+  }
+
+  confirmPayment(RecDetail: any) {
+    console.log("RecDetail: ", RecDetail);
+    this.openConfirmationModal("Bạn có chắc chắn muốn thay đổi thời gian chấm công đến không?")
+      .then((result) => {
+        if (result === 'confirm') {
+          // this.paidMaterialUsageService.postPaidMaterialUsage()
+        } else {
+
+        }
+      });
+
   }
 
   calculateTotalPayment(details: any[]): number {

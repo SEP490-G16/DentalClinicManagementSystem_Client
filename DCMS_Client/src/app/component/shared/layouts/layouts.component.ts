@@ -196,6 +196,7 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
 
   signOut() {
     this.cognitoService.signOut().then(() => {
+      sessionStorage.clear();
       console.log("Logged out!");
       this.router.navigate(['dangnhap']);
     })

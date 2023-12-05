@@ -51,7 +51,7 @@ a {
 }
 
 .btn-redirect {
-  background: linear-gradient(to right, #664FC3, #7a6fc1, #8f90c0, #a4b0bf, #b9d0bf);
+  background: #664FC3;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -63,7 +63,7 @@ a {
 }
 
 .btn-redirect:hover {
-  background: linear-gradient(to right, #7a6fc1, #8f90c0, #a4b0bf, #b9d0bf, #664FC3);
+  background: #5c48b2;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 

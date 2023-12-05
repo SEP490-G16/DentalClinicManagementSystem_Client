@@ -15,6 +15,10 @@ import {
   isSameDay,
   isSameMonth,
   addHours,
+  isAfter,
+  startOfWeek,
+  isWithinInterval,
+  endOfWeek,
 } from 'date-fns';
 
 
@@ -37,16 +41,16 @@ import { Router } from "@angular/router";
 import { CognitoService } from 'src/app/service/cognito.service';
 import { ConfirmDeleteModalComponent } from './ConfirmDeleteModal.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-
+import { isThisWeek, addWeeks, isSameWeek } from 'date-fns';
 
 const colors: Record<string, EventColor> = {
   gray: {
     primary: '#666',
     secondary: '#666'
   },
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3',
+  pink: {
+    primary: '#ff1493',
+    secondary: '#ff69b4',
   },
   blue: {
     primary: '#1e90ff',
@@ -168,7 +172,6 @@ export class RegisterWorkScheduleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     const role = sessionStorage.getItem("role");
     if (role != null) {
       this.roleId = role;
@@ -187,24 +190,8 @@ export class RegisterWorkScheduleComponent implements OnInit {
     }
 
     this.getStaffs();
-    this.initEventForm();
-    this.initEditEventForm();
-  }
-  private initEventForm(): void {
-    this.eventForm = new FormGroup({
-      title: new FormControl('', Validators.required),
-      start: new FormControl('', Validators.required),
-      end: new FormControl('', Validators.required)
-    });
   }
 
-  private initEditEventForm(): void {
-    this.editEventForm = new FormGroup({
-      title: new FormControl('', Validators.required),
-      start: new FormControl('', Validators.required),
-      end: new FormControl('', Validators.required)
-    });
-  }
   getStaffs() {
     this.cognitoService.getListStaff()
       .subscribe((res) => {
@@ -414,23 +401,30 @@ export class RegisterWorkScheduleComponent implements OnInit {
     newStart,
     newEnd,
   }: CalendarEventTimesChangedEvent): void {
-    this.worksRegister = this.worksRegister.map((iEvent) => {
-      if (iEvent === event) {
-        return {
-          ...event,
-          start: newStart,
-          end: newEnd,
-        };
-      }
-      return iEvent;
-    });
-    this.handleEvent('Dropped or resized', event);
+    if (this.isEventInNextWeek(newStart)) {
+      this.worksRegister = this.worksRegister.map((iEvent) => {
+        if (iEvent === event) {
+          return {
+            ...event,
+            start: newStart,
+            end: newEnd,
+            actions: this.actions
+          };
+        }
+        return iEvent;
+      });
+      this.refresh.next();
+    } else {
+      this.toastr.error('Bạn không thể thay đổi sự kiện trong tuần hiện tại hoặc quá khứ.');
+    }
   }
+
+
 
   setColorByRole(role: string): EventColor {
     switch (role) {
-      case '2': return colors["green"];
-      case '3': return colors["blue"];
+      case '2': return colors["blue"];
+      case '3': return colors["yellow"];
       case '4': return colors["yellow"];
       case '5': return colors["purple"];
       default: return colors["gray"];
@@ -456,16 +450,10 @@ export class RegisterWorkScheduleComponent implements OnInit {
   }
 
   openEditModal(event: CalendarEvent): void {
-    this.eventForm.setValue({
-      title: event.title || '',
-      start: event.start ? this.formatDate(event.start) : '',
-      end: event.end ? this.formatDate(event.end) : ''
-    });
-    this.modalData = { event, action: 'Edited' };
-    this.modal.open(this.modalContent, { size: 'lg' });
-    this.editTitle = event.title;
     this.editTimeStart = this.formatDate(event.start);
     this.editTimeEnd = event.end ? this.formatDate(event.end) : "";
+    this.modalData = { event, action: 'Edited' };
+    this.modal.open(this.modalContent, { size: 'lg' });
   }
 
   handleDeleteClick(eventToDelete: CalendarEvent): void {
@@ -515,30 +503,35 @@ export class RegisterWorkScheduleComponent implements OnInit {
         role: this.UserObj.role,
         register_clock_in: startTimestamp,
         register_clock_out: endTimestamp,
-        clock_in: this.UserObj.clock_in,
-        clock_out: this.UserObj.clock_out,
+        clock_in: (this.UserObj.clock_in !== undefined) ? this.UserObj.clock_in : 0,
+        clock_out: (this.UserObj.clock_out !== undefined) ? this.UserObj.clock_out : 0,
         timekeeper_name: "",
         timekeeper_avt: "",
         status: 1
       };
       console.log("Edit: ", RequestBody);
-
-      //Uodate view
-      if (this.modalData && this.modalData.event) {
-        // Find the event in the worksRegister array
-        const index = this.worksRegister.findIndex(event => event === this.modalData.event);
-        if (index !== -1) {
-          this.worksRegister[index].title = this.editTitle;
-          this.worksRegister[index].start = new Date(this.editTimeStart);
-          this.worksRegister[index].end = new Date(this.editTimeEnd);
-
+      this.timekeepingService.postTimekeeping(RequestBody)
+        .subscribe((res) => {
+          this.modal.dismissAll();
+          if (this.modalData && this.modalData.event) {
+            // Find the event in the worksRegister array
+            const index = this.worksRegister.findIndex(event => event === this.modalData.event);
+            if (index !== -1) {
+              this.worksRegister[index].title = this.editTitle;
+              this.worksRegister[index].start = new Date(this.editTimeStart);
+              this.worksRegister[index].end = new Date(this.editTimeEnd);
+              this.refresh.next();
+              this.showSuccessToast('Cập nhật lịch làm việc thành công');
+            } else {
+              this.showErrorToast('Không thể tìm thấy lịch làm việc.');
+            }
+          }
           this.refresh.next();
+        },
+          (err) => {
+            this.toastr.error(err.error.message, "Sửa lịch làm việc thất bại");
+          })
 
-          this.showSuccessToast('Cập nhật lịch làm việc thành công');
-        } else {
-          this.showErrorToast('Không thể tìm thấy lịch làm việc.');
-        }
-      }
     }
 
     this.modal.dismissAll();
@@ -557,9 +550,9 @@ export class RegisterWorkScheduleComponent implements OnInit {
   newEventEnd: string = '';
 
   addEvent(): void {
-    if (this.UserObj != null && !this.eventForm.valid) {
+    if (this.UserObj != null) {
       const newEvent: CalendarEvent = {
-        title: this.newEventTitle,
+        title: this.UserObj.username,
         start: new Date(this.newEventStart),
         end: new Date(this.newEventEnd),
         color: this.setColorByRole(this.UserObj.role),
@@ -585,10 +578,8 @@ export class RegisterWorkScheduleComponent implements OnInit {
         role: this.UserObj.role,
         register_clock_in: startTimestamp,
         register_clock_out: endTimestamp,
-        //clock_in: this.UserObj.clock_in,
-        //clock_out: this.UserObj.clock_out,
-        clock_in: 0,
-        clock_out: 0,
+        clock_in: (this.UserObj.clock_in !== undefined) ? this.UserObj.clock_in : 0,
+        clock_out: (this.UserObj.clock_out !== undefined) ? this.UserObj.clock_out : 0,
         timekeeper_name: "",
         timekeeper_avt: "",
         status: 1
@@ -610,6 +601,27 @@ export class RegisterWorkScheduleComponent implements OnInit {
 
   }
 
+  isFutureWeek(viewDate: Date): boolean {
+    const startOfNextWeek = addWeeks(startOfWeek(new Date()), 1);
+    return isAfter(startOfDay(viewDate), startOfNextWeek);
+  }
+
+  isEventInCurrentOrPastWeek(eventStart: Date): boolean {
+    const startOfCurrentWeek = startOfWeek(new Date());
+    const endOfCurrentWeek = endOfWeek(new Date());
+    return isWithinInterval(eventStart, {
+      start: startOfCurrentWeek,
+      end: endOfCurrentWeek,
+    });
+  }
+
+  isEventInNextWeek(date: Date): boolean {
+    const today = startOfDay(new Date());
+    const startOfNextWeek = startOfWeek(addWeeks(today, 1));
+    return isAfter(startOfDay(date), startOfNextWeek);
+  }
+
+
   formatToDateTimeString(datetimeLocal: string): string {
     return datetimeLocal.replace('T', ' ');
   }
@@ -621,7 +633,6 @@ export class RegisterWorkScheduleComponent implements OnInit {
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
   }
-
 
 
   //Convert Date

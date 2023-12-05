@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit {
 
 
   ngOnInit(): void {
+    sessionStorage.clear();
   }
 
   configureOAuth() {
@@ -56,33 +57,13 @@ export class LoginComponent implements OnInit {
       this.cognitoService.signIn(this.User).then(() => {
         this.loading = false;
         this.router.navigate(['']);
-        //const userGroupsString = sessionStorage.getItem('userGroups');
-        // console.log("User groups: ", userGroupsString);
-        // if (userGroupsString) {
-        //   const userGroups = JSON.parse(userGroupsString) as string[];
-        //   if (userGroups.includes('dev-dcms-doctor')) {
-        //     this.router.navigate(['bacsi']);
-        //   } else if (userGroups.includes('dev-dcms-nurse')) {
-        //     this.router.navigate(['yta']);
-        //   } else if (userGroups.includes('dev-dcms-receptionist')) {
-        //     this.router.navigate(['letan']);
-        //   } else if (userGroups.includes('dev-dcms-admin')) {
-        //     this.router.navigate(['admin']);
-        //   }
-        //   console.log("User groups: ", userGroupsString);
-
-        // } else {
-        //   console.error('Không có thông tin về nhóm người dùng.');
-        //   this.router.navigate(['/default-route']);
-        // }
       })
         .catch((err) => {
           this.loading = false;
-          alert(err);
+          alert("Tài khoản mật khẩu không chính xác");
         })
     } else {
       this.loading = false;
-      // alert("Tài khoản/email hoặc Password không được để trống.");
     }
   }
 
