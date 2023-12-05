@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { PatientService } from "../../../service/PatientService/patient.service";
 import { IPatient } from "../../../model/IPatient";
 import { ToastrService } from "ngx-toastr";
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { PopupAddPatientComponent } from "../../utils/pop-up/patient/popup-add-patient/popup-add-patient.component";
@@ -29,6 +30,7 @@ export class PatientRecordsComponent implements OnInit {
   count: number = 1;
   id: any;
   search: string = '';
+  isSearching: boolean = false;
   constructor(private patientService: PatientService,
     private toastr: ToastrService,
     private router: Router,
@@ -49,7 +51,6 @@ export class PatientRecordsComponent implements OnInit {
       this.searchPatientsList = [];
       this.originPatientList = patients.data;
       this.searchPatientsList = patients.data;
-      console.log(this.searchPatientsList);
       this.searchPatientsList.forEach((p: any) => {
         p.phone_number = this.normalizePhoneNumber(p.phone_number);
       })
@@ -58,7 +59,6 @@ export class PatientRecordsComponent implements OnInit {
         this.searchPatientsList.pop();
       }
       if (this.search.trim() !== "") {
-        this.searchPatient();
       }
     },
       error => {
@@ -74,31 +74,14 @@ export class PatientRecordsComponent implements OnInit {
         Normalize.normalizeDiacritics(sP.patient_name.toLowerCase()).includes(Normalize.normalizeDiacritics(this.search.toLocaleLowerCase())) ||
         new Date(sP.created_date).toLocaleDateString('en-GB').includes(this.search)
       );
-      // console.log("Search: ", new Date(this.searchPatientsList[0].created_date).toLocaleDateString('en-GB'));
 
     } else {
       this.searchPatientsList = this.originPatientList;
     }
-
-    // if (this.search != null && this.search != "" && this.search != undefined) {
-    //   this.patientService.getPatientByName(this.search, this.pagingSearch.paging).subscribe(patients => {
-    //     this.searchPatientsList = [];
-    //     this.searchPatientsList = patients.data;
-    //     this.searchPatientsList.forEach((p: any) => {
-    //       p.phone_number = this.normalizePhoneNumber(p.phone_number);
-    //     })
-    //     this.checkNextPage();
-    //     if (this.searchPatientsList.length > 10) {
-    //       this.searchPatientsList.pop();
-    //     }
-    //   }, error => {
-    //     ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test + "/patient/name/" + this.search + "/" + this.pagingSearch.paging, error)
-    //   }
-    //   )
-    // } else {
-    //   this.loadPage(this.currentPage);
-    // }
     if(this.search != null && this.search != "" && this.search != undefined){
+      this.isSearching = true;
+    setTimeout(() => {
+    }, 1000);
       this.patientService.getPatientByName(this.search, this.pagingSearch.paging).subscribe(patients => {
         this.searchPatientsList = [];
         this.searchPatientsList = patients.data;
@@ -109,10 +92,11 @@ export class PatientRecordsComponent implements OnInit {
         if (this.searchPatientsList.length > 10) {
           this.searchPatientsList.pop();
         }
+        this.isSearching = false;
       }, error => {
         ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test + "/patient/name/" + this.search + "/" + this.pagingSearch.paging, error)
       }
-      ) 
+      )
     }else{
       this.loadPage(this.currentPage);
     }
@@ -144,7 +128,6 @@ export class PatientRecordsComponent implements OnInit {
   openDeletePatient(id: any, patientName: string, event: Event) {
     event.stopPropagation();
     this.openConfirmationModal(`Bạn có muốn xóa bệnh nhân ${patientName} không?`).then((result) => {
-      console.log(result);
       if (result === true) {
         this.id = id;
         this.patientService.deletePatient(id).subscribe((res) => {
@@ -165,7 +148,6 @@ export class PatientRecordsComponent implements OnInit {
 
   signOut() {
     this.cognitoService.signOut().then(() => {
-      console.log("Logged out!");
       this.router.navigate(['dangnhap']);
     })
   }

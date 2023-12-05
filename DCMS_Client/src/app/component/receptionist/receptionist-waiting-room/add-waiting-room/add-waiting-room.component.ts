@@ -309,28 +309,37 @@ export class AddWaitingRoomComponent implements OnInit {
       ResponseHandler.HANDLE_HTTP_STATUS(this.PATIENT_SERVICE.test + "/patient", error);
     })
   }
-
-
+  isSearching:boolean = false;
+  notFoundMessage: string = 'Không tìm thấy bệnh nhân';
   searchTimeout: any;
   onsearchPatientInWaitingRoom(event: any) {
     clearTimeout(this.searchTimeout);
-
+    this.isSearching = true;
     const searchTermWithDiacritics = Normalize.normalizeDiacritics(event.target.value);
-
-    this.searchTimeout = setTimeout(() => {
-      this.PATIENT_SERVICE.getPatientByName(searchTermWithDiacritics, 1).subscribe(data => {
-        const transformedMaterialList = data.data.map((item: any) => {
-          return {
-            patientId: item.patient_id,
-            patientName: item.patient_name,
-            patientInfor: item.patient_id + " - " + item.patient_name + " - " + item.phone_number,
-            patientDescription: item.description
-          };
+    if (this.isSearching) {
+      this.notFoundMessage = 'Đang tìm kiếm...';
+      this.searchTimeout = setTimeout(() => {
+        this.PATIENT_SERVICE.getPatientByName(searchTermWithDiacritics, 1).subscribe(data => {
+          const transformedMaterialList = data.data.map((item: any) => {
+            return {
+              patientId: item.patient_id,
+              patientName: item.patient_name,
+              patientInfor: item.patient_id + " - " + item.patient_name + " - " + item.phone_number,
+              patientDescription: item.description
+            };
+          });
+          this.patientList = transformedMaterialList;
+          localStorage.setItem("listSearchPatient", JSON.stringify(this.patientList));
         });
-        this.patientList = transformedMaterialList;
-        localStorage.setItem("listSearchPatient", JSON.stringify(this.patientList));
-      });
-    }, 500);
+      }, 500);
+      if(this.patientList.length == 0){
+        this.notFoundMessage = 'Không tìm thấy bệnh nhân';
+      }
+      this.isSearching = false;
+    } else{
+      this.notFoundMessage = 'Không tìm thấy bệnh nhân';
+      this.isSearching = false;
+    }
   }
 
 

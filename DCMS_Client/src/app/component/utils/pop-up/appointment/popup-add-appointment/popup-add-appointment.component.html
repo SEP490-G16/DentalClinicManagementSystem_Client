@@ -21,7 +21,7 @@
                 <div class="form-group mt-2 input-patient">
                   <label for="patientName">Tên bệnh nhân <span class="required">*</span></label>
                   <ng-select [items]="patientList" bindLabel="patientInfor" [(ngModel)]="patientInfor" bindValue="patientInfor" (keyup)="onsearch($event)"
-                             [notFoundText]="'Không tìm thấy bệnh nhân'" >
+                             [notFoundText]="notFoundMessage" >
                   </ng-select>
                   <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.patientName}}</p>
                 </div>

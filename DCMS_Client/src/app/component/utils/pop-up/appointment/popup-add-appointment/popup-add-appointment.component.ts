@@ -229,12 +229,12 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     if (storeList != null) {
       this.appointmentList = JSON.parse(storeList);
       this.ListAppointments = this.appointmentList.filter(app => app.date === this.startDateTimestamp);
-        this.ListAppointments.forEach((a: any) => {
-          this.dateEpoch = this.timestampToDate(a.date);
-          a.appointments.forEach((b: any) => {
-            b.details = b.details.sort((a: any, b: any) => a.time - b.time);
-          })
+      this.ListAppointments.forEach((a: any) => {
+        this.dateEpoch = this.timestampToDate(a.date);
+        a.appointments.forEach((b: any) => {
+          b.details = b.details.sort((a: any, b: any) => a.time - b.time);
         })
+      })
     } else {
       this.startDateTimestamp = this.dateToTimestamp(this.startDate);
       this.APPOINTMENT_SERVICE.getAppointmentList(this.startDateTimestamp, this.endDateTimestamp).subscribe(data => {
@@ -365,27 +365,38 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   patientList: any[] = [];
   patientInfor: any;
   searchTimeout: any;
+  isSearching: boolean = false;
+  notFoundMessage: string = 'Không tìm thấy bệnh nhân';
   onsearch(event: any) {
     clearTimeout(this.searchTimeout);
-
+    this.isSearching = true;
     const searchTermWithDiacritics = Normalize.normalizeDiacritics(event.target.value);
+    if (this.isSearching) {
+      this.notFoundMessage = 'Đang tìm kiếm...';
+      this.searchTimeout = setTimeout(() => {
+        this.AppointmentBody.appointment.patient_name = searchTermWithDiacritics;
 
-    this.searchTimeout = setTimeout(() => {
-      this.AppointmentBody.appointment.patient_name = searchTermWithDiacritics;
-
-      this.PATIENT_SERVICE.getPatientByName(searchTermWithDiacritics, 1).subscribe(data => {
-        const transformedMaterialList = data.data.map((item: any) => {
-          return {
-            patientId: item.patient_id,
-            patientName: item.patient_name,
-            patientInfor: item.patient_id + " - " + item.patient_name + " - " + item.phone_number,
-            patientDescription: item.description
-          };
+        this.PATIENT_SERVICE.getPatientByName(searchTermWithDiacritics, 1).subscribe(data => {
+          const transformedMaterialList = data.data.map((item: any) => {
+            return {
+              patientId: item.patient_id,
+              patientName: item.patient_name,
+              patientInfor: item.patient_id + " - " + item.patient_name + " - " + item.phone_number,
+              patientDescription: item.description
+            };
+          });
+          this.patientList = transformedMaterialList;
+          localStorage.setItem("listSearchPatient", JSON.stringify(this.patientList));
         });
-        this.patientList = transformedMaterialList;
-        localStorage.setItem("listSearchPatient", JSON.stringify(this.patientList));
-      });
-    }, 500);
+      }, 500);
+      if(this.patientList.length == 0){
+        this.notFoundMessage = 'Không tìm thấy bệnh nhân'; 
+      }
+      this.isSearching = false;
+    } else {
+      this.notFoundMessage = 'Không tìm thấy bệnh nhân';
+      this.isSearching = false;
+    }
   }
 
 

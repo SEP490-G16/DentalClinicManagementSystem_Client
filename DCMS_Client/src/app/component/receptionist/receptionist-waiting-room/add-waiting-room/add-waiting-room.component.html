@@ -13,7 +13,7 @@
                 <label for="patientName">Tên bệnh nhân <span class="required">*</span></label>
                 <ng-select [items]="patientList" bindLabel="patientInfor" [(ngModel)]="patientInfor"
                   bindValue="patientInfor" (input)="onsearchPatientInWaitingRoom($event)"
-                  [notFoundText]="'Không tìm thấy bệnh nhân'" [disabled]="isAdd">
+                  [notFoundText]="notFoundMessage" [disabled]="isAdd">
                 </ng-select>
                 <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateWatingRoom.patientName}}</p>
               </div>
