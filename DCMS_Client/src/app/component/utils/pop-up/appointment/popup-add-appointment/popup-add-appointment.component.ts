@@ -1,6 +1,6 @@
 import { Component, OnInit, Renderer2, ViewChild, EventEmitter, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ReceptionistAppointmentService } from 'src/app/service/ReceptionistService/receptionist-appointment.service';
-import { IAddAppointment, RootObject } from 'src/app/model/IAppointment';
+import { Appointment, Detail, IAddAppointment, RootObject } from 'src/app/model/IAppointment';
 import { PatientService } from 'src/app/service/PatientService/patient.service';
 import * as moment from 'moment-timezone';
 //import { setTimeout } from 'timers';
@@ -89,6 +89,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   @Input() filteredAppointments: any
 
   @Output() newItemEvent = new EventEmitter<any>();
+  @Output() newAppointmentAdded = new EventEmitter<any>();
   AppointmentBody: IAddAppointment;
   appointmentTime = "";
 
@@ -516,8 +517,8 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     this.filteredAppointments.forEach((appo: any) => {
       appo.appointments.forEach((deta: any) => {
         deta.details.forEach((res: any) => {
-          if (res.patient_id == this.AppointmentBody.appointment.patient_id) {
-            this.validateAppointment.patientName = `Bệnh nhân đã lịch hẹn trong ngày ${selectedDate} !`;
+          if (res.patient_id === this.AppointmentBody.appointment.patient_id) {
+            this.validateAppointment.patientName = `Bệnh nhân đã đặt lịch hẹn trong ngày ${selectedDate} !`;
             checkPatient = false;
             return;
           }
@@ -575,6 +576,41 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
           this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'app');
         }
         this.showSuccessToast('Lịch hẹn đã được tạo thành công!');
+
+        const newDetail: any = {
+          appointment_id: response.appointment_id,
+          patient_id: this.AppointmentBody.appointment.patient_id,
+          patient_name: this.AppointmentBody.appointment.patient_name,
+          phone_number: (this.AppointmentBody.appointment.phone_number),
+          procedure: (this.AppointmentBody.appointment.procedure_id),
+          procedure_name: this.AppointmentBody.appointment.procedure_name,
+          doctor: this.AppointmentBody.appointment.doctor,
+          time: this.AppointmentBody.appointment.time,
+          status: this.AppointmentBody.appointment.status,
+          migrated: 'false'
+        };
+
+        const appointmentIndex = this.filteredAppointments.findIndex((a: any) => a.date === this.AppointmentBody.epoch);
+
+        if (appointmentIndex !== -1) {
+          this.filteredAppointments[appointmentIndex].appointments.push({
+            procedure: this.AppointmentBody.appointment.procedure_id,
+            count: 1,
+            details: [newDetail]
+          });
+        } else {
+          const newAppointment: any = {
+            procedure: (this.AppointmentBody.appointment.procedure_id),
+            count: 1,
+            details: [newDetail]
+          };
+          this.filteredAppointments.push({
+            date: this.AppointmentBody.epoch,
+            appointments: [newAppointment]
+          });
+        }
+        this.newAppointmentAdded.emit(this.filteredAppointments);
+
         this.procedure = '';
         this.appointmentTime = '';
         this.newItemEvent.emit(this.AppointmentBody);
@@ -592,7 +628,6 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
             time: 0
           }
         } as IAddAppointment;
-        window.location.reload();
       },
       (error) => {
         this.loading = false;
@@ -601,7 +636,6 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
         ResponseHandler.HANDLE_HTTP_STATUS(this.APPOINTMENT_SERVICE.apiUrl + "/appointment", error);
       }
     );
-
   }
 
   dateToTimestamp(dateStr: string): number {

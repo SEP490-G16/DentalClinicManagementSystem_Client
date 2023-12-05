@@ -75,6 +75,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   searchText: string = '';
   filteredAppointments: any;
   appointmentList: RootObject[] = [];
+
   listGroupService: any[] = [];
 
   startDate: any;
@@ -284,6 +285,11 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     }
   }
 
+  onNewAppointmentAdded(newAppointment: any) {
+    console.log(newAppointment);
+    this.filteredAppointments = newAppointment;
+  }
+
   selectedAppointment: ISelectedAppointment;
   dateString: any;
   timeString: any;
@@ -300,6 +306,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
 
   deleteAppointment(appointment: any, dateTimestamp: any, event: Event) {
     event.stopPropagation();
+    console.log(appointment);
     const modalRef = this.modalService.open(ConfirmDeleteModalComponent);
     modalRef.componentInstance.message = `Bạn có chắc chắn muốn xóa lịch hẹn của bệnh nhân ${appointment.patient_name} không?`;
     modalRef.result.then((result) => {
@@ -322,11 +329,20 @@ export class ReceptionistAppointmentListComponent implements OnInit {
         this.appointmentService.deleteAppointment(dateTimestamp, appointment.appointment_id).subscribe(response => {
           console.log("Xóa thành công");
           this.showSuccessToast('Xóa lịch hẹn thành công!');
+          this.filteredAppointments = this.filteredAppointments.map((app: any) => ({
+            ...app,
+            appointments: app.appointments.map((ap: any) => ({
+              ...ap,
+              details: ap.details.filter((detail: any) => detail.appointment_id !== appointment.appointment_id)
+            })).filter((ap: any) => ap.details.length > 0)
+          })).filter((app: any) => app.appointments.length > 0);
+
+          console.log("Đã xóa: ", this.filteredAppointments);
+
           if (this.startDate == this.timestampToDate(this.DELETE_APPOINTMENT_BODY.epoch)) {
             this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'minus', 'app');
           }
 
-          window.location.reload();
         }, error => {
           this.showErrorToast("Lỗi khi cập nhật");
           this.showErrorToast("Lỗi khi xóa");
@@ -537,6 +553,8 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   }
 
   openAddAppointmentModal() {
+    this.filteredAppointments = this.filteredAppointments;
+    console.log("Filtered Appointment: ", this.filteredAppointments);
     this.datesDisabled = this.datesDisabled;
   }
 
