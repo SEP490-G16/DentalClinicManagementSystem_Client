@@ -178,7 +178,7 @@ export class AddWaitingRoomComponent implements OnInit {
       this.POST_WAITTINGROOM.patient_created_date = '1';
       this.currentPatientCreated = false;
     } else {
-      const storeLi = localStorage.getItem('listSearchPateint');
+      const storeLi = localStorage.getItem('listSearchPatient');
       var ListPatientStore = [];
       if (storeLi != null) {
         ListPatientStore = JSON.parse(storeLi);
@@ -195,8 +195,6 @@ export class AddWaitingRoomComponent implements OnInit {
         })
       }
     }
-
-    this.POST_WAITTINGROOM.patient_created_date = "new" + 1;
     const postInfo = this.POST_WAITTINGROOM.epoch + ' - ' + this.POST_WAITTINGROOM.produce_id + ' - ' + this.POST_WAITTINGROOM.produce_name + ' - '
     + this.POST_WAITTINGROOM.patient_id + ' - ' +this.POST_WAITTINGROOM.patient_name + ' - ' + this.POST_WAITTINGROOM.reason + ' - '
     + this.POST_WAITTINGROOM.status + ' - ' + this.POST_WAITTINGROOM.appointment_id + ' - ' + this.POST_WAITTINGROOM.appointment_epoch + ' - ' + this.POST_WAITTINGROOM.patient_created_date;
