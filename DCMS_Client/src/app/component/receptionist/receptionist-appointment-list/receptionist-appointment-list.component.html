@@ -95,6 +95,7 @@
 
 <!-- <app-popup-add-appointment (newItemEvent)="addItem($event)"></app-popup-add-appointment> -->
 <app-popup-add-appointment [datesDisabled]="datesDisabled"
+  (newAppointmentAdded)="onNewAppointmentAdded($event)"
   [filteredAppointments]="filteredAppointments"></app-popup-add-appointment>
 <app-popup-edit-appointment [datesDisabled]="datesDisabled" [selectedAppointment]="selectedAppointment"
   [dateString]="dateString" [timeString]="timeString"
