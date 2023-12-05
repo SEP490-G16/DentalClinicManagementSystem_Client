@@ -24,7 +24,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
   }
   POST_WAITTINGROOM = {
-    epoch: 0,
+    epoch: '',
     produce_id: '',
     produce_name: '',
     patient_id: '',
@@ -57,7 +57,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     //   patient_created_date: '',
     // } as IPostWaitingRoom
   }
-  filteredWaitingRoomData: any[] = [];
+  filteredWaitingRoomData=  [] as IPostWaitingRoom[];
   analyses = {
     total_appointment: 0,
     total_waiting_room: 0,
@@ -78,8 +78,9 @@ export class ChatComponent implements OnInit, OnDestroy {
       const parsedMessage = JSON.parse(message);
       const check = parsedMessage.content.split(',');
       var checkPa = true;
-      var shouldBreakFor = false;
+      var count = 0;
       if (check[0] == 'CheckRealTimeWaitingRoom@@@') {
+        var shouldBreakFor = false;
         let postInfo = check[1].split(' - ');
         this.POST_WAITTINGROOM.epoch = postInfo[0];
         this.POST_WAITTINGROOM.produce_id = postInfo[1];
@@ -94,22 +95,27 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.POST_WAITTINGROOM.date = this.timestampToTime(postInfo[0]);
         const currentUrl = this.location.path();
         if (currentUrl.includes('phong-cho')) {
-          this.filteredWaitingRoomData.forEach((item: any) => {
-            if (item.patient_id == check[1]) {
-              if (check[2] == 4 && checkPa) {
-                const index = this.filteredWaitingRoomData.findIndex((item: any) => { item.patient_id == check[1] });
-                this.filteredWaitingRoomData.splice(index, 1);
-                checkPa = false;
-              } else {
-                item.status = check[2];
+          if (this.filteredWaitingRoomData.length == 0) {
+            this.filteredWaitingRoomData.push(this.POST_WAITTINGROOM);
+          } else {
+            this.filteredWaitingRoomData.forEach((item: any) => {
+              if (item.patient_id == check[1]) {
+                if (check[2] == 4 && checkPa) {
+                  const index = this.filteredWaitingRoomData.findIndex((item: any) => { item.patient_id == check[1] });
+                  this.filteredWaitingRoomData.splice(index, 1);
+                  checkPa = false;
+                } else {
+                  item.status = check[2];
+                }
+              } else if (shouldBreakFor == false && this.POST_WAITTINGROOM.patient_id != "") {
+                console.log("check input list waitin")
+                this.filteredWaitingRoomData.push(this.POST_WAITTINGROOM);
+                console.log(this.filteredWaitingRoomData)
+                shouldBreakFor = true;
               }
-            } else if (shouldBreakFor == false && this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_id != undefined && this.POST_WAITTINGROOM.patient_id != null) {
-
-              this.filteredWaitingRoomData.push(this.POST_WAITTINGROOM);
-
-              shouldBreakFor = true;
-            }
-          })
+            })
+          }
+          
           const statusOrder: { [key: number]: number } = { 2: 1, 3: 2, 1: 3, 4: 4 };
           this.filteredWaitingRoomData.sort((a: any, b: any) => {
             const orderA = statusOrder[a.status] ?? Number.MAX_VALUE; // Fallback if status is not a valid key
@@ -118,11 +124,8 @@ export class ChatComponent implements OnInit, OnDestroy {
           });
           this.waitingRoomService.updateData(this.filteredWaitingRoomData);
         }
-        //this.webSocketService.closeConnection();
       } else if (check[0] == 'UpdateAnalysesTotal@@@') {
         if (check[1] == 'plus') {
-          console.log(check[2]);
-          console.log(check[2] == 'pat');
           if (check[2] == 'wtr') {
             this.dataService.UpdateWaitingRoomTotal(1, 0);
           } else if (check[2] == 'app') {
@@ -146,7 +149,6 @@ export class ChatComponent implements OnInit, OnDestroy {
           this.unreadMessagesCount++;
         }
         this.playMessageSound();
-        //this.webSocketService.closeConnection();
       }
     })
   }
