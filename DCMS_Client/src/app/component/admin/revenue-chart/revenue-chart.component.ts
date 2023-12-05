@@ -11,6 +11,7 @@ import {
   Tooltip,
   Legend
 } from 'chart.js';
+import { FacilityService } from 'src/app/service/FacilityService/facility.service';
 import { ExpenseService } from 'src/app/service/Expenses/expenses.service';
 Chart.register(
   CategoryScale,
@@ -33,23 +34,35 @@ export class RevenueChartComponent implements OnInit {
   private revenueChart?: Chart;
   startDate: string = "";
   endDate: string = "";
+  facility: string = "0";
   startTimestamp: number = 0;
   endTimestamp: number = 0;
-
+  listFacility: any[] = [];
   MaterialUsage: any;
   Expenses: any;
   constructor(
+    private facilityService: FacilityService,
     private materialUsageService: MaterialUsageService,
     private expensesService: ExpenseService,
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
+    this.getListFacility();
     this.setDefaultDates();
 
     this.getMaterialUsage(); //Tổng thu
     this.paidMaterialUsage(); // Thực thu
   }
-
+  getListFacility() {
+    this.facilityService.getFacilityList().subscribe((res) => {
+      console.log("Danh sach cơ sơ", res);
+      this.listFacility = res.data;
+    },
+      (err) => {
+        this.showErrorToast('Lỗi khi lấy dữ liệu cho Labo')
+      }
+    )
+  }
   setDefaultDates(): void {
     this.startDate = moment().startOf('month').tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
     this.endDate = moment().endOf('month').tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
@@ -247,7 +260,11 @@ export class RevenueChartComponent implements OnInit {
     this.setDefaultDates();
     this.getExpenses();
   }
-
+  showErrorToast(message: string) {
+    this.toastr.error(message, 'Lỗi', {
+      timeOut: 3000, // Adjust the duration as needed
+    });
+  }
 
   //Convert Date
   dateToTimestamp(dateStr: string): number {

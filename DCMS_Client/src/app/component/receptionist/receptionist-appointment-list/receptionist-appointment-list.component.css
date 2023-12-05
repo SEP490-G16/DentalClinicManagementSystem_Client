@@ -120,12 +120,7 @@ a {
   cursor: pointer;
 }
 
-.btn-primary {
-  background-color: #664FC3;
-}
-
 .btn-primary:hover {
-  background-color: #5a3ca3;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
