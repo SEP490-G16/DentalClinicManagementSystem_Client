@@ -71,4 +71,13 @@ export class PatientService {
     const requestBody = JSON.stringify(patient);
     return this.http.post(`${this.test}/patient`, requestBody, { headers });
   }
+
+  getPatientTotal(): Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      'Content-Type': 'application/json'
+    });
+    return this.http.get(`${this.test}/patient/total-patient`, { headers });
+  }
 }

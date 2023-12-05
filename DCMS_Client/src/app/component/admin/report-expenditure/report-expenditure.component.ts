@@ -51,19 +51,19 @@ export class ReportExpenditureComponent implements OnInit {
 
   getListExpense() {
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
-
     const currentDate1 = parseInt(currentDateGMT7.split('-')[0])+"-"+parseInt(currentDateGMT7.split('-')[1])+"-"+(parseInt(currentDateGMT7.split('-')[2]))+ " 00:00:00";
     const currentDate2 = parseInt(currentDateGMT7.split('-')[0])+"-"+parseInt(currentDateGMT7.split('-')[1])+"-"+parseInt(currentDateGMT7.split('-')[2])+ " 23:59:59" ;
     this.paidMaterialUsageService.getListExpense(this.dateToTimestamp(currentDate1).toString(), this.dateToTimestamp(currentDate2).toString()).subscribe((res) => {
       this.listExpense = res.Items;
       const itemsString = res.match(/Items=\[(.*?)\]/);
-      //console.log(JSON.parse(`[${itemsString[1]}]`));
       console.log("Check organizeData",this.organizeData(JSON.parse(`[${itemsString[1]}]`)));
       if (itemsString && itemsString.length > 1) {
         this.listExpense = this.organizeData(JSON.parse(`[${itemsString[1]}]`));
+        //console.log(this.listExpense);
         this.listExpense.forEach((item:any) => {
           item.records.forEach((it:any) => {
             let expenseObject = {
+              id: it.details.keyId,
               epoch: item.epoch,
               createBy: it.details.createBy,
               createDate: it.details.createDate,
@@ -71,15 +71,16 @@ export class ReportExpenditureComponent implements OnInit {
               totalAmount: it.details.totalAmount,
               note: it.details.note
             }
-            console.log(expenseObject)
             try {
               this.totalBill += parseInt(it.details.totalAmount);
             } catch(e) {
 
             }
             this.listFilterDate.push(expenseObject);
+            
           })
         })
+        console.log(this.listFilterDate);
       } else {
         console.error('Items not found in the JSON string.');
       }
@@ -99,6 +100,7 @@ export class ReportExpenditureComponent implements OnInit {
         if (key !== 'epoch' && key !== 'type') {
           const currentObject = JSON.parse(item[key]?.S);
           const details: TimekeepingDetail = {
+            keyId: key,
             createBy: currentObject.createBy,
             createDate: this.timestampToDate(currentObject.createDate),
             typeExpense: currentObject.typeExpense,
@@ -123,20 +125,11 @@ export class ReportExpenditureComponent implements OnInit {
     modalRef.componentInstance.message = message;
     return modalRef.result;
   }
-  deleteBill(epoch: any,createDate:any) {
+  deleteBill(epoch: any,createDate:any, id:any) {
     const formattedDate = this.datePipe.transform(createDate, 'dd-MM-yyyy');
-
-    // this.paidMaterialUsageService.deletePaidMaterialUsage(epoch).subscribe((res) => {
-    //   this.showSuccessToast("Xóa Labo thành công!");
-    //   window.location.reload();
-    // },
-    //   (err) => {
-    //     this.showErrorToast("xóa không thành công");
-    //   }
-    // )
     this.openConfirmationModal(`Bạn có chắc chắn muốn xóa phiếu chi ngày ${formattedDate} không?`).then((result) => {
       if (result) {
-        this.paidMaterialUsageService.deletePaidMaterialUsage(epoch)
+        this.paidMaterialUsageService.deletePaidMaterialUsage(epoch, id)
           .subscribe((res) => {
               this.toastr.success('Xoá phiếu chi thành công !');
               window.location.reload();
@@ -257,6 +250,7 @@ interface TimekeepingRecord {
 }
 
 interface TimekeepingDetail {
+  keyId?:string;
   createBy?: string;
   createDate?: string;
   typeExpense?: string;

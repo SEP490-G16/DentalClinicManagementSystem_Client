@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { PatientService } from "../../../../../service/PatientService/patient.service";
 import { ToastrService } from "ngx-toastr";
 import { ResponseHandler } from "../../../libs/ResponseHandler";
+import { SendMessageSocket } from 'src/app/component/shared/services/SendMessageSocket.service';
 @Component({
   selector: 'app-popup-add-patient',
   templateUrl: './popup-add-patient.component.html',
@@ -29,7 +30,8 @@ export class PopupAddPatientComponent implements OnInit {
   }
   isSubmitted: boolean = false;
   constructor(private patientService: PatientService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private sendMessageSocket: SendMessageSocket) { }
   patientBody: any = {
     patient_name: '',
     email: '',
@@ -118,6 +120,7 @@ export class PopupAddPatientComponent implements OnInit {
 
     this.patientService.addPatient(this.patientBody).subscribe((data: any) => {
       this.toastr.success('Thêm mới bệnh nhân thành công!');
+      this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'pat');
       localStorage.setItem("patient", JSON.stringify(this.patientBody))
       let ref = document.getElementById('cancel');
       ref?.click();

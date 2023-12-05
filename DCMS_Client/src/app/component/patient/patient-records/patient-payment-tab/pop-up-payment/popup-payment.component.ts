@@ -78,11 +78,20 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
 
   postPayment() {
     console.log("Material Usage: ", this.MaterialUsage)
-    this.Body_Paid_MU = this.MaterialUsage.map(mu => ({
-      treatment_course_id: this.TreatmentCourse.tc_treatment_course_id,
-      material_usage_id: mu.mu_material_usage_id,
-      total_paid: mu.tempPaidAmount || 0
-    }));
+    this.MaterialUsage.forEach((item:any) => {
+      if (item.tempPaidAmount !=0 && item.tempPaidAmount != null && item.tempPaidAmount != undefined) {
+        this.Body_Paid_MU.push({
+          treatment_course_id: this.TreatmentCourse.tc_treatment_course_id,
+          material_usage_id: item.mu_material_usage_id,
+          total_paid: item.tempPaidAmount
+        });
+      }
+    })
+    // this.Body_Paid_MU = this.MaterialUsage.map(mu => ({
+    //   treatment_course_id: this.TreatmentCourse.tc_treatment_course_id,
+    //   material_usage_id: mu.mu_material_usage_id,
+    //   total_paid: mu.tempPaidAmount || 0
+    // }));
     console.log("Body_Paid_Mu: ", this.Body_Paid_MU);
     this.receipt = {
       patient_id : this.Patient.p_patient_id,

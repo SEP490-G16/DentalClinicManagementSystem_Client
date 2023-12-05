@@ -22,7 +22,11 @@ import { CognitoService } from 'src/app/service/cognito.service';
 import { TimeKeepingService } from 'src/app/service/Follow-TimeKeepingService/time-keeping.service';
 import { ConvertJson } from 'src/app/service/Lib/ConvertJson';
 import { IsThisSecondPipe } from 'ngx-date-fns';
+
+import { SendMessageSocket } from 'src/app/component/shared/services/SendMessageSocket.service';
+
 import { Normalize } from 'src/app/service/Lib/Normalize';
+
 
 @Component({
   selector: 'app-popup-add-appointment',
@@ -122,7 +126,8 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     private calendar: NgbCalendar,
     private cognito: CognitoService,
     private timeKeepingService: TimeKeepingService,
-    private medicaoProcedureGroupService: MedicalProcedureGroupService
+    private medicaoProcedureGroupService: MedicalProcedureGroupService,
+    private sendMessageSocket: SendMessageSocket
   ) {
     this.isDisabled = (
       date: NgbDateStruct
@@ -217,21 +222,34 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     this.startDate = currentDateGMT7;
     this.startDateTimestamp = this.dateToTimestamp(currentDateGMT7);
     this.endDateTimestamp = this.dateToTimestamp(this.endDate);
-    this.getListAppountment();
+    //this.getListAppountment();
   }
 
   getListAppountment() {
-    this.startDateTimestamp = this.dateToTimestamp(this.startDate);
-    this.APPOINTMENT_SERVICE.getAppointmentList(this.startDateTimestamp, this.endDateTimestamp).subscribe(data => {
-      this.appointmentList = ConvertJson.processApiResponse(data);
+    const storeList = localStorage.getItem('ListAppointment');
+    if (storeList != null) {
+      this.appointmentList = JSON.parse(storeList);
       this.ListAppointments = this.appointmentList.filter(app => app.date === this.startDateTimestamp);
-      this.ListAppointments.forEach((a: any) => {
-        this.dateEpoch = this.timestampToDate(a.date);
-        a.appointments.forEach((b: any) => {
-          b.details = b.details.sort((a: any, b: any) => a.time - b.time);
+        this.ListAppointments.forEach((a: any) => {
+          this.dateEpoch = this.timestampToDate(a.date);
+          a.appointments.forEach((b: any) => {
+            b.details = b.details.sort((a: any, b: any) => a.time - b.time);
+          })
+        })
+    } else {
+      this.startDateTimestamp = this.dateToTimestamp(this.startDate);
+      this.APPOINTMENT_SERVICE.getAppointmentList(this.startDateTimestamp, this.endDateTimestamp).subscribe(data => {
+        this.appointmentList = ConvertJson.processApiResponse(data);
+        localStorage.setItem("ListAppointment", JSON.stringify(this.appointmentList))
+        this.ListAppointments = this.appointmentList.filter(app => app.date === this.startDateTimestamp);
+        this.ListAppointments.forEach((a: any) => {
+          this.dateEpoch = this.timestampToDate(a.date);
+          a.appointments.forEach((b: any) => {
+            b.details = b.details.sort((a: any, b: any) => a.time - b.time);
+          })
         })
       })
-    })
+    }
   }
 
   getListGroupService() {
@@ -522,7 +540,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
       this.AppointmentBody.appointment.patient_created_date = "1";
       this.checkNewPatent = false;
     } else {
-      const storeLi = localStorage.getItem('listSearchPateint');
+      const storeLi = localStorage.getItem('listSearchPatient');
       var ListPatientStore = [];
       if (storeLi != null) {
         ListPatientStore = JSON.parse(storeLi);
@@ -539,11 +557,13 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
         })
       }
     }
-
     this.APPOINTMENT_SERVICE.postAppointment(this.AppointmentBody).subscribe(
       (response) => {
         this.loading = false;
         console.log('Lịch hẹn đã được tạo:', response);
+        if (selectedDate == this.startDate) {
+          this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'app');
+        }
         this.showSuccessToast('Lịch hẹn đã được tạo thành công!');
 
         const newDetail: any = {

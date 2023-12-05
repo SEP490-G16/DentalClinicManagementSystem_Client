@@ -65,7 +65,7 @@
                 <button class="btn btn-primary p-1 m-r-3" style="padding: 2px 3px; margin-right: 3px" title="Sửa"
                   data-bs-toggle="modal" data-bs-target="#editReportExpenditureModal" (click)="openEditBill(bill)">
                   <i class="bi bi-pencil-square"></i></button>
-                <button class="btn btn-danger p-1" title="Xoá" style="padding: 2px 5px" (click)="deleteBill(bill.epoch,bill.createDate)"> <i
+                <button class="btn btn-danger p-1" title="Xoá" style="padding: 2px 5px" (click)="deleteBill(bill.epoch, bill.createDate, bill.id)"> <i
                     class="bi bi-trash"></i></button>
               </td>
             </tr>
@@ -83,4 +83,4 @@
   </div>
 </div>
 <app-popup-add-report-expenditure></app-popup-add-report-expenditure>
-<app-popup-edit-revenue [billEdit]="billEdit"></app-popup-edit-revenue>
+<app-popup-edit-revenue [billEdit]="billEdit" [listFilterDate] = "listFilterDate"></app-popup-edit-revenue>
