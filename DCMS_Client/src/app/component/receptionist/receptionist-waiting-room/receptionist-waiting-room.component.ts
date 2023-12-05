@@ -13,6 +13,8 @@ import * as moment from 'moment';
 import { ReceptionistAppointmentService } from 'src/app/service/ReceptionistService/receptionist-appointment.service';
 import { WebsocketService } from "../../../service/Chat/websocket.service";
 import { NullValidationHandler } from 'angular-oauth2-oidc';
+import { DataService } from '../../shared/services/DataService.service';
+import { SendMessageSocket } from '../../shared/services/SendMessageSocket.service';
 
 @Component({
   selector: 'app-receptionist-waiting-room',
@@ -41,7 +43,9 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
     private cognitoService: CognitoService,
     private router: Router,
     private toastr: ToastrService, private webSocketService: WebsocketService,
-    private medicaoProcedureGroupService: MedicalProcedureGroupService
+    private medicaoProcedureGroupService: MedicalProcedureGroupService,
+    private dataService: DataService,
+    private sendMessageSocket: SendMessageSocket
   ) {
 
     this.PUT_WAITINGROOM = {
@@ -93,6 +97,8 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           console.log("Test role: ", this.roleId.includes('2'));
         }
         this.waitingRoomService.updateData(this.CheckRealTimeWaiting);
+        this.dataService.UpdateWaitingRoomTotal(3, this.CheckRealTimeWaiting.length);
+
       },
       (error) => {
         this.loading = false;
@@ -155,6 +161,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           this.loading = false;
           this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
           this.showSuccessToast('Xóa hàng chờ thành công');
+          this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "minus", "wtr");
           this.getWaitingRoomData();
 
           this.messageContent = `CheckRealTimeWaitingRoom@@@,${wtr.patient_id},${Number('4')}`;

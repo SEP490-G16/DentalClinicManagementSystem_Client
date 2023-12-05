@@ -10,7 +10,11 @@ import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureSe
 import { add } from 'date-fns';
 import { ResponseHandler } from 'src/app/component/utils/libs/ResponseHandler';
 import { WebsocketService } from 'src/app/service/Chat/websocket.service';
+import { DataService } from 'src/app/component/shared/services/DataService.service';
+import { SendMessageSocket } from 'src/app/component/shared/services/SendMessageSocket.service';
+
 import { Normalize } from 'src/app/service/Lib/Normalize';
+
 @Component({
   selector: 'app-add-waiting-room',
   templateUrl: './add-waiting-room.component.html',
@@ -58,7 +62,9 @@ export class AddWaitingRoomComponent implements OnInit {
     private renderer: Renderer2,
     private toastr: ToastrService,
     private router: Router,private webSocketService: WebsocketService,
-    private medicaoProcedureGroupService: MedicalProcedureGroupService
+    private medicaoProcedureGroupService: MedicalProcedureGroupService,
+    private dataService: DataService,
+    private sendMessageSocket: SendMessageSocket
   ) {
 
     this.POST_WAITTINGROOM = {
@@ -82,6 +88,13 @@ export class AddWaitingRoomComponent implements OnInit {
     status: '',
     reason: ''
   }
+
+  analyses = {
+    total_appointment: 0,
+    total_waiting_room: 0,
+    total_patient: 0
+  }
+
   listGroupService: any[] = [];
   isSubmitted: boolean = false;
   ngOnInit(): void {
@@ -94,6 +107,10 @@ export class AddWaitingRoomComponent implements OnInit {
       const dataOfLocale = JSON.parse(patientData);
       this.name_suggest = dataOfLocale.patient_name;
     }
+
+    this.dataService.dataAn$.subscribe((data) => {
+      this.analyses = data; 
+    })
   }
   onProcedureChange(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
@@ -185,6 +202,7 @@ export class AddWaitingRoomComponent implements OnInit {
     + this.POST_WAITTINGROOM.status + ' - ' + this.POST_WAITTINGROOM.appointment_id + ' - ' + this.POST_WAITTINGROOM.appointment_epoch + ' - ' + this.POST_WAITTINGROOM.patient_created_date;
     this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
       .subscribe((data) => {
+        this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'wtr');
         this.showSuccessToast("Thêm phòng chờ thành công!!");
         let ref = document.getElementById('cancel-add-waiting');
           ref?.click();
@@ -200,8 +218,8 @@ export class AddWaitingRoomComponent implements OnInit {
             };
             console.log(this.messageBody);
             this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
-          }
 
+          }
       },
         (err) => {
           this.showErrorToast('Lỗi khi thêm phòng chờ');

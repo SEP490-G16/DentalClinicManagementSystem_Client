@@ -22,7 +22,11 @@ import { CognitoService } from 'src/app/service/cognito.service';
 import { TimeKeepingService } from 'src/app/service/Follow-TimeKeepingService/time-keeping.service';
 import { ConvertJson } from 'src/app/service/Lib/ConvertJson';
 import { IsThisSecondPipe } from 'ngx-date-fns';
+
+import { SendMessageSocket } from 'src/app/component/shared/services/SendMessageSocket.service';
+
 import { Normalize } from 'src/app/service/Lib/Normalize';
+
 
 @Component({
   selector: 'app-popup-add-appointment',
@@ -121,7 +125,8 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     private calendar: NgbCalendar,
     private cognito: CognitoService,
     private timeKeepingService: TimeKeepingService,
-    private medicaoProcedureGroupService: MedicalProcedureGroupService
+    private medicaoProcedureGroupService: MedicalProcedureGroupService,
+    private sendMessageSocket: SendMessageSocket
   ) {
     this.isDisabled = (
       date: NgbDateStruct
@@ -538,11 +543,13 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
         })
       }
     }
-
     this.APPOINTMENT_SERVICE.postAppointment(this.AppointmentBody).subscribe(
       (response) => {
         this.loading = false;
         console.log('Lịch hẹn đã được tạo:', response);
+        if (selectedDate == this.startDate) {
+          this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'app');
+        }
         this.showSuccessToast('Lịch hẹn đã được tạo thành công!');
         this.procedure = '';
         this.appointmentTime = '';
