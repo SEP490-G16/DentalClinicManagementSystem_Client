@@ -121,10 +121,14 @@ export class ChatComponent implements OnInit, OnDestroy {
         //this.webSocketService.closeConnection();
       } else if (check[0] == 'UpdateAnalysesTotal@@@') {
         if (check[1] == 'plus') {
+          console.log(check[2]);
+          console.log(check[2] == 'pat');
           if (check[2] == 'wtr') {
             this.dataService.UpdateWaitingRoomTotal(1, 0);
           } else if (check[2] == 'app') {
             this.dataService.UpdateAppointmentTotal(1, 0);
+          } else if (check[2] == 'pat') {
+            this.dataService.UpdatePatientTotal(1, 0);
           }
         }
         else if (check[1] == 'minus') {
@@ -132,6 +136,8 @@ export class ChatComponent implements OnInit, OnDestroy {
             this.dataService.UpdateWaitingRoomTotal(0, 0);
           } else if (check[2] == 'app') {
             this.dataService.UpdateAppointmentTotal(0, 0);
+          } else if (check[2] == 'pat') {
+            this.dataService.UpdatePatientTotal(0, 0);
           }
         }
       } else {

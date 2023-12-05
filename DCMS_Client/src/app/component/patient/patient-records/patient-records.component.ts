@@ -11,6 +11,7 @@ import { ResponseHandler } from '../../utils/libs/ResponseHandler';
 import { PopupDeletePatientComponent } from '../../utils/pop-up/patient/popup-delete-patient/popup-delete-patient.component';
 import { ConfirmDeleteModalComponent } from '../../utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component';
 import { Normalize } from 'src/app/service/Lib/Normalize';
+import { SendMessageSocket } from '../../shared/services/SendMessageSocket.service';
 @Component({
   selector: 'app-patient-records',
   templateUrl: './patient-records.component.html',
@@ -32,7 +33,8 @@ export class PatientRecordsComponent implements OnInit {
     private toastr: ToastrService,
     private router: Router,
     private cognitoService: CognitoService,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal,
+    private sendMessageSocket: SendMessageSocket) { }
   @ViewChild(PopupDeletePatientComponent) popupDeletePatientComponent!: PopupDeletePatientComponent;
   ngOnInit(): void {
     this.loadPage(this.pagingSearch.paging);
@@ -151,6 +153,7 @@ export class PatientRecordsComponent implements OnInit {
             this.toastr.success("Xóa bệnh nhân thành công");
             this.searchPatientsList.splice(index, 1);
           }
+          this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'minus', 'pat');
         })
       }
     });
