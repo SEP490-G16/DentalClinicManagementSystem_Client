@@ -5,6 +5,13 @@ import {ResponseHandler} from "../../../libs/ResponseHandler";
 import { MaterialUsageService } from 'src/app/service/MaterialUsage/MaterialUsageService.component';
 import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureService/medical-procedure-group.service';
 import { error } from '@angular/compiler-cli/src/transformers/util';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { PopupGenMedicalPdfComponent } from '../popup-add-examination/popup-gen-medical-pdf/popup-gen-medical-pdf.component';
+import { PatientService } from 'src/app/service/PatientService/patient.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MaterialService } from 'src/app/service/MaterialService/material.service';
+import { LaboService } from 'src/app/service/LaboService/Labo.service';
+import { MedicalSupplyService } from 'src/app/service/MedicalSupplyService/medical-supply.service';
 
 @Component({
   selector: 'app-popup-edit-treatmentcourse',
@@ -15,12 +22,20 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
   @Input() TreatmentCourse: any;
 
   Post_Procedure_Material_Usage: any[] = []
+  Patient_Id: any;
   showDropDown:boolean = false;
+  Labos: any[] = [];
   constructor(
     private treatmentCourseService:TreatmentCourseService,
     private toastr: ToastrService,
     private materialUsageService: MaterialUsageService,
     private medicalProcedureGroupService: MedicalProcedureGroupService,
+    private modelService:NgbModal,
+    private patientService: PatientService,
+    private route: ActivatedRoute,
+    private materialService: MaterialService,
+    private LaboService: LaboService,
+    private medicalSupplyService: MedicalSupplyService
   ) {
     this.Edit_TreatmentCourse = {
       treatment_course_id: "",
@@ -37,7 +52,11 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
 
   Edit_TreatmentCourse: any;
   ngOnInit(): void {
+    this.Patient_Id = this.route.snapshot.params['id'];
     this.getMedicalProcedureList();
+    this.getMaterialList();
+    this.getLabo();
+    this.getPatient();
   }
 
   groupProcedureO = {
@@ -50,6 +69,21 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
   list: any[] = [];
   ProcedureGroupList:any[] = []
   UniqueList: any[] =[]
+
+  getLabo() {
+    const labo = localStorage.getItem('ListLabo');
+    if (labo != null) {
+      this.Labos = JSON.parse(labo);
+    } else {
+      this.LaboService.getLabos()
+        .subscribe((res) => {
+          this.Labos = res.data;
+          localStorage.setItem("ListLabo", JSON.stringify(this.Labos))
+        })
+    }
+  }
+
+
 
   getMedicalProcedureList() {
     this.list.splice(0, this.list.length)
@@ -160,8 +194,26 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
             })
           })
         }
+
+        if (item.material_warehouse_id != null) {
+          this.unique.push(item.material_warehouse_id);
+          this.results.forEach((it: any) => {
+            if (it.material_warehouse_id == item.item.material_warehouse_id) {
+              this.listMaterialUsage.push({
+                material_warehouse_id: item.material_warehouse_id,
+                treatment_course_id: item.treatment_course_id,
+                examination_id: '',
+                quantity: item.quantity,
+                price: '',
+                total_paid: '',
+                description: it.materialName,
+              })
+            }
+          })
+        }
       })
     })
+    
   }
 
   isExpand:boolean = false;
@@ -245,10 +297,207 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
         window.location.reload();
     },
     (error) => {
-      //this.toastr.error(err.error.message, "Sửa Lịch trình điều trị thất bại");
       ResponseHandler.HANDLE_HTTP_STATUS(this.treatmentCourseService.apiUrl+"/treatment-course/"+this.TreatmentCourse.treatment_course_id, error);
     }
     )
+  }
+
+  selectMedicine: string = '0';
+  showPrescriptionContent: boolean = false;
+  recordsMedicine: any[] = [];
+  listSample = [
+    {
+      "Id": "1",
+      "Medical": [
+        {
+          "MedicalName": "Augmentin 1g",
+          "Quantity": "1",
+          "Unit": "Viên(Glaxo Smith)",
+          "Dosage": "Ngày uống 1 viên sau ăn",
+          "Note": ""
+        },
+        {
+          "MedicalName": "Metronidazol 250mg",
+          "Quantity": "1",
+          "Unit": "Viên",
+          "Dosage": "Ngày uống 4 viên chia 2 lần sau ăn",
+          "Note": ""
+        },
+        {
+          "MedicalName": "Medrol 16mg",
+          "Quantity": "1",
+          "Unit": "Viên",
+          "Dosage": "Ngày uống 1 viên sau ăn",
+          "Note": ""
+        },
+        {
+          "MedicalName": "Efferalgan codein 500mg",
+          "Quantity": "1",
+          "Unit": "Viên",
+          "Dosage": "Uống khi đau mỗi lần 1 viên sau ăn no.Nếu đau sau 6-8 tiếng sau uống 1 viên tiếp. Pha 1 viên vào 200 ml nước lọc",
+          "Note": ""
+
+        }
+      ]
+    },
+    {
+      "Id": "2",
+      "Medical": [
+        {
+          "MedicalName": "Augmentin 1g",
+          "Quantity": "1",
+          "Unit": "Viên(Glaxo Smith)",
+          "Dosage": "Ngày uống 1 viên sau ăn",
+          "Note": ""
+        },
+        {
+          "MedicalName": "Efferalgan codein 500mg",
+          "Quantity": "1",
+          "Unit": "Viên",
+          "Dosage": "Uống khi đau mỗi lần 1 viên sau ăn no.Nếu đau sau 6-8 tiếng sau uống 1 viên tiếp. Pha 1 viên vào 200 ml nước lọc",
+          "Note": ""
+
+        }
+      ]
+    }
+  ]
+  onMedicineChange() {
+    this.recordsMedicine.splice(0, this.recordsMedicine.length);
+    this.showPrescriptionContent = this.selectMedicine !== '0';
+    this.listSample.forEach((item: any) => {
+      if (item.Id == this.selectMedicine) {
+        item.Medical.forEach((it: any) => {
+          this.recordsMedicine.push({
+            id: item.Id,
+            ten: it.MedicalName,
+            soLuong: it.Quantity,
+            donvi: it.Unit,
+            lieuDung: it.Dosage,
+            ghiChu: it.Note
+          })
+        })
+      }
+    })
+
+  }
+  isAddMedicine: boolean = true;
+  toggleAddMedicine() {
+    if (this.isAddMedicine) {
+      this.recordsMedicine.push({
+        id: this.selectMedicine,
+        ten:'',
+        soLuong:'',
+        donvi: '',
+        lieuDung:'',
+        ghiChu:''
+      })
+    }
+  }
+
+  toggleUpdateMedicine() {
+    this.isAddMedicine = !this.isAddMedicine;
+  }
+
+  deleteRecordMedicine(index: any) {
+    //this.isAddMedicine = false;
+    this.recordsMedicine.splice(index, 1);
+  }
+  modalOption: NgbModalOptions = {
+    size: 'lg',
+    centered: true
+  }
+  
+  Patient: any;
+  getPatient() {
+    this.patientService.getPatientById(this.Patient_Id)
+    .subscribe((res)=> {
+        this.Patient = res;
+    },
+    (err) => {
+      this.toastr.error(err.error.message, "Lỗi khi lấy thông tin bệnh nhân")
+    }
+    )
+  }
+
+  openGeneratePdfModal() {
+    const modalRef = this.modelService.open(PopupGenMedicalPdfComponent, this.modalOption);
+    modalRef.componentInstance.Disagnosis = this.Edit_TreatmentCourse.chuandoan;
+    modalRef.componentInstance.Medical = this.recordsMedicine;
+    modalRef.componentInstance.Patient = this.Patient;
+  }
+
+  showDropDown1:boolean=false;
+  materialList: any = [];
+  uniqueList: string[] = [];
+  results: any[] = [];
+  material_warehouse_id: any;
+  wareHouseMaterial = {
+    material_warehouse_id: '',
+    materialId: '',
+    materialName: '',
+    quantity: 0,
+    unitPrice: 0,
+  }
+  getMaterialList() {
+    this.materialService.getMaterials(1).subscribe(data => {
+      this.materialList = [];
+      this.materialList = data.data;
+      if (this.materialList) {
+        if (this.materialList.length >= 1) {
+          for (let i = 0; i < this.materialList.length - 1; i++) {
+            const currentNumber = this.materialList[i];
+            if (!this.uniqueList.includes(currentNumber.m_material_id)) {
+              this.uniqueList.push(currentNumber.m_material_id);
+              this.wareHouseMaterial.material_warehouse_id = currentNumber.mw_material_warehouse_id,
+              this.wareHouseMaterial.materialId = currentNumber.m_material_id,
+              this.wareHouseMaterial.materialName = currentNumber.m_material_name,
+              this.wareHouseMaterial.quantity = currentNumber.mw_quantity_import,
+              this.wareHouseMaterial.unitPrice = currentNumber.mw_price,
+              this.results.push(this.wareHouseMaterial);
+              this.wareHouseMaterial = {
+                material_warehouse_id: '',
+                materialId: '',
+                materialName: '',
+                quantity: 1,
+                unitPrice: 0,
+              }
+            }
+          }
+        }
+      }
+    })
+  }
+
+  materialName: any;
+  listMaterialUsage:any[] = [];
+  unique: string[] = [];
+  updateTemporaryNameMaterial() {
+    this.results.forEach((item:any) => {
+      if (item.material_warehouse_id == this.material_warehouse_id && !this.unique.includes(this.material_warehouse_id)) {
+        this.unique.push(item.material_warehouse_id);
+        this.listMaterialUsage.push({
+          material_warehouse_id: item.material_warehouse_id,
+          treatment_course_id: '',
+          examination_id: '',
+          quantity: '1',
+          price: '',
+          total_paid: '',
+          description: item.materialName,
+        });
+      }
+     })
+  }
+
+  deleteMaterialUsage(id:any) {
+    const index = this.listMaterialUsage.findIndex((item:any) => item.material_warehouse_id == id);
+    const index2 = this.unique.findIndex((item:any) => item === id);
+    if (index != -1) {
+      this.listMaterialUsage.splice(index, 1);
+    }
+
+    if (index2 != -1) {
+      this.unique.splice(index2, 1);
+    }
   }
 
 }
