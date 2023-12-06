@@ -1,15 +1,15 @@
+<!-- patient-records.component.html -->
+
 <div class="recent-orders sep-recent-orders">
   <section class="table__header row">
     <div class="col-4">
       <button class="btn button-addPatient" data-bs-toggle="modal" data-bs-target="#myBNModal"><i
-          class="bi bi-plus-circle"></i> Thêm
-        bệnh nhân</button>
+          class="bi bi-plus-circle"></i> Thêm bệnh nhân</button>
     </div>
     <div class="input-group col-7">
-      <input type="search search-custom" [(ngModel)]="search" (input)="searchPatient()" placeholder="Tìm kiếm theo tên, ngày tạo theo Ngày/Tháng/Năm">
+      <input type="search" class="search-custom" [(ngModel)]="search" (input)="searchPatient()"
+        placeholder="Tìm kiếm theo tên, ngày tạo theo Ngày/Tháng/Năm">
     </div>
-    <!--    <div class="export__file">-->
-    <!--    </div>-->
   </section>
   <div class="table-container">
     <table>
@@ -24,12 +24,23 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="hover-patient" title="Xem thông tin bệnh nhân {{p.patient_name}}" *ngFor="let p of searchPatientsList"
-          [ngClass]="{'new-record': p.isNew,'pulse': p.isPulsing}" style="cursor: pointer;">
-
-          <!-- <ng-container (click)="detail(p.patient_id)"> -->
+        <!-- Hiển thị skeleton loader khi đang tìm kiếm -->
+        <ng-container *ngIf="isSearching; else dataRows">
+          <tr *ngFor="let p of [1, 2, 3, 4, 5]" class="skeleton-row">
+            <td class="skeleton-cell"></td>
+            <td class="skeleton-cell"></td>
+            <td class="skeleton-cell"></td>
+            <td class="skeleton-cell"></td>
+            <td class="skeleton-cell"></td>
+            <td class="skeleton-cell"></td>
+          </tr>
+        </ng-container>
+        <!-- Hiển thị dữ liệu thực tế -->
+        <ng-template #dataRows>
+          <tr class="hover-patient" *ngFor="let p of searchPatientsList"
+            [ngClass]="{'new-record': p.isNew,'pulse': p.isPulsing}" style="cursor: pointer;">
             <td (click)="detail(p.patient_id)" style="width: 100px;">
-              <!--HE153724-->{{p.patient_id}}
+              {{p.patient_id}}
             </td>
             <td (click)="detail(p.patient_id)" style="width: 300px;">
               <a style="cursor: pointer;">{{p.patient_name}}</a>
@@ -40,20 +51,23 @@
             <td (click)="detail(p.patient_id)" style="width: 250px;">
               {{p.address}}
             </td>
-          <td (click)="detail(p.patient_id)" style="width: 250px;">
-            {{p.created_date | date:"dd/MM/yyyy"}}
-          </td>
-          <!-- </ng-container> -->
-          <td style="width: 100px;">
-            <button class="btn btn-primary" title="Sửa bệnh nhân" (click)="detail(p.patient_id)" style="padding: 2px 5px; margin-right: 3px">
-              <i class="bi bi-pencil-square"></i></button>
-            <button href="#" class="btn btn-danger float-right btn-rounded" title="Xoá bệnh nhân" style="padding: 2px 5px"
-              (click)="openDeletePatient(p.patient_id, p.patient_name, $event)"><i class="bi bi-trash"></i></button>
-          </td>
-        </tr>
+            <td (click)="detail(p.patient_id)" style="width: 250px;">
+              {{p.created_date | date:"dd/MM/yyyy"}}
+            </td>
+            <td style="width: 100px;">
+              <button class="btn btn-primary" title="Sửa bệnh nhân" (click)="detail(p.patient_id)"
+                style="padding: 2px 5px; margin-right: 3px">
+                <i class="bi bi-pencil-square"></i>
+              </button>
+              <button href="#" class="btn btn-danger float-right btn-rounded" title="Xoá bệnh nhân"
+                style="padding: 2px 5px" (click)="openDeletePatient(p.patient_id, p.patient_name, $event)">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </ng-template>
       </tbody>
     </table>
-
   </div>
   <div class="sep-pagination">
     <a (click)="currentPage > 1 ? pageChanged(currentPage - 1) : null" [class.disabled]="currentPage <= 1"
@@ -63,6 +77,3 @@
       style="color: black" title="Trang sau">&raquo;</a>
   </div>
 </div>
-<!-- End of Recent Orders -->
-<app-popup-add-patient [searchPatientsList]="searchPatientsList"></app-popup-add-patient>
-<app-popup-delete-patient [id]="id" [patientList]="searchPatientsList"></app-popup-delete-patient>

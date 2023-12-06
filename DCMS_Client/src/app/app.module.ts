@@ -5,7 +5,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
-
 import { ReceptionistModule } from './component/receptionist/receptionist.module';
 import { SharedModule } from "./component/shared/shared.module";
 import { AdminModule } from './component/admin/admin.module';
@@ -14,7 +13,7 @@ import { NurseModule } from './component/nurse/nurse.module';
 import { PatientModule } from './component/patient/patient.module';
 import { AuthModule } from './component/auth/auth.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import * as AWS from 'aws-sdk';
 import { environment } from 'src/environments/environment';
 import { ChatComponent } from './component/chat/chat.component';
@@ -65,13 +64,14 @@ registerLocaleData(localeVi);
     DoctorModule,
     NurseModule,
     ReactiveFormsModule,
-    //PatientModule,
+    PatientModule,
     AuthModule,
     CommonModule,
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
     NgbModalModule,
+    NgxSkeletonLoaderModule,
     FlatpickrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,
