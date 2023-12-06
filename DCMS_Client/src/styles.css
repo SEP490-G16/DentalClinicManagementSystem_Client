@@ -89,7 +89,8 @@
   .sep-recent-orders {
     font-size: 16px !important;
   }
-  .sep-main{
+
+  .sep-main {
     max-width: 82vw;
   }
 }
@@ -112,7 +113,8 @@
   .sep-recent-orders {
     font-size: 22px !important;
   }
-  .sep-main{
+
+  .sep-main {
     max-width: 88vw;
   }
 }
@@ -699,6 +701,38 @@ button:hover {
   background-color: #9e92d1;
 }
 
+.sticky-thead-no-data div {
+  padding-top: 1.4rem;
+  padding-bottom: 1.4rem;
+  text-align: center;
+  color: var(--custom-color-dark-variant);
+  font-weight: bold;
+  background-color: #9e92d1;
+}
+.no-data{
+  min-height: 85%; 
+  align-items: center;
+}
+.no-data span{
+  font-weight: bold;
+  font-size: 16px;
+}
+.sticky-thead-no-data-patient div {
+  padding-top: 1.4rem;
+  padding-bottom: 1.4rem;
+  text-align: center;
+  color: var(--custom-color-dark-variant);
+  font-weight: bold;
+  background-color: #9e92d1;
+}
+.no-data-patient{
+  min-height: 55%; 
+  align-items: center;
+}
+.no-data-patient span{
+  font-weight: bold;
+  font-size: 16px;
+}
 .table-container {
   position: relative;
 }
@@ -747,14 +781,16 @@ button:hover {
   margin-top: 1% !important;
 }
 
-.button-add-content{
+.button-add-content {
   display: flex;
   justify-content: space-around;
+}
 
 .skeleton-input {
   position: relative;
   width: 100%;
-  height: 1.5rem; /* Điều chỉnh chiều cao tùy theo nhu cầu */
+  height: 1.5rem;
+  /* Điều chỉnh chiều cao tùy theo nhu cầu */
   background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
   background-size: 200% 100%;
   animation: loading 1.5s infinite;
@@ -764,19 +800,26 @@ button:hover {
   0% {
     background-position: 200% 0;
   }
+
   100% {
     background-position: -200% 0;
   }
 }
+
 .skeleton-row {
-  animation: loading 1.5s infinite; /* Thời gian và kiểu animation */
+  animation: loading 1.5s infinite;
+  /* Thời gian và kiểu animation */
 }
 
 .skeleton-cell {
-  height: 20px; /* Chiều cao của ô cụ thể */
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); /* Màu nền gradient */
-  background-size: 200% 100%; /* Điều chỉnh vị trí gradient */
-  animation: loading 1.5s infinite; /* Thời gian và kiểu animation */
+  height: 20px;
+  /* Chiều cao của ô cụ thể */
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  /* Màu nền gradient */
+  background-size: 200% 100%;
+  /* Điều chỉnh vị trí gradient */
+  animation: loading 1.5s infinite;
+  /* Thời gian và kiểu animation */
 }
 
 /* Keyframes animation */
@@ -784,6 +827,7 @@ button:hover {
   0% {
     background-position: -200% 0;
   }
+
   100% {
     background-position: 200% 0;
   }

@@ -164,8 +164,8 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     this.startDateTimestamp = this.dateToTimestamp(this.startDate + " 00:00:00");
     this.endDateTimestamp = this.dateToTimestamp(this.startDate + " 23:59:59");
     this.appointmentService.getAppointmentList(this.startDateTimestamp, this.endDateTimestamp).subscribe(data => {
-      console.log("check data appo", data);
       this.appointmentList = ConvertJson.processApiResponse(data);
+      console.log(this.appointmentList.length)
       localStorage.setItem("ListAppointment", JSON.stringify(this.appointmentList));
       this.filteredAppointments = this.appointmentList.filter(app => app.date === this.startDateTimestamp);
       this.filteredAppointments.forEach((a: any) => {
@@ -175,7 +175,6 @@ export class ReceptionistAppointmentListComponent implements OnInit {
         })
       })
       this.loading = false;
-      console.log(this.filteredAppointments);
       this.appointmentDateInvalid();
     },
       error => {
