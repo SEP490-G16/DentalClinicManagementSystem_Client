@@ -10,7 +10,7 @@
   <div class="row">
     <div class="col-md-12">
       <div class="table-container">
-        <table>
+        <table *ngIf="facilityList.length > 0;else noDataMessage">
           <thead class="sticky-thead">
           <tr>
             <th>Mã cơ sở</th>
@@ -37,6 +37,22 @@
           </tr>
           </tbody>
         </table>
+        <ng-template #noDataMessage>
+          <div class="row sticky-thead-no-data">
+            <div class="col-md-1">Mã cơ sở</div>
+            <div class="col-md-3">Cơ sở</div>
+            <div class="col-md-2">Người đại diện</div>
+            <div class="col-md-2">SĐT Phòng khám</div>
+            <div class="col-md-2">SĐT Người đại diện</div>
+            <div class="col-md-1">Địa chỉ</div>
+            <div class="col-md-1">Thao tác</div>
+          </div>
+          <div class="text-center row no-data">
+        <span>
+        Không có dữ liệu
+        </span>
+          </div>
+        </ng-template>
       </div>
     </div>
   </div>

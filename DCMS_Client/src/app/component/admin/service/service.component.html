@@ -26,7 +26,7 @@
   </section>
   <div class="row">
     <div class="col-4 table-container">
-      <table>
+      <table *ngIf="medicalProcedureGroups.length > 0;else noDataMessage">
         <thead class="sticky-thead">
           <tr>
             <th>Mã nhóm</th>
@@ -51,10 +51,22 @@
           </tr>
         </tbody>
       </table>
+      <ng-template #noDataMessage>
+        <div class="row sticky-thead-no-data">
+          <div class="col-md-3">Mã nhóm</div>
+          <div class="col-md-7">Tên nhóm thủ thuật</div>
+          <div class="col-md-2">Thao tác</div>
+        </div>
+        <div class="text-center row no-data">
+        <span>
+        Không có dữ liệu
+        </span>
+        </div>
+      </ng-template>
     </div>
     <div class="col-1"></div>
     <div class="col-7 table-container">
-      <table>
+      <table *ngIf="medicalProcedureList.length > 0; else noDataMessage1">
         <thead class="sticky-thead">
           <tr>
             <th>Mã TT</th>
@@ -82,6 +94,21 @@
           </tr>
         </tbody>
       </table>
+      <ng-template #noDataMessage1>
+        <div class="row sticky-thead-no-data">
+          <div class="col-md-1">Mã TT</div>
+          <div class="col-md-3">Tên thủ thuật</div>
+          <div class="col-md-3">Nhóm thủ thuật</div>
+          <div class="col-md-1">Đơn giá</div>
+          <div class="col-md-3">Mô tả</div>
+          <div class="col-md-1">Thao tác</div>
+        </div>
+        <div class="text-center row no-data">
+        <span>
+        Không có dữ liệu
+        </span>
+        </div>
+      </ng-template>
     </div>
   </div>
 </div>
