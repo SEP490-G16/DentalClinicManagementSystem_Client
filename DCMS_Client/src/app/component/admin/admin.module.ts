@@ -102,6 +102,8 @@ import {
 import {
   PopupAddWaitingroomNewPatientComponent
 } from "../receptionist/receptionist-waiting-room/popup-add-waitingroom-new-patient/popup-add-waitingroom-new-patient.component";
+import { MaterialManagementComponent } from './material-management/material-management.component';
+import { PopupAddMaterialManagement } from '../utils/pop-up/material/pop-up-add-material-management/popup-add-material.component';
 
 @NgModule({
   declarations: [
@@ -184,7 +186,9 @@ import {
     DetailReceiptsComponent,
     PopupExaminationDetailComponent,
     PopupAddAppointmentNewComponent,
-    PopupAddWaitingroomNewPatientComponent
+    PopupAddWaitingroomNewPatientComponent,
+    MaterialManagementComponent,
+    PopupAddMaterialManagement,
   ],
   imports: [
     CommonModule,

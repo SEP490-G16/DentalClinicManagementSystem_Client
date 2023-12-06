@@ -44,6 +44,18 @@
   padding: 10px 20px;
 }
 
+.button-timekeeping {
+  font-family: "Poppins", sans-serif;
+  background: #664FC3;
+  text-align: center;
+  cursor: pointer;
+  border: 0px solid white;
+  color: white;
+  font-weight: bold;
+  outline: 0px;
+  padding: 10px 20px;
+}
+
 .hover-patient:hover {
   background-color: #e1dfdf;
   cursor: pointer;

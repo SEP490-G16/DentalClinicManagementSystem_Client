@@ -25,6 +25,7 @@ import { ReceptionistAppointmentListComponent } from '../receptionist/receptioni
 import { ReceptionistWaitingRoomComponent } from '../receptionist/receptionist-waiting-room/receptionist-waiting-room.component';
 import { ReceptionistTimekeepingComponent } from '../receptionist/receptionist-timekeeping/receptionist-timekeeping.component';
 import { RegisterWorkScheduleComponent } from '../shared/register-work-schedule/register-work-schedule.component';
+import { MaterialManagementComponent } from './material-management/material-management.component';
 
 const adminRoutes: Routes = [
   { path: '', redirectTo: 'phong-cho', pathMatch: 'full' },
@@ -37,7 +38,8 @@ const adminRoutes: Routes = [
   { path: 'phong-cho', component: ReceptionistWaitingRoomComponent},
   {
     path: '', children: [
-      { path: 'vat-lieu', component: MaterialComponent },
+      { path: 'kho', component: MaterialComponent },
+      { path: 'vat-lieu', component: MaterialManagementComponent },
       { path: 'quan-ly-nhap', component: WarehouseImportMaterialManagementComponent },
       { path: 'quan-ly-xuat', component: WarehouseExportMaterialManagementComponent }
     ]

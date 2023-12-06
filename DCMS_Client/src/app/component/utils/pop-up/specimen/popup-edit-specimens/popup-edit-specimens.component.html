@@ -21,7 +21,7 @@
                 <div class="col-9 value-staff">
                   <input type="text" class="form-control" id="name-specimens" [(ngModel)]="IPutSpecimens.ms_name"
                     name="specimensName">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom">
                     <p>
                       {{validatePutSpecimens.name}}
                     </p>
@@ -33,7 +33,7 @@
                 <div class="col-9 value-staff">
                   <input type="text" [(ngModel)]="IPutSpecimens.ms_type" class="form-control" id="material"
                     name="material">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom">
                     <p>
                       {{validatePutSpecimens.type}}
                     </p>
@@ -43,9 +43,19 @@
               <div class="form-group row mt-3">
                 <label for="orderdate" class="col-3 name-title">Ngày đặt <span class="required">*</span></label>
                 <div class="col-9 value-staff">
-                  <input type="date" [(ngModel)]="IPutSpecimens.ms_order_date" class="form-control date-input-custom"
-                    id="orderdate" name="orderdate">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+
+                  <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="orderDateNgbModal"
+                      ngbDatepicker #orderDatepicker="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày hẹn">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary calendar" style="height: 48px;"
+                        (click)="orderDatepicker.toggle()" type="button">
+                        <i class="bi bi-calendar3"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div *ngIf="isSubmitted" class="alert-danger-custom">
                     <p>
                       {{validatePutSpecimens.orderDate}}
                     </p>
@@ -55,9 +65,17 @@
               <div class="form-group row mt-3">
                 <label for="receiverdate" class="col-3 name-title">Ngày nhận</label>
                 <div class="col-9 value-staff">
-                  <input type="date" [(ngModel)]="IPutSpecimens.ms_received_date" class="form-control date-input-custom"
-                    id="receiverdate" name="receiverdate">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                  <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="receiverDateNgbModal"
+                      ngbDatepicker #orderDatepicker="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày hẹn">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary calendar" style="height: 48px;"
+                        (click)="orderDatepicker.toggle()" type="button">
+                        <i class="bi bi-calendar3"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div *ngIf="isSubmitted" class="alert-danger-custom">
                     <p>
                       {{validatePutSpecimens.receivedDate}}
                     </p>
@@ -67,9 +85,17 @@
               <div class="form-group row mt-3">
                 <label for="installationdate" class="col-3 name-title">Ngày lắp</label>
                 <div class="col-9 value-staff">
-                  <input type="date" class="form-control date-input-custom" id="installationdate"
-                    name="installationdate" [(ngModel)]="IPutSpecimens.ms_use_date">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                  <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="usedDateNgbModal"
+                      ngbDatepicker #orderDatepicker="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày hẹn">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary calendar" style="height: 48px;"
+                        (click)="orderDatepicker.toggle()" type="button">
+                        <i class="bi bi-calendar3"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div *ngIf="isSubmitted" class="alert-danger-custom">
                     <p>
                       {{validatePutSpecimens.useDate}}
                     </p>
@@ -79,12 +105,11 @@
               <div class="form-group row mt-3">
                 <label for="patient" class="col-3 name-title">Labo <span class="required">*</span></label>
                 <select class="form-select p-2" style="margin-left: 10px; width: 71%; border: 1px solid #664FC3;
-              border-radius: 10px;" aria-label="Default select example" [(ngModel)]="IPutSpecimens.lb_id"
-                 >
-                 <option *ngFor="let labo of Labos" [value]="labo.labo_id">{{labo.name}}</option>
+              border-radius: 10px;" aria-label="Default select example" [(ngModel)]="IPutSpecimens.lb_id">
+                  <option *ngFor="let labo of Labos" [value]="labo.labo_id">{{labo.name}}</option>
                   <option value="null">Không có Labo</option>
                 </select>
-                <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                <div *ngIf="isSubmitted" class="alert-danger-custom">
                   <p>
                     {{validatePutSpecimens.labo}}
                   </p>
@@ -94,7 +119,7 @@
                 <label for="receiver" class="col-3 name-title">Người nhận:</label>
                 <div class="col-9 value-staff">
                   <input type="text" [(ngModel)]="IPutSpecimens.ms_receiver" class="form-control" id="receiver"
-                         name="receiver">
+                    name="receiver">
                 </div>
               </div>
             </div>
@@ -104,7 +129,7 @@
                 <div class="col-9 value-staff">
                   <input type="number" [(ngModel)]="IPutSpecimens.ms_quantity" class="form-control date-input-custom"
                     id="quantity" name="quantity">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom">
                     <p>
                       {{validatePutSpecimens.quantity}}
                     </p>
@@ -116,7 +141,7 @@
                 <div class="col-9 value-staff">
                   <input type="number" [(ngModel)]="IPutSpecimens.ms_unit_price" class="form-control" id="unitprice"
                     name="unitprice">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom">
                     <p>
                       {{validatePutSpecimens.unitPrice}}
                     </p>
@@ -134,7 +159,7 @@
                 <div class="col-9 value-staff">
                   <input type="text" [(ngModel)]="IPutSpecimens.ms_orderer" class="form-control" id="orderby"
                     name="orderby">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom">
                     <p>
                       {{validatePutSpecimens.order}}
                     </p>
@@ -144,11 +169,11 @@
               <div class="form-group row mt-3">
                 <label for="patient" class="col-3 name-title">Bệnh nhân <span class="required">*</span></label>
                 <div class="col-9 value-staff">
-                  <ng-select [items]="patientList" bindLabel="patientInfor" [(ngModel)]="IPutSpecimens.p_patient_id" bindValue="patientId" (keyup)="onsearch($event)"
-                             [notFoundText]="'Không tìm thấy bệnh nhân'">
+                  <ng-select [items]="patientList" bindLabel="patientInfor" [(ngModel)]="IPutSpecimens.p_patient_id"
+                    bindValue="patientId" (keyup)="onsearch($event)" [notFoundText]="'Không tìm thấy bệnh nhân'">
 
                   </ng-select>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom">
                     <p>
                       {{validatePutSpecimens.patient}}
                     </p>
@@ -158,7 +183,8 @@
               <div class="form-group row mt-3">
                 <label for="status" class="col-3 name-title">Trạng thái</label>
                 <div class="col-9 value-staff">
-                  <select class="form-select" id="status" [(ngModel)]="IPutSpecimens.ms_status" aria-label="Default select example">
+                  <select class="form-select" id="status" [(ngModel)]="IPutSpecimens.ms_status"
+                    aria-label="Default select example">
                     <option value="2">Chưa nhận</option>
                     <option value="3">Đã nhận</option>
                     <option value="4">Hàng lỗi</option>
@@ -168,8 +194,17 @@
               <div class="form-group row mt-3">
                 <label for="warranty" class="col-3 name-title">Ngày bảo hành</label>
                 <div class="col-9 value-staff">
-                  <input type="date" class="form-control date-input-custom" id="warranty"
-                         name="warranty" [(ngModel)]="IPutSpecimens.ms_warranty">
+                  <div class="input-group">
+                    <input class="form-control" placeholder="DD-MM-YYYY" name="dp" [(ngModel)]="warrantyDateNgbModal"
+                      ngbDatepicker #datepickerRef="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày hẹn">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary calendar" style="height: 48px;"
+                        (click)="datepickerRef.toggle()" type="button">
+                        <i class="bi bi-calendar3"></i>
+                      </button>
+                    </div>
+                  </div>
+
                 </div>
               </div>
             </div>

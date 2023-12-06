@@ -36,7 +36,7 @@
               <div class="form-group row mt-3">
                 <label for="dob" class="col-3">Ngày sinh <span class="required">*</span></label>
                 <div class="col-9">
-                  <input class="form-control" placeholder="DD/MM/YYYY" name="dp" [(ngModel)]="dobNgb" ngbDatepicker
+                  <input class="form-control" placeholder="dd/mm/yyyy" name="dp" [(ngModel)]="dobNgb" ngbDatepicker
                     #d="ngbDatepicker" />
                   <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
                   <div *ngIf="isSubmitted" class="alert-danger-custom">

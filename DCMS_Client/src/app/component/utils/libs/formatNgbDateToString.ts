@@ -8,4 +8,9 @@ export class FormatNgbDate {
     const pad = (number: number) => number < 10 ? `0${number}` : number;
     return `${date.year}-${pad(date.month)}-${pad(date.day)}`;
   }
+
+  static pad(number: number) {
+    return (number < 10) ? `0${number}` : number;
+  }
+
 }

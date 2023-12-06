@@ -30,7 +30,6 @@ import { SendMessageSocket } from '../../shared/services/SendMessageSocket.servi
 })
 
 export class ReceptionistAppointmentListComponent implements OnInit {
-
   loading: boolean = false;
 
   model!: NgbDateStruct;

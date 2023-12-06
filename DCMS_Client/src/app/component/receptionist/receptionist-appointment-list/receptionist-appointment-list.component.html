@@ -6,16 +6,21 @@
 
   <div class="row mt-4 mb-4">
     <div class="col-4">
-      <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myModal"
+      <button class="btn button-timekeeping" style="margin-right: 30px;" data-bs-toggle="modal" data-bs-target="#myModal"
         (click)="openAddAppointmentModal()"><i class="bi bi-plus-circle"></i>
         Thêm
-        lịch hẹn</button>
+        lịch hẹn bệnh nhân cũ</button>
+
+      <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myNewModal"
+        (click)="openAddAppointmentModal()"><i class="bi bi-plus-circle"></i>
+        Thêm
+        lịch hẹn bệnh nhân mới</button>
     </div>
     <div class="col-4">
       <form class="row row-cols-sm-auto">
         <div class="input-group">
           <input class="form-control" placeholder="DD/MM/YYYY" name="dp" [(ngModel)]="startDateNgb" ngbDatepicker
-            #d="ngbDatepicker" (ngModelChange)="getAppointmentList()"/>
+            #d="ngbDatepicker" (ngModelChange)="getAppointmentList()" />
           <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
         </div>
       </form>
@@ -42,7 +47,7 @@
           <th>Bác sĩ</th>
           <th>Thời gian hẹn khám</th>
           <th>Thao tác</th>
-          <th>Action</th>
+          <th>Chuyển hướng</th>
         </tr>
       </thead>
       <tbody>
@@ -112,4 +117,4 @@
   [dateString]="dateString" [timeString]="timeString"
   [filteredAppointments]="filteredAppointments"></app-popup-edit-appointment>
 <app-popup-add-appointment-new [datesDisabled]="datesDisabled"
-                           [filteredAppointments]="filteredAppointments"></app-popup-add-appointment-new>
+  [filteredAppointments]="filteredAppointments"></app-popup-add-appointment-new>

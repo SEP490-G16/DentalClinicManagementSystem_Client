@@ -41,6 +41,7 @@ import {
   ConfirmAddTreatmentcourseComponent
 } from "./component/utils/pop-up/common/confirm-add-treatmentcourse/confirm-add-treatmentcourse.component";
 import { PopupAddAppointmentNewComponent } from './component/utils/pop-up/appointment/popup-add-appointment-new/popup-add-appointment-new.component';
+import { PatientService } from './service/PatientService/patient.service';
 // import { AuthInterceptor } from './service/RefreshToken/auth.interceptor';
 // Register the Vietnamese locale data
 registerLocaleData(localeVi);
@@ -81,6 +82,7 @@ registerLocaleData(localeVi);
   ],
   providers: [CookieService, { provide: LOCALE_ID, useValue: 'vi' },
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
+    PatientService
     // {
     //   provide: HTTP_INTERCEPTORS,
     //   useClass: AuthInterceptor,

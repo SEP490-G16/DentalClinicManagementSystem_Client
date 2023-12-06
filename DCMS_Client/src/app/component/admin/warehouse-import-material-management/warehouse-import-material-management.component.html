@@ -1,26 +1,32 @@
 <div class="sep-recent-orders">
-<!--  <section class="table__header">-->
-<!--    <h1></h1>-->
-<!--    <div class="export__file">-->
-<!--    </div>-->
-<!--  </section>-->
+  <!--  <section class="table__header">-->
+  <!--    <h1></h1>-->
+  <!--    <div class="export__file">-->
+  <!--    </div>-->
+  <!--  </section>-->
   <div class="row custom-row">
-    <div class="col-md-2 col-xl-1">
-      <a routerLink="/vat-lieu" routerLinkActive="active-link" class="page-title">Quản lý vật liệu</a>
-    </div>
-    <div class="col-md-2 col-xl-1">
-      <a routerLink="/quan-ly-nhap" routerLinkActive="active-link" class="page-title">Quản lý nhập</a>
+    <div class="row custom-row">
+      <div class="col-md-2 col-xl-1">
+        <a routerLink="/vat-lieu" routerLinkActive="active-link" class="page-title">Quản lý vật liệu</a>
+      </div>
+      <div class="col-md-2 col-xl-1">
+        <a routerLink="/kho" routerLinkActive="active-link" class="page-title">Quản lý Kho</a>
+      </div>
+      <div class="col-md-2 col-xl-1">
+        <a routerLink="/quan-ly-nhap" routerLinkActive="active-link" class="page-title">Quản lý nhập</a>
+      </div>
     </div>
     <div class="row filter-row">
       <div class="col-md-3 col-xl-2">
         <div class="form-group form-group-filter">
           <button class="btn button-add" data-bs-toggle="modal" data-bs-target="#myModal"><i
-            class="bi bi-plus-circle"></i> Thêm mới phiếu
+              class="bi bi-plus-circle"></i> Thêm mới phiếu
           </button>
         </div>
       </div>
       <div class="col-md-3 col-xl-2" style="margin-right: 10px;">
-        <select class="form-select" aria-label="Default select example" (change)="filterByStaff()" [(ngModel)]="staffName" style="padding: 10px; border: 1px solid black;">
+        <select class="form-select" aria-label="Default select example" (change)="filterByStaff()"
+          [(ngModel)]="staffName" style="padding: 10px; border: 1px solid black;">
           <option value="" selected>Chọn người lập</option>
           <option *ngFor="let s of listStaffDisplay" value="{{s.staffName}}">{{s.staffName}}</option>
         </select>
@@ -69,11 +75,12 @@
           <td *ngIf="p.TotalAmount == null">0</td>
           <td *ngIf="p.TotalAmount != null">{{p.TotalAmount}}</td>
           <td class="text-center">
-            <button href="#" style="padding: 2px 5px;" class="btn btn-primary float-right btn-rounded" title="Sửa phiếu nhập"
-              data-bs-toggle="modal" data-bs-target="#editImportBillModal" (click)="openEditImportMaterial(p.Id, p)"><i
-                class="bi bi-pencil-square"></i></button>
-                <button href="#" style="padding: 2px 5px; margin-left: 3px" class="btn btn-danger float-right btn-rounded" title="Xoá phiếu nhập"
-                (click)="deleteImportMaterial(p.Id,p.CreateDate)"><i class="bi bi-trash"></i></button>
+            <button href="#" style="padding: 2px 5px;" class="btn btn-primary float-right btn-rounded"
+              title="Sửa phiếu nhập" data-bs-toggle="modal" data-bs-target="#editImportBillModal"
+              (click)="openEditImportMaterial(p.Id, p)"><i class="bi bi-pencil-square"></i></button>
+            <button href="#" style="padding: 2px 5px; margin-left: 3px" class="btn btn-danger float-right btn-rounded"
+              title="Xoá phiếu nhập" (click)="deleteImportMaterial(p.Id,p.CreateDate)"><i
+                class="bi bi-trash"></i></button>
           </td>
         </tr>
       </tbody>
@@ -81,14 +88,14 @@
   </div>
   <!-- Trong template HTML -->
   <div class="sep-pagination">
-<!--    <a (click)="pageChanged(currentPage - 1)" *ngIf="currentPage > 1">&laquo;</a>-->
-<!--    <a>{{currentPage}}</a>-->
-<!--    <a (click)="pageChanged(currentPage + 1)" *ngIf="hasNextPage">&raquo;</a>-->
+    <!--    <a (click)="pageChanged(currentPage - 1)" *ngIf="currentPage > 1">&laquo;</a>-->
+    <!--    <a>{{currentPage}}</a>-->
+    <!--    <a (click)="pageChanged(currentPage + 1)" *ngIf="hasNextPage">&raquo;</a>-->
     <a (click)="currentPage > 1 ? pageChanged(currentPage - 1) : null" [class.disabled]="currentPage <= 1"
-       style="color: black">&laquo;</a>
+      style="color: black">&laquo;</a>
     <a>{{currentPage}}</a>
     <a [class.disabled]="!hasNextPage" (click)="hasNextPage && pageChanged(currentPage + 1)"
-       style="color: black">&raquo;</a>
+      style="color: black">&raquo;</a>
   </div>
 </div>
 

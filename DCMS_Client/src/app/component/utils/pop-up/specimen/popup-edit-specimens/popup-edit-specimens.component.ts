@@ -4,9 +4,11 @@ import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { PutSpecimen } from 'src/app/model/ISpecimens';
 import { CognitoService } from 'src/app/service/cognito.service';
-import {ResponseHandler} from "../../../libs/ResponseHandler";
-import {PatientService} from "../../../../../service/PatientService/patient.service";
+import { ResponseHandler } from "../../../libs/ResponseHandler";
+import { PatientService } from "../../../../../service/PatientService/patient.service";
 import * as moment from 'moment';
+import { FormatNgbDate } from '../../../libs/formatNgbDateToString';
+import { NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-popup-edit-specimens',
@@ -14,11 +16,15 @@ import * as moment from 'moment';
   styleUrls: ['./popup-edit-specimens.component.css']
 })
 export class PopupEditSpecimensComponent implements OnInit {
-  @Input() Patient_Id:any
+  @Input() Patient_Id: any
   @Input() PutSpecimen: any;
   @Input() AllLabos: any;
   loading: boolean = false;
   IPutSpecimens: PutSpecimen;
+  orderDateNgbModal!:NgbDateStruct;
+  receiverDateNgbModal!:NgbDateStruct;
+  usedDateNgbModal!:NgbDateStruct;
+  warrantyDateNgbModal!:NgbDateStruct;
   Labos: any;
   id: string = "";
   status: string = "0";
@@ -27,7 +33,7 @@ export class PopupEditSpecimensComponent implements OnInit {
     private toastr: ToastrService,
     private cognitoService: CognitoService,
     private SpecimensService: SpecimensService,
-    private patientService:PatientService,
+    private patientService: PatientService,
 
     private router: Router
 
@@ -51,36 +57,36 @@ export class PopupEditSpecimensComponent implements OnInit {
       p_patient_name: ""
     } as PutSpecimen;
   }
-  putSpecimensBody ={
-    name:'',
-    type:'',
-    quantity:0,
-    unit_price:0,
-    order_date:'',
-    orderer:'',
-    received_date:'',
-    receiver:'',
-    used_date:'',
-    warranty:'',
-    description:'',
-    status:2,
-    facility_id:'F-08',
-    labo_id:'',
-    patient_id:''
+  putSpecimensBody = {
+    name: '',
+    type: '',
+    quantity: 0,
+    unit_price: 0,
+    order_date: '',
+    orderer: '',
+    received_date: '',
+    receiver: '',
+    used_date: '',
+    warranty: '',
+    description: '',
+    status: 2,
+    facility_id: 'F-08',
+    labo_id: '',
+    patient_id: ''
   }
-  validatePutSpecimens={
-    name:'',
-    type:'',
-    orderDate:'',
-    receivedDate:'',
-    useDate:'',
-    labo:'',
-    quantity:'',
-    unitPrice:'',
-    order:'',
-    patient:''
+  validatePutSpecimens = {
+    name: '',
+    type: '',
+    orderDate: '',
+    receivedDate: '',
+    useDate: '',
+    labo: '',
+    quantity: '',
+    unitPrice: '',
+    order: '',
+    patient: ''
   }
-  isSubmitted:boolean=false;
+  isSubmitted: boolean = false;
 
   ngOnInit(): void {
   }
@@ -95,12 +101,23 @@ export class PopupEditSpecimensComponent implements OnInit {
       this.IPutSpecimens.ms_orderer = this.PutSpecimen.ms_orderer;
       this.IPutSpecimens.lb_id = this.PutSpecimen.lb_id;
       this.IPutSpecimens.facility_id = 'F-08'
-      this.IPutSpecimens.ms_order_date = this.PutSpecimen.ms_order_date?.split(" ")[0];
-      this.IPutSpecimens.ms_received_date = this.PutSpecimen.ms_received_date?.split(" ")[0];
-      this.IPutSpecimens.ms_use_date = this.PutSpecimen.ms_used_date?.split(" ")[0];
-      if (this.IPutSpecimens.ms_quantity !== undefined && this.PutSpecimen.ms_unit_price !== undefined) {
-        this.total = this.PutSpecimen.ms_quantity * this.PutSpecimen.ms_unit_price;
+
+      const orderDateParts = this.PutSpecimen.ms_order_date?.split(' ')[0].split('-').map(Number);
+      const receivedDateParts = this.PutSpecimen.ms_received_date?.split(' ')[0].split('-').map(Number);
+      const usedDateParts = this.PutSpecimen.ms_used_date?.split(' ')[0].split('-').map(Number);
+
+      if (orderDateParts && orderDateParts.length === 3) {
+        this.orderDateNgbModal = { year: orderDateParts[0], month: orderDateParts[1], day: orderDateParts[2] };
       }
+
+      if (receivedDateParts && receivedDateParts.length === 3) {
+        this.receiverDateNgbModal = { year: receivedDateParts[0], month: receivedDateParts[1], day: receivedDateParts[2] };
+      }
+
+      if (usedDateParts && usedDateParts.length === 3) {
+        this.usedDateNgbModal = { year: usedDateParts[0], month: usedDateParts[1], day: usedDateParts[2] };
+      }
+      console.log("AA: ", this.PutSpecimen)
       //alert(this.PutSpecimen.p_patient_id);
       //return;
       this.getPatient(this.PutSpecimen.p_patient_id);
@@ -126,76 +143,81 @@ export class PopupEditSpecimensComponent implements OnInit {
     return dateStr;
   }
   EditSpecimen() {
+
+    const orderDate = FormatNgbDate.formatNgbDateToString(this.orderDateNgbModal);
+    const receivedDate = FormatNgbDate.formatNgbDateToString(this.receiverDateNgbModal);
+    const usedDate = FormatNgbDate.formatNgbDateToString(this.usedDateNgbModal);
+    const warranty = FormatNgbDate.formatNgbDateToString(this.warrantyDateNgbModal);
     console.log("id", this.id);
     console.log("specimens", this.IPutSpecimens);
     this.resetValidate();
-    if (!this.IPutSpecimens.ms_name){
+    if (!this.IPutSpecimens.ms_name) {
       this.validatePutSpecimens.name = 'Vui lòng nhập tên mẫu!';
       this.isSubmitted = true;
     }
-    if (!this.IPutSpecimens.ms_order_date || !this.formatDate(this.IPutSpecimens.ms_order_date)){
+    if (!orderDate || !this.formatDate(orderDate)) {
       this.validatePutSpecimens.orderDate = 'Vui lòng nhập ngày đặt!';
       this.isSubmitted = true;
     }
-    if (this.IPutSpecimens.ms_received_date && !this.formatDate(this.IPutSpecimens.ms_received_date)){
+    if (receivedDate && !this.formatDate(receivedDate)) {
       this.validatePutSpecimens.receivedDate = 'Vui lòng nhập lại ngày nhận!';
       this.isSubmitted = true;
     }
-    else if (this.IPutSpecimens.ms_received_date < this.IPutSpecimens.ms_order_date && this.formatDate(this.IPutSpecimens.ms_received_date)){
+    else if (receivedDate < orderDate && this.formatDate(receivedDate)) {
       this.validatePutSpecimens.receivedDate = 'Vui lòng chọn ngày nhận lớn hơn ngày đặt!';
       this.isSubmitted = true;
     }
-    else if (this.IPutSpecimens.ms_received_date > this.IPutSpecimens.ms_use_date && this.formatDate(this.IPutSpecimens.ms_received_date)){
+    else if (receivedDate > usedDate && this.formatDate(receivedDate)) {
       this.validatePutSpecimens.receivedDate = 'Vui lòng chọn ngày nhận nhỏ hơn ngày lắp!';
       this.isSubmitted = true;
     }
-    if (this.IPutSpecimens.ms_use_date && !this.formatDate(this.IPutSpecimens.ms_use_date)){
+    if (usedDate && !this.formatDate(usedDate)) {
       this.validatePutSpecimens.useDate = 'Vui lòng nhập lại ngày lắp!';
       this.isSubmitted = true;
     }
-    else if (this.IPutSpecimens.ms_use_date < this.IPutSpecimens.ms_order_date && this.formatDate(this.IPutSpecimens.ms_use_date)){
+    else if (usedDate < orderDate && this.formatDate(usedDate)) {
       this.validatePutSpecimens.useDate = 'Vui lòng chọn ngày lắp lớn hơn ngày đặt!';
       this.isSubmitted = true;
     }
-    else if (this.IPutSpecimens.ms_use_date < this.IPutSpecimens.ms_received_date && this.formatDate(this.IPutSpecimens.ms_use_date)){
+    else if (usedDate < receivedDate && this.formatDate(usedDate)) {
       this.validatePutSpecimens.useDate = 'Vui lòng chọn ngày lắp lớn hơn ngày nhận!';
       this.isSubmitted = true;
     }
-    if (!this.IPutSpecimens.lb_id){
+    if (!this.IPutSpecimens.lb_id) {
       this.validatePutSpecimens.labo = 'Vui lòng chọn labo!';
       this.isSubmitted = true;
     }
-    if (this.IPutSpecimens.ms_quantity && !this.checkNumber(this.IPutSpecimens.ms_quantity)){
+    if (this.IPutSpecimens.ms_quantity && !this.checkNumber(this.IPutSpecimens.ms_quantity)) {
       this.validatePutSpecimens.quantity = 'Vui lòng nhập lại số lượng!';
       this.isSubmitted = true;
     }
-    if (this.IPutSpecimens.ms_unit_price &&!this.checkNumber(this.IPutSpecimens.ms_unit_price)){
+    if (this.IPutSpecimens.ms_unit_price && !this.checkNumber(this.IPutSpecimens.ms_unit_price)) {
       this.validatePutSpecimens.unitPrice = 'Vui lòng nhập lại đơn giá!';
       this.isSubmitted = true;
     }
-    if (!this.IPutSpecimens.p_patient_id){
+    if (!this.IPutSpecimens.p_patient_id) {
       this.validatePutSpecimens.patient = 'Vui lòng nhập tên bệnh nhân!';
       this.isSubmitted = true;
     }
-    if (this.isSubmitted){
+    if (this.isSubmitted) {
       return;
     }
-    this.putSpecimensBody ={
-      name:this.IPutSpecimens.ms_name,
+    this.putSpecimensBody = {
+      name: this.IPutSpecimens.ms_name,
       type: this.IPutSpecimens.ms_type,
-      quantity:this.IPutSpecimens.ms_quantity,
+      quantity: this.IPutSpecimens.ms_quantity,
       unit_price: this.IPutSpecimens.ms_unit_price,
-      order_date: this.dateToTimestamp(this.IPutSpecimens.ms_order_date).toString(),
+      order_date: this.dateToTimestamp(orderDate).toString(),
       orderer: this.IPutSpecimens.ms_orderer,
-      received_date: this.dateToTimestamp(this.IPutSpecimens.ms_received_date).toString(),
+      received_date: this.dateToTimestamp(receivedDate).toString(),
       receiver: this.IPutSpecimens.ms_receiver,
-      used_date: this.dateToTimestamp(this.IPutSpecimens.ms_use_date).toString(),
-      warranty: this.IPutSpecimens.ms_warranty,
+      used_date: this.dateToTimestamp(usedDate).toString(),
+      warranty: warranty,
       description: this.IPutSpecimens.ms_description,
       status: this.IPutSpecimens.ms_status,
       facility_id: 'F-08',
-      labo_id:this.IPutSpecimens.lb_id,
-      patient_id:this.IPutSpecimens.p_patient_id
+      labo_id: this.IPutSpecimens.lb_id,
+      patient_id: this.IPutSpecimens.p_patient_id
     }
     this.SpecimensService.putSpecimens(this.id, this.putSpecimensBody)
       .subscribe((res) => {
@@ -209,7 +231,7 @@ export class PopupEditSpecimensComponent implements OnInit {
           this.loading = false;
           // this.showErrorToast(err.err.message)
           //this.showSuccessToast('Chỉnh sửa mẫu vật thành công!');
-          ResponseHandler.HANDLE_HTTP_STATUS(this.SpecimensService.apiUrl+"/medical-supply/"+this.id, error);
+          ResponseHandler.HANDLE_HTTP_STATUS(this.SpecimensService.apiUrl + "/medical-supply/" + this.id, error);
         }
       )
   }
@@ -226,11 +248,11 @@ export class PopupEditSpecimensComponent implements OnInit {
       timeOut: 3000, // Adjust the duration as needed
     });
   }
-  patient:any;
-  patientListShow:any[]=[];
-  getPatient(id:any){
-    if (id!==null){
-      this.patientService.getPatientById(id).subscribe((data:any)=>{
+  patient: any;
+  patientListShow: any[] = [];
+  getPatient(id: any) {
+    if (id !== null) {
+      this.patientService.getPatientById(id).subscribe((data: any) => {
         const transformedMaterial = {
           patientId: data.patient_id,
           patientName: data.patient_name,
@@ -264,7 +286,7 @@ export class PopupEditSpecimensComponent implements OnInit {
     }, 2000);
   }
 
-  closePopup(){
+  closePopup() {
     this.IPutSpecimens = {
       ms_type: "",
       ms_name: "",
@@ -284,26 +306,26 @@ export class PopupEditSpecimensComponent implements OnInit {
       p_patient_name: "",
     } as PutSpecimen;
   }
-  resetValidate(){
-    this.validatePutSpecimens={
-      name:'',
-      type:'',
-      orderDate:'',
-      receivedDate:'',
-      useDate:'',
-      labo:'',
-      quantity:'',
-      unitPrice:'',
-      order:'',
-      patient:''
+  resetValidate() {
+    this.validatePutSpecimens = {
+      name: '',
+      type: '',
+      orderDate: '',
+      receivedDate: '',
+      useDate: '',
+      labo: '',
+      quantity: '',
+      unitPrice: '',
+      order: '',
+      patient: ''
     }
     this.isSubmitted = false;
   }
-  private checkNumber(number:any):boolean{
+  private checkNumber(number: any): boolean {
     return /^[1-9]\d*$/.test(number);
   }
-  private formatDate(dateString:any):boolean{
-    return  /^\d{4}-(0[1-9]|1[0-2])-([0-2][0-9]|3[01])$/.test(dateString);
+  private formatDate(dateString: any): boolean {
+    return /^\d{4}-(0[1-9]|1[0-2])-([0-2][0-9]|3[01])$/.test(dateString);
   }
   normalizePhoneNumber(phoneNumber: string): string {
     if (phoneNumber.startsWith('(+84)')) {

@@ -1,0 +1,46 @@
+<div class="sep-recent-orders">
+  <div class="row m-3 m-3">
+    <div class="col-md-2 col-xl-1">
+      <a routerLink="/vat-lieu" routerLinkActive="active-link" class="page-title">Quản lý vật liệu</a>
+    </div>
+    <div class="col-md-2 col-xl-1">
+      <a routerLink="/kho" routerLinkActive="active-link" class="page-title">Quản lý Kho</a>
+    </div>
+    <div class="col-md-2 col-xl-1">
+      <a routerLink="/quan-ly-nhap" routerLinkActive="active-link" class="page-title">Quản lý nhập</a>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col-md-12">
+      <div>
+        <table class="table-bordered">
+          <thead class="sticky-thead">
+            <tr>
+              <th>#</th>
+              <th style="min-width: 150px">Tên vật liệu</th>
+              <th>Đơn vị</th>
+              <th>Số lượng</th>
+              <th>Đơn giá</th>
+              <th class="text-center">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let material of materials">
+              <td>{{material.material_id}}</td>
+              <td>{{material.material_name}}</td>
+              <td>{{material.unit}}</td>
+              <td></td>
+              <td>{{material.total}}</td>
+              <td>
+                <button class="btn btn-primary p-1 mr-2" title="Sửa vật liệu"><i class="bi bi-pencil-square"></i></button>
+                <button class="btn btn-danger p-1 mr-2" title="Xoá phiếu nhập"><i class="bi bi-trash"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -8,6 +8,8 @@ import { IsThisSecondPipe } from 'ngx-date-fns';
 import { ResponseHandler } from "../../../libs/ResponseHandler";
 import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/TreatmentCourse.service';
 import { ActivatedRoute } from '@angular/router';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { FormatNgbDate } from '../../../libs/formatNgbDateToString';
 
 @Component({
   selector: 'app-popup-add-specimens',
@@ -17,6 +19,9 @@ import { ActivatedRoute } from '@angular/router';
 export class PopupAddSpecimensComponent implements OnInit {
   @Input() approveSpecimensList: any;
   @Input() Patient_Id:any;
+  orderDateNgbModal!:NgbDateStruct;
+  receiverDateNgbModal!:NgbDateStruct;
+  usedDateNgbModal!:NgbDateStruct;
   validateSpecimens = {
     name: '',
     type: '',
@@ -93,11 +98,14 @@ export class PopupAddSpecimensComponent implements OnInit {
     this.specimen.orderer = sessionStorage.getItem('username') + '';
     const currentDate = new Date();
     // this.specimen.orderDate = currentDate.getFullYear().toString() + "-" + (currentDate.getMonth() + 1).toString() + "-" + currentDate.getDate().toString();
-    const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
-    const year = currentDateGMT7.split('-')[0];
-    const month = currentDateGMT7.split('-')[1];
-    const day = currentDateGMT7.split('-')[2];
-    this.specimen.orderDate = `${year}-${month}-${day}`;
+    const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh');
+
+    this.orderDateNgbModal = {
+      year: currentDateGMT7.year(),
+      month: currentDateGMT7.month() + 1,
+      day: currentDateGMT7.date()
+    };
+    this.specimen.orderDate = `${this.orderDateNgbModal.year}-${FormatNgbDate.pad(this.orderDateNgbModal.month)}-${FormatNgbDate.pad(this.orderDateNgbModal.day)}`;
      //alert(this.specimen.orderDate)
   }
 
@@ -139,37 +147,40 @@ export class PopupAddSpecimensComponent implements OnInit {
   }
   addMedicalSupply() {
 
+    const orderDate = FormatNgbDate.formatNgbDateToString(this.orderDateNgbModal);
+    const receivedDate = FormatNgbDate.formatNgbDateToString(this.receiverDateNgbModal);
+    const usedDate = FormatNgbDate.formatNgbDateToString(this.usedDateNgbModal);
     this.resetValidate();
     if (!this.specimen.name) {
       this.validateSpecimens.name = 'Vui lòng nhập tên mẫu!';
       this.isSubmitted = true;
     }
-    if (!this.specimen.orderDate || !this.formatDate(this.specimen.orderDate)) {
+    if (!orderDate || !this.formatDate(orderDate)) {
       this.validateSpecimens.orderDate = 'Vui lòng nhập nhập ngày đặt!';
       this.isSubmitted = true;
     }
-    if (this.specimen.receiverDate && !this.formatDate(this.specimen.receiverDate)) {
+    if (receivedDate && !this.formatDate(receivedDate)) {
       this.validateSpecimens.receiverDate = 'Vui lòng nhập lại ngày nhận!';
       this.isSubmitted = true;
     }
-    else if (this.specimen.receiverDate < this.specimen.orderDate && this.formatDate(this.specimen.receiverDate)){
+    else if (receivedDate < orderDate && this.formatDate(receivedDate)){
       this.validateSpecimens.receiverDate = 'Vui lòng chọn ngày nhận lớn hơn ngày đặt!';
       this.isSubmitted = true;
     }
-    else if (this.specimen.receiverDate > this.specimen.usedDate && this.formatDate(this.specimen.receiverDate)) {
+    else if (receivedDate > usedDate && this.formatDate(receivedDate)) {
       this.validateSpecimens.receiverDate = 'Vui lòng chọn ngày nhận nhỏ hơn ngày lắp!';
       this.isSubmitted = true;
     }
 
-    if (this.specimen.usedDate && !this.formatDate(this.specimen.usedDate)) {
+    if (usedDate && !this.formatDate(usedDate)) {
       this.validateSpecimens.usedDate = 'Vui lòng nhập lại ngày lắp!';
       this.isSubmitted = true;
     }
-    else if (this.specimen.usedDate < this.specimen.orderDate && this.formatDate(this.specimen.usedDate)){
+    else if (usedDate < orderDate && this.formatDate(usedDate)){
       this.validateSpecimens.usedDate = 'Vui lòng chọn ngày lắp lớn hơn ngày đặt!';
       this.isSubmitted = true;
     }
-    else if (this.specimen.usedDate < this.specimen.receiverDate && this.formatDate(this.specimen.usedDate)) {
+    else if (usedDate < receivedDate && this.formatDate(usedDate)) {
       this.validateSpecimens.usedDate = 'Vui lòng chọn ngày lắp lớn hơn ngày nhận!';
       this.isSubmitted = true;
     }
@@ -196,9 +207,9 @@ export class PopupAddSpecimensComponent implements OnInit {
       return;
     }
 
-    let orderDateTimestamp = this.dateToTimestamp(this.specimen.orderDate);
-    let receivedDateTimestamp = this.dateToTimestamp(this.specimen.receiverDate);
-    let userDateTimestamp = this.dateToTimestamp(this.specimen.usedDate);
+    let orderDateTimestamp = this.dateToTimestamp(orderDate);
+    let receivedDateTimestamp = this.dateToTimestamp(receivedDate);
+    let userDateTimestamp = this.dateToTimestamp(usedDate);
 
     const pa = this.patientIdSelected.split(" - ");
     this.specimenBody = {
