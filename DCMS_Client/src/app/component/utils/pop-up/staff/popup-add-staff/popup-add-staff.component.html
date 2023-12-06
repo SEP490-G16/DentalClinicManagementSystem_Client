@@ -24,10 +24,8 @@
               <div class="form-group row">
                 <label for="fullName" class="col-3">Họ và tên <span class="required">*</span></label>
                 <div class="col-9">
-                  <input type="text" class="form-control"
-                  [(ngModel)]="staff.name"
-                  id="fullName" name="fullName">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                  <input type="text" class="form-control" [(ngModel)]="staff.name" id="fullName" name="fullName">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom">
                     <p>
                       {{vailidateStaff.name}}
                     </p>
@@ -38,10 +36,10 @@
               <div class="form-group row mt-3">
                 <label for="dob" class="col-3">Ngày sinh <span class="required">*</span></label>
                 <div class="col-9">
-                  <input type="date"
-                  [(ngModel)]="staff.DOB"
-                  class="form-control date-input-custom" id="dob" name="dob">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                  <input class="form-control" placeholder="DD/MM/YYYY" name="dp" [(ngModel)]="dobNgb" ngbDatepicker
+                    #d="ngbDatepicker" />
+                  <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
+                  <div *ngIf="isSubmitted" class="alert-danger-custom">
                     <p>
                       {{vailidateStaff.dob}}
                     </p>
@@ -51,10 +49,8 @@
               <div class="form-group row mt-3">
                 <label for="address" class="col-3">Địa chỉ <span class="required">*</span></label>
                 <div class="col-9">
-                  <input type="text"
-                  [(ngModel)]="staff.address"
-                  class="form-control" id="address" name="address">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                  <input type="text" [(ngModel)]="staff.address" class="form-control" id="address" name="address">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom">
                     <p>
                       {{vailidateStaff.address}}
                     </p>
@@ -70,7 +66,7 @@
                     <option value="0">Chọn cơ sở</option>
                     <option *ngFor="let faci of listFacility" value="{{faci.facility_id}}">{{faci.name}}</option>
                   </select>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom">
                     <p>
                       {{vailidateStaff.facility}}
                     </p>
@@ -80,9 +76,8 @@
               <div class="form-group row mt-3">
                 <label for="note" class="col-3">Ghi chú:</label>
                 <div class="col-9">
-                  <textarea type="text"
-                  [(ngModel)]="staff.description"
-                  class="form-control" id="note" name="address"></textarea>
+                  <textarea type="text" [(ngModel)]="staff.description" class="form-control" id="note"
+                    name="address"></textarea>
                 </div>
               </div>
             </div>
@@ -95,10 +90,8 @@
                   <label for="email">Email <span class="required">*</span></label>
                 </div>
                 <div class="col-md-9">
-                  <input type="email"
-                  [(ngModel)]="staff.email"
-                  class="form-control" id="email" name="email">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                  <input type="email" [(ngModel)]="staff.email" class="form-control" id="email" name="email">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom">
                     <p>
                       {{vailidateStaff.email}}
                     </p>
@@ -117,9 +110,10 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="basic-addon1">(+84)</span>
                     </div>
-                    <input type="text" class="form-control" [(ngModel)]="staff.phone" id="phone" name="phone" aria-label="phoneNumber" aria-describedby="basic-addon1">
+                    <input type="text" class="form-control" [(ngModel)]="staff.phone" id="phone" name="phone"
+                      aria-label="phoneNumber" aria-describedby="basic-addon1">
                   </div>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom">
                     <p>
                       {{vailidateStaff.phone}}
                     </p>
@@ -133,16 +127,15 @@
                   <label for="role">Vai trò <span class="required">*</span></label>
                 </div>
                 <div class="col-md-9">
-                  <select id="role"
-                  [(ngModel)]="role" (change)="onChangeRole(role)"
-                  class="form-select" aria-label="Default select example">
+                  <select id="role" [(ngModel)]="role" (change)="onChangeRole(role)" class="form-select"
+                    aria-label="Default select example">
                     <option value="0" selected>Chức vụ</option>
                     <option value="2">Bác sĩ</option>
                     <option value="3">Lễ tân</option>
                     <option value="4">Y tá</option>
                     <option value="5">Y tá trưởng</option>
                   </select>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
                     <p>
                       {{vailidateStaff.role}}
                     </p>
@@ -150,7 +143,8 @@
                   <div *ngIf="serviceGroups.length > 0" class="checkbox-group row">
                     <label class="chuyen-nganh">Chuyên ngành</label>
                     <div class="checkbox-row col-md-4" *ngFor="let s of serviceGroups">
-                      <input type="checkbox" [value]="s.medical_procedure_group_id" (change)="onCheckboxChange(s)"   [(ngModel)]="s.checked">
+                      <input type="checkbox" [value]="s.medical_procedure_group_id" (change)="onCheckboxChange(s)"
+                        [(ngModel)]="s.checked">
                       <span class="checkbox-label"> {{ s.name }}</span>
                     </div>
                   </div>
@@ -167,7 +161,7 @@
                   <input type="radio" class="radio m-2" [(ngModel)]="gender" id="male" name="gender" value="male">
                   <label for="female">Nữ</label>
                   <input type="radio" class="radio m-2" [(ngModel)]="gender" id="female" name="gender" value="female">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom">
                     <p>
                       {{vailidateStaff.gender}}
                     </p>
@@ -184,10 +178,8 @@
               <div class="form-group row mt-3">
                 <label for="account" class="col-3 name-title">Tên đăng nhập <span class="required">*</span></label>
                 <div class="col-6">
-                  <input type="text"
-                  [(ngModel)]="staff.username"
-                  id="account" class="form-control value-staff">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                  <input type="text" [(ngModel)]="staff.username" id="account" class="form-control value-staff">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom">
                     <p>
                       {{vailidateStaff.username}}
                     </p>
@@ -198,12 +190,12 @@
                 <label for="password" class="col-3 name-title">Mật khẩu <span class="required">*</span></label>
                 <div class="col-6" style="position: relative;">
                   <div style="position: relative;">
-                    <input [type]="showPassword ? 'password' : 'text'" id="password"
-                    [(ngModel)]="staff.password"
-                    class="form-control value-staff">
-                    <span class="password-toggle-icon" (click)="togglePassword()"><i class="bi" [ngClass]="{'bi-eye-fill': showPassword, 'bi-eye-slash-fill': !showPassword}"></i></span>
+                    <input [type]="showPassword ? 'password' : 'text'" id="password" [(ngModel)]="staff.password"
+                      class="form-control value-staff">
+                    <span class="password-toggle-icon" (click)="togglePassword()"><i class="bi"
+                        [ngClass]="{'bi-eye-fill': showPassword, 'bi-eye-slash-fill': !showPassword}"></i></span>
                   </div>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom">
                     <p>
                       {{vailidateStaff.password}}
                     </p>
@@ -212,15 +204,16 @@
 
               </div>
               <div class="form-group row mt-2">
-                <label for="password-repeat" class="col-3 name-title">Nhập lại mật khẩu <span class="required">*</span></label>
+                <label for="password-repeat" class="col-3 name-title">Nhập lại mật khẩu <span
+                    class="required">*</span></label>
                 <div class="col-6" style="position: relative;">
                   <div style="position: relative;">
                     <input [type]="showPasswordRepeat ? 'password' : 'text'" id="password-repeat"
-                    class="form-control value-staff"
-                    [(ngModel)]="passwordRepeat">
-                  <span class="password-toggle-icon" (click)="togglePasswordRepeat()"><i class="bi" [ngClass]="{'bi-eye-fill': showPasswordRepeat, 'bi-eye-slash-fill': !showPasswordRepeat}"></i></span>
+                      class="form-control value-staff" [(ngModel)]="passwordRepeat">
+                    <span class="password-toggle-icon" (click)="togglePasswordRepeat()"><i class="bi"
+                        [ngClass]="{'bi-eye-fill': showPasswordRepeat, 'bi-eye-slash-fill': !showPasswordRepeat}"></i></span>
                   </div>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom">
                     <p>
                       {{vailidateStaff.passwordRepate}}
                     </p>
@@ -235,8 +228,8 @@
         <!-- Modal footer -->
         <div class="modal-footer">
           <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
-          <button type="button" class="btn button-timekeeping" (click)="addSTAFF()"><i
-            class="bi bi-plus-circle"></i> Thêm mới</button>
+          <button type="button" class="btn button-timekeeping" (click)="addSTAFF()"><i class="bi bi-plus-circle"></i>
+            Thêm mới</button>
         </div>
       </div>
     </div>

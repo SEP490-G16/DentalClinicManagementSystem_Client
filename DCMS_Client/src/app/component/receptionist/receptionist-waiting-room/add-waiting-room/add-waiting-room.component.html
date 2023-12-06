@@ -68,7 +68,13 @@
                     <div class="col-md-6">
                       <div class="form-group mb-3">
                         <label class="small mb-1" for="createdDate">Ngày sinh<span class="required">*</span></label>
-                        <input class="form-control" [(ngModel)]="patient1.dob" id="createdDate" type="date">
+                        <form class="row row-cols-sm-auto">
+                          <div class="input-group">
+                            <input class="form-control" placeholder="DD/MM/YYYY" name="dp" [(ngModel)]="dobNgb" ngbDatepicker
+                              #d="ngbDatepicker"/>
+                            <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
+                          </div>
+                        </form>
                         <div *ngIf="isSubmitted" class="alert-danger-custom">
                           <p style="color:#FF0000FF;">
                             {{validatePatient.dob}}
@@ -166,8 +172,9 @@
           </div>
         </div>
         <div class="button-conf float-end">
-          <button [disabled]="isAdd" type="button" class="btn btn-cancel" data-bs-dismiss="modal" (click)="close()" id="cancel-add-waiting">Hủy</button>
-          <button [disabled]="isAdd" type="button" class="btn button-timekeeping" (click)="onPostWaitingRoom()" >
+          <button [disabled]="isAdd" type="button" class="btn btn-cancel" data-bs-dismiss="modal" (click)="close()"
+            id="cancel-add-waiting">Hủy</button>
+          <button [disabled]="isAdd" type="button" class="btn button-timekeeping" (click)="onPostWaitingRoom()">
             <i class="bi bi-plus-circle"></i> Thêm mới hàng chờ</button>
         </div>
       </div>

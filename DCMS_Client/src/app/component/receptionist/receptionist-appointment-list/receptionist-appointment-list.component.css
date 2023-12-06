@@ -1,53 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-
-.web-wrapper {
-  --custom-color-primary: #6C9BCF;
-  --custom-color-danger: #FF0060;
-  --custom-color-success: #1B9C85;
-  --custom-color-warning: #F7D060;
-  --custom-color-white: #fff;
-  --custom-color-info-dark: #7d8da1;
-  --custom-color-dark: #363949;
-  --custom-color-light: rgba(132, 139, 200, 0.18);
-  --custom-color-dark-variant: #677483;
-  --custom-color-background: #f6f6f9;
-
-  --custom-card-border-radius: 2rem;
-  --custom-border-radius-1: 0.4rem;
-  --custom-border-radius-2: 1.2rem;
-
-  --custom-card-padding: .8rem;
-  --custom-padding-1: 1.2rem;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  outline: 0;
-  appearance: 0;
-  border: 0;
-  text-decoration: none;
-  box-sizing: border-box;
-}
-
-.table-container {
-  position: relative;
-}
-
-a {
-  text-align: center;
-  display: block;
-  margin: 1rem auto;
-  color: var(--custom-color-primary);
-}
-
-
 .input-custom {
-  width: 30%;
+  width: 100%;
+  max-width: 300px;
   padding: 10px 20px;
   border: 1px solid #664FC3;
   border-radius: 10px;
-  margin-right: 10px;
+  box-sizing: border-box;
 }
 
 .btn-redirect {
@@ -72,9 +29,7 @@ a {
   transform: translateY(2px);
 }
 
-
 .date-input-custom {
-  padding: 10px 20px;
   border: 1px solid #664FC3;
   border-radius: 10px;
 }
@@ -87,26 +42,16 @@ a {
   border: 0px solid white;
   color: white;
   font-weight: bold;
-  /*font-size: 24px;*/
   outline: 0px;
   padding: 10px 20px;
 }
 
-.list-appointment:hover {
-  cursor: pointer;
-  background-color: #d9d9d9;
-}
-
-.row-custom {
-  margin-top: 3%;
-  margin-bottom: 3%;
-}
 .hover-patient:hover {
   background-color: #e1dfdf;
   cursor: pointer;
 }
 
-.btn {
+.btn-cus {
   padding: 8px 12px;
   margin-right: 5px;
   border: none;
@@ -138,6 +83,6 @@ a {
   vertical-align: middle;
 }
 
-.btn i + span {
+.btn i+span {
   margin-left: 5px;
 }

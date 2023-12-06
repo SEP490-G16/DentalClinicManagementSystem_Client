@@ -4,6 +4,9 @@
 
 <div class="sep-recent-orders">
   <div class="custom-row">
+    <div style="margin-right: 40px;">
+      <a routerLink="/labo" class="page-title" routerLinkActive="active-link">Labo</a>
+    </div>
     <div class="mau">
       <a routerLink="/mau" class="page-title" routerLinkActive="active-link">Quản lý mẫu</a>
     </div>
@@ -33,7 +36,7 @@
         [bsConfig]="{ isAnimated: true, dateInputFormat: 'DD/MM/YYYY' }">
     </div>
     <div class="col-sm-3 col-md-2 form-group" style="padding: 0 10px">
-      <input type="text" placeholder="Ngày lắp" [(ngModel)]="SpecimensFilter.ms_used_date" #input 
+      <input type="text" placeholder="Ngày lắp" [(ngModel)]="SpecimensFilter.ms_used_date" #input
       (ngModelChange)="filterByUseDate(input.value)"
         class="form-control input-custom  p-2" bsDaterangepicker [bsConfig]="{ isAnimated: true }">
     </div>

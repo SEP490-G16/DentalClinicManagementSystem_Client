@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { CognitoService } from "../../../service/cognito.service";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { DataService } from '../services/DataService.service';
@@ -16,15 +16,16 @@ import { PatientService } from 'src/app/service/PatientService/patient.service';
 export class LayoutsComponent implements OnInit, AfterViewInit {
   userName: string = '';
   roleName: string = '';
-
-  constructor(private cognitoService: CognitoService, 
-    private router: Router, 
+  showPopup: boolean = false;
+  constructor(private cognitoService: CognitoService,
+    private router: Router,
     private activatedRoute: ActivatedRoute,
     private dataService: DataService,
+    private _eref: ElementRef,
     private waitingRoomService: ReceptionistWaitingRoomService,
-    private appointmentService: ReceptionistAppointmentService, 
-    private patientService:PatientService
-    ) { }
+    private appointmentService: ReceptionistAppointmentService,
+    private patientService: PatientService
+  ) { }
 
   ngAfterViewInit(): void {
     const menuToggle = document.querySelector('.sep-menuToggle') as HTMLElement;
@@ -82,10 +83,12 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
   }
 
   addNotification() {
-    const newNotification = { id: this.notificationCount + 1, userImage: './assets/images/avatar-mark-webber.webp',
-    message: 'Mark Webber reacted to your recent post My first tournament today!',
-    time: '1m ago',
-    unread: true, };
+    const newNotification = {
+      id: this.notificationCount + 1, userImage: './assets/images/avatar-mark-webber.webp',
+      message: 'Mark Webber reacted to your recent post My first tournament today!',
+      time: '1m ago',
+      unread: true,
+    };
     this.notifications.push(newNotification);
     this.playNotificationSound();
   }
@@ -166,13 +169,13 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
     this.getDataAnalysis();
     //console.log("check analysis", this.analyses);
     this.dataService.dataAn$.subscribe((data) => {
-      this.analyses = data; 
+      this.analyses = data;
     })
   }
 
   searchTimeout: any;
   getDataAnalysis() {
-    
+
     this.waitingRoomService.getWaitingRooms().subscribe((data) => {
       const listWatingRoom = data;
       console.log("check waiting", data.length);
@@ -182,17 +185,30 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
     this.startDate = currentDateGMT7;
 
-    this.appointmentService.getAppointmentList(this.dateToTimestamp(this.startDate + " 00:00:00"), this.dateToTimestamp(this.startDate+" 23:59:59")).subscribe((data) => {
+    this.appointmentService.getAppointmentList(this.dateToTimestamp(this.startDate + " 00:00:00"), this.dateToTimestamp(this.startDate + " 23:59:59")).subscribe((data) => {
       this.appointmentList = ConvertJson.processApiResponse(data);
       console.log("check appointment", this.appointmentList.length);
       this.analyses.total_appointment = this.appointmentList.length;
     })
-    
+
     this.patientService.getPatientTotal().subscribe((data) => {
       console.log("check patient", data.data[0].total)
       this.analyses.total_patient = data.data[0].total;
     })
   }
+
+  togglePopup(event: MouseEvent): void {
+    event.stopPropagation();
+    this.showPopup = !this.showPopup;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    if (!this._eref.nativeElement.contains(event.target) && this.showPopup) {
+      this.showPopup = false;
+    }
+  }
+
 
   signOut() {
     this.cognitoService.signOut().then(() => {

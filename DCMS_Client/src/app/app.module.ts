@@ -48,7 +48,7 @@ registerLocaleData(localeVi);
     ConfirmationModalComponent,
     ConfirmDeleteModalComponent,
     ViDateRangePipe,
-    FullDateVnPipe
+    FullDateVnPipe,
   ],
   imports: [
     FormsModule,

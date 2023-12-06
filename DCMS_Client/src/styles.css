@@ -120,6 +120,7 @@
 html,
 body {
   height: 100%;
+  margin: 0;
 }
 
 body {
@@ -558,7 +559,6 @@ table tbody td {
   height: 3.5rem;
   color: var(--custom-color-dark-variant);
 }
-
 
 .table-container {
   background-color: white;

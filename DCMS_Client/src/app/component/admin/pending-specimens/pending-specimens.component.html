@@ -2,12 +2,15 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
 <div class="sep-recent-orders">
-  <div class="row custom-row">
-    <div class="col-md-1">
-      <a routerLink="/mau" routerLinkActive="active-link" class="page-title">Quản lý mẫu</a>
+  <div class="custom-row">
+    <div class="mau">
+      <a routerLink="/labo" class="page-title" routerLinkActive="active-link">Labo</a>
     </div>
-    <div class="col-md-2">
-      <a routerLink="/mau-dang-cho" routerLinkActive="active-link" class="page-title">Mẫu đang chờ duyệt</a>
+    <div class="mau">
+      <a routerLink="/mau" class="page-title" routerLinkActive="active-link">Quản lý mẫu</a>
+    </div>
+    <div class="dang-cho-duyet">
+      <a routerLink="/mau-dang-cho" class="page-title" routerLinkActive="active-link">Mẫu đang chờ duyệt</a>
     </div>
   </div>
   <div class="row filter-row m-t-30">
@@ -127,13 +130,14 @@
           <td *ngIf="checkbox11" style="padding: 20px;">{{m.ms_orderer}}</td> <!--11-->
           <td *ngIf="checkbox12" style="padding: 20px;">{{ m.ms_quantity * m.ms_unit_price}}</td><!--12-->
           <td class="text-center" style="min-width: 150px">
-            <button href="#" class="btn btn-primary float-right btn-rounded" style="padding: 2px 5px; margin-right: 3px" title="Duyệt mẫu"
-              (click)="approveSpecimens(m.ms_id,m)"><i class="bi bi-check-circle"></i></button>
-            <button href="#" class="btn btn-primary float-right btn-rounded" style="padding: 2px 5px; margin-right: 3px" title="Sửa mẫu chờ duyệt"
-              data-bs-toggle="modal" data-bs-target="#editApproveSpecimensModal"
+            <button href="#" class="btn btn-primary float-right btn-rounded" style="padding: 2px 5px; margin-right: 3px"
+              title="Duyệt mẫu" (click)="approveSpecimens(m.ms_id,m)"><i class="bi bi-check-circle"></i></button>
+            <button href="#" class="btn btn-primary float-right btn-rounded" style="padding: 2px 5px; margin-right: 3px"
+              title="Sửa mẫu chờ duyệt" data-bs-toggle="modal" data-bs-target="#editApproveSpecimensModal"
               (click)="openEditApproveSpecimens(m.ms_id,m)"><i class="bi bi-pencil-square"></i></button>
-            <button href="#" class="btn btn-danger float-right btn-rounded" style="padding:2px 5px; " title="Xoá mẫu chờ duyệt"
-              (click)="deleteApproveSpecimens(m.ms_id,m.ms_name)"><i class="bi bi-trash"></i></button>
+            <button href="#" class="btn btn-danger float-right btn-rounded" style="padding:2px 5px; "
+              title="Xoá mẫu chờ duyệt" (click)="deleteApproveSpecimens(m.ms_id,m.ms_name)"><i
+                class="bi bi-trash"></i></button>
           </td>
         </tr>
       </tbody>

@@ -153,7 +153,7 @@ export class RevenueChartComponent implements OnInit {
       const ctx = canvas.getContext('2d');
       if (ctx) {
         // Cập nhật cấu hình biểu đồ
-         this.revenueChart = new Chart(ctx, {
+        this.revenueChart = new Chart(ctx, {
           type: 'line',
           data: {
             labels: labels, // Cập nhật labels

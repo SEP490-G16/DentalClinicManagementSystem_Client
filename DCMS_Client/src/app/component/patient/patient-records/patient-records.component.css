@@ -1,40 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-
-body {
-  height: 100%;
-  display: inline-block;
-  background-color: lightblue !important;
-}
-
-.web-wrapper {
-  --custom-color-primary: #6C9BCF;
-  --custom-color-danger: #FF0060;
-  --custom-color-success: #1B9C85;
-  --custom-color-warning: #F7D060;
-  --custom-color-white: #fff;
-  --custom-color-info-dark: #7d8da1;
-  --custom-color-dark: #363949;
-  --custom-color-light: rgba(132, 139, 200, 0.18);
-  --custom-color-dark-variant: #677483;
-  --custom-color-background: #f6f6f9;
-
-  --custom-card-border-radius: 2rem;
-  --custom-border-radius-1: 0.4rem;
-  --custom-border-radius-2: 1.2rem;
-
-  --custom-card-padding: .8rem;
-  --custom-padding-1: 1.2rem;
-
-  --custom-box-shadow: 0 2rem 3rem var(--custom-color-light);
-}
-
-a {
-  text-align: center;
-  display: block;
-  margin: 1rem auto;
-  color: var(--custom-color-primary);
-}
-
 .disabled {
   color: black;
   background-color: #d9d9d9;
@@ -43,7 +6,6 @@ a {
 .table__header {
   width: 100%;
   align-items: center;
-  margin-bottom: 1%;
 }
 
 .table__header .input-group {
@@ -69,7 +31,7 @@ a {
   outline: none;
 }
 
-.button-addPatient {
+.button-timekeeping {
   font-family: "Poppins", sans-serif;
   background: #664FC3;
   text-align: center;
@@ -88,9 +50,4 @@ a {
 
 .hover-patient:hover {
   background-color: #e1dfdf;
-}
-
-.table__header {
-  margin-top: 3%;
-  margin-bottom: 3%;
 }

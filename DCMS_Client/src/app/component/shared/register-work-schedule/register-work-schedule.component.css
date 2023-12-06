@@ -26,72 +26,121 @@
   margin-left: 2%;
 }
 
-.header-RegisterWork {
-  font-size: 1.5em;
-  color: #333;
+.schedule-container {
+  width: 100%;
+  margin: 0;
   padding: 20px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  background: #f9f9f9; /* Màu nền tổng thể */
 }
 
-.calendar-event-actions {
+.week {
   display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 10;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
-.calendar-event-action {
-  margin-left: 4px;
-}
-
-.btn-purple {
-  background-color: #6b3ba9;
-  color: #ffffff;
-  border: none;
+.day {
+  flex: 1;
+  min-width: calc(100% / 7 - 10px); /* Chia chiều rộng cho 7 ngày trong tuần */
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 5px;
   border-radius: 5px;
-  cursor: pointer;
+  background: white; /* Màu nền cho mỗi ngày */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Đổ bóng cho mỗi ngày */
+}
+
+.day-name {
+  background: #6f42c1; /* Màu tím chủ đạo cho tiêu đề ngày */
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
   text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  transition-duration: 0.4s;
+  margin-bottom: 15px;
 }
 
-.btn-purple:hover {
-  background-color: #542c7a;
-  color: #ffffff;
+.shift-container {
+  display: flex;
+  justify-content: space-between;
 }
 
-.header-calendar {
-  color: #6b3ba9;
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.header-calendar:hover {
-  text-decoration: underline;
-}
-
-.headding h3 {
+.shift {
+  width: 48%;
+  background: #e7e8fa; /* Màu nền nhẹ cho từng ca làm việc */
+  padding: 10px;
+  border-radius: 5px;
   margin-bottom: 20px;
 }
 
-.headding h3 {
+.employee-list {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+.employee {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.employee img {
+  border-radius: 50%; /* Tạo hình tròn */
+  width: 40px; /* Đặt chiều rộng cố định */
+  height: 40px; /* Đặt chiều cao cố định để tạo hình tròn hoàn hảo */
+  object-fit: cover; /* Cắt và phủ kín không gian, loại bỏ phần thừa */
+  border: 2px solid #36d1dc; /* Viền để tạo hiệu ứng nổi */
+  margin-right: 10px; /* Khoảng cách giữa ảnh và tên */
+}
+
+.name {
+  font-size: 0.85em;
+  font-weight: bold;
+  color: #333; /* Màu chữ tên */
+}
+
+.register-button {
+  width: 100%;
   padding: 10px;
-  border: 2px solid #6b3ba9;
+  margin-bottom: 10px;
+  background-color: #6f42c1; /* Màu tím chủ đạo cho nút đăng ký */
+  color: white;
+  border: none;
   border-radius: 5px;
-  background-color: #f5f5f5;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-align: center;
 }
 
-.headding h3:hover {
-  color: #ffffff;
-  background-color: #6b3ba9;
+.register-button:hover {
+  background-color: #5a30b1; /* Màu tím đậm hơn khi hover */
+  transition: background-color 0.3s ease;
 }
 
+@media (max-width: 768px) {
+  .week {
+      flex-direction: column;
+  }
+
+  .day {
+      width: 100%;
+  }
+
+  .shift-container {
+      flex-direction: column;
+  }
+
+  .shift {
+      width: 100%;
+  }
+}
+
+.day:hover {
+  background-color: #f3e8ff; /* Màu nền khi hover */
+  transition: background-color 0.3s ease;
+}
+
+.shift:hover {
+  background-color: #ded2f7; /* Màu nền khi hover */
+  transition: background-color 0.3s ease;
+}

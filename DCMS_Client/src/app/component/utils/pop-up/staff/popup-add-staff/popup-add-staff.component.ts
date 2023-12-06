@@ -9,6 +9,8 @@ import {
   MedicalProcedureGroupService
 } from "../../../../../service/MedicalProcedureService/medical-procedure-group.service";
 import { CognitoIdentityServiceProvider } from 'aws-sdk';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { FormatNgbDate } from '../../../libs/formatNgbDateToString';
 
 @Component({
   selector: 'app-popup-add-staff',
@@ -16,6 +18,7 @@ import { CognitoIdentityServiceProvider } from 'aws-sdk';
   styleUrls: ['./popup-add-staff.component.css']
 })
 export class PopupAddStaffComponent implements OnInit {
+  dobNgb!:NgbDateStruct
   imageURL: string | ArrayBuffer = 'https://icon-library.com/images/staff-icon/staff-icon-15.jpg';
   roleUserSignIn: string = '';
   showPassword: boolean = true;
@@ -73,7 +76,7 @@ export class PopupAddStaffComponent implements OnInit {
       this.vailidateStaff.name = "Vui lòng nhập tên nhân viên!";
       this.isSubmitted = true;
     }
-    if (!this.staff.DOB || !this.formatDate(this.staff.DOB)) {
+    if (!this.dobNgb || !this.dobNgb.year || !this.dobNgb.month || !this.dobNgb.day) {
       this.vailidateStaff.dob = "Vui lòng nhập ngày sinh!";
       this.isSubmitted = true;
     }
@@ -141,7 +144,7 @@ export class PopupAddStaffComponent implements OnInit {
         this.staff.zoneinfo += item + ",";
       })
     }
-    this.staff.DOB = this.dateToTimestamp(this.staff.DOB).toString();
+    this.staff.DOB = this.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.dobNgb)).toString();
     this.staff.locale = this.facility;
     this.staff.status = "1";
     if (this.isSubmitted) {

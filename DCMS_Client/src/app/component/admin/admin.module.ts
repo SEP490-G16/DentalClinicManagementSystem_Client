@@ -4,7 +4,7 @@ import { RouterModule } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../shared/shared.module';
 import { AdminComponent } from './admin.component';
 import { FacilityComponent } from './facility/facility.component';
@@ -95,6 +95,7 @@ import {DetailReceiptsComponent} from "../patient/patient-records/receipts/detai
 import {
   PopupExaminationDetailComponent
 } from "../patient/patient-records/patient-payment-tab/popup-examination-detail/popup-examination-detail.component";
+import { NgbDateCustomParserFormatter } from '../utils/libs/datepickerfOrmat';
 
 @NgModule({
   declarations: [
@@ -202,7 +203,8 @@ import {
     BsDatepickerModule,
   ],
   providers: [
-    DatePipe, 
+    DatePipe,
+    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
   ],
   exports: [
     PopupAddApproveSpecimensComponent,

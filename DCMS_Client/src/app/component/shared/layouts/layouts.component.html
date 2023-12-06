@@ -11,8 +11,8 @@
           <div class="logo">
             <img
               src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
-            <p><span class="danger"><span class="nguyen">Nguyen</span><span class="tran"> Tran</span></span><span
-                class="clinic"> Clinic</span></p>
+            <p><span
+                class="clinic">Nha Khoa </span><span class="danger"><span class="nguyen">Nguyễn</span><span class="tran"> Trần</span></span></p>
           </div>
         </div>
         <ul>
@@ -76,21 +76,21 @@
               <span class="text">Nhân viên</span>
             </a>
           </li>
-          <li class="list" routerLink="/labo" *ngIf="roleId.includes('1')" routerLinkActive="active">
+          <!-- <li class="list" routerLink="/labo" *ngIf="roleId.includes('1')" routerLinkActive="active">
             <a style="--clr:#664FC3">
               <span class="icon">
                 <i class="bi bi-house-door"></i>
               </span>
               <span class="text">Labo</span>
             </a>
-          </li>
-          <li class="list" routerLink="/mau" routerLinkActive="active"
+          </li> -->
+          <li class="list" routerLink="/labo" routerLinkActive="active"
             *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('5')">
             <a style="--clr:#664FC3">
               <span class="icon">
-                <i class="bi bi-file-medical"></i>
+                <i class="bi bi-house-door"></i>
               </span>
-              <span class="text">Mẫu</span>
+              <span class="text">Labo</span>
             </a>
           </li>
           <li class="list" routerLink="/vat-lieu" routerLinkActive="active"
@@ -168,10 +168,10 @@
             </div>
           </div>
         </div>
-        <div class="searches">
+        <div class="examination">
           <div class="status">
             <div class="info">
-              <h3>Bệnh nhân</h3>
+              <h3>Bệnh nhân đang khám</h3>
               <h1 class="text-center">{{analyses.total_patient}}</h1>
             </div>
             <div class="progresss">
@@ -179,7 +179,24 @@
                 <circle cx="38" cy="38" r="36"></circle>
               </svg>
               <div class="percentage">
-                <i class="bi bi-person-standing"></i>
+                <i class="bi bi-person-bounding-box"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="searches">
+          <div class="status">
+            <div class="info">
+              <h3>Bệnh nhân đã khám xong</h3>
+              <h1 class="text-center">{{analyses.total_patient}}</h1>
+            </div>
+            <div class="progresss">
+              <svg>
+                <circle cx="38" cy="38" r="36"></circle>
+              </svg>
+              <div class="percentage">
+                <i class="bi bi-person-check-fill"></i>
               </div>
             </div>
           </div>
@@ -193,44 +210,21 @@
               <option value="">Cơ sở 3</option>
             </select>
           </div>
-<!--          <div class="notification">-->
-<!--            <i class="bi bi-bell" (click)="toggleNotifications()"></i>-->
-<!--            <div class="notification-counter">{{ notifications.length }}</div>-->
-<!--            <div class="notification-dropdown" *ngIf="notificationCount > 0 && showNotifications">-->
-<!--              &lt;!&ndash; Notification items &ndash;&gt;-->
-<!--              <div class="notification-item">-->
-<!--                <div class="container">-->
-<!--                  <header>-->
-<!--                    <div class="notif_box">-->
-<!--                      <h2 class="title">Thông báo</h2>-->
-<!--                      <span id="notifes">{{ notificationCount }}</span>-->
-<!--                    </div>-->
-<!--                    <p id="mark_all" (click)="markAll()">Đánh dấu là đã đọc hết</p>-->
-<!--                  </header>-->
-<!--                  <main>-->
-<!--                    <div class="notif_card" *ngFor="let notification of notifications"-->
-<!--                      [class.unread]="notification.unread">-->
-<!--                      <img [src]="notification.userImage" alt="avatar" />-->
-<!--                      <div class="description">-->
-<!--                        <p class="user_activity" [innerHTML]="notification.message"></p>-->
-<!--                        <p class="time">{{ notification.time }}</p>-->
-<!--                      </div>-->
-<!--                      <button class="delete-notification-btn" (click)="deleteNotification(notification.id)">-->
-<!--                        X-->
-<!--                      </button>-->
-<!--                    </div>-->
-<!--                  </main>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <button (click)="addNotification()"><i class="bi bi-plus-circle"></i></button>-->
           <div class="info">
             <p>Xin chào, <b>{{userName}}</b></p>
             <small class="text-muted">{{roleName}}</small>
           </div>
-          <div class="profile-photo">
-            <img src="../../../../assets/img/person.png" routerLink="/suahoso">
+          <div class="profile-photo" (click)="togglePopup($event)">
+            <img src="../../../../assets/img/person.png" alt="Profile Photo">
+            <div class="dropdown-arrow">
+              <!-- <i class="fa fa-chevron-down" aria-hidden="true"></i> -->
+            </div>
+          </div>
+          <div class="profile-popup" *ngIf="showPopup">
+            <ul class="popup-menu">
+              <li routerLink="/suahoso">Chỉnh sửa hồ sơ</li>
+              <li (click)="signOut()">Đăng xuất</li>
+            </ul>
           </div>
         </div>
       </div>

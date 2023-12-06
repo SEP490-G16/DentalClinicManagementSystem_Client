@@ -1,21 +1,29 @@
-
 <div class="sep-recent-orders">
   <!-- <section class="table__header">
     <div class="export__file">
     </div>
   </section> -->
 
-  <div class="row row-custom">
-    <div class="col-6">
-      <button class="button button-timekeeping" data-bs-toggle="modal"
-        data-bs-target="#myModal" (click)="openAddAppointmentModal()"><i class="bi bi-plus-circle"></i>
+  <div class="row mt-4 mb-4">
+    <div class="col-4">
+      <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myModal"
+        (click)="openAddAppointmentModal()"><i class="bi bi-plus-circle"></i>
         Thêm
         lịch hẹn</button>
     </div>
-    <div class="col-6">
-      <input type="date" class="date-input-custom" [(ngModel)]="startDate" (change)="getAppointmentList()">
+    <div class="col-4">
+      <form class="row row-cols-sm-auto">
+        <div class="input-group">
+          <input class="form-control" placeholder="DD/MM/YYYY" name="dp" [(ngModel)]="startDateNgb" ngbDatepicker
+            #d="ngbDatepicker" (ngModelChange)="getAppointmentList()"/>
+          <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
+        </div>
+      </form>
+    </div>
+
+    <div class="col-4">
       <select class="form-select input-custom float-end" aria-label="Default select example"
-        [(ngModel)]="selectedProcedure" (change)="filterAppointments()" style="width: 25%;">
+        [(ngModel)]="selectedProcedure" (change)="filterAppointments()">
         <option selected value="">Tất cả loại điều trị</option>
         <option *ngFor="let a of listGroupService" value={{a.medical_procedure_group_id}}>{{a.name}}</option>
       </select>
@@ -40,7 +48,8 @@
       <tbody>
         <ng-container *ngFor="let a of filteredAppointments">
           <ng-container *ngFor="let ap of a.appointments">
-            <tr class="hover-patient" title="Xem thông tin bệnh nhân {{detail.patient_name}}" *ngFor="let detail of ap.details" (click)="details(detail.patient_id)">
+            <tr class="hover-patient" title="Xem thông tin bệnh nhân {{detail.patient_name}}"
+              *ngFor="let detail of ap.details" (click)="details(detail.patient_id)">
               <ng-container *ngIf="detail.migrated == 'false'">
                 <td class="patient-id">
                   {{detail.patient_id}}
@@ -48,7 +57,8 @@
                 <td class="patient-name">
                   {{detail.patient_name}}
                 </td>
-                <td>{{detail.patient_created_date == 1 ? "Bệnh nhân đến lần đầu tiên" : detail.patient_created_date == 2 ? "Bệnh nhân tái khám" : "Dữ liệu trước"}}</td>
+                <td>{{detail.patient_created_date == 1 ? "Bệnh nhân đến lần đầu tiên" : detail.patient_created_date
+                  == 2 ? "Bệnh nhân tái khám" : "Dữ liệu trước"}}</td>
                 <td class="patient-phone">
                   {{normalizePhoneNumber(detail.phone_number)}}
                 </td>
@@ -56,17 +66,19 @@
                   {{detail.procedure_name}}
                 </td>
                 <td class="patient-doctorname">{{ detail.doctor }}</td>
-                <td class="appointments-time">{{timestampToTime(detail.time)}} - {{timestampToDate(a.date) | date: 'dd-MM-yyyy'}}</td>
+                <td class="appointments-time">{{timestampToTime(detail.time)}} - {{timestampToDate(a.date) | date:
+                  'dd-MM-yyyy'}}</td>
                 <td class="table_button">
-                  <button class="btn btn-primary p-1 m-r-3" style="padding: 2px 3px; margin-right: 3px" title="Sửa lịch hẹn"
-                    data-bs-toggle="modal" data-bs-target="#editAppointmentModal"
+                  <button class="btn btn-primary p-1 m-r-3" style="padding: 2px 3px; margin-right: 3px"
+                    title="Sửa lịch hẹn" data-bs-toggle="modal" data-bs-target="#editAppointmentModal"
                     (click)="openEditModal(detail, a.date, $event)">
                     <i class="bi bi-pencil-square"></i></button>
                   <button class="btn btn-danger p-1" style="padding: 2px 5px" title="Xoá lịch hẹn"
                     (click)="deleteAppointment(detail, a.date, $event)"> <i class="bi bi-trash"></i></button>
                 </td>
                 <td *ngIf="detail.status == 2 && checkDate(a.date)" class="direct-click">
-                  <button class="btn btn-redirect" (click)="postExchangeAppointmentToWaitingRoom(a.date, detail ,$event)">
+                  <button class="btn btn-cus btn-redirect"
+                    (click)="postExchangeAppointmentToWaitingRoom(a.date, detail ,$event)">
                     Đến phòng chờ
                   </button>
                 </td>
@@ -94,10 +106,8 @@
 <!-- End of Recent Orders -->
 
 <!-- <app-popup-add-appointment (newItemEvent)="addItem($event)"></app-popup-add-appointment> -->
-<app-popup-add-appointment [datesDisabled]="datesDisabled"
-  (newAppointmentAdded)="onNewAppointmentAdded($event)"
+<app-popup-add-appointment [datesDisabled]="datesDisabled" (newAppointmentAdded)="onNewAppointmentAdded($event)"
   [filteredAppointments]="filteredAppointments"></app-popup-add-appointment>
 <app-popup-edit-appointment [datesDisabled]="datesDisabled" [selectedAppointment]="selectedAppointment"
   [dateString]="dateString" [timeString]="timeString"
   [filteredAppointments]="filteredAppointments"></app-popup-edit-appointment>
-

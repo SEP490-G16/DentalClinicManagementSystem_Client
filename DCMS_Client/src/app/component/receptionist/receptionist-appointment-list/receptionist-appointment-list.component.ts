@@ -77,25 +77,8 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   appointmentList: RootObject[] = [];
 
   listGroupService: any[] = [];
-
-  startDate: any;
-  endDate: string = "2024-1-31";
-
-
-  startDateTimestamp: number = 0;
-  endDateTimestamp: number = 0;
-  ngOnInit(): void {
-    const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
-    this.startDate = currentDateGMT7;
-
-    this.startDateTimestamp = this.dateToTimestamp(currentDateGMT7);
-    this.endDateTimestamp = this.dateToTimestamp(this.endDate);
-
-    this.getAppointmentList();
-    this.getListGroupService();
-    this.getListDoctor();
-  }
-
+  listDoctor: any[] = [];
+  listDoctorDisplay: any[] = [];
   doctorObject = {
     sub_id: '',
     doctorName: '',
@@ -103,9 +86,37 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     roleId: '',
     zoneInfo: ''
   }
+  abcd: any[] = [];
+  dateEpoch: string = "";
+  ePoch: string = "";
 
-  listDoctor: any[] = [];
-  listDoctorDisplay: any[] = [];
+  startDate: any;
+  startDateNgb!: NgbDateStruct;
+  endDate: string = "2024-1-31";
+
+
+  startDateTimestamp: number = 0;
+  endDateTimestamp: number = 0;
+  ngOnInit(): void {
+    const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh');
+
+    this.startDateNgb = {
+      year: currentDateGMT7.year(),
+      month: currentDateGMT7.month() + 1,
+      day: currentDateGMT7.date()
+    };
+    this.startDate = `${this.startDateNgb.year}-${this.pad(this.startDateNgb.month)}-${this.pad(this.startDateNgb.day)}`;
+    this.startDateTimestamp = this.dateToTimestamp(currentDateGMT7.format("YYYY-MM-DD"));
+    this.endDateTimestamp = this.dateToTimestamp(this.endDate);
+
+    this.getAppointmentList();
+    this.getListGroupService();
+    this.getListDoctor();
+  }
+
+  pad(number: number) {
+    return (number < 10) ? `0${number}` : number;
+  }
 
   getListDoctor() {
     this.cognito.getListStaff().subscribe((res) => {
@@ -155,12 +166,9 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     )
   }
 
-  abcd: any[] = [];
-  dateEpoch: string = "";
-  ePoch: string = "";
-
   getAppointmentList() {
     this.loading = true;
+    this.startDate = `${this.startDateNgb.year}-${this.pad(this.startDateNgb.month)}-${this.pad(this.startDateNgb.day)}`;
     this.startDateTimestamp = this.dateToTimestamp(this.startDate + " 00:00:00");
     this.endDateTimestamp = this.dateToTimestamp(this.startDate + " 23:59:59");
     this.appointmentService.getAppointmentList(this.startDateTimestamp, this.endDateTimestamp).subscribe(data => {
@@ -338,7 +346,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
           })).filter((app: any) => app.appointments.length > 0);
 
           console.log("Đã xóa: ", this.filteredAppointments);
-
+          this.startDate = `${this.startDateNgb.year}-${this.pad(this.startDateNgb.month)}-${this.pad(this.startDateNgb.day)}`;
           if (this.startDate == this.timestampToDate(this.DELETE_APPOINTMENT_BODY.epoch)) {
             this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'minus', 'app');
           }

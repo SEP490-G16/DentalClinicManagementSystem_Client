@@ -54,7 +54,7 @@ export class ConfirmAppointmentComponent implements OnInit {
         reason: appointmentChild.reason,
         doctor: appointmentChild.doctor, //x
         time: appointmentChild.time,
-        status: 4, 
+        status: 4,
         patient_created_date: appointmentChild.patient_created_date
       }
     }
