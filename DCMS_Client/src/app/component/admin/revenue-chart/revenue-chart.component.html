@@ -1,7 +1,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
-<div class="recent-orders">
+<div class="sep-recent-orders">
   <div class="link-tab">
     <div class="doanh-thu">
       <a routerLink="/doanh-thu" class="page-title" routerLinkActive="active-link">Tổng doanh thu</a>
@@ -13,7 +13,7 @@
       <a routerLink="/bao-cao-chi" class="page-title" routerLinkActive="active-link">Báo cáo chi</a>
     </div>
   </div>
-  <div class="row text-white p-3 mb-3 mt-3">
+  <div class="row text-white mb-3 mt-3">
     <div class="col-md-4">
       <input  type="date" [(ngModel)]="startDate" class="form-control me-2">
     </div>
@@ -21,7 +21,7 @@
         <input type="date" [(ngModel)]="endDate" class="form-control">
       </div>
       <div class="col-md-4">
-        <button class="btn btn-primary p-2" (click)="onDateChange()" style="padding: 5px 5px;">Lọc</button>
+        <button class="btn btn-primary" (click)="onDateChange()">Lọc</button>
     </div>
   </div>
   <div class="main-content" style="padding: 20px 20px; border: 1px solid rgba(217, 217, 217, 0.8);">
@@ -33,7 +33,7 @@
         </select>        
       </div>
     </div>
-    <div style="display: block; width: 70%;margin: auto">
+    <div style="width: 85%;margin: auto">
       <canvas id="revenueChart"></canvas>
     </div>
   </div>

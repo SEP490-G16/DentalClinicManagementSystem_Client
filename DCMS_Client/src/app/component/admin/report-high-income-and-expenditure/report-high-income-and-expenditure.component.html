@@ -53,13 +53,12 @@
     </div>
   </div>
   <div class="table-container">
-    <table style="border-collapse: unset">
+    <table>
       <thead class="sticky-thead">
         <tr>
           <th>Mã bệnh nhân</th>
           <th>Tên bệnh nhân</th>
           <th>Số điện thoại</th>
-          <th>Địa chỉ</th>
           <th>Tổng điều trị</th>
           <th>Giảm giá</th>
           <th>Phải thanh toán</th>
@@ -68,11 +67,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let patient of stastisticRevenuePatientSearch">
+        <tr *ngFor="let patient of stastisticRevenuePatientSearch" class="tr-table">
           <td>{{patient.patientCode}}</td>
           <td>{{patient.patientName}}</td>
           <td>{{patient.phoneNumber}}</td>
-          <td>{{patient.address}}</td>
           <td>{{patient.initialAmount}}</td>
           <td>{{patient.discount}}</td>
           <td>{{patient.totalAmount}}</td>
@@ -82,8 +80,16 @@
       </tbody>
     </table>
   </div>
-  <br />
-  <div class="table-container" style="margin-top: 10px;">
+  <div style="padding: 15px 10px; border-bottom: 10px; background-color: white; border-top: 2px solid black;">
+    <div class="row" style=" color:black; font-weight: bold;">
+      <div class="col-md-3">Tổng tiền điều trị: {{stastisticTotal.initialTotalAmount}} VNĐ</div>
+      <div class="col-md-2">Giảm giá: {{stastisticTotal.discount}}%</div>
+      <div class="col-md-3">Phải thanh toán: {{stastisticTotal.totalAmount}} VNĐ</div>
+      <div class="col-md-2">Đã thu: {{stastisticTotal.totalPay}} VNĐ</div>
+      <div class="col-md-2">Còn lại: {{stastisticTotal.totalLeft}} VNĐ</div>
+    </div>
+  </div>
+  <!-- <div class="table-container" style="margin-top: 10px;">
     <table style="border-collapse: unset">
       <thead class="sticky-thead">
         <tr>
@@ -106,5 +112,5 @@
       </tbody>
     </table>
 
-  </div>
+  </div> -->
 </div>
