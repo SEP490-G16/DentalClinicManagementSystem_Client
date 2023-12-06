@@ -15,6 +15,11 @@ import {
   PopupGenMedicalPdfComponent
 } from "../popup-add-examination/popup-gen-medical-pdf/popup-gen-medical-pdf.component";
 import {Examination} from "../../../../../model/ITreatmentCourseDetail";
+import { PatientService } from 'src/app/service/PatientService/patient.service';
+import { MaterialService } from 'src/app/service/MaterialService/material.service';
+import { LaboService } from 'src/app/service/LaboService/Labo.service';
+import { MedicalSupplyService } from 'src/app/service/MedicalSupplyService/medical-supply.service';
+import * as moment from 'moment-timezone';
 
 @Component({
   selector: 'app-popup-add-treatmentcourse',
@@ -32,12 +37,17 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
   Post_TreatmentCourse: Partial<IBodyTreatmentCourse> = {};
   Post_Procedure_Material_Usage: any[] = []
   showDropDown1:boolean=false;
+  userName: any;
+  facility:any;
+  currentDate:any;
 
   TreatmentCouseBody = {
     name: '',
     lydo: '',
     chuandoan: '',
     nguyennhan: '',
+    thuoc: '', 
+    luuy: ''
   }
   groupProcedureO = {
     groupId:'',
@@ -56,13 +66,32 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     private toastr: ToastrService,
     private route: ActivatedRoute,
     private modelService:NgbModal,
-    private router: Router
+    private router: Router,
+    private patientService: PatientService,
+    private materialService: MaterialService,
+    private LaboService: LaboService,
+    private medicalSupplyService: MedicalSupplyService
   ) {
   }
 
   ngOnInit(): void {
     this.Patient_Id = this.route.snapshot.params['id'];
+    this.getPatient();
     this.getMedicalProcedureList();
+    this.getMaterialList();
+    this.getLabo();
+
+    var user = sessionStorage.getItem('username');
+    if (user != null) {
+      this.userName = user;
+    }
+
+    var faci = sessionStorage.getItem('locale');
+    if (faci != null) {
+      this.facility = faci;
+    }
+    const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
+    this.currentDate = currentDateGMT7;
   }
 
   getMedicalProcedureList() {
@@ -77,6 +106,8 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
             procedureName: currentO.mp_name,
             initPrice: currentO.mp_price,
             price: currentO.mp_price,
+            quantity: 1,
+            laboId: "0",
             checked: false,
             isExpand: false,
           };
@@ -97,6 +128,8 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
             procedureName: '',
             initPrice: '',
             price: '',
+            quantity: 1,
+            laboId: "0",
             checked: true,
             isExpand: false
           };
@@ -108,6 +141,8 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
                 procedureName: currentO.mp_name,
                 initPrice: currentO.mp_price,
                 price: currentO.mp_price,
+                quantity: 1,
+                laboId: "0",
                 checked: false,
                 isExpand: false,
               };
@@ -117,6 +152,8 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
                 procedureName: currentO.mp_name,
                 initPrice: currentO.mp_price,
                 price: '',
+                quantity: 1,
+                laboId: "0",
                 checked: false,
                 isExpand: false
               };
@@ -124,7 +161,6 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
           })
         }
       })
-      console.log("Procedure Group: ", this.list);
     },
       (error) => {
         ResponseHandler.HANDLE_HTTP_STATUS(this.medicalProcedureGroupService.url + "/medical-procedure-group-with-detail", error);
@@ -152,6 +188,7 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
           this.Post_Procedure_Material_Usage.forEach((item:any) => {
             if (item.medical_procedure_id == it.procedureId) {
               item.price = it.price;
+              item.quantity = 1;
             }
           })
         }
@@ -160,7 +197,7 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
           let materialUsage = {
             medical_procedure_id: it.procedureId,
             treatment_course_id: '',
-            quantity: '1',
+            quantity: it.quantity,
             price: it.price,
             total_paid: '',
             description: ''
@@ -183,9 +220,100 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     this.Post_Procedure_Material_Usage.forEach((item:any) => {
       if (item.medical_procedure_id == gro.procedureId) {
         item.price = event.target.value;
-        console.log(item.price);
       }
     })
+  }
+
+  changeQuantity(gro:any, event:any) {
+    this.Post_Procedure_Material_Usage.forEach((item:any) => {
+      if (item.medical_procedure_id == gro.procedureId) {
+        item.quantity = event.target.value;
+      }
+    })
+  }
+  
+  currentPage: number = 1;
+  materialList: any = [];
+  uniqueList: string[] = [];
+  results: any[] = [];
+  material_warehouse_id: any;
+  wareHouseMaterial = {
+    material_warehouse_id: '',
+    materialId: '',
+    materialName: '',
+    quantity: 0,
+    unitPrice: 0,
+  }
+
+  getMaterialList() {
+    this.materialService.getMaterials(1).subscribe(data => {
+      this.materialList = [];
+      this.materialList = data.data;
+      if (this.materialList) {
+        if (this.materialList.length >= 1) {
+          for (let i = 0; i < this.materialList.length - 1; i++) {
+            const currentNumber = this.materialList[i];
+            if (!this.uniqueList.includes(currentNumber.m_material_id)) {
+              this.uniqueList.push(currentNumber.m_material_id);
+              this.wareHouseMaterial.material_warehouse_id = currentNumber.mw_material_warehouse_id,
+              this.wareHouseMaterial.materialId = currentNumber.m_material_id,
+              this.wareHouseMaterial.materialName = currentNumber.m_material_name,
+              this.wareHouseMaterial.quantity = currentNumber.mw_quantity_import,
+              this.wareHouseMaterial.unitPrice = currentNumber.mw_price,
+              this.results.push(this.wareHouseMaterial);
+              this.wareHouseMaterial = {
+                material_warehouse_id: '',
+                materialId: '',
+                materialName: '',
+                quantity: 1,
+                unitPrice: 0,
+              }
+            }
+          }
+        }
+      }
+    })
+  }
+
+  materialName: any;
+  listMaterialUsage:any[] = [];
+  unique: string[] = [];
+  updateTemporaryNameMaterial() {
+    this.results.forEach((item:any) => {
+      if (item.material_warehouse_id == this.material_warehouse_id && !this.unique.includes(this.material_warehouse_id)) {
+        this.unique.push(item.material_warehouse_id);
+        this.listMaterialUsage.push({
+          material_warehouse_id: item.material_warehouse_id,
+          treatment_course_id: '',
+          examination_id: '',
+          quantity: '1',
+          price: '',
+          total_paid: '',
+          description: item.materialName,
+        });
+      }
+     })
+  }
+
+  deleteMaterialUsage(id:any) {
+    const index = this.listMaterialUsage.findIndex((item:any) => item.material_warehouse_id == id);
+    const index2 = this.unique.findIndex((item:any) => item === id);
+    if (index != -1) {
+      this.listMaterialUsage.splice(index, 1);
+    }
+
+    if (index2 != -1) {
+      this.unique.splice(index2, 1);
+    }
+  }
+  
+  Labos: any[] = []
+  getLabo() {
+    this.LaboService.getLabos()
+      .subscribe((res) => {
+        this.Labos = res.data;
+        localStorage.setItem("ListLabo", JSON.stringify(this.Labos))
+      })
   }
 
   treatmentCourseId: any;
@@ -195,25 +323,58 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     this.Post_TreatmentCourse.chief_complaint = this.TreatmentCouseBody.lydo;
     this.Post_TreatmentCourse.differential_diagnosis = this.TreatmentCouseBody.nguyennhan;
     this.Post_TreatmentCourse.provisional_diagnosis = this.TreatmentCouseBody.chuandoan;
-    console.log(this.Post_Procedure_Material_Usage);
+    this.Post_TreatmentCourse.description = this.TreatmentCouseBody.luuy;
+    this.Post_TreatmentCourse.medicine = JSON.stringify(this.recordsMedicine);
     this.treatmentCourseService.postTreatmentCourse(this.Post_TreatmentCourse).
       subscribe((res) => {
-        console.log(res);
         this.toastr.success(res.message, "Thêm liệu trình thành công");
         if (this.Post_Procedure_Material_Usage.length > 0) {
           this.Post_Procedure_Material_Usage.forEach((item) => {
             item.treatment_course_id = res.treatment_course_id;
-            this.treatmentCourseId = res.treatment_course_id;
             this.procedureMaterialService.postProcedureMaterialUsage(item)
               .subscribe((res) => {
-                console.log("oki");
                 this.toastr.success("Thêm Thủ thuật thành công");
-                //this.router.navigate(['/benhnhan/danhsach/tab/lichtrinhdieutri/' + this.Patient_Id + '/themlankham/' + this.treatmentCourseId]);
               }, (err) => {
                 this.toastr.error(err.error.message, "Thêm Thủ thuật thất bại");
               })
           })
-      }
+        }
+
+        this.list.forEach((item: any) => {
+          item.procedure.forEach((it: any) => {
+            if (it.laboId != "0") {
+              let specmenObject = {
+                name: this.TreatmentCouseBody.name,
+                type: '',
+                received_date: '',
+                orderer: this.userName,
+                used_date: '',
+                quantity: it.quantity,
+                unit_price: it.price,
+                order_date: this.dateToTimestamp(this.currentDate),
+                patient_id: this.Patient_Id,
+                facility_id: this.facility,
+                labo_id: it.laboId,
+                treatment_course_id: res.treatment_course_id
+              }
+              this.medicalSupplyService.addMedicalSupply(specmenObject).subscribe(data => {
+                this.toastr.success(data.message, 'Thêm mẫu vật sử dụng thành công');
+              })
+            }
+          })
+        })
+
+        if (this.listMaterialUsage.length > 0) {
+          this.listMaterialUsage.forEach((item: any) => {
+            item.treatment_course_id = res.treatment_course_id;
+          })
+          this.procedureMaterialService.postMaterialUsage(this.listMaterialUsage)
+            .subscribe((res) => {
+              this.toastr.success("Thêm vật liệu thành công");
+            }, (err) => {
+              this.toastr.error(err.error.message, "Thêm Thủ thuật thất bại");
+            })
+        }
         const modalRef = this.modelService.open(ConfirmAddTreatmentcourseComponent);
         modalRef.result.then((res:any) =>{
           switch (res){
@@ -356,7 +517,7 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
   }
 
   deleteRecordMedicine(index: any) {
-    this.isAddMedicine = false;
+    //this.isAddMedicine = false;
     this.recordsMedicine.splice(index, 1);
   }
   modalOption: NgbModalOptions = {
@@ -364,12 +525,30 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     centered: true
   }
   Patient:any;
-  examination: Examination = {} as Examination;
+  //examination: Examination = {} as Examination;
+  getPatient() {
+    this.patientService.getPatientById(this.Patient_Id)
+    .subscribe((res)=> {
+        this.Patient = res;
+    },
+    (err) => {
+      this.toastr.error(err.error.message, "Lỗi khi lấy thông tin bệnh nhân")
+    }
+    )
+  }
+
   openGeneratePdfModal() {
     const modalRef = this.modelService.open(PopupGenMedicalPdfComponent, this.modalOption);
-    modalRef.componentInstance.Disagnosis = this.examination.diagnosis;
+    modalRef.componentInstance.Disagnosis = this.TreatmentCouseBody.chuandoan;
     modalRef.componentInstance.Medical = this.recordsMedicine;
     modalRef.componentInstance.Patient = this.Patient;
+  }
+
+  dateToTimestamp(dateStr: string): number {
+    const format = 'YYYY-MM-DD HH:mm';
+    const timeZone = 'Asia/Ho_Chi_Minh';
+    var timestamp = moment.tz(dateStr, format, timeZone).valueOf() / 1000;
+    return timestamp;
   }
 }
 
@@ -389,6 +568,7 @@ interface IBodyTreatmentCourse {
   chief_complaint: string;
   provisional_diagnosis: string;
   differential_diagnosis: string;
+  medicine: string;
 }
 
 interface ProcedureOb {
@@ -397,4 +577,12 @@ interface ProcedureOb {
   initPrice: string;
   price: string;
   checked: Boolean;
+}
+
+interface ExpiryObject {
+  mw_material_warehouse_id: string;
+  quantity: number;
+  expiryDate: string;
+  discount: 0,
+  expanded: boolean;
 }

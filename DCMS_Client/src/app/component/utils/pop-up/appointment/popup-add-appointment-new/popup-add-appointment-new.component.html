@@ -13,26 +13,7 @@
         <div class="container">
           <div class="row">
             <div class="col-12 col-md-12 mt-3">
-<!--              <div class="form-add" *ngIf="isAddOld && !isAdd">-->
-<!--                <div class="form-group mt-2 input-patient">-->
-<!--                  <label for="patientName">Tên bệnh nhân <span class="required">*</span></label>-->
-<!--                  <ng-select [items]="patientList" bindLabel="patientInfor" [(ngModel)]="patientInfor" bindValue="patientInfor" (keyup)="onsearch($event)"-->
-<!--                             [notFoundText]="'Không tìm thấy bệnh nhân'" >-->
-<!--                  </ng-select>-->
-<!--                  <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.patientName}}</p>-->
-<!--                </div>-->
-<!--              </div>-->
               <div class="row mt-2">
-                <!--                <div class="col-md-4">-->
-                <!--                  <div class="card mb-4 mb-xl-0">-->
-                <!--                    <div class="card-body text-center">-->
-                <!--                      <img class="img-account-profile mb-2"-->
-                <!--                        src="https://static.vecteezy.com/system/resources/thumbnails/004/141/669/small/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg"-->
-                <!--                        alt="">-->
-                <!--                      <button class="btn btn-primary" type="button">Chọn ảnh</button>-->
-                <!--                    </div>-->
-                <!--                  </div>-->
-                <!--                </div>-->
                 <div class="col-md-12">
                   <div class="card mb-4">
                     <div class="card-body">
@@ -198,37 +179,17 @@
             <div class="form-group mt-2">
               <label for="appointmentTime" name="userCredential">Giờ hẹn khám <span class="required">*</span></label>
               <input type="time" class="form-control date-input-custom" id="appointmentTime" name="time"
-                     [(ngModel)]="appointmentTime" [min]="minTime" #input (change)="selectDateToGetDoctor(input.value)">
+                     [(ngModel)]="appointmentTime" [min]="minTime">
               <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.appointmentTime}}</p>
             </div>
             <div class="doctors-list mt-2">
               <label for="appointmentTime" name="userCredential">Chọn Bác Sĩ</label>
-              <!--                <ul class="list-group" *ngIf="totalDoctorFilter != 0">-->
-              <!--                  <li class="list-group-item" *ngFor="let doctor of listDoctorFilter"-->
-              <!--                    [ngClass]="{'selected': doctor.doctorName === selectedDoctor}" (click)="selectDoctor(doctor)">-->
-              <!--                    &lt;!&ndash; <img [src]="doctor.image" style="width: 100px; height: 100px; object-fit: cover;"-->
-              <!--                         class="doctor-image" [alt]="doctor.name"> &ndash;&gt;-->
-              <!--                    <div class="doctor-info">-->
-              <!--                      <span class="card-title">{{ doctor.doctorName}}</span>-->
-              <!--                    </div>-->
-              <!--                  </li>-->
-              <!--                </ul>-->
-              <!--                <ul class="list-group" *ngIf="totalDoctorFilter == 0">-->
-              <!--                  <li class="list-group-item" *ngFor="let doctor of listDoctorDisplay"-->
-              <!--                    [ngClass]="{'selected': doctor.doctorName === selectedDoctor}" (click)="selectDoctor(doctor)">-->
-              <!--                    &lt;!&ndash; <img [src]="doctor.image" style="width: 100px; height: 100px; object-fit: cover;"-->
-              <!--                         class="doctor-image" [alt]="doctor.name"> &ndash;&gt;-->
-              <!--                    <div class="doctor-info">-->
-              <!--                      <span class="card-title">{{ doctor.doctorName }}</span>-->
-              <!--                    </div>-->
-              <!--                  </li>-->
-              <!--                </ul>-->
               <input type="text" class="form-control" >
             </div>
           </div>
           <div class="d-flex justify-content-end mt-3">
             <button type="button" class="btn btn-cancel me-2" data-bs-dismiss="modal">Quay lại</button>
-            <button type="button" class="btn button-timekeeping" (click)="onPostAppointment()">Thêm mới</button>
+            <button type="button" class="btn button-timekeeping" (click)="addPatient()">Thêm mới</button>
           </div>
         </div>
       </div>

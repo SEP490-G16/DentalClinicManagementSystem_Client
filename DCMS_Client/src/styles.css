@@ -750,6 +750,7 @@ button:hover {
 .button-add-content{
   display: flex;
   justify-content: space-around;
+}
 
 .skeleton-input {
   position: relative;

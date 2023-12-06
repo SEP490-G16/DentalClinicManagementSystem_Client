@@ -48,6 +48,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
       this.name = JSON.parse(this.name);
       this.patientName = this.name.patient_name;
     }
+    this.onGetXRayImage(this.id)
   }
   @HostListener('document:click', ['$event'])
   clickout(event: any) {
@@ -70,9 +71,10 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
   toggleAddImage() {
     this.isAddImage = true;
     if (this.isAddImage) {
-      const Id = this.idImage++;
+      var length = this.recordsImage.length
+      var id = length++;
       this.recordImage = {
-        id: Id,
+        id: id,
         typeImage: "1",
         imageInsert: "../../../../../../assets/img/noImage.png",
         description: ""
@@ -85,9 +87,9 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     this.recordsImage.splice(index, 1);
   }
   currentIndex: any;
-  onChangeIndex(index: any,event: Event) {
+  onChangeIndex(index: any) {
     this.currentIndex = index;
-    event.stopPropagation();
+    console.log(this.currentIndex);
   }
   inputImageUrlInsert(event: any) {
     this.recordImage = {
@@ -117,6 +119,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
   }
 
   addImageUrl() {
+    console.log(this.recordImage);
     this.recordsImage.forEach((item: any) => {
       if (item.id == this.currentIndex) {
         item.typeImage = this.recordImage.typeImage;
@@ -139,6 +142,52 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
   closeZoom() {
     this.showZoomedInImage = false;
   }
+
+  listImageXRay: any[] = [];
+  onGetXRayImage(id:any) {
+    this.treatmentCourseService.getImageXRay(id).subscribe((data) => {
+      console.log(data);
+    })
+  }
+  
+  imageBody = {
+    base64: true,
+    image_data: '',
+    description: ''
+  }
+  listInsertImage: any[] = [];
+  onPostXRayImage() {
+    console.log("cehck list image", this.recordsImage);
+    if (this.recordsImage.length > 0) {
+      this.recordsImage.forEach((item: any) => {
+        if (item.typeImage != null) {
+          if (item.typeImage == 1) {
+            let img = item.imageInsert.split('base64,');
+            this.imageBody = {
+              base64: true,
+              image_data: img[1],
+              description: item.description
+            }
+          } else {
+            this.imageBody = {
+              base64: false,
+              image_data: item.imageInsert,
+              description: item.description
+            }
+          }
+          this.listInsertImage.push(this.imageBody);
+        }
+      })
+    }
+    this.treatmentCourseService.postImageXRay(this.id, this.listInsertImage).subscribe((data) => {
+      this.toastr.success('Thêm mới ảnh x-quang thành công');
+    })
+  }
+
+  onDeleteXRayImage() {
+
+  }
+
   getTreatmentCourse() {
     this.loading = true;
     this.treatmentCourseService.getTreatmentCourse(this.id)

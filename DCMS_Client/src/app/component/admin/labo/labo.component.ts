@@ -56,7 +56,6 @@ export class LaboComponent implements OnInit {
             labo.phone_number = this.normalizePhoneNumber(labo.phone_number);
           });
         this.loading=false;
-        console.log("Labos", res.data);
       },
         (error) => {
         this.loading=false;
@@ -64,7 +63,6 @@ export class LaboComponent implements OnInit {
           ResponseHandler.HANDLE_HTTP_STATUS(this.LaboService.apiUrl+"/labo", error);
         }
       )
-    console.log(this.Labos);
   }
 
   openConfirmationModal(message: string): Promise<any> {
@@ -88,15 +86,6 @@ export class LaboComponent implements OnInit {
         }
       },
         (error) => {
-          // console.log(err);
-          // if (err.status === 0) {
-          //   this.showSuccessToast("Xóa Labo thành công!");
-          //   //window.location.reload();
-          // }
-          //   if(err.status === 404) {
-          //     this.loading=false;
-          //     this.showErrorToast("Không tìm thấy Labo có Id: " + laboId);
-          //   }
           ResponseHandler.HANDLE_HTTP_STATUS(this.LaboService.apiUrl+"/labo/"+this.LaboId, error);
         }
       )
@@ -123,10 +112,12 @@ export class LaboComponent implements OnInit {
 
   signOut() {
     this.cognitoService.signOut().then(() => {
-      console.log("Logged out!");
       this.router.navigate(['/login']);
+      localStorage.clear();
+      sessionStorage.clear();
     })
   }
+
   normalizePhoneNumber(phoneNumber: string): string {
     if(phoneNumber.startsWith('(+84)')){
       return '0'+phoneNumber.slice(5);
