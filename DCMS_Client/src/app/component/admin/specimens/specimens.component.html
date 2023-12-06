@@ -4,6 +4,9 @@
 
 <div class="sep-recent-orders">
   <div class="custom-row">
+    <div class="labo">
+      <a routerLink="/labo" class="page-title" routerLinkActive="active-link">Labo</a>
+    </div>
     <div class="mau">
       <a routerLink="/mau" class="page-title" routerLinkActive="active-link">Quản lý mẫu</a>
     </div>
@@ -33,7 +36,7 @@
         [bsConfig]="{ isAnimated: true, dateInputFormat: 'DD/MM/YYYY' }">
     </div>
     <div class="col-sm-3 col-md-2 form-group" style="padding: 0 10px">
-      <input type="text" placeholder="Ngày lắp" [(ngModel)]="SpecimensFilter.ms_used_date" #input 
+      <input type="text" placeholder="Ngày lắp" [(ngModel)]="SpecimensFilter.ms_used_date" #input
       (ngModelChange)="filterByUseDate(input.value)"
         class="form-control input-custom  p-2" bsDaterangepicker [bsConfig]="{ isAnimated: true }">
     </div>
@@ -64,8 +67,7 @@
                 mẫu</li>
             </div>
             <div class="col-md-6">
-              <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox2" (click)="toggleColumn(3)"> Chất
-                liệu</li>
+              <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox2" (click)="toggleColumn(3)"> Labo</li>
             </div>
           </div>
           <div class="row">
@@ -80,7 +82,7 @@
           </div>
           <div class="row">
             <div class="col-md-6">
-              <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox5" (click)="toggleColumn(6)"> Labo
+              <li style="list-style: none;"><input type="checkbox" [(ngModel)]="checkbox5" (click)="toggleColumn(6)"> Loại mẫu
               </li>
             </div>
             <div class="col-md-6">
@@ -130,10 +132,10 @@
       <thead class="sticky-thead">
         <tr>
           <th *ngIf="checkbox1" style="min-width: 80px;padding: 10px">Tên mẫu</th> <!--2-->
-          <th *ngIf="checkbox2" style="min-width: 82px;padding: 10px">Chất liệu</th> <!--3-->
+          <th *ngIf="checkbox2" style="min-width: 80px;padding: 10px">Labo</th> <!--6-->
           <th *ngIf="checkbox3" style="min-width: 85px;padding: 10px">Số lượng</th> <!--4-->
           <th *ngIf="checkbox4" style="min-width: 75px;padding: 10px">Đơn giá</th> <!--5-->
-          <th *ngIf="checkbox5" style="min-width: 80px;padding: 10px">Labo</th> <!--6-->
+          <th *ngIf="checkbox5" style="min-width: 82px;padding: 10px">Loại mẫu</th> <!--3-->
           <th *ngIf="checkbox6" style="min-width: 90px;padding: 10px">Trạng thái</th> <!--7-->
           <th *ngIf="checkbox7" style="min-width: 75px;padding: 10px">Ngày đặt</th> <!--8-->
           <th *ngIf="checkbox8" style="min-width: 90px;padding: 10px">Người đặt</th> <!--9-->
@@ -150,10 +152,10 @@
           <ng-container *ngIf="specimens.ms_status != 1">
             <td *ngIf="checkbox1" class="truncate" data-bs-toggle="tooltip" title="{{specimens.ms_name}}">
               {{specimens.ms_name}}</td> <!--2-->
-            <td *ngIf="checkbox2" style="min-width: 82px;padding: 10px">{{specimens.ms_type}}</td> <!--3-->
+            <td *ngIf="checkbox2" style="min-width: 80px;padding: 10px">{{specimens.lb_name}}</td> <!--6-->
             <td *ngIf="checkbox3" style="min-width: 85px;padding: 10px">{{specimens.ms_quantity}}</td> <!--4-->
             <td *ngIf="checkbox4" style="min-width: 75px;padding: 10px">{{specimens.ms_unit_price}}</td> <!--5-->
-            <td *ngIf="checkbox5" style="min-width: 80px;padding: 10px">{{specimens.lb_name}}</td> <!--6-->
+            <td *ngIf="checkbox5" style="min-width: 82px;padding: 10px">{{specimens.ms_type}}</td> <!--3-->
             <td *ngIf="checkbox6" style="min-width: 80px;padding: 10px">{{specimens.ms_status == 2? "Chưa nhận":
               (specimens.ms_status == 3)?"Đã nhận":"Hàng lỗi"}}</td> <!--7-->
             <td *ngIf="checkbox7" style="min-width: 75px;padding: 10px">{{specimens.ms_order_date | date:'dd-MM-yyyy'}}

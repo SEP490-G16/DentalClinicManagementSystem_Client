@@ -37,6 +37,10 @@ import { ConfirmDeleteModalComponent } from './component/utils/pop-up/common/con
 import { NgbDateCustomParserFormatter } from './component/utils/libs/datepickerfOrmat';
 import { ViDateRangePipe } from './component/utils/libs/viDateRange.pipe';
 import { FullDateVnPipe } from './component/utils/libs/fullDateVn.pipe';
+import {
+  ConfirmAddTreatmentcourseComponent
+} from "./component/utils/pop-up/common/confirm-add-treatmentcourse/confirm-add-treatmentcourse.component";
+import { PopupAddAppointmentNewComponent } from './component/utils/pop-up/appointment/popup-add-appointment-new/popup-add-appointment-new.component';
 // import { AuthInterceptor } from './service/RefreshToken/auth.interceptor';
 // Register the Vietnamese locale data
 registerLocaleData(localeVi);
@@ -46,6 +50,7 @@ registerLocaleData(localeVi);
     RegisterWorkScheduleComponent,
     ConfirmationModalComponent,
     ConfirmDeleteModalComponent,
+    ConfirmAddTreatmentcourseComponent,
     ViDateRangePipe,
     FullDateVnPipe
   ],

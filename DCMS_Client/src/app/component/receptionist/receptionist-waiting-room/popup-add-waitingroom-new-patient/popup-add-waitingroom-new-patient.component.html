@@ -1,0 +1,205 @@
+<div class="modal" id="wrNewModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header color-main">
+        <h4 class="modal-title title text-center">Thêm bệnh nhân đợi</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="close()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-body">
+<!--          <div class="row">-->
+<!--            <div class="col-6 form-add" *ngIf="isAddOld && !isAdd">-->
+<!--              <div class="form-group mt-2 input-patient">-->
+<!--                <label for="patientName">Tên bệnh nhân <span class="required">*</span></label>-->
+<!--                <ng-select [items]="patientList" bindLabel="patientInfor" [(ngModel)]="patientInfor"-->
+<!--                           bindValue="patientInfor" (input)="onsearchPatientInWaitingRoom($event)"-->
+<!--                           [notFoundText]="'Không tìm thấy bệnh nhân'" [disabled]="isAdd">-->
+<!--                </ng-select>-->
+<!--                <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateWatingRoom.patientName}}</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="col-6">-->
+<!--              <div class="form-group mt-2">-->
+<!--                <label>Loại điều trị <span class="required">*</span></label>-->
+<!--                <select [(ngModel)]="POST_WAITTINGROOM.produce_id" (change)="onProcedureChange($event)"-->
+<!--                        class="form-select input-custom float-end" aria-label="Default select example">-->
+<!--                  <option *ngFor="let a of listGroupService" [value]="a.medical_procedure_group_id">{{a.name}}</option>-->
+<!--                </select>-->
+<!--                <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">-->
+<!--                  <p>-->
+<!--                    {{validateWatingRoom.procedure}}-->
+<!--                  </p>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+          <!-- Them moi benh nhan trong phong cho -->
+          <div class="row mt-2">
+            <!--            <div class="col-md-4">-->
+            <!--              <div class="card mb-4 mb-xl-0">-->
+            <!--                <div class="card-body text-center">-->
+            <!--                  <img class="img-account-profile mb-2"-->
+            <!--                    src="https://static.vecteezy.com/system/resources/thumbnails/004/141/669/small/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg"-->
+            <!--                    alt="">-->
+            <!--                  <button class="btn btn-primary" type="button">Chọn ảnh</button>-->
+            <!--                </div>-->
+            <!--              </div>-->
+            <!--            </div>-->
+            <div class="col-md-12">
+              <div class="card mb-4">
+                <div class="card-body">
+                  <div class="row gx3 mb-3">
+                    <div class="col-md-6">
+                      <div class="form-group mb-3">
+                        <label class="small mb-1" for="hovaten">Họ và tên<span class="required">*</span></label>
+                        <input class="form-control" [(ngModel)]="patient1.patientName" id="hovaten" type="text"
+                               placeholder="Họ và tên">
+                        <div *ngIf="isSubmitted" class="alert-danger-custom">
+                          <p style="color:#FF0000FF;">
+                            {{validatePatient.name}}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group mb-3">
+                        <label class="small mb-1" for="createdDate">Ngày sinh<span class="required">*</span></label>
+                        <input class="form-control" placeholder="dd/MM/yyyy" [(ngModel)]="patient1.dob" id="createdDate" type="text">
+                        <div *ngIf="isSubmitted" class="alert-danger-custom">
+                          <p style="color:#FF0000FF;">
+                            {{validatePatient.dob}}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="row gx-3 mb-3">
+                    <div class="col-md-6">
+                      <div class="form-group mb-3">
+                        <label class="small mb-1" for="email">Email</label>
+                        <input class="form-control" [(ngModel)]="patient1.Email" id="email" type="text" name="birthday"
+                               placeholder="Email">
+                        <div *ngIf="isSubmitted" class="alert-danger-custom">
+                          <p style="color:#FF0000FF;">
+                            {{validatePatient.email}}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group mb-3">
+                        <div class="small mb-1">
+                          <label>Giới tính</label>
+                        </div>
+                        <div class="mb-6 sep-input-gender">
+                          <input type="radio" [(ngModel)]="patient1.Gender" class="radio m-2" [value]="1">
+                          <label for="male">Nam</label>
+                          <input type="radio" [(ngModel)]="patient1.Gender" class="radio m-2" value="0">
+                          <label for="female">Nữ</label>
+                        </div>
+
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="row gx-3 mb-3">
+                    <div class="col-md-6">
+                      <div class="form-group mb-3">
+                        <label class="small mb-1" for="inputPhone">Điện thoại<span class="required">*</span></label>
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text custom-input" id="basic-addon1">(+84)</span>
+                          </div>
+                          <input type="text" class="form-control" [(ngModel)]="patient1.phone_Number" id="inputPhone"
+                                 name="inputPhone" aria-label="phoneNumber" aria-describedby="basic-addon1">
+                        </div>
+                        <div *ngIf="isSubmitted" class="alert-danger-custom">
+                          <p style="color:#FF0000FF;">
+                            {{validatePatient.phone}}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group mb-3">
+                        <label class="small mb-1" for="zalo">Zalo <span class="required">*</span></label>
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text custom-input" id="basic-addon2">(+84)</span>
+                          </div>
+                          <input type="text" class="form-control" id="zalo"
+                                 name="inputPhone" aria-label="phoneNumber" aria-describedby="basic-addon2">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="mb-3">
+                      <label class="small mb-1" for="tieuSuBenh">Địa chỉ <span class="required">*</span></label>
+                      <input class="form-control" [(ngModel)]="patient1.Address" id="tieuSuBenh" type="text" />
+                      <div *ngIf="isSubmitted" class="alert-danger-custom">
+                        <p style="color:#FF0000FF;">
+                          {{validatePatient.address}}
+                        </p>
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <label class="small mb-1" for="note">Tiền sử toàn thân</label>
+                      <input class="form-control" [(ngModel)]="patient1.full_medical_History" id="note" type="text">
+                    </div>
+                    <div class="mb-3">
+                      <label class="small mb-1" for="note">Tiền sử răng miệng</label>
+                      <input class="form-control" [(ngModel)]="patient1.dental_medical_History" id="note" type="text">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+<!--                        <div class="d-flex justify-content-around" style="text-align: center; width: 30%; margin-left: 52%;">-->
+<!--                          <div class="sep-patient-popupadd-button">-->
+<!--                            <button type="button" id="cancel-patient" class="btn btn-cancel" (click)="checkCancel()">Hủy</button>-->
+<!--                          </div>-->
+<!--                          <div class="sep-patient-popupadd-button">-->
+<!--                            <button type="button" class="btn button-timekeeping" (click)="addPatient()"> Thêm mới bệnh-->
+<!--                              nhân</button>-->
+<!--                          </div>-->
+<!--                        </div>-->
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group mt-2">
+                <label>Loại điều trị <span class="required">*</span></label>
+                <select [(ngModel)]="POST_WAITTINGROOM.produce_id" (change)="onProcedureChange($event)"
+                        class="form-select input-custom float-end" aria-label="Default select example">
+                  <option *ngFor="let a of listGroupService" [value]="a.medical_procedure_group_id">{{a.name}}</option>
+                </select>
+                <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
+                  <p>
+                    {{validateWatingRoom.procedure}}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-12">
+              <textarea [(ngModel)]="POST_WAITTINGROOM.reason" class="form-control" placeholder="Lý do khám"
+                        style="height: 200px;"></textarea>
+              <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
+                <p>
+                  {{validateWatingRoom.reason}}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="button-conf float-end">
+          <button type="button" class="btn btn-cancel" data-bs-dismiss="modal" id="cancel-add-waiting">Quay lại</button>
+          <button type="button" class="btn button-timekeeping" (click)="onPostWaitingRoom()" >
+            <i class="bi bi-plus-circle"></i> Thêm mới hàng chờ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

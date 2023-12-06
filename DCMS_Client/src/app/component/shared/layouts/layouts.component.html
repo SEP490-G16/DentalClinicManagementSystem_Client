@@ -76,21 +76,21 @@
               <span class="text">Nhân viên</span>
             </a>
           </li>
-          <li class="list" routerLink="/labo" *ngIf="roleId.includes('1')" routerLinkActive="active">
-            <a style="--clr:#664FC3">
-              <span class="icon">
-                <i class="bi bi-house-door"></i>
-              </span>
-              <span class="text">Labo</span>
-            </a>
-          </li>
+<!--          <li class="list" routerLink="/labo" *ngIf="roleId.includes('1')" routerLinkActive="active">-->
+<!--            <a style="&#45;&#45;clr:#664FC3">-->
+<!--              <span class="icon">-->
+<!--                <i class="bi bi-house-door"></i>-->
+<!--              </span>-->
+<!--              <span class="text">Labo</span>-->
+<!--            </a>-->
+<!--          </li>-->
           <li class="list" routerLink="/mau" routerLinkActive="active"
             *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('5')">
             <a style="--clr:#664FC3">
               <span class="icon">
                 <i class="bi bi-file-medical"></i>
               </span>
-              <span class="text">Mẫu</span>
+              <span class="text">Mẫu và Labo</span>
             </a>
           </li>
           <li class="list" routerLink="/vat-lieu" routerLinkActive="active"

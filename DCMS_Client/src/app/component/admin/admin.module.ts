@@ -95,6 +95,12 @@ import {DetailReceiptsComponent} from "../patient/patient-records/receipts/detai
 import {
   PopupExaminationDetailComponent
 } from "../patient/patient-records/patient-payment-tab/popup-examination-detail/popup-examination-detail.component";
+import {
+  PopupAddAppointmentNewComponent
+} from "../utils/pop-up/appointment/popup-add-appointment-new/popup-add-appointment-new.component";
+import {
+  PopupAddWaitingroomNewPatientComponent
+} from "../receptionist/receptionist-waiting-room/popup-add-waitingroom-new-patient/popup-add-waitingroom-new-patient.component";
 
 @NgModule({
   declarations: [
@@ -175,7 +181,9 @@ import {
     PopupGenMedicalPdfComponent,
     ReceiptsComponent,
     DetailReceiptsComponent,
-    PopupExaminationDetailComponent
+    PopupExaminationDetailComponent,
+    PopupAddAppointmentNewComponent,
+    PopupAddWaitingroomNewPatientComponent
   ],
   imports: [
     CommonModule,
@@ -202,7 +210,7 @@ import {
     BsDatepickerModule,
   ],
   providers: [
-    DatePipe, 
+    DatePipe,
   ],
   exports: [
     PopupAddApproveSpecimensComponent,

@@ -7,16 +7,27 @@
 
   <div class="row row-custom">
     <div class="col-6">
-      <button class="button button-timekeeping" data-bs-toggle="modal"
-        data-bs-target="#myModal" (click)="openAddAppointmentModal()"><i class="bi bi-plus-circle"></i>
-        Thêm
-        lịch hẹn</button>
+      <div class="button-app">
+        <div>
+          <button class="btn button-add" data-bs-toggle="modal"
+                  data-bs-target="#myModal" (click)="openAddAppointmentModal()"><i class="bi bi-plus-circle"></i>
+            Thêm
+            lịch hẹn bệnh nhân cũ</button>
+        </div>
+        <div>
+          <button class="btn button-add" data-bs-toggle="modal"
+                  data-bs-target="#myNewModal" (click)="openAddAppointmentModal()"><i class="bi bi-plus-circle"></i>
+            Thêm
+            lịch hẹn bệnh nhân mới</button>
+        </div>
+      </div>
+
     </div>
     <div class="col-6">
-      <input type="date" class="date-input-custom" [(ngModel)]="startDate" (change)="getAppointmentList()">
+      <input type="date" class="date-input-custom" style="width: 50%" [(ngModel)]="startDate" (change)="getAppointmentList()">
       <select class="form-select input-custom float-end" aria-label="Default select example"
         [(ngModel)]="selectedProcedure" (change)="filterAppointments()" style="width: 25%;">
-        <option selected value="">Tất cả loại điều trị</option>
+        <option selected value="">Loại điều trị</option>
         <option *ngFor="let a of listGroupService" value={{a.medical_procedure_group_id}}>{{a.name}}</option>
       </select>
     </div>
@@ -100,4 +111,5 @@
 <app-popup-edit-appointment [datesDisabled]="datesDisabled" [selectedAppointment]="selectedAppointment"
   [dateString]="dateString" [timeString]="timeString"
   [filteredAppointments]="filteredAppointments"></app-popup-edit-appointment>
-
+<app-popup-add-appointment-new [datesDisabled]="datesDisabled"
+                           [filteredAppointments]="filteredAppointments"></app-popup-add-appointment-new>

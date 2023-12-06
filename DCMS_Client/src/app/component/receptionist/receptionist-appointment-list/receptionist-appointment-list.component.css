@@ -78,16 +78,13 @@ a {
   border: 1px solid #664FC3;
   border-radius: 10px;
 }
-
-.button-timekeeping {
-  font-family: "Poppins", sans-serif;
+.button-add {
   background: #664FC3;
   text-align: center;
   cursor: pointer;
   border: 0px solid white;
   color: white;
   font-weight: bold;
-  /*font-size: 24px;*/
   outline: 0px;
   padding: 10px 20px;
 }
@@ -140,4 +137,7 @@ a {
 
 .btn i + span {
   margin-left: 5px;
+}
+.button-app{
+  display: flex;
 }
