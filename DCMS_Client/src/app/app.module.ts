@@ -5,7 +5,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
-
 import { ReceptionistModule } from './component/receptionist/receptionist.module';
 import { SharedModule } from "./component/shared/shared.module";
 import { AdminModule } from './component/admin/admin.module';
@@ -14,7 +13,7 @@ import { NurseModule } from './component/nurse/nurse.module';
 import { PatientModule } from './component/patient/patient.module';
 import { AuthModule } from './component/auth/auth.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import * as AWS from 'aws-sdk';
 import { environment } from 'src/environments/environment';
 import { ChatComponent } from './component/chat/chat.component';
@@ -38,6 +37,10 @@ import { ConfirmDeleteModalComponent } from './component/utils/pop-up/common/con
 import { NgbDateCustomParserFormatter } from './component/utils/libs/datepickerfOrmat';
 import { ViDateRangePipe } from './component/utils/libs/viDateRange.pipe';
 import { FullDateVnPipe } from './component/utils/libs/fullDateVn.pipe';
+import {
+  ConfirmAddTreatmentcourseComponent
+} from "./component/utils/pop-up/common/confirm-add-treatmentcourse/confirm-add-treatmentcourse.component";
+import { PopupAddAppointmentNewComponent } from './component/utils/pop-up/appointment/popup-add-appointment-new/popup-add-appointment-new.component';
 // import { AuthInterceptor } from './service/RefreshToken/auth.interceptor';
 // Register the Vietnamese locale data
 registerLocaleData(localeVi);
@@ -47,6 +50,7 @@ registerLocaleData(localeVi);
     RegisterWorkScheduleComponent,
     ConfirmationModalComponent,
     ConfirmDeleteModalComponent,
+    ConfirmAddTreatmentcourseComponent,
     ViDateRangePipe,
     FullDateVnPipe,
   ],
@@ -60,13 +64,14 @@ registerLocaleData(localeVi);
     DoctorModule,
     NurseModule,
     ReactiveFormsModule,
-    //PatientModule,
+    PatientModule,
     AuthModule,
     CommonModule,
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
     NgbModalModule,
+    NgxSkeletonLoaderModule,
     FlatpickrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,

@@ -33,9 +33,7 @@
   border: 1px solid #664FC3;
   border-radius: 10px;
 }
-
-.button-timekeeping {
-  font-family: "Poppins", sans-serif;
+.button-add {
   background: #664FC3;
   text-align: center;
   cursor: pointer;
@@ -85,4 +83,7 @@
 
 .btn i+span {
   margin-left: 5px;
+}
+.button-app{
+  display: flex;
 }

@@ -44,6 +44,7 @@
     "ngx-bootstrap": "^9.0.0",
     "ngx-cookie-service": "^14.0.1",
     "ngx-date-fns": "^10.0.1",
+    "ngx-skeleton-loader": "^4.0.0",
     "ngx-toastr": "^15.2.2",
     "ngx-websocket": "^0.4.2",
     "pdfmake": "^0.2.8",

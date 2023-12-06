@@ -4,7 +4,7 @@
 
       <!-- Modal Header -->
       <div class="modal-header color-main">
-        <h4 class="modal-title title text-center w-100">Đợt khám</h4>
+        <h4 class="modal-title title text-center w-100">Ngày khám</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
@@ -62,7 +62,7 @@
         <div class="row">
           <div class="col-12">
             <div class="mb-3">
-              <label for="procedureGroupSelect" class="form-label">Chọn nhóm thủ thuật</label>
+              <label for="procedureGroupSelect" class="form-label">Bảng kê chi phí</label>
               <div class="select-checkbox" (mouseleave)="showDropDown = false">
                 <button class="drop-toggle btn flat" (click)="showDropDown=!showDropDown">
                   <span style="color: #1e1e1e">Chọn nhóm thủ thuật</span>
@@ -89,9 +89,10 @@
               <table>
                 <colgroup>
                   <col style="width: 10%">
-                  <col style="width: 30%">
-                  <col style="width: 30%">
+                  <col style="width: 20%">
+                  <col style="width: 20%">
                   <col style="width: 10%">
+                  <col style="width: 20%">
                   <col style="width: 20%">
                 </colgroup>
                 <tr class="sticky-thead">
@@ -99,7 +100,9 @@
                   <th style="padding: 10px">Nhóm thủ thuật</th>
                   <th style="padding: 10px">Thủ thuật</th>
                   <th style="padding: 10px">Giá tiền</th>
+                  <th style="padding: 10px">Labo</th>
                   <th style="padding: 10px">Thành tiền</th>
+
                 </tr>
                 <ng-container *ngFor="let pro of list">
                   <ng-container *ngIf="pro.checked == true">
@@ -113,26 +116,38 @@
                         <td style="padding: 10px"></td>
                         <td style="padding: 10px"></td>
                         <td style="padding: 10px"></td>
+                        <td style="padding: 10px"></td>
                       </tr>
                       <tr *ngIf="pro.isExpand">
-                        <td colspan="5">
+                        <td colspan="6">
                           <table>
                             <colgroup>
                               <col style="width: 10%">
-                              <col style="width: 30%">
-                              <col style="width: 30%">
+                              <col style="width: 20%">
+                              <col style="width: 20%">
                               <col style="width: 10%">
+                              <col style="width: 20%">
                               <col style="width: 20%">
                             </colgroup>
                             <tr class="tr-children" *ngFor="let gro of pro.procedure">
                               <td style="padding: 10px"></td>
                               <td style="padding: 10px"><i class="bi bi-arrow-return-right"></i></td>
-                              <td style="padding: 10px">
+                              <td style="padding: 10px;float: left;margin-left: 24%">
                                 <input type="checkbox" style="margin-right: 3px" (click)="checkProcedureUse(gro)"/>{{gro.procedureName}}</td>
                               <td style="padding: 10px"> {{gro.initPrice}}</td>
+                              <td style="padding: 10px">
+                                <select class="form-select p-2" id="patient" style="margin-left: 10px; border: 1px solid #664FC3;
+                                border-radius: 10px;" aria-label="Default select example"
+                                >
+                                  <option value="">Chọn labo</option>
+                                  <option value="1">Lab Bình</option>
+                                  <option value="2">Lab Việt</option>
+                                </select>
+                              </td>
                               <ng-container *ngIf="gro.checked">
-                                <td style="padding: 10px"><input style="padding: 5px; border-radius: 5px" type="text" [(ngModel)]="gro.price" (input)="changePrice(gro, $event)"></td>
+                                <td style="padding: 10px"><input class="form-control" style="padding: 5px; border-radius: 5px;border: 1px solid #664FC3;height: 42px" type="text" [(ngModel)]="gro.price" (input)="changePrice(gro, $event)"></td>
                               </ng-container>
+
                             </tr>
                           </table>
                         </td>
@@ -144,11 +159,194 @@
             </div>
           </div>
         </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-3">
+              <label for="medicine" class="form-label">Đơn thuốc:</label>
+              <!--              <textarea id="medicine" rows="3" [(ngModel)]="examination.medicine"></textarea>-->
+              <select class="form-select p-2" id="medicine" style="width: 15%; border: 1px solid #664FC3;
+                       border-radius: 10px;" aria-label="Default select example" (change)="onMedicineChange()"
+                      [(ngModel)]="selectMedicine">
+                <option value="0">Chọn mẫu đơn thuốc</option>
+                <option value="1">Mẫu 1</option>
+                <option value="2">Mẫu 2</option>
+              </select>
+            </div>
+            <div class="button-content" *ngIf="showPrescriptionContent">
+              <div class="btn-add-procedure">
+                <button class="btn button-add" style="margin-right: 3px"
+                        (click)="toggleAddMedicine()"><i class="bi bi-plus-circle"></i>Thêm
+                  mới đơn thuốc</button>
+              </div>
+              <div>
+                <button class="btn button-add" (click)="openGeneratePdfModal()">In đơn thuốc</button>
+              </div>
+            </div>
+          </div>
+         </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-3" *ngIf="showPrescriptionContent">
+              <table >
+                <colgroup>
+                  <col style="width: 10%">
+                  <col style="width: 20%">
+                  <col style="width: 20%">
+                  <col style="width: 10%">
+                  <col style="width: 20%">
+                  <col style="width: 20%">
+                </colgroup>
+                <tr class="sticky-thead">
+                  <th style="padding: 10px">STT</th>
+                  <th style="padding: 10px">Tên thuốc</th>
+                  <th style="padding: 10px">Số lượng</th>
+                  <th style="padding: 10px">Đơn vị</th>
+                  <th style="padding: 10px">Liều dùng</th>
+                  <!-- <th>Ghi chú</th> -->
+                  <th style="padding: 10px">Thao tác</th>
+                </tr>
+
+
+                <ng-container *ngFor="let record of recordsMedicine; let i = index">
+                  <tr>
+                    <td style="padding: 10px">{{ i + 1 }}</td>
+                    <td style="padding: 10px">
+                      <input type="text" *ngIf="isAddMedicine" [(ngModel)]="record.ten"
+                             class="form-control value-staff">
+                      <p *ngIf="!isAddMedicine">{{record.ten}}</p>
+                    </td>
+                    <td style="padding: 10px">
+                      <input type="text" *ngIf="isAddMedicine" [(ngModel)]="record.soLuong"
+                             class="form-control value-staff">
+                      <p *ngIf="!isAddMedicine">{{record.soLuong}}</p>
+                    </td>
+                    <td style="padding: 10px">
+                      <input type="text" *ngIf="isAddMedicine" [(ngModel)]="record.donvi"
+                             class="form-control value-staff">
+                      <p *ngIf="!isAddMedicine">{{record.donvi}}</p>
+                    </td>
+                    <td style="padding: 10px">
+                      <input type="text" *ngIf="isAddMedicine" [(ngModel)]="record.lieuDung"
+                             class="form-control value-staff">
+                      <p *ngIf="!isAddMedicine">{{record.lieuDung}}</p>
+                    </td>
+                    <!-- <td>
+                  <input type="text" *ngIf="isAddMedicine" [(ngModel)]="record.ghiChu" class="form-control value-staff">
+                  <p *ngIf="!isAddMedicine">{{record.ghiChu}}</p>
+                </td> -->
+                    <td style="padding: 10px">
+                      <div class="delete-cell">
+                        <button class="delete-button" (click)="deleteRecordMedicine(i)">
+                          x
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-container>
+              </table>
+            </div>
+          </div>
+        </div>
+
 
         <div class="row">
           <div class="col-12">
             <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Mô tả</label>
+              <label for="procedureGroupSelect" class="form-label">Vật liệu đã sử dụng</label>
+              <div class="select-checkbox" (mouseleave)="showDropDown1 = false">
+                <button class="drop-toggle btn flat" (click)="showDropDown1=!showDropDown1">
+                  <span style="color: #1e1e1e">Chọn vật liệu</span>
+                  <i class="fa fa-angle-down"></i>
+                </button>
+                <div class="drop-show" *ngIf="showDropDown1">
+<!--                  <div class="group-list" *ngFor="let a of list">-->
+<!--                    <div class="input-name">-->
+<!--                      <input type="checkbox" [(ngModel)]="a.checked" (click)="getSelectedValue(a)"/>-->
+<!--                    </div>-->
+<!--                    <div class="name-title">-->
+<!--                      <span> {{a.groupName}}</span>-->
+<!--                    </div>-->
+<!--                  </div>-->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-3">
+              <table>
+                <colgroup>
+                  <col style="width: 20%">
+                  <col style="width: 20%">
+                  <col style="width: 20%">
+                </colgroup>
+                <tr class="sticky-thead">
+                  <th style="padding: 10px">Tên vật liệu</th>
+                  <th style="padding: 10px">Số lượng</th>
+                  <th style="padding: 10px">Đơn vị</th>
+                </tr>
+<!--                <ng-container *ngFor="let pro of list">-->
+<!--                  <ng-container *ngIf="pro.checked == true">-->
+<!--                    &lt;!&ndash;                    <ng-container *ngFor="let gro of pro.procedure">&ndash;&gt;-->
+<!--                    <tr class="tr-children" (click)="toggleExpand(pro)">-->
+<!--                      <td style="padding: 10px;float: right">-->
+<!--                        <i class="bi"-->
+<!--                           [ngClass]="{'bi-chevron-double-right': !pro.isExpand, 'bi-chevron-double-down': pro.isExpand}"></i>-->
+<!--                      </td>-->
+<!--                      <td style="padding: 10px">{{pro.groupName}}</td>-->
+<!--                      <td style="padding: 10px"></td>-->
+<!--                      <td style="padding: 10px"></td>-->
+<!--                      <td style="padding: 10px"></td>-->
+<!--                      <td style="padding: 10px"></td>-->
+<!--                    </tr>-->
+<!--                    <tr *ngIf="pro.isExpand">-->
+<!--                      <td colspan="6">-->
+<!--                        <table>-->
+<!--                          <colgroup>-->
+<!--                            <col style="width: 10%">-->
+<!--                            <col style="width: 20%">-->
+<!--                            <col style="width: 20%">-->
+<!--                            <col style="width: 10%">-->
+<!--                            <col style="width: 20%">-->
+<!--                            <col style="width: 20%">-->
+<!--                          </colgroup>-->
+<!--                          <tr class="tr-children" *ngFor="let gro of pro.procedure">-->
+<!--                            <td style="padding: 10px"></td>-->
+<!--                            <td style="padding: 10px"><i class="bi bi-arrow-return-right"></i></td>-->
+<!--                            <td style="padding: 10px;float: left;margin-left: 24%">-->
+<!--                              <input type="checkbox" style="margin-right: 3px" (click)="checkProcedureUse(gro)"/>{{gro.procedureName}}</td>-->
+<!--                            <td style="padding: 10px"> {{gro.initPrice}}</td>-->
+<!--                            <td style="padding: 10px">-->
+<!--                              <select class="form-select p-2" id="patient" style="margin-left: 10px; border: 1px solid #664FC3;-->
+<!--                                border-radius: 10px;" aria-label="Default select example"-->
+<!--                              >-->
+<!--                                <option value="">Chọn labo</option>-->
+<!--                                <option value="1">Lab Bình</option>-->
+<!--                                <option value="2">Lab Việt</option>-->
+<!--                              </select>-->
+<!--                            </td>-->
+<!--                            <ng-container *ngIf="gro.checked">-->
+<!--                              <td style="padding: 10px"><input class="form-control" style="padding: 5px; border-radius: 5px;border: 1px solid #664FC3;height: 42px" type="text" [(ngModel)]="gro.price" (input)="changePrice(gro, $event)"></td>-->
+<!--                            </ng-container>-->
+
+<!--                          </tr>-->
+<!--                        </table>-->
+<!--                      </td>-->
+<!--                    </tr>-->
+<!--                    &lt;!&ndash;                    </ng-container>&ndash;&gt;-->
+<!--                  </ng-container>-->
+<!--                </ng-container>-->
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Lưu ý</label>
               <input type="text" class="form-control" id="exampleInputEmail1"
                 [(ngModel)]="Post_TreatmentCourse.description" aria-describedby="emailHelp">
             </div>
@@ -158,7 +356,7 @@
         <!-- Modal footer -->
         <div class="button-conf float-end">
           <button type="button" id="cancel" class="btn btn-cancel" data-bs-dismiss="modal" (click)="close()">Hủy</button>
-          <button type="button" class="btn button-add" data-bs-dismiss="modal" (click)="postTreatmentCourse()">Thêm
+          <button type="button" class="btn button-add" (click)="postTreatmentCourse()">Thêm
             mới</button>
         </div>
 

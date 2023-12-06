@@ -1,5 +1,5 @@
 import { TreatmentCourseDetailService } from './../../../../service/ITreatmentCourseDetail/treatmentcoureDetail.service';
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/TreatmentCourse.service';
@@ -49,8 +49,96 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
       this.patientName = this.name.patient_name;
     }
   }
+  @HostListener('document:click', ['$event'])
+  clickout(event: any) {
+    if (this.showPopup && !this.containerRef.nativeElement.contains(event.target)) {
+      this.showPopup = false;
+    }
+  }
+  @ViewChild('containerRef', { static: true }) containerRef!: ElementRef;
+  showPopup = false;
+  isAddImage: boolean = false;
+  recordImage = {
+    id: 0,
+    typeImage: "",
+    imageInsert: "",
+    description: ""
+  }
+  recordsImage: any[] = []
+  idImage: number = 0;
+  imageLink: string = '';
+  toggleAddImage() {
+    this.isAddImage = true;
+    if (this.isAddImage) {
+      const Id = this.idImage++;
+      this.recordImage = {
+        id: Id,
+        typeImage: "1",
+        imageInsert: "../../../../../../assets/img/noImage.png",
+        description: ""
+      }
+      this.recordsImage.push(this.recordImage);
+    }
+  }
+  deleteRecordImage(index: any) {
+    this.isAddImage = false;
+    this.recordsImage.splice(index, 1);
+  }
+  currentIndex: any;
+  onChangeIndex(index: any,event: Event) {
+    this.currentIndex = index;
+    event.stopPropagation();
+  }
+  inputImageUrlInsert(event: any) {
+    this.recordImage = {
+      id: this.currentIndex,
+      typeImage: "2",
+      imageInsert: event.target.value,
+      description: ""
+    }
+  }
+  @ViewChild('fileInput') fileInputVariable!: ElementRef;
+  onFileSelected(event: any) {
+    const fileInput = event.target;
+    if (fileInput.files && fileInput.files[0]) {
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        const base64Data = e.target.result;
+        this.recordImage = {
+          id: this.currentIndex,
+          typeImage: "1",
+          imageInsert: base64Data,
+          description: ""
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  }
 
+  addImageUrl() {
+    this.recordsImage.forEach((item: any) => {
+      if (item.id == this.currentIndex) {
+        item.typeImage = this.recordImage.typeImage;
+        item.imageInsert = this.recordImage.imageInsert;
+      }
+    })
+    this.recordImage = {
+      id: 0,
+      typeImage: "1",
+      imageInsert: "",
+      description: ""
+    }
+  }
+  showZoomedInImage = false;
 
+  zoomImage() {
+    this.showZoomedInImage = true;
+  }
+
+  closeZoom() {
+    this.showZoomedInImage = false;
+  }
   getTreatmentCourse() {
     this.loading = true;
     this.treatmentCourseService.getTreatmentCourse(this.id)

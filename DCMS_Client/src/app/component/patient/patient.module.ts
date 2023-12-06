@@ -6,8 +6,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { NgbModule, NgbModalModule, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
-
-
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { PatientManagementComponent } from './patient-management/patient-management.component';
 import { PatientRecordsComponent } from './patient-records/patient-records.component';
 import { SharedModule } from '../shared/shared.module';
@@ -60,6 +59,7 @@ import { ReceptionistModule } from '../receptionist/receptionist.module';
     PatientRoutingModule,
     HttpClientModule,
     AdminModule,
+    NgxSkeletonLoaderModule.forRoot(),
     ToastrModule.forRoot({
       preventDuplicates: true,
       timeOut: 3000,

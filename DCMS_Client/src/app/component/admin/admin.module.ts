@@ -96,6 +96,12 @@ import {
   PopupExaminationDetailComponent
 } from "../patient/patient-records/patient-payment-tab/popup-examination-detail/popup-examination-detail.component";
 import { NgbDateCustomParserFormatter } from '../utils/libs/datepickerfOrmat';
+import {
+  PopupAddAppointmentNewComponent
+} from "../utils/pop-up/appointment/popup-add-appointment-new/popup-add-appointment-new.component";
+import {
+  PopupAddWaitingroomNewPatientComponent
+} from "../receptionist/receptionist-waiting-room/popup-add-waitingroom-new-patient/popup-add-waitingroom-new-patient.component";
 
 @NgModule({
   declarations: [
@@ -176,7 +182,9 @@ import { NgbDateCustomParserFormatter } from '../utils/libs/datepickerfOrmat';
     PopupGenMedicalPdfComponent,
     ReceiptsComponent,
     DetailReceiptsComponent,
-    PopupExaminationDetailComponent
+    PopupExaminationDetailComponent,
+    PopupAddAppointmentNewComponent,
+    PopupAddWaitingroomNewPatientComponent
   ],
   imports: [
     CommonModule,

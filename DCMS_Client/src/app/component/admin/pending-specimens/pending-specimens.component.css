@@ -38,5 +38,13 @@ a {
 }
 
 .custom-row {
-  margin-top: 2.2%
+  margin-top: 1%;
+  margin-bottom: 1%;
+  display: flex;
+}
+.custom-row .dang-cho-duyet {
+  margin-left: 2%;
+}
+.custom-row .mau{
+  margin-left: 2%;
 }
