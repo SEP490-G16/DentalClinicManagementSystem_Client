@@ -7,6 +7,14 @@ import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureSe
 import { ResponseHandler } from "../../../libs/ResponseHandler";
 import { MaterialUsageService } from 'src/app/service/MaterialUsage/MaterialUsageService.component';
 import { MaxPipe } from 'ngx-date-fns';
+import {NgbModal, NgbModalOptions} from "@ng-bootstrap/ng-bootstrap";
+import {
+  ConfirmAddTreatmentcourseComponent
+} from "../../common/confirm-add-treatmentcourse/confirm-add-treatmentcourse.component";
+import {
+  PopupGenMedicalPdfComponent
+} from "../popup-add-examination/popup-gen-medical-pdf/popup-gen-medical-pdf.component";
+import {Examination} from "../../../../../model/ITreatmentCourseDetail";
 
 @Component({
   selector: 'app-popup-add-treatmentcourse',
@@ -23,7 +31,7 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
   ProcedureDetailListFiltered: any[] = [];
   Post_TreatmentCourse: Partial<IBodyTreatmentCourse> = {};
   Post_Procedure_Material_Usage: any[] = []
-
+  showDropDown1:boolean=false;
 
   TreatmentCouseBody = {
     name: '',
@@ -35,7 +43,7 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     groupId:'',
     groupName: '',
     checked: true,
-    procedure: [] as ProcedureOb[], 
+    procedure: [] as ProcedureOb[],
     isExpand: false,
   }
   ProcedureDetailListCheck: any[] = [];
@@ -47,6 +55,7 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     private procedureMaterialService: MaterialUsageService,
     private toastr: ToastrService,
     private route: ActivatedRoute,
+    private modelService:NgbModal,
     private router: Router
   ) {
   }
@@ -68,7 +77,7 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
             procedureName: currentO.mp_name,
             initPrice: currentO.mp_price,
             price: currentO.mp_price,
-            checked: false, 
+            checked: false,
             isExpand: false,
           };
           this.groupProcedureO.groupId = currentO.mg_id;
@@ -80,7 +89,7 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
             groupId: '',
             groupName: '',
             checked: true,
-            procedure: [], 
+            procedure: [],
             isExpand: false
           }
           proObject = {
@@ -88,7 +97,7 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
             procedureName: '',
             initPrice: '',
             price: '',
-            checked: true, 
+            checked: true,
             isExpand: false
           };
         } else {
@@ -108,7 +117,7 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
                 procedureName: currentO.mp_name,
                 initPrice: currentO.mp_price,
                 price: '',
-                checked: false, 
+                checked: false,
                 isExpand: false
               };
             }
@@ -126,7 +135,6 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
   showDropDown: boolean = false;
   checkedList: any[] = [];
   currentSelected: any;
-
   getSelectedValue(it: any) {
     this.list.forEach((item: any) => {
       if (item.groupId == it.groupId) {
@@ -200,12 +208,32 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
               .subscribe((res) => {
                 console.log("oki");
                 this.toastr.success("Thêm Thủ thuật thành công");
-                this.router.navigate(['/benhnhan/danhsach/tab/lichtrinhdieutri/' + this.Patient_Id + '/themlankham/' + this.treatmentCourseId]);
+                //this.router.navigate(['/benhnhan/danhsach/tab/lichtrinhdieutri/' + this.Patient_Id + '/themlankham/' + this.treatmentCourseId]);
               }, (err) => {
                 this.toastr.error(err.error.message, "Thêm Thủ thuật thất bại");
               })
           })
       }
+        const modalRef = this.modelService.open(ConfirmAddTreatmentcourseComponent);
+        modalRef.result.then((res:any) =>{
+          switch (res){
+            case 'lich-hen':
+              const ref = document.getElementById('cancel');
+              ref?.click();
+              this.goAppointment();
+
+              break;
+            case 'thanh-toan':
+              const ref1 = document.getElementById('cancel');
+              ref1?.click();
+              this.goPayment();
+              break;
+            default:
+              break;
+          }
+
+        })
+
       },
         (error) => {
           ResponseHandler.HANDLE_HTTP_STATUS(this.treatmentCourseService.apiUrl + "/treatment-course", error);
@@ -224,6 +252,124 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
         item.isExpand = !check.isExpand;
        }
     })
+  }
+  goAppointment(): void {
+    this.router.navigate(["/benhnhan/danhsach/tab/lichhen/" + this.Patient_Id]);
+  }
+  goPayment(): void {
+    this.router.navigate(["/benhnhan/danhsach/tab/thanhtoan/" + this.Patient_Id]);
+  }
+  selectMedicine: string = '0';
+  showPrescriptionContent: boolean = false;
+  recordsMedicine: any[] = [];
+  listSample = [
+    {
+      "Id": "1",
+      "Medical": [
+        {
+          "MedicalName": "Augmentin 1g",
+          "Quantity": "1",
+          "Unit": "Viên(Glaxo Smith)",
+          "Dosage": "Ngày uống 1 viên sau ăn",
+          "Note": ""
+        },
+        {
+          "MedicalName": "Metronidazol 250mg",
+          "Quantity": "1",
+          "Unit": "Viên",
+          "Dosage": "Ngày uống 4 viên chia 2 lần sau ăn",
+          "Note": ""
+        },
+        {
+          "MedicalName": "Medrol 16mg",
+          "Quantity": "1",
+          "Unit": "Viên",
+          "Dosage": "Ngày uống 1 viên sau ăn",
+          "Note": ""
+        },
+        {
+          "MedicalName": "Efferalgan codein 500mg",
+          "Quantity": "1",
+          "Unit": "Viên",
+          "Dosage": "Uống khi đau mỗi lần 1 viên sau ăn no.Nếu đau sau 6-8 tiếng sau uống 1 viên tiếp. Pha 1 viên vào 200 ml nước lọc",
+          "Note": ""
+
+        }
+      ]
+    },
+    {
+      "Id": "2",
+      "Medical": [
+        {
+          "MedicalName": "Augmentin 1g",
+          "Quantity": "1",
+          "Unit": "Viên(Glaxo Smith)",
+          "Dosage": "Ngày uống 1 viên sau ăn",
+          "Note": ""
+        },
+        {
+          "MedicalName": "Efferalgan codein 500mg",
+          "Quantity": "1",
+          "Unit": "Viên",
+          "Dosage": "Uống khi đau mỗi lần 1 viên sau ăn no.Nếu đau sau 6-8 tiếng sau uống 1 viên tiếp. Pha 1 viên vào 200 ml nước lọc",
+          "Note": ""
+
+        }
+      ]
+    }
+  ]
+  onMedicineChange() {
+    this.recordsMedicine.splice(0, this.recordsMedicine.length);
+    this.showPrescriptionContent = this.selectMedicine !== '0';
+    this.listSample.forEach((item: any) => {
+      if (item.Id == this.selectMedicine) {
+        item.Medical.forEach((it: any) => {
+          this.recordsMedicine.push({
+            id: item.Id,
+            ten: it.MedicalName,
+            soLuong: it.Quantity,
+            donvi: it.Unit,
+            lieuDung: it.Dosage,
+            ghiChu: it.Note
+          })
+        })
+      }
+    })
+
+  }
+  isAddMedicine: boolean = true;
+  toggleAddMedicine() {
+    if (this.isAddMedicine) {
+      this.recordsMedicine.push({
+        id: this.selectMedicine,
+        ten:'',
+        soLuong:'',
+        donvi: '',
+        lieuDung:'',
+        ghiChu:''
+      })
+    }
+  }
+
+  toggleUpdateMedicine() {
+    this.isAddMedicine = !this.isAddMedicine;
+  }
+
+  deleteRecordMedicine(index: any) {
+    this.isAddMedicine = false;
+    this.recordsMedicine.splice(index, 1);
+  }
+  modalOption: NgbModalOptions = {
+    size: 'lg',
+    centered: true
+  }
+  Patient:any;
+  examination: Examination = {} as Examination;
+  openGeneratePdfModal() {
+    const modalRef = this.modelService.open(PopupGenMedicalPdfComponent, this.modalOption);
+    modalRef.componentInstance.Disagnosis = this.examination.diagnosis;
+    modalRef.componentInstance.Medical = this.recordsMedicine;
+    modalRef.componentInstance.Patient = this.Patient;
   }
 }
 

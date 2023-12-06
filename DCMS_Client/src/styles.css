@@ -746,3 +746,7 @@ button:hover {
 .patient_tab {
   margin-top: 1% !important;
 }
+.button-add-content{
+  display: flex;
+  justify-content: space-around;
+}

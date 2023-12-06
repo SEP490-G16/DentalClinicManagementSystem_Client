@@ -72,6 +72,10 @@ export class PopupAddPatientComponent implements OnInit {
       this.validatePatient.dob = "Vui lòng nhập ngày sinh!";
       this.isSubmitted = true;
     }
+    else if (!this.isDob(this.patient1.dob)){
+      this.validatePatient.dob = "Vui lòng nhập ngày sinh đúng định dạng dd/MM/yyyy !";
+      this.isSubmitted = true;
+    }
     if (!this.patient1.Address) {
       this.validatePatient.address = "Vui lòng nhập địa chỉ!";
       this.isSubmitted = true;
@@ -89,7 +93,7 @@ export class PopupAddPatientComponent implements OnInit {
       address: this.patient1.Address,
       full_medical_history: this.patient1.full_medical_History,
       dental_medical_history: this.patient1.dental_medical_History,
-      date_of_birth: this.patient1.dob
+      date_of_birth: this.convertDateToISOFormat(this.patient1.dob)
     }
     if (this.patient1.phone_Number && this.patient1.phone_Number.length === 9) {
       this.patientBody = {
@@ -101,7 +105,7 @@ export class PopupAddPatientComponent implements OnInit {
         address: this.patient1.Address,
         full_medical_history: this.patient1.full_medical_History,
         dental_medical_history: this.patient1.dental_medical_History,
-        date_of_birth: this.patient1.dob
+        date_of_birth: this.convertDateToISOFormat(this.patient1.dob)
       }
     }
     if (this.patient1.phone_Number && this.patient1.phone_Number.length === 10) {
@@ -114,7 +118,7 @@ export class PopupAddPatientComponent implements OnInit {
         address: this.patient1.Address,
         full_medical_history: this.patient1.full_medical_History,
         dental_medical_history: this.patient1.dental_medical_History,
-        date_of_birth: this.patient1.dob
+        date_of_birth: this.convertDateToISOFormat(this.patient1.dob)
       }
     }
 
@@ -154,6 +158,17 @@ export class PopupAddPatientComponent implements OnInit {
   private isVietnamesePhoneNumber(number: string): boolean {
     return /^(\+84|84|0)?[1-9]\d{8}$/
       .test(number);
+  }
+  private isDob(dob: string): boolean {
+    return /^\d{2}\/\d{2}\/\d{4}$/.test(dob);
+  }
+  convertDateToISOFormat(dateStr: string): string | null {
+    const match = dateStr.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    if (match) {
+      return `${match[3]}-${match[2]}-${match[1]}`; // Chuyển đổi sang định dạng yyyy-MM-dd
+    } else {
+      return null; // hoặc bạn có thể handle lỗi tùy theo logic của ứng dụng
+    }
   }
   private isValidEmail(email: string): boolean {
     // Thực hiện kiểm tra địa chỉ email ở đây, có thể sử dụng biểu thức chính quy

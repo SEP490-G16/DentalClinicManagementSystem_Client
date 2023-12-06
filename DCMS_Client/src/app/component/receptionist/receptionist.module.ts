@@ -25,6 +25,7 @@ import {
   PopupConfirmServiceComponent
 } from "../utils/pop-up/appointment/popup-confirm-service/popup-confirm-service.component";
 import { NgSelectModule } from '@ng-select/ng-select';
+import { PopupAddWaitingroomNewPatientComponent } from './receptionist-waiting-room/popup-add-waitingroom-new-patient/popup-add-waitingroom-new-patient.component';
 @NgModule({
   declarations: [
     //ReceptionistAppointmentListComponent,

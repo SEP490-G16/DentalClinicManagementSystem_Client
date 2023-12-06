@@ -1,47 +1,30 @@
-import { Component, OnInit, Renderer2, ViewChild, EventEmitter, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ReceptionistAppointmentService } from 'src/app/service/ReceptionistService/receptionist-appointment.service';
-import { IAddAppointment, RootObject } from 'src/app/model/IAppointment';
-import { PatientService } from 'src/app/service/PatientService/patient.service';
-import * as moment from 'moment-timezone';
-//import { setTimeout } from 'timers';
-import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import {Component, EventEmitter, Input, OnInit, Output, Renderer2, SimpleChanges} from '@angular/core';
+import {BehaviorSubject} from "rxjs";
+import {IAddAppointment, RootObject} from "../../../../../model/IAppointment";
+import {NgbCalendar, NgbDate, NgbDatepickerConfig, NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
 import {
-  NgbDatepickerConfig,
-  NgbCalendar,
-  NgbDate,
-  NgbDateStruct,
-} from "@ng-bootstrap/ng-bootstrap";
-
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureService/medical-procedure-group.service';
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs'
-import { ResponseHandler } from "../../../libs/ResponseHandler";
-import { CognitoService } from 'src/app/service/cognito.service';
-import { TimeKeepingService } from 'src/app/service/Follow-TimeKeepingService/time-keeping.service';
-import { ConvertJson } from 'src/app/service/Lib/ConvertJson';
-import { IsThisSecondPipe } from 'ngx-date-fns';
-
-import { SendMessageSocket } from 'src/app/component/shared/services/SendMessageSocket.service';
-
-import { Normalize } from 'src/app/service/Lib/Normalize';
-
+  ReceptionistAppointmentService
+} from "../../../../../service/ReceptionistService/receptionist-appointment.service";
+import {PatientService} from "../../../../../service/PatientService/patient.service";
+import {ToastrService} from "ngx-toastr";
+import {Router} from "@angular/router";
+import {CognitoService} from "../../../../../service/cognito.service";
+import {TimeKeepingService} from "../../../../../service/Follow-TimeKeepingService/time-keeping.service";
+import {
+  MedicalProcedureGroupService
+} from "../../../../../service/MedicalProcedureService/medical-procedure-group.service";
+import {SendMessageSocket} from "../../../../shared/services/SendMessageSocket.service";
+import * as moment from "moment-timezone";
+import {ConvertJson} from "../../../../../service/Lib/ConvertJson";
+import {Normalize} from "../../../../../service/Lib/Normalize";
+import {ResponseHandler} from "../../../libs/ResponseHandler";
 
 @Component({
-  selector: 'app-popup-add-appointment',
-  templateUrl: './popup-add-appointment.component.html',
-  styleUrls: ['./popup-add-appointment.component.css']
+  selector: 'app-popup-add-appointment-new',
+  templateUrl: './popup-add-appointment-new.component.html',
+  styleUrls: ['./popup-add-appointment-new.component.css']
 })
-
-@Injectable({
-  providedIn: 'root'
-})
-
-export class PopupAddAppointmentComponent implements OnInit, OnChanges {
-  phoneRegex = /^[0-9]{10}$|^[0-9]{4}\s[0-9]{3}\s[0-9]{3}$/;
-
-
+export class PopupAddAppointmentNewComponent implements OnInit {
   private itemsSource = new BehaviorSubject<any[]>([]);
   items = this.itemsSource.asObservable();
   isCheckProcedure: boolean = true;
@@ -117,16 +100,16 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   mindate: Date;
   minTime: string;
   constructor(private APPOINTMENT_SERVICE: ReceptionistAppointmentService,
-    private PATIENT_SERVICE: PatientService,
-    private renderer: Renderer2,
-    private toastr: ToastrService,
-    private router: Router,
-    private config: NgbDatepickerConfig,
-    private calendar: NgbCalendar,
-    private cognito: CognitoService,
-    private timeKeepingService: TimeKeepingService,
-    private medicaoProcedureGroupService: MedicalProcedureGroupService,
-    private sendMessageSocket: SendMessageSocket
+              private PATIENT_SERVICE: PatientService,
+              private renderer: Renderer2,
+              private toastr: ToastrService,
+              private router: Router,
+              private config: NgbDatepickerConfig,
+              private calendar: NgbCalendar,
+              private cognito: CognitoService,
+              private timeKeepingService: TimeKeepingService,
+              private medicaoProcedureGroupService: MedicalProcedureGroupService,
+              private sendMessageSocket: SendMessageSocket
   ) {
     this.isDisabled = (
       date: NgbDateStruct
@@ -229,12 +212,12 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     if (storeList != null) {
       this.appointmentList = JSON.parse(storeList);
       this.ListAppointments = this.appointmentList.filter(app => app.date === this.startDateTimestamp);
-        this.ListAppointments.forEach((a: any) => {
-          this.dateEpoch = this.timestampToDate(a.date);
-          a.appointments.forEach((b: any) => {
-            b.details = b.details.sort((a: any, b: any) => a.time - b.time);
-          })
+      this.ListAppointments.forEach((a: any) => {
+        this.dateEpoch = this.timestampToDate(a.date);
+        a.appointments.forEach((b: any) => {
+          b.details = b.details.sort((a: any, b: any) => a.time - b.time);
         })
+      })
     } else {
       this.startDateTimestamp = this.dateToTimestamp(this.startDate);
       this.APPOINTMENT_SERVICE.getAppointmentList(this.startDateTimestamp, this.endDateTimestamp).subscribe(data => {
@@ -710,6 +693,10 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
       this.validatePatient.dob = "Vui lòng nhập ngày sinh!";
       this.isSubmittedPatient = true;
     }
+    else if (!this.isDob(this.patient1.dob)){
+      this.validatePatient.dob = "Vui lòng nhập ngày sinh đúng định dạng dd/MM/yyyy !";
+      this.isSubmitted = true;
+    }
     if (!this.patient1.Address) {
       this.validatePatient.address = "Vui lòng nhập địa chỉ!";
       this.isSubmittedPatient = true;
@@ -726,7 +713,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
       address: this.patient1.Address,
       full_medical_history: this.patient1.full_medical_History,
       dental_medical_history: this.patient1.dental_medical_History,
-      date_of_birth: this.patient1.dob
+      date_of_birth:this.convertDateToISOFormat(this.patient1.dob)
     }
     if (this.patient1.phone_Number && this.patient1.phone_Number.length === 9) {
       this.patientBody = {
@@ -738,7 +725,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
         address: this.patient1.Address,
         full_medical_history: this.patient1.full_medical_History,
         dental_medical_history: this.patient1.dental_medical_History,
-        date_of_birth: this.patient1.dob
+        date_of_birth: this.convertDateToISOFormat(this.patient1.dob)
       }
     }
     if (this.patient1.phone_Number && this.patient1.phone_Number.length === 10) {
@@ -751,7 +738,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
         address: this.patient1.Address,
         full_medical_history: this.patient1.full_medical_History,
         dental_medical_history: this.patient1.dental_medical_History,
-        date_of_birth: this.patient1.dob
+        date_of_birth: this.convertDateToISOFormat(this.patient1.dob)
       }
     }
 
@@ -774,6 +761,17 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   toggleAdd() {
     this.isAdd = true;
     this.isAddOld = true;
+  }
+  private isDob(dob: string): boolean {
+    return /^\d{2}\/\d{2}\/\d{4}$/.test(dob);
+  }
+  convertDateToISOFormat(dateStr: string): string | null {
+    const match = dateStr.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    if (match) {
+      return `${match[3]}-${match[2]}-${match[1]}`; // Chuyển đổi sang định dạng yyyy-MM-dd
+    } else {
+      return null; // hoặc bạn có thể handle lỗi tùy theo logic của ứng dụng
+    }
   }
   toggleAddOld(){
     this.isAddOld = true;
@@ -799,7 +797,6 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     this.isSubmittedPatient = false;
   }
 }
-
 interface TimekeepingDetail {
   register_clock_in?: string;
   register_clock_out?: string;

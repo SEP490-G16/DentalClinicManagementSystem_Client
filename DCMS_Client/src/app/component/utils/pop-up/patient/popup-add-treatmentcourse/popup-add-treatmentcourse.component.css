@@ -437,3 +437,60 @@ table .tr-children:hover{
   margin-bottom: 15px;
   /* box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset; */
 }
+.btn-add-procedure{
+  float: right;
+}
+.button-content{
+  display: flex;
+  justify-content: right;
+}
+.delete-button {
+  background-color: red;
+  color: white;
+  border: none;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  float: right;
+}
+.delete-button:hover {
+  background-color: darkred;
+}
+.delete-cell{
+  text-align: center;
+  vertical-align: middle;
+  display: flex;
+  justify-content: center;
+}
+.modal-content{
+  height: 90vh !important;
+  min-height: 100%;
+  overflow-y: auto;
+  overflow-x: auto;
+  border-radius: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background-color: #c0c0c0;
+  border-radius: 6px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background-color: #f0f0f0;
+  border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: #8c8a8a;
+}

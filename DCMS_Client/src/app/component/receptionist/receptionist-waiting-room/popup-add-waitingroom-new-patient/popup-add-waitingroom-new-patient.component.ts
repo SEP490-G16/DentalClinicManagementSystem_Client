@@ -1,26 +1,26 @@
-import { Component, OnInit, Renderer2, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { IPostWaitingRoom } from 'src/app/model/IWaitingRoom';
-import { PatientService } from 'src/app/service/PatientService/patient.service';
-import { PopupAddPatientComponent } from 'src/app/component/utils/pop-up/patient/popup-add-patient/popup-add-patient.component';
-import * as moment from 'moment-timezone';
-import { ReceptionistWaitingRoomService } from 'src/app/service/ReceptionistService/receptionist-waitingroom.service';
-import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureService/medical-procedure-group.service';
-import { add } from 'date-fns';
-import { ResponseHandler } from 'src/app/component/utils/libs/ResponseHandler';
-import { WebsocketService } from 'src/app/service/Chat/websocket.service';
-import { DataService } from 'src/app/component/shared/services/DataService.service';
-import { SendMessageSocket } from 'src/app/component/shared/services/SendMessageSocket.service';
-
-import { Normalize } from 'src/app/service/Lib/Normalize';
+import {Component, OnInit, Renderer2} from '@angular/core';
+import {IPostWaitingRoom} from "../../../../model/IWaitingRoom";
+import {ReceptionistWaitingRoomService} from "../../../../service/ReceptionistService/receptionist-waitingroom.service";
+import {PatientService} from "../../../../service/PatientService/patient.service";
+import {ToastrService} from "ngx-toastr";
+import {Router} from "@angular/router";
+import {WebsocketService} from "../../../../service/Chat/websocket.service";
+import {
+  MedicalProcedureGroupService
+} from "../../../../service/MedicalProcedureService/medical-procedure-group.service";
+import {DataService} from "../../../shared/services/DataService.service";
+import {SendMessageSocket} from "../../../shared/services/SendMessageSocket.service";
+import * as moment from "moment-timezone";
+import {ResponseHandler} from "../../../utils/libs/ResponseHandler";
+import {Normalize} from "../../../../service/Lib/Normalize";
 
 @Component({
-  selector: 'app-add-waiting-room',
-  templateUrl: './add-waiting-room.component.html',
-  styleUrls: ['./add-waiting-room.component.css']
+  selector: 'app-popup-add-waitingroom-new-patient',
+  templateUrl: './popup-add-waitingroom-new-patient.component.html',
+  styleUrls: ['./popup-add-waitingroom-new-patient.component.css']
 })
-export class AddWaitingRoomComponent implements OnInit {
+export class PopupAddWaitingroomNewPatientComponent implements OnInit {
+
   patientList: any[] = [];
   patientInfor: any;
   isAdd: boolean = false;
@@ -197,15 +197,16 @@ export class AddWaitingRoomComponent implements OnInit {
       }
     }
     const postInfo = this.POST_WAITTINGROOM.epoch + ' - ' + this.POST_WAITTINGROOM.produce_id + ' - ' + this.POST_WAITTINGROOM.produce_name + ' - '
-    + this.POST_WAITTINGROOM.patient_id + ' - ' +this.POST_WAITTINGROOM.patient_name + ' - ' + this.POST_WAITTINGROOM.reason + ' - '
-    + this.POST_WAITTINGROOM.status + ' - ' + this.POST_WAITTINGROOM.appointment_id + ' - ' + this.POST_WAITTINGROOM.appointment_epoch + ' - ' + this.POST_WAITTINGROOM.patient_created_date;
+      + this.POST_WAITTINGROOM.patient_id + ' - ' +this.POST_WAITTINGROOM.patient_name + ' - ' + this.POST_WAITTINGROOM.reason + ' - '
+      + this.POST_WAITTINGROOM.status + ' - ' + this.POST_WAITTINGROOM.appointment_id + ' - ' + this.POST_WAITTINGROOM.appointment_epoch + ' - ' + this.POST_WAITTINGROOM.patient_created_date;
+
     this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
       .subscribe((data) => {
-        this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'wtr');
-        this.showSuccessToast("Thêm phòng chờ thành công!!");
-        let ref = document.getElementById('cancel-add-waiting');
+          this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'wtr');
+          this.showSuccessToast("Thêm phòng chờ thành công!!");
+          let ref = document.getElementById('cancel-add-waiting');
           ref?.click();
-        this.messageContent = `CheckRealTimeWaitingRoom@@@,${postInfo},${Number('1')}`;
+          this.messageContent = `CheckRealTimeWaitingRoom@@@,${postInfo},${Number('1')}`;
           this.messageBody = {
             action: '',
             message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
@@ -219,7 +220,7 @@ export class AddWaitingRoomComponent implements OnInit {
             this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
 
           }
-      },
+        },
         (err) => {
           this.showErrorToast('Lỗi khi thêm phòng chờ');
         }
@@ -227,7 +228,6 @@ export class AddWaitingRoomComponent implements OnInit {
   }
 
   addPatient() {
-    console.log(this.patient1.gender);
     this.resetValidate();
     if (!this.patient1.patientName) {
       this.validatePatient.name = "Vui lòng nhập tên bệnh nhân!";
@@ -253,6 +253,10 @@ export class AddWaitingRoomComponent implements OnInit {
       this.validatePatient.dob = "Vui lòng nhập ngày sinh!";
       this.isSubmitted = true;
     }
+    else if (!this.isDob(this.patient1.dob)){
+      this.validatePatient.dob = "Vui lòng nhập ngày sinh đúng định dạng dd/MM/yyyy !";
+      this.isSubmitted = true;
+    }
     if (!this.patient1.Address) {
       this.validatePatient.address = "Vui lòng nhập địa chỉ!";
       this.isSubmitted = true;
@@ -269,7 +273,7 @@ export class AddWaitingRoomComponent implements OnInit {
       address: this.patient1.Address,
       full_medical_history: this.patient1.full_medical_History,
       dental_medical_history: this.patient1.dental_medical_History,
-      date_of_birth: this.patient1.dob,
+      date_of_birth: this.convertDateToISOFormat(this.patient1.dob),
     }
     if (this.patient1.phone_Number && this.patient1.phone_Number.length === 9) {
       this.patientBody = {
@@ -281,7 +285,7 @@ export class AddWaitingRoomComponent implements OnInit {
         address: this.patient1.Address,
         full_medical_history: this.patient1.full_medical_History,
         dental_medical_history: this.patient1.dental_medical_History,
-        date_of_birth: this.patient1.dob,
+        date_of_birth: this.convertDateToISOFormat(this.patient1.dob),
       }
     }
     if (this.patient1.phone_Number && this.patient1.phone_Number.length === 10) {
@@ -294,7 +298,7 @@ export class AddWaitingRoomComponent implements OnInit {
         address: this.patient1.Address,
         full_medical_history: this.patient1.full_medical_History,
         dental_medical_history: this.patient1.dental_medical_History,
-        date_of_birth: this.patient1.dob,
+        date_of_birth: this.convertDateToISOFormat(this.patient1.dob),
       }
     }
     console.log("Patient body: ", this.patientBody);
@@ -385,6 +389,17 @@ export class AddWaitingRoomComponent implements OnInit {
     // Thực hiện kiểm tra địa chỉ email ở đây, có thể sử dụng biểu thức chính quy
     return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email);
   }
+  private isDob(dob: string): boolean {
+    return /^\d{2}\/\d{2}\/\d{4}$/.test(dob);
+  }
+  convertDateToISOFormat(dateStr: string): string | null {
+    const match = dateStr.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    if (match) {
+      return `${match[3]}-${match[2]}-${match[1]}`; // Chuyển đổi sang định dạng yyyy-MM-dd
+    } else {
+      return null; // hoặc bạn có thể handle lỗi tùy theo logic của ứng dụng
+    }
+  }
   toggleAdd() {
     this.isAdd = true;
     this.isAddOld = true;
@@ -410,4 +425,5 @@ export class AddWaitingRoomComponent implements OnInit {
     action: '',
     message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
   }
+
 }

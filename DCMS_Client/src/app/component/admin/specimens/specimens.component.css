@@ -38,7 +38,9 @@
 .custom-row .dang-cho-duyet {
   margin-left: 2%;
 }
-
+.custom-row .mau{
+  margin-left: 2%;
+}
 .disabled {
   color: black;
   background-color: #d9d9d9;

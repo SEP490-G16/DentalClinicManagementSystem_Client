@@ -5,14 +5,24 @@
 <div class="sep-recent-orders">
   <div class="row custom-row">
     <div class="col-6">
-      <button class="btn button-add" style="margin-right: 30px;" data-bs-toggle="modal"
-        data-bs-target="#wrModal"><i class="bi bi-plus-circle"></i>
-        Thêm bệnh nhân đợi</button>
+      <div class="button-app">
+        <div>
+          <button class="btn button-add" style="margin-right: 30px;" data-bs-toggle="modal"
+                  data-bs-target="#wrModal"><i class="bi bi-plus-circle"></i>
+            Thêm bệnh nhân đợi cũ</button>
+        </div>
+        <div>
+          <button class="btn button-add" style="margin-right: 30px;" data-bs-toggle="modal"
+                  data-bs-target="#wrNewModal"><i class="bi bi-plus-circle"></i>
+            Thêm bệnh nhân đợi mới</button>
+        </div>
+      </div>
+
     </div>
     <div class="col-6">
       <select class="form-select input-custom float-end" aria-label="Default select example" [(ngModel)]="procedure"
         (change)="filterProcedure()" style="width: 25%;">
-        <option selected value="0">Tất cả loại điều trị</option>
+        <option selected value="0">Loại điều trị</option>
         <option *ngFor="let a of listGroupService" value={{a.medical_procedure_group_id}}>{{a.name}}</option>
       </select>
     </div>
@@ -84,3 +94,4 @@
   </div>
 </div>
 <app-add-waiting-room></app-add-waiting-room>
+<app-popup-add-waitingroom-new-patient></app-popup-add-waitingroom-new-patient>
