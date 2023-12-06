@@ -631,6 +631,7 @@ export class PopupAddExaminationComponent implements OnInit {
       record.totalPaid = selectedMaterial.unitPrice;
     }
   }
+  
   laboName:string = '';
   updateTemporaryLaboName(record:any, event:any){
     const selectedLabo = this.listLabo.find((labo:any) => labo.labo_id === event);

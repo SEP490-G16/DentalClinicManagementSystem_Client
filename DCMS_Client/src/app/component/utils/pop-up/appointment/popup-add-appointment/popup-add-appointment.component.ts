@@ -587,6 +587,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
           doctor: this.AppointmentBody.appointment.doctor,
           time: this.AppointmentBody.appointment.time,
           status: this.AppointmentBody.appointment.status,
+          patient_created_date: this.AppointmentBody.appointment.patient_created_date,
           migrated: 'false'
         };
 

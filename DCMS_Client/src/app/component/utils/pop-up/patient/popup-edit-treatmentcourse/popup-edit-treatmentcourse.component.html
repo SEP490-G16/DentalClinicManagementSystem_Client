@@ -144,11 +144,135 @@
             </div>
           </div>
 
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3">
+                <label for="medicine" class="form-label">Đơn thuốc:</label>
+                <select class="form-select p-2" id="medicine" style="width: 15%; border: 1px solid #664FC3;
+                         border-radius: 10px;" aria-label="Default select example" (change)="onMedicineChange()"
+                  [(ngModel)]="selectMedicine">
+                  <option value="0">Chọn mẫu đơn thuốc</option>
+                  <option value="1">Mẫu 1</option>
+                  <option value="2">Mẫu 2</option>
+                </select>
+              </div>
+              <div class="button-content" *ngIf="showPrescriptionContent">
+                <div class="btn-add-procedure">
+                  <button class="btn button-add" style="margin-right: 3px" (click)="toggleAddMedicine()"><i
+                      class="bi bi-plus-circle"></i>Thêm
+                    mới đơn thuốc</button>
+                </div>
+                <div>
+                  <button class="btn button-add" (click)="openGeneratePdfModal()">In đơn thuốc</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3" *ngIf="showPrescriptionContent">
+                <table>
+                  <colgroup>
+                    <col style="width: 10%">
+                    <col style="width: 20%">
+                    <col style="width: 20%">
+                    <col style="width: 10%">
+                    <col style="width: 20%">
+                    <col style="width: 20%">
+                  </colgroup>
+                  <tr class="sticky-thead">
+                    <th style="padding: 10px">STT</th>
+                    <th style="padding: 10px">Tên thuốc</th>
+                    <th style="padding: 10px">Số lượng</th>
+                    <th style="padding: 10px">Đơn vị</th>
+                    <th style="padding: 10px">Liều dùng</th>
+                    <th style="padding: 10px">Thao tác</th>
+                  </tr>
+  
+  
+                  <ng-container *ngFor="let record of recordsMedicine; let i = index">
+                    <tr>
+                      <td style="padding: 10px">{{ i + 1 }}</td>
+                      <td style="padding: 10px">
+                        <input type="text" *ngIf="isAddMedicine" [(ngModel)]="record.ten"
+                          class="form-control value-staff">
+                        <p *ngIf="!isAddMedicine">{{record.ten}}</p>
+                      </td>
+                      <td style="padding: 10px">
+                        <input type="text" *ngIf="isAddMedicine" [(ngModel)]="record.soLuong"
+                          class="form-control value-staff">
+                        <p *ngIf="!isAddMedicine">{{record.soLuong}}</p>
+                      </td>
+                      <td style="padding: 10px">
+                        <input type="text" *ngIf="isAddMedicine" [(ngModel)]="record.donvi"
+                          class="form-control value-staff">
+                        <p *ngIf="!isAddMedicine">{{record.donvi}}</p>
+                      </td>
+                      <td style="padding: 10px">
+                        <input type="text" *ngIf="isAddMedicine" [(ngModel)]="record.lieuDung"
+                          class="form-control value-staff">
+                        <p *ngIf="!isAddMedicine">{{record.lieuDung}}</p>
+                      </td>
+                      <td style="padding: 10px">
+                        <div class="delete-cell">
+                          <button class="delete-button" (click)="deleteRecordMedicine(i)">
+                            x
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </table>
+              </div>
+            </div>
+          </div>
 
           <div class="row">
             <div class="col-12">
               <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Mô tả</label>
+                <label for="procedureGroupSelect" class="form-label">Vật liệu sử dụng</label>
+                <div class="select-checkbox" (mouseleave)="showDropDown1 = false">
+                  <select [(ngModel)]="material_warehouse_id" (ngModelChange)="updateTemporaryNameMaterial()">
+                    <option *ngFor="let a of results" value={{a.material_warehouse_id}}>{{a.materialName}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3">
+                <table>
+                  <colgroup>
+                    <col style="width: 20%">
+                    <col style="width: 20%">
+                    <col style="width: 20%">
+                  </colgroup>
+                  <tr class="sticky-thead">
+                    <th style="padding: 10px">Tên vật liệu</th>
+                    <th style="padding: 10px">Số lượng</th>
+                    <th style="padding: 10px">Thao tác</th>
+                  </tr>
+                  <ng-container *ngFor="let a of listMaterialUsage">
+                    <tr>
+                      <td>{{a.description}}</td>
+                      <td><input type="text" [(ngModel)]="a.quantity"></td>
+                      <td><button class="delete-button" (click)="deleteMaterialUsage(a.material_warehouse_id)">
+                          x
+                        </button></td>
+                    </tr>
+                  </ng-container>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Lưu ý</label>
                 <input type="text" class="form-control" id="exampleInputEmail1"
                 [(ngModel)]="Edit_TreatmentCourse.description"
                 aria-describedby="emailHelp">
