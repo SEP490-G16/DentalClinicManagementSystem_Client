@@ -144,103 +144,95 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
     }
   }
   onPostWaitingRoom() {
-    let patientIn = this.patientInfor.split(' - ');
-    this.POST_WAITTINGROOM.patient_id = patientIn[0];
-    this.POST_WAITTINGROOM.patient_name = patientIn[1];
-    this.POST_WAITTINGROOM.status = "1";
-    this.POST_WAITTINGROOM.appointment_id = "";
-    this.POST_WAITTINGROOM.appointment_epoch = "";
-    const storedPatientIdsString = localStorage.getItem('listPatientId');
-    let storedPatientIds = [];
-    if (storedPatientIdsString) {
-      storedPatientIds = JSON.parse(storedPatientIdsString);
-    }
-    const currentDateTimeGMT7 = moment().tz('Asia/Ho_Chi_Minh');
-    this.POST_WAITTINGROOM.epoch = Math.floor(currentDateTimeGMT7.valueOf() / 1000).toString();
-    this.resetValidate();
-    if (this.patientInfor == '' || this.patientInfor == null) {
-      this.validateWatingRoom.patientName = "Vui lòng chọn bệnh nhân!";
-      this.isSubmitted = true;
-      return;
-    }
-    if (!this.POST_WAITTINGROOM.produce_id) {
-      this.validateWatingRoom.procedure = "Vui lòng chọn loại điều trị!";
-      this.isSubmitted = true;
-    }
-    if (this.isSubmitted) {
-      return;
-    }
+    //let patientIn = this.patientInfor.split(' - ');
+    // this.POST_WAITTINGROOM.patient_id = patientIn[0];
+    // this.POST_WAITTINGROOM.patient_name = patientIn[1];
+    // this.POST_WAITTINGROOM.status = "1";
+    // this.POST_WAITTINGROOM.appointment_id = "";
+    // this.POST_WAITTINGROOM.appointment_epoch = "";
+    //const storedPatientIdsString = localStorage.getItem('listPatientId');
+    // let storedPatientIds = [];
+    // if (storedPatientIdsString) {
+    //   storedPatientIds = JSON.parse(storedPatientIdsString);
+    // }
+    // const currentDateTimeGMT7 = moment().tz('Asia/Ho_Chi_Minh');
+    // this.POST_WAITTINGROOM.epoch = Math.floor(currentDateTimeGMT7.valueOf() / 1000).toString();
+    // this.resetValidate();
+    // if (this.patientInfor == '' || this.patientInfor == null) {
+    //   this.validateWatingRoom.patientName = "Vui lòng chọn bệnh nhân!";
+    //   this.isSubmitted = true;
+    //   return;
+    // }
+    // if (!this.POST_WAITTINGROOM.produce_id) {
+    //   this.validateWatingRoom.procedure = "Vui lòng chọn loại điều trị!";
+    //   this.isSubmitted = true;
+    // }
+    // if (this.isSubmitted) {
+    //   return;
+    // }
 
-    if (storedPatientIds.includes(this.POST_WAITTINGROOM.patient_id)) {
-      this.showErrorToast('Bệnh nhân đã tồn tại trong phòng chờ!');
-      return;
-    }
-    const wrPatientId = sessionStorage.getItem("WaitingRoomPatientId");
+    // if (storedPatientIds.includes(this.POST_WAITTINGROOM.patient_id)) {
+    //   this.showErrorToast('Bệnh nhân đã tồn tại trong phòng chờ!');
+    //   return;
+    // }
+    //const wrPatientId = sessionStorage.getItem("WaitingRoomPatientId");
 
-    if (this.currentPatientCreated == true) {
-      this.POST_WAITTINGROOM.patient_created_date = '1';
-      this.currentPatientCreated = false;
-    } else {
-      const storeLi = localStorage.getItem('listSearchPatient');
-      var ListPatientStore = [];
-      if (storeLi != null) {
-        ListPatientStore = JSON.parse(storeLi);
-      }
-      if (ListPatientStore.length != 0) {
-        ListPatientStore.forEach((item: any) => {
-          if (item.patientId == this.POST_WAITTINGROOM.patient_id) {
-            if (item.patientDescription != null && item.patientDescription.includes('@@isnew##')) {
-              this.POST_WAITTINGROOM.patient_created_date = '1';
-            } else {
-              this.POST_WAITTINGROOM.patient_created_date = '2';
-            }
-          }
-        })
-      }
-    }
-    const postInfo = this.POST_WAITTINGROOM.epoch + ' - ' + this.POST_WAITTINGROOM.produce_id + ' - ' + this.POST_WAITTINGROOM.produce_name + ' - '
-      + this.POST_WAITTINGROOM.patient_id + ' - ' +this.POST_WAITTINGROOM.patient_name + ' - ' + this.POST_WAITTINGROOM.reason + ' - '
-      + this.POST_WAITTINGROOM.status + ' - ' + this.POST_WAITTINGROOM.appointment_id + ' - ' + this.POST_WAITTINGROOM.appointment_epoch + ' - ' + this.POST_WAITTINGROOM.patient_created_date;
+    // if (this.currentPatientCreated == true) {
+    //   this.POST_WAITTINGROOM.patient_created_date = '1';
+    //   this.currentPatientCreated = false;
+    // } else {
+    //   const storeLi = localStorage.getItem('listSearchPatient');
+    //   var ListPatientStore = [];
+    //   if (storeLi != null) {
+    //     ListPatientStore = JSON.parse(storeLi);
+    //   }
+    //   if (ListPatientStore.length != 0) {
+    //     ListPatientStore.forEach((item: any) => {
+    //       if (item.patientId == this.POST_WAITTINGROOM.patient_id) {
+    //         if (item.patientDescription != null && item.patientDescription.includes('@@isnew##')) {
+    //           this.POST_WAITTINGROOM.patient_created_date = '1';
+    //         } else {
+    //           this.POST_WAITTINGROOM.patient_created_date = '2';
+    //         }
+    //       }
+    //     })
+    //   }
+    // }
+    // const postInfo = this.POST_WAITTINGROOM.epoch + ' - ' + this.POST_WAITTINGROOM.produce_id + ' - ' + this.POST_WAITTINGROOM.produce_name + ' - '
+    //   + this.POST_WAITTINGROOM.patient_id + ' - ' +this.POST_WAITTINGROOM.patient_name + ' - ' + this.POST_WAITTINGROOM.reason + ' - '
+    //   + this.POST_WAITTINGROOM.status + ' - ' + this.POST_WAITTINGROOM.appointment_id + ' - ' + this.POST_WAITTINGROOM.appointment_epoch + ' - ' + this.POST_WAITTINGROOM.patient_created_date;
 
-    this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
-      .subscribe((data) => {
-          this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'wtr');
-          this.showSuccessToast("Thêm phòng chờ thành công!!");
-          let ref = document.getElementById('cancel-add-waiting');
-          ref?.click();
-          this.messageContent = `CheckRealTimeWaitingRoom@@@,${postInfo},${Number('1')}`;
-          this.messageBody = {
-            action: '',
-            message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
-          }
-          if (this.messageContent.trim() !== '' && sessionStorage.getItem('sub-id') != null && sessionStorage.getItem('username') != null) {
-            this.messageBody = {
-              action: "sendMessage",
-              message: `{"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}`
-            };
-            console.log(this.messageBody);
-            this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
+    // this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
+    //   .subscribe((data) => {
+    //       this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'wtr');
+    //       this.showSuccessToast("Thêm phòng chờ thành công!!");
+    //       let ref = document.getElementById('cancel-add-waiting');
+    //       ref?.click();
+    //       this.messageContent = `CheckRealTimeWaitingRoom@@@,${postInfo},${Number('1')}`;
+    //       this.messageBody = {
+    //         action: '',
+    //         message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
+    //       }
+    //       if (this.messageContent.trim() !== '' && sessionStorage.getItem('sub-id') != null && sessionStorage.getItem('username') != null) {
+    //         this.messageBody = {
+    //           action: "sendMessage",
+    //           message: `{"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}`
+    //         };
+    //         console.log(this.messageBody);
+    //         this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
 
-          }
-        },
-        (err) => {
-          this.showErrorToast('Lỗi khi thêm phòng chờ');
-        }
-      );
+    //       }
+    //     },
+    //     (err) => {
+    //       this.showErrorToast('Lỗi khi thêm phòng chờ');
+    //     }
+    //   );
   }
 
   addPatient() {
     this.resetValidate();
     if (!this.patient1.patientName) {
       this.validatePatient.name = "Vui lòng nhập tên bệnh nhân!";
-      this.isSubmitted = true;
-    }
-    if (this.patient1.Email && !this.isValidEmail(this.patient1.Email)) {
-      this.validatePatient.email = "Email không hợp lệ!";
-      this.isSubmitted = true;
-    }
-    if (!this.patient1.Gender) {
-      this.validatePatient.gender = "Vui lòng chọn giới tính!";
       this.isSubmitted = true;
     }
     if (!this.patient1.phone_Number) {
@@ -263,6 +255,15 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
       this.validatePatient.address = "Vui lòng nhập địa chỉ!";
       this.isSubmitted = true;
     }
+
+    const currentDateTimeGMT7 = moment().tz('Asia/Ho_Chi_Minh');
+    this.POST_WAITTINGROOM.epoch = Math.floor(currentDateTimeGMT7.valueOf() / 1000).toString();
+    this.resetValidate();
+    if (!this.POST_WAITTINGROOM.produce_id) {
+      this.validateWatingRoom.procedure = "Vui lòng chọn loại điều trị!";
+      this.isSubmitted = true;
+    }
+
     if (this.isSubmitted) {
       return;
     }
@@ -310,8 +311,43 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
       let ref = document.getElementById('cancel-patient');
       ref?.click();
       this.patient1 = [];
-      this.patientInfor = data.data.patient_id + " - " + this.patientBody.patient_name + " - " + this.normalizePhoneNumber(this.patientBody.phone_number);
-      // sessionStorage.setItem("WaitingRoomPatientId", data.data.patient_id);
+      this.POST_WAITTINGROOM.patient_id = data.data.patient_id;
+      this.POST_WAITTINGROOM.patient_name = this.patientBody.patient_name;
+      this.POST_WAITTINGROOM.status = "1";
+      this.POST_WAITTINGROOM.appointment_id = "";
+      this.POST_WAITTINGROOM.appointment_epoch = "";
+      if (this.currentPatientCreated == true) {
+        this.POST_WAITTINGROOM.patient_created_date = '1';
+        this.currentPatientCreated = false;
+      } 
+      const postInfo = this.POST_WAITTINGROOM.epoch + ' - ' + this.POST_WAITTINGROOM.produce_id + ' - ' + this.POST_WAITTINGROOM.produce_name + ' - '
+      + this.POST_WAITTINGROOM.patient_id + ' - ' +this.POST_WAITTINGROOM.patient_name + ' - ' + this.POST_WAITTINGROOM.reason + ' - '
+      + this.POST_WAITTINGROOM.status + ' - ' + this.POST_WAITTINGROOM.appointment_id + ' - ' + this.POST_WAITTINGROOM.appointment_epoch + ' - ' + this.POST_WAITTINGROOM.patient_created_date;
+      this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
+      .subscribe((data) => {
+          this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'wtr');
+          this.showSuccessToast("Thêm phòng chờ thành công!!");
+          let ref = document.getElementById('cancel-add-waiting');
+          ref?.click();
+          this.messageContent = `CheckRealTimeWaitingRoom@@@,${postInfo},${Number('1')}`;
+          this.messageBody = {
+            action: '',
+            message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
+          }
+          if (this.messageContent.trim() !== '' && sessionStorage.getItem('sub-id') != null && sessionStorage.getItem('username') != null) {
+            this.messageBody = {
+              action: "sendMessage",
+              message: `{"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}`
+            };
+            console.log(this.messageBody);
+            this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
+
+          }
+        },
+        (err) => {
+          this.showErrorToast('Lỗi khi thêm phòng chờ');
+        }
+      );
     }, error => {
       ResponseHandler.HANDLE_HTTP_STATUS(this.PATIENT_SERVICE.test + "/patient", error);
     })

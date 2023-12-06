@@ -21,7 +21,7 @@
     </div>
   </div>
   <div class="table-container">
-    <table id="myTable">
+    <table id="myTable" *ngIf="waitingRoomData.length > 0,else noDataMessage">
       <thead class="sticky-thead">
         <tr>
           <th style="width:100px">STT</th>
@@ -87,6 +87,24 @@
         </tr>
       </tbody>
     </table>
+    <ng-template #noDataMessage>
+      <div class="row sticky-thead-no-data">
+        <div class="col-md-1">STT</div>
+        <div class="col-md-1">Thời gian</div>
+        <div class="col-md-1">Mã bệnh nhân</div>
+        <div class="col-md-2">Tên bệnh nhân</div>
+        <div class="col-md-2">Khách hàng mới</div>
+        <div class="col-md-2">Lý do khám</div>
+        <div class="col-md-1">Loại điều trị</div>
+        <div class="col-md-1">Trạng thái</div>
+        <div class="col-md-1">Thanh toán</div>
+      </div>
+      <div class="text-center row no-data">
+        <span>
+        Không có dữ liệu
+        </span>
+      </div>
+    </ng-template>
   </div>
 </div>
 <app-add-waiting-room></app-add-waiting-room>

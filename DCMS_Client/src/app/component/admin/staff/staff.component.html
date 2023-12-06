@@ -18,7 +18,7 @@
   </div>
 
   <div class="table-container">
-    <table>
+    <table *ngIf="listStaff.length > 0; else noDataMessage">
       <thead class="sticky-thead">
         <tr>
           <th style="padding: 20px 0px;">Họ và tên</th>
@@ -54,7 +54,24 @@
         </tr>
       </tbody>
     </table>
-
+    <ng-template #noDataMessage>
+      <div class="row sticky-thead-no-data">
+        <div class="col-md-2">Họ và tên</div>
+        <div class="col-md-2">Ngày sinh</div>
+        <div class="col-md-1">Giới tính</div>
+        <div class="col-md-1">SĐT</div>
+        <div class="col-md-1">Email</div>
+        <div class="col-md-2">Địa chỉ</div>
+        <div class="col-md-1">Chức vụ</div>
+        <div class="col-md-1">Ghi chú</div>
+        <div class="col-md-1">Thao tác</div>
+      </div>
+      <div class="text-center row no-data">
+        <span>
+        Không có dữ liệu
+        </span>
+      </div>
+    </ng-template>
   </div>
 </div>
 

@@ -36,7 +36,7 @@
   </div>
 
   <div class="table-container">
-    <table>
+    <table *ngIf="appointmentList.length > 0; else noDataMessage">
       <thead class="sticky-thead">
         <tr>
           <th>Mã bệnh nhân</th>
@@ -88,9 +88,7 @@
                   </button>
                 </td>
                 <td *ngIf="detail.status == 2 && !checkDate(a.date)" class="direct-click">
-                  <button class="btn btn-redirect" style="width: 100px; color: red;">
                     <b>Trễ lịch hẹn</b>
-                  </button>
                 </td>
                 <td *ngIf="detail.status == 1" class="direct-click">
                   <p style="color: green;"><b>Đã khám</b></p>
@@ -105,7 +103,24 @@
 
       </tbody>
     </table>
-
+    <ng-template #noDataMessage>
+      <div class="row sticky-thead-no-data">
+        <div class="col-md-1">Mã bệnh nhân</div>
+        <div class="col-md-2">Tên bệnh nhân</div>
+        <div class="col-md-2">Khách hàng mới</div>
+        <div class="col-md-1">SĐT</div>
+        <div class="col-md-1">Loại điều trị</div>
+        <div class="col-md-1">Bác sĩ</div>
+        <div class="col-md-2">Thời gian hẹn khám</div>
+        <div class="col-md-1">Thao tác</div>
+        <div class="col-md-1">Action</div>
+      </div>
+      <div class="text-center row no-data">
+        <span>
+        Không có dữ liệu
+        </span>
+      </div>
+    </ng-template>
   </div>
 </div>
 <!-- End of Recent Orders -->
@@ -117,4 +132,4 @@
   [dateString]="dateString" [timeString]="timeString"
   [filteredAppointments]="filteredAppointments"></app-popup-edit-appointment>
 <app-popup-add-appointment-new [datesDisabled]="datesDisabled"
-  [filteredAppointments]="filteredAppointments"></app-popup-add-appointment-new>
+                           [filteredAppointments]="filteredAppointments" (newAppointmentAdded)="onNewAppointmentAdded($event)"></app-popup-add-appointment-new>

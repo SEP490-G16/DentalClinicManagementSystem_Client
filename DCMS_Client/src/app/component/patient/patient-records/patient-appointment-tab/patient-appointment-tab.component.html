@@ -45,7 +45,7 @@
         </div>
       </div>
       <div class="table-container" style="margin-top: 10px;">
-        <table>
+        <table *ngIf="patientAppointments.length >0,else noDataMessage">
           <thead class="sticky-thead">
             <tr>
               <th>Thời gian</th>
@@ -55,7 +55,7 @@
               <th>Option</th>
             </tr>
           </thead>
-          <tbody *ngIf="patientAppointments.length > 0; else noAppoitment">
+          <tbody>
             <ng-container>
               <ng-container *ngFor="let gf of patientAppointments">
                 <ng-container *ngFor="let ap of gf.appointments">
@@ -81,13 +81,24 @@
             </ng-container>
           </tbody>
         </table>
+        <ng-template #noDataMessage style="width: 80%;">
+          <div class="row sticky-thead-no-data-patient">
+            <div class="col-md-2">Thời gian</div>
+            <div class="col-md-2">Bác sĩ</div>
+            <div class="col-md-3">Lý do</div>
+            <div class="col-md-3">Phân loại điều trị</div>
+            <div class="col-md-2">Option</div>
+          </div>
+          <div class="text-center row no-data-patient">
+            <span>
+            Không có dữ liệu
+            </span>
+          </div>
+        </ng-template>
       </div>
     </div>
   </div>
 </div>
-<ng-template #noAppoitment>
-  <p class="no-appointment-message text-center">Không có "Lịch hẹn" nào được tìm thấy</p>
-</ng-template>
 <app-popup-datlichtaikham [datesDisabled]="datesDisabled" [Patient]="Patient"></app-popup-datlichtaikham>
 <app-popup-sualichtaikham [datesDisabled]="datesDisabled" [selectedAppointment]="selectedAppointment"
   [dateString]="dateString" [timeString]="timeString"></app-popup-sualichtaikham>

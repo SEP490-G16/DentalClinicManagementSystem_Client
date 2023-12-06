@@ -14,6 +14,7 @@ export class ConfirmAddTreatmentcourseComponent implements OnInit {
     console.log("ModalConfirm")
   }
   dismiss() {
+    window.location.reload();
     this.activeModal.dismiss('cancel');
   }
   close(message:string){

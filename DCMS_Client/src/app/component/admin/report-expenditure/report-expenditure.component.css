@@ -140,3 +140,6 @@
 .link-tab .bao-cao-chi{
   margin-left: 2%;
 }
+.table-container{
+  height: 50vh !important;
+}

@@ -139,9 +139,8 @@
             <div class="image-button">
               <div>
                 <button class="btn-image" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                        (click)="onChangeIndex(i,$event)">Chọn hình ảnh</button>
+                        (click)="onChangeIndex(record.id)">Chọn hình ảnh</button>
               </div>
-
             </div>
           </div>
           <div class="col-md-9 custom-input-container-image">
@@ -157,9 +156,9 @@
 <!--              <button type="button" class="btn btn-cancel" (click)="deleteRecordImage(i)">Hủy</button>-->
 <!--            </div>-->
           </div>
-
-
         </ng-container>
+        <button class="btn button-add" (click)="onPostXRayImage()"><i
+          class="bi bi-plus-circle"></i>Lưu ảnh</button>
       </div>
       <div class="bottom-left"  style="padding: 0px 80px 50px">
         <button class=" btn btn-secondary ml-2 mt-3" routerLink="/benhnhan/danhsach">Quay lại</button>

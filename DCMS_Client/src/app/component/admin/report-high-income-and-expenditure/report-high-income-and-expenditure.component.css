@@ -58,6 +58,7 @@
   justify-content: center;
   align-items: center;
   transition: .2s;
+  margin-top: 15px;
 }
 
 .table__header .input-group:hover {
@@ -84,4 +85,10 @@
 }
 .link-tab .bao-cao-chi{
   margin-left: 2%;
+}
+.table-container{
+  height: 50vh !important;
+}
+.tr-table:hover{
+  background-color: rgba(217, 217, 217, 0.6);
 }

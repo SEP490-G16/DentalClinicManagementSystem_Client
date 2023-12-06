@@ -23,7 +23,7 @@
     </div>
   </div>
   <div class="table-container">
-    <table>
+    <table *ngIf="Labos.length > 0;else noDataMessage">
       <thead class="sticky-thead">
         <tr>
           <th style="padding: 10px">Mã labo</th>
@@ -51,7 +51,21 @@
         </tr>
       </tbody>
     </table>
-
+    <ng-template #noDataMessage>
+      <div class="row sticky-thead-no-data">
+        <div class="col-md-1">Mã labo</div>
+        <div class="col-md-3">Tên labo</div>
+        <div class="col-md-3">Địa chỉ</div>
+        <div class="col-md-2">Số điện thoại</div>
+        <div class="col-md-2">Email</div>
+        <div class="col-md-1">Thao tác</div>
+      </div>
+      <div class="text-center row no-data">
+        <span>
+        Không có dữ liệu
+        </span>
+      </div>
+    </ng-template>
   </div>
 </div>
 <app-popup-add-labo></app-popup-add-labo>
