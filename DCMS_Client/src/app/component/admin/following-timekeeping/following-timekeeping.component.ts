@@ -285,15 +285,13 @@ export class FollowingTimekeepingComponent implements OnInit {
       parseInt(startDateParts[1]) - 1,
       parseInt(startDateParts[2])
     );
-    //const formatStartDate = startDate.toLocaleDateString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
 
     const endDate = new Date(
       parseInt(endDateParts[0]),
       parseInt(endDateParts[1]) - 1,
       parseInt(endDateParts[2])
     );
-    // const startDate = moment(frDate, 'DD-MM-YYYY');
-    // const endDate = moment(tDate, 'DD-MM-YYYY');
+   
     var count = 0;
     let currentDate = startDate;
     while (currentDate <= endDate) {

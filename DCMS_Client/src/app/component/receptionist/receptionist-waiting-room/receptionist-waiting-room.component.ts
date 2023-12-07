@@ -94,11 +94,10 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
         this.CheckRealTimeWaiting = [...this.waitingRoomData];
         if (this.roleId.includes('2') || this.roleId.includes('4') || this.roleId.includes('5')) {
           this.CheckRealTimeWaiting = this.CheckRealTimeWaiting.filter((item) => item.status.includes('2'));
-          console.log("Test role: ", this.roleId.includes('2'));
         }
         this.waitingRoomService.updateData(this.CheckRealTimeWaiting);
         this.dataService.UpdateWaitingRoomTotal(3, this.CheckRealTimeWaiting.length);
-
+        localStorage.setItem("ListPatientWaiting", JSON.stringify(this.CheckRealTimeWaiting));
       },
       (error) => {
         this.loading = false;
@@ -155,6 +154,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
         this.filteredWaitingRoomData.splice(index, 1);
       }
       this.listTemp = this.filteredWaitingRoomData;
+      localStorage.setItem("ListPatientWaiting", JSON.stringify(this.filteredWaitingRoomData));
       localStorage.setItem('listPatientId', JSON.stringify(this.listTemp));
       this.waitingRoomService.deleteWaitingRooms(this.PUT_WAITINGROO)
         .subscribe((data) => {
@@ -174,7 +174,6 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
               action: "sendMessage",
               message: `{"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}`
             };
-            console.log(this.messageBody);
             this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
           }
 
@@ -241,7 +240,6 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
               action: "sendMessage",
               message: `{"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}`
             };
-            console.log(this.messageBody);
             this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
           }
 
@@ -298,15 +296,14 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
     action: '',
     message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
   }
-  sendMessageWaitingRoom() {
+  // sendMessageWaitingRoom() {
 
-    if (this.messageContent.trim() !== '' && sessionStorage.getItem('sub-id') != null && sessionStorage.getItem('username') != null) {
-      this.messageBody = {
-        action: "sendMessage",
-        message: `{"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}`
-      };
-      console.log(this.messageBody);
-      this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
-    }
-  }
+  //   if (this.messageContent.trim() !== '' && sessionStorage.getItem('sub-id') != null && sessionStorage.getItem('username') != null) {
+  //     this.messageBody = {
+  //       action: "sendMessage",
+  //       message: `{"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}`
+  //     };
+  //     this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
+  //   }
+  //}
 }

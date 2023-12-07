@@ -38,7 +38,7 @@ import { Normalize } from 'src/app/service/Lib/Normalize';
   providedIn: 'root'
 })
 
-export class PopupAddAppointmentComponent implements OnInit, OnChanges {
+export class PopupAddAppointmentComponent implements OnInit {
   phoneRegex = /^[0-9]{10}$|^[0-9]{4}\s[0-9]{3}\s[0-9]{3}$/;
 
 
@@ -48,51 +48,19 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   reason: any;
   isAddOld:boolean = false;
   listGroupService: any[] = [];
-  private intervalId: any;
   isCheck: boolean = false;
-  //doctors: any[] = [];
   procedure: string = "1";
   isPatientInfoEditable: boolean = false;
   isAdd: boolean = false;
   isSubmittedPatient: boolean = false;
   loading: boolean = false;
-  patient1: any = {
-    patientName: '',
-    Email: '',
-    Gender: 1,
-    phone_Number: '',
-    Address: '',
-    full_medical_History: '',
-    dental_medical_History: '',
-    dob: ''
-  }
-  patientBody: any = {
-    patient_name: '',
-    email: '',
-    gender: '',
-    phone_number: '',
-    address: '',
-    full_medical_history: '',
-    dental_medical_history: '',
-    date_of_birth: '',
-    description: ''
-  }
-  validatePatient = {
-    name: '',
-    gender: '',
-    phone: '',
-    address: '',
-    dob: '',
-    email: ''
-  }
+  
   @Input() datesDisabled: any;
   @Input() filteredAppointments: any
-
   @Output() newItemEvent = new EventEmitter<any>();
   @Output() newAppointmentAdded = new EventEmitter<any>();
   AppointmentBody: IAddAppointment;
   appointmentTime = "";
-
   model!: NgbDateStruct;
   datePickerJson = {};
   markDisabled: any;
@@ -112,26 +80,16 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     appointmentDate: '',
   }
   isSubmitted: boolean = false;
-
   currentDate: any;
-
   mindate: Date;
-  minTime: string;
   constructor(private APPOINTMENT_SERVICE: ReceptionistAppointmentService,
     private PATIENT_SERVICE: PatientService,
-    private renderer: Renderer2,
     private toastr: ToastrService,
-    private router: Router,
-    private config: NgbDatepickerConfig,
     private calendar: NgbCalendar,
-    private cognito: CognitoService,
-    private timeKeepingService: TimeKeepingService,
-    private medicaoProcedureGroupService: MedicalProcedureGroupService,
     private sendMessageSocket: SendMessageSocket
   ) {
     this.isDisabled = (
       date: NgbDateStruct
-      //current: { day: number; month: number; year: number }
     ) => {
       return this.json.disabledDates.find(x =>
         (new NgbDate(x.year, x.month, x.day).equals(date))
@@ -142,32 +100,24 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     };
 
     this.AppointmentBody = {
-      epoch: 0,    //x
+      epoch: 0,   
       appointment: {
-        patient_id: '',  //x
-        patient_name: '', //x
-        phone_number: '', //x
+        patient_id: '', 
+        patient_name: '', 
+        phone_number: '', 
         patient_created_date: '',
         procedure_id: "1",
-        procedure_name: '', //x
-        doctor: '', //x
+        procedure_name: '', 
+        doctor: '', 
         status: 2,
         time: 0  //x
       }
     } as IAddAppointment;
 
     const now = new Date();
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    this.minTime = `${hours}:${minutes}`;
     this.mindate = new Date();
-
-    const currentTime = new Date();
-
-    // Set date time hiện tại
     const currentTimeGMT7 = moment.tz('Asia/Ho_Chi_Minh').format('HH:mm');
     this.appointmentTime = currentTimeGMT7;
-
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
 
     this.model = {
@@ -181,48 +131,22 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
       month: parseInt(currentDateGMT7.split('-')[1]),
       day: parseInt(currentDateGMT7.split('-')[2])
     }
-    console.log("mới", this.model);
-    console.log(this.appointmentDate);
-  }
-
-
-  ngOnChanges(changes: SimpleChanges): void {
-    // if (this.datesDisabled && this.datesDisabled.length == 0) {
-    // }
-    // if (changes['datesDisabled'] && this.datesDisabled && this.datesDisabled.length > 0) {
-    //   this.datesDisabled = this.datesDisabled.map((timestamp: number) => {
-    //     const date = new Date(timestamp * 1000); // Chuyển đổi timestamp sang date
-    //     return date.toISOString().slice(0, 10); // Lấy phần yyyy-MM-dd
-    //   });
-    //   console.log("Date Parse: ", this.datesDisabled);
-    // }
-
   }
 
   startDate: any;
-  endDate: string = "2023-12-31";
-
-
   startDateTimestamp: number = 0;
   endDateTimestamp: number = 0;
   ListAppointments: any;
   appointmentList: RootObject[] = [];
   dateEpoch: string = "";
-  noDoctor = {
-    sub_id: '',
-    doctorName: 'Không chọn bác sĩ',
-    phoneNumber: '',
-    roleId: '',
-    zoneInfo: ''
-  }
+
   ngOnInit(): void {
     this.getListGroupService();
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
-    const a = parseInt(currentDateGMT7.split('-')[0]) + "-" + parseInt(currentDateGMT7.split('-')[1]) + "-" + (parseInt(currentDateGMT7.split('-')[2]));
+    //const a = parseInt(currentDateGMT7.split('-')[0]) + "-" + parseInt(currentDateGMT7.split('-')[1]) + "-" + (parseInt(currentDateGMT7.split('-')[2]));
     this.startDate = currentDateGMT7;
     this.startDateTimestamp = this.dateToTimestamp(currentDateGMT7);
-    this.endDateTimestamp = this.dateToTimestamp(this.endDate);
-    //this.getListAppountment();
+    //this.endDateTimestamp = this.dateToTimestamp(this.endDate);
   }
 
   getListAppountment() {
@@ -259,110 +183,11 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     }
   }
 
-  getDisableDate() {
-    var today = new Date();
-    var date = today.getFullYear() + ' - ' + (today.getMonth() + 1) + ' - ' + today.getDate();
-    var time = today.getHours() + ' - ' + today.getMinutes() + ' - ' + today.getSeconds();
-    var dateTime = date + ' ' + time;
-  }
-
-  doctorObject = {
-    sub_id: '',
-    doctorName: '',
-    phoneNumber: '',
-    roleId: '',
-    zoneInfo: ''
-  }
-
-  listDoctor: any[] = [];
-  listDoctorDisplay: any[] = [];
-  getListDoctor() {
-    const storeList = localStorage.getItem("listDoctor");
-    if (storeList != null) {
-      this.listDoctorDisplay = JSON.parse(storeList);
-    }
-  }
-
-  listRegisterTime: any[] = [];
-  uniqueList: string[] = [];
-  listDoctorFilter: any[] = [];
-  totalDoctorFilter: number = 0;
-
-  selectDateToGetDoctor(time: any) {
-    this.getListDoctor();
-    const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
-    const a = parseInt(currentDateGMT7.split('-')[0]) + "-" + parseInt(currentDateGMT7.split('-')[1]) + "-" + (parseInt(currentDateGMT7.split('-')[2]));
-    this.timeKeepingService.getFollowingTimekeeping(this.dateToTimestamp(a + " 00:00:00"), this.dateToTimestamp(a + " 23:59:59")).subscribe(data => {
-      this.listRegisterTime = this.organizeData(data);
-      this.listDoctorFilter.splice(0, this.listDoctorFilter.length);
-      this.listRegisterTime.forEach((res: any) => {
-        res.records.forEach((doc: any) => {
-          if (doc.details.register_clock_in < this.timeToTimestamp(time) && this.timeToTimestamp(time) < doc.details.register_clock_out) {
-            if (!this.uniqueList.includes(doc.subId)) {
-              this.uniqueList.push(doc.subId);
-              let newDoctorInfor = {
-                doctorId: doc.subId,
-                docterName: doc.details.staff_name
-              }
-              this.listDoctorFilter.push(newDoctorInfor);
-            }
-          }
-        })
-      })
-    });
-
-    this.listDoctorDisplay.forEach((item: any) => {
-      console.log(item);
-      const zone = item.zoneInfo.split(',');
-      var count = 0;
-      zone.forEach((zo: any) => {
-        if (zo == this.procedure) {
-          count++;
-        }
-      })
-      if (count == 0) {
-        const index = this.listDoctorFilter.findIndex((it: any) => it.doctorId = item.sub_id);
-        if (index != -1) {
-          this.listDoctorFilter.splice(index, 1);
-        }
-      }
-    })
-    this.totalDoctorFilter = this.listDoctorFilter.length;
-    console.log("aaa", this.listDoctorFilter)
-  }
-
-  organizeData(data: any[]): TimekeepingRecord[] {
-    return data.map((item): TimekeepingRecord => {
-      const timekeepingEntry: TimekeepingRecord = {
-        epoch: item.epoch?.N,
-        type: item.type?.S,
-        records: []
-      };
-
-      Object.keys(item).forEach((key: string) => {
-        if (key !== 'epoch' && key !== 'type') {
-          const details: TimekeepingDetail = {
-            register_clock_in: item[key]?.M?.register_clock_in?.N,
-            register_clock_out: item[key]?.M?.register_clock_out?.N,
-            staff_name: item[key]?.M?.staff_name?.S,
-          };
-          timekeepingEntry.records.push({
-            subId: key,
-            details: details
-          });
-        }
-      });
-
-      return timekeepingEntry;
-    });
-  }
-
   private isVietnamesePhoneNumber(number: string): boolean {
     return /^(\+84|84|0)?[1-9]\d{8}$/
       .test(number);
   }
   phoneErr: string = "";
-
   patientList: any[] = [];
   patientInfor: any;
   searchTimeout: any;
@@ -398,19 +223,6 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
       this.notFoundMessage = 'Không tìm thấy bệnh nhân';
       this.isSearching = false;
     }
-  }
-
-
-  selectedDoctor: any = null;
-  selectDoctor(doctor: any) {
-    if (doctor.doctorName == this.selectedDoctor) {
-      this.selectedDoctor = "";
-      this.AppointmentBody.appointment.doctor = "";
-    } else {
-      this.selectedDoctor = doctor.doctorName;
-      this.AppointmentBody.appointment.doctor = doctor.doctorName;
-    }
-
   }
 
   appointmentDate: string = '';
@@ -451,8 +263,6 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     }
     const currentTime = new Date().toTimeString();
     const currentDate = moment().format('YYYY-MM-DD');
-    console.log("Heree", currentDate);
-
     var store = localStorage.getItem("listGroupService");
     if (store != null) {
       this.listGroupService = JSON.parse(store);
@@ -504,9 +314,6 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     this.AppointmentBody.appointment.patient_id = patientInfor[0];
     this.AppointmentBody.appointment.patient_name = patientInfor[1];
     this.AppointmentBody.appointment.phone_number = patientInfor[2];
-    this.loading = true;
-
-    console.log("aa", this.filteredAppointments);
     var checkPatient = true;
     let listAppointment;
     const storeList = localStorage.getItem("ListAppointment");
@@ -547,36 +354,30 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     this.AppointmentBody.appointment.reason = this.reason;
     this.phoneErr = "";
 
-    if (this.checkNewPatent == true) {
-      this.AppointmentBody.appointment.patient_created_date = "1";
-      this.checkNewPatent = false;
-    } else {
-      const storeLi = localStorage.getItem('listSearchPatient');
-      var ListPatientStore = [];
-      if (storeLi != null) {
-        ListPatientStore = JSON.parse(storeLi);
-      }
-      if (ListPatientStore.length != 0) {
-        ListPatientStore.forEach((item: any) => {
-          if (item.patientId == this.AppointmentBody.appointment.patient_id) {
-            if (item.patientDescription != null && item.patientDescription.includes('@@isnew##')) {
-              this.AppointmentBody.appointment.patient_created_date = '1';
-            } else {
-              this.AppointmentBody.appointment.patient_created_date = '2';
-            }
-          }
-        })
-      }
+
+    const storeLi = localStorage.getItem('listSearchPatient');
+    var ListPatientStore = [];
+    if (storeLi != null) {
+      ListPatientStore = JSON.parse(storeLi);
     }
+    if (ListPatientStore.length != 0) {
+      ListPatientStore.forEach((item: any) => {
+        if (item.patientId == this.AppointmentBody.appointment.patient_id) {
+          if (item.patientDescription != null && item.patientDescription.includes('@@isnew##')) {
+            this.AppointmentBody.appointment.patient_created_date = '1';
+          } else {
+            this.AppointmentBody.appointment.patient_created_date = '2';
+          }
+        }
+      })
+    }
+     
     this.APPOINTMENT_SERVICE.postAppointment(this.AppointmentBody).subscribe(
       (response) => {
-        this.loading = false;
-        console.log('Lịch hẹn đã được tạo:', response);
         if (selectedDate == this.startDate) {
           this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'app');
         }
         this.showSuccessToast('Lịch hẹn đã được tạo thành công!');
-
         const newDetail: any = {
           appointment_id: response.appointment_id,
           patient_id: this.AppointmentBody.appointment.patient_id,
@@ -590,9 +391,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
           patient_created_date: this.AppointmentBody.appointment.patient_created_date,
           migrated: 'false'
         };
-
         const appointmentIndex = this.filteredAppointments.findIndex((a: any) => a.date === this.AppointmentBody.epoch);
-
         if (appointmentIndex !== -1) {
           this.filteredAppointments[appointmentIndex].appointments.push({
             procedure: this.AppointmentBody.appointment.procedure_id,
@@ -601,7 +400,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
           });
         } else {
           const newAppointment: any = {
-            procedure: (this.AppointmentBody.appointment.procedure_id),
+            procedure: this.AppointmentBody.appointment.procedure_id,
             count: 1,
             details: [newDetail]
           };
@@ -611,7 +410,6 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
           });
         }
         this.newAppointmentAdded.emit(this.filteredAppointments);
-
         this.procedure = '';
         this.appointmentTime = '';
         this.newItemEvent.emit(this.AppointmentBody);
@@ -631,9 +429,6 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
         } as IAddAppointment;
       },
       (error) => {
-        this.loading = false;
-        console.error('Lỗi khi tạo lịch hẹn:', error);
-        //this.showErrorToast('Lỗi khi tạo lịch hẹn!');
         ResponseHandler.HANDLE_HTTP_STATUS(this.APPOINTMENT_SERVICE.apiUrl + "/appointment", error);
       }
     );
@@ -653,7 +448,6 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
   }
 
   timestampToGMT7String(timestamp: number): string {
-    // Chuyển timestamp thành chuỗi ngày và thời gian dựa trên múi giờ GMT+7
     const dateTimeString = moment.tz(timestamp * 1000, 'Asia/Ho_Chi_Minh').format('HH:mm');
     return dateTimeString;
   }
@@ -696,16 +490,16 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
 
   close() {
     this.AppointmentBody = {
-      epoch: 0,    //x
+      epoch: 0,   
       appointment: {
-        patient_id: '',  //x
-        patient_name: '', //x
-        phone_number: '', //x
+        patient_id: '', 
+        patient_name: '',
+        phone_number: '', 
         procedure_id: "1",
-        procedure_name: '',  //x
-        doctor: '', //x,
+        procedure_name: '', 
+        doctor: '', 
         status: 2,
-        time: 0  //x
+        time: 0 
       }
     } as IAddAppointment;
     this.isAddOld = false;
@@ -721,102 +515,7 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     }
     this.isSubmitted = true;
   }
-  checkCancel() {
-    console.log("click")
-    this.isAdd = false;
-    this.isAddOld = false;
-    this.resetValidatePatient()
-  }
 
-  checkNewPatent: boolean = false;
-  addPatient() {
-    console.log(this.patient1.Gender);
-    this.resetValidatePatient();
-    if (!this.patient1.patientName) {
-      this.validatePatient.name = "Vui lòng nhập tên bệnh nhân!";
-      this.isSubmittedPatient = true;
-    }
-    if (this.patient1.Email && !this.isValidEmail(this.patient1.Email)) {
-      this.validatePatient.email = "Email không hợp lệ!";
-      this.isSubmittedPatient = true;
-    }
-    if (!this.patient1.Gender) {
-      this.validatePatient.gender = "Vui lòng chọn giới tính!";
-      this.isSubmittedPatient = true;
-    }
-    if (!this.patient1.phone_Number) {
-      this.validatePatient.phone = "Vui lòng nhập số điện thoại!";
-      this.isSubmittedPatient = true;
-    }
-    else if (!this.isVietnamesePhoneNumber(this.patient1.phone_Number)) {
-      this.validatePatient.phone = "Số điện thoại không hợp lệ!";
-      this.isSubmittedPatient = true;
-    }
-    if (!this.patient1.dob) {
-      this.validatePatient.dob = "Vui lòng nhập ngày sinh!";
-      this.isSubmittedPatient = true;
-    }
-    if (!this.patient1.Address) {
-      this.validatePatient.address = "Vui lòng nhập địa chỉ!";
-      this.isSubmittedPatient = true;
-    }
-    if (this.isSubmittedPatient) {
-      return;
-    }
-    this.patientBody = {
-      patient_id: null,
-      patient_name: this.patient1.patientName,
-      email: this.patient1.Email,
-      gender: this.patient1.Gender,
-      phone_number: this.patient1.phone_Number,
-      address: this.patient1.Address,
-      full_medical_history: this.patient1.full_medical_History,
-      dental_medical_history: this.patient1.dental_medical_History,
-      date_of_birth: this.patient1.dob
-    }
-    if (this.patient1.phone_Number && this.patient1.phone_Number.length === 9) {
-      this.patientBody = {
-        patient_id: null,
-        patient_name: this.patient1.patientName,
-        email: this.patient1.Email,
-        gender: this.patient1.Gender,
-        phone_number: '+84' + this.patient1.phone_Number,
-        address: this.patient1.Address,
-        full_medical_history: this.patient1.full_medical_History,
-        dental_medical_history: this.patient1.dental_medical_History,
-        date_of_birth: this.patient1.dob
-      }
-    }
-    if (this.patient1.phone_Number && this.patient1.phone_Number.length === 10) {
-      this.patientBody = {
-        patient_id: null,
-        patient_name: this.patient1.patientName,
-        email: this.patient1.Email,
-        gender: this.patient1.Gender,
-        phone_number: '+84' + this.patient1.phone_Number.substring(1),
-        address: this.patient1.Address,
-        full_medical_history: this.patient1.full_medical_History,
-        dental_medical_history: this.patient1.dental_medical_History,
-        date_of_birth: this.patient1.dob
-      }
-    }
-
-
-    this.PATIENT_SERVICE.addPatient(this.patientBody).subscribe((data: any) => {
-      this.toastr.success('Thêm mới bệnh nhân thành công!');
-      this.checkNewPatent = true;
-      let ref = document.getElementById('cancel-patient');
-      ref?.click();
-      this.patient1 = [];
-      this.patientInfor = data.data.patient_id + " - " + this.patientBody.patient_name + " - " + this.normalizePhoneNumber(this.patientBody.phone_number);
-    }, error => {
-      ResponseHandler.HANDLE_HTTP_STATUS(this.PATIENT_SERVICE.test + "/patient", error);
-    })
-  }
-  private isValidEmail(email: string): boolean {
-    // Thực hiện kiểm tra địa chỉ email ở đây, có thể sử dụng biểu thức chính quy
-    return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email);
-  }
   toggleAdd() {
     this.isAdd = true;
     this.isAddOld = true;
@@ -833,31 +532,4 @@ export class PopupAddAppointmentComponent implements OnInit, OnChanges {
     } else
       return phoneNumber;
   }
-  resetValidatePatient() {
-    this.validatePatient = {
-      name: '',
-      gender: '',
-      phone: '',
-      address: '',
-      dob: '',
-      email: ''
-    }
-    this.isSubmittedPatient = false;
-  }
-}
-
-interface TimekeepingDetail {
-  register_clock_in?: string;
-  register_clock_out?: string;
-  staff_name?: string;
-}
-interface TimekeepingSubRecord {
-  subId: string;
-  details: TimekeepingDetail;
-}
-
-interface TimekeepingRecord {
-  epoch: string;
-  type?: string;
-  records: TimekeepingSubRecord[];
 }
