@@ -88,11 +88,12 @@
             <div class="mb-3">
               <table>
                 <colgroup>
-                  <col style="width: 10%">
+                  <col style="width: 5%">
                   <col style="width: 20%">
                   <col style="width: 20%">
                   <col style="width: 10%">
-                  <col style="width: 20%">
+                  <col style="width: 10%">
+                  <col style="width: 10%">
                   <col style="width: 20%">
                 </colgroup>
                 <tr class="sticky-thead">
@@ -116,16 +117,18 @@
                       <td style="padding: 10px"></td>
                       <td style="padding: 10px"></td>
                       <td style="padding: 10px"></td>
+                      <td style="padding: 10px"></td>
                     </tr>
                     <tr *ngIf="pro.isExpand">
-                      <td colspan="6">
+                      <td colspan="7">
                         <table>
                           <colgroup>
-                            <col style="width: 10%">
+                            <col style="width: 5%">
                             <col style="width: 20%">
                             <col style="width: 20%">
                             <col style="width: 10%">
-                            <col style="width: 20%">
+                            <col style="width: 10%">
+                            <col style="width: 10%">
                             <col style="width: 20%">
                           </colgroup>
                           <tr class="tr-children" *ngFor="let gro of pro.procedure">
@@ -144,7 +147,7 @@
                             <ng-container *ngIf="gro.checked">
                               <td style="padding: 10px"><input class="form-control"
                                   style="padding: 5px; border-radius: 5px;border: 1px solid #664FC3;height: 42px"
-                                  type="text" [(ngModel)]="gro.quantity" (input)="changeQuantity(gro, $event)"></td>
+                                  type="number" [(ngModel)]="gro.quantity" (input)="changeQuantity(gro, $event)"></td>
                             </ng-container>
                             <ng-container *ngIf="gro.checked && pro.groupId == 'PG-03'">
                               <td style="padding: 10px">
@@ -182,7 +185,7 @@
               <div class="btn-add-procedure">
                 <button class="btn button-add" style="margin-right: 3px" (click)="toggleAddMedicine()"><i
                     class="bi bi-plus-circle"></i>Thêm
-                  mới đơn thuốc</button>
+                  mới thuốc</button>
               </div>
               <div>
                 <button class="btn button-add" (click)="openGeneratePdfModal()">In đơn thuốc</button>
@@ -196,12 +199,12 @@
             <div class="mb-3" *ngIf="showPrescriptionContent">
               <table>
                 <colgroup>
+                  <col style="width: 5%">
+                  <col style="width: 30%">
                   <col style="width: 10%">
-                  <col style="width: 20%">
-                  <col style="width: 20%">
                   <col style="width: 10%">
-                  <col style="width: 20%">
-                  <col style="width: 20%">
+                  <col style="width: 30%">
+                  <col style="width: 10%">
                 </colgroup>
                 <tr class="sticky-thead">
                   <th style="padding: 10px">STT</th>
@@ -222,7 +225,7 @@
                       <p *ngIf="!isAddMedicine">{{record.ten}}</p>
                     </td>
                     <td style="padding: 10px">
-                      <input type="text" *ngIf="isAddMedicine" [(ngModel)]="record.soLuong"
+                      <input type="number" *ngIf="isAddMedicine" [(ngModel)]="record.soLuong"
                         class="form-control value-staff">
                       <p *ngIf="!isAddMedicine">{{record.soLuong}}</p>
                     </td>
@@ -232,8 +235,8 @@
                       <p *ngIf="!isAddMedicine">{{record.donvi}}</p>
                     </td>
                     <td style="padding: 10px">
-                      <input type="text" *ngIf="isAddMedicine" [(ngModel)]="record.lieuDung"
-                        class="form-control value-staff">
+                      <textarea type="text" *ngIf="isAddMedicine" [(ngModel)]="record.lieuDung"
+                                class="form-control value-staff"></textarea>
                       <p *ngIf="!isAddMedicine">{{record.lieuDung}}</p>
                     </td>
                     <td style="padding: 10px">
@@ -253,16 +256,19 @@
 
         <div class="row">
           <div class="col-12">
-            <div class="mb-3">
+            <div class="mb-3 row">
               <label for="procedureGroupSelect" class="form-label">Vật liệu sử dụng</label>
-              <div class="select-checkbox" (mouseleave)="showDropDown1 = false">
+              <div class="select col-md-2">
                 <!-- <button class="drop-toggle btn flat" (click)="showDropDown1=!showDropDown1">
                   <span style="color: #1e1e1e">Chọn vật liệu</span>
                   <i class="fa fa-angle-down"></i>
                 </button> -->
-                <select [(ngModel)]="material_warehouse_id" (ngModelChange)="updateTemporaryNameMaterial()">
-                  <option *ngFor="let a of results" value={{a.material_warehouse_id}}>{{a.materialName}}</option>
-                </select>
+<!--                <select [(ngModel)]="material_warehouse_id" (ngModelChange)="updateTemporaryNameMaterial()">-->
+<!--                  <option *ngFor="let a of results" value={{a.material_warehouse_id}}>{{a.materialName}}</option>-->
+<!--                </select>-->
+                <ng-select [items]="results" [(ngModel)]="material_warehouse_id" (ngModelChange)="updateTemporaryNameMaterial()" [searchable]="true" bindLabel="materialName" bindValue="id" [notFoundText]="'Không tìm thấy vật liệu'">
+
+                </ng-select>
               </div>
             </div>
           </div>
@@ -284,11 +290,18 @@
                 </tr>
                 <ng-container *ngFor="let a of listMaterialUsage">
                   <tr>
-                    <td>{{a.description}}</td>
-                    <td><input type="text" [(ngModel)]="a.quantity"></td>
-                    <td><button class="delete-button" (click)="deleteMaterialUsage(a.material_warehouse_id)">
-                        x
-                      </button></td>
+                    <td style="padding: 10px">{{a.description}}</td>
+                    <td style="padding: 10px"><input class="form-control value-staff" type="number" [(ngModel)]="a.quantity"></td>
+                    <td style="padding: 10px">
+                      <div class="delete-cell">
+                        <div>
+                          <button class="delete-button" (click)="deleteMaterialUsage(a.material_warehouse_id)">
+                            x
+                          </button>
+                        </div>
+                      </div>
+
+                    </td>
                   </tr>
                 </ng-container>
               </table>

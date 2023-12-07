@@ -38,6 +38,24 @@
           <b>Bệnh nhân: {{patientName}}</b>
         </div>
       </div>
+      <div class="title-payment">
+        <div>
+          <b>Tổng tiền điều trị: </b>
+        </div>
+        <div>
+          <b>Giảm giá: </b>
+        </div>
+        <div>
+          <b>Phải thanh toán: </b>
+        </div>
+        <div>
+          <b>Đã thu: </b>
+        </div>
+        <div>
+          <b class="tong-no">Tổng nợ: </b>
+        </div>
+      </div>
+
       <div class="payment-grid-wrapper" *ngIf="Material_Usage_Report.length > 0; else noPaymentRecord">
         <div class="payment-container" *ngFor="let report of Material_Usage_Report">
           <div class="payment-header">

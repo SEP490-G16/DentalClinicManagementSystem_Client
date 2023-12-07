@@ -83,7 +83,7 @@
                             <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
                               <div class="not-found">
                                 <div class="add-materials">
-                                  <a class="btn button-timekeeping" (click)="toggleAddMaterial()"><i class="bi bi-plus-circle"> Thêm mới</i></a>
+                                  <a class="btn button-add-material" (click)="toggleAddMaterial()">Thêm mới</a>
                                 </div>
 
                               </div>
@@ -128,10 +128,10 @@
                         </td>
                         <td *ngIf="isAdd">
                           <div class="delete-cell">
-                            <div>
-                              <button class="save-button" title="Lưu" style="margin-right: 3px" (click)="toggleAdd()"><i
-                                class="bi bi-check-circle"></i></button>
-                            </div>
+<!--                            <div>-->
+<!--                              <button class="save-button" title="Lưu" style="margin-right: 3px" (click)="toggleAdd()"><i-->
+<!--                                class="bi bi-check-circle"></i></button>-->
+<!--                            </div>-->
                             <div>
                               <button class="delete-button" title="Xoá" (click)="deleteRecord(i)">
                                 x
