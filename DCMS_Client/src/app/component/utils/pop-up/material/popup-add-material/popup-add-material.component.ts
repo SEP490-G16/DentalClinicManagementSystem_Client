@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MaterialService} from "../../../../../service/MaterialService/material.service";
 import {ToastrService} from "ngx-toastr";
 import {ResponseHandler} from "../../../libs/ResponseHandler";
@@ -10,6 +10,7 @@ import {ResponseHandler} from "../../../libs/ResponseHandler";
 })
 export class PopupAddMaterialComponent implements OnInit {
   @Input() materialList:any;
+  @Output() materialAdded = new EventEmitter<any>();
   material = {
     name:'',
     description:'',
@@ -58,6 +59,9 @@ export class PopupAddMaterialComponent implements OnInit {
         const newMaterialId = data.data.medical_id;
         this.materialBody.material_id = newMaterialId;
         this.materialList.unshift(this.materialBody);
+
+        //
+        this.materialAdded.emit(this.materialBody);
 
     },
       error => {

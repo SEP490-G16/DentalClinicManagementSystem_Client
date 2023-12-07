@@ -5,6 +5,7 @@ import { ReceptionistTimekeepingComponent } from './receptionist-timekeeping/rec
 import { ReceptionistAppointmentListComponent } from './receptionist-appointment-list/receptionist-appointment-list.component';
 import { ReceptionistComponent } from './receptionist.component';
 import { FollowingTimekeepingComponent } from "../admin/following-timekeeping/following-timekeeping.component";
+import { RegisterWorkScheduleComponent } from '../shared/register-work-schedule/register-work-schedule.component';
 
 const authRoutes: Routes = [
   { path: '', redirectTo: 'lich-hen', pathMatch: 'full' },
@@ -17,6 +18,11 @@ const authRoutes: Routes = [
   {
     path: 'cham-cong',
     component: ReceptionistTimekeepingComponent
+  },
+
+  {
+    path: 'dang-ky-lich-lam-viec',
+    component: RegisterWorkScheduleComponent
   },
 
   {

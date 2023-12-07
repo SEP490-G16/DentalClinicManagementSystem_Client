@@ -15,37 +15,42 @@
     </div>
   </div>
 
-  <div class="schedule-container">
-    <h2>Lịch Làm Việc Tuần Tiếp Theo </h2>
-    <div class="week">
-      <div class="day" *ngFor="let day of weekDays">
-        <div class="day-name">{{ day }}</div>
-        <div class="shift-container">
-          <div class="shift">
-            <button class="register-button">Ca 1</button>
-            <div class="employee-list">
-              <div class="employee" *ngFor="let employee of getRegisteredEmployees(day, 1)">
-                <img src="{{ employee.avatar }}" alt="{{ employee.name }}">
-                <span class="name">{{ employee.name }}</span>
-              </div>
-            </div>
-          </div>
-          <div class="shift">
-            <button class="register-button">Ca 2</button>
-            <div class="employee-list">
-              <div class="employee" *ngFor="let employee of getRegisteredEmployees(day, 2)">
-                <img src="{{ employee.avatar }}" alt="{{ employee.name }}">
-                <span class="name">{{ employee.name }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-
+  <table>
+    <thead>
+      <tr>
+        <th>Ca làm việc</th>
+        <th>Thứ 2</th>
+        <th>Thứ 3</th>
+        <th>Thứ 4</th>
+        <th>Thứ 5</th>
+        <th>Thứ 6</th>
+        <th>Thứ 7</th>
+        <th>Chủ nhật</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>Ca 1</th>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>Ca 2</th>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 
 
 

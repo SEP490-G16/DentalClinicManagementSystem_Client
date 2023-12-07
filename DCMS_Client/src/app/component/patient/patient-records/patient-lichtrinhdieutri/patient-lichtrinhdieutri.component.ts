@@ -35,6 +35,9 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
   navigateHref(href: string) {
     this.commonService.navigateHref(href, this.id);
   }
+  navigateHref2() {
+   this.router.navigate([`/benhnhan/danhsach/tab/lichtrinhdieutri/${this.id}/themngaykham`]);
+  }
   name:any
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
@@ -149,7 +152,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
       console.log(data);
     })
   }
-  
+
   imageBody = {
     base64: true,
     image_data: '',

@@ -38,8 +38,10 @@
       </div>
       <div class="row" style="padding: 0px 80px 50px;">
         <div class="col-12 mt-4">
-          <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#AddTreatmentModal"> <i
-              class="bi bi-plus-circle-fill"></i> Ngày khám</button>
+          <!-- <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#AddTreatmentModal"> <i
+              class="bi bi-plus-circle-fill"></i> Ngày khám</button> -->
+              <button class="btn button-timekeeping" (click)="navigateHref2()"> <i
+                class="bi bi-plus-circle-fill"></i> Ngày khám</button>
         </div>
       </div>
       <div class="row" style="padding: 0px 80px 50px;">
@@ -193,5 +195,5 @@
   </div>
 </div>
 
-<app-popup-add-treatmentcourse></app-popup-add-treatmentcourse>
+<!-- <app-popup-add-treatmentcourse></app-popup-add-treatmentcourse> -->
 <app-popup-edit-treatmentcourse [TreatmentCourse]="TreatmentCourse"></app-popup-edit-treatmentcourse>

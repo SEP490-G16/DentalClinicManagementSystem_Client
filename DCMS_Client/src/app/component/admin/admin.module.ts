@@ -103,7 +103,7 @@ import {
   PopupAddWaitingroomNewPatientComponent
 } from "../receptionist/receptionist-waiting-room/popup-add-waitingroom-new-patient/popup-add-waitingroom-new-patient.component";
 import { MaterialManagementComponent } from './material-management/material-management.component';
-import { PopupAddMaterialManagement } from '../utils/pop-up/material/pop-up-add-material-management/popup-add-material.component';
+import { PopupEditMaterialRealComponent } from '../utils/pop-up/material/popup-edit-material-real/popup-edit-material-real.component';
 
 @NgModule({
   declarations: [
@@ -188,7 +188,7 @@ import { PopupAddMaterialManagement } from '../utils/pop-up/material/pop-up-add-
     PopupAddAppointmentNewComponent,
     PopupAddWaitingroomNewPatientComponent,
     MaterialManagementComponent,
-    PopupAddMaterialManagement,
+    PopupEditMaterialRealComponent,
   ],
   imports: [
     CommonModule,

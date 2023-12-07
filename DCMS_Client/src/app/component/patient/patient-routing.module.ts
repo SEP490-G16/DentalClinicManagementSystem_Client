@@ -10,6 +10,7 @@ import { PopupAddExaminationComponent } from '../utils/pop-up/patient/popup-add-
 import { PopupEditExaminationComponent } from '../utils/pop-up/patient/popup-edit-examination/popup-edit-examination.component';
 import { PatientSpecimensComponent } from './patient-records/patient-specimens/patient-specimens.component';
 import {ReceiptsComponent} from "./patient-records/receipts/receipts.component";
+import { PopupAddTreatmentcourseComponent } from '../utils/pop-up/patient/popup-add-treatmentcourse/popup-add-treatmentcourse.component';
 
 const authRoutes: Routes = [
   {
@@ -25,7 +26,8 @@ const authRoutes: Routes = [
         path: 'tab/lichtrinhdieutri/:id', children: [
           {path: '',  component:PatientLichtrinhdieutriComponent},
           {path: 'themlankham/:tcId', component:PopupAddExaminationComponent},
-          {path: 'sualankham/:tcId/:examinationId', component:PopupEditExaminationComponent}
+          {path: 'sualankham/:tcId/:examinationId', component:PopupEditExaminationComponent},
+          {path: 'themngaykham', component: PopupAddTreatmentcourseComponent}
         ]
       },
       {

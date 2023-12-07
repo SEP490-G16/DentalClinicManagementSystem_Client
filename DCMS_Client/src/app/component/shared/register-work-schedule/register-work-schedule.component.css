@@ -26,121 +26,98 @@
   margin-left: 1%;
 }
 
-.schedule-container {
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+table {
   width: 100%;
-  margin: 0;
-  padding: 20px;
-  background: #f9f9f9; /* Màu nền tổng thể */
+  max-height: 80vh;
+  border-collapse: separate;
+  margin: 20px 0;
+  font-family: 'Roboto', sans-serif;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border: 1px solid #DDD;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+  transition: all 0.3s ease;
 }
 
-.week {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+thead {
+  background-color: #F7F7F7;
+  color: #333;
 }
 
-.day {
-  flex: 1;
-  min-width: calc(100% / 7 - 10px); /* Chia chiều rộng cho 7 ngày trong tuần */
-  border: 1px solid #ddd;
-  padding: 10px;
-  margin: 5px;
-  border-radius: 5px;
-  background: white; /* Màu nền cho mỗi ngày */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Đổ bóng cho mỗi ngày */
-}
-
-.day-name {
-  background: #6f42c1; /* Màu tím chủ đạo cho tiêu đề ngày */
-  color: white;
-  padding: 5px;
-  border-radius: 5px;
+th, td {
+  padding: 12px 15px;
+  border: 1px solid #DDD;
   text-align: center;
-  margin-bottom: 15px;
+  transition: background-color 0.3s ease;
 }
 
-.shift-container {
-  display: flex;
-  justify-content: space-between;
+tbody tr:hover {
+  background-color: #f2f2f2;
 }
 
-.shift {
-  width: 48%;
-  background: #e7e8fa; /* Màu nền nhẹ cho từng ca làm việc */
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 20px;
+th {
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
-.employee-list {
-  max-height: 200px;
-  overflow-y: auto;
-  margin-bottom: 10px;
+tbody tr:nth-child(even) {
+  background-color: #fafafa;
 }
 
-.employee {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
+td:hover {
+  background-color: #e8e8e8;
 }
 
-.employee img {
-  border-radius: 50%; /* Tạo hình tròn */
-  width: 40px; /* Đặt chiều rộng cố định */
-  height: 40px; /* Đặt chiều cao cố định để tạo hình tròn hoàn hảo */
-  object-fit: cover; /* Cắt và phủ kín không gian, loại bỏ phần thừa */
-  border: 2px solid #36d1dc; /* Viền để tạo hiệu ứng nổi */
-  margin-right: 10px; /* Khoảng cách giữa ảnh và tên */
+tbody tr:first-child td:first-child {
+  border-top-left-radius: 8px;
 }
 
-.name {
-  font-size: 0.85em;
-  font-weight: bold;
-  color: #333; /* Màu chữ tên */
+tbody tr:first-child td:last-child {
+  border-top-right-radius: 8px;
 }
 
-.register-button {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  background-color: #6f42c1; /* Màu tím chủ đạo cho nút đăng ký */
-  color: white;
+tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 8px;
+}
+
+tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+  th, td {
+    white-space: nowrap;
+  }
+}
+
+
+.button-timekeeping {
+  background-color: #D9E1EC;
+  color: #664FC3;
+  padding: 2px 6px;
+  font-size: 0.8em;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;
-  text-align: center;
 }
 
-.register-button:hover {
-  background-color: #5a30b1; /* Màu tím đậm hơn khi hover */
-  transition: background-color 0.3s ease;
+.button-timekeeping:hover {
+  background-color: #AEBFCC;
 }
 
-@media (max-width: 768px) {
-  .week {
-      flex-direction: column;
-  }
-
-  .day {
-      width: 100%;
-  }
-
-  .shift-container {
-      flex-direction: column;
-  }
-
-  .shift {
-      width: 100%;
-  }
+input[type="time"] {
+  padding: 2px 6px;
+  font-size: 0.8em;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
 }
 
-.day:hover {
-  background-color: #f3e8ff; /* Màu nền khi hover */
-  transition: background-color 0.3s ease;
-}
-
-.shift:hover {
-  background-color: #ded2f7; /* Màu nền khi hover */
-  transition: background-color 0.3s ease;
-}

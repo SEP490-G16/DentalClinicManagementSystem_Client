@@ -39,10 +39,6 @@ const routes: Routes = [
         }
       },
       {
-        path: 'dangkylichlamviec',
-        component: RegisterWorkScheduleComponent,
-      },
-      {
         path: 'chat',
         component: ChatComponent
       },
