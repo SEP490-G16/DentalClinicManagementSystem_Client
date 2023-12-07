@@ -463,3 +463,10 @@ button:active {
 .title-patientName div b {
   font-size: 30px;
 }
+.title-payment{
+  display: flex;
+  justify-content: space-around;
+}
+.title-payment .tong-no{
+  color: red;
+}

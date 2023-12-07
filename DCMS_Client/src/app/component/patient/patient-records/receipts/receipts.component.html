@@ -59,9 +59,17 @@
                   currency:'VND':'symbol':'1.0-0'}}</td>
                 <ng-container *ngIf="rec.r_status == 1">
                   <td>
-                    <button class="btn button-timekeeping" title="Xác nhận thanh toán" (click)="confirmPaymentCast(rec)">Thanh toán tiền mặt</button>
-                    <button class="btn button-timekeeping" title="Xác nhận thanh toán" (click)="confirmPaymentTrans(rec)">Thanh toán chuyển khoản
-                    </button>
+                    <div class="action-btn">
+                      <div>
+                        <button class="btn button-timekeeping" title="Xác nhận thanh toán" (click)="confirmPaymentCast(rec)">Thanh toán tiền mặt</button>
+
+                      </div>
+                      <div>
+                        <button class="btn button-timekeeping" title="Xác nhận thanh toán" (click)="confirmPaymentTrans(rec)">Thanh toán chuyển khoản
+                        </button>
+                      </div>
+                    </div>
+
                   </td>
                 </ng-container>
                 <ng-container *ngIf="rec.r_status == 2">

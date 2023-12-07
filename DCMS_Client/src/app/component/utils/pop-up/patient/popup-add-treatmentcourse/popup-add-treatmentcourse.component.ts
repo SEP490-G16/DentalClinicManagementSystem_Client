@@ -46,7 +46,7 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     lydo: '',
     chuandoan: '',
     nguyennhan: '',
-    thuoc: '', 
+    thuoc: '',
     luuy: ''
   }
   groupProcedureO = {
@@ -231,7 +231,7 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
       }
     })
   }
-  
+
   currentPage: number = 1;
   materialList: any = [];
   uniqueList: string[] = [];
@@ -272,6 +272,16 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
           }
         }
       }
+      const transformedMaterialList = this.results.map((item: any) =>{
+        return{
+          id:item.material_warehouse_id,
+          materialName: item.materialName,
+          materialId:item.materialId,
+          quantity:item.quantity,
+          unitPrice:item.unitPrice
+        }
+      })
+      this.results = transformedMaterialList;
     })
   }
 
@@ -306,7 +316,7 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
       this.unique.splice(index2, 1);
     }
   }
-  
+
   Labos: any[] = []
   getLabo() {
     this.LaboService.getLabos()
