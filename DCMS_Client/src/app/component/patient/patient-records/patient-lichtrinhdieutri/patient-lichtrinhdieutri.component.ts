@@ -143,10 +143,23 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     this.showZoomedInImage = false;
   }
 
+  response:any;
   listImageXRay: any[] = [];
   onGetXRayImage(id:any) {
-    this.treatmentCourseService.getImageXRay(id).subscribe((data) => {
-      console.log(data);
+    this.treatmentCourseService.getImageXRay(id).subscribe((res) => {
+      this.response = res
+      this.listImageXRay = this.response.data;
+      this.listImageXRay.forEach((item:any) => {
+        var length = this.recordsImage.length
+        var id = length++;
+        this.recordImage = {
+          id: id,
+          typeImage: "2",
+          imageInsert: item.url,
+          description: item.description
+        }
+        this.recordsImage.push(this.recordImage);
+      })
     })
   }
   
@@ -184,8 +197,14 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     })
   }
 
-  onDeleteXRayImage() {
-
+  onDeleteXRayImage(image:any) {
+    this.recordsImage.forEach((item:any) => {
+      if (item.id == image.id) {
+        this.treatmentCourseService.deleteImageXRay(this.id, item.imageInsert).subscribe((data) => {
+          this.toastr.success('Xóa ảnh x-quang thành công');
+        })
+      }
+    })
   }
 
   getTreatmentCourse() {
