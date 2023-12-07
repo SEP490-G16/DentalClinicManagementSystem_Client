@@ -1,88 +1,80 @@
-<div class="modal-dialog modal-xl">
-  <div class="modal-content">
-
-    <!-- Modal Header -->
-    <div class="modal-header color-main">
-      <h4 class="modal-title title text-center w-100">Thêm mới ngày khám</h4>
-      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-    </div>
-
-    <!-- Modal body -->
-    <div class="modal-body">
-      <div class="row">
-        <div class="col-12">
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Mã bệnh nhân</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="Patient_Id" disabled
-              aria-describedby="emailHelp">
+<div class="modal" id="AddTreatmentModal">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+    
+      <div class="modal-header color-main">
+        <h4 class="modal-title title text-center w-100">Thêm mới ngày khám</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Mã bệnh nhân</label>
+              <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="Patient_Id" disabled
+                aria-describedby="emailHelp">
+            </div>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-12">
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Lý do khám</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="TreatmentCouseBody.lydo"
-              aria-describedby="emailHelp">
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Lý do khám</label>
+              <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="TreatmentCouseBody.lydo"
+                aria-describedby="emailHelp">
+            </div>
           </div>
         </div>
-      </div>
-
-      <div class="row">
-        <div class="col-12">
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Nguyên nhân</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="TreatmentCouseBody.nguyennhan"
-              aria-describedby="emailHelp">
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Nguyên nhân</label>
+              <input type="text" class="form-control" id="exampleInputEmail1"
+                [(ngModel)]="TreatmentCouseBody.nguyennhan" aria-describedby="emailHelp">
+            </div>
           </div>
         </div>
-      </div>
-
-      <div class="row">
-        <div class="col-12">
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Chẩn đoán</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="TreatmentCouseBody.chuandoan"
-              aria-describedby="emailHelp">
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Chẩn đoán</label>
+              <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="TreatmentCouseBody.chuandoan"
+                aria-describedby="emailHelp">
+            </div>
           </div>
         </div>
-      </div>
-
-      <div class="row">
-        <div class="col-12">
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Phương án điều trị</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="TreatmentCouseBody.name"
-              aria-describedby="emailHelp">
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Phương án điều trị</label>
+              <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="TreatmentCouseBody.name"
+                aria-describedby="emailHelp">
+            </div>
           </div>
         </div>
-      </div>
-
-      <div class="row">
-        <div class="col-12">
-          <div class="mb-3">
-            <label for="procedureGroupSelect" class="form-label">Bảng kê chi phí</label>
-            <div class="select-checkbox" (mouseleave)="showDropDown = false">
-              <button class="drop-toggle btn flat" (click)="showDropDown=!showDropDown">
-                <span style="color: #1e1e1e">Chọn nhóm thủ thuật</span>
-                <i class="fa fa-angle-down"></i>
-              </button>
-              <div class="drop-show" *ngIf="showDropDown">
-                <div class="group-list" *ngFor="let a of list">
-                  <div class="input-name">
-                    <input type="checkbox" [(ngModel)]="a.checked" (click)="getSelectedValue(a)" />
-                  </div>
-                  <div class="name-title">
-                    <span> {{a.groupName}}</span>
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-3">
+              <label for="procedureGroupSelect" class="form-label">Bảng kê chi phí</label>
+              <div class="select-checkbox" (mouseleave)="showDropDown = false">
+                <button class="drop-toggle btn flat" (click)="showDropDown=!showDropDown">
+                  <span style="color: #1e1e1e">Chọn nhóm thủ thuật</span>
+                  <i class="fa fa-angle-down"></i>
+                </button>
+                <div class="drop-show" *ngIf="showDropDown">
+                  <div class="group-list" *ngFor="let a of list">
+                    <div class="input-name">
+                      <input type="checkbox" [(ngModel)]="a.checked" (click)="getSelectedValue(a)" />
+                    </div>
+                    <div class="name-title">
+                      <span> {{a.groupName}}</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-
-
         <div class="row">
           <div class="col-12">
             <div class="mb-3">
@@ -154,53 +146,53 @@
                                 <select class="form-select p-2" id="patient" style="margin-left: 10px; border: 1px solid #664FC3;
 
                                                                                             border-radius: 10px;"
-                                aria-label="Default select example" [(ngModel)]="gro.laboId">
-                                <option value="0">Chọn labo</option>
-                                <option *ngFor="let a of Labos" value={{a.labo_id}}>{{a.name}}</option>
-                              </select>
-                            </td>
-                          </ng-container>
-                        </tr>
-                      </table>
-                    </td>
-                  </tr>
+                                  aria-label="Default select example" [(ngModel)]="gro.laboId">
+                                  <option value="0">Chọn labo</option>
+                                  <option *ngFor="let a of Labos" value={{a.labo_id}}>{{a.name}}</option>
+                                </select>
+                              </td>
+                            </ng-container>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </ng-container>
                 </ng-container>
-              </ng-container>
-            </table>
+              </table>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-12">
-          <div class="mb-3">
-            <label for="medicine" class="form-label">Đơn thuốc:</label>
-            <select class="form-select p-2" id="medicine" style="width: 15%; border: 1px solid #664FC3;
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-3">
+              <label for="medicine" class="form-label">Đơn thuốc:</label>
+              <select class="form-select p-2" id="medicine" style="width: 15%; border: 1px solid #664FC3;
                        border-radius: 10px;" aria-label="Default select example" (change)="onMedicineChange()"
-              [(ngModel)]="selectMedicine">
-              <option value="0">Chọn mẫu đơn thuốc</option>
-              <option value="1">Mẫu 1</option>
-              <option value="2">Mẫu 2</option>
-            </select>
-          </div>
-          <div class="button-content" *ngIf="showPrescriptionContent">
-            <div class="btn-add-procedure">
-              <button class="btn button-add" style="margin-right: 3px" (click)="toggleAddMedicine()"><i
-                  class="bi bi-plus-circle"></i>Thêm
-                mới đơn thuốc</button>
+                [(ngModel)]="selectMedicine">
+                <option value="0">Chọn mẫu đơn thuốc</option>
+                <option value="1">Mẫu 1</option>
+                <option value="2">Mẫu 2</option>
+              </select>
             </div>
             <div class="button-content" *ngIf="showPrescriptionContent">
               <div class="btn-add-procedure">
                 <button class="btn button-add" style="margin-right: 3px" (click)="toggleAddMedicine()"><i
                     class="bi bi-plus-circle"></i>Thêm
-                  mới thuốc</button>
+                  mới đơn thuốc</button>
               </div>
-              <div>
-                <button class="btn button-add" (click)="openGeneratePdfModal()">In đơn thuốc</button>
+              <div class="button-content" *ngIf="showPrescriptionContent">
+                <div class="btn-add-procedure">
+                  <button class="btn button-add" style="margin-right: 3px" (click)="toggleAddMedicine()"><i
+                      class="bi bi-plus-circle"></i>Thêm
+                    mới thuốc</button>
+                </div>
+                <div>
+                  <button class="btn button-add" (click)="openGeneratePdfModal()">In đơn thuốc</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
         <div class="row">
           <div class="col-12">
             <div class="mb-3" *ngIf="showPrescriptionContent">
@@ -243,7 +235,7 @@
                     </td>
                     <td style="padding: 10px">
                       <textarea type="text" *ngIf="isAddMedicine" [(ngModel)]="record.lieuDung"
-                                class="form-control value-staff"></textarea>
+                        class="form-control value-staff"></textarea>
                       <p *ngIf="!isAddMedicine">{{record.lieuDung}}</p>
                     </td>
                     <td style="padding: 10px">
@@ -259,7 +251,6 @@
             </div>
           </div>
         </div>
-      </div>
         <div class="row">
           <div class="col-12">
             <div class="mb-3 row">
@@ -269,36 +260,38 @@
                   <span style="color: #1e1e1e">Chọn vật liệu</span>
                   <i class="fa fa-angle-down"></i>
                 </button> -->
-<!--                <select [(ngModel)]="material_warehouse_id" (ngModelChange)="updateTemporaryNameMaterial()">-->
-<!--                  <option *ngFor="let a of results" value={{a.material_warehouse_id}}>{{a.materialName}}</option>-->
-<!--                </select>-->
-                <ng-select [items]="results" [(ngModel)]="material_warehouse_id" (ngModelChange)="updateTemporaryNameMaterial()" [searchable]="true" bindLabel="materialName" bindValue="id" [notFoundText]="'Không tìm thấy vật liệu'">
+                <!--                <select [(ngModel)]="material_warehouse_id" (ngModelChange)="updateTemporaryNameMaterial()">-->
+                <!--                  <option *ngFor="let a of results" value={{a.material_warehouse_id}}>{{a.materialName}}</option>-->
+                <!--                </select>-->
+                <ng-select [items]="results" [(ngModel)]="material_warehouse_id"
+                  (ngModelChange)="updateTemporaryNameMaterial()" [searchable]="true" bindLabel="materialName"
+                  bindValue="id" [notFoundText]="'Không tìm thấy vật liệu'">
 
                 </ng-select>
               </div>
             </div>
           </div>
         </div>
-      </div>
-
-      <div class="row">
-        <div class="col-12">
-          <div class="mb-3">
-            <table>
-              <colgroup>
-                <col style="width: 20%">
-                <col style="width: 20%">
-                <col style="width: 20%">
-              </colgroup>
-              <tr class="sticky-thead">
-                <th style="padding: 10px">Tên vật liệu</th>
-                <th style="padding: 10px">Số lượng</th>
-                <th style="padding: 10px">Thao tác</th>
-              </tr>
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-3">
+              <table>
+                <colgroup>
+                  <col style="width: 20%">
+                  <col style="width: 20%">
+                  <col style="width: 20%">
+                </colgroup>
+                <tr class="sticky-thead">
+                  <th style="padding: 10px">Tên vật liệu</th>
+                  <th style="padding: 10px">Số lượng</th>
+                  <th style="padding: 10px">Thao tác</th>
+                </tr>
                 <ng-container *ngFor="let a of listMaterialUsage">
                   <tr>
                     <td style="padding: 10px">{{a.description}}</td>
-                    <td style="padding: 10px"><input class="form-control value-staff" type="number" [(ngModel)]="a.quantity"></td>
+                    <td style="padding: 10px"><input class="form-control value-staff" type="number"
+                        [(ngModel)]="a.quantity">
+                    </td>
                     <td style="padding: 10px">
                       <div class="delete-cell">
                         <div>
@@ -315,24 +308,23 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-12">
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Lưu ý</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="TreatmentCouseBody.luuy"
-              aria-describedby="emailHelp">
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Lưu ý</label>
+              <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="TreatmentCouseBody.luuy"
+                aria-describedby="emailHelp">
+            </div>
           </div>
         </div>
+        <!-- Modal footer -->
+        <div class="button-conf float-end">
+          <button type="button" id="cancel" class="btn btn-cancel" data-bs-dismiss="modal"
+            (click)="close()">Hủy</button>
+          <button type="button" class="btn button-add" (click)="postTreatmentCourse()">Thêm
+            mới</button>
+        </div>
       </div>
-
-      <!-- Modal footer -->
-      <div class="button-conf float-end">
-        <button type="button" id="cancel" class="btn btn-cancel" data-bs-dismiss="modal" (click)="close()">Hủy</button>
-        <button type="button" class="btn button-add" (click)="postTreatmentCourse()">Thêm
-          mới</button>
-      </div>
-
     </div>
   </div>
 </div>

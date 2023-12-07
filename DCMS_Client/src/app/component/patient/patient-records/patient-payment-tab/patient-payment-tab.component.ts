@@ -28,7 +28,13 @@ export class PatientPaymentTabComponent implements OnInit {
   Material_Usage_Report: any[] = [];
   roleId: string[] = [];
   patientName:any;
-  name:any
+  name:any;
+  totalPaid = {
+    totalPrice: 0, 
+    totalPaid: 0, 
+    remaining: 0,
+  }
+
   constructor(
     private patientService: PatientService,
     private route: ActivatedRoute,
@@ -80,6 +86,7 @@ export class PatientPaymentTabComponent implements OnInit {
             acc[tcId] = { ...current, mu_data: [] };
           }
           acc[tcId].mu_data = acc[tcId].mu_data.concat(current.mu_data);
+          acc[tcId].mu_data = acc[tcId].mu_data.filter(item => item.mu_medical_procedure_id != null);
           return acc;
         }, {});
 
@@ -91,6 +98,12 @@ export class PatientPaymentTabComponent implements OnInit {
           report.remaining = report.total - report.totalPaid;
         });
 
+        this.Material_Usage_Report.forEach(report => {
+          this.totalPaid.totalPrice += this.calculateTotal(report.mu_data);
+          this.totalPaid.totalPaid += this.calculateTotalPaid(report.mu_data);
+          this.totalPaid.remaining = this.totalPaid.totalPrice - this.totalPaid.totalPaid;
+        });
+
         console.log("Grouped Material Report: ", this.Material_Usage_Report);
       },
         (err) => {
@@ -98,12 +111,16 @@ export class PatientPaymentTabComponent implements OnInit {
         })
   }
 
+  listTotal:any[] = [];
   calculateTotal(muData: any[]): number {
-    return muData.reduce((acc, current) => acc + current.mu_total, 0);
+    this.listTotal = muData.filter(mu => mu.mu_material_warehouse_id == null);
+    return this.listTotal.reduce((acc, current) => acc + current.mu_total, 0);
   }
 
+  listTotalPay: any[] = [];
   calculateTotalPaid(muData: any[]): number {
-    return muData.reduce((acc, current) => acc + current.mu_total_paid, 0);
+    this.listTotalPay = muData.filter(mu => mu.mu_material_warehouse_id == null);
+    return this.listTotalPay.reduce((acc, current) => acc + current.mu_total_paid, 0);
   }
 
   calculateRemaining(total: number, totalPaid: number): number {
@@ -161,24 +178,6 @@ export class PatientPaymentTabComponent implements OnInit {
 
   navigateHref(href: string) {
     this.router.navigate([href + this.Patient_Id]);
-    // const userGroupsString = sessionStorage.getItem('userGroups');
-
-    // if (userGroupsString) {
-    //   const userGroups = JSON.parse(userGroupsString) as string[];
-
-    //   if (userGroups.includes('dev-dcms-doctor')) {
-    //     this.router.navigate([href + this.Patient_Id]);
-    //   } else if (userGroups.includes('dev-dcms-nurse')) {
-    //     this.router.navigate([href + this.Patient_Id]);
-    //   } else if (userGroups.includes('dev-dcms-receptionist')) {
-    //     this.router.navigate([href + this.Patient_Id]);
-    //   } else if (userGroups.includes('dev-dcms-admin')) {
-    //     this.router.navigate([href + this.Patient_Id]);
-    //   }
-    // } else {
-    //   console.error('Không có thông tin về nhóm người dùng.');
-    //   this.router.navigate(['/default-route']);
-    // }
   }
 
 }

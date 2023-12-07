@@ -69,13 +69,15 @@ export class ReportHighIncomeAndExpenditureComponent implements OnInit {
       this.getReports.forEach((s: any) => {
         const currentObject = s;
         currentObject.mu_data.forEach((item: any) => {
-          this.stastisticTotal.initialTotalAmount += parseInt(item.mu_price) * parseInt(item.mu_quantity);;
-          this.stastisticTotal.totalAmount += parseInt(item.mu_price) * parseInt(item.mu_quantity);;
-          this.stastisticTotal.discount += 0;
-          if (item.mu_total_paid != undefined && item.mu_total_paid != null) {
-            this.stastisticTotal.totalPay += parseInt(item.mu_total_paid);
-            this.stastisticTotal.totalLeft += parseInt(item.mu_price) * parseInt(item.mu_quantity) - parseInt(item.mu_total_paid);
-          }
+          if (item.mu_medical_procedure_id != null) {
+            this.stastisticTotal.initialTotalAmount += parseInt(item.mu_price) * parseInt(item.mu_quantity);;
+            this.stastisticTotal.totalAmount += parseInt(item.mu_price) * parseInt(item.mu_quantity);;
+            this.stastisticTotal.discount += 0;
+            if (item.mu_total_paid != undefined && item.mu_total_paid != null) {
+              this.stastisticTotal.totalPay += parseInt(item.mu_total_paid);
+              this.stastisticTotal.totalLeft += parseInt(item.mu_price) * parseInt(item.mu_quantity) - parseInt(item.mu_total_paid);
+            }
+          }   
         })
         if (!this.uniqueList.includes(currentObject.p_data.p_patient_id)) {
           this.uniqueList.push(currentObject.p_data.p_patient_id);
@@ -84,11 +86,13 @@ export class ReportHighIncomeAndExpenditureComponent implements OnInit {
           this.stastisticPatientObject.phoneNumber = currentObject.p_data.p_phone_number;
           this.stastisticPatientObject.address = currentObject.p_data.p_address;
           currentObject.mu_data.forEach((item: any) => {
-            this.stastisticPatientObject.initialAmount += parseInt(item.mu_price) * parseInt(item.mu_quantity);
-            this.stastisticPatientObject.discount += 0;
-            this.stastisticPatientObject.totalAmount += parseInt(item.mu_price) * parseInt(item.mu_quantity);
-            this.stastisticPatientObject.totalPay += parseInt(item.mu_total_paid);
-            this.stastisticPatientObject.totalLeft += parseInt(item.mu_price) * parseInt(item.mu_quantity) - parseInt(item.mu_total_paid);
+            if (item.mu_medical_procedure_id != null) {
+              this.stastisticPatientObject.initialAmount += parseInt(item.mu_price) * parseInt(item.mu_quantity);
+              this.stastisticPatientObject.discount += 0;
+              this.stastisticPatientObject.totalAmount += parseInt(item.mu_price) * parseInt(item.mu_quantity);
+              this.stastisticPatientObject.totalPay += parseInt(item.mu_total_paid);
+              this.stastisticPatientObject.totalLeft += parseInt(item.mu_price) * parseInt(item.mu_quantity) - parseInt(item.mu_total_paid);
+            }
           })
           this.stastisticRevenuePatient.push(this.stastisticPatientObject);
           this.stastisticPatientObject = {
@@ -107,11 +111,13 @@ export class ReportHighIncomeAndExpenditureComponent implements OnInit {
             console.log(patient.patientCode)
             if (patient.patientCode == currentObject.p_data.p_patient_id) {
               currentObject.mu_data.forEach((item: any) => {
-                patient.initialAmount += (parseInt(item.mu_price) * parseInt(item.mu_quantity));
-                patient.discount = 0;
-                patient.totalAmount += (parseInt(item.mu_price) * parseInt(item.mu_quantity));
-                patient.totalPay += parseInt(item.mu_total_paid);
-                patient.totalLeft += (parseInt(item.mu_price) * parseInt(item.mu_quantity) - parseInt(item.mu_total_paid));
+                if (item.mu_medical_procedure_id != null) {
+                  patient.initialAmount += (parseInt(item.mu_price) * parseInt(item.mu_quantity));
+                  patient.discount = 0;
+                  patient.totalAmount += (parseInt(item.mu_price) * parseInt(item.mu_quantity));
+                  patient.totalPay += parseInt(item.mu_total_paid);
+                  patient.totalLeft += (parseInt(item.mu_price) * parseInt(item.mu_quantity) - parseInt(item.mu_total_paid));
+                }
               })
             }
           })
