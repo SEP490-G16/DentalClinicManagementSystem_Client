@@ -262,7 +262,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
           })).filter((app: any) => app.appointments.length > 0);
 
           console.log("Đã xóa: ", this.filteredAppointments);
-          this.startDate = `${this.startDateNgb.year}-${this.pad(this.startDateNgb.month)}-${this.pad(this.startDateNgb.day)}`;
+          //this.startDate = `${this.startDateNgb.year}-${this.pad(this.startDateNgb.month)}-${this.pad(this.startDateNgb.day)}`;
           if (this.startDate == this.timestampToDate(this.DELETE_APPOINTMENT_BODY.epoch)) {
             this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'minus', 'app');
           }

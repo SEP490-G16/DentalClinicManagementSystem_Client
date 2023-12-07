@@ -38,32 +38,32 @@
           <b>Bệnh nhân: {{patientName}}</b>
         </div>
       </div>
-
-      <div class="payment-summary-container">
-        <div class="payment-summary-row">
-          <div class="col payment-summary-col payment-total-amount">Tổng Tiền: 789</div>
-          <div class="col payment-summary-col payment-amount-paid">Đã Trả: 456</div>
-          <div class="col payment-summary-col payment-amount-due">Còn Nợ: 123</div>
-        </div>
-      <div>
       <div class="title-payment">
         <div>
-          <b>Tổng tiền điều trị: </b>
+          <b>Tổng tiền điều trị: {{totalPaid.totalPrice}}</b>
         </div>
         <div>
-          <b>Giảm giá: </b>
+          <b>Đã thu: {{totalPaid.totalPaid}}</b>
         </div>
         <div>
-          <b>Phải thanh toán: </b>
-        </div>
-        <div>
-          <b>Đã thu: </b>
-        </div>
-        <div>
-          <b class="tong-no">Tổng nợ: </b>
+          <b class="tong-no">Tổng nợ: {{totalPaid.remaining}}</b> 
         </div>
       </div>
-
+      <br>
+      <!-- <div class="container">
+        <div class="row">
+        <div class="col-md-4" ><b>Tổng tiền điều trị</b> <br><br>
+          {{totalPaid.totalPrice}}
+        </div>
+        <div class="col-md-4 "> <b>Đã thanh toán</b><br> <br>
+          {{totalPaid.totalPaid}}
+        </div>
+        <div class="col-md-4 "><b>Tổng nợ</b><br> <br>
+        {{totalPaid.remaining}}
+        </div>
+      </div> 
+      </div>-->
+      
       <div class="payment-grid-wrapper" *ngIf="Material_Usage_Report.length > 0; else noPaymentRecord">
         <div class="payment-container" *ngFor="let report of Material_Usage_Report">
           <div class="payment-header">
@@ -72,7 +72,7 @@
               {{report.tc_data.tc_name}}</h2>
             <div class="payment-summary">
               <span class="total-amount">Tổng tiền: {{ report.total | currency:'VND'}}</span>
-              <span class="discount">Giảm giá:</span>
+              <!-- <span class="discount">Giảm giá:</span> -->
               <span class="paid-amount">Đã thanh toán: {{ report.totalPaid | currency:'VND'}}</span>
               <span class="remaining-amount">Còn lại: {{ report.remaining | currency:'VND'}}</span>
               <ng-container *ngIf="report.remaining != 0">
@@ -96,15 +96,6 @@
                   {{ mu.mu_created_date | date: 'dd/MM/yyyy'}}</span>
                 <span class="amount-paid">Đã trả: {{ mu.mu_total_paid | currency:'VND'}}
                 </span>
-                <!-- <ng-container *ngIf="mu.mu_status == 1">
-                  <br>
-                  <span style="color: red;">Chưa thu tiền</span>
-                  <button class="btn btn-secondary" *ngIf="this.RoleId.includes('3')">Thu tiền</button>
-                </ng-container>
-                <ng-container *ngIf="mu.mu_status == 3">
-                  <br>
-                  <span style="color: green;">Đã thu tiền</span>
-                </ng-container> -->
               </div>
             </ng-template>
           </div>
