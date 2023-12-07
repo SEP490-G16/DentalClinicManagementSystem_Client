@@ -324,7 +324,7 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     this.Post_TreatmentCourse.differential_diagnosis = this.TreatmentCouseBody.nguyennhan;
     this.Post_TreatmentCourse.provisional_diagnosis = this.TreatmentCouseBody.chuandoan;
     this.Post_TreatmentCourse.description = this.TreatmentCouseBody.luuy;
-    this.Post_TreatmentCourse.medicine = JSON.stringify(this.recordsMedicine);
+    this.Post_TreatmentCourse.prescription = JSON.stringify(this.recordsMedicine);
     this.treatmentCourseService.postTreatmentCourse(this.Post_TreatmentCourse).
       subscribe((res) => {
         this.toastr.success(res.message, "Thêm liệu trình thành công");
@@ -568,7 +568,7 @@ interface IBodyTreatmentCourse {
   chief_complaint: string;
   provisional_diagnosis: string;
   differential_diagnosis: string;
-  medicine: string;
+  prescription: string;
 }
 
 interface ProcedureOb {
