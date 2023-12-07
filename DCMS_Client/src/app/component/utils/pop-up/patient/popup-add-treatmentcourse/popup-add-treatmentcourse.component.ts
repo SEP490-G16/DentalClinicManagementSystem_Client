@@ -272,6 +272,16 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
           }
         }
       }
+      const transformedMaterialList = this.results.map((item: any) =>{
+        return{
+          id:item.material_warehouse_id,
+          materialName: item.materialName,
+          materialId:item.materialId,
+          quantity:item.quantity,
+          unitPrice:item.unitPrice
+        }
+      })
+      this.results = transformedMaterialList;
     })
   }
 

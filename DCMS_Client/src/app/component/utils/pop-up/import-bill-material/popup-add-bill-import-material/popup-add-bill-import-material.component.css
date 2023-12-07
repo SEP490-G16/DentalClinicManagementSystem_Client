@@ -14,13 +14,13 @@
   height: 300px;
 }
 
-.button-timekeeping{
-  font-family: "Poppins", sans-serif;
-  background: #664FC3;
+.button-add-material{
+  font-family: Tahoma, sans-serif;
+  /*background: #664FC3;*/
   text-align: center;
   border: 0px solid white;
-  color: white;
-  font-weight: bold;
+  color: #1e1e1e;
+  font-weight: normal;
   /*font-size: 24px;*/
   outline: 0px;
   padding: 10px 20px;
@@ -28,8 +28,8 @@
   /* box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset; */
 }
 
-.button-timekeeping:hover{
-  background: #533daf;
+.button-add-material:hover{
+  background: #e2e1e7;
 }
 .btn-cancel:active,
 .btn-cancel {
@@ -177,17 +177,6 @@ table.table td h2 a {
 .add-materials{
   padding: 10px 0;
 }
-.button-timekeeping{
-  font-family: "Poppins", sans-serif;
-  background: #664FC3;
-  text-align: center;
-  cursor: pointer;
-  border: 0px solid white;
-  color: white;
-  /*font-size: 24px;*/
-  outline: 0px;
-  /* box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset; */
-}
 button:hover{
   opacity: 0.9;
 }
@@ -208,6 +197,8 @@ button:active{
   cursor: pointer;
   border: 0px solid white;
   color: white;
+  padding: 10px 20px;
+  margin-bottom: 15px;
   /*font-size: 24px;*/
   outline: 0px;
   /* box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset; */

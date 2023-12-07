@@ -1,15 +1,32 @@
 <div class="sep-recent-orders">
-  <!-- <section class="table__header">
-    <div class="export__file">
-    </div>
-  </section> -->
 
-  <div class="row mt-4 mb-4">
-    <div class="col-4">
-      <button class="btn button-timekeeping" style="margin-right: 30px;" data-bs-toggle="modal" data-bs-target="#myModal"
-        (click)="openAddAppointmentModal()"><i class="bi bi-plus-circle"></i>
-        Thêm
-        lịch hẹn bệnh nhân cũ</button>
+  //<!-- <section class="table__header">
+    //<div class="export__file">
+    //</div>
+  //</section> -->
+
+ // <div class="row mt-4 mb-4">
+   // <div class="col-4">
+     // <button class="btn button-timekeeping" style="margin-right: 30px;" data-bs-toggle="modal" data-bs-target="#myModal"
+       // (click)="openAddAppointmentModal()"><i class="bi bi-plus-circle"></i>
+        //Thêm
+        //lịch hẹn bệnh nhân cũ</button>
+  <div class="row row-custom">
+    <div class="col-6">
+      <div class="button-app">
+        <div style="margin-right: 1%;">
+          <button class="btn button-add" data-bs-toggle="modal"
+                  data-bs-target="#myModal" (click)="openAddAppointmentModal()"><i class="bi bi-plus-circle"></i>
+            Thêm
+            lịch hẹn bệnh nhân cũ</button>
+        </div>
+        <div>
+          <button class="btn button-add" data-bs-toggle="modal"
+                  data-bs-target="#myNewModal" (click)="openAddAppointmentModal()"><i class="bi bi-plus-circle"></i>
+            Thêm
+            lịch hẹn bệnh nhân mới</button>
+        </div>
+      </div>
 
       <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#myNewModal"
         (click)="openAddAppointmentModal()"><i class="bi bi-plus-circle"></i>

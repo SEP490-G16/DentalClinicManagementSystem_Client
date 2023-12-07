@@ -34,3 +34,7 @@
 .title-patientName div b {
   font-size: 30px;
 }
+.action-btn{
+  display: flex;
+  justify-content: space-around;
+}

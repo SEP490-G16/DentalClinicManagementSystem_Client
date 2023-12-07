@@ -502,4 +502,10 @@ button:active {
     flex-basis: 100%;
     margin-bottom: 10px;
   }
+.title-payment{
+  display: flex;
+  justify-content: space-around;
+}
+.title-payment .tong-no{
+  color: red;
 }
