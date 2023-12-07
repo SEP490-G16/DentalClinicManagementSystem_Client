@@ -121,3 +121,20 @@ input[type="time"] {
   border-radius: 4px;
 }
 
+#myDate {
+  position: relative;
+  display: flex;
+  width: 115px;
+  border: 1px solid red;
+}
+#myDateChild1,
+#myDateChild2,
+#myDateChild3 {
+  width: 30px;
+  border: none;
+  outline: none;
+}
+.myDateChild {
+  margin: 0 2px;
+  text-align: center;
+}

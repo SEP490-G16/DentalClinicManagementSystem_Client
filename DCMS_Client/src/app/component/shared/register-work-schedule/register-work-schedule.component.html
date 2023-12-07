@@ -15,6 +15,59 @@
     </div>
   </div>
 
+  <!-- <div class="row text-center">
+    <table border="1">
+      <tr>
+        <th></th>
+        <th style="border: 1px solid gray;">Thứ Hai</th>
+        <th style="border: 1px solid gray;">Thứ Ba</th>
+        <th style="border: 1px solid gray;">Thứ Tư</th>
+        <th style="border: 1px solid gray;">Thứ Năm</th>
+        <th style="border: 1px solid gray;">Thứ Sáu</th>
+        <th style="border: 1px solid gray;">Thứ Bảy</th>
+        <th style="border: 1px solid gray;">Chủ Nhật</th>
+      </tr>
+      <tr>
+          <th></th>
+          <ng-container *ngFor="let a of listDay">
+            <th style="border: 1px solid gray;">{{a}}</th>
+          </ng-container>
+      </tr>
+      <tr style="border: 1px solid gray;">
+        <th>Sáng</th>
+        <td style="border: 1px solid gray;" *ngFor="let b in listDisplayClone">
+          <ng-container *ngIf="b.isSang == true">
+            {{b.staffName}}
+          </ng-container>
+          <ng-container *ngIf="b.isSang == false">
+
+          </ng-container>
+        </td>
+      </tr>
+      <tr style="border: 1px solid gray;">
+        <th>Chiều</th>
+         <td style="border: 1px solid gray;" *ngFor="let d of listDisplayClone">
+          <ng-container *ngIf="d.isChieu == true">
+            {{d.staffName}}
+          </ng-container>
+          <ng-container *ngIf="d.isChieu == false">
+
+          </ng-container>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="row" style="margin-top: 5%;">
+    <div class="col-md-6" style="border: 1px solid gray;">
+      <h3>Đăng ký lịch làm việc</h3>
+      <ng-container *ngFor="let a of listDayInMonth">
+        <label style="margin-right: 5%;">Ngày {{a.currentD}}:</label> <input type="checkbox" [(ngModel)]="a.isSang" (click)="checkSang(a)"> Ca Sáng  <input type="checkbox" [(ngModel)]="a.isChieu" (click)="checkChieu(a)"> Ca Chiều <br> <br>
+      </ng-container>
+      <button (click)="ResgisterByWeek()">Lưu</button>
+    </div>
+  </div> -->
+
   <table>
     <thead>
       <tr>

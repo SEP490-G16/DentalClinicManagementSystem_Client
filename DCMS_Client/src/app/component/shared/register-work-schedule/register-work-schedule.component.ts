@@ -15,25 +15,10 @@ import { ResponseHandler } from "../../utils/libs/ResponseHandler";
   styleUrls: ['./register-work-schedule.component.css'],
 })
 export class RegisterWorkScheduleComponent implements OnInit {
-  UserObj: any;
+  UserObj: User | null = {} as User | null;
   roleId: any;
 
-  workSchedule = [
-    {
-      shiftName: 'Ca 1',
-      days: [
-        { employees: [{ image: 'path/to/image.jpg', name: 'Nguyễn Văn A', position: 'Nhân viên' }] },
-      ]
-    },
-    {
-      shiftName: 'Ca 2',
-      days: [
-        { employees: [{ image: 'path/to/image.jpg', name: 'Trần Thị B', position: 'Quản lý' }] },
-      ]
-    },
-  ];
-
-  viewDate:any;
+  viewDate: any;
 
   Body: RequestBodyTimekeeping = {} as RequestBodyTimekeeping;
   Staff: StaffRegisterWorkSchedule[] = [];
@@ -94,11 +79,10 @@ export class RegisterWorkScheduleComponent implements OnInit {
       this.UserObj = storedUserObject;
       console.log(this.UserObj);
     } else {
-      console.error('Stored user JSON string is null.');
       this.UserObj = null;
     }
-
     this.getStaffs();
+    this.DisplayResgisterTimeByWeek();
 
   }
 
@@ -106,8 +90,8 @@ export class RegisterWorkScheduleComponent implements OnInit {
 
   }
 
-  newEventStart:string = "";
-  newEventEnd:string = "";
+  newEventStart: string = "";
+  newEventEnd: string = "";
   addEvent(): void {
     if (this.UserObj != null) {
       const startDate = this.newEventStart.split('T')[0];
@@ -142,8 +126,59 @@ export class RegisterWorkScheduleComponent implements OnInit {
             this.toastr.error(err.error.message, "Đăng ký lịch làm việc thất bại");
           })
     }
+    this.DisplayResgisterTimeByWeek();
   }
 
+  listDisplayClone: any[] = [];
+  DisplayResgisterTimeByWeek() {
+    this.getDateinFromDatetoToDate(TimestampFormat.timestampToGMT7Date(this.startTime), TimestampFormat.timestampToGMT7Date(this.endTime));
+    this.timekeepingService.getTimekeeping(this.startTime, this.endTime)
+      .subscribe(data => {
+        this.registerOnWeeks = this.organizeData(data);
+        console.log(this.registerOnWeeks)
+        this.registerOnWeeks.forEach((item: any) => {
+          this.listDay.forEach((it: any) => {
+            let da = TimestampFormat.timestampToGMT7Date(item.epoch);
+            const ab = da.split('-');
+            const check = ab[2] + "/" + ab[1] + "/" + ab[0];
+            if (it == check) {
+              item.records.forEach((i: any) => {
+                let registerObject = {
+                  currentD: it.currentD,
+                  staffId: i.subId,
+                  staffName: i.staff_name,
+                  register_clock_in: i.register_clock_in,
+                  register_clock_out: i.register_clock_out,
+                  clock_in: i.clock_in,
+                  clock_out: i.clock_out,
+                  timekeeper_name: i.timekeeper_name,
+                  timekeeper_avt: i.timekeeper_avt,
+                  status: 1,
+                  isSang: false,
+                  isChieu: false
+                }
+                if (registerObject.register_clock_in == '1' && registerObject.register_clock_out == '2') {
+                  registerObject.isSang = true;
+                  registerObject.isChieu = true;
+                }
+
+                if (registerObject.register_clock_in == '1' && registerObject.register_clock_out == '0') {
+                  registerObject.isSang = true;
+                  registerObject.isChieu = false;
+                }
+
+                if (registerObject.register_clock_in == '0' && registerObject.register_clock_out == '2') {
+                  it.isSang = false;
+                  it.isChieu = true;
+                }
+                this.listDisplayClone.push(registerObject);
+              })
+            }
+          })
+        })
+      }
+      )
+  }
   getStaffs() {
     this.cognitoService.getListStaff()
       .subscribe((res) => {
@@ -191,6 +226,142 @@ export class RegisterWorkScheduleComponent implements OnInit {
       )
   }
   //Option Map
+  listDayInMonth: any[] = [];
+  listDay: string[] = [];
+  registerObject = {
+    currentD: '',
+    staffId: '',
+    staffName: '',
+    register_clock_in: '0',
+    register_clock_out: '0',
+    isSang: false,
+    isChieu: false
+  }
+  first: number = 1;
+  getDateinFromDatetoToDate(frDate: string, tDate: string) {
+    this.listDayInMonth.splice(0, this.listDayInMonth.length);
+    const current = new Date();
+    const startDateParts = frDate.split('-');
+    const endDateParts = tDate.split('-');
+    const startDate = new Date(
+      parseInt(startDateParts[0]),
+      parseInt(startDateParts[1]) - 1,
+      parseInt(startDateParts[2])
+    );
+
+    const endDate = new Date(
+      parseInt(endDateParts[0]),
+      parseInt(endDateParts[1]) - 1,
+      parseInt(endDateParts[2])
+    );
+
+    let currentDate = startDate;
+    while (currentDate <= endDate) {
+      const day = currentDate.getDate();
+      const month = currentDate.getMonth() + 1;
+      const year = currentDate.getFullYear();
+      const formattedDate = `${day < 10 ? '0' + day : day}/${month < 10 ? '0' + month : month}/${year}`;
+      let registerObject = {
+        currentD: formattedDate,
+        staffId: '',
+        staffName: '',
+        register_clock_in: '',
+        register_clock_out: '',
+        clock_in: 0,
+        clock_out: 0,
+        timekeeper_name: "",
+        timekeeper_avt: "",
+        status: 1,
+        isSang: false,
+        isChieu: false
+      }
+      this.listDay.push(formattedDate);
+      this.listDayInMonth.push(registerObject);
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+  }
+
+  checkSang(item: any) {
+    this.listDayInMonth.forEach((it: any) => {
+      if (it.currentD == item.currentD) {
+        it.isSang = !item.isSang;
+        return;
+      }
+    })
+  }
+
+  checkChieu(item: any) {
+    this.listDayInMonth.forEach((it: any) => {
+      if (it.currentD == item.currentD) {
+        it.isChieu = !item.isChieu;
+        return;
+      }
+    })
+  }
+
+  ResgisterByWeek() {
+    const subId = sessionStorage.getItem('sub');
+    const staff_name = sessionStorage.getItem('username');
+    const role = sessionStorage.getItem('role');
+
+    if (subId == null) {
+      return;
+    }
+
+    else if (staff_name == null) {
+      return;
+    }
+
+    else if (role == null) {
+      return
+    }
+
+    this.listDayInMonth.forEach((item: any) => {
+      let RequestBody: RequestBodyTimekeeping = {
+        epoch: TimestampFormat.dateToTimestamp(item.currentD),
+        sub_id: subId,
+        staff_name: staff_name,
+        staff_avt: "",
+        role: role,
+        register_clock_in: 0,
+        register_clock_out: 0,
+        clock_in: item.clock_in,
+        clock_out: item.clock_out,
+        timekeeper_name: item.timekeeper_name,
+        timekeeper_avt: item.timekeeper_avt,
+        status: 1
+      };
+
+      if (item.isSang == true && item.isChieu == true) {
+        RequestBody.register_clock_in = 1;
+        RequestBody.register_clock_out = 2;
+      }
+      if (item.isSang == true && item.isChieu == false) {
+        RequestBody.register_clock_in = 1;
+        RequestBody.register_clock_out = 0;
+      }
+      if (item.isSang == false && item.isChieu == true) {
+        RequestBody.register_clock_in = 1;
+        RequestBody.register_clock_out = 0;
+      }
+      if (item.isSang == false && item.isChieu == false) {
+        RequestBody.register_clock_in = 0;
+        RequestBody.register_clock_out = 0;
+      }
+      this.timekeepingService.postTimekeeping(RequestBody)
+        .subscribe((res) => {
+          this.toastr.success(res.message, "Thêm lịch làm việc mới thành công")
+
+        },
+          (err) => {
+            this.toastr.error(err.error.message, "Đăng ký lịch làm việc thất bại");
+          })
+
+    })
+  }
+
+
+  //Option Map
   getRegisterWorkSchedule() {
     console.log("Thứ 2: ", TimestampFormat.timestampToGMT7Date(this.startTime));
     console.log("Chủ nhật: ", TimestampFormat.timestampToGMT7Date(this.endTime));
@@ -213,7 +384,6 @@ export class RegisterWorkScheduleComponent implements OnInit {
         console.log("Staff có undefined hay ko?: ", this.Staff);
         this.Staff.forEach(staff => {
           staff.registerSchedules = {};
-
           this.weekTimestamps.forEach(weekTimestamp => {
             staff.registerSchedules[weekTimestamp] = { startTime: '', endTime: '' };
 
@@ -270,15 +440,35 @@ export class RegisterWorkScheduleComponent implements OnInit {
           });
         }
       });
-
       return registerEntry;
     });
   }
 
+  day: string = 'dd';
+  month: string = 'mm';
+  year: string = 'yyyy';
 
+  onInput(event: Event, index: number) {
+    const input = event.target as HTMLInputElement;
+    if (input.value.length >= 2) {
+      if (index < this.inputsMyDate.length - 1) {
+        this.inputsMyDate[index + 1].focus();
+        this.inputsMyDate[index + 1].value = '';
+      }
+    }
+  }
 
+  clearInput(input: HTMLInputElement) {
+    input.value = '';
+  }
 
+  inputsMyDate: HTMLInputElement[] = [];
 
+  ngAfterViewInit() {
+    this.inputsMyDate = Array.from(
+      document.querySelectorAll('.myDateChild')
+    ) as HTMLInputElement[];
+  }
 
 }
 

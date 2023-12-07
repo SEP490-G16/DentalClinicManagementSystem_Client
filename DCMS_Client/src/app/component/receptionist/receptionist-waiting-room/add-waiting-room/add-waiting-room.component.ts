@@ -102,7 +102,6 @@ export class AddWaitingRoomComponent implements OnInit {
   listGroupService: any[] = [];
   isSubmitted: boolean = false;
   ngOnInit(): void {
-
     this.getListGroupService();
     const patientData = localStorage.getItem("patient");
     if (patientData === null) {
@@ -111,20 +110,17 @@ export class AddWaitingRoomComponent implements OnInit {
       const dataOfLocale = JSON.parse(patientData);
       this.name_suggest = dataOfLocale.patient_name;
     }
-
     this.dataService.dataAn$.subscribe((data) => {
       this.analyses = data;
     })
   }
+
   onProcedureChange(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     const selectedValue = selectElement.value;
-
-    // Logic to get the name from the selected ID
     const selectedProcedure = this.listGroupService.find(
       (procedure) => procedure.medical_procedure_group_id === selectedValue
     );
-
     if (selectedProcedure) {
       this.POST_WAITTINGROOM.produce_id = selectedProcedure.medical_procedure_group_id;
       this.POST_WAITTINGROOM.produce_name = selectedProcedure.name;

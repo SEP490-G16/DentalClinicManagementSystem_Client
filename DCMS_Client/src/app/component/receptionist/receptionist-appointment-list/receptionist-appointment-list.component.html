@@ -100,7 +100,6 @@
             </tr>
           </ng-container>
         </ng-container>
-
       </tbody>
     </table>
     <ng-template #noDataMessage>
@@ -123,10 +122,13 @@
     </ng-template>
   </div>
 </div>
-<!-- End of Recent Orders -->
 
-<!-- <app-popup-add-appointment (newItemEvent)="addItem($event)"></app-popup-add-appointment> -->
-<app-popup-add-appointment [datesDisabled]="datesDisabled" (newAppointmentAdded)="onNewAppointmentAdded($event)"
+<script>
+
+</script>
+
+<app-popup-add-appointment [datesDisabled]="datesDisabled"
+  (newAppointmentAdded)="onNewAppointmentAdded($event)"
   [filteredAppointments]="filteredAppointments"></app-popup-add-appointment>
 <app-popup-edit-appointment [datesDisabled]="datesDisabled" [selectedAppointment]="selectedAppointment"
   [dateString]="dateString" [timeString]="timeString"

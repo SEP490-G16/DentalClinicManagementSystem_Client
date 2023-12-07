@@ -108,14 +108,12 @@ export class ChatComponent implements OnInit, OnDestroy {
                   item.status = check[2];
                 }
               } else if (shouldBreakFor == false && this.POST_WAITTINGROOM.patient_id != "") {
-                console.log("check input list waitin")
                 this.filteredWaitingRoomData.push(this.POST_WAITTINGROOM);
-                console.log(this.filteredWaitingRoomData)
+                localStorage.setItem("ListPatientWaiting", JSON.stringify(this.filteredWaitingRoomData));
                 shouldBreakFor = true;
               }
             })
           }
-          
           const statusOrder: { [key: number]: number } = { 2: 1, 3: 2, 1: 3, 4: 4 };
           this.filteredWaitingRoomData.sort((a: any, b: any) => {
             const orderA = statusOrder[a.status] ?? Number.MAX_VALUE; // Fallback if status is not a valid key
