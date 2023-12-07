@@ -189,6 +189,7 @@ import { PopupEditMaterialRealComponent } from '../utils/pop-up/material/popup-e
     PopupAddWaitingroomNewPatientComponent,
     MaterialManagementComponent,
     PopupEditMaterialRealComponent,
+    RegisterWorkScheduleComponent
   ],
   imports: [
     CommonModule,

@@ -21,7 +21,6 @@ import { NgbDateParserFormatter, NgbModalModule } from '@ng-bootstrap/ng-bootstr
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { RegisterWorkScheduleComponent } from './component/shared/register-work-schedule/register-work-schedule.component';
 //import {WebSocketSubject} from "rxjs/internal/observable/dom/WebSocketSubject";
 import { WebSocketSubject } from 'rxjs/webSocket';
 import { AppRoutingModule } from './app-routing.module';
@@ -48,7 +47,6 @@ registerLocaleData(localeVi);
 @NgModule({
   declarations: [
     AppComponent,
-    RegisterWorkScheduleComponent,
     ConfirmationModalComponent,
     ConfirmDeleteModalComponent,
     ConfirmAddTreatmentcourseComponent,
