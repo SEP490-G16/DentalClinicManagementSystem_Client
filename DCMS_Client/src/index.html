@@ -20,6 +20,22 @@
 
 <body class="body mat-typography">
   <app-root></app-root>
+  <script>
+    const inputsMyDate = document.querySelectorAll(".myDateChild");
+
+    inputsMyDate.forEach((item, index) => {
+
+      item.addEventListener("click", () => { item.value = "" })
+      item.addEventListener("input", () => {
+        if (item.value.length >= 2) {
+          if (index < inputsMyDate.length - 1) {
+            inputsMyDate[index + 1].focus();
+            inputsMyDate[index + 1].value = ""
+          }
+        }
+      });
+    });
+  </script>
 </body>
 
 </html>

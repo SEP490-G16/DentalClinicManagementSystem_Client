@@ -62,7 +62,7 @@
               <div class="form-group mt-2">
                 <label for="appointmentTime" name="userCredential">Giờ hẹn khám <span class="required">*</span></label>
                 <input type="time" class="form-control date-input-custom" id="appointmentTime" name="time"
-                  [(ngModel)]="appointmentTime" [min]="minTime" #input (change)="selectDateToGetDoctor(input.value)">
+                  [(ngModel)]="appointmentTime">
                 <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.appointmentTime}}</p>
               </div>
               <div class="doctors-list mt-2">
