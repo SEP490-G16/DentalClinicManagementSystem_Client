@@ -3,21 +3,14 @@
   <div class="loading-spinner"></div>
 </div> -->
 <div class="sep-recent-orders">
-  <div class="row custom-row">
+  <div class="row mt-4 mb-4">
     <div class="col-6">
-      <div class="button-app">
-        <div>
-          <button class="btn button-add" style="margin-right: 30px;" data-bs-toggle="modal"
-                  data-bs-target="#wrModal"><i class="bi bi-plus-circle"></i>
-            Thêm bệnh nhân đợi cũ</button>
-        </div>
-        <div>
-          <button class="btn button-add" style="margin-right: 30px;" data-bs-toggle="modal"
-                  data-bs-target="#wrNewModal"><i class="bi bi-plus-circle"></i>
-            Thêm bệnh nhân đợi mới</button>
-        </div>
-      </div>
-
+      <button class="btn button-timekeeping" style="margin-right: 30px;" data-bs-toggle="modal"
+        data-bs-target="#wrModal"><i class="bi bi-plus-circle"></i>
+        Thêm bệnh nhân đợi cũ</button>
+      <button class="btn button-timekeeping" data-bs-toggle="modal"
+        data-bs-target="#wrNewModal"><i class="bi bi-plus-circle"></i>
+        Thêm bệnh nhân đợi mới</button>
     </div>
     <div class="col-6">
       <select class="form-select input-custom float-end" aria-label="Default select example" [(ngModel)]="procedure"
@@ -45,20 +38,22 @@
         </tr>
       </thead>
       <tbody>
-        <tr title="Xem thông tin bệnh nhân {{ wtr.patient_name }}" *ngFor="let wtr of filteredWaitingRoomData; let i = index" (click)="details(wtr.patient_id)"
+        <tr title="Xem thông tin bệnh nhân {{ wtr.patient_name }}"
+          *ngFor="let wtr of filteredWaitingRoomData; let i = index" (click)="details(wtr.patient_id)"
           style="cursor: pointer;">
           <td style="width:100px">{{ i + 1 }}</td>
           <td style="width:100px">{{wtr.date}}</td>
           <td style="width:100px">{{ wtr.patient_id }}</td>
           <td>{{ wtr.patient_name }}</td>
           <!-- <td><span class="new-patient" *ngIf="wtr.patient_created_date.length == 4"></span></td> -->
-          <td>{{wtr.patient_created_date == 1 ? "Bệnh nhân đến lần đầu tiên" : wtr.patient_created_date == 2 ? "Bệnh nhân tái khám" : "Dữ liệu trước"}}</td>
+          <td>{{wtr.patient_created_date == 1 ? "Bệnh nhân đến lần đầu tiên" : wtr.patient_created_date == 2 ?
+            "Bệnh nhân tái khám" : "Dữ liệu trước"}}</td>
           <td style="width:300px" class="truncate" data-bs-toggle="tooltip" title="{{wtr.reason}}">{{wtr.reason }}</td>
           <td style="width:200px">{{ wtr.produce_name }}</td>
           <ng-container *ngIf="roleId.includes('3') || roleId.includes('1')">
             <td style="width:200px" (click)="stopClick($event)">
-              <select class="text-center status-selector" [(ngModel)]="wtr.status" (change)="onPutStatus(wtr, wtr.epoch)"
-                [ngStyle]="{'color': selectedColor}">
+              <select class="text-center status-selector" [(ngModel)]="wtr.status"
+                (change)="onPutStatus(wtr, wtr.epoch)" [ngStyle]="{'color': selectedColor}">
                 <ng-container *ngIf="wtr.status == 1">
                   <option value="1" class="status-option waiting">Đang chờ</option>
                   <option value="2" class="status-option in-progress">Đang khám</option>
@@ -83,7 +78,8 @@
           </ng-container>
           <ng-container *ngIf="roleId.includes('3') || roleId.includes('1')">
             <td>
-              <button class="btn button-timekeeping" (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/',wtr.patient_id)">
+              <button class="btn button-timekeeping"
+                (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/',wtr.patient_id)">
                 Thanh toán</button>
             </td>
           </ng-container>

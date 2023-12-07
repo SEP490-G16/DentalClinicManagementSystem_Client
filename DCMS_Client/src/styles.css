@@ -122,6 +122,7 @@
 html,
 body {
   height: 100%;
+  margin: 0;
 }
 
 body {
@@ -561,7 +562,6 @@ table tbody td {
   color: var(--custom-color-dark-variant);
 }
 
-
 .table-container {
   background-color: white;
   height: 62vh !important;
@@ -709,14 +709,17 @@ button:hover {
   font-weight: bold;
   background-color: #9e92d1;
 }
-.no-data{
-  min-height: 85%; 
+
+.no-data {
+  min-height: 85%;
   align-items: center;
 }
-.no-data span{
+
+.no-data span {
   font-weight: bold;
   font-size: 16px;
 }
+
 .sticky-thead-no-data-patient div {
   padding-top: 1.4rem;
   padding-bottom: 1.4rem;
@@ -725,14 +728,17 @@ button:hover {
   font-weight: bold;
   background-color: #9e92d1;
 }
-.no-data-patient{
-  min-height: 55%; 
+
+.no-data-patient {
+  min-height: 55%;
   align-items: center;
 }
-.no-data-patient span{
+
+.no-data-patient span {
   font-weight: bold;
   font-size: 16px;
 }
+
 .table-container {
   position: relative;
 }

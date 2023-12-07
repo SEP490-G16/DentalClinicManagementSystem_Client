@@ -19,8 +19,6 @@ import { PopupDeletePatientComponent } from '../utils/pop-up/patient/popup-delet
 import { PatientLichtrinhdieutriComponent } from './patient-records/patient-lichtrinhdieutri/patient-lichtrinhdieutri.component';
 import { VNDateTimeFormatPipe } from '../shared/pipe/datetimeformat.pipe';
 import { PopupPaymentComponent } from './patient-records/patient-payment-tab/pop-up-payment/popup-payment.component'
-
-import { PopupAddTreatmentcourseComponent } from '../utils/pop-up/patient/popup-add-treatmentcourse/popup-add-treatmentcourse.component';
 import { PopupEditTreatmentcourseComponent } from '../utils/pop-up/patient/popup-edit-treatmentcourse/popup-edit-treatmentcourse.component';
 import { PopupAddExaminationComponent } from '../utils/pop-up/patient/popup-add-examination/popup-add-examination.component';
 import { PopupEditExaminationComponent } from '../utils/pop-up/patient/popup-edit-examination/popup-edit-examination.component';

@@ -105,69 +105,100 @@
     </div>
     <br />
 
-    <div class="row mb-3">
-      <div class="col-9"></div>
-      <div class="col-3">
-        <button class="btn btn-purple float-end" style="padding: 10px 20px"
-        [disabled]="!isFutureWeek(viewDate)"
-        (click)="openAddEventModal(addEventModal)">
-          Đăng ký làm việc
-        </button>
-      </div>
+  <!-- <div class="row text-center">
+    <table border="1">
+      <tr>
+        <th></th>
+        <th style="border: 1px solid gray;">Thứ Hai</th>
+        <th style="border: 1px solid gray;">Thứ Ba</th>
+        <th style="border: 1px solid gray;">Thứ Tư</th>
+        <th style="border: 1px solid gray;">Thứ Năm</th>
+        <th style="border: 1px solid gray;">Thứ Sáu</th>
+        <th style="border: 1px solid gray;">Thứ Bảy</th>
+        <th style="border: 1px solid gray;">Chủ Nhật</th>
+      </tr>
+      <tr>
+          <th></th>
+          <ng-container *ngFor="let a of listDay">
+            <th style="border: 1px solid gray;">{{a}}</th>
+          </ng-container>
+      </tr>
+      <tr style="border: 1px solid gray;">
+        <th>Sáng</th>
+        <td style="border: 1px solid gray;" *ngFor="let b in listDisplayClone">
+          <ng-container *ngIf="b.isSang == true">
+            {{b.staffName}}
+          </ng-container>
+          <ng-container *ngIf="b.isSang == false">
+
+          </ng-container>
+        </td>
+      </tr>
+      <tr style="border: 1px solid gray;">
+        <th>Chiều</th>
+         <td style="border: 1px solid gray;" *ngFor="let d of listDisplayClone">
+          <ng-container *ngIf="d.isChieu == true">
+            {{d.staffName}}
+          </ng-container>
+          <ng-container *ngIf="d.isChieu == false">
+
+          </ng-container>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="row" style="margin-top: 5%;">
+    <div class="col-md-6" style="border: 1px solid gray;">
+      <h3>Đăng ký lịch làm việc</h3>
+      <ng-container *ngFor="let a of listDayInMonth">
+        <label style="margin-right: 5%;">Ngày {{a.currentD}}:</label> <input type="checkbox" [(ngModel)]="a.isSang" (click)="checkSang(a)"> Ca Sáng  <input type="checkbox" [(ngModel)]="a.isChieu" (click)="checkChieu(a)"> Ca Chiều <br> <br>
+      </ng-container>
+      <button (click)="ResgisterByWeek()">Lưu</button>
     </div>
+  </div> -->
 
-    <div [ngSwitch]="view">
+  <table>
+    <thead>
+      <tr>
+        <th>Ca làm việc</th>
+        <th>Thứ 2</th>
+        <th>Thứ 3</th>
+        <th>Thứ 4</th>
+        <th>Thứ 5</th>
+        <th>Thứ 6</th>
+        <th>Thứ 7</th>
+        <th>Chủ nhật</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>Ca 1</th>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>Ca 2</th>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 
-      <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="worksRegister"
-        [refresh]="refresh" (eventClicked)="handleEventClick($event.event)"
-        (eventTimesChanged)="eventTimesChanged($event)" [weekStartsOn]="1">
-      </mwl-calendar-week-view>
 
-    </div>
 
-    <ng-template #addEventModal let-modal>
-      <div class="modal-header color-main">
-        <h4 class="modal-title text-center w-100">Thêm lịch làm việc</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-12">
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Thời gian bắt đầu</label>
-              <input type="datetime-local" class="form-control" [(ngModel)]="newEventStart"
-                placeholder="Thời gian bắt đầu">
 
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-12">
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Thời gian kết thúc</label>
-              <input type="datetime-local" class="form-control" [(ngModel)]="newEventEnd"
-                placeholder="Thời gian kết thúc">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Hủy</button>
-        <button type="button" class="btn btn-outline-secondary" (click)="addEvent()">Thêm mới</button>
-      </div>
-    </ng-template>
-
-    <ng-template #modalContent let-close="close">
-      <div class="modal-header">
-        <h5 class="modal-title">Thông tin thời gian làm việc</h5>
-        <button type="button" class="close" (click)="close()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
+<--</div>
 
         <div class="row">
           <div class="col-12">
@@ -199,3 +230,4 @@
       </div>
     </ng-template>
   </div> -->
+

@@ -15,7 +15,7 @@
   </div>
   <div class="row text-white mb-3 mt-3">
     <div class="col-md-4">
-      <input  type="date" [(ngModel)]="startDate" class="form-control me-2">
+      <input type="date" [(ngModel)]="startDate" class="form-control me-2">
     </div>
     <div class="col-md-4">
         <input type="date" [(ngModel)]="endDate" class="form-control">
@@ -30,7 +30,7 @@
         <select [(ngModel)]="facility" class="form-select" aria-label="Default select example">
           <option value="0">Chọn cơ sở</option>
           <option *ngFor="let faci of listFacility" [value]="faci.facility_id">{{ faci.name }}</option>
-        </select>        
+        </select>
       </div>
     </div>
     <div style="width: 85%;margin: auto">

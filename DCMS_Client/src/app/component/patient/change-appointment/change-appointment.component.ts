@@ -261,7 +261,7 @@ export class ChangeAppointmentComponent implements OnInit {
         this.appointmentService.putAppointment(this.EDIT_APPOINTMENT_BODY, this.appointmentId_Pathparam)
           .subscribe((res) => {
             this.showSuccessToast("Sửa lịch hẹn thành công");
-            this.router.navigate([`benhnhan-zalo/xac-nhan-lich-hen/${this.epoch_PathParam}/${this.appointmentId_Pathparam}`]);
+            this.router.navigate([`benhnhan-zalo/sua-lich-hen-thanh-cong/${this.epoch_PathParam}/${this.appointmentId_Pathparam}`]);
           },
             (err) => {
               this.showErrorToast("Sửa lịch hẹn thất bại");

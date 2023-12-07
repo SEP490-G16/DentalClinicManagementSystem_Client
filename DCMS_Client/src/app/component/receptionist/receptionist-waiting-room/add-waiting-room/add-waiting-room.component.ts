@@ -14,6 +14,8 @@ import { DataService } from 'src/app/component/shared/services/DataService.servi
 import { SendMessageSocket } from 'src/app/component/shared/services/SendMessageSocket.service';
 
 import { Normalize } from 'src/app/service/Lib/Normalize';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { FormatNgbDate } from 'src/app/component/utils/libs/formatNgbDateToString';
 
 @Component({
   selector: 'app-add-waiting-room',
@@ -21,6 +23,7 @@ import { Normalize } from 'src/app/service/Lib/Normalize';
   styleUrls: ['./add-waiting-room.component.css']
 })
 export class AddWaitingRoomComponent implements OnInit {
+  dobNgb!: NgbDateStruct
   patientList: any[] = [];
   patientInfor: any;
   isAdd: boolean = false;
@@ -62,7 +65,7 @@ export class AddWaitingRoomComponent implements OnInit {
     private PATIENT_SERVICE: PatientService,
     private renderer: Renderer2,
     private toastr: ToastrService,
-    private router: Router,private webSocketService: WebsocketService,
+    private router: Router, private webSocketService: WebsocketService,
     private medicaoProcedureGroupService: MedicalProcedureGroupService,
     private dataService: DataService,
     private sendMessageSocket: SendMessageSocket
@@ -193,28 +196,28 @@ export class AddWaitingRoomComponent implements OnInit {
       }
     }
     const postInfo = this.POST_WAITTINGROOM.epoch + ' - ' + this.POST_WAITTINGROOM.produce_id + ' - ' + this.POST_WAITTINGROOM.produce_name + ' - '
-    + this.POST_WAITTINGROOM.patient_id + ' - ' +this.POST_WAITTINGROOM.patient_name + ' - ' + this.POST_WAITTINGROOM.reason + ' - '
-    + this.POST_WAITTINGROOM.status + ' - ' + this.POST_WAITTINGROOM.appointment_id + ' - ' + this.POST_WAITTINGROOM.appointment_epoch + ' - ' + this.POST_WAITTINGROOM.patient_created_date;
+      + this.POST_WAITTINGROOM.patient_id + ' - ' + this.POST_WAITTINGROOM.patient_name + ' - ' + this.POST_WAITTINGROOM.reason + ' - '
+      + this.POST_WAITTINGROOM.status + ' - ' + this.POST_WAITTINGROOM.appointment_id + ' - ' + this.POST_WAITTINGROOM.appointment_epoch + ' - ' + this.POST_WAITTINGROOM.patient_created_date;
     this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
       .subscribe((data) => {
         this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'wtr');
         this.showSuccessToast("Thêm phòng chờ thành công!!");
         let ref = document.getElementById('cancel-add-waiting');
-          ref?.click();
+        ref?.click();
         this.messageContent = `CheckRealTimeWaitingRoom@@@,${postInfo},${Number('1')}`;
+        this.messageBody = {
+          action: '',
+          message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
+        }
+        if (this.messageContent.trim() !== '' && sessionStorage.getItem('sub-id') != null && sessionStorage.getItem('username') != null) {
           this.messageBody = {
-            action: '',
-            message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
-          }
-          if (this.messageContent.trim() !== '' && sessionStorage.getItem('sub-id') != null && sessionStorage.getItem('username') != null) {
-            this.messageBody = {
-              action: "sendMessage",
-              message: `{"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}`
-            };
-            console.log(this.messageBody);
-            this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
+            action: "sendMessage",
+            message: `{"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}`
+          };
+          console.log(this.messageBody);
+          this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
 
-          }
+        }
       },
         (err) => {
           this.showErrorToast('Lỗi khi thêm phòng chờ');
@@ -245,7 +248,7 @@ export class AddWaitingRoomComponent implements OnInit {
       this.validatePatient.phone = "Số điện thoại không hợp lệ!";
       this.isSubmitted = true;
     }
-    if (!this.patient1.dob) {
+    if (!this.dobNgb || !this.dobNgb.year || !this.dobNgb.month || !this.dobNgb.day) {
       this.validatePatient.dob = "Vui lòng nhập ngày sinh!";
       this.isSubmitted = true;
     }
@@ -265,7 +268,7 @@ export class AddWaitingRoomComponent implements OnInit {
       address: this.patient1.Address,
       full_medical_history: this.patient1.full_medical_History,
       dental_medical_history: this.patient1.dental_medical_History,
-      date_of_birth: this.patient1.dob,
+      date_of_birth: FormatNgbDate.formatNgbDateToString(this.dobNgb),
     }
     if (this.patient1.phone_Number && this.patient1.phone_Number.length === 9) {
       this.patientBody = {
@@ -277,7 +280,7 @@ export class AddWaitingRoomComponent implements OnInit {
         address: this.patient1.Address,
         full_medical_history: this.patient1.full_medical_History,
         dental_medical_history: this.patient1.dental_medical_History,
-        date_of_birth: this.patient1.dob,
+        date_of_birth: FormatNgbDate.formatNgbDateToString(this.dobNgb),
       }
     }
     if (this.patient1.phone_Number && this.patient1.phone_Number.length === 10) {
@@ -290,7 +293,7 @@ export class AddWaitingRoomComponent implements OnInit {
         address: this.patient1.Address,
         full_medical_history: this.patient1.full_medical_History,
         dental_medical_history: this.patient1.dental_medical_History,
-        date_of_birth: this.patient1.dob,
+        date_of_birth: FormatNgbDate.formatNgbDateToString(this.dobNgb),
       }
     }
     console.log("Patient body: ", this.patientBody);

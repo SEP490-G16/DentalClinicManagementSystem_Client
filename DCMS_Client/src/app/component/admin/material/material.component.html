@@ -8,6 +8,9 @@
       <a routerLink="/vat-lieu" routerLinkActive="active-link" class="page-title">Quản lý vật liệu</a>
     </div>
     <div class="col-md-2 col-xl-1">
+      <a routerLink="/kho" routerLinkActive="active-link" class="page-title">Quản lý Kho</a>
+    </div>
+    <div class="col-md-2 col-xl-1">
       <a routerLink="/quan-ly-nhap" routerLinkActive="active-link" class="page-title">Quản lý nhập</a>
     </div>
   </div>
@@ -91,10 +94,12 @@
                         <p style="color: red;"><b>Hết Hàng</b></p>
                       </td>
                       <td style="padding-top: 10px;padding-bottom: 10px;">
-                        <button class="btn btn-primary p-1 m-r-3" title="Sửa vật liệu" style="margin-right: 3px" data-bs-toggle="modal"
-                          data-bs-target="#editMaterialModal" (click)="openEditMaterial(item,detail)">
+                        <button class="btn btn-primary p-1 m-r-3" title="Sửa vật liệu" style="margin-right: 3px"
+                          data-bs-toggle="modal" data-bs-target="#editMaterialModal"
+                          (click)="openEditMaterial(item,detail)">
                           <i class="bi bi-pencil-square"></i></button>
-                        <button class="btn btn-danger p-1" title="Xoá vật liệu" (click)="deleteMaterial(detail.mw_material_warehouse_id,item.materialName)"> <i
+                        <button class="btn btn-danger p-1" title="Xoá vật liệu"
+                          (click)="deleteMaterial(detail.mw_material_warehouse_id,item.materialName)"> <i
                             class="bi bi-trash"></i></button>
                       </td>
                     </tr>
@@ -108,14 +113,14 @@
     </table>
   </div>
   <div class="sep-pagination" style="margin-top: 1%;">
-<!--    <a (click)="pageChanged(currentPage - 1)" *ngIf="currentPage > 1">&laquo;</a>-->
-<!--    <a>{{currentPage}}</a>-->
-<!--    <a (click)="pageChanged(currentPage + 1)" *ngIf="hasNextPage">&raquo;</a>-->
-<!--    <a (click)="currentPage > 1 ? pageChanged(currentPage - 1) : null" [class.disabled]="currentPage <= 1"-->
-<!--       style="color: black">&laquo;</a>-->
-<!--    <a>{{currentPage}}</a>-->
-<!--    <a [class.disabled]="!hasNextPage" (click)="hasNextPage && pageChanged(currentPage + 1)"-->
-<!--       style="color: black">&raquo;</a>-->
+    <!--    <a (click)="pageChanged(currentPage - 1)" *ngIf="currentPage > 1">&laquo;</a>-->
+    <!--    <a>{{currentPage}}</a>-->
+    <!--    <a (click)="pageChanged(currentPage + 1)" *ngIf="hasNextPage">&raquo;</a>-->
+    <!--    <a (click)="currentPage > 1 ? pageChanged(currentPage - 1) : null" [class.disabled]="currentPage <= 1"-->
+    <!--       style="color: black">&laquo;</a>-->
+    <!--    <a>{{currentPage}}</a>-->
+    <!--    <a [class.disabled]="!hasNextPage" (click)="hasNextPage && pageChanged(currentPage + 1)"-->
+    <!--       style="color: black">&raquo;</a>-->
   </div>
 </div>
 

@@ -530,21 +530,22 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     //this.isAddMedicine = false;
     this.recordsMedicine.splice(index, 1);
   }
-  modalOption: NgbModalOptions = {
-    size: 'lg',
-    centered: true
-  }
   Patient:any;
   //examination: Examination = {} as Examination;
   getPatient() {
     this.patientService.getPatientById(this.Patient_Id)
     .subscribe((res)=> {
-        this.Patient = res;
+      this.Patient = res;
     },
     (err) => {
       this.toastr.error(err.error.message, "Lỗi khi lấy thông tin bệnh nhân")
     }
     )
+  }
+
+  modalOption: NgbModalOptions = {
+    size: 'lg',
+    centered: true
   }
 
   openGeneratePdfModal() {

@@ -61,3 +61,92 @@ ol {
 .modal-title{
   color: #FFFFFF;
 }
+
+/* .input-custom {
+  border: none;
+  border-bottom: 1px dashed #000;
+  width: 100%;
+  box-sizing: border-box;
+} */
+
+.textarea-custom {
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 0;
+  resize: none;
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  vertical-align: top;
+  border-bottom: 1px dashed #000;
+  width: 100%;
+  height: auto;
+  box-sizing: border-box;
+  overflow-y: visible;
+}
+
+.medication {
+  width: 100%;
+}
+
+.medication ol {
+  padding: 0;
+}
+
+.medication li {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.medication input[type="text"].med-name {
+  flex-grow: 1;
+  padding: 10px;
+  border: none;
+  background-color: #f9f9f9;
+}
+
+.medication input[type="number"].med-quantity {
+  width: 50px;
+  padding: 10px;
+  border: none;
+  background-color: #f9f9f9;
+}
+
+.medication input[type="text"].med-unit {
+  width: 80px;
+  padding: 10px;
+  border: none;
+  background-color: #f9f9f9;
+}
+
+.medication input[type="text"].med-lieudung {
+  flex-grow: 2;
+  padding: 10px;
+  border: none;
+  background-color: #f9f9f9;
+}
+
+.medication input[type="text"]:focus,
+.medication input[type="number"]:focus {
+  outline: 2px solid #007bff;
+  background-color: #fff;
+}
+
+.medication input[type="text"]:hover,
+.medication input[type="number"]:hover {
+  background-color: #e6e6e6;
+}
+
+@media (max-width: 768px) {
+  .medication li {
+    flex-direction: column;
+  }
+  .medication input[type="text"],
+  .medication input[type="number"] {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+}

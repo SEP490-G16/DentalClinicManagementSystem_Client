@@ -1,8 +1,6 @@
 <div class="modal-header">
-  <h4 class="modal-title">In đơn thuốc cho lần khám</h4>
-<!--  <p class="close" aria-label="Close" (click)="dismiss()">-->
-<!--    <span aria-hidden="true">&times;</span>-->
-<!--  </p>-->
+  <h4 class="modal-title">Xác nhận In đơn thuốc cho lần khám</h4>
+
 </div>
 <div class="modal-body prescription-modal" #pdfContent>
   <div class="prescription-header">
@@ -34,15 +32,28 @@
     </div>
   </div>
 
-  <div class="diagnosis mt-3">
-    Chẩn đoán: {{Disagnosis}}
+  <div class="row mt-3">
+    <div class="diagnosis col-6">
+      Chẩn đoán: {{Disagnosis}}
+    </div>
   </div>
 
-  <div class="medication">
-    <ol>
-      <li *ngFor="let med of Medical">{{ med.ten }} - {{ med.soLuong }} {{ med.donvi ? med.donvi : '' }} - {{ med.lieuDung }}</li>
-    </ol>
+  <div class="row mt-3">
+    <div class="medication">
+      <form *ngIf="Medical">
+        <ol>
+          <li *ngFor="let med of Medical; let i = index">
+            <input type="text" [(ngModel)]="med.ten" class="med-name" name="ten-{{i}}" />
+            <input type="number" [(ngModel)]="med.soLuong" class="med-quantity" name="soLuong-{{i}}" />
+            <input type="text" [(ngModel)]="med.donvi" class="med-unit" name="donvi-{{i}}" />
+            <input type="text" [(ngModel)]="med.lieuDung" class="med-lieudung" name="lieuDung-{{i}}" />
+          </li>
+        </ol>
+      </form>
+    </div>
   </div>
+
+
 
   <div class="row mt-5">
     <div class="col-6">

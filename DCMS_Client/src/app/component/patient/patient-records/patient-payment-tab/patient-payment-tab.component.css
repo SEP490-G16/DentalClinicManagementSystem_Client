@@ -437,11 +437,8 @@ button:active {
 
 .payment-row {
   display: flex;
-  /* Use flexbox to align items in a row */
   justify-content: space-between;
-  /* Space out content */
   align-items: center;
-  /* Align items vertically */
 }
 
 .payment-date {
@@ -450,9 +447,7 @@ button:active {
 }
 
 .amount-paid {
-  /* Other styles... */
   white-space: nowrap;
-  /* Prevent the text from wrapping */
 }
 .title-patientName{
   padding: 10px;
@@ -463,6 +458,50 @@ button:active {
 .title-patientName div b {
   font-size: 30px;
 }
+
+.payment-summary-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.payment-summary-row {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 15px;
+}
+
+.payment-summary-col {
+  flex-basis: calc(33.33% - 10px);
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.payment-total-amount {
+  color: #4CAF50;
+  font-weight: bold;
+}
+
+.payment-amount-paid {
+  color: #2196F3;
+  font-weight: bold;
+}
+
+.payment-amount-due {
+  color: #f44336;
+  font-weight: bold;
+}
+
+/* Thêm một chút responsive */
+@media (max-width: 600px) {
+  .payment-summary-col {
+    flex-basis: 100%;
+    margin-bottom: 10px;
+  }
 .title-payment{
   display: flex;
   justify-content: space-around;

@@ -4,6 +4,7 @@ import { count } from "rxjs";
 import * as moment from "moment-timezone";
 import { RequestBodyTimekeeping } from "../../../model/ITimekeeping";
 import { Router } from "@angular/router";
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 interface TimekeepingDetail {
   clock_in?: string;
   clock_out?: string;
@@ -28,6 +29,12 @@ interface TimekeepingRecord {
 export class FollowingTimekeepingComponent implements OnInit {
   followingTimekeepings: any[] = [];
   totalHoursByEmployee: { [key: string]: number } = {};
+
+  hoveredDate: NgbDate | null = null;
+
+	fromDateNgB!: NgbDate | null;
+	toDateNgB!: NgbDate | null;
+
   constructor(private timekeepingService: TimeKeepingService, private router: Router,) { }
 
 

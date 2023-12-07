@@ -30,7 +30,6 @@ import { SendMessageSocket } from '../../shared/services/SendMessageSocket.servi
 })
 
 export class ReceptionistAppointmentListComponent implements OnInit {
-
   loading: boolean = false;
   dateEpoch: string = "";
   ePoch: string = "";
@@ -261,6 +260,9 @@ export class ReceptionistAppointmentListComponent implements OnInit {
               details: ap.details.filter((detail: any) => detail.appointment_id !== appointment.appointment_id)
             })).filter((ap: any) => ap.details.length > 0)
           })).filter((app: any) => app.appointments.length > 0);
+
+          console.log("Đã xóa: ", this.filteredAppointments);
+          this.startDate = `${this.startDateNgb.year}-${this.pad(this.startDateNgb.month)}-${this.pad(this.startDateNgb.day)}`;
           if (this.startDate == this.timestampToDate(this.DELETE_APPOINTMENT_BODY.epoch)) {
             this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'minus', 'app');
           }

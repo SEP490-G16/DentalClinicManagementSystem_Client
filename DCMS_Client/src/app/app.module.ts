@@ -21,7 +21,6 @@ import { NgbDateParserFormatter, NgbModalModule } from '@ng-bootstrap/ng-bootstr
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { RegisterWorkScheduleComponent } from './component/shared/register-work-schedule/register-work-schedule.component';
 //import {WebSocketSubject} from "rxjs/internal/observable/dom/WebSocketSubject";
 import { WebSocketSubject } from 'rxjs/webSocket';
 import { AppRoutingModule } from './app-routing.module';
@@ -41,18 +40,18 @@ import {
   ConfirmAddTreatmentcourseComponent
 } from "./component/utils/pop-up/common/confirm-add-treatmentcourse/confirm-add-treatmentcourse.component";
 import { PopupAddAppointmentNewComponent } from './component/utils/pop-up/appointment/popup-add-appointment-new/popup-add-appointment-new.component';
+import { PatientService } from './service/PatientService/patient.service';
 // import { AuthInterceptor } from './service/RefreshToken/auth.interceptor';
 // Register the Vietnamese locale data
 registerLocaleData(localeVi);
 @NgModule({
   declarations: [
     AppComponent,
-    RegisterWorkScheduleComponent,
     ConfirmationModalComponent,
     ConfirmDeleteModalComponent,
     ConfirmAddTreatmentcourseComponent,
     ViDateRangePipe,
-    FullDateVnPipe
+    FullDateVnPipe,
   ],
   imports: [
     FormsModule,
@@ -81,6 +80,7 @@ registerLocaleData(localeVi);
   ],
   providers: [CookieService, { provide: LOCALE_ID, useValue: 'vi' },
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
+    PatientService
     // {
     //   provide: HTTP_INTERCEPTORS,
     //   useClass: AuthInterceptor,

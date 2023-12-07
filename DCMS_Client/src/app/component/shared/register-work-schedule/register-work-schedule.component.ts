@@ -1,87 +1,22 @@
-import { ResponseHandler } from './../../utils/libs/ResponseHandler';
-import {
-  Component, OnInit,
-  ChangeDetectionStrategy,
-  ViewChild,
-  TemplateRef,
-} from '@angular/core';
-
-import {
-  startOfDay,
-  endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
-  isSameDay,
-  isSameMonth,
-  addHours,
-  isAfter,
-  startOfWeek,
-  isWithinInterval,
-  endOfWeek,
-} from 'date-fns';
-
-
-import { Subject } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  CalendarEvent,
-  CalendarEventAction,
-  CalendarEventTimesChangedEvent,
-  CalendarView,
-} from 'angular-calendar';
-
-import { EventColor } from 'calendar-utils';
+import { TimestampFormat } from './../../utils/libs/timestampFormat';
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { ToastrService } from "ngx-toastr";
+import { ReceptionistTimekeepingService } from "src/app/service/ReceptionistService/receptionist-timekeeping.service";
+import { CognitoService } from "src/app/service/cognito.service";
 import * as moment from 'moment';
 import 'moment/locale/vi';
-import { ToastrService } from 'ngx-toastr';
-import { ReceptionistTimekeepingService } from 'src/app/service/ReceptionistService/receptionist-timekeeping.service';
-import { RegisterWorkSchedule, RequestBodyTimekeeping, StaffRegisterWorkSchedule } from 'src/app/model/ITimekeeping';
-import { Router } from "@angular/router";
-import { CognitoService } from 'src/app/service/cognito.service';
-import { ConfirmDeleteModalComponent } from './ConfirmDeleteModal.component';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { isThisWeek, addWeeks, isSameWeek } from 'date-fns';
-
-const colors: Record<string, EventColor> = {
-  gray: {
-    primary: '#666',
-    secondary: '#666'
-  },
-  pink: {
-    primary: '#ff1493',
-    secondary: '#ff69b4',
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF',
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA',
-  },
-  green: {
-    primary: '#008000',
-    secondary: '#ADFF2F',
-  },
-  purple: {
-    primary: '#800080',
-    secondary: '#DA70D6',
-  },
-  orange: {
-    primary: '#FFA500',
-    secondary: '#FFDAB9',
-  }
-};
-
-
+import { RegisterWorkSchedule, RequestBodyTimekeeping, StaffRegisterWorkSchedule } from "src/app/model/ITimekeeping";
+import { ResponseHandler } from "../../utils/libs/ResponseHandler";
 @Component({
   selector: 'app-register-work-schedule',
   templateUrl: './register-work-schedule.component.html',
   styleUrls: ['./register-work-schedule.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterWorkScheduleComponent implements OnInit {
+  UserObj: User | null = {} as User | null;
+  roleId: any;
 
   @ViewChild('modalContent', { static: true }) modalContent!: TemplateRef<any>;
   modalData!: {
@@ -135,6 +70,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
   registerOnWeeks: any
   weekTimestamps: number[] = [];
 
+
   roleId: any;
 
   searchTimeout: any;
@@ -156,9 +92,9 @@ export class RegisterWorkScheduleComponent implements OnInit {
     this.currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
     this.currentTimeGMT7 = moment.tz('Asia/Ho_Chi_Minh').format('HH:mm');
     //Set epoch to body
-    this.currentDateTimeStamp = this.dateToTimestamp(this.currentDateGMT7);
+    this.currentDateTimeStamp = TimestampFormat.dateToTimestamp(this.currentDateGMT7);
     console.log("Current Date Timestamp: ", this.currentDateTimeStamp);
-    this.currentTimeTimeStamp = this.timeAndDateToTimestamp(this.currentTimeGMT7, this.currentDateGMT7);
+    this.currentTimeTimeStamp = TimestampFormat.timeAndDateToTimestamp(this.currentTimeGMT7, this.currentDateGMT7);
     console.log("CurrentTimes: ", this.currentTimeTimeStamp);
     //Set week
     for (let i = 0; i < 7; i++) {
@@ -178,7 +114,6 @@ export class RegisterWorkScheduleComponent implements OnInit {
       this.roleId = role;
     }
     var storedUserJsonString = sessionStorage.getItem('UserObj');
-
     if (storedUserJsonString !== null) {
       var storedUserObject: User = JSON.parse(storedUserJsonString);
       this.UserObj = storedUserObject;
@@ -186,8 +121,60 @@ export class RegisterWorkScheduleComponent implements OnInit {
     } else {
       this.UserObj = null;
     }
+    this.getStaffs();
+    this.DisplayResgisterTimeByWeek();
+
+  }
+
+  deleteSchedule(): void {
+
+  }
+
+  newEventStart: string = "";
+  newEventEnd: string = "";
+  addEvent(): void {
+    if (this.UserObj != null) {
+      const startDate = this.newEventStart.split('T')[0];
+      const startTime = this.newEventStart.split('T')[1];
+      const endDate = this.newEventEnd.split('T')[0];
+      const endTime = this.newEventEnd.split('T')[1];
+
+      const startTimestamp = TimestampFormat.timeAndDateToTimestamp(startTime, startDate);
+      const endTimestamp = TimestampFormat.timeAndDateToTimestamp(endTime, endDate);
+      const RequestBody: RequestBodyTimekeeping = {
+        epoch: this.currentDateTimeStamp,
+        sub_id: this.UserObj.subId,
+        staff_name: this.UserObj.username,
+        staff_avt: "",
+        role: this.UserObj.role,
+        register_clock_in: startTimestamp,
+        register_clock_out: endTimestamp,
+        clock_in: (this.UserObj.clock_in !== undefined) ? this.UserObj.clock_in : 0,
+        clock_out: (this.UserObj.clock_out !== undefined) ? this.UserObj.clock_out : 0,
+        timekeeper_name: "",
+        timekeeper_avt: "",
+        status: 1
+      };
+      console.log("check UserOb", this.UserObj)
+      console.log(RequestBody);
+      //return;
+      this.timekeepingService.postTimekeeping(RequestBody)
+        .subscribe((res) => {
+          this.toastr.success(res.message, "Thêm lịch làm việc mới thành công")
+        },
+          (err) => {
+            this.toastr.error(err.error.message, "Đăng ký lịch làm việc thất bại");
+          })
+    }
     this.DisplayResgisterTimeByWeek();
   }
+
+  //listDisplayClone: any[] = [];
+  //DisplayResgisterTimeByWeek() {
+  //  this.getDateinFromDatetoToDate(TimestampFormat.timestampToGMT7Date(this.startTime), TimestampFormat.timestampToGMT7Date(this.endTime));
+
+  //  this.DisplayResgisterTimeByWeek();
+  //}
 
   listDisplayClone: any[] = [];
   DisplayResgisterTimeByWeek() {
@@ -198,7 +185,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
         console.log(this.registerOnWeeks)
         this.registerOnWeeks.forEach((item: any) => {
           this.listDay.forEach((it: any) => {
-            let da = this.timestampToGMT7Date(item.epoch);
+            let da = TimestampFormat.timestampToGMT7Date(item.epoch);
             const ab = da.split('-');
             const check = ab[2] + "/" + ab[1] + "/" + ab[0];
             if (it == check) {
@@ -237,7 +224,60 @@ export class RegisterWorkScheduleComponent implements OnInit {
           })
         })
       }
-      )
+    )
+  }
+  getStaffs() {
+    this.cognitoService.getListStaff()
+      .subscribe((res) => {
+        this.Staff = res.message.map((StaffMember: any) => {
+          let newStaff: StaffRegisterWorkSchedule = {
+            name: '',
+            role: '',
+            subId: '',
+            staff_avt: '',
+            locale: '',
+            clock_in: 0,
+            clock_out: 0,
+            epoch: 0,
+            register_clock_in: "",
+            register_clock_out: "",
+            registerSchedules: {}
+          };
+
+          let isNotAdmin = true;
+          StaffMember.Attributes.forEach((attribute: any) => {
+            switch (attribute.Name) {
+              case 'sub':
+                newStaff.subId = attribute.Value;
+                break;
+              case 'locale':
+                newStaff.locale = attribute.Value;
+                break;
+              case 'name':
+                newStaff.name = attribute.Value;
+                break;
+              case 'custom:role':
+                newStaff.role = attribute.Value;
+                if (attribute.Value === '1') {
+                  isNotAdmin = false;
+                }
+
+                if (registerObject.register_clock_in == '1' && registerObject.register_clock_out == '0') {
+                  registerObject.isSang = true;
+                  registerObject.isChieu = false;
+                }
+
+                if (registerObject.register_clock_in == '0' && registerObject.register_clock_out == '2') {
+                  it.isSang = false;
+                  it.isChieu = true;
+                }
+                this.listDisplayClone.push(registerObject);
+              })
+            }
+          })
+        })
+      }
+    )
   }
 
   listDayInMonth: any[] = [];
@@ -376,9 +416,145 @@ export class RegisterWorkScheduleComponent implements OnInit {
 
 
   //Option Map
+  listDayInMonth: any[] = [];
+  listDay: string[] = [];
+  registerObject = {
+    currentD: '',
+    staffId: '',
+    staffName: '',
+    register_clock_in: '0',
+    register_clock_out: '0',
+    isSang: false,
+    isChieu: false
+  }
+  first: number = 1;
+  getDateinFromDatetoToDate(frDate: string, tDate: string) {
+    this.listDayInMonth.splice(0, this.listDayInMonth.length);
+    const current = new Date();
+    const startDateParts = frDate.split('-');
+    const endDateParts = tDate.split('-');
+    const startDate = new Date(
+      parseInt(startDateParts[0]),
+      parseInt(startDateParts[1]) - 1,
+      parseInt(startDateParts[2])
+    );
+
+    const endDate = new Date(
+      parseInt(endDateParts[0]),
+      parseInt(endDateParts[1]) - 1,
+      parseInt(endDateParts[2])
+    );
+
+    let currentDate = startDate;
+    while (currentDate <= endDate) {
+      const day = currentDate.getDate();
+      const month = currentDate.getMonth() + 1;
+      const year = currentDate.getFullYear();
+      const formattedDate = `${day < 10 ? '0' + day : day}/${month < 10 ? '0' + month : month}/${year}`;
+      let registerObject = {
+        currentD: formattedDate,
+        staffId: '',
+        staffName: '',
+        register_clock_in: '',
+        register_clock_out: '',
+        clock_in: 0,
+        clock_out: 0,
+        timekeeper_name: "",
+        timekeeper_avt: "",
+        status: 1,
+        isSang: false,
+        isChieu: false
+      }
+      this.listDay.push(formattedDate);
+      this.listDayInMonth.push(registerObject);
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+  }
+
+  checkSang(item: any) {
+    this.listDayInMonth.forEach((it: any) => {
+      if (it.currentD == item.currentD) {
+        it.isSang = !item.isSang;
+        return;
+      }
+    })
+  }
+
+  checkChieu(item: any) {
+    this.listDayInMonth.forEach((it: any) => {
+      if (it.currentD == item.currentD) {
+        it.isChieu = !item.isChieu;
+        return;
+      }
+    })
+  }
+
+  ResgisterByWeek() {
+    const subId = sessionStorage.getItem('sub');
+    const staff_name = sessionStorage.getItem('username');
+    const role = sessionStorage.getItem('role');
+
+    if (subId == null) {
+      return;
+    }
+
+    else if (staff_name == null) {
+      return;
+    }
+
+    else if (role == null) {
+      return
+    }
+
+    this.listDayInMonth.forEach((item: any) => {
+      let RequestBody: RequestBodyTimekeeping = {
+        epoch: TimestampFormat.dateToTimestamp(item.currentD),
+        sub_id: subId,
+        staff_name: staff_name,
+        staff_avt: "",
+        role: role,
+        register_clock_in: 0,
+        register_clock_out: 0,
+        clock_in: item.clock_in,
+        clock_out: item.clock_out,
+        timekeeper_name: item.timekeeper_name,
+        timekeeper_avt: item.timekeeper_avt,
+        status: 1
+      };
+
+      if (item.isSang == true && item.isChieu == true) {
+        RequestBody.register_clock_in = 1;
+        RequestBody.register_clock_out = 2;
+      }
+      if (item.isSang == true && item.isChieu == false) {
+        RequestBody.register_clock_in = 1;
+        RequestBody.register_clock_out = 0;
+      }
+      if (item.isSang == false && item.isChieu == true) {
+        RequestBody.register_clock_in = 1;
+        RequestBody.register_clock_out = 0;
+      }
+      if (item.isSang == false && item.isChieu == false) {
+        RequestBody.register_clock_in = 0;
+        RequestBody.register_clock_out = 0;
+      }
+      this.timekeepingService.postTimekeeping(RequestBody)
+        .subscribe((res) => {
+          this.toastr.success(res.message, "Thêm lịch làm việc mới thành công")
+
+        },
+          (err) => {
+            this.toastr.error(err.error.message, "Đăng ký lịch làm việc thất bại");
+          })
+
+    })
+  }
+
+
+  //Option Map
   getRegisterWorkSchedule() {
-    console.log("Thứ 2: ", this.timestampToGMT7Date(this.startTime));
-    console.log("Chủ nhật: ", this.timestampToGMT7Date(this.endTime));
+    console.log("Thứ 2: ", TimestampFormat.timestampToGMT7Date(this.startTime));
+    console.log("Chủ nhật: ", TimestampFormat.timestampToGMT7Date(this.endTime));
     this.timekeepingService.getTimekeeping(this.startTime, this.endTime)
       .subscribe(data => {
         this.registerOnWeeks = this.organizeData(data);
@@ -422,8 +598,6 @@ export class RegisterWorkScheduleComponent implements OnInit {
                 }
               });
             }
-
-            //this.convertStaffToEvents();
           });
         });
         console.log("Staff Work Register: ", this.Staff);
@@ -433,8 +607,6 @@ export class RegisterWorkScheduleComponent implements OnInit {
         }
       )
   }
-
-
 
   // convertStaffToEvents() {
   //   this.worksRegister = [];
@@ -489,6 +661,20 @@ export class RegisterWorkScheduleComponent implements OnInit {
       });
       return registerEntry;
     });
+  }
+
+  day: string = 'dd';
+  month: string = 'mm';
+  year: string = 'yyyy';
+
+  onInput(event: Event, index: number) {
+    const input = event.target as HTMLInputElement;
+    if (input.value.length >= 2) {
+      if (index < this.inputsMyDate.length - 1) {
+        this.inputsMyDate[index + 1].focus();
+        this.inputsMyDate[index + 1].value = '';
+      }
+    }
   }
 
   // tempColor: string = '';
@@ -659,45 +845,17 @@ export class RegisterWorkScheduleComponent implements OnInit {
     this.activeDayIsOpen = false;
   }
 
-
-  //Convert Date
-  dateToTimestamp(dateStr: string): number {
-    const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng của chuỗi ngày
-    const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
-    const timestamp = moment.tz(dateStr, format, timeZone).valueOf();
-    return timestamp / 1000;
+  clearInput(input: HTMLInputElement) {
+    input.value = '';
   }
 
-  timestampToGMT7String(timestamp: number): string {
-    // Chắc chắn rằng timestamp được chuyển từ giây sang milliseconds
-    const timestampInMilliseconds = timestamp * 1000;
+  inputsMyDate: HTMLInputElement[] = [];
 
-    // Tạo đối tượng moment với múi giờ GMT+7
-    const dateTimeString = moment(timestampInMilliseconds).tz('Asia/Ho_Chi_Minh').format('HH:mm');
-
-    return dateTimeString;
+  ngAfterViewInit() {
+    this.inputsMyDate = Array.from(
+      document.querySelectorAll('.myDateChild')
+    ) as HTMLInputElement[];
   }
-
-  timestampToGMT7Date(timestamp: number): string {
-    const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ GMT+7
-
-    // Sử dụng moment.tz để chuyển đổi timestamp sang đối tượng ngày với múi giờ GMT+7
-    const date = moment.tz(timestamp * 1000, timeZone);
-
-    // Định dạng ngày theo mong muốn
-    const formattedDate = date.format('YYYY-MM-DD'); // Định dạng ngày giờ
-
-    return formattedDate;
-  }
-
-  timeAndDateToTimestamp(timeStr: string, dateStr: string): number {
-    const format = 'YYYY-MM-DD HH:mm'; // Định dạng của chuỗi ngày và thời gian
-    const timeZone = 'Asia/Ho_Chi_Minh';
-    const dateTimeStr = `${dateStr} ${timeStr}`;
-    const timestamp = moment.tz(dateTimeStr, format, timeZone).valueOf();
-    return timestamp / 1000;
-  }
-
 
   showSuccessToast(message: string) {
     this.toastr.success(message, 'Thành công', {
@@ -741,7 +899,9 @@ export class RegisterWorkScheduleComponent implements OnInit {
   navigateHref(href: string) {
     this.router.navigate(['' + href]);
   }
+
 }
+
 
 interface User {
   role: string;

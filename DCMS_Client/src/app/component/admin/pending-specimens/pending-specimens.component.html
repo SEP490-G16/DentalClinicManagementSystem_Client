@@ -130,13 +130,14 @@
           <td *ngIf="checkbox11" style="padding: 20px;">{{m.ms_orderer}}</td> <!--11-->
           <td *ngIf="checkbox12" style="padding: 20px;">{{ m.ms_quantity * m.ms_unit_price}}</td><!--12-->
           <td class="text-center" style="min-width: 150px">
-            <button href="#" class="btn btn-primary float-right btn-rounded" style="padding: 2px 5px; margin-right: 3px" title="Duyệt mẫu"
-              (click)="approveSpecimens(m.ms_id,m)"><i class="bi bi-check-circle"></i></button>
-            <button href="#" class="btn btn-primary float-right btn-rounded" style="padding: 2px 5px; margin-right: 3px" title="Sửa mẫu chờ duyệt"
-              data-bs-toggle="modal" data-bs-target="#editApproveSpecimensModal"
+            <button href="#" class="btn btn-primary float-right btn-rounded" style="padding: 2px 5px; margin-right: 3px"
+              title="Duyệt mẫu" (click)="approveSpecimens(m.ms_id,m)"><i class="bi bi-check-circle"></i></button>
+            <button href="#" class="btn btn-primary float-right btn-rounded" style="padding: 2px 5px; margin-right: 3px"
+              title="Sửa mẫu chờ duyệt" data-bs-toggle="modal" data-bs-target="#editApproveSpecimensModal"
               (click)="openEditApproveSpecimens(m.ms_id,m)"><i class="bi bi-pencil-square"></i></button>
-            <button href="#" class="btn btn-danger float-right btn-rounded" style="padding:2px 5px; " title="Xoá mẫu chờ duyệt"
-              (click)="deleteApproveSpecimens(m.ms_id,m.ms_name)"><i class="bi bi-trash"></i></button>
+            <button href="#" class="btn btn-danger float-right btn-rounded" style="padding:2px 5px; "
+              title="Xoá mẫu chờ duyệt" (click)="deleteApproveSpecimens(m.ms_id,m.ms_name)"><i
+                class="bi bi-trash"></i></button>
           </td>
         </tr>
       </tbody>

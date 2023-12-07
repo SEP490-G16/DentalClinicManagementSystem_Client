@@ -10,9 +10,11 @@ import jsPDF from 'jspdf';
 })
 export class PopupGenMedicalPdfComponent implements OnInit {
 
+  // MedicalInput = [{ value: '' }, { value: '' }, { value: '' }, { value: '' }];
+  // MedicalValue:string = "";
   constructor(public activeModal: NgbActiveModal) { }
-  public Medical:any;
-  public Patient:any;
+  public Medical: any;
+  public Patient: any;
   public Disagnosis: any;
   currentDay!: string;
   currentMonth!: string;
@@ -28,20 +30,50 @@ export class PopupGenMedicalPdfComponent implements OnInit {
   }
 
   @ViewChild('pdfContent') pdfContent!: ElementRef;
-  generateExDetailPdf() {
-    html2canvas(this.pdfContent.nativeElement, { scale: 2.5 }).then(canvas => {
-      const contentDataURL = canvas.toDataURL('image/jpeg', 2.0);
-      let pdf = new jsPDF('p', 'mm', 'a4');
-      var width = pdf.internal.pageSize.getWidth();
-      var maxHeight = 200;
-      var height = canvas.height * width / canvas.width;
-      height = Math.min(height, maxHeight);
-      pdf.addImage(contentDataURL, 'PNG', 0, 0, width, height);
 
+  generateExDetailPdf() {
+    const contentClone = this.pdfContent.nativeElement.cloneNode(true);
+    document.body.appendChild(contentClone);
+
+    const inputs = contentClone.querySelectorAll('input');
+    inputs.forEach((input:any) => {
+      const span = document.createElement('span');
+      span.style.display = 'inline-block';
+      span.style.minWidth = `${input.offsetWidth}px`;
+      span.style.paddingLeft = '10px';
+      span.style.paddingRight = '10px';
+      span.textContent = input.value;
+      input.parentNode.replaceChild(span, input);
+    });
+
+    html2canvas(contentClone, { scale: 1 }).then(canvas => {
+      const imgData = canvas.toDataURL('image/jpeg', 1.0);
+      const pdf = new jsPDF({
+        orientation: 'p',
+        unit: 'mm',
+        format: 'a4'
+      });
+
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgHeight = imgProps.height * pdfWidth / imgProps.width;
+      const imgWidth = pdfWidth;
+      const x = 0;
+      const y = (pdfHeight - imgHeight) / 2;
+
+      pdf.addImage(imgData, 'JPEG', x, y, imgWidth, imgHeight);
       window.open(pdf.output('bloburl'), '_blank');
-      this.activeModal.close('confirm');
+
+      document.body.removeChild(contentClone);
+    }).catch(error => {
+      console.error('Có lỗi xảy ra trong quá trình tạo PDF:', error);
+      document.body.removeChild(contentClone);
     });
   }
+
+
+
 
   calculateAge(dateOfBirth: string): number {
     const birthDate = new Date(dateOfBirth);
@@ -49,7 +81,7 @@ export class PopupGenMedicalPdfComponent implements OnInit {
     const age = today.getFullYear() - birthDate.getFullYear();
 
     if (today.getMonth() < birthDate.getMonth() ||
-        (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
+      (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
       return age - 1;
     }
 

@@ -12,13 +12,15 @@ import { BenhnhanRoutingModule } from './benhnhan-routing.module';
 import { CancelAppointmentComponent } from './change-appointment/cancel-appointment/cancel-appointment.component';
 import { CancelSuccessComponent } from './change-appointment/cancel-success/cancel-success.component';
 import { ConfirmAppointmentComponent } from '../confirm-appointment/confirm-appointment.component';
+import { PopupConfirmAppointmentComponent } from '../utils/pop-up/appointment/popup-confirm-appointment/popup-confirm-appointment.component';
 
 @NgModule({
   declarations: [
       ChangeAppointmentComponent,
       CancelAppointmentComponent,
       CancelSuccessComponent,
-      ConfirmAppointmentComponent
+      ConfirmAppointmentComponent,
+      PopupConfirmAppointmentComponent
   ],
   imports: [
     CommonModule,

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {ChangeAppointmentComponent} from "./change-appointment/change-appointment.component";
 import { ConfirmAppointmentComponent } from '../confirm-appointment/confirm-appointment.component';
 import { CancelSuccessComponent } from './change-appointment/cancel-success/cancel-success.component';
+import { PopupConfirmAppointmentComponent } from '../utils/pop-up/appointment/popup-confirm-appointment/popup-confirm-appointment.component';
 
 const benhnhanRoutes: Routes = [
   {
@@ -11,6 +12,10 @@ const benhnhanRoutes: Routes = [
   {
     path: 'xac-nhan-lich-hen/:epoch/:appointmentId',
     component: ConfirmAppointmentComponent
+  },
+  {
+    path: 'sua-lich-hen-thanh-cong/:epoch/:appointmentId',
+    component: PopupConfirmAppointmentComponent
   },
   {
     path: 'huy-lich-hen/:epoch/:appointmentId',
