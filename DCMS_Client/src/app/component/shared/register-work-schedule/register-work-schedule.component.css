@@ -30,7 +30,7 @@
 
 table {
   width: 100%;
-  max-height: 80vh;
+  height: 80vh;
   border-collapse: separate;
   margin: 20px 0;
   font-family: 'Roboto', sans-serif;
@@ -121,20 +121,46 @@ input[type="time"] {
   border-radius: 4px;
 }
 
-#myDate {
-  position: relative;
-  display: flex;
-  width: 115px;
-  border: 1px solid red;
+.register-heading {
+  font-family: 'Arial', sans-serif;
+  color: #D9E1EC;
+  text-align: center;
+  font-size: 36px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 10px;
+  background-image: linear-gradient(to right, #b19cd9, #957dad);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  text-shadow: 1px 1px 2px #ffffff;
+  transition: all 0.3s ease-in-out;
 }
-#myDateChild1,
-#myDateChild2,
-#myDateChild3 {
-  width: 30px;
+
+.register-heading:hover {
+  color: #ffffff;
+  background-image: linear-gradient(to left, #dcb6e0, #c39ec9);
+  cursor: pointer;
+}
+
+.register-button {
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+  color: white;
+  padding: 10px 20px;
   border: none;
+  border-radius: 5px;
+  background-color: #4e54c8;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
   outline: none;
 }
-.myDateChild {
-  margin: 0 2px;
-  text-align: center;
+
+.register-button:hover {
+  background-color: #6f7bd9;
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.register-button:active {
+  transform: translateY(2px);
 }

@@ -41,6 +41,7 @@ import {
 } from "./component/utils/pop-up/common/confirm-add-treatmentcourse/confirm-add-treatmentcourse.component";
 import { PopupAddAppointmentNewComponent } from './component/utils/pop-up/appointment/popup-add-appointment-new/popup-add-appointment-new.component';
 import { PatientService } from './service/PatientService/patient.service';
+import { PopupRegisterWorkScheduleComponent } from './component/utils/pop-up/popup-register-work-schedule/popup-register-work-schedule.component';
 // import { AuthInterceptor } from './service/RefreshToken/auth.interceptor';
 // Register the Vietnamese locale data
 registerLocaleData(localeVi);
@@ -52,6 +53,7 @@ registerLocaleData(localeVi);
     ConfirmAddTreatmentcourseComponent,
     ViDateRangePipe,
     FullDateVnPipe,
+    PopupRegisterWorkScheduleComponent,
   ],
   imports: [
     FormsModule,
