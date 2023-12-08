@@ -510,3 +510,6 @@ button:active {
 .title-payment .tong-no{
   color: red;
 }
+.title-payment div b{
+  font-size: 25px;
+}

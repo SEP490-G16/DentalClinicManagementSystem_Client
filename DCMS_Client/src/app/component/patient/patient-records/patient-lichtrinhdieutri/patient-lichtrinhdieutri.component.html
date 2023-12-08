@@ -123,7 +123,7 @@
           <div class="col-md-3 custom-input-container">
             <div style="position: relative">
               <label for="diagnosis">Hình ảnh:</label>
-              <img [src]="record.imageInsert" (click)="zoomImage()" alt="Hình ảnh mặc định" style="height: 50%; border: 1px solid black;border-radius: 10px;cursor: pointer">
+              <img [src]="record.imageInsert" (click)="zoomImage()" alt="Hình ảnh mặc định" style="height: 250px; border: 1px solid black;border-radius: 10px;cursor: pointer">
               <div *ngIf="showZoomedInImage" class="modal-image"  (click)="closeZoom()">
                 <img [src]="record.imageInsert" alt="Zoomed In Image" class="zoomed-in-image">
               </div>
@@ -154,8 +154,10 @@
 <!--            </div>-->
           </div>
         </ng-container>
-        <button class="btn button-add" (click)="onPostXRayImage()"><i
-          class="bi bi-plus-circle"></i>Lưu ảnh</button>
+        <div class="save-xray">
+          <button class="btn button-add" (click)="onPostXRayImage()"><i
+            class="bi bi-plus-circle"></i>Lưu ảnh</button>
+        </div>
       </div>
       <div class="bottom-left"  style="padding: 0px 80px 50px">
         <button class=" btn btn-secondary ml-2 mt-3" routerLink="/benhnhan/danhsach">Quay lại</button>
@@ -190,5 +192,5 @@
   </div>
 </div>
 
-<!-- <app-popup-add-treatmentcourse></app-popup-add-treatmentcourse> -->
+ <app-popup-add-treatmentcourse></app-popup-add-treatmentcourse>
 <app-popup-edit-treatmentcourse [TreatmentCourse]="TreatmentCourse"></app-popup-edit-treatmentcourse>

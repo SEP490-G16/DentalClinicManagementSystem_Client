@@ -828,18 +828,21 @@ button:active{
   background-color: #4CAF50;
   border-radius: 40%;
   width: 30px;
+  height: 30px;
   margin-right: 5px;
 }
 .check-out{
   background-color: red;
   border-radius: 40%;
   width: 30px;
+  height: 30px;
   margin-right: 5px;
 }
 .nghi{
   background-color: #9e9e9e;
   border-radius: 40%;
   width: 30px;
+  height: 30px;
   margin-right: 5px;
 }
 .check-in-custom{
@@ -886,7 +889,7 @@ button:active{
   scrollbar-width: thin; /* 'auto' hoặc 'thin' */
   scrollbar-color: #888 #f1f1f1; /* thumb và track */
 }
-.sticky-thead {
+.sticky-theadd {
   position: sticky;
   top: 0; /* Giữ phần thead ở vị trí trên cùng khi cuộn */
   background-color: white;

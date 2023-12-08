@@ -4,15 +4,14 @@
   <!--    <div class="export__file">-->
   <!--    </div>-->
   <!--  </section>-->
-  <div class="row custom-row">
-    <div class="row custom-row">
-      <div class="col-md-2 col-xl-1">
+    <div class="custom-row">
+      <div class="vatlieu">
         <a routerLink="/vat-lieu" routerLinkActive="active-link" class="page-title">Quản lý vật liệu</a>
       </div>
-      <div class="col-md-2 col-xl-1">
+      <div class="kho">
         <a routerLink="/kho" routerLinkActive="active-link" class="page-title">Quản lý Kho</a>
       </div>
-      <div class="col-md-2 col-xl-1">
+      <div class="quanlynhap">
         <a routerLink="/quan-ly-nhap" routerLinkActive="active-link" class="page-title">Quản lý nhập</a>
       </div>
     </div>
@@ -33,13 +32,13 @@
       </div>
       <div class="datetime col-md-3 col-xl-2">
         <div class="form-group form-group-filter">
-          <label for="fromDate">Từ ngày:</label>
+          <label for="fromDate">Từ:</label>
           <input type="date" [(ngModel)]="startDate" class="date-input-custom" id="fromDate" name="fromDate">
         </div>
       </div>
       <div class="datetime col-md-3 col-xl-2">
         <div class="form-group form-group-filter">
-          <label for="toDate">Đến ngày:</label>
+          <label for="toDate">Đến:</label>
           <input type="date" [(ngModel)]="endDate" class="date-input-custom" id="toDate" name="fromDate">
         </div>
       </div>
@@ -50,7 +49,6 @@
         </div>
       </div>
     </div>
-  </div>
 
 
   <div class="table-container mt-4">

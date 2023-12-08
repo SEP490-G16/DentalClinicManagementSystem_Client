@@ -306,3 +306,32 @@
   transform: translateY(40%);
   right: 10px;
 }
+.zalo-chat-widget {
+  position: fixed;
+  bottom: 3%;
+  right: 3%;
+  z-index: 1000;
+}
+.button-zalo {
+  display: inline-block;
+  padding: 10px;
+  border-radius: 50%; /* Làm tròn góc */
+  transition: background-color 0.3s, transform 0.3s; /* Hiệu ứng chuyển màu và biến đổi */
+  text-align: center;
+  text-decoration: none; /* Bỏ gạch chân khi là thẻ a */
+  cursor: pointer;
+}
+.button-zalo img {
+  vertical-align: middle;
+  margin-right: 8px;
+}
+.button-zalo:hover {
+  background-color: #005fcc; /* Màu nền khi hover */
+  transform: translateY(-3px); /* Nút nhích lên một chút khi hover */
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Thêm bóng đổ */
+}
+.button-zalo:active {
+  background-color: #004cab; /* Màu nền khi nhấn */
+  transform: translateY(2px); /* Nút nhích xuống một chút khi nhấn */
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2); /* Thêm bóng đổ nhẹ */
+}
