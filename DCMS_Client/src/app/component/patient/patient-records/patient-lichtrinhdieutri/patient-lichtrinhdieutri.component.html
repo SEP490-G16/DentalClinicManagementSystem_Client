@@ -123,7 +123,7 @@
           <div class="col-md-3 custom-input-container">
             <div style="position: relative">
               <label for="diagnosis">Hình ảnh:</label>
-              <img [src]="record.imageInsert" (click)="zoomImage()" alt="Hình ảnh mặc định" style="height: 50%; border: 1px solid black;border-radius: 10px;cursor: pointer">
+              <img [src]="record.imageInsert" (click)="zoomImage()" alt="Hình ảnh mặc định" style="height: 250px; border: 1px solid black;border-radius: 10px;cursor: pointer">
               <div *ngIf="showZoomedInImage" class="modal-image"  (click)="closeZoom()">
                 <img [src]="record.imageInsert" alt="Zoomed In Image" class="zoomed-in-image">
               </div>
