@@ -130,6 +130,8 @@ export class ChatComponent implements OnInit, OnDestroy {
             this.dataService.UpdateAppointmentTotal(1, 0);
           } else if (check[2] == 'pat') {
             this.dataService.UpdatePatientTotal(1, 0);
+          } else if (check[2] == 'wtr1') {
+            this.dataService.UpdatePatientExaminate(1, 0);
           }
         }
         else if (check[1] == 'minus') {
@@ -139,6 +141,8 @@ export class ChatComponent implements OnInit, OnDestroy {
             this.dataService.UpdateAppointmentTotal(0, 0);
           } else if (check[2] == 'pat') {
             this.dataService.UpdatePatientTotal(0, 0);
+          } else if (check[2] == 'wtr1') {
+            this.dataService.UpdatePatientExaminate(0, 0);
           }
         }
       } else {

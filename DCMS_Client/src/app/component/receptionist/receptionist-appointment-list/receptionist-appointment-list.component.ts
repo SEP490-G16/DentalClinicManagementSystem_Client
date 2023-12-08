@@ -45,6 +45,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   startDate: any;
   startDateTimestamp: number = 0;
   endDateTimestamp: number = 0;
+  nextDate: any;
 
   constructor(private appointmentService: ReceptionistAppointmentService,
     private waitingRoomService: ReceptionistWaitingRoomService,
@@ -77,6 +78,13 @@ export class ReceptionistAppointmentListComponent implements OnInit {
       procedure: '',
       phone_number: ''
     } as ISelectedAppointment;
+
+    const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
+    this.model = {
+      year: parseInt(currentDateGMT7.split('-')[0]),
+      month: parseInt(currentDateGMT7.split('-')[1]),
+      day: parseInt(currentDateGMT7.split('-')[2])
+    };
   }
 
   ngOnInit(): void {
@@ -102,6 +110,10 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   }
 
   getAppointmentList() {
+    const selectedYear = this.model.year;
+    const selectedMonth = this.model.month.toString().padStart(2, '0'); 
+    const selectedDay = this.model.day.toString().padStart(2, '0'); 
+    const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
     var dateTime = this.currentDate + ' ' + "00:00:00";
     var startTime = this.dateToTimestamp(dateTime);
     const currentDate = new Date();
@@ -113,10 +125,11 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     const formattedDate = dateFormatter.format(nextWeekDate);
     var temp = formattedDate.split('/');
     var endTime = temp[2] + '-' + temp[0] + '-' + temp[1] + ' 23:59:59';
+    this.nextDate = temp[2] + '-' + temp[0] + '-' + temp[1];
     this.appointmentService.getAppointmentList(startTime, this.dateToTimestamp(endTime)).subscribe(data => {
       this.appointmentList = ConvertJson.processApiResponse(data);
       localStorage.setItem("ListAppointment", JSON.stringify(this.appointmentList));
-      this.filteredAppointments = this.appointmentList.filter(app => app.date === this.startDateTimestamp);
+      this.filteredAppointments = this.appointmentList.filter(app => app.date === this.dateToTimestamp(selectedDate));
       this.filteredAppointments.forEach((a: any) => {
         this.dateEpoch = this.timestampToDate(a.date);
         a.appointments.forEach((b: any) => {
@@ -124,6 +137,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
         })
       })
       this.loading = false;
+      this.appointmentDateInvalid();
     },
       error => {
         this.loading = false;
@@ -144,8 +158,27 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   datesDisabled: any[] = [];
   listDate: any[] = [];
   appointmentDateInvalid() {
-    if (true) {
-
+    const selectedYear = this.model.year;
+    const selectedMonth = this.model.month.toString().padStart(2, '0'); 
+    const selectedDay = this.model.day.toString().padStart(2, '0'); 
+    const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
+    if (this.dateToTimestamp(this.nextDate) < this.dateToTimestamp(selectedDate) && this.dateToTimestamp(selectedDate) < this.dateToTimestamp(this.currentDate)) {
+      this.appointmentService.getAppointmentList(this.dateToTimestamp(selectedDate+" 00:00:00"), this.dateToTimestamp(selectedDate+" 23:59:59")).subscribe(data => {
+        this.appointmentList = ConvertJson.processApiResponse(data);
+        localStorage.setItem("ListAppointment", JSON.stringify(this.appointmentList));
+        this.filteredAppointments = this.appointmentList.filter(app => app.date === this.dateToTimestamp(selectedDate));
+        this.filteredAppointments.forEach((a: any) => {
+          this.dateEpoch = this.timestampToDate(a.date);
+          a.appointments.forEach((b: any) => {
+            b.details = b.details.sort((a: any, b: any) => a.time - b.time);
+          })
+        })
+        this.loading = false;
+      },
+        error => {
+          this.loading = false;
+          ResponseHandler.HANDLE_HTTP_STATUS(this.appointmentService.apiUrl + "/appointment/" + this.startDateTimestamp + "/" + this.endDateTimestamp, error);
+        })
     } else {
       this.listDate = this.appointmentList;
       this.listDate.forEach((a: any) => {
@@ -162,13 +195,35 @@ export class ReceptionistAppointmentListComponent implements OnInit {
         })
       })
     }
-
-
   }
 
   filterAppointments() {
+    const selectedYear = this.model.year;
+    const selectedMonth = this.model.month.toString().padStart(2, '0'); 
+    const selectedDay = this.model.day.toString().padStart(2, '0'); 
+    const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
+    if (this.dateToTimestamp(this.nextDate) > this.dateToTimestamp(selectedDate) && this.dateToTimestamp(selectedDate) > this.dateToTimestamp(this.currentDate)) {
+      
+    } else {
+      this.appointmentService.getAppointmentList(this.dateToTimestamp(selectedDate + " 00:00:00"), this.dateToTimestamp(selectedDate + " 23:59:59")).subscribe(data => {
+        this.appointmentList = ConvertJson.processApiResponse(data);
+        localStorage.setItem("ListAppointment", JSON.stringify(this.appointmentList));
+        this.filteredAppointments = this.appointmentList.filter(app => app.date === this.dateToTimestamp(selectedDate));
+        this.filteredAppointments.forEach((a: any) => {
+          this.dateEpoch = this.timestampToDate(a.date);
+          a.appointments.forEach((b: any) => {
+            b.details = b.details.sort((a: any, b: any) => a.time - b.time);
+          })
+        })
+        this.loading = false;
+      },
+        error => {
+          this.loading = false;
+          ResponseHandler.HANDLE_HTTP_STATUS(this.appointmentService.apiUrl + "/appointment/" + this.startDateTimestamp + "/" + this.endDateTimestamp, error);
+        })
+    }
     if (this.selectedProcedure) {
-      this.appointmentList = this.appointmentList.filter(app => app.date === this.startDateTimestamp);
+      this.appointmentList = this.appointmentList.filter(app => app.date === this.dateToTimestamp(selectedDate));
       this.filteredAppointments = this.appointmentList
         .map((a: any) => {
           const filteredAppointments = a.appointments
@@ -184,7 +239,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
         })
       })
     } else {
-      this.filteredAppointments = this.appointmentList.filter(app => app.date === this.startDateTimestamp);
+      this.filteredAppointments = this.appointmentList.filter(app => app.date === this.dateToTimestamp(selectedDate));
       this.filteredAppointments.forEach((a: any) => {
         this.dateEpoch = this.timestampToDate(a.date);
         this.ePoch = a.date;

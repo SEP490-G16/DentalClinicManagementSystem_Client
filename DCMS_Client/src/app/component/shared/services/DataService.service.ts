@@ -16,7 +16,8 @@ export class DataService {
     private ANALYSES = new BehaviorSubject<any>({
         total_appointment: 0, 
         total_waiting_room: 0, 
-        total_patient: 0  
+        total_patient_examinate: 0, 
+        total_patient_examinated: 0
     });
     dataAn$ = this.ANALYSES.asObservable();
     updateAnalysesData(newData: any): void {
@@ -26,11 +27,13 @@ export class DataService {
     UpdateWaitingRoomTotal(param:any, total:any): void {
         const currentData = this.ANALYSES.getValue();
         if (param == 0) {
-            const newData = {
-                ...currentData,
-                total_waiting_room: currentData.total_waiting_room - 1
-            };
-            this.updateAnalysesData(newData);
+            if (currentData.total_waiting_room > 0) {
+                const newData = {
+                    ...currentData,
+                    total_waiting_room: currentData.total_waiting_room - 1
+                };
+                this.updateAnalysesData(newData);
+            }  
         } else if (param == 1) {
             const currentData = this.ANALYSES.getValue();
             const newData = {
@@ -39,7 +42,6 @@ export class DataService {
             };
             this.updateAnalysesData(newData);
         } else {
-            //const currentData = this.ANALYSES.getValue();
             const newData = {
                 ...currentData,
                 total_waiting_room: total
@@ -51,11 +53,13 @@ export class DataService {
     UpdateAppointmentTotal(param:any, total:any): void {
         const currentData = this.ANALYSES.getValue();
         if (param == 0) {
-            const newData = {
-                ...currentData,
-                total_appointment: currentData.total_appointment - 1
+            if (currentData.total_appointment > 0) {
+                const newData = {
+                    ...currentData,
+                    total_appointment: currentData.total_appointment - 1
+                }
+                this.updateAnalysesData(newData);
             };
-            this.updateAnalysesData(newData);
         } else if (param == 1) {
             const currentData = this.ANALYSES.getValue();
             const newData = {
@@ -68,6 +72,54 @@ export class DataService {
             const newData = {
                 ...currentData,
                 total_appointment: total
+            };
+            this.updateAnalysesData(newData);
+        }
+    }
+
+    UpdatePatientExaminate(param:any, total:any): void {
+        const currentData = this.ANALYSES.getValue();
+        if (param == 0) {
+            const newData = {
+                ...currentData,
+                total_patient_examinate: currentData.total_patient_examinate - 1
+            };
+            this.updateAnalysesData(newData);
+        } else if (param == 1) {
+            const currentData = this.ANALYSES.getValue();
+            const newData = {
+                ...currentData,
+                total_patient_examinate: currentData.total_patient_examinate + 1
+            };
+            this.updateAnalysesData(newData);
+        } else {
+            const newData = {
+                ...currentData,
+                total_patient_examinate: total
+            };
+            this.updateAnalysesData(newData);
+        }
+    }
+
+    UpdatePatientExaminated(param:any, total:any): void {
+        const currentData = this.ANALYSES.getValue();
+        if (param == 0) {
+            const newData = {
+                ...currentData,
+                total_patient_examinated: currentData.total_patient_examinated - 1
+            };
+            this.updateAnalysesData(newData);
+        } else if (param == 1) {
+            const currentData = this.ANALYSES.getValue();
+            const newData = {
+                ...currentData,
+                total_patient_examinated: currentData.total_patient_examinated + 1
+            };
+            this.updateAnalysesData(newData);
+        } else {
+            const newData = {
+                ...currentData,
+                total_patient_examinated: total
             };
             this.updateAnalysesData(newData);
         }

@@ -15,7 +15,8 @@ export class ConfirmAppointmentComponent implements OnInit {
   Confirm_Appointment_Body: IEditAppointmentBody = {} as IEditAppointmentBody
   appointment: any;
   isMigrated: boolean = true;
-
+  isCheck: boolean = false;
+  data: any = '';
   STATUS: boolean = true;
   constructor(private route: ActivatedRoute,
     private appointmentService: ReceptionistAppointmentService,
@@ -29,16 +30,25 @@ export class ConfirmAppointmentComponent implements OnInit {
     if (this.appointmentId_Pathparam === '' && this.epoch_PathParam === 0) {
       this.route.params.subscribe(params => {
         this.epoch_PathParam = params['epoch'];
+        var check = this.epoch_PathParam.toString();
+        if (check.includes('@')) {
+          this.isCheck = true;
+          var a = check.split('@');
+          this.epoch_PathParam = parseInt(a[0]);
+        }
         this.appointmentId_Pathparam = params['appointmentId'];
       });
     }
 
-    const data = await this.appointmentService.getAppointmentByPatient(this.epoch_PathParam, this.epoch_PathParam);
+    if (this.isCheck == false) {
+      this.data = await this.appointmentService.getAppointmentByPatient(this.epoch_PathParam, this.epoch_PathParam);
+    }
+    
 
     // Kiểm tra xem data có giá trị không
-    const AppointmentParent = ConvertJson.processApiResponse(data);
+    const AppointmentParent = ConvertJson.processApiResponse(this.data);
     console.log("appointmentParent: ", AppointmentParent);
-    const appointmentChild = this.findAppointmentById(data);
+    const appointmentChild = this.findAppointmentById(this.data);
     console.log("appointmentChild: ", appointmentChild);
 
 

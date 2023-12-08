@@ -295,7 +295,6 @@ export class PopupAddAppointmentNewComponent implements OnInit {
   }
 
   appointmentDate: string = '';
-
   checkNewPatent: boolean = false;
   addPatient() {
     //Check validate create new patient
@@ -377,7 +376,6 @@ export class PopupAddAppointmentNewComponent implements OnInit {
             }
           }
         })
-
       })
     }
 
@@ -396,29 +394,6 @@ export class PopupAddAppointmentNewComponent implements OnInit {
         this.validateAppointment.appointmentDate = "Vui lòng chọn ngày khác";
         return;
       }
-    }
-
-    var checkPatient = true;
-    let listAppointment;
-    const storeList = localStorage.getItem("ListAppointment");
-    if (storeList != null) {
-      listAppointment = JSON.parse(storeList);
-    }
-    this.filteredAppointments = listAppointment.filter((ap: any) => ap.date === this.dateToTimestamp(selectedDate));
-    this.filteredAppointments.forEach((appo: any) => {
-      appo.appointments.forEach((deta: any) => {
-        deta.details.forEach((res: any) => {
-          if (res.patient_id == this.AppointmentBody.appointment.patient_id) {
-            this.validateAppointment.patientName = `Bệnh nhân đã lịch hẹn trong ngày ${selectedDate} !`;
-            checkPatient = false;
-            return;
-          }
-        })
-      })
-    })
-
-    if (!checkPatient) {
-      return;
     }
 
     if (this.appointmentTime == '') {

@@ -1,16 +1,4 @@
 <div class="sep-recent-orders">
-
-  <!-- <section class="table__header">
-    //<div class="export__file">
-    //</div>
-  //</section> -->
-
- <!-- <div class="row mt-4 mb-4">
-   <div class="col-4">
-     <button class="btn button-timekeeping" style="margin-right: 30px;" data-bs-toggle="modal" data-bs-target="#myModal"
-       (click)="openAddAppointmentModal()"><i class="bi bi-plus-circle"></i>
-        Thêm
-        lịch hẹn bệnh nhân cũ</button> -->
   <div class="row row-custom mt-4 mb-4">
     <div class="col-6">
       <div class="button-app">
@@ -31,9 +19,8 @@
     <div class="col-3">
       <form class="row row-cols-sm-auto">
         <div class="input-group">
-          <input class="form-control" placeholder="dd/mm/yyyy" style="font-size: 20px; text-align: center;" name="dp" ngbDatepicker
+          <input class="form-control" placeholder="dd/mm/yyyy" style="font-size: 20px; text-align: center;" name="dp" ngbDatepicker [(ngModel)]="model"
             #d="ngbDatepicker" (ngModelChange)="getAppointmentList()"/>
-            <!-- [(ngModel)]="startDateNgb"  -->
           <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
         </div>
       </form>

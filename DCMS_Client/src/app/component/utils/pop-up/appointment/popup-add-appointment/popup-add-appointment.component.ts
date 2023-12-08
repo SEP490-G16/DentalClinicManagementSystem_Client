@@ -110,7 +110,7 @@ export class PopupAddAppointmentComponent implements OnInit {
         procedure_name: '', 
         doctor: '', 
         status: 2,
-        time: 0  //x
+        time: 0 
       }
     } as IAddAppointment;
 
@@ -143,37 +143,8 @@ export class PopupAddAppointmentComponent implements OnInit {
   ngOnInit(): void {
     this.getListGroupService();
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
-    //const a = parseInt(currentDateGMT7.split('-')[0]) + "-" + parseInt(currentDateGMT7.split('-')[1]) + "-" + (parseInt(currentDateGMT7.split('-')[2]));
     this.startDate = currentDateGMT7;
     this.startDateTimestamp = this.dateToTimestamp(currentDateGMT7);
-    //this.endDateTimestamp = this.dateToTimestamp(this.endDate);
-  }
-
-  getListAppountment() {
-    const storeList = localStorage.getItem('ListAppointment');
-    if (storeList != null) {
-      this.appointmentList = JSON.parse(storeList);
-      this.ListAppointments = this.appointmentList.filter(app => app.date === this.startDateTimestamp);
-      this.ListAppointments.forEach((a: any) => {
-        this.dateEpoch = this.timestampToDate(a.date);
-        a.appointments.forEach((b: any) => {
-          b.details = b.details.sort((a: any, b: any) => a.time - b.time);
-        })
-      })
-    } else {
-      this.startDateTimestamp = this.dateToTimestamp(this.startDate);
-      this.APPOINTMENT_SERVICE.getAppointmentList(this.startDateTimestamp, this.endDateTimestamp).subscribe(data => {
-        this.appointmentList = ConvertJson.processApiResponse(data);
-        localStorage.setItem("ListAppointment", JSON.stringify(this.appointmentList))
-        this.ListAppointments = this.appointmentList.filter(app => app.date === this.startDateTimestamp);
-        this.ListAppointments.forEach((a: any) => {
-          this.dateEpoch = this.timestampToDate(a.date);
-          a.appointments.forEach((b: any) => {
-            b.details = b.details.sort((a: any, b: any) => a.time - b.time);
-          })
-        })
-      })
-    }
   }
 
   getListGroupService() {
@@ -183,11 +154,6 @@ export class PopupAddAppointmentComponent implements OnInit {
     }
   }
 
-  private isVietnamesePhoneNumber(number: string): boolean {
-    return /^(\+84|84|0)?[1-9]\d{8}$/
-      .test(number);
-  }
-  phoneErr: string = "";
   patientList: any[] = [];
   patientInfor: any;
   searchTimeout: any;
@@ -231,12 +197,10 @@ export class PopupAddAppointmentComponent implements OnInit {
     this.itemsSource.next([...this.itemsSource.value, newItem]);
   }
 
-
   onPostAppointment() {
     const selectedYear = this.model.year;
-    const selectedMonth = this.model.month.toString().padStart(2, '0'); // Đảm bảo có 2 chữ số
-    const selectedDay = this.model.day.toString().padStart(2, '0'); // Đảm bảo có 2 chữ số
-
+    const selectedMonth = this.model.month.toString().padStart(2, '0'); 
+    const selectedDay = this.model.day.toString().padStart(2, '0'); 
     const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
     this.AppointmentBody.epoch = this.dateToTimestamp(selectedDate);
     this.AppointmentBody.appointment.time = this.timeToTimestamp(this.appointmentTime);
@@ -269,11 +233,13 @@ export class PopupAddAppointmentComponent implements OnInit {
     }
 
     let procedureNameSelected;
+
     if (this.procedure != "1") {
       this.datesDisabled.forEach((date: any) => {
         this.listGroupService.forEach((it: any) => {
           if (this.timestampToDate(date.date) == selectedDate && this.procedure == date.procedure && it.medical_procedure_group_id == this.procedure && it.name == 'Điều trị tủy răng') {
             if (date.count >= 4) {
+              alert("vô nha")
               procedureNameSelected = "Điều trị tủy răng";
               this.isCheckProcedure = false;
             }
@@ -289,7 +255,6 @@ export class PopupAddAppointmentComponent implements OnInit {
             }
           }
         })
-
       })
     }
 
@@ -352,9 +317,6 @@ export class PopupAddAppointmentComponent implements OnInit {
     }
 
     this.AppointmentBody.appointment.reason = this.reason;
-    this.phoneErr = "";
-
-
     const storeLi = localStorage.getItem('listSearchPatient');
     var ListPatientStore = [];
     if (storeLi != null) {
@@ -371,7 +333,6 @@ export class PopupAddAppointmentComponent implements OnInit {
         }
       })
     }
-     
     this.APPOINTMENT_SERVICE.postAppointment(this.AppointmentBody).subscribe(
       (response) => {
         if (selectedDate == this.startDate) {
