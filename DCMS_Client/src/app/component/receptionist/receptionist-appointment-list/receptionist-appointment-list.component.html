@@ -11,7 +11,7 @@
        (click)="openAddAppointmentModal()"><i class="bi bi-plus-circle"></i>
         Thêm
         lịch hẹn bệnh nhân cũ</button> -->
-  <div class="row row-custom">
+  <div class="row row-custom mt-4 mb-4">
     <div class="col-6">
       <div class="button-app">
         <div style="margin-right: 1%;">
@@ -28,7 +28,7 @@
         </div>
       </div>
     </div>
-    <div class="col-4">
+    <div class="col-3">
       <form class="row row-cols-sm-auto">
         <div class="input-group">
           <input class="form-control" placeholder="dd/mm/yyyy" style="font-size: 20px; text-align: center;" name="dp" ngbDatepicker
@@ -39,7 +39,7 @@
       </form>
     </div>
 
-    <div class="col-4">
+    <div class="col-3">
       <select class="form-select input-custom float-end" aria-label="Default select example"
         [(ngModel)]="selectedProcedure" (change)="filterAppointments()">
         <option selected value="">Tất cả loại điều trị</option>

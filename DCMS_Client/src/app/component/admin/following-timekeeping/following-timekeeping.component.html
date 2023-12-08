@@ -52,10 +52,10 @@
       </div>
 
     </div>
-    <div class="mb-5" style="padding: 0 10px">
-      <input type="month" [(ngModel)]="selectedMonth" (change)="updateStartAndEndTime()" style="width: 85%"
-             class="form-control input-custom  p-2">
-    </div>
+<!--    <div class="mb-5" style="padding: 0 10px">-->
+<!--      <input type="month" [(ngModel)]="selectedMonth" (change)="updateStartAndEndTime()" style="width: 85%"-->
+<!--             class="form-control input-custom  p-2">-->
+<!--    </div>-->
 
     <!-- <form class="row row-cols-sm-auto">
       <div class="col-12">
@@ -116,21 +116,14 @@
     </form> -->
 
     <div class="row">
-      <div class="col-5">
-
-      </div>
-      <div class="col-7">
+      <div class="col-12">
         <input type="date" style="width: 90%" #input (change)="changeFromDate(input.value)" id="fromDate"
           class="form-control input-custom  p-2">
-
       </div>
     </div>
 
     <div class="row">
-      <div class="col-5">
-
-      </div>
-      <div class="col-7">
+      <div class="col-12">
         <input type="date" [(ngModel)]="toDate" #inpu (change)="changeToDate(inpu.value)" style="width: 90%" id="toDate"
           class="form-control input-custom  p-2">
       </div>
@@ -142,12 +135,11 @@
   <!--  Bawts dau bang-->
   <div class="scrollable-col">
     <table class="table table-bordered custom-table">
-      <thead class="sticky-thead">
+      <thead class="sticky-theadd">
         <tr class="text-center">
           <th style="min-width: 120px">Tên nhân viên</th>
           <th style="min-width: 80px"> Chức vụ</th>
           <th [colSpan]="totalDate+1"> Ngày</th>
-          <th style="min-width: 120px"> Ngày đi làm</th>
         </tr>
         <tr>
           <td></td>
@@ -180,7 +172,6 @@
                   </div>
                 </ng-container>
               </td>
-              <td></td>
             </tr>
           </ng-container>
         </ng-container>
@@ -207,7 +198,6 @@
                   </div>
                 </ng-container>
               </td>
-              <td></td>
             </tr>
 
           </ng-container>

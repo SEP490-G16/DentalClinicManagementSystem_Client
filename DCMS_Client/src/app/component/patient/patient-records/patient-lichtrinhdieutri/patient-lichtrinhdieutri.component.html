@@ -154,8 +154,10 @@
 <!--            </div>-->
           </div>
         </ng-container>
-        <button class="btn button-add" (click)="onPostXRayImage()"><i
-          class="bi bi-plus-circle"></i>Lưu ảnh</button>
+        <div class="save-xray">
+          <button class="btn button-add" (click)="onPostXRayImage()"><i
+            class="bi bi-plus-circle"></i>Lưu ảnh</button>
+        </div>
       </div>
       <div class="bottom-left"  style="padding: 0px 80px 50px">
         <button class=" btn btn-secondary ml-2 mt-3" routerLink="/benhnhan/danhsach">Quay lại</button>
@@ -190,5 +192,5 @@
   </div>
 </div>
 
-<!-- <app-popup-add-treatmentcourse></app-popup-add-treatmentcourse> -->
+ <app-popup-add-treatmentcourse></app-popup-add-treatmentcourse>
 <app-popup-edit-treatmentcourse [TreatmentCourse]="TreatmentCourse"></app-popup-edit-treatmentcourse>

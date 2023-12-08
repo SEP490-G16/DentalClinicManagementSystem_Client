@@ -19,4 +19,13 @@
   padding: 10px 20px;
   margin-bottom: 15px;
 }
-
+.custom-row{
+  display: flex;
+  margin-top: 1%;
+}
+.custom-row .kho{
+  margin-left: 2%;
+}
+.custom-row .quanlynhap{
+  margin-left: 2%;
+}

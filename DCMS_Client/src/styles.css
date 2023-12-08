@@ -530,7 +530,7 @@ b {
 }
 
 .sep-recent-orders a {
-  text-align: start;
+  text-align: center;
   display: block;
   margin: 1rem auto;
 }
