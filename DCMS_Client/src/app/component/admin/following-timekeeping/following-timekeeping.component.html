@@ -157,18 +157,27 @@
               <td *ngFor="let day of listDayInMonth">
                 <ng-container *ngFor="let p of timekeeping.timeKeeping">
                   <div style="display: flex" *ngIf="isClockInDay(day,p.epoch)">
-                    <div class="check-in-custom">
-                    </div>
-                    <div>
-                      <p>{{timestampToGMT7String(p.clock_in)}}</p>
-                    </div>
+                    <ng-container *ngIf="p.clock_in != 0">
+                      <div class="check-in-custom">
+                      </div>
+                      <div>
+                        <p>{{timestampToGMT7String(p.clock_in)}}</p>
+                      </div>
+                    </ng-container>
+                    <ng-container *ngIf="p.clock_in == 0">
+                    </ng-container>
                   </div>
                   <div style="display: flex" *ngIf="isClockOutDay(day,p.epoch)">
-                    <div class="check-out-custom">
-                    </div>
-                    <div>
-                      <p>{{timestampToGMT7String(p.clock_out)}}</p>
-                    </div>
+                    <ng-container *ngIf="p.clock_out != 0">
+                      <div class="check-out-custom">
+                      </div>
+                      <div>
+                        <p>{{timestampToGMT7String(p.clock_out)}}</p>
+                      </div>
+                    </ng-container>
+                    <ng-container *ngIf="p.clock_out == 0">
+                      
+                    </ng-container>
                   </div>
                 </ng-container>
               </td>
@@ -183,18 +192,28 @@
               <td *ngFor="let day of listDayInMonth">
                 <ng-container *ngFor="let p of timekeeping.timeKeeping">
                   <div style="display: flex" *ngIf="isClockInDay(day,p.epoch)">
-                    <div class="check-in-custom">
-                    </div>
-                    <div>
-                      <p>{{timestampToGMT7String(p.clock_in)}}</p>
-                    </div>
+                    <ng-container *ngIf="p.clock_in != 0">
+                      <div class="check-in-custom">
+                      </div>
+                      <div>
+                        <p>{{timestampToGMT7String(p.clock_in)}}</p>
+                      </div>
+                    </ng-container>
+                    <ng-container *ngIf="p.clock_in == 0">
+
+                    </ng-container>
                   </div>
                   <div style="display: flex" *ngIf="isClockOutDay(day,p.epoch)">
-                    <div class="check-out-custom">
-                    </div>
-                    <div>
-                      <p>{{timestampToGMT7String(p.clock_out)}}</p>
-                    </div>
+                    <ng-container *ngIf="p.clock_out != 0">
+                      <div class="check-out-custom">
+                      </div>
+                      <div>
+                        <p>{{timestampToGMT7String(p.clock_out)}}</p>
+                      </div>
+                    </ng-container>
+                    <ng-container *ngIf="p.clock_out == 0">
+                      
+                    </ng-container>
                   </div>
                 </ng-container>
               </td>

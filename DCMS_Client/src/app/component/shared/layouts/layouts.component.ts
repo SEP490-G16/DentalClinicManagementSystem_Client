@@ -120,7 +120,7 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
   analyses = {
     total_appointment: 0,
     total_waiting_room: 0,
-    total_patient: 0
+    total_patient_examinate: 0
   }
 
   ngOnInit(): void {
@@ -175,11 +175,17 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
 
   searchTimeout: any;
   getDataAnalysis() {
-
     this.waitingRoomService.getWaitingRooms().subscribe((data) => {
       const listWatingRoom = data;
-      console.log("check waiting", data.length);
+      var count = 0;
+      console.log("check waiting", data);
       this.analyses.total_waiting_room = parseInt(data.length);
+      listWatingRoom.forEach((item:any) => {
+        if (item.status == 2) {
+          count++;
+        }
+      })
+      this.analyses.total_patient_examinate = count;
     })
 
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
@@ -191,10 +197,10 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
       this.analyses.total_appointment = this.appointmentList.length;
     })
 
-    this.patientService.getPatientTotal().subscribe((data) => {
-      console.log("check patient", data.data[0].total)
-      this.analyses.total_patient = data.data[0].total;
-    })
+    // this.patientService.getPatientTotal().subscribe((data) => {
+    //   console.log("check patient", data.data[0].total)
+    //   this.analyses.total_patient_examinate = data.data[0].total;
+    // })    
   }
 
   togglePopup(event: MouseEvent): void {

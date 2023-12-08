@@ -161,6 +161,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           this.loading = false;
           this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
           this.showSuccessToast('Xóa hàng chờ thành công');
+          this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "minus", "wtr1");
           this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "minus", "wtr");
           this.getWaitingRoomData();
 
@@ -198,6 +199,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
                   item.appointment.status = "3";
                   this.appointmentService.putAppointment(item, this.PUT_WAITINGROO.appointment_id).subscribe((data) => {
                     this.showSuccessToast(`${item.appointment.patient_name} đang khám`);
+                    this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "plus", "wtr1");
                   })
                 }
               })
@@ -221,6 +223,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
                   item.appointment.status = "1";
                   this.appointmentService.putAppointment(item, this.PUT_WAITINGROO.appointment_id).subscribe((data) => {
                     this.showSuccessToast(`${item.appointment.patient_name} đã khám xong`);
+                    this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "minus", "wtr1");
                   })
                 }
               })

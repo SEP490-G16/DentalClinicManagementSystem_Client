@@ -46,7 +46,7 @@
                 <form class="form-inline">
                   <div class="form-group">
                     <div class="input-group">
-                      <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="model" ngbDatepicker
+                      <input class="form-control" name="dp" [(ngModel)]="model" ngbDatepicker
                         #d="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày hẹn" [minDate]="currentDate">
                       <div class="input-group-append">
                         <button class="btn btn-outline-secondary calendar" style="height: 48px;" (click)="d.toggle()"
@@ -87,7 +87,7 @@
 <!--                    </div>-->
 <!--                  </li>-->
 <!--                </ul>-->
-                <input type="text" class="form-control" >
+                <input type="text" class="form-control" [(ngModel)]="AppointmentBody.appointment.doctor">
               </div>
             </div>
             <div class="d-flex justify-content-end mt-3">

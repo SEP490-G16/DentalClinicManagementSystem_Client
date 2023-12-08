@@ -264,13 +264,7 @@ export class FollowingTimekeepingComponent implements OnInit {
   }
   daysInMonth: number[] = [];
   totalDate: string = '';
-  // calculateDaysInMonth() {
-  //   const currentDate = new Date();
-  //   const daysInMonth = new Date(currentDate.getFullYear(), (currentDate.getMonth() + 1), 0).getDate();
-  //   this.totalDate = daysInMonth.toString();
-  //   this.daysInMonth = Array.from({ length: daysInMonth }, (_, i) => i + 1);
-  // }
-
+  
   changeFromDate(fromDate: any) {
     this.fromDateFilter = fromDate;
   }

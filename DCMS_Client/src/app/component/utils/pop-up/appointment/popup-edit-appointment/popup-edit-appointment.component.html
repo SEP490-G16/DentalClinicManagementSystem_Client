@@ -62,30 +62,7 @@
               </div>
               <div class="doctors-list mt-2">
                 <label for="appointmentTime" name="userCredential">Chọn Bác Sĩ</label>
-                <ul class="list-group" *ngIf="totalDoctorFilter != 0">
-<!--                  <select>-->
-<!--                    <option></option>-->
-<!--                    <option value="0"></option>-->
-<!--                  </select>-->
-                  <li class="list-group-item" *ngFor="let doctor of listDoctorFilter"
-                    [ngClass]="{'selected': doctor.doctorName === selectedDoctor}" (click)="selectDoctor(doctor)">
-                    <!-- <img [src]="doctor.image" style="width: 100px; height: 100px; object-fit: cover;"
-                         class="doctor-image" [alt]="doctor.name"> -->
-                    <div class="doctor-info">
-                      <span class="card-title">{{ doctor.doctorName }}</span>
-                    </div>
-                  </li>
-                </ul>
-                <ul class="list-group" *ngIf="totalDoctorFilter == 0">
-                  <li class="list-group-item" *ngFor="let doctor of listDoctorDisplay"
-                    [ngClass]="{'selected': doctor.doctorName === selectedDoctor}" (click)="selectDoctor(doctor)">
-                    <!-- <img [src]="doctor.image" style="width: 100px; height: 100px; object-fit: cover;"
-                         class="doctor-image" [alt]="doctor.name"> -->
-                    <div class="doctor-info">
-                      <span class="card-title">{{ doctor.doctorName }}</span>
-                    </div>
-                  </li>
-                </ul>
+                <input type="text" class="form-control" [(ngModel)]="EDIT_APPOINTMENT_BODY.appointment.doctor">
               </div>
             </div>
 

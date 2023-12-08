@@ -73,24 +73,23 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     private medicaoProcedureGroupService: MedicalProcedureGroupService
   ) {
     this.EDIT_APPOINTMENT_BODY = {
-      epoch: 0,    //x
+      epoch: 0,   
       new_epoch: 0,
       appointment: {
-        patient_id: '',  //x
-        patient_name: '', //x
-        phone_number: '', //x
-        procedure_id: "1",  //x
+        patient_id: '', 
+        patient_name: '', 
+        phone_number: '', 
+        procedure_id: "1",  
         doctor: '',
         reason: '',
-        status: 2, //x
-        time: 0  //x
+        status: 2, 
+        time: 0 
       }
     } as IEditAppointmentBody;
     this.minDate = new Date();
 
     this.isDisabled = (
       date: NgbDateStruct
-      //current: { day: number; month: number; year: number }
     ) => {
       return this.json.disabledDates.find(x =>
         (new NgbDate(x.year, x.month, x.day).equals(date))
@@ -396,7 +395,7 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     if (!checkPatient ) {
       return;
     }
-
+    return;
     this.APPOINTMENT_SERVICE.putAppointment(this.EDIT_APPOINTMENT_BODY, this.selectedAppointment.appointment_id).subscribe(response => {
       this.showSuccessToast('Sửa Lịch hẹn thành công!');
       window.location.reload();
