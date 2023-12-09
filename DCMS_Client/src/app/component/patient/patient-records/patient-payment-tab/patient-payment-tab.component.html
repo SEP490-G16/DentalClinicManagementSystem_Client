@@ -40,13 +40,13 @@
       </div>
       <div class="title-payment">
         <div>
-          <b>Tổng tiền điều trị: {{totalPaid.totalPrice}}</b>
+          <b>Tổng tiền điều trị: {{ formatCurrency(totalPaid.totalPrice) }}</b>
         </div>
         <div>
-          <b>Đã thu: {{totalPaid.totalPaid}}</b>
+          <b>Đã thu: {{formatCurrency(totalPaid.totalPaid)}}</b>
         </div>
         <div>
-          <b class="tong-no">Tổng nợ: {{totalPaid.remaining}}</b> 
+          <b class="tong-no">Tổng nợ: {{formatCurrency(totalPaid.remaining)}}</b> 
         </div>
       </div>
       <br>

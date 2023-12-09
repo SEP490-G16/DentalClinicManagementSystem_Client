@@ -567,7 +567,6 @@ table tbody td {
   height: 62vh !important;
   min-height: 100%;
   overflow-y: auto;
-  overflow-x: auto;
   border-radius: 10px;
   scrollbar-width: thin;
   scrollbar-color: #888 #f1f1f1;
@@ -591,11 +590,6 @@ table tbody td {
 .table-container::-webkit-scrollbar-thumb:hover {
   background: #8c8a8a;
 }
-
-/* table tbody tr td {
-  white-space: nowrap;
-  overflow: visible;
-} */
 
 table tbody .patient-id {
   width: 140px;

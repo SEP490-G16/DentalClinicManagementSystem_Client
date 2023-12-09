@@ -50,7 +50,7 @@ export class MaterialManagementComponent implements OnInit {
   }
 
   deleteMaterial(material: any) {
-    this.openConfirmationModal(`Bạn có muốn xóa bệnh nhân ${material.material_name} không?`).then((result) => {
+    this.openConfirmationModal(`Bạn có muốn xóa vật liệu ${material.material_name} không?`).then((result) => {
       if (result === true) {
         this.materialService.deleteMaterial(material.material_id).subscribe((res: any) => {
           this.materials = this.materials.filter((m: any) => m.material_id !== material.material_id);

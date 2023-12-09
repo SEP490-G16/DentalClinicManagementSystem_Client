@@ -47,7 +47,6 @@ export class PatientPaymentTabComponent implements OnInit {
     private modalService: NgbModal,
     private toastr: ToastrService) {
     this.currentDate = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
-
   }
 
   ngOnInit(): void {
@@ -70,7 +69,10 @@ export class PatientPaymentTabComponent implements OnInit {
       this.patientName = this.name.patient_name;
     }
   }
-
+  formatCurrency(value: number): string {
+    return value.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+  }
+  
   getMaterialUsageReport(startDATE: number, endDATE: number) {
     this.materialUsageService.getMaterialUsagePatientReport(this.Patient_Id)
       .subscribe((res: any) => {

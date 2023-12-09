@@ -215,7 +215,6 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     this.treatmentCourseService.getTreatmentCourse(this.id)
       .subscribe((data) => {
         this.ITreatmentCourse = data;
-        console.log("Treatment course: ", this.ITreatmentCourse);
         this.ITreatmentCourse.forEach((course: any) => {
           this.collapsedStates[course.treatment_course_id] = true; // Khởi tạo trạng thái collapsed
         });

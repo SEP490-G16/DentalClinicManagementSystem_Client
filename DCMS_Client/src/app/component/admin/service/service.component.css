@@ -8,10 +8,6 @@
   box-sizing: border-box;
 }
 
-.sep-recent-orders .row {
-  /*margin-top: 1.5%;*/
-}
-
 .button-add {
   font-family: "Poppins", sans-serif;
   background: #664FC3;
@@ -36,7 +32,6 @@
 
 .table__header {
   width: 100%;
-  background-color: #fff4;
   display: flex;
   justify-content: center;
   align-items: center;
