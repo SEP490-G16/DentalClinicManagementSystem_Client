@@ -80,11 +80,13 @@ export class DataService {
     UpdatePatientExaminate(param:any, total:any): void {
         const currentData = this.ANALYSES.getValue();
         if (param == 0) {
-            const newData = {
-                ...currentData,
-                total_patient_examinate: currentData.total_patient_examinate - 1
-            };
-            this.updateAnalysesData(newData);
+            if (currentData.total_patient_examinate > 0) {
+                const newData = {
+                    ...currentData,
+                    total_patient_examinate: currentData.total_patient_examinate - 1
+                };
+                this.updateAnalysesData(newData);
+            }
         } else if (param == 1) {
             const currentData = this.ANALYSES.getValue();
             const newData = {
@@ -104,16 +106,23 @@ export class DataService {
     UpdatePatientExaminated(param:any, total:any): void {
         const currentData = this.ANALYSES.getValue();
         if (param == 0) {
-            const newData = {
-                ...currentData,
-                total_patient_examinated: currentData.total_patient_examinated - 1
-            };
-            this.updateAnalysesData(newData);
+            if (currentData.total_patient_examinated > 0) {
+                const newData = {
+                    ...currentData,
+                    total_patient_examinated: currentData.total_patient_examinated - 1
+                };
+                this.updateAnalysesData(newData);
+            }
         } else if (param == 1) {
             const currentData = this.ANALYSES.getValue();
+            var check;
+            const checkTotal = localStorage.getItem('patient_examinated');
+            if (checkTotal != null) {
+                check = JSON.parse(checkTotal);
+            }
             const newData = {
                 ...currentData,
-                total_patient_examinated: currentData.total_patient_examinated + 1
+                total_patient_examinated: check.total
             };
             this.updateAnalysesData(newData);
         } else {

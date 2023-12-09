@@ -120,7 +120,8 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
   analyses = {
     total_appointment: 0,
     total_waiting_room: 0,
-    total_patient_examinate: 0
+    total_patient_examinate: 0,
+    total_patient_examinated: 0
   }
 
   ngOnInit(): void {
@@ -142,8 +143,8 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
     let userGroups = sessionStorage.getItem('userGroups');
     this.userGroupString = userGroups || '';
 
-    this.compareUserGroup = '["dev-dcms-admin"]';
-    console.log("Layout: ", this.userGroupString);
+    //this.compareUserGroup = '["dev-dcms-admin"]';
+    //console.log("Layout: ", this.userGroupString);
 
     let ro = sessionStorage.getItem('role');
     if (ro != null) {
@@ -167,7 +168,6 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
     }
 
     this.getDataAnalysis();
-    //console.log("check analysis", this.analyses);
     this.dataService.dataAn$.subscribe((data) => {
       this.analyses = data;
     })
@@ -175,6 +175,8 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
 
   searchTimeout: any;
   getDataAnalysis() {
+    const now = new Date();
+    const currentDate = now.getFullYear()+ '-'+(now.getMonth()+1)+'-'+now.getDate();
     this.waitingRoomService.getWaitingRooms().subscribe((data) => {
       const listWatingRoom = data;
       var count = 0;
@@ -186,6 +188,31 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
         }
       })
       this.analyses.total_patient_examinate = count;
+      const checkTotal = localStorage.getItem('patient_examinated');
+      console.log("checkTotal", checkTotal);
+      if (checkTotal != null) {
+        //console.log("check 1", checkTotal);
+        const check = JSON.parse(checkTotal);
+        //console.log("check josn parse", check);
+        //console.log("check total", check.total);
+        //console.log("currentdate", check.currentDate);
+        this.analyses.total_patient_examinated = check.total;
+        if (check.currentDate != currentDate) {
+          this.analyses.total_patient_examinated = 0;
+          let ob = {
+            total: 0, 
+            currentDate: currentDate
+          }
+          localStorage.setItem('patient_examinated', JSON.stringify(ob));
+        } 
+      } else {
+        //console.log("check 3");
+        let ob = {
+          total: 0, 
+          currentDate: currentDate
+        }
+        localStorage.setItem('patient_examinated', JSON.stringify(ob));
+      }
     })
 
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
@@ -196,11 +223,6 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
       console.log("check appointment", this.appointmentList.length);
       this.analyses.total_appointment = this.appointmentList.length;
     })
-
-    // this.patientService.getPatientTotal().subscribe((data) => {
-    //   console.log("check patient", data.data[0].total)
-    //   this.analyses.total_patient_examinate = data.data[0].total;
-    // })    
   }
 
   togglePopup(event: MouseEvent): void {

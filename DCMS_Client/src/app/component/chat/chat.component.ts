@@ -132,6 +132,8 @@ export class ChatComponent implements OnInit, OnDestroy {
             this.dataService.UpdatePatientTotal(1, 0);
           } else if (check[2] == 'wtr1') {
             this.dataService.UpdatePatientExaminate(1, 0);
+          } else if (check[2] == 'wtr2') {
+            this.dataService.UpdatePatientExaminated(1, 0);
           }
         }
         else if (check[1] == 'minus') {

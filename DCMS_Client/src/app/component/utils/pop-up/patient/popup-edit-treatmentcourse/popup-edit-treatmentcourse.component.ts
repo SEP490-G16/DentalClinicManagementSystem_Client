@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges, AfterViewInit  } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/TreatmentCourse.service';
 import {ResponseHandler} from "../../../libs/ResponseHandler";
@@ -84,8 +84,6 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
     }
   }
 
-
-
   getMedicalProcedureList() {
     this.list.splice(0, this.list.length)
     this.medicalProcedureGroupService.getMedicalProcedureGroupListandDetail().subscribe(data => {
@@ -99,7 +97,7 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
             procedureName: currentO.mp_name,
             initPrice: currentO.mp_price,
             price: currentO.mp_price,
-            quantity: '0',
+            quantity: '1',
             laboId: '0',
             checked: false,
             isExpand: false,
@@ -121,7 +119,7 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
             procedureName: '',
             initPrice: '',
             price: '',
-            quantity: '0',
+            quantity: '1',
             laboId: '0',
             checked: true,
             isExpand: false
@@ -151,6 +149,9 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
 
   chechChange: boolean = false;
   ngOnChanges(changes: SimpleChanges): void {
+    this.recordsMedicine.splice(0, this.recordsMedicine.length);
+    this.listMaterialUsage.splice(0, this.listMaterialUsage.length);
+    //this.getMedicalProcedureList();
     if (changes['TreatmentCourse'].currentValue != undefined) {
       this.Edit_TreatmentCourse = {
         treatment_course_id: this.TreatmentCourse.treatment_course_id,
@@ -164,6 +165,7 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
         prescription: JSON.parse(this.TreatmentCourse.prescription)
       }
     }
+    this.getListMaterialusage();
     if (this.Edit_TreatmentCourse.prescription.length > 0) {
       this.showPrescriptionContent = true;
       this.Edit_TreatmentCourse.prescription.forEach((item:any) => {
@@ -178,23 +180,21 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
       })
     })
     }
-    
+  }
+
+  getListMaterialusage() {
     this.materialUsageService.getMaterialUsage_By_TreatmentCourse(this.Edit_TreatmentCourse.treatment_course_id).subscribe((data) => {
       this.listData = data.data;
       this.listData.forEach((item: any) => {
-        console.log("check list", this.listData)
         if (item.medical_procedure_id != null) {
-          let precedureO = {
-            procedure_id: item.medical_procedure_id,
-            price: item.price
-          }
           this.list.forEach((ite: any) => {
             ite.procedure.forEach((pro: any) => {
               if (pro.procedureId == item.medical_procedure_id) {
                 ite.checked = true;
                 pro.checked = true;
-                pro.price = item.price;
+                pro.price = item.price / item.quantity;
                 pro.quantity = item.quantity;
+                pro.laboId = item.description;
                 let materialUsage = {
                   material_usage_id: item.material_usage_id,
                   medical_procedure_id: item.medical_procedure_id,
@@ -202,7 +202,7 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
                   quantity: item.quantity,
                   price: item.price,
                   total_paid: item.total_paid,
-                  description: ''
+                  description: item.description
                 }
                 this.Post_Procedure_Material_Usage.push(materialUsage);
                 materialUsage = {
@@ -217,14 +217,14 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
               }
             })
           })
-          console.log("check list material", this.list)
         }
 
         if (item.material_warehouse_id != null) {
           this.unique.push(item.material_warehouse_id);
           this.results.forEach((it: any) => {
-            if (it.material_warehouse_id == item.item.material_warehouse_id) {
+            if (it.id == item.material_warehouse_id) {
               this.listMaterialUsage.push({
+                material_usage_id: item.material_usage_id,
                 material_warehouse_id: item.material_warehouse_id,
                 treatment_course_id: item.treatment_course_id,
                 examination_id: '',
@@ -254,14 +254,14 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
   checkProcedureUse(it:any) {
     this.list.forEach((item:any) => {
       item.procedure.forEach((pro:any) => {
-        // if (pro.procedureId == it.procedureId) {
-        //   pro.checked = !it.checked;
-        //   this.Post_Procedure_Material_Usage.forEach((item:any) => {
-        //     if (item.medical_procedure_id == it.procedureId) {
-        //       item.price = it.price;
-        //     }
-        //   })
-        // }
+        if (pro.procedureId == it.procedureId) {
+          pro.checked = !it.checked;
+          this.Post_Procedure_Material_Usage.forEach((item:any) => {
+            if (item.medical_procedure_id == it.procedureId) {
+              item.price = it.price;
+            }
+          })
+        }
         if (pro.checked == true && !this.checkListImport.includes(it.procedureId)) {
           this.checkListImport.push(it.procedureId);
           let materialUsage = {
@@ -269,9 +269,8 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
             treatment_course_id: '',
             quantity: it.quantity,
             price: it.price,
-            laboId: it.laboId,
             total_paid: '',
-            description: ''
+            description: it.laboId
           }
           this.Post_Procedure_Material_Usage_New.push(materialUsage);
           materialUsage = {
@@ -279,7 +278,6 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
             treatment_course_id: '',
             quantity: '',
             price: '',
-            laboId: '0',
             total_paid: '',
             description: ''
           }
@@ -300,14 +298,12 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
     this.Post_Procedure_Material_Usage.forEach((item:any) => {
       if (item.medical_procedure_id == gro.procedureId) {
         item.price = event.target.value;
-        console.log(item.price);
       }
     })
 
     this.Post_Procedure_Material_Usage_New.forEach((item:any) => {
       if (item.medical_procedure_id == gro.procedureId) {
         item.price = event.target.value;
-        console.log(item.price);
       }
     })
   }
@@ -326,13 +322,26 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
     })
   }
 
+  changeLabo(gro:any) {
+    this.Post_Procedure_Material_Usage.forEach((item:any) => {
+      if (item.medical_procedure_id == gro.procedureId) {
+        item.description = gro.laboId;
+      }
+    })
+
+    this.Post_Procedure_Material_Usage_New.forEach((item:any) => {
+      if (item.medical_procedure_id == gro.procedureId) {
+        item.description = gro.laboId;
+      }
+    })
+  }
+
   listData: any[] = [];
   listDisplay: any[] = [];
   listUpdateMaterial: any[] = [];
 
   editTreatmentCourse() {
     this.Edit_TreatmentCourse.prescription = JSON.stringify(this.Edit_TreatmentCourse.prescription);
-    //this.Edit_TreatmentCourse.prescription= '';
     this.treatmentCourseService.putTreatmentCourse(this.Edit_TreatmentCourse.treatment_course_id, this.Edit_TreatmentCourse)
     .subscribe((res) => {
       if (this.Post_Procedure_Material_Usage_New.length > 0) {
@@ -399,6 +408,7 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
       }
 
       this.toastr.success(res.message, "Sửa Lịch trình điều trị");
+      alert('');
       window.location.reload();
     },
     (error) => {
@@ -570,6 +580,16 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
           }
         }
       }
+      const transformedMaterialList = this.results.map((item: any) =>{
+        return{
+          id:item.material_warehouse_id,
+          materialName: item.materialName,
+          materialId:item.materialId,
+          quantity:item.quantity,
+          unitPrice:item.unitPrice
+        }
+      })
+      this.results = transformedMaterialList;
     })
   }
 
@@ -579,8 +599,8 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
   unique: string[] = [];
   updateTemporaryNameMaterial() {
     this.results.forEach((item:any) => {
-      if (item.material_warehouse_id == this.material_warehouse_id && !this.unique.includes(this.material_warehouse_id)) {
-        this.unique.push(item.material_warehouse_id);
+      if (item.id == this.material_warehouse_id && !this.unique.includes(this.material_warehouse_id)) {
+        this.unique.push(item.id);
         this.listMaterialUsage.push({
           material_warehouse_id: item.material_warehouse_id,
           treatment_course_id: '',
