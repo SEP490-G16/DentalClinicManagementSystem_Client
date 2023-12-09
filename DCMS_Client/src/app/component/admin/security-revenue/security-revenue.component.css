@@ -1,0 +1,52 @@
+.sep-recent-orders {
+  display: flex; /* Sử dụng Flexbox */
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  width: 100%; /* Chiều rộng bằng với viewport */
+  text-align: center; /* Đảm bảo văn bản cũng được căn giữa */
+  background: #fff; /* Màu nền cho container */
+}
+.otp-container {
+  width: 100%; /* Hoặc chiều rộng cố định tùy ý bạn */
+  margin: auto; /* Căn giữa container trong .sep-recent-orders */
+  padding: 20px;
+  border-radius: 10px; /* Làm tròn các góc */
+
+}
+h2 {
+  text-align: center;
+  color: #333;
+}
+
+.otp-inputs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.confirm-password{
+  display: flex;
+  justify-content: center;
+}
+.submitOTP{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.submitOTP div{
+  margin-left: 10px;
+}
+.otp-inputs input{
+  width: 50%;
+}
+.button-add {
+  font-family: Tahoma, sans-serif;
+  background: #664FC3;
+  text-align: center;
+  cursor: pointer;
+  border: 0px solid white;
+  color: white;
+  font-weight: bold;
+  outline: 0px;
+  padding: 10px 20px;
+}
