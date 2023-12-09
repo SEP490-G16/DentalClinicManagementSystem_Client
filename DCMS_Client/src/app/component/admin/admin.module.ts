@@ -104,6 +104,8 @@ import {
 } from "../receptionist/receptionist-waiting-room/popup-add-waitingroom-new-patient/popup-add-waitingroom-new-patient.component";
 import { MaterialManagementComponent } from './material-management/material-management.component';
 import { PopupEditMaterialRealComponent } from '../utils/pop-up/material/popup-edit-material-real/popup-edit-material-real.component';
+import { SecurityRevenueComponent } from './security-revenue/security-revenue.component';
+import { SubmitOtpComponent } from './submit-otp/submit-otp.component';
 
 @NgModule({
   declarations: [
@@ -189,7 +191,9 @@ import { PopupEditMaterialRealComponent } from '../utils/pop-up/material/popup-e
     PopupAddWaitingroomNewPatientComponent,
     MaterialManagementComponent,
     PopupEditMaterialRealComponent,
-    RegisterWorkScheduleComponent
+    RegisterWorkScheduleComponent,
+    SecurityRevenueComponent,
+    SubmitOtpComponent
   ],
   imports: [
     CommonModule,

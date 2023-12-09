@@ -1,0 +1,35 @@
+<div class="sep-recent-orders mt-4">
+  <div class="otp-container">
+    <div class="otp-inputs">
+      <div class="title">
+        <label>Nhập mã OTP: </label>
+      </div>
+      <div class="input-password">
+        <input type="password" class="form-control">
+      </div>
+    </div>
+    <div class="otp-inputs">
+      <div class="title">
+        <label>Nhập mật khẩu mới: </label>
+      </div>
+      <div class="input-password">
+        <input [type]="showPassword ? 'password' : 'text'" type="password" class="form-control">
+        <span class="password-toggle-icon" (click)="togglePassword()"><i class="bi" [ngClass]="{'bi-eye-fill': showPassword, 'bi-eye-slash-fill': !showPassword}"></i></span>
+      </div>
+    </div>
+    <div class="otp-inputs">
+      <div class="title">
+        <label>Xác nhận mật khẩu: </label>
+      </div>
+      <div class="input-password">
+        <input [type]="showPasswordConfirm ? 'password' : 'text'" type="password" class="form-control">
+        <span class="password-toggle-icon" (click)="togglePasswordConfirm()"><i class="bi" [ngClass]="{'bi-eye-fill': showPasswordConfirm, 'bi-eye-slash-fill': !showPasswordConfirm}"></i></span>
+
+      </div>
+    </div>
+    <div class="confirm-password">
+      <button class="btn button-add" (click)="backToRevenue()">Xác nhận</button>
+    </div>
+
+  </div>
+</div>
