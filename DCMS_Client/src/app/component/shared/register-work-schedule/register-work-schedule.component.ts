@@ -3,7 +3,7 @@ import 'moment/locale/vi';
 import { TimestampFormat } from './../../utils/libs/timestampFormat';
 import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbDateStruct, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import { ReceptionistTimekeepingService } from "src/app/service/ReceptionistService/receptionist-timekeeping.service";
 import { CognitoService } from "src/app/service/cognito.service";
@@ -18,6 +18,7 @@ import { ConfirmDeleteModalComponent } from '../../utils/pop-up/common/confirm-d
   styleUrls: ['./register-work-schedule.component.css'],
 })
 export class RegisterWorkScheduleComponent implements OnInit {
+  @ViewChild('addEventModal', { static: true }) addEventModal!: TemplateRef<any>;
   @ViewChild('modalContent', { static: true }) modalContent!: TemplateRef<any>;
   Staffs: StaffRegisterWorkSchedule[] = [];
   registerWorkSchedule: any[] = [];
@@ -39,6 +40,12 @@ export class RegisterWorkScheduleComponent implements OnInit {
   morningShiftStart!: moment.Moment;
   afternoonShiftStart!: moment.Moment;
   afternoonShiftEnd!: moment.Moment;
+
+
+  addStartDateNgb!: NgbDateStruct;
+  addEndDateNgb!: NgbDateStruct;
+  minDate: any;
+  maxDate: any;
 
   constructor(private modal: NgbModal,
     private cognitoService: CognitoService,
@@ -68,6 +75,10 @@ export class RegisterWorkScheduleComponent implements OnInit {
     const endDateFormatted = moment.unix(this.endDateTimestamp).format('DD/MM/YYYY');
     this.viewDate = `Tuần từ ${startDateFormatted} đến ${endDateFormatted}`;
 
+    this.addStartDateNgb = this.convertTimestampToNgbDateStruct(this.startDateTimestamp);
+    this.addEndDateNgb = this.convertTimestampToNgbDateStruct(this.endDateTimestamp);
+    this.minDate = this.addStartDateNgb;
+    this.maxDate = this.addEndDateNgb;
   }
 
   ngOnInit(): void {
@@ -85,6 +96,15 @@ export class RegisterWorkScheduleComponent implements OnInit {
     }
     this.getStaffs();
 
+  }
+
+  convertTimestampToNgbDateStruct(timestamp: number): NgbDateStruct {
+    const date = moment.unix(timestamp).tz('Asia/Ho_Chi_Minh');
+    return {
+      year: date.year(),
+      month: date.month() + 1,
+      day: date.date()
+    };
   }
 
   getStaffs() {
@@ -174,10 +194,10 @@ export class RegisterWorkScheduleComponent implements OnInit {
                   staff.clock_in = (record.clock_in !== undefined) ? record.clock_in : 0;
                   staff.clock_out = (record.clock_out !== undefined) ? record.clock_out : 0;
                   staff.registerSchedules[weekTimestamp].startTime =
-                    (record.register_clock_in !== undefined && record.register_clock_in !== '0') ? record.register_clock_in : '';
+                    (record.register_clock_in !== undefined && record.register_clock_in !== '0') ? this.convertTimestampToGMT7String(record.register_clock_in) : '';
                   staff.registerSchedules[weekTimestamp].endTime =
                     (record.register_clock_out !== undefined && record.register_clock_out !== '0')
-                      ? record.register_clock_out
+                      ? this.convertTimestampToGMT7String(record.register_clock_out)
                       : '';
                   staff.epoch = record.epoch;
 
@@ -220,16 +240,28 @@ export class RegisterWorkScheduleComponent implements OnInit {
     });
   }
 
-  isMorningShift(startTime: string): boolean {
+  isMorningShift(startTime?: string): boolean {
+    if (!startTime) {
+      return false;
+    }
     const shiftStart = moment('07:30', 'HH:mm');
+    const shiftEnd = moment('12:00', 'HH:mm');
     const time = moment(startTime, 'HH:mm');
-    return time.isSame(shiftStart);
+    return time.isBetween(shiftStart, shiftEnd, 'minutes', '[)');
   }
 
-  isAfternoonShift(startTime: string): boolean {
+  isAfternoonShift(startTime?: string): boolean {
+    if (!startTime) {
+      return false;
+    }
     const shiftStart = moment('12:50', 'HH:mm');
     const time = moment(startTime, 'HH:mm');
-    return time.isSame(shiftStart);
+    return time.isSameOrAfter(shiftStart);
+  }
+
+
+  openAddModal() {
+    this.modal.open(this.addEventModal, { size: 'lg' });
   }
 
   newEventStart: string = "";
@@ -244,7 +276,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
       const startTimestamp = TimestampFormat.timeAndDateToTimestamp(startTime, startDate);
       const endTimestamp = TimestampFormat.timeAndDateToTimestamp(endTime, endDate);
       const RequestBody: RequestBodyTimekeeping = {
-        epoch: 0,
+        epoch: startTimestamp,
         sub_id: this.UserObj.subId,
         staff_name: this.UserObj.username,
         staff_avt: "",
@@ -274,6 +306,8 @@ export class RegisterWorkScheduleComponent implements OnInit {
     this.modal.open(this.modalContent, { size: 'lg' });
   }
 
+  editStartDate: string = "";
+  editEndDate: string = "";
   editEvent(): void {
 
     if (this.UserObj != null) {
@@ -335,6 +369,11 @@ export class RegisterWorkScheduleComponent implements OnInit {
     const dateTimeStr = `${dateStr} ${timeStr}`;
     const timestamp = moment.tz(dateTimeStr, format, timeZone).valueOf();
     return timestamp / 1000;
+  }
+
+  convertTimestampToGMT7String(timestamp: number): string {
+    const time = moment(timestamp * 1000).tz('Asia/Ho_Chi_Minh');
+    return time.format('HH:mm');
   }
 
 }

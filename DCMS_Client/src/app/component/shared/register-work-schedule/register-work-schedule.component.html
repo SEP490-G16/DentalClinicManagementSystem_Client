@@ -16,7 +16,7 @@
   </div>
   <div class="row">
     <div class="col-3">
-      <button class="register-button">Đăng Ký Lịch Làm Việc</button>
+      <button class="register-button" (click)="openAddModal()">Đăng Ký Lịch Làm Việc</button>
     </div>
   </div>
 
@@ -45,8 +45,8 @@
         <th>SÁNG</th>
         <td *ngFor="let timestamp of weekTimestamps">
           <ng-container *ngFor="let staff of Staffs">
-            <span *ngIf="isMorningShift(staff.registerSchedules[timestamp].startTime)">
-              {{ staff.name }}
+            <span *ngIf="isMorningShift(staff.registerSchedules[timestamp]?.startTime)">
+              {{ staff.name }} - {{staff.role}}
             </span>
           </ng-container>
         </td>
@@ -56,8 +56,8 @@
         <th>CHIỀU</th>
         <td *ngFor="let timestamp of weekTimestamps">
           <ng-container *ngFor="let staff of Staffs">
-            <span *ngIf="isAfternoonShift(staff.registerSchedules[timestamp].startTime)">
-              {{ staff.name }}
+            <span *ngIf="isAfternoonShift(staff.registerSchedules[timestamp]?.startTime)">
+              {{ staff.name }} - {{staff.role}}
             </span>
           </ng-container>
         </td>
@@ -74,25 +74,41 @@
     </div>
     <div class="modal-body">
       <div class="row">
-        <div class="col-12">
+        <div class="col-6">
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Thời gian bắt đầu</label>
-            <input type="datetime-local" class="form-control" [(ngModel)]="newEventStart"
-              placeholder="Thời gian bắt đầu">
-
+            <form class="row row-cols-sm-auto">
+              <div class="input-group">
+                <input class="form-control" placeholder="dd/mm/yyyy" name="dp" ngbDatepicker #startDp="ngbDatepicker"
+                  [minDate]="minDate" [maxDate]="maxDate" [(ngModel)]="addStartDateNgb" [readonly]="true" />
+                <button class="btn btn-outline-secondary" (click)="startDp.toggle()" type="button"></button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Thời gian kết thúc</label>
+            <form class="row row-cols-sm-auto">
+              <div class="input-group">
+                <input class="form-control" placeholder="dd/mm/yyyy" name="dp" ngbDatepicker #endDp="ngbDatepicker"
+                  [minDate]="minDate" [maxDate]="maxDate" [(ngModel)]="addEndDateNgb" [readonly]="true" />
+                <button class="btn btn-outline-secondary" (click)="endDp.toggle()" type="button"></button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
 
       <div class="row">
-        <div class="col-12">
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Thời gian kết thúc</label>
-            <input type="datetime-local" class="form-control" [(ngModel)]="newEventEnd"
-              placeholder="Thời gian kết thúc">
-          </div>
+        <div class="col-6">
+          <button class="btn btn-secondary">Ca sáng</button>
+        </div>
+        <div class="col-6">
+          <button class="btn btn-secondary">Ca tối</button>
         </div>
       </div>
+
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Hủy</button>
@@ -110,24 +126,32 @@
     <div class="modal-body">
 
       <div class="row">
-        <div class="col-12">
+        <div class="col-6">
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Thời gian bắt đầu</label>
-            <input type="datetime-local"  class="form-control" id="exampleInputEmail1"
+            <input type="date" [(ngModel)]="editStartDate" class="form-control" id="exampleInputEmail1"
+              aria-describedby="emailHelp">
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Thời gian kết thúc</label>
+            <input type="date" [(ngModel)]="editEndDate" class="form-control" id="exampleInputEmail1"
               aria-describedby="emailHelp">
           </div>
         </div>
       </div>
 
       <div class="row">
-        <div class="col-12">
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Thời gian kết thúc</label>
-            <input type="datetime-local" class="form-control" id="exampleInputEmail1"
-              aria-describedby="emailHelp">
-          </div>
+        <div class="col-6">
+          <button class="btn">Ca sáng</button>
+        </div>
+        <div class="col-6">
+          <button class="btn">Ca tối</button>
         </div>
       </div>
+
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" (click)="cancelEdit()">
