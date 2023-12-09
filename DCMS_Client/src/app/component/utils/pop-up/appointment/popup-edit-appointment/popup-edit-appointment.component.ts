@@ -34,8 +34,14 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
   @Input() timeString: any;
   @Input() filteredAppointments: any;
 
-  @Input() datesDisabled: any;
-
+  //@Input() datesDisabled: any;
+  datesDisabled: any[] = [];
+  listDate: any[] = [];
+  dateDis = {
+    date: 0,
+    procedure: '',
+    count: 0,
+  }
   isDatepickerOpened: boolean = false;
   EDIT_APPOINTMENT_BODY: IEditAppointmentBody
 
@@ -315,6 +321,23 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     const currentDate = moment().format('YYYY-MM-DD');
     let procedureNameSelected;
     if (this.EDIT_APPOINTMENT_BODY.appointment.procedure_id != "1") {
+      this.APPOINTMENT_SERVICE.getAppointmentList(this.dateToTimestamp(selectedDate + " 00:00:00"), this.dateToTimestamp(selectedDate + " 23:59:59")).subscribe(data => {
+        this.appointmentList = ConvertJson.processApiResponse(data);
+        this.listDate = this.appointmentList;
+        this.listDate.forEach((a: any) => {
+          a.appointments.forEach((b: any) => {
+            this.dateDis.date = a.date;
+            this.dateDis.procedure = b.procedure_id;
+            this.dateDis.count = b.count;
+            this.datesDisabled.push(this.dateDis);
+            this.dateDis = {
+              date: 0,
+              procedure: '',
+              count: 0,
+            }
+          })
+        })
+      })
       this.datesDisabled.forEach((date: any) => {
         this.listGroupService.forEach((it:any) => {
           if (this.timestampToDate(date.date) == selectedDate && this.EDIT_APPOINTMENT_BODY.appointment.procedure_id == date.procedure && it.medical_procedure_group_id == this.EDIT_APPOINTMENT_BODY.appointment.procedure_id && it.name == 'Điều trị tủy răng') {

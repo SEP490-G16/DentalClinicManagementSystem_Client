@@ -69,14 +69,14 @@
             <ng-container *ngIf="timestamp === currentDateTimeStamp">
               <td>
                 <!-- [disabled]="staff.isClockin" -->
-                <button class="button-timekeeping" (click)="onClockin(staff)">
+                <button class="button-timekeeping" (click)="onClockin(staff, timestamp)">
                   {{ staff.clockInStatus }}
                 </button> <br />
                 <input type="time" [ngModel]="staff.weekTimekeeping[timestamp]?.clockIn" [class]="timeClockinColor"
                   [disabled]="!staff.isClockin || roleId!= '1'" (change)="handleClockInChange(staff, $event)">
               </td>
               <td>
-                <button class="button-timekeeping" (click)="onClockout(staff)">
+                <button class="button-timekeeping" (click)="onClockout(staff, timestamp)">
                   {{ staff.clockOutStatus }}
                 </button> <br />
                 <input type="time" [class]="timeClockoutColor" [(ngModel)]="staff.weekTimekeeping[timestamp].clockOut"

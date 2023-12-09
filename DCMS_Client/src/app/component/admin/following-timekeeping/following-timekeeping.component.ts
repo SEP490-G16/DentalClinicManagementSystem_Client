@@ -45,7 +45,7 @@ export class FollowingTimekeepingComponent implements OnInit {
     const daysInMonth = new Date(current.getFullYear(), (current.getMonth() + 1), 0).getDate();
     this.totalDate = daysInMonth + '';
     console.log("Check dates",this.totalDate);
-    const frDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + current.getDay();
+    const frDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + 1;
     const tDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + daysInMonth;
     this.setDefaultMonth();
     this.getDateinFromDatetoToDate(frDate, tDate);
@@ -161,8 +161,6 @@ export class FollowingTimekeepingComponent implements OnInit {
       const daysInMonth = new Date(current.getFullYear(), (current.getMonth() + 1), 0).getDate();
       this.totalDate = daysInMonth + '';
       console.log("Check dates",this.totalDate);
-      //const frDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + current.getDate();
-      //const tDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + daysInMonth;
       const frDate = current.getFullYear() + "-" + (current.getMonth() + 1).toString().padStart(2, '0') + "-01";
       const tDate = current.getFullYear() + "-" + (current.getMonth() + 1).toString().padStart(2, '0') + "-" + daysInMonth.toString().padStart(2, '0');
       this.getDateinFromDatetoToDate(frDate, tDate);

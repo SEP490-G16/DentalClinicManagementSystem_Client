@@ -39,6 +39,13 @@ export class PopupAddAppointmentNewComponent implements OnInit {
   isAdd: boolean = false;
   isSubmittedPatient: boolean = false;
   loading: boolean = false;
+  datesDisabled: any[] = [];
+  listDate: any[] = [];
+  dateDis = {
+    date: 0,
+    procedure: '',
+    count: 0,
+  }
   patient1: any = {
     patientName: '',
     Email: '',
@@ -68,7 +75,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
     dob: '',
     email: ''
   }
-  @Input() datesDisabled: any;
+  //@Input() datesDisabled: any;
   @Input() filteredAppointments: any
 
   @Output() newItemEvent = new EventEmitter<any>();
@@ -102,14 +109,8 @@ export class PopupAddAppointmentNewComponent implements OnInit {
   minTime: string;
   constructor(private APPOINTMENT_SERVICE: ReceptionistAppointmentService,
               private PATIENT_SERVICE: PatientService,
-              private renderer: Renderer2,
               private toastr: ToastrService,
-              private router: Router,
-              private config: NgbDatepickerConfig,
               private calendar: NgbCalendar,
-              private cognito: CognitoService,
-              private timeKeepingService: TimeKeepingService,
-              private medicaoProcedureGroupService: MedicalProcedureGroupService,
               private sendMessageSocket: SendMessageSocket
   ) {
     this.isDisabled = (
@@ -232,23 +233,6 @@ export class PopupAddAppointmentNewComponent implements OnInit {
     var dateTime = date + ' ' + time;
   }
 
-  doctorObject = {
-    sub_id: '',
-    doctorName: '',
-    phoneNumber: '',
-    roleId: '',
-    zoneInfo: ''
-  }
-
-  listDoctor: any[] = [];
-  listDoctorDisplay: any[] = [];
-  getListDoctor() {
-    const storeList = localStorage.getItem("listDoctor");
-    if (storeList != null) {
-      this.listDoctorDisplay = JSON.parse(storeList);
-    }
-  }
-
   private isVietnamesePhoneNumber(number: string): boolean {
     return /^(\+84|84|0)?[1-9]\d{8}$/
       .test(number);
@@ -279,19 +263,6 @@ export class PopupAddAppointmentNewComponent implements OnInit {
         localStorage.setItem("listSearchPatient", JSON.stringify(this.patientList));
       });
     }, 500);
-  }
-
-
-  selectedDoctor: any = null;
-  selectDoctor(doctor: any) {
-    if (doctor.doctorName == this.selectedDoctor) {
-      this.selectedDoctor = "";
-      this.AppointmentBody.appointment.doctor = "";
-    } else {
-      this.selectedDoctor = doctor.doctorName;
-      this.AppointmentBody.appointment.doctor = doctor.doctorName;
-    }
-
   }
 
   appointmentDate: string = '';
@@ -357,6 +328,23 @@ export class PopupAddAppointmentNewComponent implements OnInit {
 
     let procedureNameSelected;
     if (this.procedure != "1") {
+      this.APPOINTMENT_SERVICE.getAppointmentList(this.dateToTimestamp(selectedDate + " 00:00:00"), this.dateToTimestamp(selectedDate + " 23:59:59")).subscribe(data => {
+        this.appointmentList = ConvertJson.processApiResponse(data);
+        this.listDate = this.appointmentList;
+        this.listDate.forEach((a: any) => {
+          a.appointments.forEach((b: any) => {
+            this.dateDis.date = a.date;
+            this.dateDis.procedure = b.procedure_id;
+            this.dateDis.count = b.count;
+            this.datesDisabled.push(this.dateDis);
+            this.dateDis = {
+              date: 0,
+              procedure: '',
+              count: 0,
+            }
+          })
+        })
+      })
       this.datesDisabled.forEach((date: any) => {
         this.listGroupService.forEach((it: any) => {
           if (this.timestampToDate(date.date) == selectedDate && this.procedure == date.procedure && it.medical_procedure_group_id == this.procedure && it.name == 'Điều trị tủy răng') {

@@ -127,11 +127,11 @@
 
 </script>
 
-<app-popup-add-appointment [datesDisabled]="datesDisabled"
+<app-popup-add-appointment
   (newAppointmentAdded)="onNewAppointmentAdded($event)"
   [filteredAppointments]="filteredAppointments"></app-popup-add-appointment>
-<app-popup-edit-appointment [datesDisabled]="datesDisabled" [selectedAppointment]="selectedAppointment"
+<app-popup-edit-appointment [selectedAppointment]="selectedAppointment"
   [dateString]="dateString" [timeString]="timeString"
   [filteredAppointments]="filteredAppointments"></app-popup-edit-appointment>
-<app-popup-add-appointment-new [datesDisabled]="datesDisabled"
+<app-popup-add-appointment-new 
                            [filteredAppointments]="filteredAppointments" (newAppointmentAdded)="onNewAppointmentAdded($event)"></app-popup-add-appointment-new>

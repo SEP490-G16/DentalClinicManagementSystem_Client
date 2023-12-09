@@ -234,7 +234,13 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     }
   }
 
-  onClockin(staff: StaffTimekeeping) {
+  onClockin(staff: StaffTimekeeping, timestamp:any) {
+    this.StaffFilter.forEach((item:any) => {
+      if (staff.sub == item.sub) {
+        item.clockInStatus = "Đã chấm";
+        item.weekTimekeeping[`${timestamp}`].clockIn = (item.clock_in == "") ? this.currentTimeTimeStamp : this.timeAndDateToTimestamp(item.clock_in, this.currentDateGMT7);
+      }
+    })
     staff.clockInStatus = "Đã chấm";
     this.Body = this.setClockinBody(staff);
     this.callClockinApi(staff);
@@ -286,19 +292,25 @@ export class ReceptionistTimekeepingComponent implements OnInit {
         this.toastr.success(res.message, "Chấm công đến thành công");
         window.location.reload();
         //Update UI
-        if (staff.clock_in == "") {
-          staff.clock_in = this.currentTimeGMT7;
-        }
-        staff.isClockin = true;
-        staff.isClockout = false;
+        // if (staff.clock_in == "") {
+        //   staff.clock_in = this.currentTimeGMT7;
+        // }
+        // staff.isClockin = true;
+        // staff.isClockout = false;
       },
         (error) => {
           this.toastr.error("Không thể chấm công đến");
         });
   }
 
-  onClockout(staff: StaffTimekeeping) {
-    staff.clockOutStatus = "Đã chấm";
+  onClockout(staff: StaffTimekeeping, timestamp:any) {
+    this.StaffFilter.forEach((item:any) => {
+      if (staff.sub == item.sub) {
+        item.clockOutStatus = "Đã chấm";
+        item.weekTimekeeping[`${timestamp}`].clockOut = (item.clock_out == "") ? this.currentTimeTimeStamp : this.timeAndDateToTimestamp(item.clock_out, this.currentDateGMT7);
+      }
+    })
+    //staff.clockOutStatus = "Đã chấm";
     this.Body = this.setClockoutBody(staff);
     this.callClockoutApi(staff);
   }
@@ -336,12 +348,12 @@ export class ReceptionistTimekeepingComponent implements OnInit {
       .subscribe((res) => {
         this.toastr.success(res.message, "Chấm công về thành công");
         window.location.reload();
-        console.log(this.Body);
-        if (staff.clock_out == "") {
-          staff.clock_out = this.currentTimeGMT7;
-        }
-        staff.isClockout = true;
-        staff.isClockoutDisabled = false;
+        // console.log(this.Body);
+        // if (staff.clock_out == "") {
+        //   staff.clock_out = this.currentTimeGMT7;
+        // }
+        // staff.isClockout = true;
+        // staff.isClockoutDisabled = false;
       },
         (error) => {
           this.toastr.error("Không thể chấm công về");

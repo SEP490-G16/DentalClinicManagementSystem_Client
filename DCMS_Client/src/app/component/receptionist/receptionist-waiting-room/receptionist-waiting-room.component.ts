@@ -149,10 +149,10 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
     this.patient_Id = wtr.patient_id;
     this.loading = true;
     if (this.PUT_WAITINGROO.status_value == 4) {
-      const index = this.filteredWaitingRoomData.findIndex((item: any) => item.patient_id == this.PUT_WAITINGROO.patient_id);
-      if (index != -1) {
-        this.filteredWaitingRoomData.splice(index, 1);
-      }
+      // const index = this.filteredWaitingRoomData.findIndex((item) => item.patient_id == this.PUT_WAITINGROO.patient_id);
+      // if (index != -1) {
+      //   this.filteredWaitingRoomData.splice(index, 1);
+      // }
       this.listTemp = this.filteredWaitingRoomData;
       localStorage.setItem("ListPatientWaiting", JSON.stringify(this.filteredWaitingRoomData));
       localStorage.setItem('listPatientId', JSON.stringify(this.listTemp));
@@ -163,7 +163,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           this.showSuccessToast('Xóa hàng chờ thành công');
           this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "minus", "wtr1");
           this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "minus", "wtr");
-          this.getWaitingRoomData();
+          //this.getWaitingRoomData();
 
           this.messageContent = `CheckRealTimeWaitingRoom@@@,${wtr.patient_id},${Number('4')}`;
           this.messageBody = {
@@ -188,6 +188,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
       this.waitingRoomService.putWaitingRoom(this.PUT_WAITINGROO)
         .subscribe(data => {
           if (this.PUT_WAITINGROO.status_value == "2") {
+            this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "plus", "wtr1");
             const storeList = localStorage.getItem('ListPatientWaiting');
             let listWaiting;
             if (storeList != null) {
@@ -199,7 +200,6 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
                   item.appointment.status = "3";
                   this.appointmentService.putAppointment(item, this.PUT_WAITINGROO.appointment_id).subscribe((data) => {
                     this.showSuccessToast(`${item.appointment.patient_name} đang khám`);
-                    this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "plus", "wtr1");
                   })
                 }
               })
@@ -207,6 +207,14 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           }
 
           if (this.PUT_WAITINGROO.status_value == "3") {
+            this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "minus", "wtr1");
+            const checkTotal = localStorage.getItem('patient_examinated');
+          if (checkTotal != null) {
+            var check = JSON.parse(checkTotal);
+            check.total = check.total + 1;
+            localStorage.setItem("patient_examinated", JSON.stringify({total: check.total, currentDate: check.currentDate}));
+          }
+          this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "plus", "wtr2");
             if (wtr.patient_created_date == "1") {
               this.waitingRoomService.putNewPatientId(wtr.patient_id).subscribe((data) => {
               })
@@ -223,7 +231,6 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
                   item.appointment.status = "1";
                   this.appointmentService.putAppointment(item, this.PUT_WAITINGROO.appointment_id).subscribe((data) => {
                     this.showSuccessToast(`${item.appointment.patient_name} đã khám xong`);
-                    this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "minus", "wtr1");
                   })
                 }
               })
@@ -232,7 +239,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           this.loading = false;
           this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
           this.showSuccessToast('Chỉnh sửa hàng chờ thành công');
-          this.getWaitingRoomData();
+          //this.getWaitingRoomData();
           this.messageContent = `CheckRealTimeWaitingRoom@@@,${wtr.patient_id},${Number(wtr.status)}`;
           this.messageBody = {
             action: '',

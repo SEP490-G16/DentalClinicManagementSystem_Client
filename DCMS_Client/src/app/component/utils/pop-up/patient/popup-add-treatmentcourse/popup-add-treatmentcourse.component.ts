@@ -200,7 +200,7 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
             quantity: it.quantity,
             price: it.price,
             total_paid: '',
-            description: ''
+            description: it.laboId
           }
           this.Post_Procedure_Material_Usage.push(materialUsage);
           materialUsage = {
@@ -228,6 +228,14 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     this.Post_Procedure_Material_Usage.forEach((item:any) => {
       if (item.medical_procedure_id == gro.procedureId) {
         item.quantity = event.target.value;
+      }
+    })
+  }
+
+  changeLabo(gro:any) {
+    this.Post_Procedure_Material_Usage.forEach((item:any) => {
+      if (item.medical_procedure_id == gro.procedureId) {
+        item.description = gro.laboId;
       }
     })
   }
@@ -290,19 +298,19 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
   unique: string[] = [];
   updateTemporaryNameMaterial() {
     this.results.forEach((item:any) => {
-      if (item.material_warehouse_id == this.material_warehouse_id && !this.unique.includes(this.material_warehouse_id)) {
-        this.unique.push(item.material_warehouse_id);
+      if (item.id == this.material_warehouse_id && !this.unique.includes(this.material_warehouse_id)) {
+        this.unique.push(item.id);
         this.listMaterialUsage.push({
-          material_warehouse_id: item.material_warehouse_id,
+          material_warehouse_id: item.id,
           treatment_course_id: '',
-          examination_id: '',
           quantity: '1',
           price: '',
           total_paid: '',
           description: item.materialName,
         });
       }
-     })
+     }
+    )
   }
 
   deleteMaterialUsage(id:any) {
@@ -341,6 +349,7 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
         if (this.Post_Procedure_Material_Usage.length > 0) {
           this.Post_Procedure_Material_Usage.forEach((item) => {
             item.treatment_course_id = res.treatment_course_id;
+            item.price = item.price * item.quantity
             this.procedureMaterialService.postProcedureMaterialUsage(item)
               .subscribe((res) => {
                 this.toastr.success("Thêm Thủ thuật thành công");
@@ -402,7 +411,6 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
             default:
               break;
           }
-
         })
 
       },

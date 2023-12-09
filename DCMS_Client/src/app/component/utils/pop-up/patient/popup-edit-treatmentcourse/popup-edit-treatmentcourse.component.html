@@ -132,7 +132,7 @@
                               <td style="padding: 10px"></td>
                               <td style="padding: 10px"><i class="bi bi-arrow-return-right"></i></td>
                               <td style="padding: 10px;float: left;margin-left: 24%">
-                                <input type="checkbox" style="margin-right: 3px"
+                                <input type="checkbox" style="margin-right: 3px" [(ngModel)]="gro.checked"
                                   (click)="checkProcedureUse(gro)" />{{gro.procedureName}}
                               </td>
                               <td style="padding: 10px"> {{gro.initPrice}}</td>
@@ -148,10 +148,7 @@
                               </ng-container>
                               <ng-container *ngIf="gro.checked && pro.groupId == 'PG-03'">
                                 <td style="padding: 10px">
-                                  <select class="form-select p-2" id="patient" style="margin-left: 10px; border: 1px solid #664FC3;
-    
-                                                                                                border-radius: 10px;"
-                                    aria-label="Default select example" [(ngModel)]="gro.laboId">
+                                  <select class="form-select p-2" id="patient" style="margin-left: 10px; border: 1px solid #664FC3; border-radius: 10px;" aria-label="Default select example" [(ngModel)]="gro.laboId" (ngModelChange)="changeLabo(gro)">
                                     <option value="0">Chọn labo</option>
                                     <option *ngFor="let a of Labos" value={{a.labo_id}}>{{a.name}}</option>
                                   </select>
@@ -256,13 +253,6 @@
               <div class="mb-3 row">
                 <label for="procedureGroupSelect" class="form-label">Vật liệu sử dụng</label>
                 <div class="select col-md-2">
-                  <!-- <button class="drop-toggle btn flat" (click)="showDropDown1=!showDropDown1">
-                      <span style="color: #1e1e1e">Chọn vật liệu</span>
-                      <i class="fa fa-angle-down"></i>
-                    </button> -->
-                  <!--                <select [(ngModel)]="material_warehouse_id" (ngModelChange)="updateTemporaryNameMaterial()">-->
-                  <!--                  <option *ngFor="let a of results" value={{a.material_warehouse_id}}>{{a.materialName}}</option>-->
-                  <!--                </select>-->
                   <ng-select [items]="results" [(ngModel)]="material_warehouse_id"
                     (ngModelChange)="updateTemporaryNameMaterial()" [searchable]="true" bindLabel="materialName"
                     bindValue="id" [notFoundText]="'Không tìm thấy vật liệu'">

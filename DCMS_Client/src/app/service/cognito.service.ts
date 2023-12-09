@@ -188,7 +188,7 @@ export class CognitoService {
       this.cognitoUser.Username = userResult.username;
       this.cognitoUser.Email = userResult.attributes.email;
       this.cognitoUser.ClientId = userResult.pool.clientId;
-      this.cognitoUser.idToken = userResult.signInUserSession.idToken.jwtToken;
+      this.cognitoUser.idToken = userResult.signInUserSession.accessToken.jwtToken;
       this.cognitoUser.refreshToken = userResult.signInUserSession.refreshToken.token;
       this.cognitoUser.locale = userResult.attributes.locale;
       this.cognitoUser.role = userResult.attributes["custom:role"];
