@@ -75,7 +75,7 @@
                 [disabled]="!staff.isClockin || roleId!= '1'" (change)="handleClockInChange(staff, $event)">
               </td>
               <td>
-                <button class="button-timekeeping" (click)="onClockout(staff)" [disabled]="staff.isClockout && staff.isClockin">
+                <button class="button-timekeeping" (click)="onClockout(staff, $event)" [disabled]="staff.isClockout && staff.isClockin">
                   {{ staff.clockOutStatus }}
                 </button> <br />
                 <input type="time" [(ngModel)]="staff.clock_out" [class]="timeClockoutColor"

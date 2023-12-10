@@ -295,11 +295,22 @@ export class ReceptionistTimekeepingComponent implements OnInit {
         });
   }
 
-  onClockout(staff: StaffTimekeeping) {
-    staff.clockOutStatus = "Đã chấm";
+  onClockout(staff: StaffTimekeeping, event: Event) {
+    const target = event.target as HTMLInputElement | null;
+    if (target) {
+      const newClockoutValue = target.value;
+      const originalClockOut = staff.clock_out;
 
-    this.Body = this.setClockoutBody(staff);
-    this.callClockoutApi(staff);
+      const clockInDateTime = staff.clock_in ? new Date(`1970-01-01T${staff.clock_in}:00Z`) : null;
+      const newClockOutDateTime = new Date(`1970-01-01T${newClockoutValue}:00Z`);
+      if (clockInDateTime && newClockOutDateTime <= clockInDateTime) {
+        this.toastr.error("Thời gian chấm công về phải lớn hơn thời gian chấm công đến.");
+        staff.clock_out = originalClockOut;
+      } else {
+        this.Body = this.setClockoutBody(staff);
+        this.callClockoutApi(staff);
+      }
+    }
   }
 
   handleClockOutChange(staff: StaffTimekeeping, event: Event) {
@@ -334,7 +345,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     this.timekeepingService.postTimekeeping(this.Body)
       .subscribe((res) => {
         this.toastr.success(res.message, "Chấm công về thành công");
-
+        staff.clockOutStatus = "Đã chấm";
         console.log(this.Body);
         if (staff.clock_out == "") {
           staff.clock_out = this.currentTimeGMT7;
