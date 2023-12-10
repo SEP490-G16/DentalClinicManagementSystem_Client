@@ -182,6 +182,8 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
     }
   }
 
+  listCheckChange: any[] = [];
+  listCheckChangeMaterial: any[] = [];
   getListMaterialusage() {
     this.materialUsageService.getMaterialUsage_By_TreatmentCourse(this.Edit_TreatmentCourse.treatment_course_id).subscribe((data) => {
       this.listData = data.data;
@@ -204,6 +206,7 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
                   total_paid: item.total_paid,
                   description: item.description
                 }
+                this.listCheckChange.push(materialUsage);
                 this.Post_Procedure_Material_Usage.push(materialUsage);
                 materialUsage = {
                   material_usage_id: '',
@@ -223,11 +226,19 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
           this.unique.push(item.material_warehouse_id);
           this.results.forEach((it: any) => {
             if (it.id == item.material_warehouse_id) {
+              this.listCheckChangeMaterial.push({
+                material_usage_id: item.material_usage_id,
+                material_warehouse_id: item.material_warehouse_id,
+                treatment_course_id: item.treatment_course_id,
+                quantity: item.quantity,
+                price: '',
+                total_paid: '',
+                description: it.materialName,
+              })
               this.listMaterialUsage.push({
                 material_usage_id: item.material_usage_id,
                 material_warehouse_id: item.material_warehouse_id,
                 treatment_course_id: item.treatment_course_id,
-                examination_id: '',
                 quantity: item.quantity,
                 price: '',
                 total_paid: '',
@@ -294,9 +305,13 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
     })
   }
 
+  listChange: string[] = [];
   changePrice(gro:any, event:any) {
     this.Post_Procedure_Material_Usage.forEach((item:any) => {
       if (item.medical_procedure_id == gro.procedureId) {
+        if (!this.listChange.includes(item.material_usage_id)) {
+          this.listChange.push(item.material_usage_id);
+        } 
         item.price = event.target.value;
       }
     })
@@ -311,12 +326,18 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
   changeQuantity(gro:any, event:any) {
     this.Post_Procedure_Material_Usage.forEach((item:any) => {
       if (item.medical_procedure_id == gro.procedureId) {
+        if (!this.listChange.includes(item.material_usage_id)) {
+          this.listChange.push(item.material_usage_id);
+        } 
         item.quantity = event.target.value;
       }
     })
 
     this.Post_Procedure_Material_Usage_New.forEach((item:any) => {
       if (item.medical_procedure_id == gro.procedureId) {
+        if (!this.listChange.includes(item.material_usage_id)) {
+          this.listChange.push(item.material_usage_id);
+        } 
         item.quantity = event.target.value;
       }
     })
@@ -341,80 +362,100 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
   listUpdateMaterial: any[] = [];
 
   editTreatmentCourse() {
+    this.Edit_TreatmentCourse.prescription = this.recordsMedicine;
     this.Edit_TreatmentCourse.prescription = JSON.stringify(this.Edit_TreatmentCourse.prescription);
-    this.treatmentCourseService.putTreatmentCourse(this.Edit_TreatmentCourse.treatment_course_id, this.Edit_TreatmentCourse)
-    .subscribe((res) => {
-      if (this.Post_Procedure_Material_Usage_New.length > 0) {
-        this.Post_Procedure_Material_Usage_New.forEach((item: any) => {
-          item.treatment_course_id = this.Edit_TreatmentCourse.treatment_course_id;
-          this.materialUsageService.postProcedureMaterialUsage(item)
-            .subscribe((res) => {
-              this.toastr.success("Thêm Thủ thuật thành công");
-            }, (err) => {
-              this.toastr.error(err.error.message, "Thêm Thủ thuật thất bại");
-            })
-        })
-      }
 
-      if (this.Post_Procedure_Material_Usage.length > 0) {
-        this.Post_Procedure_Material_Usage.forEach((item: any) => {
-          this.materialUsageService.putMaterialUsage(item.medical_procedure_id, item).subscribe((data) => {
-            //this.toastr.success(res.message, "Sửa thủ thuật thành công");
-          }, (error) => {
-            this.toastr.error(error.message, "Sửa thủ thuật thất bại");
-          }
-          )
-        })
-      }
-      
-      if (this.listInsertNewMaterial.length > 0) {
-        this.listMaterialUsage.forEach((item:any) => {
-          this.listInsertNewMaterial.forEach((it:any) => {
-            if (it.material_warehouse_id == item.material_warehouse_id) {
-              it.material_warehouse_id = item.material_warehouse_id;
-              it.treatment_course_id = this.Edit_TreatmentCourse.treatment_course_id;
-              it.examination_id = '';
-              it.quantity = item.quantity;
-              it.price = item.price;
-              it.total_paid = '';
-              it.description = item.materialName;
-            }
+    // this.treatmentCourseService.putTreatmentCourse(this.Edit_TreatmentCourse.treatment_course_id, this.Edit_TreatmentCourse)
+    // .subscribe((res) => {
+    //   this.toastr.success(res.message, "Sửa Lịch trình điều trị");
+    //   window.location.reload();
+    // },
+    // (error) => {
+    //   ResponseHandler.HANDLE_HTTP_STATUS(this.treatmentCourseService.apiUrl+"/treatment-course/"+this.TreatmentCourse.treatment_course_id, error);
+    // }
+    // )
+
+    if (this.Post_Procedure_Material_Usage_New.length > 0) {
+      this.Post_Procedure_Material_Usage_New.forEach((item: any) => {
+        item.treatment_course_id = this.Edit_TreatmentCourse.treatment_course_id;
+        this.materialUsageService.postProcedureMaterialUsage(item)
+          .subscribe((res) => {
+            this.toastr.success("Thêm Thủ thuật thành công");
+          }, (err) => {
+            this.toastr.error(err.error.message, "Thêm Thủ thuật thất bại");
           })
+      })
+    }
+
+    if (this.Post_Procedure_Material_Usage.length > 0) {
+      this.Post_Procedure_Material_Usage.forEach((item: any) => {
+        this.listChange.forEach((it: any) => {
+          if (item.material_usage_id == it) {
+            this.materialUsageService.putMaterialUsage(item.material_usage_id, item).subscribe((data) => {
+            }, (error) => {
+              this.toastr.error(error.message, "Sửa thủ thuật thất bại");
+            }
+            )
+          }
         })
+      })
+    }
 
-        this.materialUsageService.postMaterialUsage(this.listInsertNewMaterial)
-            .subscribe((res) => {
-              this.toastr.success("Thêm vật liệu thành công");
-            }, (err) => {
-              this.toastr.error(err.error.message, "Thêm Thủ thuật thất bại");
-            })
-      }
+    if (this.listInsertNewMaterial.length > 0) {
+      this.listMaterialUsage.forEach((item: any) => {
+        this.listInsertNewMaterial.forEach((it: any) => {
+          if (it.material_warehouse_id == item.material_warehouse_id) {
+            it.material_warehouse_id = item.material_warehouse_id;
+            it.treatment_course_id = this.Edit_TreatmentCourse.treatment_course_id;
+            it.examination_id = '';
+            it.quantity = item.quantity;
+            it.price = item.price;
+            it.total_paid = '';
+            it.description = item.materialName;
+          }
+        })
+      })
 
-      if (this.listMaterialUsage.length > 0) {
-        this.listMaterialUsage.forEach((item:any) => {
-          this.listInsertNewMaterial.forEach((it:any) => {
+      this.materialUsageService.postMaterialUsage(this.listInsertNewMaterial)
+        .subscribe((res) => {
+          this.toastr.success("Thêm vật liệu thành công");
+        }, (err) => {
+          this.toastr.error(err.error.message, "Thêm Thủ thuật thất bại");
+        })
+    }
+
+    console.log("đã đến đây");
+    if (this.listMaterialUsage.length > 0) {
+      console.log("đã vô 1");
+      this.listMaterialUsage.forEach((item: any) => {
+        if (this.listInsertNewMaterial.length > 0) {
+          this.listInsertNewMaterial.forEach((it: any) => {
             if (it.material_warehouse_id != item.material_warehouse_id) {
               this.listUpdateMaterial.push(item);
               return;
             }
           })
-        })
-        this.materialUsageService.putMaterialUsage(this.Edit_TreatmentCourse.treatment_course_id, this.listUpdateMaterial)
-            .subscribe((res) => {
-              this.toastr.success("Chỉnh sửa vật liệu thành công");
-            }, (err) => {
-              this.toastr.error(err.error.message, "Chỉnh sửa Thủ thuật thất bại");
-            })
-      }
+        } else {
+          this.listUpdateMaterial = this.listMaterialUsage;
+        }
+      })
 
-      this.toastr.success(res.message, "Sửa Lịch trình điều trị");
-      alert('');
-      window.location.reload();
-    },
-    (error) => {
-      ResponseHandler.HANDLE_HTTP_STATUS(this.treatmentCourseService.apiUrl+"/treatment-course/"+this.TreatmentCourse.treatment_course_id, error);
+      this.listUpdateMaterial.forEach((item: any) => {
+        this.listCheckChangeMaterial.forEach((it: any) => {
+          if (item.material_usage_id == it.material_usage_id) {
+            if (it.quantity != item.quantity) {
+              item.price = 1;
+              this.materialUsageService.putMaterialUsage(item.material_usage_id, item)
+                .subscribe((res) => {
+                  return;
+                }, (err) => {
+                  this.toastr.error(err.error.message, "Chỉnh sửa Thủ thuật thất bại");
+                })
+            }
+          }
+        })
+      })
     }
-    )
   }
 
   selectMedicine: string = '0';
@@ -602,18 +643,18 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
       if (item.id == this.material_warehouse_id && !this.unique.includes(this.material_warehouse_id)) {
         this.unique.push(item.id);
         this.listMaterialUsage.push({
+          material_usage_id: item.material_usage_id == "" ? '' : item.material_usage_id,
           material_warehouse_id: item.material_warehouse_id,
           treatment_course_id: '',
-          examination_id: '',
           quantity: '1',
           price: '',
           total_paid: '',
           description: item.materialName,
         });
         this.listInsertNewMaterial.push({
+          material_usage_id: item.material_usage_id == "" ? '' : item.material_usage_id,
           material_warehouse_id: item.material_warehouse_id,
           treatment_course_id: '',
-          examination_id: '',
           quantity: '1',
           price: '',
           total_paid: '',

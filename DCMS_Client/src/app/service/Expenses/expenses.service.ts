@@ -12,12 +12,24 @@ export class ExpenseService {
   constructor(private http: HttpClient) { }
 
   getExpense(startDate:number, endDate:number): Observable<any> {
-    let idToken = sessionStorage.getItem("id_Token");
+    var tokenAcess = localStorage.getItem("securityAccess");
+    var idToken;
+    var token;
+    if (tokenAcess != null) {
+      console.log("check localStorage: ", tokenAcess);
+      idToken = tokenAcess.split('/');
+      console.log("Check tokenAcess: ",idToken[0]);
+      const now = new Date();
+      if (idToken[1] <= now.getMinutes().toString()) {
+        token = idToken[0];
+      }
+    }
+    console.log("Check tokenAcess 1: ",token);
     const headers = new HttpHeaders({
-      'Authorization': `${idToken}`,
+      'Authorization': `${token}`,
       'Accept': 'application/json'
     });
-
+    console.log("chech header:", headers);
     return this.http.get(`${this.api_url}/expenses/${startDate}/${endDate}`, { headers });
   }
 }

@@ -11,6 +11,7 @@ import {
 } from "../../utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component";
 import {DatePipe} from "@angular/common";
 import {ResponseHandler} from "../../utils/libs/ResponseHandler";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-report-expenditure',
@@ -25,7 +26,8 @@ export class ReportExpenditureComponent implements OnInit {
   endDate: any;
   constructor(private paidMaterialUsageService: PaidMaterialUsageService,
               private modalService: NgbModal,
-              private datePipe: DatePipe,
+              private datePipe: DatePipe, 
+              private router: Router,
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
@@ -84,8 +86,9 @@ export class ReportExpenditureComponent implements OnInit {
       } else {
         console.error('Items not found in the JSON string.');
       }
-    },
-    )
+    }, (error) => {
+      this.router.navigate(["/bao-mat"]);
+    })
   }
 
   organizeData(data: any[]): TimekeepingRecord[] {

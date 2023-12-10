@@ -27,18 +27,18 @@
     </div>
     <div class="col-sm-3 col-md-2 form-group" style="padding: 0 10px">
       <input type="text" placeholder="Ngày đặt" [(ngModel)]="SpecimensFilter.ms_order_date" #input
-        (ngModelChange)="filterByOrderDate(SpecimensFilter.ms_order_date)" class="form-control input-custom  p-2"
-        bsDaterangepicker [bsConfig]="{ isAnimated: true }">
+        (ngModelChange)="filterByOrderDate(input.value)" class="form-control input-custom  p-2"
+        bsDaterangepicker [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY/MM/DD' }">
     </div>
     <div class="col-sm-3 col-md-2 form-group" style="padding: 0 10px">
-      <input type="text" placeholder="Ngày nhận" [(ngModel)]="SpecimensFilter.ms_received_date" #input
-        (ngModelChange)="filterByReceivedDate(input.value)" class="form-control input-custom  p-2" bsDaterangepicker
-        [bsConfig]="{ isAnimated: true, dateInputFormat: 'DD/MM/YYYY' }">
+      <input type="text" placeholder="Ngày nhận" [(ngModel)]="SpecimensFilter.ms_received_date" #inpu
+        (ngModelChange)="filterByReceivedDate(inpu.value)" class="form-control input-custom  p-2" bsDaterangepicker
+        [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY/MM/DD' }">
     </div>
     <div class="col-sm-3 col-md-2 form-group" style="padding: 0 10px">
-      <input type="text" placeholder="Ngày lắp" [(ngModel)]="SpecimensFilter.ms_used_date" #input
-      (ngModelChange)="filterByUseDate(input.value)"
-        class="form-control input-custom  p-2" bsDaterangepicker [bsConfig]="{ isAnimated: true }">
+      <input type="text" placeholder="Ngày lắp" [(ngModel)]="SpecimensFilter.ms_used_date" #inp
+      (ngModelChange)="filterByUseDate(inp.value)"
+        class="form-control input-custom  p-2" bsDaterangepicker [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY/MM/DD' }">
     </div>
     <div class="col-sm-2 col-md-2" style="padding: 0 10px;display: flex;">
       <div style="width: 100%">
@@ -161,13 +161,13 @@
             <td *ngIf="checkbox7" style="min-width: 75px;padding: 10px">{{specimens.ms_order_date | date:'dd-MM-yyyy'}}
             </td> <!--8-->
             <td *ngIf="checkbox8" style="min-width: 120px;padding: 10px">{{specimens.ms_orderer}}</td> <!--9-->
-            <td *ngIf="checkbox9" style="min-width: 95px;padding: 10px">{{specimens.ms_received_date |
+            <td *ngIf="checkbox9" style="min-width: 95px;padding: 10px">{{specimens.ms_received_date == '' ? '' : specimens.ms_received_date == 0 ? '' : specimens.ms_received_date |
               date:'dd-MM-yyyy'}}
             </td> <!--10-->
             <td *ngIf="checkbox10" style="min-width: 105px;padding: 10px">{{specimens.ms_receiver}}</td> <!--11-->
-            <td *ngIf="checkbox11" style="min-width: 95px;padding: 10px">{{specimens.ms_used_date | date:'dd-MM-yyyy'}}
+            <td *ngIf="checkbox11" style="min-width: 95px;padding: 10px">{{specimens.ms_used_date == '' ? '' : specimens.ms_used_date == 0 ? '' : specimens.ms_used_date | date:'dd-MM-yyyy'}}
             </td> <!--12-->
-            <td *ngIf="checkbox12" style="min-width: 90px;padding: 10px">{{specimens.ms_warranty | date:'dd-MM-yyyy'}}
+            <td *ngIf="checkbox12" style="min-width: 90px;padding: 10px">{{specimens.ms_warranty == '' ? '' : specimens.ms_warranty == 0? '' : specimens.ms_warranty | date:'dd-MM-yyyy'}}
             </td> <!--13-->
             <td class="text-center" style="min-width: 101px;padding: 10px"> <!--14-->
               <button class="btn btn-primary p-1 m-2" title="Sửa mẫu"><i class="bi bi-pencil-square" data-bs-toggle="modal"

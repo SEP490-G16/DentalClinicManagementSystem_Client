@@ -31,9 +31,9 @@ export class ConfirmAppointmentComponent implements OnInit {
       this.route.params.subscribe(params => {
         this.epoch_PathParam = params['epoch'];
         var check = this.epoch_PathParam.toString();
-        if (check.includes('@')) {
+        if (check.includes('%40')) {
           this.isCheck = true;
-          var a = check.split('@');
+          var a = check.split('%40');
           this.epoch_PathParam = parseInt(a[0]);
         }
         this.appointmentId_Pathparam = params['appointmentId'];

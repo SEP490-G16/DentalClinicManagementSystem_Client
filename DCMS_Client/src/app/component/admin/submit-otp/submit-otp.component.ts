@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
+import { SecurityService } from 'src/app/service/Security/Security.service';
 
 @Component({
   selector: 'app-submit-otp',
@@ -9,7 +10,10 @@ import {Router} from "@angular/router";
 export class SubmitOtpComponent implements OnInit {
   showPassword: boolean = true;
   showPasswordConfirm:boolean = true;
-  constructor(private router: Router) { }
+  otp:any;
+  new_access_code:any;
+  password:any;
+  constructor(private router: Router, private securityService: SecurityService) { }
 
   ngOnInit(): void {
   }
@@ -19,7 +23,12 @@ export class SubmitOtpComponent implements OnInit {
   togglePasswordConfirm() {
     this.showPasswordConfirm = !this.showPasswordConfirm;
   }
-  backToRevenue(){
-    this.router.navigate(['/doanh-thu'])
+  backToRevenue() {
+    this.securityService.postPrivateAccess(this.otp, this.password).subscribe((data) => {
+      const now = new Date();
+      localStorage.setItem("securityAccess", data.data + `/${now.getMinutes()}/${now.getMinutes() + 50}`);
+      console.log("chuyển hướng");
+      this.router.navigate(["/doanh-thu"]);
+    })
   }
 }
