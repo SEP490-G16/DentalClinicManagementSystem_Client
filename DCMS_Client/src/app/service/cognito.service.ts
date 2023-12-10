@@ -195,8 +195,11 @@ export class CognitoService {
       this.cognitoUser.sub = userResult.attributes.sub;
       console.log("CognitoUser: ", this.cognitoUser);
       sessionStorage.setItem('cognitoUser', JSON.stringify(this.cognitoUser));
+      localStorage.setItem('cognitoUser', JSON.stringify(this.cognitoUser));
       const groups = userResult.signInUserSession.idToken.payload['cognito:groups'];
       console.log('User Groups:', groups);
+      localStorage.setItem('lastLoginTime', new Date().toISOString());
+      localStorage.setItem('role', this.cognitoUser.role);
       sessionStorage.setItem('role', this.cognitoUser.role);
       sessionStorage.setItem('userGroups', JSON.stringify(groups));
       sessionStorage.setItem('id_Token', this.cognitoUser.idToken);
