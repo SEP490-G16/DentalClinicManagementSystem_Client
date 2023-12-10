@@ -15,68 +15,82 @@
     </div>
   </div>
 
-  <div class="row text-center">
-    <table border="1">
-      <tr>
-        <th></th>
-        <th style="border: 1px solid gray;">Thứ Hai</th>
-        <th style="border: 1px solid gray;">Thứ Ba</th>
-        <th style="border: 1px solid gray;">Thứ Tư</th>
-        <th style="border: 1px solid gray;">Thứ Năm</th>
-        <th style="border: 1px solid gray;">Thứ Sáu</th>
-        <th style="border: 1px solid gray;">Thứ Bảy</th>
-        <th style="border: 1px solid gray;">Chủ Nhật</th>
-      </tr>
-      <tr>
-        <th></th>
-        <ng-container *ngFor="let a of listDay">
-          <th style="border: 1px solid gray;">{{a}}</th>
-        </ng-container>
-      </tr>
-      <tr style="border: 1px solid gray;">
-        <th>Sáng</th>
-        <td style="border: 1px solid gray;" *ngFor="let a of listDay">
-          <ng-container *ngFor="let d of listDisplayClone">
-            <ng-container *ngIf="d.currentD == a">
-              <ng-container *ngIf="d.isSang == true">
-                {{d.staffName}} <br>
-              </ng-container>
-              <ng-container *ngIf="d.isSang == false">
-    
-              </ng-container>
-            </ng-container>
-          </ng-container>
-        </td>
-      </tr>
-      <tr style="border: 1px solid gray;">
-        <th>Chiều</th>
-        <td style="border: 1px solid gray;" *ngFor="let a of listDay">
-          <ng-container *ngFor="let d of listDisplayClone">
-            <ng-container *ngIf="d.currentD == a">
-              <ng-container *ngIf="d.isChieu == true">
-                {{d.staffName}} 
-              </ng-container>
-              <ng-container *ngIf="d.isChieu == false">
-    
-              </ng-container>
-            </ng-container>
-          </ng-container>
-        </td>
-      </tr>
-    </table>
+  <div class="row">
+    <div class="col-12">
+      <h2 class="register-heading">{{viewDate}}</h2>
+    </div>
   </div>
 
-  <div class="row" style="margin-top: 5%;">
-    <div class="col-md-6" style="border: 1px solid gray;">
+  <div class="row text-center">
+    <div class="col-9">
+      <table border="1" class="table-schedule">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Thứ Hai</th>
+            <th>Thứ Ba</th>
+            <th>Thứ Tư</th>
+            <th>Thứ Năm</th>
+            <th>Thứ Sáu</th>
+            <th>Thứ Bảy</th>
+            <th>Chủ Nhật</th>
+          </tr>
+          <tr>
+            <th></th>
+            <ng-container *ngFor="let a of listDay">
+              <th>{{a}}</th>
+            </ng-container>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Sáng</th>
+            <ng-container *ngFor="let a of listDay">
+              <td>
+                <ng-container *ngFor="let d of listDisplayClone">
+                  <ng-container *ngIf="d.currentD == a">
+                    <ng-container *ngIf="d.isSang == true">
+                       {{d.staffName}} <br>
+                    </ng-container>
+                    <ng-container *ngIf="d.isSang == false">
+
+                    </ng-container>
+                  </ng-container>
+                </ng-container>
+              </td>
+            </ng-container>
+          </tr>
+          <tr>
+            <th>Chiều</th>
+            <td *ngFor="let a of listDay">
+              <ng-container *ngFor="let d of listDisplayClone">
+                <ng-container *ngIf="d.currentD == a">
+                  <ng-container *ngIf="d.isChieu == true">
+                    {{d.staffName}} <br>
+                  </ng-container>
+                  <ng-container *ngIf="d.isChieu == false">
+
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="form-schedule col-3">
       <h3>Đăng ký lịch làm việc</h3>
       <ng-container *ngFor="let a of listDayInMonth">
-        <label style="margin-right: 5%;">Ngày {{a.currentD}}:</label> <input type="checkbox" [(ngModel)]="a.isSang"
-          (click)="checkSang(a)"> Ca Sáng <input type="checkbox" [(ngModel)]="a.isChieu" (click)="checkChieu(a)"> Ca
+        <label>Ngày {{a.currentD}}:</label> <input type="checkbox" [(ngModel)]="a.isSang" (click)="checkSang(a)"> Ca
+        Sáng <input type="checkbox" [(ngModel)]="a.isChieu" (click)="checkChieu(a)"> Ca
         Chiều <br> <br>
       </ng-container>
       <button (click)="ResgisterByWeek()">Lưu</button>
     </div>
+
   </div>
+
 
   <!-- <form>
     <div id="myDate">
