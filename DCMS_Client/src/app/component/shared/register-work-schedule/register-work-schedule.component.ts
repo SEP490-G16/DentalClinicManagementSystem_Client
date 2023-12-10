@@ -30,8 +30,8 @@ export class RegisterWorkScheduleComponent implements OnInit {
 
   CalendarView = CalendarView;
 
-  viewDate: Date = new Date();
-
+  // viewDate: Date = new Date();
+  viewDate: any;
 
   actions: CalendarEventAction[] = [
     {
@@ -108,6 +108,10 @@ export class RegisterWorkScheduleComponent implements OnInit {
 
     this.startOfWeek = moment(this.viewDate).startOf('isoWeek').toDate();
     this.endOfWeek = moment(this.viewDate).endOf('isoWeek').toDate();
+
+     const startDateFormatted = moment.unix(this.weekTimestamps[0]).format('DD/MM/YYYY');
+     const endDateFormatted = moment.unix(this.weekTimestamps[6]).format('DD/MM/YYYY');
+     this.viewDate = `Tuần từ ${startDateFormatted} đến ${endDateFormatted}`;
   }
 
   ngOnInit(): void {
@@ -125,6 +129,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
     }
     //this.DisplayResgisterTimeByWeek();
     this.getDateinFromDatetoToDate(TimestampFormat.timestampToGMT7Date(this.startTime), TimestampFormat.timestampToGMT7Date(this.endTime));
+
   }
 
   deleteSchedule(): void {

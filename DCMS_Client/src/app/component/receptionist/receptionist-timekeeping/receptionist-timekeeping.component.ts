@@ -156,11 +156,11 @@ export class ReceptionistTimekeepingComponent implements OnInit {
                     staff.weekTimekeeping[weekTimestamp].clockOut =
                       (detail.details.clock_out !== undefined && detail.details.clock_out !== "0")
                         ? this.timestampToGMT7String(detail.details.clock_out)
-                        : '';      
+                        : '';
                   }
                 }
               }
-              
+
               if (record.epoch == this.currentDateTimeStamp) {
 
               }

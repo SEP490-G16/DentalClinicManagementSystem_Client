@@ -51,8 +51,8 @@
               <span class="text">Bệnh nhân</span>
             </a>
           </li>
-          <li class="list" routerLinkActive="active" routerLink="/theo-doi-cham-cong"
-            *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('3') || roleId.includes('4') || roleId.includes('5')">
+          <li class="list" routerLinkActive="active" routerLink="/cham-cong"
+            *ngIf="roleId.includes('1') || roleId.includes('3')">
             <a style="--clr:#664FC3">
               <span class="icon">
                 <i class="bi bi-calendar3"></i>
@@ -60,6 +60,15 @@
               <span class="text">Chấm công</span>
             </a>
           </li>
+          <li class="list" routerLinkActive="active" routerLink="/dang-ky-lich-lam-viec"
+          *ngIf="roleId.includes('2') || roleId.includes('4') || roleId.includes('5')">
+          <a style="--clr:#664FC3">
+            <span class="icon">
+              <i class="bi bi-calendar3"></i>
+            </span>
+            <span class="text">Chấm công</span>
+          </a>
+        </li>
           <li class="list" routerLink="/thu-thuat" *ngIf="roleId.includes('1')" routerLinkActive="active">
             <a style="--clr:#664FC3">
               <span class="icon">
