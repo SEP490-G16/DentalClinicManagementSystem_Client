@@ -35,13 +35,13 @@
             <th>Thứ Bảy</th>
             <th>Chủ Nhật</th>
           </tr>
-          <tr>
-            <th></th>
-            <ng-container *ngFor="let a of listDay">
-              <th>{{a}}</th>
-            </ng-container>
-          </tr>
         </thead>
+        <tr>
+          <th></th>
+          <ng-container *ngFor="let a of listDay">
+            <th>{{a}}</th>
+          </ng-container>
+        </tr>
         <tbody>
           <tr>
             <th>Sáng</th>
@@ -50,7 +50,7 @@
                 <ng-container *ngFor="let d of listDisplayClone">
                   <ng-container *ngIf="d.currentD == a">
                     <ng-container *ngIf="d.isSang == true">
-                       {{d.staffName}} <br>
+                      {{d.staffName}} <br>
                     </ng-container>
                     <ng-container *ngIf="d.isSang == false">
 

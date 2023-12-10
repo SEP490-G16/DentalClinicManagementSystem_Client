@@ -125,6 +125,31 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    let cognitoUserString = localStorage.getItem("cognitoUser");
+    if (cognitoUserString !== null) {
+      let cognitoUser = JSON.parse(cognitoUserString);
+
+      if (cognitoUser) {
+        sessionStorage.setItem('role', cognitoUser.role);
+        sessionStorage.setItem('id_Token', cognitoUser.idToken);
+        sessionStorage.setItem('locale', cognitoUser.locale);
+        sessionStorage.setItem('sub', cognitoUser.sub);
+        sessionStorage.setItem('sub-id', cognitoUser.sub);
+        sessionStorage.setItem('username', cognitoUser.Username);
+
+        var UserObj = {
+          role: cognitoUser?.role,
+          subId: cognitoUser?.sub,
+          username: cognitoUser?.Username,
+          locale: cognitoUser.locale
+        };
+
+        var userJsonString = JSON.stringify(UserObj);
+        sessionStorage.setItem('UserObj', userJsonString);
+
+      }
+    }
+
     let user = sessionStorage.getItem('username');
     if (user != null) {
       this.userName = user;
@@ -176,13 +201,13 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
   searchTimeout: any;
   getDataAnalysis() {
     const now = new Date();
-    const currentDate = now.getFullYear()+ '-'+(now.getMonth()+1)+'-'+now.getDate();
+    const currentDate = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
     this.waitingRoomService.getWaitingRooms().subscribe((data) => {
       const listWatingRoom = data;
       var count = 0;
       console.log("check waiting", data);
       this.analyses.total_waiting_room = parseInt(data.length);
-      listWatingRoom.forEach((item:any) => {
+      listWatingRoom.forEach((item: any) => {
         if (item.status == 2) {
           count++;
         }
@@ -200,15 +225,15 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
         if (check.currentDate != currentDate) {
           this.analyses.total_patient_examinated = 0;
           let ob = {
-            total: 0, 
+            total: 0,
             currentDate: currentDate
           }
           localStorage.setItem('patient_examinated', JSON.stringify(ob));
-        } 
+        }
       } else {
         //console.log("check 3");
         let ob = {
-          total: 0, 
+          total: 0,
           currentDate: currentDate
         }
         localStorage.setItem('patient_examinated', JSON.stringify(ob));
@@ -240,6 +265,9 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
 
   signOut() {
     this.cognitoService.signOut().then(() => {
+      localStorage.removeItem("role");
+      localStorage.removeItem("lastLoginTime");
+      localStorage.removeItem("cognitoUser");
       sessionStorage.clear();
       console.log("Logged out!");
       this.router.navigate(['dangnhap']);

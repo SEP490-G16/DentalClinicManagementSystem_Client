@@ -1,22 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError, switchMap, catchError, from } from 'rxjs';
+import { Observable, throwError, switchMap, catchError, from, tap } from 'rxjs';
 import { CognitoService } from '../cognito.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private cognitoService: CognitoService) {}
+  constructor(private cognitoService: CognitoService, private router: Router) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
-      catchError(error => {
-        if (error instanceof HttpErrorResponse && error.status === 401) {
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 401 || error.status === 403) {
           // Token hết hạn, cần làm mới
           return this.handle401Error(req, next);
         } else {
           // Các lỗi khác
-          return throwError(() => new Error(error));
+          return throwError(() => error);
         }
       })
     );
@@ -25,15 +26,27 @@ export class AuthInterceptor implements HttpInterceptor {
   private handle401Error(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return from(this.cognitoService.refreshToken()).pipe(
       switchMap((newToken: string) => {
+        if (!newToken) {
+          // Nếu không lấy được token mới
+          return throwError(() => new Error('Token refresh failed'));
+        }
+
         // Cập nhật token mới vào yêu cầu
         const updatedRequest = request.clone({
-          headers: request.headers.set('Authorization', newToken)
+          headers: request.headers.set('Authorization', `Bearer ${newToken}`)
         });
         return next.handle(updatedRequest);
       }),
       catchError((err) => {
         console.error('Error in refresh token', err);
+        // Phát ra sự kiện chuyển hướng
         return throwError(() => new Error(err));
+      }),
+      tap({
+        error: () => {
+          // Chuyển hướng nếu cần
+          this.router.navigate(['dangnhap']);
+        }
       })
     );
   }
