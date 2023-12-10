@@ -122,17 +122,20 @@
                     </p>
                   </div>
 
-                  <div *ngIf="serviceGroups.length > 0" class="checkbox-group row">
-                    <label class="chuyen-nganh">Chuyên ngành</label>
-                    <div class="checkbox-row col-md-4" *ngFor="let s of serviceGroups">
-                      <div *ngIf="listDisplaySpe.includes(s.medical_procedure_group_id)">
-                        <input type="checkbox" [value]="s.medical_procedure_group_id" (change)="onCheckboxChange(s)" [(ngModel)]="s.checked">
-                        <span class="checkbox-label">{{ s.name }}</span>
-                      </div>
-                      <div *ngIf="!listDisplaySpe.includes(s.medical_procedure_group_id)">
-                        <input type="checkbox" [value]="s.medical_procedure_group_id" (change)="onCheckboxChange(s)" [(ngModel)]="s.checked">
-                        <span class="checkbox-label">{{ s.name }}</span>
-                      </div>
+
+                </div>
+              </div>
+              <div class="row">
+                <div *ngIf="serviceGroups.length > 0" class="checkbox-group col-md-12 row">
+                  <label class="chuyen-nganh">Chuyên ngành</label>
+                  <div class="checkbox-row col-md-4" *ngFor="let s of serviceGroups">
+                    <div *ngIf="listDisplaySpe.includes(s.medical_procedure_group_id)">
+                      <input type="checkbox" [value]="s.medical_procedure_group_id" (change)="onCheckboxChange(s)" [(ngModel)]="s.checked">
+                      <span class="checkbox-label">{{ s.name }}</span>
+                    </div>
+                    <div *ngIf="!listDisplaySpe.includes(s.medical_procedure_group_id)">
+                      <input type="checkbox" [value]="s.medical_procedure_group_id" (change)="onCheckboxChange(s)" [(ngModel)]="s.checked">
+                      <span class="checkbox-label">{{ s.name }}</span>
                     </div>
                   </div>
                 </div>
