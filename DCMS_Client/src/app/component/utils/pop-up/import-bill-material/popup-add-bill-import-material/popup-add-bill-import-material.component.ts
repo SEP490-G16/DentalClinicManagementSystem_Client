@@ -105,7 +105,7 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
   isAddBill:boolean = false;
   isSubmitted:boolean = false;
   toggleAdd() {
-    this.isAdd = !this.isAdd;
+    this.isAdd = true;
     this.isAddBill = true;
     console.log("A", this.isAdd);
     if (this.isAdd) {

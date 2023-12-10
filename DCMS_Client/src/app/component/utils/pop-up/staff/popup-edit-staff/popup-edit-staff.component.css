@@ -86,6 +86,7 @@
 .modal-body div p{
   color: #FF0000FF;}
 .checkbox-group{
+  margin-left: 27%;
   margin-top: 5%;
   border-radius: 10px;
   padding: 10px;
