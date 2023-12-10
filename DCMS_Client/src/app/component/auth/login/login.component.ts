@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
     validateUserName: '',
     validatePassword: '',
   }
-
+  isSubmitted:boolean = false;
   constructor(private renderer: Renderer2, private el: ElementRef, private router: Router, private route: ActivatedRoute, private cognitoService: CognitoService) {
     this.User = {} as IUser;
     this.loading = false;
@@ -52,6 +52,18 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
+    this.resetValidate();
+    if (!this.User.userCredential){
+      this.validateLogin.validateUserName = "Vui lòng nhập Username/Email!";
+      this.isSubmitted = true;
+    }
+    if (!this.User.password){
+      this.validateLogin.validatePassword = "Vui lòng nhập mật khẩu!";
+      this.isSubmitted = true;
+    }
+    if (this.isSubmitted){
+      return;
+    }
     this.loading = true;
     if (this.User && this.User.userCredential && this.User.password) {
       this.cognitoService.signIn(this.User).then(() => {
@@ -59,14 +71,25 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['']);
       })
         .catch((err) => {
-          this.loading = false;
-          alert("Tài khoản mật khẩu không chính xác");
+           this.loading = false;
+           //alert("Tài khoản mật khẩu không chính xác");
+
+          this.validateLogin.validatePassword = "Tài khoản hoặc mật khẩu không chính xác!";
+          this.isSubmitted = true;
         })
     } else {
-      this.loading = false;
+      //this.loading = false;
+
     }
   }
 
+  resetValidate(){
+    this.validateLogin={
+      validateUserName: '',
+      validatePassword: ''
+    }
+    this.isSubmitted = false;
+  }
 
   forgotPassword() {
     this.loading = true;
