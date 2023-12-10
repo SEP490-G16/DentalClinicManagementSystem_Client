@@ -1,7 +1,7 @@
 import { CognitoService } from '../cognito.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,19 +13,22 @@ export class ReceptionistTimekeepingService {
 
   // status 2: chấm công
 
-  constructor(private http: HttpClient, private cognitoService:CognitoService) { }
+  private listDisplaySource = new BehaviorSubject<any[]>([]);
+  listDisplay$ = this.listDisplaySource.asObservable();
 
-  getTimekeeping(startTime:number, endTime:number):Observable<any> {
+  constructor(private http: HttpClient, private cognitoService: CognitoService) { }
+
+  getTimekeeping(startTime: number, endTime: number): Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
 
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`,
-      'Accept':'application/json',
+      'Accept': 'application/json',
     });
-      return this.http.get(`${this.apiUrl}/timekeeping/${startTime}/${endTime}`, { headers});
+    return this.http.get(`${this.apiUrl}/timekeeping/${startTime}/${endTime}`, { headers });
   }
 
-  postTimekeeping(PostTimekeeping:any): Observable<any> {
+  postTimekeeping(PostTimekeeping: any): Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`,
@@ -35,12 +38,23 @@ export class ReceptionistTimekeepingService {
     return this.http.post(`${this.apiUrl}/timekeeping `, requestBody, { headers });
   }
 
-  deleteTimekeeping(startTime:number, endTime:number):Observable<any> {
+  // Trong timekeeping.service.ts
+  updateListDisplay(newData: any) {
+    // Lấy giá trị hiện tại của BehaviorSubject
+    const currentData = this.listDisplaySource.value;
+    // Cập nhật dữ liệu mới vào mảng
+    const updatedData = [...currentData, newData];
+    // Phát ra dữ liệu mới
+    this.listDisplaySource.next(updatedData);
+  }
+
+
+  deleteTimekeeping(startTime: number, endTime: number): Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
 
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`
     });
-      return this.http.delete(`${this.apiUrl}/timekeeping/${startTime}/${endTime}`, { headers });
+    return this.http.delete(`${this.apiUrl}/timekeeping/${startTime}/${endTime}`, { headers });
   }
 }
