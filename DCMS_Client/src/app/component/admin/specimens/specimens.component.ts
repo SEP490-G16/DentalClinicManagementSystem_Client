@@ -98,32 +98,23 @@ export class SpecimensComponent implements OnInit {
 
 
   filterByOrderDate(order: any) {
-    var order_date_start = this.convertToVietnamTime(order[0].toString());
-    const order_from_date = this.convertIndoDatetoVnDate(order_date_start);
-    this.orderFromDateFilter = this.dateToTimestamp(order_from_date +" 00:00:00")+"";
-    var order_date_end = this.convertToVietnamTime(order[1].toString());
-    const order_to_date = this.convertIndoDatetoVnDate(order_date_end)
-    this.orderToDateFilter = this.dateToTimestamp(order_to_date+ " 23:59:59")+""
+    const orderSplit = order.split(' - ');
+    this.orderFromDateFilter = this.dateToTimestamp(orderSplit[0] +" 00:00:00")+"";
+    this.orderToDateFilter = this.dateToTimestamp(orderSplit[1]+ " 23:59:59")+"";
     this.filterSpecimenInSystem(this.laboFilter, this.orderFromDateFilter, this.orderToDateFilter, this.receivedFromDateFilter, this.receivedToDateFilter, this.useFromDateFilter, this.useToDateFilter, this.statusFilter, this.pagingSearch.paging);
   }
 
   filterByReceivedDate(received: string) {
-    var received_date_start = this.convertToVietnamTime(received[0].toString());
-    const received_from_date = this.convertIndoDatetoVnDate(received_date_start);
-    this.receivedFromDateFilter = this.dateToTimestamp(received_from_date +" 00:00:00")+"";
-    var received_date_end = this.convertToVietnamTime(received[1].toString());
-    const received_to_date = this.convertIndoDatetoVnDate(received_date_end)
-    this.receivedToDateFilter = this.dateToTimestamp(received_to_date+ " 23:59:59")+""
+    const orderSplit = received.split(' - ');
+    this.receivedFromDateFilter = this.dateToTimestamp(orderSplit[0] +" 00:00:00")+"";
+    this.receivedToDateFilter = this.dateToTimestamp(orderSplit[1]+ " 23:59:59")+""
     this.filterSpecimenInSystem(this.laboFilter, this.orderFromDateFilter, this.orderToDateFilter, this.receivedFromDateFilter, this.receivedToDateFilter, this.useFromDateFilter, this.useToDateFilter, this.statusFilter, this.pagingSearch.paging);
   }
 
   filterByUseDate(useD: string) {
-    var useD_date_start = this.convertToVietnamTime(useD[0].toString());
-    const useD_from_date = this.convertIndoDatetoVnDate(useD_date_start);
-    this.useFromDateFilter = this.dateToTimestamp(useD_from_date +" 00:00:00")+"";
-    var useD_date_end = this.convertToVietnamTime(useD[1].toString());
-    const received_to_date = this.convertIndoDatetoVnDate(useD_date_end)
-    this.useToDateFilter = this.dateToTimestamp(received_to_date+ " 23:59:59")+""
+    const orderSplit = useD.split(' - ');
+    this.useFromDateFilter = this.dateToTimestamp(orderSplit[0] +" 00:00:00")+"";
+    this.useToDateFilter = this.dateToTimestamp(orderSplit[1]+ " 23:59:59")+""
     this.filterSpecimenInSystem(this.laboFilter, this.orderFromDateFilter, this.orderToDateFilter, this.receivedFromDateFilter, this.receivedToDateFilter, this.useFromDateFilter, this.useToDateFilter, this.statusFilter, this.pagingSearch.paging);
   }
 
@@ -256,7 +247,7 @@ export class SpecimensComponent implements OnInit {
     this.status = "";
     this.loading = true;
     this.currentPage = paging;
-    this.filteredSpecimens = []
+    this.filteredSpecimens.splice(0, this.filteredSpecimens.length);
     this.SpecimensService.getSpecimens(paging)
       .subscribe((sRoot) => {
         sRoot.data.forEach((item: any) => {
@@ -303,7 +294,6 @@ export class SpecimensComponent implements OnInit {
         })
         this.loading = false;
       },
-        // ResponseHandler.HANDLE_HTTP_STATUS("abc",401)
         error => {
           ResponseHandler.HANDLE_HTTP_STATUS(this.SpecimensService.apiUrl + "/medical-supply/status/" + 2 + "/" + paging, error);
         }

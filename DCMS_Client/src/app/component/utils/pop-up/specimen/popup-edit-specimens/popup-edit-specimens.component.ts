@@ -93,7 +93,6 @@ export class PopupEditSpecimensComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['PutSpecimen'].currentValue) {
-      console.log(changes['PutSpecimen']);
       this.IPutSpecimens.ms_name = this.PutSpecimen.ms_name;
       this.IPutSpecimens.ms_type = this.PutSpecimen.ms_type;
       this.IPutSpecimens.ms_unit_price = this.PutSpecimen.ms_unit_price;
@@ -117,17 +116,12 @@ export class PopupEditSpecimensComponent implements OnInit {
       if (usedDateParts && usedDateParts.length === 3) {
         this.usedDateNgbModal = { year: usedDateParts[0], month: usedDateParts[1], day: usedDateParts[2] };
       }
-      console.log("AA: ", this.PutSpecimen)
-      //alert(this.PutSpecimen.p_patient_id);
-      //return;
       this.getPatient(this.PutSpecimen.p_patient_id);
       this.IPutSpecimens.ms_status = this.PutSpecimen.ms_status;
       this.id = this.PutSpecimen.ms_id;
-      //console.log(this.IPutSpecimens);
     }
     if (changes['AllLabos']) {
       this.Labos = this.AllLabos;
-      console.log("Labos:", this.Labos);
     }
   }
   dateToTimestamp(dateStr: string): number {
@@ -143,13 +137,10 @@ export class PopupEditSpecimensComponent implements OnInit {
     return dateStr;
   }
   EditSpecimen() {
-
     const orderDate = FormatNgbDate.formatNgbDateToString(this.orderDateNgbModal);
     const receivedDate = FormatNgbDate.formatNgbDateToString(this.receiverDateNgbModal);
     const usedDate = FormatNgbDate.formatNgbDateToString(this.usedDateNgbModal);
     const warranty = FormatNgbDate.formatNgbDateToString(this.warrantyDateNgbModal);
-    console.log("id", this.id);
-    console.log("specimens", this.IPutSpecimens);
     this.resetValidate();
     if (!this.IPutSpecimens.ms_name) {
       this.validatePutSpecimens.name = 'Vui lòng nhập tên mẫu!';
@@ -159,30 +150,30 @@ export class PopupEditSpecimensComponent implements OnInit {
       this.validatePutSpecimens.orderDate = 'Vui lòng nhập ngày đặt!';
       this.isSubmitted = true;
     }
-    if (receivedDate && !this.formatDate(receivedDate)) {
-      this.validatePutSpecimens.receivedDate = 'Vui lòng nhập lại ngày nhận!';
-      this.isSubmitted = true;
-    }
-    else if (receivedDate < orderDate && this.formatDate(receivedDate)) {
-      this.validatePutSpecimens.receivedDate = 'Vui lòng chọn ngày nhận lớn hơn ngày đặt!';
-      this.isSubmitted = true;
-    }
-    else if (receivedDate > usedDate && this.formatDate(receivedDate)) {
-      this.validatePutSpecimens.receivedDate = 'Vui lòng chọn ngày nhận nhỏ hơn ngày lắp!';
-      this.isSubmitted = true;
-    }
-    if (usedDate && !this.formatDate(usedDate)) {
-      this.validatePutSpecimens.useDate = 'Vui lòng nhập lại ngày lắp!';
-      this.isSubmitted = true;
-    }
-    else if (usedDate < orderDate && this.formatDate(usedDate)) {
-      this.validatePutSpecimens.useDate = 'Vui lòng chọn ngày lắp lớn hơn ngày đặt!';
-      this.isSubmitted = true;
-    }
-    else if (usedDate < receivedDate && this.formatDate(usedDate)) {
-      this.validatePutSpecimens.useDate = 'Vui lòng chọn ngày lắp lớn hơn ngày nhận!';
-      this.isSubmitted = true;
-    }
+    // if (receivedDate && !this.formatDate(receivedDate)) {
+    //   this.validatePutSpecimens.receivedDate = 'Vui lòng nhập lại ngày nhận!';
+    //   this.isSubmitted = true;
+    // }
+    // else if (receivedDate < orderDate && this.formatDate(receivedDate)) {
+    //   this.validatePutSpecimens.receivedDate = 'Vui lòng chọn ngày nhận lớn hơn ngày đặt!';
+    //   this.isSubmitted = true;
+    // }
+    // else if (receivedDate > usedDate && this.formatDate(receivedDate)) {
+    //   this.validatePutSpecimens.receivedDate = 'Vui lòng chọn ngày nhận nhỏ hơn ngày lắp!';
+    //   this.isSubmitted = true;
+    // }
+    // if (usedDate && !this.formatDate(usedDate)) {
+    //   this.validatePutSpecimens.useDate = 'Vui lòng nhập lại ngày lắp!';
+    //   this.isSubmitted = true;
+    // }
+    // else if (usedDate < orderDate && this.formatDate(usedDate)) {
+    //   this.validatePutSpecimens.useDate = 'Vui lòng chọn ngày lắp lớn hơn ngày đặt!';
+    //   this.isSubmitted = true;
+    // }
+    // else if (usedDate < receivedDate && this.formatDate(usedDate)) {
+    //   this.validatePutSpecimens.useDate = 'Vui lòng chọn ngày lắp lớn hơn ngày nhận!';
+    //   this.isSubmitted = true;
+    // }
     if (!this.IPutSpecimens.lb_id) {
       this.validatePutSpecimens.labo = 'Vui lòng chọn labo!';
       this.isSubmitted = true;
@@ -191,10 +182,10 @@ export class PopupEditSpecimensComponent implements OnInit {
       this.validatePutSpecimens.quantity = 'Vui lòng nhập lại số lượng!';
       this.isSubmitted = true;
     }
-    if (this.IPutSpecimens.ms_unit_price && !this.checkNumber(this.IPutSpecimens.ms_unit_price)) {
-      this.validatePutSpecimens.unitPrice = 'Vui lòng nhập lại đơn giá!';
-      this.isSubmitted = true;
-    }
+    // if (this.IPutSpecimens.ms_unit_price && !this.checkNumber(this.IPutSpecimens.ms_unit_price)) {
+    //   this.validatePutSpecimens.unitPrice = 'Vui lòng nhập lại đơn giá!';
+    //   this.isSubmitted = true;
+    // }
     if (!this.IPutSpecimens.p_patient_id) {
       this.validatePutSpecimens.patient = 'Vui lòng nhập tên bệnh nhân!';
       this.isSubmitted = true;
@@ -207,11 +198,11 @@ export class PopupEditSpecimensComponent implements OnInit {
       type: this.IPutSpecimens.ms_type,
       quantity: this.IPutSpecimens.ms_quantity,
       unit_price: this.IPutSpecimens.ms_unit_price,
-      order_date: this.dateToTimestamp(orderDate).toString(),
+      order_date: orderDate != ''? this.dateToTimestamp(orderDate).toString() : '',
       orderer: this.IPutSpecimens.ms_orderer,
-      received_date: this.dateToTimestamp(receivedDate).toString(),
+      received_date: receivedDate != '' ? this.dateToTimestamp(receivedDate).toString() : '',
       receiver: this.IPutSpecimens.ms_receiver,
-      used_date: this.dateToTimestamp(usedDate).toString(),
+      used_date: usedDate != '' ? this.dateToTimestamp(usedDate).toString() : '',
       warranty: warranty,
       description: this.IPutSpecimens.ms_description,
       status: this.IPutSpecimens.ms_status,
@@ -225,12 +216,8 @@ export class PopupEditSpecimensComponent implements OnInit {
         this.showSuccessToast('Chỉnh sửa mẫu vật thành công!');
         window.location.reload();
       },
-
         (error) => {
-          // console.log(err.err.message)
           this.loading = false;
-          // this.showErrorToast(err.err.message)
-          //this.showSuccessToast('Chỉnh sửa mẫu vật thành công!');
           ResponseHandler.HANDLE_HTTP_STATUS(this.SpecimensService.apiUrl + "/medical-supply/" + this.id, error);
         }
       )
@@ -258,7 +245,6 @@ export class PopupEditSpecimensComponent implements OnInit {
           patientName: data.patient_name,
           patientInfor: data.patient_name + " - " + this.normalizePhoneNumber(data.phone_number),
         };
-        console.log(transformedMaterial)
         if (!this.patientListShow.some(p => p.patientId === transformedMaterial.patientId)) {
           this.patientListShow.push(transformedMaterial);
         }

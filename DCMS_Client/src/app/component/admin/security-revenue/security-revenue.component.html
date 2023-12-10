@@ -2,17 +2,17 @@
   <div class="otp-container">
     <h2>Nhập mật khẩu</h2>
     <div class="otp-inputs">
-      <input type="password" class="form-control">
+      <input type="password" class="form-control" [(ngModel)]="password">
     </div>
     <div class="confirm-password">
-      <button class="btn button-add">Xác nhận mật khẩu</button>
+      <button class="btn button-add" (click)="GetAccessToken()">Xác nhận mật khẩu</button>
     </div>
     <div class="submitOTP">
       <div>
-        <a href="#" routerLink="/gui-otp">Gửi mã OTP đến số điện thoại bác sĩ Hoa</a>
+        <a href="#" routerLink="/gui-otp" (click)="SendOTPByMail(1)">Gửi mã OTP đến số điện thoại bác sĩ Hoa</a>
       </div>
       <div>
-        <a href="#" routerLink="/gui-otp">Gửi mã OTP đến số điện thoại bác sĩ Bình</a>
+        <a href="#" routerLink="/gui-otp" (click)="SendOTPByMail(2)">Gửi mã OTP đến số điện thoại bác sĩ Bình</a>
       </div>
     </div>
   </div>
