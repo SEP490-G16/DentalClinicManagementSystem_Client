@@ -2,8 +2,8 @@ import * as moment from 'moment';
 import 'moment/locale/vi';
 export class TimestampFormat {
 
-   //Convert Date
-   static dateToTimestamp(dateStr: string): number {
+  //Convert Date
+  static dateToTimestamp(dateStr: string): number {
     const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng của chuỗi ngày
     const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
     const timestamp = moment.tz(dateStr, format, timeZone).valueOf();
@@ -38,5 +38,10 @@ export class TimestampFormat {
     const dateTimeStr = `${dateStr} ${timeStr}`;
     const timestamp = moment.tz(dateTimeStr, format, timeZone).valueOf();
     return timestamp / 1000;
+  }
+
+  static VNDateTimeStringNow() {
+    let nowInVietnam = moment().utcOffset('+0700');
+    return nowInVietnam.format('YYYY-MM-DD HH:mm:ss');
   }
 }

@@ -6,6 +6,8 @@ import { SendMessageSocket } from 'src/app/component/shared/services/SendMessage
 import { NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { FormatNgbDate } from '../../../libs/formatNgbDateToString';
+import { TimestampFormat } from '../../../libs/timestampFormat';
+import * as moment from 'moment';
 @Component({
   selector: 'app-popup-add-patient',
   templateUrl: './popup-add-patient.component.html',
@@ -148,6 +150,10 @@ export class PopupAddPatientComponent implements OnInit {
 
       let ref = document.getElementById('cancel');
       ref?.click();
+
+
+      this.patientBody.created_date = TimestampFormat.VNDateTimeStringNow();
+
       this.newPatientAdded.emit(this.patientBody);
 
       this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'pat');
