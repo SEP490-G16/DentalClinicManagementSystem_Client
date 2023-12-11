@@ -67,6 +67,7 @@ export class PatientRecordsComponent implements OnInit {
       }
       if (this.search.trim() !== "") {
       }
+      console.log("Search patient list: ", this.searchPatientsList);
     },
       error => {
         ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test + "/patient/name/" + paging, error);
@@ -123,6 +124,11 @@ export class PatientRecordsComponent implements OnInit {
       }
     }
   }
+
+  onNewPatientAdded(newPatient:any) {
+    this.searchPatientsList.unshift(newPatient);
+  }
+
   openConfirmationModal(message: string): Promise<any> {
     const modalRef = this.modalService.open(ConfirmDeleteModalComponent);
     modalRef.componentInstance.message = message;

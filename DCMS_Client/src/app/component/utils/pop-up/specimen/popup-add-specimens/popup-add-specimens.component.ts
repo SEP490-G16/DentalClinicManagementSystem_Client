@@ -18,10 +18,10 @@ import { FormatNgbDate } from '../../../libs/formatNgbDateToString';
 })
 export class PopupAddSpecimensComponent implements OnInit {
   @Input() approveSpecimensList: any;
-  @Input() Patient_Id:any;
-  orderDateNgbModal!:NgbDateStruct;
-  receiverDateNgbModal!:NgbDateStruct;
-  usedDateNgbModal!:NgbDateStruct;
+  @Input() Patient_Id: any;
+  orderDateNgbModal!: NgbDateStruct;
+  receiverDateNgbModal!: NgbDateStruct;
+  usedDateNgbModal!: NgbDateStruct;
   validateSpecimens = {
     name: '',
     type: '',
@@ -62,6 +62,7 @@ export class PopupAddSpecimensComponent implements OnInit {
     facility_id: '',
     labo_id: '',
     receiver: '',
+    // treatment_course_id: ''
   }
   specimensRes = {
     medical_supply_id: '',
@@ -104,7 +105,7 @@ export class PopupAddSpecimensComponent implements OnInit {
       day: currentDateGMT7.date()
     };
     this.specimen.orderDate = `${this.orderDateNgbModal.year}-${FormatNgbDate.pad(this.orderDateNgbModal.month)}-${FormatNgbDate.pad(this.orderDateNgbModal.day)}`;
-     //alert(this.specimen.orderDate)
+    //alert(this.specimen.orderDate)
   }
 
   patient: any;
@@ -239,12 +240,14 @@ export class PopupAddSpecimensComponent implements OnInit {
       patient_id: this.patientIdSelected,
       facility_id: 'F-01',
       labo_id: this.specimen.labo,
+      // treatment_course_id: this.specimen.treatment_course_id,
       receiver: this.specimen.orderer,
+
     }
     this.loading = true;
     this.medicalSupplyService.addMedicalSupply(this.specimenBody).subscribe(data => {
       this.toastr.success('Thêm mới mẫu thành công !');
-      let ref = document.getElementById('doneModal');
+      let ref = document.getElementById('cancel-specimen');
       ref?.click();
       window.location.reload();
     },
@@ -278,7 +281,7 @@ export class PopupAddSpecimensComponent implements OnInit {
   }
 
   listTreatment: any[] = []
-  clickPatient(patient:any) {
+  clickPatient(patient: any) {
     var pa = patient.split(' - ');
     this.treatmentCourseService.getTreatmentCourse(pa[0]).subscribe((data) => {
       this.listTreatment = data

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ElementRef, ViewChild, Output, EventEmitter } from '@angular/core';
 import { PatientService } from "../../../../../service/PatientService/patient.service";
 import { ToastrService } from "ngx-toastr";
 import { ResponseHandler } from "../../../libs/ResponseHandler";
@@ -13,6 +13,8 @@ import { FormatNgbDate } from '../../../libs/formatNgbDateToString';
 })
 export class PopupAddPatientComponent implements OnInit {
   @Input() searchPatientsList: any;
+  @Output() newPatientAdded = new EventEmitter<any>();
+
   dob: string = "";
   model!: NgbDateStruct;
   patient1: any = {
@@ -143,10 +145,13 @@ export class PopupAddPatientComponent implements OnInit {
 
     this.patientService.addPatient(this.patientBody).subscribe((data: any) => {
       this.toastr.success('Thêm mới bệnh nhân thành công!');
-      this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'pat');
-      localStorage.setItem("patient", JSON.stringify(this.patientBody))
+
       let ref = document.getElementById('cancel');
       ref?.click();
+      this.newPatientAdded.emit(this.patientBody);
+
+      this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'pat');
+      localStorage.setItem("patient", JSON.stringify(this.patientBody))
       const newPatientId = data.data.patient_id;
       this.patientBody.patient_id = newPatientId;
       this.patientBody.phone_number = this.normalizePhoneNumber(this.patientBody.phone_number)
