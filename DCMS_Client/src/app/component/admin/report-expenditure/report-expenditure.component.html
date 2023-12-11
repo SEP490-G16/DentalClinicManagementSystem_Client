@@ -16,8 +16,8 @@
         <div class="col-md-2" style="padding: 10px 0; text-align: center">
           <label>Từ:</label>
         </div>
-        <div class="col-md-10" style="padding: 0">
-          <input style="width: 70%" type="date" [(ngModel)]="fromDate" #input (change)="onChangeFromDate(input.value)"
+        <div class="col-md-8" style="padding: 0">
+          <input style="width: 100%" type="date" [(ngModel)]="fromDate" #input (change)="onChangeFromDate(input.value)"
             class="form-control input-custom  p-2">
         </div>
       </div>
@@ -25,9 +25,16 @@
         <div class="col-md-2" style="padding: 10px 0; text-align: center">
           <label>Đến:</label>
         </div>
-        <div class="col-md-10" style="padding: 0">
-          <input style="width: 70%" type="date" [(ngModel)]="toDate" #inpu (change)="onChangeToDate(inpu.value)"
+        <div class="col-md-8" style="padding: 0">
+          <input style="width: 100%" type="date" [(ngModel)]="toDate" #inpu (change)="onChangeToDate(inpu.value)"
             class="form-control input-custom  p-2">
+        </div>
+        <div class="col-md-2">
+          <div>
+            <button class="btn button-add p-2" style="margin-left: 8px;" title="không lọc">
+              <i class="bi bi-arrow-clockwise"></i>
+            </button>
+          </div>
         </div>
       </div>
     </div>
