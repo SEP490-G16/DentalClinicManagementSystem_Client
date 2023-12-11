@@ -6,6 +6,7 @@ import { CognitoService } from 'src/app/service/cognito.service';
 import { CommonService } from 'src/app/service/commonMethod/common.service';
 import { ResponseHandler } from "../../../utils/libs/ResponseHandler";
 import * as moment from "moment-timezone";
+import { TimestampFormat } from 'src/app/component/utils/libs/timestampFormat';
 
 @Component({
   selector: 'app-patient-profile-tab',
@@ -26,9 +27,7 @@ export class PatientProfileTabComponent implements OnInit {
   patient: any;
   id: any;
   patientBody: any = {
-    patient_id: '',
     date_of_birth: '',
-    created_date: '',
     patient_name: '',
     gender: 0,
     phone_number: '',
@@ -36,7 +35,8 @@ export class PatientProfileTabComponent implements OnInit {
     address: '',
     dental_medical_history: '',
     full_medical_history: '',
-    description: ''
+    description: '',
+    profile_image: '',
   }
   validatePatient = {
     name: '',
@@ -133,16 +133,16 @@ export class PatientProfileTabComponent implements OnInit {
         phone = '+84' + this.patient.phone_number.substring(1);
       }
       this.patientBody = {
-        patient_id: this.patient.patient_id,
-        date_of_birth: this.dateToTimestamp(this.patient.date_of_birth + " 02:00:00"),
+        date_of_birth: TimestampFormat.dateToTimestamp(this.patient.date_of_birth),
         patient_name: this.patient.patient_name,
         gender: this.patient.gender,
         phone_number: phone,
         email: this.patient.email,
         address: this.patient.address,
-        dental_medical_history: this.patient.dental_medical_history,
-        full_medical_history: this.patient.full_medical_History,
-        description: this.patient.description
+        dental_medical_history: this.patient.dental_medical_history || "",
+        full_medical_history: this.patient.full_medical_History || "",
+        description: this.patient.description,
+        profile_image: this.imageURL
       }
       console.log(this.patientBody);
       this.isEditing = false;
