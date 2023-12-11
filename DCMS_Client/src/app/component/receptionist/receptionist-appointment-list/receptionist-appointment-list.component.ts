@@ -130,6 +130,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     // this.nextDate = temp[2] + '-' + temp[0] + '-' + temp[1];
     this.appointmentService.getAppointmentList(this.dateToTimestamp(selectedDate + ' ' + "00:00:00"), this.dateToTimestamp(selectedDate + ' ' + "23:59:59")).subscribe(data => {
       this.appointmentList = ConvertJson.processApiResponse(data);
+      console.log(this.appointmentList);
       localStorage.setItem("ListAppointment", JSON.stringify(this.appointmentList));
       this.filteredAppointments = this.appointmentList.filter(app => app.date === this.dateToTimestamp(selectedDate));
       this.filteredAppointments.forEach((a: any) => {

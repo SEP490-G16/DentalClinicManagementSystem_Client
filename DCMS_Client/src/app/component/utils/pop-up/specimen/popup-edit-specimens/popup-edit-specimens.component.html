@@ -46,7 +46,7 @@
 
                   <div class="input-group">
                     <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="orderDateNgbModal"
-                      ngbDatepicker #orderDatepicker="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày hẹn">
+                      ngbDatepicker #orderDatepicker="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày đặt">
                     <div class="input-group-append">
                       <button class="btn btn-outline-secondary calendar" style="height: 48px;"
                         (click)="orderDatepicker.toggle()" type="button">
@@ -67,7 +67,7 @@
                 <div class="col-9 value-staff">
                   <div class="input-group">
                     <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="receiverDateNgbModal"
-                      ngbDatepicker #orderDatepicker="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày hẹn">
+                      ngbDatepicker #orderDatepicker="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày nhận">
                     <div class="input-group-append">
                       <button class="btn btn-outline-secondary calendar" style="height: 48px;"
                         (click)="orderDatepicker.toggle()" type="button">
@@ -87,7 +87,7 @@
                 <div class="col-9 value-staff">
                   <div class="input-group">
                     <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="usedDateNgbModal"
-                      ngbDatepicker #orderDatepicker="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày hẹn">
+                      ngbDatepicker #orderDatepicker="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày lắp">
                     <div class="input-group-append">
                       <button class="btn btn-outline-secondary calendar" style="height: 48px;"
                         (click)="orderDatepicker.toggle()" type="button">
@@ -170,7 +170,7 @@
                 <label for="patient" class="col-3 name-title">Bệnh nhân <span class="required">*</span></label>
                 <div class="col-9 value-staff">
                   <ng-select [items]="patientList" bindLabel="patientInfor" [(ngModel)]="IPutSpecimens.p_patient_id"
-                    bindValue="patientId" (keyup)="onsearch($event)" [notFoundText]="'Không tìm thấy bệnh nhân'">
+                    bindValue="patientId" (keyup)="onsearch($event)" [notFoundText]="'Không tìm thấy bệnh nhân'" [disabled]="Patient_Id">
 
                   </ng-select>
                   <div *ngIf="isSubmitted" class="alert-danger-custom">
@@ -216,7 +216,7 @@
 
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
+          <button type="button" id="cancel-edit-specimen" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
           <button type="button" class="btn button-timekeeping" (click)="EditSpecimen()" data-bs-dismiss="modal"><i
               class="bi bi-floppy2"></i> Lưu</button>
         </div>

@@ -77,4 +77,5 @@
   </div>
 </div>
 
-<app-popup-add-patient></app-popup-add-patient>
+<!-- <app-popup-add-patient></app-popup-add-patient> -->
+<app-popup-add-patient (newPatientAdded)="onNewPatientAdded($event)"></app-popup-add-patient>

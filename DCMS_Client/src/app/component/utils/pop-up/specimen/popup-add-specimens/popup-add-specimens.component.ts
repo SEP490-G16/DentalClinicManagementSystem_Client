@@ -18,10 +18,10 @@ import { FormatNgbDate } from '../../../libs/formatNgbDateToString';
 })
 export class PopupAddSpecimensComponent implements OnInit {
   @Input() approveSpecimensList: any;
-  @Input() Patient_Id:any;
-  orderDateNgbModal!:NgbDateStruct;
-  receiverDateNgbModal!:NgbDateStruct;
-  usedDateNgbModal!:NgbDateStruct;
+  @Input() Patient_Id: any;
+  orderDateNgbModal!: NgbDateStruct;
+  receiverDateNgbModal!: NgbDateStruct;
+  usedDateNgbModal!: NgbDateStruct;
   validateSpecimens = {
     name: '',
     type: '',
@@ -62,6 +62,7 @@ export class PopupAddSpecimensComponent implements OnInit {
     facility_id: '',
     labo_id: '',
     receiver: '',
+    // treatment_course_id: ''
   }
   specimensRes = {
     medical_supply_id: '',
@@ -88,11 +89,9 @@ export class PopupAddSpecimensComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.Patient_Id != null) {
-      this.patientSerivce.getPatientById(this.Patient_Id).subscribe((data) => {
-        this.patientFind = data;
-        this.patientIdSelected = this.patientFind.patient_id + " - " + this.patientFind.patient_name + " - " + this.patientFind.phone_number;
-      })
+      this.getPatient(this.Patient_Id);
     }
+
     this.getAllLabo();
     this.specimen.quantity = '1';
     this.specimen.orderer = sessionStorage.getItem('username') + '';
@@ -106,10 +105,27 @@ export class PopupAddSpecimensComponent implements OnInit {
       day: currentDateGMT7.date()
     };
     this.specimen.orderDate = `${this.orderDateNgbModal.year}-${FormatNgbDate.pad(this.orderDateNgbModal.month)}-${FormatNgbDate.pad(this.orderDateNgbModal.day)}`;
-     //alert(this.specimen.orderDate)
+    //alert(this.specimen.orderDate)
   }
 
-
+  patient: any;
+  patientListShow: any[] = [];
+  getPatient(id: any) {
+    if (id !== null) {
+      this.patientSerivce.getPatientById(id).subscribe((data: any) => {
+        const transformedMaterial = {
+          patientId: data.patient_id,
+          patientName: data.patient_name,
+          patientInfor: data.patient_name + " - " + this.normalizePhoneNumber(data.phone_number),
+        };
+        if (!this.patientListShow.some(p => p.patientId === transformedMaterial.patientId)) {
+          this.patientListShow.push(transformedMaterial);
+        }
+        this.patientList = this.patientListShow;
+        this.patientIdSelected = transformedMaterial.patientId;
+      })
+    }
+  }
   calculateTotal() {
     const total = parseInt(this.specimen.quantity) * parseInt(this.specimen.price);
     this.specimen.total = total.toString();
@@ -224,12 +240,14 @@ export class PopupAddSpecimensComponent implements OnInit {
       patient_id: this.patientIdSelected,
       facility_id: 'F-01',
       labo_id: this.specimen.labo,
+      // treatment_course_id: this.specimen.treatment_course_id,
       receiver: this.specimen.orderer,
+
     }
     this.loading = true;
     this.medicalSupplyService.addMedicalSupply(this.specimenBody).subscribe(data => {
       this.toastr.success('Thêm mới mẫu thành công !');
-      let ref = document.getElementById('doneModal');
+      let ref = document.getElementById('cancel-specimen');
       ref?.click();
       window.location.reload();
     },
@@ -263,7 +281,7 @@ export class PopupAddSpecimensComponent implements OnInit {
   }
 
   listTreatment: any[] = []
-  clickPatient(patient:any) {
+  clickPatient(patient: any) {
     var pa = patient.split(' - ');
     this.treatmentCourseService.getTreatmentCourse(pa[0]).subscribe((data) => {
       this.listTreatment = data
@@ -296,6 +314,15 @@ export class PopupAddSpecimensComponent implements OnInit {
     this.laboService.getLabos().subscribe((data) => {
       this.labos = data.data;
     })
+  }
+
+  normalizePhoneNumber(phoneNumber: string): string {
+    if (phoneNumber.startsWith('(+84)')) {
+      return '0' + phoneNumber.slice(5);
+    } else if (phoneNumber.startsWith('+84')) {
+      return '0' + phoneNumber.slice(3);
+    } else
+      return phoneNumber;
   }
 
   dateToTimestamp(dateStr: string): number {
