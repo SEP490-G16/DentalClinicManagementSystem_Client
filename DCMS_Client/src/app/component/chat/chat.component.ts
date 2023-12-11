@@ -102,7 +102,9 @@ export class ChatComponent implements OnInit, OnDestroy {
               if (item.patient_id == check[1]) {
                 if (check[2] == 4 && checkPa) {
                   const index = this.filteredWaitingRoomData.findIndex((item: any) => { item.patient_id == check[1] });
-                  this.filteredWaitingRoomData.splice(index, 1);
+                  if (index != -1) {
+                    this.filteredWaitingRoomData.splice(index, 1);
+                  }
                   checkPa = false;
                 } else {
                   item.status = check[2];

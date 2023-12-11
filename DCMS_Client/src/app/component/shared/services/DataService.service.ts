@@ -115,14 +115,14 @@ export class DataService {
             }
         } else if (param == 1) {
             const currentData = this.ANALYSES.getValue();
-            var check;
-            const checkTotal = localStorage.getItem('patient_examinated');
-            if (checkTotal != null) {
-                check = JSON.parse(checkTotal);
-            }
+            //var check;
+            // const checkTotal = localStorage.getItem('patient_examinated');
+            // if (checkTotal != null) {
+            //     check = JSON.parse(checkTotal);
+            // }
             const newData = {
                 ...currentData,
-                total_patient_examinated: check.total
+                total_patient_examinated: currentData.total_patient_examinated + 1
             };
             this.updateAnalysesData(newData);
         } else {
