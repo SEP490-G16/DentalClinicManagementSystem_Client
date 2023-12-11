@@ -33,7 +33,15 @@
                         <div class="col-md-6">
                           <div class="form-group mb-3">
                             <label class="small mb-1" for="createdDate">Ngày sinh<span class="required">*</span></label>
-                            <input class="form-control" placeholder="dd/MM/yyyy" [(ngModel)]="patient1.dob" id="createdDate" type="text">
+<!--                            <input class="form-control" placeholder="dd/MM/yyyy" [(ngModel)]="patient1.dob" id="createdDate" type="text">-->
+                            <form class="row row-cols-sm-auto">
+                              <div class="input-group">
+                                <input class="form-control" placeholder="DD/MM/YYYY" name="dp" [(ngModel)]="dobNgb"
+                                       ngbDatepicker #d="ngbDatepicker" />
+                                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()"
+                                        type="button"></button>
+                              </div>
+                            </form>
                             <div *ngIf="isSubmittedPatient" class="alert-danger-custom">
                               <p style="color:#FF0000FF;">
                                 {{validatePatient.dob}}

@@ -112,6 +112,10 @@ export class PopupAddStaffComponent implements OnInit {
       this.vailidateStaff.facility = "Vui lòng chọn cơ sở";
       this.isSubmitted = true;
     }
+    if (this.role === '0'){
+      this.vailidateStaff.role = "Vui lòng chọn chức vụ";
+      this.isSubmitted = true;
+    }
 
     if (this.staff.password.length < 8) {
       this.vailidateStaff.password = "Mật khẩu phải dài hơn 8 ký tự !";
@@ -177,7 +181,9 @@ export class PopupAddStaffComponent implements OnInit {
     //   }
     // });
   }
-
+  closePopup(){
+    this.resetValidate();
+  }
   onFileSelected(event: any) {
     const fileInput = event.target;
     if (fileInput.files && fileInput.files[0]) {

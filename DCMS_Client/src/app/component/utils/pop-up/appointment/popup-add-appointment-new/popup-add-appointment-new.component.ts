@@ -18,6 +18,7 @@ import * as moment from "moment-timezone";
 import {ConvertJson} from "../../../../../service/Lib/ConvertJson";
 import {Normalize} from "../../../../../service/Lib/Normalize";
 import {ResponseHandler} from "../../../libs/ResponseHandler";
+import {FormatNgbDate} from "../../../libs/formatNgbDateToString";
 
 @Component({
   selector: 'app-popup-add-appointment-new',
@@ -25,6 +26,7 @@ import {ResponseHandler} from "../../../libs/ResponseHandler";
   styleUrls: ['./popup-add-appointment-new.component.css']
 })
 export class PopupAddAppointmentNewComponent implements OnInit {
+  dobNgb!: NgbDateStruct
   private itemsSource = new BehaviorSubject<any[]>([]);
   items = this.itemsSource.asObservable();
   isCheckProcedure: boolean = true;
@@ -282,11 +284,11 @@ export class PopupAddAppointmentNewComponent implements OnInit {
       this.validatePatient.phone = "Số điện thoại không hợp lệ!";
       this.isSubmittedPatient = true;
     }
-    if (!this.patient1.dob) {
+    if (!this.dobNgb || !this.dobNgb.year || !this.dobNgb.month || !this.dobNgb.day) {
       this.validatePatient.dob = "Vui lòng nhập ngày sinh!";
-      this.isSubmittedPatient = true;
+      this.isSubmitted = true;
     }
-    else if (!this.isDob(this.patient1.dob)){
+    else if (!this.isDob(FormatNgbDate.formatNgbDateToString(this.dobNgb))){
       this.validatePatient.dob = "Vui lòng nhập ngày sinh đúng định dạng dd/MM/yyyy !";
       this.isSubmitted = true;
     }
@@ -410,7 +412,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
       address: this.patient1.Address,
       full_medical_history: this.patient1.full_medical_History,
       dental_medical_history: this.patient1.dental_medical_History,
-      date_of_birth:this.convertDateToISOFormat(this.patient1.dob)
+      date_of_birth:FormatNgbDate.formatNgbDateToString(this.dobNgb)
     }
     if (this.patient1.phone_Number && this.patient1.phone_Number.length === 9) {
       this.patientBody = {
@@ -422,7 +424,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
         address: this.patient1.Address,
         full_medical_history: this.patient1.full_medical_History,
         dental_medical_history: this.patient1.dental_medical_History,
-        date_of_birth: this.convertDateToISOFormat(this.patient1.dob)
+        date_of_birth: FormatNgbDate.formatNgbDateToString(this.dobNgb)
       }
     }
     if (this.patient1.phone_Number && this.patient1.phone_Number.length === 10) {
@@ -435,7 +437,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
         address: this.patient1.Address,
         full_medical_history: this.patient1.full_medical_History,
         dental_medical_history: this.patient1.dental_medical_History,
-        date_of_birth: this.convertDateToISOFormat(this.patient1.dob)
+        date_of_birth: FormatNgbDate.formatNgbDateToString(this.dobNgb)
       }
     }
 
