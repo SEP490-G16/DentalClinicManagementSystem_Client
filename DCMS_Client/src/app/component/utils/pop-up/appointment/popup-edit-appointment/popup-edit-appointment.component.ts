@@ -128,7 +128,6 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
   oldDate: string = ''
   oldTime: string = ''
   ngOnChanges(changes: SimpleChanges): void {
-    //this.getListGroupService();
     this.resetValidate();
     if (changes['selectedAppointment']) {
       this.EDIT_APPOINTMENT_BODY = {
@@ -153,11 +152,13 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     if (changes['dateString']) {
       this.oldDate = this.dateString;
       this.EDIT_APPOINTMENT_BODY.epoch = this.dateString;
-      this.model = {
-        year: parseInt(this.dateString.split('-')[0]),
-        month: parseInt(this.dateString.split('-')[1]),
-        day: parseInt(this.dateString.split('-')[2])
-      };
+      if (this.dateString != null && this.dateString != undefined) {
+        this.model = {
+          year: parseInt(this.dateString.split('-')[0]),
+          month: parseInt(this.dateString.split('-')[1]),
+          day: parseInt(this.dateString.split('-')[2])
+        };
+      }
     }
     if (changes['timeString']) {
       this.oldTime = this.timeString;
@@ -226,7 +227,6 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     const selectedDay = this.model.day.toString().padStart(2, '0');
 
     const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
-    alert(selectedDate);
     this.timeKeepingService.getFollowingTimekeeping(this.dateToTimestamp(selectedDate + " 00:00:00"), this.dateToTimestamp(selectedDate + " 23:59:59")).subscribe(data => {
       this.listRegisterTime = this.organizeData(data);
       this.listDoctorFilter.splice(0, this.listDoctorFilter.length);
@@ -418,7 +418,6 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     if (!checkPatient ) {
       return;
     }
-    return;
     this.APPOINTMENT_SERVICE.putAppointment(this.EDIT_APPOINTMENT_BODY, this.selectedAppointment.appointment_id).subscribe(response => {
       this.showSuccessToast('Sửa Lịch hẹn thành công!');
       window.location.reload();

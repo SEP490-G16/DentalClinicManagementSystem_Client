@@ -117,12 +117,14 @@ export class ChatComponent implements OnInit, OnDestroy {
             })
           }
           const statusOrder: { [key: number]: number } = { 2: 1, 3: 2, 1: 3, 4: 4 };
-          this.filteredWaitingRoomData.sort((a: any, b: any) => {
-            const orderA = statusOrder[a.status] ?? Number.MAX_VALUE; // Fallback if status is not a valid key
-            const orderB = statusOrder[b.status] ?? Number.MAX_VALUE; // Fallback if status is not a valid key
-            return orderA - orderB;
-          });
-          this.waitingRoomService.updateData(this.filteredWaitingRoomData);
+          if (this.filteredWaitingRoomData.length > 0) {
+            this.filteredWaitingRoomData.sort((a: any, b: any) => {
+              const orderA = statusOrder[a.status] ?? Number.MAX_VALUE; // Fallback if status is not a valid key
+              const orderB = statusOrder[b.status] ?? Number.MAX_VALUE; // Fallback if status is not a valid key
+              return orderA - orderB;
+            });
+            this.waitingRoomService.updateData(this.filteredWaitingRoomData);
+          }
         }
       } else if (check[0] == 'UpdateAnalysesTotal@@@') {
         if (check[1] == 'plus') {

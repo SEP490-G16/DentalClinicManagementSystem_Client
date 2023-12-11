@@ -318,8 +318,10 @@ export class ReceptionistAppointmentListComponent implements OnInit {
           })).filter((app: any) => app.appointments.length > 0);
 
           console.log("Đã xóa: ", this.filteredAppointments);
-          //this.startDate = `${this.startDateNgb.year}-${this.pad(this.startDateNgb.month)}-${this.pad(this.startDateNgb.day)}`;
-          if (this.startDate == this.timestampToDate(this.DELETE_APPOINTMENT_BODY.epoch)) {
+          console.log("xóa lịch hẹn: ", this.startDate == this.timestampToDate(this.DELETE_APPOINTMENT_BODY.epoch))
+          const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
+          this.currentDate = currentDateGMT7;
+          if (this.currentDate == this.timestampToDate(this.DELETE_APPOINTMENT_BODY.epoch)) {
             this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'minus', 'app');
           }
         }, error => {
@@ -432,10 +434,35 @@ export class ReceptionistAppointmentListComponent implements OnInit {
               doctor: b.doctor,
               status: 3,
               time: b.time,
-              patient_created_date: ''
+              patient_created_date: b.patient_created_date
             }
           }
-          this.ListPatientWaiting.push(updatePatient);
+
+          let update1 = {
+            epoch: parseInt(a),
+            new_epoch: parseInt(a),
+            patient_id: b.patient_id,
+            patient_name: b.patient_name,
+            phone_number: b.phone_number,
+            procedure_id: b.procedure_id,
+            procedure_name: b.procedure_name,
+            reason: b.reason,
+            doctor: b.doctor,
+            status: 3,
+            time: b.time,
+            patient_created_date: b.patient_created_date
+          }
+          if (this.ListPatientWaiting != null && this.ListPatientWaiting != undefined && this.ListPatientWaiting.length != 0) {
+            this.ListPatientWaiting.forEach((item:any) => {
+              if (item.epoch == update1.epoch) {
+                if (item.appointment.patient_id == update1.patient_id) {
+                  item = update1;
+                }
+              }
+            })
+          } else {
+            this.ListPatientWaiting.push(update1);
+          }
           this.appointmentService.putAppointment(updatePatient, this.Exchange.appointment_id).subscribe((data) => {
             this.showSuccessToast(`Đã thêm bệnh nhân ${this.Exchange.patient_name} và hàng đợi`);
           })
@@ -452,7 +479,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
             appointment_epoch: '',
             patient_created_date: '',
           }
-          window.location.href = "/letan/phong-cho";
+          window.location.href = "/phong-cho";
         },
         (error) => {
           this.loading = false;
