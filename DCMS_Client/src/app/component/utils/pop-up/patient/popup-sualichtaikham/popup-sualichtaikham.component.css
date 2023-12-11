@@ -30,3 +30,7 @@
 .title{
   color: #FFFFFF;
 }
+.required {
+  color: red;
+  margin-left: 3px;
+}

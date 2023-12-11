@@ -76,7 +76,7 @@
                   <div class="row gx-3 mb-3">
                     <div class="col-md-6">
                       <div class="form-group mb-3">
-                        <label class="small mb-1" for="inputPhone">Điện thoại<span class="required">*</span></label>
+                        <label class="small mb-1" for="inputPhone">Điện thoại</label>
                         <div class="input-group mb-3">
                           <div class="input-group-prepend">
                             <span class="input-group-text custom-input" id="basic-addon1">(+84)</span>
@@ -84,11 +84,11 @@
                           <input type="text" class="form-control" [(ngModel)]="patient1.phone_Number" id="inputPhone"
                                  name="inputPhone" aria-label="phoneNumber" aria-describedby="basic-addon1">
                         </div>
-                        <div *ngIf="isSubmitted" class="alert-danger-custom">
-                          <p style="color:#FF0000FF;">
-                            {{validatePatient.phone}}
-                          </p>
-                        </div>
+<!--                        <div *ngIf="isSubmitted" class="alert-danger-custom">-->
+<!--                          <p style="color:#FF0000FF;">-->
+<!--                            {{validatePatient.phone}}-->
+<!--                          </p>-->
+<!--                        </div>-->
                       </div>
                     </div>
                     <div class="col-md-6">
@@ -155,7 +155,7 @@
           </div>
         </div>
         <div class="button-conf float-end">
-          <button type="button" class="btn btn-cancel" data-bs-dismiss="modal" id="cancel-add-waiting">Quay lại</button>
+          <button type="button" class="btn btn-cancel" data-bs-dismiss="modal" id="cancel-add-waiting-new">Quay lại</button>
           <button type="button" class="btn button-timekeeping" (click)="addPatient()" >
             <i class="bi bi-plus-circle"></i> Thêm mới hàng chờ</button>
         </div>

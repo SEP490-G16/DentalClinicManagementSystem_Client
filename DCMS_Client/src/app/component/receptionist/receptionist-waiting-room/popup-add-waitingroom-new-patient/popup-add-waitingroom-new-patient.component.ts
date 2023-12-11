@@ -308,8 +308,6 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
     this.PATIENT_SERVICE.addPatient(this.patientBody).subscribe((data: any) => {
       this.toastr.success('Thêm mới bệnh nhân thành công!');
       this.currentPatientCreated = true;
-      let ref = document.getElementById('cancel-patient');
-      ref?.click();
       this.patient1 = [];
       this.POST_WAITTINGROOM.patient_id = data.data.patient_id;
       this.POST_WAITTINGROOM.patient_name = this.patientBody.patient_name;
@@ -319,7 +317,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
       if (this.currentPatientCreated == true) {
         this.POST_WAITTINGROOM.patient_created_date = '1';
         this.currentPatientCreated = false;
-      } 
+      }
       const postInfo = this.POST_WAITTINGROOM.epoch + ' - ' + this.POST_WAITTINGROOM.produce_id + ' - ' + this.POST_WAITTINGROOM.produce_name + ' - '
       + this.POST_WAITTINGROOM.patient_id + ' - ' +this.POST_WAITTINGROOM.patient_name + ' - ' + this.POST_WAITTINGROOM.reason + ' - '
       + this.POST_WAITTINGROOM.status + ' - ' + this.POST_WAITTINGROOM.appointment_id + ' - ' + this.POST_WAITTINGROOM.appointment_epoch + ' - ' + this.POST_WAITTINGROOM.patient_created_date;
@@ -327,7 +325,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
       .subscribe((data) => {
           this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'wtr');
           this.showSuccessToast("Thêm phòng chờ thành công!!");
-          let ref = document.getElementById('cancel-add-waiting');
+          let ref = document.getElementById('cancel-add-waiting-new');
           ref?.click();
           this.messageContent = `CheckRealTimeWaitingRoom@@@,${postInfo},${Number('1')}`;
           this.messageBody = {
@@ -343,6 +341,19 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
             this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
 
           }
+          this.POST_WAITTINGROOM = {
+            epoch: "",
+            produce_id: '',
+            produce_name: '',
+            patient_id: '',
+            patient_name: '',
+            reason: '',
+            status: "1",
+            appointment_id: '',
+            appointment_epoch: '',
+            patient_created_date: '',
+          } as IPostWaitingRoom
+          this.patientInfor = '';
         },
         (err) => {
           this.showErrorToast('Lỗi khi thêm phòng chờ');

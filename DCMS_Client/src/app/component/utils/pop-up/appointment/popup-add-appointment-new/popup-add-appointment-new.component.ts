@@ -297,8 +297,8 @@ export class PopupAddAppointmentNewComponent implements OnInit {
     }
     //Check validate create new appointment
     const selectedYear = this.model.year;
-    const selectedMonth = this.model.month.toString().padStart(2, '0'); 
-    const selectedDay = this.model.day.toString().padStart(2, '0'); 
+    const selectedMonth = this.model.month.toString().padStart(2, '0');
+    const selectedDay = this.model.day.toString().padStart(2, '0');
 
     const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
     this.AppointmentBody.epoch = this.dateToTimestamp(selectedDate);
@@ -442,8 +442,6 @@ export class PopupAddAppointmentNewComponent implements OnInit {
     this.PATIENT_SERVICE.addPatient(this.patientBody).subscribe((data: any) => {
       this.toastr.success('Thêm mới bệnh nhân thành công!');
       this.checkNewPatent = true;
-      let ref = document.getElementById('cancel-patient');
-      ref?.click();
       this.patient1 = [];
       this.AppointmentBody.appointment.patient_id = data.data.patient_id;
       this.AppointmentBody.appointment.patient_name = this.patientBody.patient_name;
@@ -451,7 +449,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
       if (this.checkNewPatent == true) {
         this.AppointmentBody.appointment.patient_created_date = "1";
         this.checkNewPatent = false;
-      } 
+      }
       this.APPOINTMENT_SERVICE.postAppointment(this.AppointmentBody).subscribe(
         (response) => {
           this.loading = false;
@@ -459,6 +457,8 @@ export class PopupAddAppointmentNewComponent implements OnInit {
             this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'app');
           }
           this.showSuccessToast('Lịch hẹn đã được tạo thành công!');
+          let ref = document.getElementById('cancel-patient-appointment');
+          ref?.click();
           const newDetail: any = {
             appointment_id: response.appointment_id,
             patient_id: this.AppointmentBody.appointment.patient_id,
@@ -472,9 +472,9 @@ export class PopupAddAppointmentNewComponent implements OnInit {
             patient_created_date: this.AppointmentBody.appointment.patient_created_date,
             migrated: 'false'
           };
-  
+
           const appointmentIndex = this.filteredAppointments.findIndex((a: any) => a.date === this.AppointmentBody.epoch);
-  
+
           if (appointmentIndex !== -1) {
             this.filteredAppointments[appointmentIndex].appointments.push({
               procedure: this.AppointmentBody.appointment.procedure_id,
@@ -510,7 +510,6 @@ export class PopupAddAppointmentNewComponent implements OnInit {
               time: 0
             }
           } as IAddAppointment;
-
           //window.location.reload();
         },
         (error) => {
@@ -626,16 +625,16 @@ export class PopupAddAppointmentNewComponent implements OnInit {
 
   close() {
     this.AppointmentBody = {
-      epoch: 0,  
+      epoch: 0,
       appointment: {
-        patient_id: '', 
-        patient_name: '', 
-        phone_number: '', 
+        patient_id: '',
+        patient_name: '',
+        phone_number: '',
         procedure_id: "1",
-        procedure_name: '', 
+        procedure_name: '',
         doctor: '',
         status: 2,
-        time: 0  
+        time: 0
       }
     } as IAddAppointment;
     this.isAddOld = false;

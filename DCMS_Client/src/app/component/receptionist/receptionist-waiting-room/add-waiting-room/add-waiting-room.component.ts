@@ -218,6 +218,19 @@ export class AddWaitingRoomComponent implements OnInit {
           this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
 
         }
+          this.POST_WAITTINGROOM = {
+            epoch: "",
+            produce_id: '',
+            produce_name: '',
+            patient_id: '',
+            patient_name: '',
+            reason: '',
+            status: "1",
+            appointment_id: '',
+            appointment_epoch: '',
+            patient_created_date: '',
+          } as IPostWaitingRoom
+          this.patientInfor = '';
       },
         (err) => {
           this.showErrorToast('Lỗi khi thêm phòng chờ');
