@@ -9,23 +9,45 @@ import { ConfirmDeleteModalComponent } from '../../utils/pop-up/common/confirm-d
   styleUrls: ['./material-management.component.css']
 })
 export class MaterialManagementComponent implements OnInit {
-  materials: any;
+  materials: any[] = [];
   material: any;
+  currentPage: number = 1;
+  hasNextPage: boolean = false;
   pagingBill = {
     paging: 1,
     total: 0
   };
+  clicked: boolean = false;
+  lastClickTime: number = 0;
   constructor(private materialService: MaterialService, private toastr: ToastrService, private modalService: NgbModal
   ) { }
 
   ngOnInit(): void {
-    this.getMaterial();
+    this.getMaterial(this.pagingBill.paging);
   }
 
-  getMaterial() {
-    this.materialService.getMaterial(1).subscribe((res) => { this.materials = res.data; console.log(this.materials) })
+  getMaterial(page : number) {
+    this.currentPage = page;
+    this.materials = [];
+    this.materialService.getMaterial(this.currentPage).subscribe(data =>{
+      this.materials = data.data;
+      this.checkNextPage();
+      if (this.materials.length > 10) {
+        this.materials.pop();
+      }
+    })
   }
+  pageChanged(event: number) {
+    const currentTime = new Date().getTime();
+    if (!this.clicked || (currentTime - this.lastClickTime >= 600)) {
+      this.clicked = true;
+      this.lastClickTime = currentTime;
 
+      if (event >= 1) {
+        this.getMaterial(event);
+      }
+    }
+  }
   onMaterialAdded(newMaterial: any) {
     this.materials.unshift(newMaterial);
   }
@@ -33,7 +55,9 @@ export class MaterialManagementComponent implements OnInit {
   editMaterial(material: any) {
     this.material = material;
   }
-
+  checkNextPage() {
+    this.hasNextPage = this.materials.length > 10;
+  }
   onMaterialUpdated(updatedMaterial: any) {
     const index = this.materials.findIndex((m: any) => m.material_id === updatedMaterial.material_id);
     if (index !== -1) {

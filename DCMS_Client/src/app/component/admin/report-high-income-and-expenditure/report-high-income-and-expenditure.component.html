@@ -78,22 +78,22 @@
           <td>{{patient.patientCode}}</td>
           <td>{{patient.patientName}}</td>
           <td>{{patient.phoneNumber}}</td>
-          <td>{{patient.initialAmount}}</td>
-          <td>{{patient.discount}}</td>
-          <td>{{patient.totalAmount}}</td>
-          <td>{{patient.totalPay}}</td>
-          <td>{{patient.totalLeft}}</td>
+          <td>{{formatCurrency(patient.initialAmount)}}</td>
+          <td>{{patient.discount}}%</td>
+          <td>{{formatCurrency(patient.totalAmount)}}</td>
+          <td>{{formatCurrency(patient.totalPay)}}</td>
+          <td>{{formatCurrency(patient.totalLeft)}}</td>
         </tr>
       </tbody>
     </table>
   </div>
   <div style="padding: 15px 10px; border-bottom: 10px; background-color: white; border-top: 2px solid black;">
     <div class="row" style=" color:black; font-weight: bold;">
-      <div class="col-md-3">Tổng tiền điều trị: {{stastisticTotal.initialTotalAmount}} VNĐ</div>
+      <div class="col-md-3">Tổng tiền điều trị: {{formatCurrency(stastisticTotal.initialTotalAmount)}}</div>
       <div class="col-md-2">Giảm giá: {{stastisticTotal.discount}}%</div>
-      <div class="col-md-3">Phải thanh toán: {{stastisticTotal.totalAmount}} VNĐ</div>
-      <div class="col-md-2">Đã thu: {{stastisticTotal.totalPay}} VNĐ</div>
-      <div class="col-md-2">Còn lại: {{stastisticTotal.totalLeft}} VNĐ</div>
+      <div class="col-md-3">Phải thanh toán: {{formatCurrency(stastisticTotal.totalAmount)}}</div>
+      <div class="col-md-2">Đã thu: {{formatCurrency(stastisticTotal.totalPay)}}</div>
+      <div class="col-md-2">Còn lại: {{formatCurrency(stastisticTotal.totalLeft)}}</div>
     </div>
   </div>
   <!-- <div class="table-container" style="margin-top: 10px;">

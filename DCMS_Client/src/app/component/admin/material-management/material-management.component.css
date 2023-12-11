@@ -28,3 +28,7 @@
 .custom-row .quanlynhap{
   margin-left: 2%;
 }
+.disabled {
+  color: black;
+  background-color: #d9d9d9;
+}

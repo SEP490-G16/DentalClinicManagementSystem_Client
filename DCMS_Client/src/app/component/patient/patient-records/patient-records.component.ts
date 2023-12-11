@@ -54,7 +54,7 @@ export class PatientRecordsComponent implements OnInit {
     // this.subscription.add(this.patientService.patientList$.subscribe(updatedList => {
     //   this.searchPatientsList = updatedList;
     // }));
-    this.pagingSearch.paging = paging;
+    this.currentPage = paging;
     this.patientService.getPatientList(paging).subscribe(patients => {
       this.originPatientList = patients.data;
       this.searchPatientsList = patients.data;
@@ -67,7 +67,6 @@ export class PatientRecordsComponent implements OnInit {
       }
       if (this.search.trim() !== "") {
       }
-      console.log("Search patient list: ", this.searchPatientsList);
     },
       error => {
         ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test + "/patient/name/" + paging, error);
@@ -86,7 +85,6 @@ export class PatientRecordsComponent implements OnInit {
       this.searchPatientsList = this.originPatientList;
     }
     if (this.search != null && this.search != "" && this.search != undefined) {
-      this.isSearching = true;
       setTimeout(() => {
       }, 1000);
       this.patientService.getPatientByName(this.search, this.pagingSearch.paging).subscribe(patients => {
@@ -99,7 +97,6 @@ export class PatientRecordsComponent implements OnInit {
         if (this.searchPatientsList.length > 10) {
           this.searchPatientsList.pop();
         }
-        this.isSearching = false;
       }, error => {
         ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test + "/patient/name/" + this.search + "/" + this.pagingSearch.paging, error)
       }

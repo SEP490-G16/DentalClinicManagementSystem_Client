@@ -23,19 +23,6 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Hiển thị skeleton loader khi đang tìm kiếm -->
-        <ng-container *ngIf="isSearching; else dataRows">
-          <tr *ngFor="let p of [1, 2, 3, 4, 5]" class="skeleton-row">
-            <td class="skeleton-cell"></td>
-            <td class="skeleton-cell"></td>
-            <td class="skeleton-cell"></td>
-            <td class="skeleton-cell"></td>
-            <td class="skeleton-cell"></td>
-            <td class="skeleton-cell"></td>
-          </tr>
-        </ng-container>
-        <!-- Hiển thị dữ liệu thực tế -->
-        <ng-template #dataRows>
           <tr class="hover-patient" *ngFor="let p of searchPatientsList"
             [ngClass]="{'new-record': p.isNew,'pulse': p.isPulsing}" style="cursor: pointer;">
             <td (click)="detail(p.patient_id)" style="width: 100px;">
@@ -64,7 +51,6 @@
               </button>
             </td>
           </tr>
-        </ng-template>
       </tbody>
     </table>
   </div>
