@@ -61,7 +61,7 @@ export class PopupAddSpecimensComponent implements OnInit {
     patient_id: '',
     facility_id: '',
     labo_id: '',
-    treatment_course_id: ''
+    receiver: '',
   }
   specimensRes = {
     medical_supply_id: '',
@@ -239,11 +239,13 @@ export class PopupAddSpecimensComponent implements OnInit {
       patient_id: this.patientIdSelected,
       facility_id: 'F-01',
       labo_id: this.specimen.labo,
-      treatment_course_id: this.specimen.treatment_course_id,
+      receiver: this.specimen.orderer,
     }
     this.loading = true;
     this.medicalSupplyService.addMedicalSupply(this.specimenBody).subscribe(data => {
       this.toastr.success('Thêm mới mẫu thành công !');
+      let ref = document.getElementById('doneModal');
+      ref?.click();
       window.location.reload();
     },
       error => {

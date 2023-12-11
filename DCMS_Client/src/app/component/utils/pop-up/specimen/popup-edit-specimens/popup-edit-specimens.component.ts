@@ -103,6 +103,7 @@ export class PopupEditSpecimensComponent implements OnInit {
       const orderDateParts = this.PutSpecimen.ms_order_date?.split(' ')[0].split('-').map(Number);
       const receivedDateParts = this.PutSpecimen.ms_received_date?.split(' ')[0].split('-').map(Number);
       const usedDateParts = this.PutSpecimen.ms_used_date?.split(' ')[0].split('-').map(Number);
+      const warrantyDateParst = this.PutSpecimen.ms_warranty?.split(' ')[0].split('-').map(Number);
 
       if (orderDateParts && orderDateParts.length === 3) {
         this.orderDateNgbModal = { year: orderDateParts[0], month: orderDateParts[1], day: orderDateParts[2] };
@@ -115,14 +116,25 @@ export class PopupEditSpecimensComponent implements OnInit {
       if (usedDateParts && usedDateParts.length === 3) {
         this.usedDateNgbModal = { year: usedDateParts[0], month: usedDateParts[1], day: usedDateParts[2] };
       }
+
+      if (warrantyDateParst && warrantyDateParst.length === 3) {
+        this.warrantyDateNgbModal = { year: warrantyDateParst[0], month: warrantyDateParst[1], day: warrantyDateParst[2] };
+      }
       this.getPatient(this.PutSpecimen.p_patient_id);
       this.IPutSpecimens.ms_status = this.PutSpecimen.ms_status;
       this.id = this.PutSpecimen.ms_id;
+      console.log("Ms status: ", this.IPutSpecimens);
+      this.calculateTotal(this.IPutSpecimens)
     }
     if (changes['AllLabos']) {
       this.Labos = this.AllLabos;
     }
   }
+
+  calculateTotal(IPutSpecimens:any) {
+     this.total = parseInt(IPutSpecimens.ms_quantity) * parseInt(IPutSpecimens.ms_unit_price);
+  }
+
   dateToTimestamp(dateStr: string): number {
     const format = 'YYYY-MM-DD HH:mm'; // Định dạng của chuỗi ngày   const format = 'YYYY-MM-DD HH:mm:ss';
     const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
