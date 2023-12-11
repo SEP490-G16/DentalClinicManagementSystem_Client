@@ -33,10 +33,18 @@
           <a href="#" class="icon"><i class="bi bi-facebook"></i></a>
         </div>
         <span>hoặc sử dụng Username/Email</span>
-        <input type="text" placeholder="Username/Email" [(ngModel)]="User.userCredential" name="username" required>
+        <div class="username-custom">
+          <input type="text" placeholder="Username/Email" [(ngModel)]="User.userCredential" name="username" required>
+          <p *ngIf="isSubmitted" class="validate">
+            {{validateLogin.validateUserName}}
+          </p>
+        </div>
         <div class="password-custom">
           <input type="password" [type]="showPassword ? 'password' : 'text'" placeholder="Password" [(ngModel)]="User.password" name="password" required>
           <span class="password-toggle-icon" (click)="togglePassword()"><i class="bi" [ngClass]="{'bi-eye-fill': showPassword, 'bi-eye-slash-fill': !showPassword}"></i></span>
+            <p *ngIf="isSubmitted" class="validate">
+              {{validateLogin.validatePassword}}
+            </p>
         </div>
         <p style="cursor: pointer;" (click)="toggleView(true); isEnterEmail=true">Quên mật khẩu?</p>
         <button type="submit" (click)="toggleView(false); login()" [disabled]="loading">Đăng nhập</button>
@@ -53,6 +61,148 @@
           <h1>Nha khoa Nguyễn Trần!</h1>
           <p>Cùng chúng tôi giữ cho nụ cười của bạn luôn tươi tắn</p>
           <button class="hidden"><i class="bi bi-at"></i>Xin chào</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row custome">
+    <div class="card mt-2 col-md-6">
+      <div class="card-body">
+        <div class="content">
+          <div class="infor-name mt-2">
+            <div>
+              <p>Họ và tên: </p>
+            </div>
+            <div>
+              <p>Phạm Thị Thu Hà</p>
+            </div>
+          </div>
+          <div class="infor-name mt-2">
+            <div>
+              <p>Ngày sinh: </p>
+            </div>
+            <div>
+              <p>28/09/2003</p>
+            </div>
+          </div>
+          <div class="infor-name mt-2">
+            <div>
+              <p>Địa chỉ: </p>
+            </div>
+            <div>
+              <p>Đống Đa - Hà Nội</p>
+            </div>
+          </div>
+          <div class="infor-name mt-2">
+            <div>
+              <p>Email: </p>
+            </div>
+            <div>
+              <a href="#">haphamthu2809@gmail.com</a>
+            </div>
+          </div>
+          <div class="infor-name mt-2">
+            <div>
+              <p>Số điện thoại: </p>
+            </div>
+            <div>
+              <a href="">0974815785</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mt-2 col-md-6">
+      <div class="card-body">
+        <div class="content">
+          <div class="infor-name mt-2">
+            <div>
+              <p>Họ và tên: </p>
+            </div>
+            <div>
+              <p>Phạm Thị Vân Anh</p>
+            </div>
+          </div>
+          <div class="infor-name mt-2">
+            <div>
+              <p>Ngày sinh: </p>
+            </div>
+            <div>
+              <p>01/01/2003</p>
+            </div>
+          </div>
+          <div class="infor-name mt-2">
+            <div>
+              <p>Địa chỉ: </p>
+            </div>
+            <div>
+              <p>Đống Đa - Hà Nội</p>
+            </div>
+          </div>
+          <div class="infor-name mt-2">
+            <div>
+              <p>Email: </p>
+            </div>
+            <div>
+              <a href="">Vanahn01@gmail.com</a>
+            </div>
+          </div>
+          <div class="infor-name mt-2">
+            <div>
+              <p>Số điện thoại: </p>
+            </div>
+            <div>
+              <a href="">0367175070</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mt-2 col-md-6">
+      <div class="card-body">
+        <div class="content">
+          <div class="infor-name mt-2">
+            <div>
+              <p>Họ và tên: </p>
+            </div>
+            <div>
+              <p>Nguyễn Thị Hà</p>
+            </div>
+          </div>
+          <div class="infor-name mt-2">
+            <div>
+              <p>Ngày sinh: </p>
+            </div>
+            <div>
+              <p>20/03/2003</p>
+            </div>
+          </div>
+          <div class="infor-name mt-2">
+            <div>
+              <p>Địa chỉ: </p>
+            </div>
+            <div>
+              <p>Hồ Tùng Mậu,Cầu Giấy,Hà Nội</p>
+            </div>
+          </div>
+          <div class="infor-name mt-2">
+            <div>
+              <p>Email: </p>
+            </div>
+            <div>
+              <a href="">ngha2032003@gmail.com</a>
+            </div>
+          </div>
+          <div class="infor-name mt-2">
+            <div>
+              <p>Số điện thoại: </p>
+            </div>
+            <div>
+              <a href="">0876162203</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
