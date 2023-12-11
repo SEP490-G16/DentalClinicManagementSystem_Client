@@ -40,7 +40,6 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
 
   isDatepickerOpened: boolean = false;
   EDIT_APPOINTMENT_BODY: IEditAppointmentBody
-
   isPatientInfoEditable: boolean = false;
   listGroupService: any[] = [];
   model!: NgbDateStruct;
@@ -113,14 +112,19 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
 
   responseO: any;
   ngOnInit(): void {
-    console.log("oninit") 
+    console.log("oninit")
     this.getListGroupService();
     const id = this.route.snapshot.params['id'];
-    this.PATIENT_SERVICE.getPatientById(id).subscribe((res) => {
-      this.responseO = res;
-      this.patientInfor = this.responseO.patient_id +" - "+this.responseO.patient_name+ " - "+this.responseO.phone_number;
-    })
-    this.selectDateToGetDoctor("2023-11-25");
+    // this.PATIENT_SERVICE.getPatientById(id).subscribe((res) => {
+    //   this.responseO = res;
+    //   this.patientInfor = this.responseO.patient_id +" - "+this.responseO.patient_name+ " - "+this.responseO.phone_number;
+    // })
+    const patient = sessionStorage.getItem('patient');
+    if (patient != null){
+      var patients = JSON.parse(patient);
+      this.patientInfor = patients.patient_id +" - "+patients.patient_name+ " - "+patients.phone_number;
+    }
+    //this.selectDateToGetDoctor("2023-11-25");
   }
 
   getListGroupService() {
@@ -152,6 +156,7 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
           doctor: this.selectedAppointment.doctor,
           status: 2,
           time: this.selectedAppointment.time,
+          reason:this.selectedAppointment.reason
         }
       } as IEditAppointmentBody;
       this.selectedDoctor = this.selectedAppointment.doctor;
@@ -429,7 +434,6 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
 
     this.APPOINTMENT_SERVICE.putAppointment(this.EDIT_APPOINTMENT_BODY, this.selectedAppointment.appointment_id).subscribe(response => {
       console.log("Cập nhật thành công");
-      alert("wait");
       this.showSuccessToast('Sửa Lịch hẹn thành công!');
       window.location.reload();
     }, error => {

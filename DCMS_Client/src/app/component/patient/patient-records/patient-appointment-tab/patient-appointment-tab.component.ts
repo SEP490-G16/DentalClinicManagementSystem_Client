@@ -149,7 +149,7 @@ export class PatientAppointmentTabComponent implements OnInit {
     // });
 
     const formattedDate = this.datePipe.transform(this.timestampToDate(dateTimestamp), 'dd-MM-yyyy');
-    this.openConfirmationModal(`Bạn có chắc chắn muốn xoá lịch hẹn lúc ${this.timestampToTime(detail.time)}-${formattedDate} không?`).then((result) => {
+    this.openConfirmationModal(`Bạn có chắc chắn muốn xoá lịch hẹn lúc ${this.timestampToTime(detail.time)} ${formattedDate} không?`).then((result) => {
       if (result) {
         this.APPOINTMENT_SERVICE.deleteAppointment(dateTimestamp, detail.appointment_id)
           .subscribe((res) => {

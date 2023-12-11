@@ -47,6 +47,7 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
   isCheck: boolean = false;
   //doctors: any[] = [];
   procedure: string = "1";
+  reason:string = "";
   isPatientInfoEditable: boolean = false;
 
   loading: boolean = false;
@@ -130,7 +131,7 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
   mindate: Date;
   minTime: string;
   constructor(private APPOINTMENT_SERVICE: ReceptionistAppointmentService,
-    private PATIENT_SERVICE: PatientService,  
+    private PATIENT_SERVICE: PatientService,
     private route: ActivatedRoute,
     private renderer: Renderer2,
     private toastr: ToastrService,
@@ -229,22 +230,28 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
     roleId: '',
     zoneInfo: ''
   }
-
   responseO: any;
   ngOnInit(): void {
+
     const id = this.route.snapshot.params['id'];
+    const patient = sessionStorage.getItem('patient');
+    if (patient != null){
+      var patients = JSON.parse(patient);
+      this.patientInfor = patients.patient_id +" - "+patients.patient_name+ " - "+patients.phone_number;
+    }
+    // this.PATIENT_SERVICE.getPatientById(id).subscribe((res) => {
+    //   this.responseO = res;
+    //   this.patientInfor = this.responseO.patient_id +" - "+this.responseO.patient_name+ " - "+this.responseO.phone_number;
+    // })
     this.getListGroupService();
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
     this.startDate = currentDateGMT7;
 
     this.startDateTimestamp = this.dateToTimestamp(currentDateGMT7);
     this.endDateTimestamp = this.dateToTimestamp(this.endDate);
+
+    //this.selectDateToGetDoctor("2023-11-25");
     this.getListAppountment();
-    this.selectDateToGetDoctor("2023-11-25");
-    this.PATIENT_SERVICE.getPatientById(id).subscribe((res) => {
-      this.responseO = res;
-      this.patientInfor = this.responseO.patient_id +" - "+this.responseO.patient_name+ " - "+this.responseO.phone_number;
-    })
   }
   getListAppountment() {
     this.startDateTimestamp = this.dateToTimestamp(this.startDate);
@@ -525,7 +532,7 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
         return;
       }
     }
-
+    this.AppointmentBody.appointment.reason = this.reason;
     this.phoneErr = "";
 
     this.APPOINTMENT_SERVICE.postAppointment(this.AppointmentBody).subscribe(
