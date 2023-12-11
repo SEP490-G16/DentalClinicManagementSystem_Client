@@ -13,4 +13,12 @@ export class FormatNgbDate {
     return (number < 10) ? `0${number}` : number;
   }
 
+
+  static formatNgbDateToVNString(date: NgbDateStruct): string {
+    if (!date) return ''; // or return null; depending on how you want to handle null dates
+
+    const pad = (number: number) => number < 10 ? `0${number}` : number;
+    return `${pad(date.day)}/${pad(date.month)}/${date.year}`;
+  }
+
 }

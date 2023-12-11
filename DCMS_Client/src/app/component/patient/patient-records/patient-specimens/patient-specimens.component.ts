@@ -100,6 +100,7 @@ export class PatientSpecimensComponent implements OnInit {
   }
 
   openEditSpecimen(specimens:any) {
+    console.log("specimens: ", specimens);
     this.PutSpecimen = specimens;
     this.AllLabos = this.labos;
   }

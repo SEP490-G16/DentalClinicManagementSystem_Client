@@ -185,6 +185,7 @@
                 <div class="col-9 value-staff">
                   <select class="form-select" id="status" [(ngModel)]="IPutSpecimens.ms_status"
                     aria-label="Default select example">
+                    <option value="1">Chờ duyệt</option>
                     <option value="2">Chưa nhận</option>
                     <option value="3">Đã nhận</option>
                     <option value="4">Hàng lỗi</option>
@@ -196,7 +197,7 @@
                 <div class="col-9 value-staff">
                   <div class="input-group">
                     <input class="form-control" placeholder="DD-MM-YYYY" name="dp" [(ngModel)]="warrantyDateNgbModal"
-                      ngbDatepicker #datepickerRef="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày hẹn">
+                      ngbDatepicker #datepickerRef="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày bảo hành">
                     <div class="input-group-append">
                       <button class="btn btn-outline-secondary calendar" style="height: 48px;"
                         (click)="datepickerRef.toggle()" type="button">
