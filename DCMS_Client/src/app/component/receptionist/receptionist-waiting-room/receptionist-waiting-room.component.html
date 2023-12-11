@@ -8,8 +8,8 @@
       <button class="btn button-timekeeping" style="margin-right: 30px;" data-bs-toggle="modal"
         data-bs-target="#wrModal"><i class="bi bi-plus-circle"></i>
         Thêm bệnh nhân đợi cũ</button>
-      <button class="btn button-timekeeping" data-bs-toggle="modal"
-        data-bs-target="#wrNewModal"><i class="bi bi-plus-circle"></i>
+      <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#wrNewModal"><i
+          class="bi bi-plus-circle"></i>
         Thêm bệnh nhân đợi mới</button>
     </div>
     <div class="col-6">
@@ -41,49 +41,50 @@
         <tr title="Xem thông tin bệnh nhân {{ wtr.patient_name }}"
           *ngFor="let wtr of filteredWaitingRoomData; let i = index" (click)="details(wtr.patient_id)"
           style="cursor: pointer;">
-          <td style="width:100px">{{ i + 1 }}</td>
-          <td style="width:100px">{{wtr.date}}</td>
-          <td style="width:100px">{{ wtr.patient_id }}</td>
-          <td>{{ wtr.patient_name }}</td>
-          <!-- <td><span class="new-patient" *ngIf="wtr.patient_created_date.length == 4"></span></td> -->
-          <td>{{wtr.patient_created_date == 1 ? "Bệnh nhân đến lần đầu tiên" : wtr.patient_created_date == 2 ?
-            "Bệnh nhân tái khám" : "Dữ liệu trước"}}</td>
-          <td style="width:300px" class="truncate" data-bs-toggle="tooltip" title="{{wtr.reason}}">{{wtr.reason }}</td>
-          <td style="width:200px">{{ wtr.produce_name }}</td>
-          <ng-container *ngIf="roleId.includes('3') || roleId.includes('1')">
-            <td style="width:200px" (click)="stopClick($event)">
-              <select class="text-center status-selector" [(ngModel)]="wtr.status"
-                (change)="onPutStatus(wtr, wtr.epoch)" [ngStyle]="{'color': selectedColor}">
-                <ng-container *ngIf="wtr.status == 1">
-                  <option value="1" class="status-option waiting">Đang chờ</option>
-                  <option value="2" class="status-option in-progress">Đang khám</option>
-                  <option value="4" class="status-option remove">Xóa hàng chờ</option>
-                </ng-container>
-                <ng-container *ngIf="wtr.status == 2">
-                  <option value="2" class="status-option in-progress">Đang khám</option>
-                  <option value="3" class="status-option completed">Khám xong</option>
-                  <option value="4" class="status-option remove">Xóa hàng chờ</option>
-                </ng-container>
-                <ng-container *ngIf="wtr.status == 3">
-                  <option value="3" class="status-option completed">Khám xong</option>
-                  <option value="4" class="status-option remove">Xóa hàng chờ</option>
-                </ng-container>
-              </select>
+          <ng-container *ngIf="wtr.date != '' && wtr.date != undefined">
+            <td style="width:100px">{{ i + 1 }}</td>
+            <td style="width:100px">{{wtr.date}}</td>
+            <td style="width:100px">{{ wtr.patient_id }}</td>
+            <td>{{ wtr.patient_name }}</td>
+            <td>{{wtr.patient_created_date == 1 ? "Bệnh nhân đến lần đầu tiên" : wtr.patient_created_date == 2 ?
+              "Bệnh nhân tái khám" : "Dữ liệu trước"}}</td>
+            <td style="width:300px" class="truncate" data-bs-toggle="tooltip" title="{{wtr.reason}}">{{wtr.reason }}
             </td>
+            <td style="width:200px">{{ wtr.produce_name }}</td>
+            <ng-container *ngIf="roleId.includes('3') || roleId.includes('1')">
+              <td style="width:200px" (click)="stopClick($event)">
+                <select class="text-center status-selector" [(ngModel)]="wtr.status"
+                  (change)="onPutStatus(wtr, wtr.epoch)" [ngStyle]="{'color': selectedColor}">
+                  <ng-container *ngIf="wtr.status == 1">
+                    <option value="1" class="status-option waiting">Đang chờ</option>
+                    <option value="2" class="status-option in-progress">Đang khám</option>
+                    <option value="4" class="status-option remove">Xóa hàng chờ</option>
+                  </ng-container>
+                  <ng-container *ngIf="wtr.status == 2">
+                    <option value="2" class="status-option in-progress">Đang khám</option>
+                    <option value="3" class="status-option completed">Khám xong</option>
+                    <option value="4" class="status-option remove">Xóa hàng chờ</option>
+                  </ng-container>
+                  <ng-container *ngIf="wtr.status == 3">
+                    <option value="3" class="status-option completed">Khám xong</option>
+                    <option value="4" class="status-option remove">Xóa hàng chờ</option>
+                  </ng-container>
+                </select>
+              </td>
+            </ng-container>
+            <ng-container *ngIf="roleId.includes('2') || roleId.includes('4') || roleId.includes('5')">
+              <td>
+                Đang khám
+              </td>
+            </ng-container>
+            <ng-container *ngIf="roleId.includes('3') || roleId.includes('1')">
+              <td>
+                <button class="btn button-timekeeping"
+                  (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/',wtr.patient_id)">
+                  Thanh toán</button>
+              </td>
+            </ng-container>
           </ng-container>
-          <ng-container *ngIf="roleId.includes('2') || roleId.includes('4') || roleId.includes('5')">
-            <td>
-              Đang khám
-            </td>
-          </ng-container>
-          <ng-container *ngIf="roleId.includes('3') || roleId.includes('1')">
-            <td>
-              <button class="btn button-timekeeping"
-                (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/',wtr.patient_id)">
-                Thanh toán</button>
-            </td>
-          </ng-container>
-
         </tr>
       </tbody>
     </table>
@@ -101,7 +102,7 @@
       </div>
       <div class="text-center row no-data">
         <span>
-        Không có dữ liệu
+          Không có dữ liệu
         </span>
       </div>
     </ng-template>

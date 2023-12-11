@@ -75,7 +75,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
     })
   }
 
-  CheckRealTimeWaiting: any[] = [];
+  CheckRealTimeWaiting: any[] = []; 
   getWaitingRoomData() {
     this.waitingRoomService.getWaitingRooms().subscribe(
       data => {
@@ -149,10 +149,6 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
     this.patient_Id = wtr.patient_id;
     this.loading = true;
     if (this.PUT_WAITINGROO.status_value == 4) {
-      // const index = this.filteredWaitingRoomData.findIndex((item) => item.patient_id == this.PUT_WAITINGROO.patient_id);
-      // if (index != -1) {
-      //   this.filteredWaitingRoomData.splice(index, 1);
-      // }
       this.listTemp = this.filteredWaitingRoomData;
       localStorage.setItem("ListPatientWaiting", JSON.stringify(this.filteredWaitingRoomData));
       localStorage.setItem('listPatientId', JSON.stringify(this.listTemp));
@@ -163,7 +159,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           this.showSuccessToast('Xóa hàng chờ thành công');
           this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "minus", "wtr1");
           this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "minus", "wtr");
-          //this.getWaitingRoomData();
+          this.getWaitingRoomData();
 
           this.messageContent = `CheckRealTimeWaitingRoom@@@,${wtr.patient_id},${Number('4')}`;
           this.messageBody = {
@@ -192,18 +188,22 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
             const storeList = localStorage.getItem('ListPatientWaiting');
             let listWaiting;
             if (storeList != null) {
-                listWaiting = JSON.parse(storeList);
-            }
-            if (listWaiting != '' && listWaiting != null && listWaiting != undefined) {
-              listWaiting.forEach((item: any) => {
-                if (item.appointment.patient_id == this.PUT_WAITINGROO.patient_id) {
-                  item.appointment.status = "3";
-                  this.appointmentService.putAppointment(item, this.PUT_WAITINGROO.appointment_id).subscribe((data) => {
-                    this.showSuccessToast(`${item.appointment.patient_name} đang khám`);
+              console.log("check storeList", storeList);
+              listWaiting = JSON.parse(storeList);
+              if (listWaiting.length > 0) {
+                if (listWaiting != '' && listWaiting != null && listWaiting != undefined) {
+                  listWaiting.forEach((item: any) => {
+                    if (item.patient_id == this.PUT_WAITINGROO.patient_id) {
+                      item.status = "3";
+                      this.appointmentService.putAppointment(item, this.PUT_WAITINGROO.appointment_id).subscribe((data) => {
+                        this.showSuccessToast(`${item.patient_name} đang khám`);
+                      })
+                    }
                   })
                 }
-              })
+              }
             }
+            console.log("null")
           }
 
           if (this.PUT_WAITINGROO.status_value == "3") {
@@ -223,23 +223,24 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
             let listWaiting;
             if (storeList != null) {
               listWaiting = JSON.parse(storeList);
-            }
-
-            if (listWaiting != '' && listWaiting != null && listWaiting != undefined) {
-              listWaiting.forEach((item: any) => {
-                if (item.appointment.patient_id == this.PUT_WAITINGROO.patient_id) {
-                  item.appointment.status = "1";
-                  this.appointmentService.putAppointment(item, this.PUT_WAITINGROO.appointment_id).subscribe((data) => {
-                    this.showSuccessToast(`${item.appointment.patient_name} đã khám xong`);
+              if (listWaiting.length > 0) {
+                if (listWaiting != '' && listWaiting != null && listWaiting != undefined) {
+                  listWaiting.forEach((item: any) => {
+                    if (item.patient_id == this.PUT_WAITINGROO.patient_id) {
+                      item.status = "1";
+                      this.appointmentService.putAppointment(item, this.PUT_WAITINGROO.appointment_id).subscribe((data) => {
+                        this.showSuccessToast(`${item.patient_name} đã khám xong`);
+                      })
+                    }
                   })
                 }
-              })
+              }
             }
           }
           this.loading = false;
           this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
           this.showSuccessToast('Chỉnh sửa hàng chờ thành công');
-          //this.getWaitingRoomData();
+          this.getWaitingRoomData();
           this.messageContent = `CheckRealTimeWaitingRoom@@@,${wtr.patient_id},${Number(wtr.status)}`;
           this.messageBody = {
             action: '',

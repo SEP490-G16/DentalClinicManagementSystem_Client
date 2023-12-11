@@ -109,18 +109,6 @@ export class PatientSpecimensComponent implements OnInit {
     return modalRef.result;
   }
   deleteSpecimens(id:string,name:string) {
-    // const cf = confirm("Bạn có muốn xóa mẫu vật này không?");
-    // if(cf) {
-    //   this.SpecimensService.deleteSpecimens(id)
-    //   .subscribe((res) => {
-    //     this.toastr.success(res.message, 'Xóa mẫu vật thành công');
-    //     window.location.reload();
-    //   },
-    //   (err) => {
-    //     this.toastr.error(err.error.message, 'Xóa mẫu vật thất bại');
-    //   }
-    //   )
-    // }
     this.openConfirmationModal(`Bạn có chắc chắn muốn xóa mẫu ${name} không?`).then((result) => {
       if (result) {
         this.SpecimensService.deleteSpecimens(id)
