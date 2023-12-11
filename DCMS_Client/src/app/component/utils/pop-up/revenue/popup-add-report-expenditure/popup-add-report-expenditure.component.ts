@@ -36,8 +36,6 @@ export class PopupAddReportExpenditureComponent implements OnInit {
     }
 
   ngOnInit(): void {
-   // const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
-    //this.paidExpense.createDate = parseInt(currentDateGMT7.split('-')[0])+"-"+parseInt(currentDateGMT7.split('-')[1])+"-"+(parseInt(currentDateGMT7.split('-')[2])-1);
     let user = sessionStorage.getItem('username');
     if (user != null) {
       this.paidExpense.createBy = user;

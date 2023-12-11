@@ -146,43 +146,43 @@ export class ReportExpenditureComponent implements OnInit {
   }
 
   onChangeFromDate(fromDate: any) {
-    //this.fromDate = this.dateToTimestamp(fromDate+" 00:00:00").toString();
-    this.fromDate = fromDate+" 00:00:00";
-    this.filterByDate(this.fromDate, this.endDate);
+    this.fromDate = fromDate;
+    const noewFromDate = fromDate
+    this.filterByDate(noewFromDate, this.endDate);
   }
 
   onChangeToDate(toDate:any) {
-    //this.endDate = this.dateToTimestamp(toDate+" 23:59:59").toString();
-    this.endDate = toDate+" 23:59:59";
+    this.endDate = toDate;
     this.filterByDate(this.fromDate, this.endDate);
   }
 
   filterByDate(fromDate: string, toDate:string) {
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
     const currentDate = parseInt(currentDateGMT7.split('-')[0])+"-"+parseInt(currentDateGMT7.split('-')[1])+"-"+parseInt(currentDateGMT7.split('-')[2]);
-
-    if (this.fromDate == '' && this.endDate != '') {
-      const currentDate1 = currentDate+" 00:00:00";
-      this.paidMaterialUsageService.getListExpense(this.dateToTimestamp(currentDate1).toString(), this.dateToTimestamp(toDate).toString()).subscribe((res) => {
+    console.log("From date: ",fromDate);
+    console.log("To date: ", toDate);
+    if (fromDate == undefined && toDate != '') {
+      const currentDate1 = toDate+" 00:00:00";
+      this.paidMaterialUsageService.getListExpense(this.dateToTimestamp(currentDate1).toString(), this.dateToTimestamp(toDate+" 23:59:59").toString()).subscribe((res) => {
         this.listExpense = res.Items;
         const itemsString = res.match(/Items=\[(.*?)\]/);
         if (itemsString && itemsString.length > 1) {
           this.listExpense = JSON.parse(`[${itemsString[1]}]`);
         }
       })
-    } else if (this.toDate != '' && this.endDate == '') {
-      const currentDate2 = currentDate+" 23:59:59";
-      this.paidMaterialUsageService.getListExpense(this.dateToTimestamp(fromDate).toString(), this.dateToTimestamp(currentDate2).toString()).subscribe((res) => {
+    } else if (fromDate != '' && toDate == undefined) {
+      const currentDate2 = fromDate+" 23:59:59";
+      this.paidMaterialUsageService.getListExpense(this.dateToTimestamp(fromDate+" 00:00:00").toString(), this.dateToTimestamp(currentDate2).toString()).subscribe((res) => {
         this.listExpense = res.Items;
         const itemsString = res.match(/Items=\[(.*?)\]/);
         if (itemsString && itemsString.length > 1) {
           this.listExpense = JSON.parse(`[${itemsString[1]}]`);
         }
       })
-    } else if (this.toDate != '' && this.endDate != '') {
-      const currentDate1 = currentDate + " 00:00:00";
-      const currentDate2 = currentDate +" 23:59:59";
-      this.paidMaterialUsageService.getListExpense(this.dateToTimestamp(currentDate1).toString(), this.dateToTimestamp(currentDate2).toString()).subscribe((res) => {
+    } else if (fromDate != '' && toDate != undefined) {
+      //const currentDate1 = currentDate + " 00:00:00";
+      //const currentDate2 = currentDate +" 23:59:59";
+      this.paidMaterialUsageService.getListExpense(this.dateToTimestamp(fromDate+" 00:00:00").toString(), this.dateToTimestamp(toDate+" 23:59:59").toString()).subscribe((res) => {
         this.listExpense = res.Items;
         const itemsString = res.match(/Items=\[(.*?)\]/);
         if (itemsString && itemsString.length > 1) {
