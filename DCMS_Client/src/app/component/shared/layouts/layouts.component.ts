@@ -242,6 +242,7 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
       this.appointmentList = ConvertJson.processApiResponse(data);
       console.log("check appointment", this.appointmentList.length);
       console.log("check appointment", this.appointmentList);
+      this.analyses.total_appointment = 0;
       this.appointmentList.forEach((item:any) => {
         item.appointments.forEach((it:any) => {
           if (item.date == this.dateToTimestamp(this.startDate)) {

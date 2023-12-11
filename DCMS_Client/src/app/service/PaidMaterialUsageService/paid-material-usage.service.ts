@@ -40,76 +40,76 @@ export class PaidMaterialUsageService {
   }
 
   postExpense(expensesInput:any):Observable<any> {
-    // let idToken = sessionStorage.getItem("id_Token");
+    let idToken = sessionStorage.getItem("id_Token");
 
-    // const headers = new HttpHeaders({
-    //   'Authorization': `${idToken}`,
-    //   "Content-Type": "application/json; charset=utf8" 
-    // });
-    var tokenAcess = localStorage.getItem("securityAccess");
-    var idToken;
-    var token;
-    if (tokenAcess != null) {
-      console.log("check localStorage: ", tokenAcess);
-      idToken = tokenAcess.split('/');
-      console.log("Check tokenAcess: ",idToken[0]);
-      const now = new Date();
-      if (idToken[1] <= now.getMinutes().toString()) {
-        token = idToken[0];
-      }
-    }
-    console.log("Check tokenAcess 1: ",token);
     const headers = new HttpHeaders({
-      'Authorization': `${token}`,
+      'Authorization': `${idToken}`,
       "Content-Type": "application/json; charset=utf8" 
     });
+    // var tokenAcess = localStorage.getItem("securityAccess");
+    // var idToken;
+    // var token;
+    // if (tokenAcess != null) {
+    //   console.log("check localStorage: ", tokenAcess);
+    //   idToken = tokenAcess.split('/');
+    //   console.log("Check tokenAcess: ",idToken[0]);
+    //   const now = new Date();
+    //   if (idToken[1] <= now.getMinutes().toString()) {
+    //     token = idToken[0];
+    //   }
+    // }
+    // console.log("Check tokenAcess 1: ",token);
+    // const headers = new HttpHeaders({
+    //   'Authorization': `${token}`,
+    //   "Content-Type": "application/json; charset=utf8" 
+    // });
     return this.http.post(`${this.url}/expenses`, expensesInput,{headers});
   } 
 
   updatePaidMaterialUsage(epoch:any, expensesInput:any):Observable<any>{
-    // let idToken = sessionStorage.getItem("id_Token");
-    // const headers = new HttpHeaders({
-    //   'Authorization': `${idToken}`,
-    //   "Content-Type": "application/json; charset=utf8"
-    // });
-    var tokenAcess = localStorage.getItem("securityAccess");
-    var idToken;
-    var token;
-    if (tokenAcess != null) {
-      console.log("check localStorage: ", tokenAcess);
-      idToken = tokenAcess.split('/');
-      console.log("Check tokenAcess: ",idToken[0]);
-      const now = new Date();
-      if (idToken[1] <= now.getMinutes().toString()) {
-        token = idToken[0];
-      }
-    }
-    console.log("Check tokenAcess 1: ",token);
+    let idToken = sessionStorage.getItem("id_Token");
     const headers = new HttpHeaders({
-      'Authorization': `${token}`,
-      "Content-Type": "application/json; charset=utf8" 
+      'Authorization': `${idToken}`,
+      "Content-Type": "application/json; charset=utf8"
     });
+    // var tokenAcess = localStorage.getItem("securityAccess");
+    // var idToken;
+    // var token;
+    // if (tokenAcess != null) {
+    //   console.log("check localStorage: ", tokenAcess);
+    //   idToken = tokenAcess.split('/');
+    //   console.log("Check tokenAcess: ",idToken[0]);
+    //   const now = new Date();
+    //   if (idToken[1] <= now.getMinutes().toString()) {
+    //     token = idToken[0];
+    //   }
+    // }
+    // console.log("Check tokenAcess 1: ",token);
+    // const headers = new HttpHeaders({
+    //   'Authorization': `${token}`,
+    //   "Content-Type": "application/json; charset=utf8" 
+    // });
     return this.http.put(`${this.url}/expenses/${epoch}`,expensesInput,{headers});
   }
 
   deletePaidMaterialUsage(epoch:any,id:any):Observable<any>{
-    // let idToken = sessionStorage.getItem("id_Token");
-    // const headers = new HttpHeaders({
-    //   'Authorization': `${idToken}`,
-    // });
-    var tokenAcess = localStorage.getItem("securityAccess");
-    var idToken;
-    var token;
-    if (tokenAcess != null) {
-      idToken = tokenAcess.split('/');
-      const now = new Date();
-      if (idToken[1] <= now.getMinutes().toString()) {
-        token = idToken[0];
-      }
-    }
+    let idToken = sessionStorage.getItem("id_Token");
     const headers = new HttpHeaders({
-      'Authorization': `${token}`,
+      'Authorization': `${idToken}`,
     });
+    // var tokenAcess = localStorage.getItem("securityAccess");
+    // var idToken;
+    // var token;
+    // if (tokenAcess != null) {
+    //   idToken = tokenAcess.split('/');
+    //   const now = new Date();
+    //   if (idToken[1] <= now.getMinutes().toString()) {
+    //     token = idToken[0];
+    //   }
+    // }
+    // const headers = new HttpHeaders({
+    //   'Authorization': `${token}`,
+    // });
     return this.http.delete(`${this.url}/expenses/${epoch}/${id}`,{headers});
   }
 

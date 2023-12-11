@@ -251,7 +251,8 @@ export class ChangeAppointmentComponent implements OnInit {
         procedure_name: this.appointment.procedure_name,
         reason: this.appointment.reason,
         time: this.timeAndDateToTimestamp(this.timeString, this.selectedDate),
-        status: 1
+        status: 1, 
+        patient_created_date: this.appointment.patient_created_date,
       }
     } as IEditAppointmentBody;
     console.log("EDIT_Appointment: ", this.EDIT_APPOINTMENT_BODY);
