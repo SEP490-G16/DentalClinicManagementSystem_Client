@@ -144,95 +144,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
   newEventStart: string = "";
   newEventEnd: string = "";
 
-  // addEvent(): void {
-  //   if (this.UserObj != null) {
-  //     const startDate = this.newEventStart.split('T')[0];
-  //     const startTime = this.newEventStart.split('T')[1];
-  //     const endDate = this.newEventEnd.split('T')[0];
-  //     const endTime = this.newEventEnd.split('T')[1];
-
-  //     const startTimestamp = TimestampFormat.timeAndDateToTimestamp(startTime, startDate);
-  //     const endTimestamp = TimestampFormat.timeAndDateToTimestamp(endTime, endDate);
-  //     const RequestBody: RequestBodyTimekeeping = {
-  //       epoch: this.currentDateTimeStamp,
-  //       sub_id: this.UserObj.subId,
-  //       staff_name: this.UserObj.username,
-  //       staff_avt: "",
-  //       role: this.UserObj.role,
-  //       register_clock_in: startTimestamp,
-  //       register_clock_out: endTimestamp,
-  //       clock_in: (this.UserObj.clock_in !== undefined) ? this.UserObj.clock_in : 0,
-  //       clock_out: (this.UserObj.clock_out !== undefined) ? this.UserObj.clock_out : 0,
-  //       timekeeper_name: "",
-  //       timekeeper_avt: "",
-  //       status: 1
-  //     };
-  //     console.log("check UserOb", this.UserObj)
-  //     console.log(RequestBody);
-  //     //return;
-  //     this.timekeepingService.postTimekeeping(RequestBody)
-  //       .subscribe((res) => {
-  //         this.toastr.success(res.message, "Thêm lịch làm việc mới thành công")
-  //       },
-  //         (err) => {
-  //           this.toastr.error(err.error.message, "Đăng ký lịch làm việc thất bại");
-  //         })
-  //   }
-  //   //this.DisplayResgisterTimeByWeek();
-  //   //this.DisplayResgisterTimeByWeek();
-  //   //this.getDateinFromDatetoToDate(this.timestampToGMT7Date(this.startTime), this.timestampToGMT7Date(this.endTime));
-  // }
-
   listDisplayClone: any[] = [];
-  // DisplayResgisterTimeByWeek() {
-  //   this.getDateinFromDatetoToDate(TimestampFormat.timestampToGMT7Date(this.startTime), TimestampFormat.timestampToGMT7Date(this.endTime));
-  //   this.timekeepingService.getTimekeeping(this.startTime, this.endTime)
-  //     .subscribe(data => {
-  //       this.registerOnWeeks = this.organizeData(data);
-  //       console.log("Oki:", this.registerOnWeeks)
-  //       this.registerOnWeeks.forEach((item: any) => {
-  //         this.listDay.forEach((it: any) => {
-  //           let da = TimestampFormat.timestampToGMT7Date(item.epoch);
-  //           const ab = da.split('-');
-  //           const check = ab[2] + "/" + ab[1] + "/" + ab[0];
-  //           if (it == check) {
-  //             item.records.forEach((i: any) => {
-  //               let registerObject = {
-  //                 currentD: it.currentD,
-  //                 staffId: i.subId,
-  //                 staffName: i.staff_name,
-  //                 register_clock_in: i.register_clock_in,
-  //                 register_clock_out: i.register_clock_out,
-  //                 clock_in: i.clock_in,
-  //                 clock_out: i.clock_out,
-  //                 timekeeper_name: i.timekeeper_name,
-  //                 timekeeper_avt: i.timekeeper_avt,
-  //                 status: 1,
-  //                 isSang: false,
-  //                 isChieu: false
-  //               }
-  //               if (registerObject.register_clock_in == '1' && registerObject.register_clock_out == '2') {
-  //                 registerObject.isSang = true;
-  //                 registerObject.isChieu = true;
-  //               }
-
-  //               if (registerObject.register_clock_in == '1' && registerObject.register_clock_out == '0') {
-  //                 registerObject.isSang = true;
-  //                 registerObject.isChieu = false;
-  //               }
-
-  //               if (registerObject.register_clock_in == '0' && registerObject.register_clock_out == '2') {
-  //                 it.isSang = false;
-  //                 it.isChieu = true;
-  //               }
-  //               this.listDisplayClone.push(registerObject);
-  //             })
-  //           }
-  //         })
-  //       })
-  //     }
-  //     )
-  // }
 
   listDayInMonth: any[] = [];
   listDay: string[] = [];
@@ -409,7 +321,8 @@ export class RegisterWorkScheduleComponent implements OnInit {
     else if (role == null) {
       return
     }
-
+    
+    var count = 0;
     this.listDayInMonth.forEach((item: any) => {
       const ab = item.currentD.split('/');
       const check = ab[2] + "-" + ab[1] + "-" + ab[0];
@@ -446,8 +359,10 @@ export class RegisterWorkScheduleComponent implements OnInit {
       }
       this.timekeepingService.postTimekeeping(RequestBody)
         .subscribe((res) => {
-          this.toastr.success(res.message, "Thêm lịch làm việc mới thành công")
-
+          count++;
+          if (count == 7) {
+            this.toastr.success(res.message, "Thêm lịch làm việc mới thành công")
+          }
           const index = this.listDisplayClone.findIndex(entry => entry.currentD === this.timestampToDateStr(RequestBody.epoch) && entry.staffId === RequestBody.sub_id);
 
           if (index !== -1) {
