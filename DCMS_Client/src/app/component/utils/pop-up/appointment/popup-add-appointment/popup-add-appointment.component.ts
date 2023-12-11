@@ -414,11 +414,6 @@ export class PopupAddAppointmentComponent implements OnInit {
             time: 0
           }
         } as IAddAppointment;
-        this.patientInfor = '';
-        this.reason = '';
-        const currentTimeGMT7 = moment.tz('Asia/Ho_Chi_Minh').format('HH:mm');
-        this.appointmentTime = currentTimeGMT7;
-        this.procedure = '1';
       },
       (error) => {
         ResponseHandler.HANDLE_HTTP_STATUS(this.APPOINTMENT_SERVICE.apiUrl + "/appointment", error);

@@ -510,10 +510,6 @@ export class PopupAddAppointmentNewComponent implements OnInit {
               time: 0
             }
           } as IAddAppointment;
-          this.reason = '';
-          const currentTimeGMT7 = moment.tz('Asia/Ho_Chi_Minh').format('HH:mm');
-          this.appointmentTime = currentTimeGMT7;
-          this.procedure = '1';
           //window.location.reload();
         },
         (error) => {
