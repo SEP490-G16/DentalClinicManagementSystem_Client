@@ -88,11 +88,9 @@ export class PopupAddSpecimensComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.Patient_Id != null) {
-      this.patientSerivce.getPatientById(this.Patient_Id).subscribe((data) => {
-        this.patientFind = data;
-        this.patientIdSelected = this.patientFind.patient_id + " - " + this.patientFind.patient_name + " - " + this.patientFind.phone_number;
-      })
+      this.getPatient(this.Patient_Id);
     }
+
     this.getAllLabo();
     this.specimen.quantity = '1';
     this.specimen.orderer = sessionStorage.getItem('username') + '';
@@ -109,7 +107,24 @@ export class PopupAddSpecimensComponent implements OnInit {
      //alert(this.specimen.orderDate)
   }
 
-
+  patient: any;
+  patientListShow: any[] = [];
+  getPatient(id: any) {
+    if (id !== null) {
+      this.patientSerivce.getPatientById(id).subscribe((data: any) => {
+        const transformedMaterial = {
+          patientId: data.patient_id,
+          patientName: data.patient_name,
+          patientInfor: data.patient_name + " - " + this.normalizePhoneNumber(data.phone_number),
+        };
+        if (!this.patientListShow.some(p => p.patientId === transformedMaterial.patientId)) {
+          this.patientListShow.push(transformedMaterial);
+        }
+        this.patientList = this.patientListShow;
+        this.patientIdSelected = transformedMaterial.patientId;
+      })
+    }
+  }
   calculateTotal() {
     const total = parseInt(this.specimen.quantity) * parseInt(this.specimen.price);
     this.specimen.total = total.toString();
@@ -294,6 +309,15 @@ export class PopupAddSpecimensComponent implements OnInit {
     this.laboService.getLabos().subscribe((data) => {
       this.labos = data.data;
     })
+  }
+
+  normalizePhoneNumber(phoneNumber: string): string {
+    if (phoneNumber.startsWith('(+84)')) {
+      return '0' + phoneNumber.slice(5);
+    } else if (phoneNumber.startsWith('+84')) {
+      return '0' + phoneNumber.slice(3);
+    } else
+      return phoneNumber;
   }
 
   dateToTimestamp(dateStr: string): number {

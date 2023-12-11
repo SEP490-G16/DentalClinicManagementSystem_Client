@@ -45,7 +45,7 @@
                 <div class="col-9 value-staff">
                   <div class="input-group">
                     <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="orderDateNgbModal"
-                      ngbDatepicker #orderDatepicker="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày hẹn">
+                      ngbDatepicker #orderDatepicker="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày đặt">
                     <div class="input-group-append">
                       <button class="btn btn-outline-secondary calendar" style="height: 48px;" (click)="orderDatepicker.toggle()"
                         type="button">
@@ -68,7 +68,7 @@
                   <div class="input-group">
                     <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="receiverDateNgbModal"
                       ngbDatepicker #receivedDatepicker="ngbDatepicker" [placement]="'right'"
-                      placeholder="Chọn ngày hẹn">
+                      placeholder="Chọn ngày nhận">
                     <div class="input-group-append">
                       <button class="btn btn-outline-secondary calendar" style="height: 48px;" (click)="receivedDatepicker.toggle()"
                         type="button">
@@ -88,7 +88,7 @@
                 <div class="col-9 value-staff">
                   <div class="input-group">
                     <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="usedDateNgbModal"
-                      ngbDatepicker #usedDatepicker="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày hẹn">
+                      ngbDatepicker #usedDatepicker="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày lắp">
                     <div class="input-group-append">
                       <button class="btn btn-outline-secondary calendar" style="height: 48px;"
                         (click)="usedDatepicker.toggle()" type="button">
@@ -169,7 +169,7 @@
                 <div class="col-9 value-staff">
                   <ng-select [items]="patientList" bindLabel="patientInfor" [(ngModel)]="patientIdSelected"
                     bindValue="patientId" (keyup)="onsearch($event)" [notFoundText]="'Không tìm thấy bệnh nhân'"
-                    (click)="clickPatient(patientIdSelected)">
+                    (click)="clickPatient(patientIdSelected)" [disabled]="Patient_Id">
                   </ng-select>
                   <div *ngIf="isSubmitted" class="alert-danger-custom">
                     <p>

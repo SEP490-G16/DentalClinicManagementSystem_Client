@@ -111,8 +111,8 @@ export class ReceptionistAppointmentListComponent implements OnInit {
 
   getAppointmentList() {
     const selectedYear = this.model.year;
-    const selectedMonth = this.model.month.toString().padStart(2, '0'); 
-    const selectedDay = this.model.day.toString().padStart(2, '0'); 
+    const selectedMonth = this.model.month.toString().padStart(2, '0');
+    const selectedDay = this.model.day.toString().padStart(2, '0');
     const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
     var dateTime = this.currentDate + ' ' + "00:00:00";
     var startTime = this.dateToTimestamp(dateTime);
@@ -128,6 +128,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     // this.nextDate = temp[2] + '-' + temp[0] + '-' + temp[1];
     this.appointmentService.getAppointmentList(this.dateToTimestamp(selectedDate + ' ' + "00:00:00"), this.dateToTimestamp(selectedDate + ' ' + "23:59:59")).subscribe(data => {
       this.appointmentList = ConvertJson.processApiResponse(data);
+      console.log(this.appointmentList);
       localStorage.setItem("ListAppointment", JSON.stringify(this.appointmentList));
       this.filteredAppointments = this.appointmentList.filter(app => app.date === this.dateToTimestamp(selectedDate));
       this.filteredAppointments.forEach((a: any) => {
@@ -159,8 +160,8 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   listDate: any[] = [];
   // appointmentDateInvalid() {
   //   const selectedYear = this.model.year;
-  //   const selectedMonth = this.model.month.toString().padStart(2, '0'); 
-  //   const selectedDay = this.model.day.toString().padStart(2, '0'); 
+  //   const selectedMonth = this.model.month.toString().padStart(2, '0');
+  //   const selectedDay = this.model.day.toString().padStart(2, '0');
   //   const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
   //   if (this.dateToTimestamp(this.nextDate) < this.dateToTimestamp(selectedDate) && this.dateToTimestamp(selectedDate) < this.dateToTimestamp(this.currentDate)) {
   //     this.appointmentService.getAppointmentList(this.dateToTimestamp(selectedDate+" 00:00:00"), this.dateToTimestamp(selectedDate+" 23:59:59")).subscribe(data => {
@@ -199,11 +200,11 @@ export class ReceptionistAppointmentListComponent implements OnInit {
 
   filterAppointments() {
     // const selectedYear = this.model.year;
-    // const selectedMonth = this.model.month.toString().padStart(2, '0'); 
-    // const selectedDay = this.model.day.toString().padStart(2, '0'); 
+    // const selectedMonth = this.model.month.toString().padStart(2, '0');
+    // const selectedDay = this.model.day.toString().padStart(2, '0');
     // const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
     // if (this.dateToTimestamp(this.nextDate) > this.dateToTimestamp(selectedDate) && this.dateToTimestamp(selectedDate) > this.dateToTimestamp(this.currentDate)) {
-      
+
     // } else {
     //   this.appointmentService.getAppointmentList(this.dateToTimestamp(selectedDate + " 00:00:00"), this.dateToTimestamp(selectedDate + " 23:59:59")).subscribe(data => {
     //     this.appointmentList = ConvertJson.processApiResponse(data);

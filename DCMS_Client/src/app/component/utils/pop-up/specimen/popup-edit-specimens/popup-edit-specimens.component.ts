@@ -87,7 +87,6 @@ export class PopupEditSpecimensComponent implements OnInit {
     patient: ''
   }
   isSubmitted: boolean = false;
-
   ngOnInit(): void {
   }
 
