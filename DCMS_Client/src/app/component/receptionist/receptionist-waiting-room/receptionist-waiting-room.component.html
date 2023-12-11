@@ -21,7 +21,7 @@
     </div>
   </div>
   <div class="table-container">
-    <table id="myTable" *ngIf="waitingRoomData.length > 0,else noDataMessage">
+    <table id="myTable" *ngIf="filteredWaitingRoomData.length > 0,else noDataMessage">
       <thead class="sticky-thead">
         <tr>
           <th style="width:100px">STT</th>

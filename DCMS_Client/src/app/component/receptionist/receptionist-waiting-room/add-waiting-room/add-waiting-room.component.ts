@@ -216,7 +216,6 @@ export class AddWaitingRoomComponent implements OnInit {
           };
           console.log(this.messageBody);
           this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
-
         }
           this.POST_WAITTINGROOM = {
             epoch: "",

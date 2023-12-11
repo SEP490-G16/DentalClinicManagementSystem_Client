@@ -29,7 +29,7 @@
     <div class="col-3">
       <select class="form-select input-custom float-end" aria-label="Default select example"
         [(ngModel)]="selectedProcedure" (change)="filterAppointments()">
-        <option selected value="">Tất cả loại điều trị</option>
+        <option selected value="">Loại điều trị</option>
         <option *ngFor="let a of listGroupService" value={{a.medical_procedure_group_id}}>{{a.name}}</option>
       </select>
     </div>

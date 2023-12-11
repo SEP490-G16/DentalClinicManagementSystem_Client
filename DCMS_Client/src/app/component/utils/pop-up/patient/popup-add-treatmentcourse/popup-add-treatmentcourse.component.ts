@@ -363,7 +363,7 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
           item.procedure.forEach((it: any) => {
             if (it.laboId != "0") {
               let specmenObject = {
-                name: this.TreatmentCouseBody.name,
+                name: it.procedureName,
                 type: '',
                 received_date: '',
                 orderer: this.userName,
