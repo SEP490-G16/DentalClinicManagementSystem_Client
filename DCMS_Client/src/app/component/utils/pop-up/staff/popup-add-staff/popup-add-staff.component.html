@@ -36,9 +36,15 @@
               <div class="form-group row mt-3">
                 <label for="dob" class="col-3">Ngày sinh <span class="required">*</span></label>
                 <div class="col-9">
-                  <input class="form-control" placeholder="dd/mm/yyyy" name="dp" [(ngModel)]="dobNgb" ngbDatepicker
-                    #d="ngbDatepicker" />
-                  <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
+                  <div style="display: flex">
+                    <div style="width: 100%">
+                      <input class="form-control" placeholder="dd/mm/yyyy" name="dp" [(ngModel)]="dobNgb" ngbDatepicker
+                             #d="ngbDatepicker" />
+                    </div>
+                    <div>
+                      <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
+                    </div>
+                  </div>
                   <div *ngIf="isSubmitted" class="alert-danger-custom">
                     <p>
                       {{vailidateStaff.dob}}
@@ -229,7 +235,7 @@
 
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
+          <button type="button" class="btn btn-cancel" data-bs-dismiss="modal" (click)="closePopup()">Hủy</button>
           <button type="button" class="btn button-timekeeping" (click)="addSTAFF()"><i class="bi bi-plus-circle"></i>
             Thêm mới</button>
         </div>
