@@ -1,5 +1,5 @@
 import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { NgbDatepickerModule, NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepickerConfig, NgbDatepickerModule, NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { ReceptionistAppointmentService } from "../../../service/ReceptionistService/receptionist-appointment.service";
 import { CognitoService } from "../../../service/cognito.service";
@@ -85,6 +85,8 @@ export class ReceptionistAppointmentListComponent implements OnInit {
       month: parseInt(currentDateGMT7.split('-')[1]),
       day: parseInt(currentDateGMT7.split('-')[2])
     };
+
+
   }
 
   ngOnInit(): void {
@@ -111,8 +113,8 @@ export class ReceptionistAppointmentListComponent implements OnInit {
 
   getAppointmentList() {
     const selectedYear = this.model.year;
-    const selectedMonth = this.model.month.toString().padStart(2, '0'); 
-    const selectedDay = this.model.day.toString().padStart(2, '0'); 
+    const selectedMonth = this.model.month.toString().padStart(2, '0');
+    const selectedDay = this.model.day.toString().padStart(2, '0');
     const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
     var dateTime = this.currentDate + ' ' + "00:00:00";
     var startTime = this.dateToTimestamp(dateTime);
@@ -159,8 +161,8 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   listDate: any[] = [];
   // appointmentDateInvalid() {
   //   const selectedYear = this.model.year;
-  //   const selectedMonth = this.model.month.toString().padStart(2, '0'); 
-  //   const selectedDay = this.model.day.toString().padStart(2, '0'); 
+  //   const selectedMonth = this.model.month.toString().padStart(2, '0');
+  //   const selectedDay = this.model.day.toString().padStart(2, '0');
   //   const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
   //   if (this.dateToTimestamp(this.nextDate) < this.dateToTimestamp(selectedDate) && this.dateToTimestamp(selectedDate) < this.dateToTimestamp(this.currentDate)) {
   //     this.appointmentService.getAppointmentList(this.dateToTimestamp(selectedDate+" 00:00:00"), this.dateToTimestamp(selectedDate+" 23:59:59")).subscribe(data => {
@@ -199,11 +201,11 @@ export class ReceptionistAppointmentListComponent implements OnInit {
 
   filterAppointments() {
     // const selectedYear = this.model.year;
-    // const selectedMonth = this.model.month.toString().padStart(2, '0'); 
-    // const selectedDay = this.model.day.toString().padStart(2, '0'); 
+    // const selectedMonth = this.model.month.toString().padStart(2, '0');
+    // const selectedDay = this.model.day.toString().padStart(2, '0');
     // const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
     // if (this.dateToTimestamp(this.nextDate) > this.dateToTimestamp(selectedDate) && this.dateToTimestamp(selectedDate) > this.dateToTimestamp(this.currentDate)) {
-      
+
     // } else {
     //   this.appointmentService.getAppointmentList(this.dateToTimestamp(selectedDate + " 00:00:00"), this.dateToTimestamp(selectedDate + " 23:59:59")).subscribe(data => {
     //     this.appointmentList = ConvertJson.processApiResponse(data);

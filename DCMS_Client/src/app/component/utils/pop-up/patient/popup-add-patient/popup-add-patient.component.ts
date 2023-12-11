@@ -3,6 +3,9 @@ import { PatientService } from "../../../../../service/PatientService/patient.se
 import { ToastrService } from "ngx-toastr";
 import { ResponseHandler } from "../../../libs/ResponseHandler";
 import { SendMessageSocket } from 'src/app/component/shared/services/SendMessageSocket.service';
+import { NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
+import { FormatNgbDate } from '../../../libs/formatNgbDateToString';
 @Component({
   selector: 'app-popup-add-patient',
   templateUrl: './popup-add-patient.component.html',
@@ -10,6 +13,8 @@ import { SendMessageSocket } from 'src/app/component/shared/services/SendMessage
 })
 export class PopupAddPatientComponent implements OnInit {
   @Input() searchPatientsList: any;
+  dob: string = "";
+  model!: NgbDateStruct;
   patient1: any = {
     patientName: '',
     Email: '',
@@ -31,7 +36,21 @@ export class PopupAddPatientComponent implements OnInit {
   isSubmitted: boolean = false;
   constructor(private patientService: PatientService,
     private toastr: ToastrService,
-    private sendMessageSocket: SendMessageSocket) { }
+    private config: NgbDatepickerConfig,
+    private datePipe: DatePipe,
+    private sendMessageSocket: SendMessageSocket) {
+
+    const currentYear = new Date().getFullYear();
+    config.minDate = { year: 1900, month: 1, day: 1 };
+    config.maxDate = { year: currentYear, month: 12, day: 31 };
+
+  }
+
+  onDateChange() {
+    this.patient1.dob = FormatNgbDate.formatNgbDateToVNString(this.model);
+  }
+
+
   patientBody: any = {
     patient_name: '',
     email: '',
@@ -72,7 +91,7 @@ export class PopupAddPatientComponent implements OnInit {
       this.validatePatient.dob = "Vui lòng nhập ngày sinh!";
       this.isSubmitted = true;
     }
-    else if (!this.isDob(this.patient1.dob)){
+    else if (!this.isDob(this.patient1.dob)) {
       this.validatePatient.dob = "Vui lòng nhập ngày sinh đúng định dạng dd/MM/yyyy !";
       this.isSubmitted = true;
     }
