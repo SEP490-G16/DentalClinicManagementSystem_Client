@@ -14,7 +14,7 @@ import { DataService } from 'src/app/component/shared/services/DataService.servi
 import { SendMessageSocket } from 'src/app/component/shared/services/SendMessageSocket.service';
 
 import { Normalize } from 'src/app/service/Lib/Normalize';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { FormatNgbDate } from 'src/app/component/utils/libs/formatNgbDateToString';
 
 @Component({
@@ -67,9 +67,14 @@ export class AddWaitingRoomComponent implements OnInit {
     private toastr: ToastrService,
     private router: Router, private webSocketService: WebsocketService,
     private medicaoProcedureGroupService: MedicalProcedureGroupService,
+    private config: NgbDatepickerConfig,
     private dataService: DataService,
     private sendMessageSocket: SendMessageSocket
   ) {
+
+    const currentYear = new Date().getFullYear();
+    config.minDate = { year: 1900, month: 1, day: 1 };
+    config.maxDate = { year: currentYear, month: 12, day: 31 };
 
     this.POST_WAITTINGROOM = {
       epoch: "",

@@ -121,14 +121,16 @@
             {{m.ms_name}}</td><!--2-->
           <td *ngIf="checkbox3" style="padding: 20px;">{{m.p_patient_name}}</td><!--3-->
           <td *ngIf="checkbox4" style="padding: 20px;">{{m.ms_type}}</td><!--4-->
-          <td *ngIf="checkbox5" style="padding: 20px;">{{m.ms_quantity}}</td><!--5-->
-          <td *ngIf="checkbox6" style="padding: 20px;">{{m.ms_unit_price}}</td><!--6-->
-          <td *ngIf="checkbox7" style="padding: 20px;">{{m.ms_order_date | date:'yyyy-MM-dd'}}</td><!--7-->
-          <td *ngIf="checkbox8" style="padding: 20px;">{{m.ms_received_date | date:'yyyy-MM-dd'}}</td><!--8-->
-          <td *ngIf="checkbox9" style="padding: 20px;">{{m.ms_used_date | date:'yyyy-MM-dd' }}</td><!--9-->
+          <td *ngIf="checkbox5" style="padding: 20px;">{{m.ms_quantity || ""}}</td><!--5-->
+          <td *ngIf="checkbox6" style="padding: 20px;">{{(m.ms_unit_price !== 0) ? (m.ms_unit_price |currency:'VND':'symbol':'1.0-0') : ""}}</td>
+          <!-- <td *ngIf="checkbox7" style="padding: 20px;">{{(m.ms_order_date)?(m.ms_order_date | date:'dd-MM-yyyy'): ""}}</td> -->
+          <td *ngIf="checkbox7" style="padding: 20px;">{{ convertToFormattedDate(m.ms_order_date) }}</td>
+          <td *ngIf="checkbox8" style="padding: 20px;">{{ convertToFormattedDate(m.ms_received_date) }}</td>
+          <td *ngIf="checkbox9" style="padding: 20px;">{{ convertToFormattedDate(m.ms_used_date) }}</td>
           <td *ngIf="checkbox10" style="padding: 20px;">{{m.lb_name}}</td><!--10-->
           <td *ngIf="checkbox11" style="padding: 20px;">{{m.ms_orderer}}</td> <!--11-->
-          <td *ngIf="checkbox12" style="padding: 20px;">{{ m.ms_quantity * m.ms_unit_price}}</td><!--12-->
+          <td *ngIf="checkbox12" style="padding: 20px;">{{ ((m.ms_quantity * m.ms_unit_price)? (m.ms_quantity * m.ms_unit_price | currency:'VND':'symbol':'1.0-0'): "")}}</td>
+          <!--12-->
           <td class="text-center" style="min-width: 150px">
             <button href="#" class="btn btn-primary float-right btn-rounded" style="padding: 2px 5px; margin-right: 3px"
               title="Duyệt mẫu" (click)="approveSpecimens(m.ms_id,m)"><i class="bi bi-check-circle"></i></button>

@@ -106,7 +106,7 @@
               <div class="form-group row mt-3">
                 <label for="patient" class="col-3 name-title">Labo <span class="required">*</span></label>
                 <div class="col-9">
-                  <select class="form-select p-2" id="patient" style="margin-left: 10px; width: 98%; border: 1px solid #664FC3;
+                  <select class="form-select p-2" id="patient" style="margin-left: 10px; width: 98%;
                        border-radius: 10px;" aria-label="Default select example" [(ngModel)]="specimen.labo">
                     <option *ngFor="let labo of labos" value="{{labo.labo_id}}">{{labo.name}}</option>
                   </select>
@@ -180,7 +180,7 @@
               </div>
               <div class="form-group row mt-3">
                 <label for="patient" class="col-3 name-title">Liệu trình:</label>
-                <select class="form-select p-2" id="patient" style="margin-left: 10px; width: 71%; border: 1px solid #664FC3;
+                <select class="form-select p-2" id="patient" style="margin-left: 10px; width: 71%;
                                        border-radius: 10px;" aria-label="Default select example"
                   [(ngModel)]="specimen.treatment_course_id">
                   <option *ngFor="let tr of listTreatment" value="{{tr.treatment_course_id}}">{{tr.name}}</option>

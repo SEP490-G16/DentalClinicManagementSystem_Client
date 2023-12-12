@@ -14,7 +14,7 @@
           <div class="row">
             <div class="col-md-12">
               <div class="form-group row mt-3">
-                <label for="materialName" class="col-3 name-title">Tên vật liệu:</label>
+                <label for="materialName" class="col-3 name-title">Tên vật liệu<span class="required">*</span></label>
                 <div class="col-9">
                   <input type="text" [(ngModel)]="material.name" class="form-control" id="materialName"
                     name="materialName">
@@ -26,7 +26,7 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="unit" class="col-3 name-title">Đơn vị:</label>
+                <label for="unit" class="col-3 name-title">Đơn vị<span class="required">*</span></label>
                 <div class="col-9">
                   <input type="text" [(ngModel)]="material.unit" class="form-control date-input-custom value-staff"
                     id="unit" name="unit">
@@ -38,9 +38,9 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="unit" class="col-3 name-title">Total:</label>
+                <label for="unit" class="col-3 name-title">Đơn giá:</label>
                 <div class="col-9">
-                  <input type="number" [(ngModel)]="material.total" class="form-control date-input-custom value-staff"
+                  <input type="number" min="0" [(ngModel)]="material.total" class="form-control date-input-custom value-staff"
                     id="unit" name="unit">
                 </div>
               </div>
@@ -52,7 +52,7 @@
         <div class="modal-footer">
           <button type="button" id="cancel-editMaterial" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
           <button type="button" class="btn button-timekeeping" (click)="addMaterial()"><i class="bi bi-plus-circle"></i>
-            Thêm mới</button>
+            Sửa vật liệu</button>
         </div>
 
       </div>

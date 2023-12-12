@@ -145,7 +145,7 @@ export class PatientProfileTabComponent implements OnInit {
       this.isEditing = false;
       let status = 0;
       this.patientService.updatePatient(this.patientBody, this.id).subscribe(res => {
-        
+
       }, (error) => {
         //this.toastr.error(error.error.message,'Cập nhật bệnh nhân thất bại!')
         console.log("res", error);
@@ -153,7 +153,6 @@ export class PatientProfileTabComponent implements OnInit {
       })
       this.toastr.success("", 'Cập nhật bệnh nhân thành công !');
     }
-
   }
 
   getPatient(id: string) {

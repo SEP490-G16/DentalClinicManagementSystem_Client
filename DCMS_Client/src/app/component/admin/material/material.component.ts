@@ -48,6 +48,7 @@ export class MaterialComponent implements OnInit {
     this.currentPage = paging;
     this.materialService.getMaterials(paging).subscribe(data => {
       this.materialList = data.data;
+      console.log(this.materialList);
       //this.results = [];
       if (this.materialList) {
         if (this.materialList.length >= 1) {

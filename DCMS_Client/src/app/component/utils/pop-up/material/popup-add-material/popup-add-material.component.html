@@ -14,25 +14,32 @@
           <div class="row">
             <div class="col-md-12">
               <div class="form-group row mt-3">
-                <label for="materialName" class="col-3 name-title">Tên vật liệu:</label>
+                <label for="materialName" class="col-3 name-title">Tên vật liệu<span class="required">*</span></label>
                 <div class="col-9">
                   <input type="text" [(ngModel)]="material.name" class="form-control" id="materialName" name="materialName">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
-                    <p>
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                    <p style="color:#FF0000FF;">
                       {{validateMaterial.name}}
                     </p>
                   </div>
                 </div>
               </div>
               <div class="form-group row mt-3">
-                <label for="unit" class="col-3 name-title">Đơn vị:</label>
+                <label for="unit" class="col-3 name-title">Đơn vị <span class="required">*</span></label>
                 <div class="col-9">
                   <input type="text" [(ngModel)]="material.unit" class="form-control date-input-custom value-staff" id="unit" name="unit">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom" style="color:#FF0000FF;">
-                    <p>
+                  <div *ngIf="isSubmitted" class="alert-danger-custom">
+                    <p style="color:#FF0000FF;">
                       {{validateMaterial.unit}}
                     </p>
                   </div>
+                </div>
+              </div>
+              <div class="form-group row mt-3">
+                <label for="unit" class="col-3 name-title">Đơn giá:</label>
+                <div class="col-9">
+                  <input type="number" min="0" [(ngModel)]="material.total" class="form-control date-input-custom value-staff"
+                    id="unit" name="unit">
                 </div>
               </div>
             </div>

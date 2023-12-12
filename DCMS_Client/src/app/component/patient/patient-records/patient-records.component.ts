@@ -14,6 +14,8 @@ import { ConfirmDeleteModalComponent } from '../../utils/pop-up/common/confirm-d
 import { Normalize } from 'src/app/service/Lib/Normalize';
 import { SendMessageSocket } from '../../shared/services/SendMessageSocket.service';
 import { Subscription } from 'rxjs';
+import { format } from 'date-fns';
+
 @Component({
   selector: 'app-patient-records',
   templateUrl: './patient-records.component.html',
@@ -75,18 +77,20 @@ export class PatientRecordsComponent implements OnInit {
   }
 
   searchPatient() {
-    if (this.search) {
-      this.searchPatientsList = this.searchPatientsList.filter(sP =>
-        Normalize.normalizeDiacritics(sP.patient_name.toLowerCase()).includes(Normalize.normalizeDiacritics(this.search.toLocaleLowerCase())) ||
-        new Date(sP.created_date).toLocaleDateString('en-GB').includes(this.search)
-      );
+    // Normalize.normalizeDiacritics(sP.patient_name.toLowerCase()).includes(Normalize.normalizeDiacritics(this.search.toLocaleLowerCase()))
 
-    } else {
-      this.searchPatientsList = this.originPatientList;
-    }
+    // else {
+    //   this.searchPatientsList = this.originPatientList;
+    // }
+    console.log(this.searchPatientsList);
     if (this.search != null && this.search != "" && this.search != undefined) {
       setTimeout(() => {
       }, 1000);
+      if (this.isDate(this.search)) {
+        this.searchPatientsList = this.searchPatientsList.filter(sP =>
+          format(new Date(sP.created_date), 'dd/MM/yyyy') === this.search
+        );
+      }
       this.patientService.getPatientByName(this.search, this.pagingSearch.paging).subscribe(patients => {
         this.searchPatientsList = [];
         this.searchPatientsList = patients.data;
@@ -122,7 +126,11 @@ export class PatientRecordsComponent implements OnInit {
     }
   }
 
-  onNewPatientAdded(newPatient:any) {
+  private isDate(date: string): boolean {
+    return /^\d{2}\/\d{2}\/\d{4}$/.test(date);
+  }
+
+  onNewPatientAdded(newPatient: any) {
     this.searchPatientsList.unshift(newPatient);
   }
 

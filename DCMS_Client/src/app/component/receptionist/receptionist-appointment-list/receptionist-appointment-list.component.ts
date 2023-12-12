@@ -382,6 +382,8 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   ListPatientWaiting: any[] = []
   status: boolean = true;
   postExchangeAppointmentToWaitingRoom(a: any, b: any, event: Event) {
+    console.log("a la gi:", a);
+    console.log("b la gi:", b);
     let status = true;
     const listWaiting = localStorage.getItem('ListPatientWaiting');
     if (listWaiting != null) {
@@ -405,12 +407,15 @@ export class ReceptionistAppointmentListComponent implements OnInit {
         })
     }
 
+    console.log("Lich hen danh sach: ", this.filteredAppointments);
+
     this.filteredWaitingRoomData.forEach((data: any) => {
       if (data.patient_id == b.patient_id) {
         status = false;
         this.showErrorToast('Bệnh nhân đã có trong hàng chờ!');
       }
     })
+
     if (status == true) {
       const currentDateTimeGMT7 = moment().tz('Asia/Ho_Chi_Minh');
       this.Exchange.epoch = Math.floor(currentDateTimeGMT7.valueOf() / 1000).toString();
@@ -466,8 +471,9 @@ export class ReceptionistAppointmentListComponent implements OnInit {
           } else {
             this.ListPatientWaiting.push(update1);
           }
+          console.log("eXCHANGE", this.Exchange)
           this.appointmentService.putAppointment(updatePatient, this.Exchange.appointment_id).subscribe((data) => {
-            this.showSuccessToast(`Đã thêm bệnh nhân ${this.Exchange.patient_name} và hàng đợi`);
+            this.showSuccessToast(`Đã thêm bệnh nhân ${this.Exchange.patient_name} vào hàng đợi`);
           })
           localStorage.setItem("ListPatientWaiting", JSON.stringify(this.ListPatientWaiting));
           this.Exchange = {

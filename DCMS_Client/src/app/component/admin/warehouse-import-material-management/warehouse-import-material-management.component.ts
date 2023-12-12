@@ -64,8 +64,8 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
 
   listStaff: any[] = [];
 
-  fromDate: NgbDate | null;
-  toDate: NgbDate | null;
+  fromDate!: NgbDate | null;
+  toDate!: NgbDate | null;
   constructor(private importMaterialService: ImportMaterialService,
     private materialWarehouseService: MaterialWarehouseService,
     private toastr: ToastrService,
@@ -75,8 +75,6 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
     private calendar: NgbCalendar, public formatter: NgbDateParserFormatter
   ) {
 
-    this.fromDate = calendar.getToday();
-    this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
   }
   ngOnInit(): void {
 
@@ -86,39 +84,56 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
   }
 
   onDateSelection(date: NgbDate) {
-		if (!this.fromDate && !this.toDate) {
-			this.fromDate = date;
-		} else if (this.fromDate && !this.toDate && date && date.after(this.fromDate)) {
-			this.toDate = date;
-		} else {
-			this.toDate = null;
-			this.fromDate = date;
-		}
-	}
+    if (!this.fromDate && !this.toDate) {
+      this.fromDate = date;
+    } else if (this.fromDate && !this.toDate && date && date.after(this.fromDate)) {
+      this.toDate = date;
+    } else {
+      this.toDate = null;
+      this.fromDate = date;
+    }
+    this.updateStartAndEndDates();
+  }
 
-	isHovered(date: NgbDate) {
-		return (
-			this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate)
-		);
-	}
+  updateStartAndEndDates() {
+    if (this.fromDate) {
+      // Chuyển đổi ngày từ NgbDate sang chuỗi định dạng YYYY-MM-DD
+      this.startDate = `${this.fromDate.year}-${this.pad(this.fromDate.month)}-${this.pad(this.fromDate.day)}`;
+    }
+    if (this.toDate) {
+      // Chuyển đổi ngày từ NgbDate sang chuỗi định dạng YYYY-MM-DD
+      this.endDate = `${this.toDate.year}-${this.pad(this.toDate.month)}-${this.pad(this.toDate.day)}`;
+    }
+    console.log("StartDate and EndDate: ", this.startDate, this.endDate);
+  }
 
-	isInside(date: NgbDate) {
-		return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
-	}
+  pad(number: number) {
+    return (number < 10) ? `0${number}` : number;
+  }
 
-	isRange(date: NgbDate) {
-		return (
-			date.equals(this.fromDate) ||
-			(this.toDate && date.equals(this.toDate)) ||
-			this.isInside(date) ||
-			this.isHovered(date)
-		);
-	}
+  isHovered(date: NgbDate) {
+    return (
+      this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate)
+    );
+  }
 
-	validateInput(currentValue: NgbDate | null, input: string): NgbDate | null {
-		const parsed = this.formatter.parse(input);
-		return parsed && this.calendar.isValid(NgbDate.from(parsed)) ? NgbDate.from(parsed) : currentValue;
-	}
+  isInside(date: NgbDate) {
+    return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
+  }
+
+  isRange(date: NgbDate) {
+    return (
+      date.equals(this.fromDate) ||
+      (this.toDate && date.equals(this.toDate)) ||
+      this.isInside(date) ||
+      this.isHovered(date)
+    );
+  }
+
+  validateInput(currentValue: NgbDate | null, input: string): NgbDate | null {
+    const parsed = this.formatter.parse(input);
+    return parsed && this.calendar.isValid(NgbDate.from(parsed)) ? NgbDate.from(parsed) : currentValue;
+  }
 
   checkNextPage() {
     this.hasNextPage = this.importBills.length > 10;
@@ -127,6 +142,7 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
     this.loading = true;
     this.currentPage = page;
     if (this.startDate != '' && this.endDate != '') {
+
       const startTime = this.dateToTimestamp(this.startDate + '00:00:00');
       const endTime = this.dateToTimestamp(this.endDate + '23:59:59');
       this.importMaterialService.getImportMaterialsFromDateToDate(startTime, endTime, this.currentPage).subscribe(data => {
