@@ -7,6 +7,8 @@ import { CommonService } from 'src/app/service/commonMethod/common.service';
 import { ResponseHandler } from "../../../utils/libs/ResponseHandler";
 import * as moment from "moment-timezone";
 import { TimestampFormat } from 'src/app/component/utils/libs/timestampFormat';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { FormatNgbDate } from 'src/app/component/utils/libs/formatNgbDateToString';
 
 @Component({
   selector: 'app-patient-profile-tab',
@@ -15,7 +17,7 @@ import { TimestampFormat } from 'src/app/component/utils/libs/timestampFormat';
 })
 export class PatientProfileTabComponent implements OnInit {
   protected readonly window = window;
-
+  dob!:NgbDateStruct;
   constructor(private patientService: PatientService,
     private route: ActivatedRoute,
     private cognitoService: CognitoService,
@@ -37,6 +39,7 @@ export class PatientProfileTabComponent implements OnInit {
     full_medical_history: '',
     description: '',
     profile_image: '',
+    patient_id: '',
   }
   validatePatient = {
     name: '',
@@ -82,6 +85,10 @@ export class PatientProfileTabComponent implements OnInit {
 
   setPatientId() {
     this.router.navigate(['/benhnhan/danhsach/tab/lichtrinhdieutri', this.id])
+  }
+
+  onDOBChange() {
+    this.patient.date_of_birth = FormatNgbDate.formatNgbDateToVNString(this.dob);
   }
 
   clickCount: number = 0;
@@ -142,14 +149,18 @@ export class PatientProfileTabComponent implements OnInit {
         dental_medical_history: this.patient.dental_medical_history || "",
         full_medical_history: this.patient.full_medical_History || "",
         description: this.patient.description,
-        profile_image: this.imageURL
+        profile_image: this.imageURL,
+        // patient_id: this.id
       }
       console.log(this.patientBody);
       this.isEditing = false;
-      this.patientService.updatePatient(this.patientBody, this.id).subscribe(data => {
+      let status = 0;
+      this.patientService.updatePatient(this.patientBody, this.id).subscribe(res => {
         this.toastr.success("", 'Cập nhật bệnh nhân thành công !');
+        console.log("res", res);
       }, (error) => {
         //this.toastr.error(error.error.message,'Cập nhật bệnh nhân thất bại!')
+        console.log("res", error);
         ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test + "/patient/" + this.id, error);
       })
     }
@@ -165,8 +176,14 @@ export class PatientProfileTabComponent implements OnInit {
       } else {
         this.patient.description = check[0];
       }
+      this.dob = {
+        year: parseInt(this.patient.date_of_birth.split('-')[0]),
+        month: parseInt(this.patient.date_of_birth.split('-')[1]),
+        day: parseInt(this.patient.date_of_birth.split('-')[2])
+      };
+      console.log("DOB: ", this.dob);
       this.patient.phone_number = this.normalizePhoneNumber(this.patient.phone_number);
-      console.log(data);
+      console.log("Patient temp: ", this.patient);
       sessionStorage.removeItem('patient');
       sessionStorage.setItem('patient', JSON.stringify(this.patient))
     },
@@ -175,6 +192,7 @@ export class PatientProfileTabComponent implements OnInit {
       }
     )
   }
+
 
   private resetValidate() {
     this.validatePatient = {

@@ -4,33 +4,33 @@
   <!--    <div class="export__file">-->
   <!--    </div>-->
   <!--  </section>-->
-    <div class="custom-row">
-      <div class="vatlieu">
-        <a routerLink="/vat-lieu" routerLinkActive="active-link" class="page-title">Quản lý vật liệu</a>
-      </div>
-      <div class="kho">
-        <a routerLink="/kho" routerLinkActive="active-link" class="page-title">Quản lý Kho</a>
-      </div>
-      <div class="quanlynhap">
-        <a routerLink="/quan-ly-nhap" routerLinkActive="active-link" class="page-title">Quản lý nhập</a>
+  <div class="custom-row">
+    <div class="vatlieu">
+      <a routerLink="/vat-lieu" routerLinkActive="active-link" class="page-title">Quản lý vật liệu</a>
+    </div>
+    <div class="kho">
+      <a routerLink="/kho" routerLinkActive="active-link" class="page-title">Quản lý Kho</a>
+    </div>
+    <div class="quanlynhap">
+      <a routerLink="/quan-ly-nhap" routerLinkActive="active-link" class="page-title">Quản lý nhập</a>
+    </div>
+  </div>
+  <div class="row filter-row">
+    <div class="col-md-3 col-xl-2">
+      <div class="form-group form-group-filter">
+        <button class="btn button-add" data-bs-toggle="modal" data-bs-target="#myModal"><i
+            class="bi bi-plus-circle"></i> Thêm mới phiếu
+        </button>
       </div>
     </div>
-    <div class="row filter-row">
-      <div class="col-md-3 col-xl-2">
-        <div class="form-group form-group-filter">
-          <button class="btn button-add" data-bs-toggle="modal" data-bs-target="#myModal"><i
-              class="bi bi-plus-circle"></i> Thêm mới phiếu
-          </button>
-        </div>
-      </div>
-      <div class="col-md-3 col-xl-2" style="margin-right: 10px;">
-        <select class="form-select" aria-label="Default select example" (change)="filterByStaff()"
-          [(ngModel)]="staffName" style="padding: 10px; border: 1px solid black;">
-          <option value="" selected>Chọn người lập</option>
-          <option *ngFor="let s of listStaffDisplay" value="{{s.staffName}}">{{s.staffName}}</option>
-        </select>
-      </div>
-      <div class="datetime col-md-3 col-xl-2">
+    <div class="col-md-3 col-xl-2">
+      <select class="form-select" aria-label="Default select example" (change)="filterByStaff()" [(ngModel)]="staffName"
+        style="padding: 10px; border: 1px solid black;">
+        <option value="" selected>Chọn người lập</option>
+        <option *ngFor="let s of listStaffDisplay" value="{{s.staffName}}">{{s.staffName}}</option>
+      </select>
+    </div>
+    <!-- <div class="datetime col-md-3 col-xl-2">
         <div class="form-group form-group-filter">
           <label for="fromDate">Từ:</label>
           <input type="date" [(ngModel)]="startDate" class="date-input-custom" id="fromDate" name="fromDate">
@@ -41,14 +41,45 @@
           <label for="toDate">Đến:</label>
           <input type="date" [(ngModel)]="endDate" class="date-input-custom" id="toDate" name="fromDate">
         </div>
-      </div>
-      <div class="col-md-3 col-xl-2" style="margin-left: 20px;">
-        <div class="form-group form-group-filter">
-          <button class="btn button-add" (click)="loadPage(currentPage)">Lọc
-          </button>
+      </div> -->
+    <div class="col-md-3">
+      <div class="dp-hidden position-absolute">
+        <div class="input-group">
+          <input name="datepicker" class="form-control" ngbDatepicker #datepicker="ngbDatepicker"
+            [autoClose]="'outside'" (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t"
+            outsideDays="hidden" [startDate]="fromDate!" tabindex="-1" />
+          <ng-template #t let-date let-focused="focused">
+            <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)"
+              [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date"
+              (mouseleave)="hoveredDate = null">
+              {{ date.day }}
+            </span>
+          </ng-template>
         </div>
       </div>
+      <div class="input-group">
+        <input #dpFromDate class="form-control" placeholder="yyyy-mm-dd" name="dpFromDate"
+          [value]="formatter.format(fromDate)" (input)="fromDate = validateInput(fromDate, dpFromDate.value)" />
+        <button class="btn btn-outline-secondary bi bi-calendar3" (click)="datepicker.toggle()" type="button"></button>
+      </div>
+      <div class="input-group">
+        <input #dpToDate class="form-control" placeholder="yyyy-mm-dd" name="dpToDate"
+          [value]="formatter.format(toDate)" (input)="toDate = validateInput(toDate, dpToDate.value)" />
+        <button class="btn btn-outline-secondary bi bi-calendar3" (click)="datepicker.toggle()" type="button"></button>
+      </div>
     </div>
+
+    <div class="col-md-3 col-xl-2" style="margin-left: 20px;">
+      <div class="form-group form-group-filter">
+        <button class="btn button-add" (click)="loadPage(currentPage)">Lọc
+        </button>
+      </div>
+    </div>
+
+
+  </div>
+
+
 
 
   <div class="table-container mt-4">
