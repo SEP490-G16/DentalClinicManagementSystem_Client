@@ -5,6 +5,8 @@ import {PatientService} from "../../../../../service/PatientService/patient.serv
 import { LaboService } from 'src/app/service/LaboService/Labo.service';
 import {ResponseHandler} from "../../../libs/ResponseHandler";
 import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/TreatmentCourse.service';
+import {NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
+import {FormatNgbDate} from "../../../libs/formatNgbDateToString";
 
 @Component({
   selector: 'app-popup-edit-approve-specimens',
@@ -16,6 +18,9 @@ export class PopupEditApproveSpecimensComponent implements OnChanges  {
   @Input() specimens: any;
   @Input() approveSpecimensList:any;
   patientInfor: any;
+  orderDateNgbModal!:NgbDateStruct;
+  receiverDateNgbModal!:NgbDateStruct;
+  usedDateNgbModal!:NgbDateStruct;
   specimen={
     name:'',
     type:'',
@@ -138,23 +143,35 @@ export class PopupEditApproveSpecimensComponent implements OnChanges  {
     if (changes['specimens'] && this.specimens){
       this.specimen.name = this.specimens.ms_name;
       this.specimen.type = this.specimens.ms_type;
-      const orginalReceivedDate = this.specimens.ms_received_date;
-      const receivedDatePart = orginalReceivedDate.split(" ");
-      const formattedReceivedDate = receivedDatePart[0];
-      this.specimen.receiverDate = formattedReceivedDate;
+      // const orginalReceivedDate = this.specimens.ms_received_date;
+      // const receivedDatePart = orginalReceivedDate.split(" ");
+      // const formattedReceivedDate = receivedDatePart[0];
+      // this.specimen.receiverDate = formattedReceivedDate;
+      const receivedDateParts = this.specimens.ms_received_date?.split(' ')[0].split('-').map(Number);
+      if (receivedDateParts && receivedDateParts.length === 3) {
+        this.receiverDateNgbModal = { year: receivedDateParts[0], month: receivedDateParts[1], day: receivedDateParts[2] };
+      }
       this.specimen.orderer = this.specimens.ms_orderer;
       this.specimen.quantity = this.specimens.ms_quantity;
       this.specimen.price = this.specimens.ms_unit_price;
       this.specimen.total = (this.specimens.ms_quantity * this.specimens.ms_unit_price).toString();
-      const orginalOrderDate = this.specimens.ms_order_date;
-      const orderDatePart = orginalOrderDate.split(" ");
-      const formattedOrderDate = orderDatePart[0];
-      this.specimen.orderDate = formattedOrderDate;
+      // const orginalOrderDate = this.specimens.ms_order_date;
+      // const orderDatePart = orginalOrderDate.split(" ");
+      // const formattedOrderDate = orderDatePart[0];
+      // this.specimen.orderDate = formattedOrderDate;
+      const orderDateParts = this.specimens.ms_order_date?.split(' ')[0].split('-').map(Number);
+      if (orderDateParts && orderDateParts.length === 3) {
+        this.orderDateNgbModal = { year: orderDateParts[0], month: orderDateParts[1], day: orderDateParts[2] };
+      }
       this.specimen.patientName = this.specimens.p_patient_name;
-      const orginalUsedDate = this.specimens.ms_used_date;
-      const usedDatePart = orginalUsedDate.split(" ");
-      const formattedUsedDate = usedDatePart[0];
-      this.specimen.usedDate = formattedUsedDate;
+      // const orginalUsedDate = this.specimens.ms_used_date;
+      // const usedDatePart = orginalUsedDate.split(" ");
+      // const formattedUsedDate = usedDatePart[0];
+      // this.specimen.usedDate = formattedUsedDate;
+      const usedDateParts = this.specimens.ms_used_date?.split(' ')[0].split('-').map(Number);
+      if (usedDateParts && usedDateParts.length === 3) {
+        this.usedDateNgbModal = { year: usedDateParts[0], month: usedDateParts[1], day: usedDateParts[2] };
+      }
       this.specimen.treatment_course_id = this.specimens.treatment_course_id;
       this.specimen.labo_id = this.specimens.lb_id;
       this.getPatient(this.specimens.p_patient_id);
@@ -231,39 +248,42 @@ export class PopupEditApproveSpecimensComponent implements OnChanges  {
   temporaryName: string='';
 
   updateApproveSpecimens(){
+    const orderDate = FormatNgbDate.formatNgbDateToString(this.orderDateNgbModal);
+    const receivedDate = FormatNgbDate.formatNgbDateToString(this.receiverDateNgbModal);
+    const usedDate = FormatNgbDate.formatNgbDateToString(this.usedDateNgbModal);
     this.resetValidate();
     if (!this.specimen.name){
       this.validateSpecimens.name = 'Vui lòng nhập tên mẫu!';
       this.isSubmitted = true;
     }
-    if (!this.specimen.orderDate || !this.formatDate(this.specimen.orderDate)){
+    if (!orderDate || !this.formatDate(orderDate)){
       this.validateSpecimens.orderDate = 'Vui lòng nhập ngày đặt!';
       this.isSubmitted = true;
     }
-    if (this.specimen.receiverDate && !this.formatDate(this.specimen.receiverDate)){
-      this.validateSpecimens.receiverDate = 'Vui lòng nhập lại ngày nhận!';
-      this.isSubmitted = true;
-    }
-    else if (this.specimen.receiverDate < this.specimen.orderDate && this.formatDate(this.specimen.receiverDate)){
-      this.validateSpecimens.receiverDate = 'Vui lòng chọn ngày nhận lớn hơn ngày đặt!';
-      this.isSubmitted = true;
-    }
-    else if (this.specimen.receiverDate > this.specimen.usedDate && this.formatDate(this.specimen.receiverDate)){
-      this.validateSpecimens.receiverDate = 'Vui lòng chọn ngày nhận nhỏ hơn ngày lắp!';
-      this.isSubmitted = true;
-    }
-    if (this.specimen.usedDate && !this.formatDate(this.specimen.usedDate)){
-      this.validateSpecimens.usedDate = 'Vui lòng nhập lại ngày lắp!';
-      this.isSubmitted = true;
-    }
-    else if (this.specimen.usedDate < this.specimen.orderDate && this.formatDate(this.specimen.usedDate)){
-      this.validateSpecimens.usedDate = 'Vui lòng chọn ngày lắp lớn hơn ngày đặt!';
-      this.isSubmitted = true;
-    }
-    else if (this.specimen.usedDate < this.specimen.receiverDate && this.formatDate(this.specimen.usedDate)){
-      this.validateSpecimens.usedDate = 'Vui lòng chọn ngày lắp lớn hơn ngày nhận!';
-      this.isSubmitted = true;
-    }
+    // if (this.specimen.receiverDate && !this.formatDate(this.specimen.receiverDate)){
+    //   this.validateSpecimens.receiverDate = 'Vui lòng nhập lại ngày nhận!';
+    //   this.isSubmitted = true;
+    // }
+    // else if (this.specimen.receiverDate < this.specimen.orderDate && this.formatDate(this.specimen.receiverDate)){
+    //   this.validateSpecimens.receiverDate = 'Vui lòng chọn ngày nhận lớn hơn ngày đặt!';
+    //   this.isSubmitted = true;
+    // }
+    // else if (this.specimen.receiverDate > this.specimen.usedDate && this.formatDate(this.specimen.receiverDate)){
+    //   this.validateSpecimens.receiverDate = 'Vui lòng chọn ngày nhận nhỏ hơn ngày lắp!';
+    //   this.isSubmitted = true;
+    // }
+    // if (this.specimen.usedDate && !this.formatDate(this.specimen.usedDate)){
+    //   this.validateSpecimens.usedDate = 'Vui lòng nhập lại ngày lắp!';
+    //   this.isSubmitted = true;
+    // }
+    // else if (this.specimen.usedDate < this.specimen.orderDate && this.formatDate(this.specimen.usedDate)){
+    //   this.validateSpecimens.usedDate = 'Vui lòng chọn ngày lắp lớn hơn ngày đặt!';
+    //   this.isSubmitted = true;
+    // }
+    // else if (this.specimen.usedDate < this.specimen.receiverDate && this.formatDate(this.specimen.usedDate)){
+    //   this.validateSpecimens.usedDate = 'Vui lòng chọn ngày lắp lớn hơn ngày nhận!';
+    //   this.isSubmitted = true;
+    // }
     if (!this.specimen.labo_id){
       this.validateSpecimens.labo = 'Vui lòng chọn labo!';
       this.isSubmitted = true;
@@ -284,12 +304,12 @@ export class PopupEditApproveSpecimensComponent implements OnChanges  {
     if (this.isSubmitted){
       return;
     }
-    let orderDate = new Date(this.specimen.orderDate);
-    let receivedDate = new Date(this.specimen.receiverDate);
-    let usedDate = new Date(this.specimen.usedDate);
-    let orderDateTimestamp = (orderDate.getTime()/1000).toString();
-    let receivedDateTimestamp = (receivedDate.getTime()/1000).toString();
-    let userDateTimestamp = (usedDate.getTime()/1000).toString();
+    let orderDateParse = new Date(orderDate);
+    let receivedDateParse = new Date(receivedDate);
+    let usedDateParse = new Date(usedDate);
+    let orderDateTimestamp = (orderDateParse.getTime()/1000).toString();
+    let receivedDateTimestamp = (receivedDateParse.getTime()/1000).toString();
+    let userDateTimestamp = (usedDateParse.getTime()/1000).toString();
     let faci = sessionStorage.getItem('locale');
     if (faci != null) {
       this.specimenBody.facility_id = faci;

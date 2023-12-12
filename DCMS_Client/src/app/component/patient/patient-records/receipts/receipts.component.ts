@@ -69,7 +69,7 @@ export class ReceiptsComponent implements OnInit {
   }
 
   listResult:any[] = [];
-  openPopupDetail(RecDetail:any) {
+  openPopupDetail(RecDetail:any,createDate:any, paymentType:any,patient:any) {
     this.listResult.splice(0, this.listResult.length);
     const modalRef = this.modalService.open(DetailReceiptsComponent, { size: 'xl' });
     RecDetail.forEach((item:any) => {
@@ -78,6 +78,9 @@ export class ReceiptsComponent implements OnInit {
       }
     })
     modalRef.componentInstance.receiptDetails = this.listResult;
+    modalRef.componentInstance.createDate = createDate;
+    modalRef.componentInstance.paymentType = paymentType;
+    modalRef.componentInstance.Patient = patient;
   }
 
   confirmPaymentCast(rec:any) {

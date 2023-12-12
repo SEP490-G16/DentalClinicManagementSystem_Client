@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
@@ -7,8 +7,10 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
   styleUrls: ['./detail-receipts.component.css']
 })
 export class DetailReceiptsComponent implements OnInit {
-  Patient:any;
   receiptDetails: any;
+  @Input() createDate: any
+  @Input() paymentType:any;
+  @Input() Patient:any;
   constructor(private modalService: NgbModal) { }
 
   ngOnInit(): void {
