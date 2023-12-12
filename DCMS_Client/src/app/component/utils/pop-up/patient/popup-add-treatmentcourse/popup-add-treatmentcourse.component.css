@@ -494,3 +494,6 @@ table .tr-children:hover{
 .modal-content::-webkit-scrollbar-thumb:hover {
   background: #8c8a8a;
 }
+.modal-body div p {
+  color: #FF0000FF;
+}

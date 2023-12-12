@@ -534,7 +534,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
   }
   private isValidEmail(email: string): boolean {
     // Thực hiện kiểm tra địa chỉ email ở đây, có thể sử dụng biểu thức chính quy
-    return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email);
+    return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/.test(email);
   }
   toggleAdd() {
     this.isAdd = true;
