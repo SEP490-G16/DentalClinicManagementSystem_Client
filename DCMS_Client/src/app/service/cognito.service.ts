@@ -34,6 +34,8 @@ export class CognitoService {
 
   }
 
+
+
   handlePostLoginRedirect(currentRoute: string): void {
     const userGroupsString = sessionStorage.getItem('userGroups');
     if (userGroupsString) {
@@ -242,7 +244,10 @@ export class CognitoService {
     return Auth.currentSession()
       .then((session) => {
         const accessToken = session.getAccessToken();
+        console.log(accessToken);
+        console.log(sessionStorage.getItem("id_Token"));
         const newAccessToken = accessToken.getJwtToken();
+        console.log(newAccessToken);
         sessionStorage.setItem('id_Token', newAccessToken);
         return newAccessToken;
       })
@@ -259,22 +264,22 @@ export class CognitoService {
       .then(() => void 0);
   }
 
-  public isAuthenticated(): Promise<boolean> {
-    if (this.authenticationSubject.value) {
-      return Promise.resolve(true);
-    } else {
-      return this.getUser()
-        .then((user: any) => {
-          if (user) {
-            return true;
-          } else {
-            return false;
-          }
-        }).catch(() => {
-          return false;
-        });
-    }
-  }
+  // public isAuthenticated(): Promise<boolean> {
+  //   if (this.authenticationSubject.value) {
+  //     return Promise.resolve(true);
+  //   } else {
+  //     return this.getUser()
+  //       .then((user: any) => {
+  //         if (user) {
+  //           return true;
+  //         } else {
+  //           return false;
+  //         }
+  //       }).catch(() => {
+  //         return false;
+  //       });
+  //   }
+  // }
 
   public getUser(): Promise<any> {
     return Auth.currentUserInfo();

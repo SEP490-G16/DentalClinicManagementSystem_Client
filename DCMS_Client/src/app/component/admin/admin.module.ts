@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { NgbDateParserFormatter, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../shared/shared.module';
@@ -106,6 +106,7 @@ import { MaterialManagementComponent } from './material-management/material-mana
 import { PopupEditMaterialRealComponent } from '../utils/pop-up/material/popup-edit-material-real/popup-edit-material-real.component';
 import { SecurityRevenueComponent } from './security-revenue/security-revenue.component';
 import { SubmitOtpComponent } from './submit-otp/submit-otp.component';
+import { AuthInterceptor } from 'src/app/service/RefreshToken/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -222,6 +223,11 @@ import { SubmitOtpComponent } from './submit-otp/submit-otp.component';
   providers: [
     DatePipe,
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: AuthInterceptor,
+    //   multi: true,
+    // },
   ],
   exports: [
     PopupAddApproveSpecimensComponent,

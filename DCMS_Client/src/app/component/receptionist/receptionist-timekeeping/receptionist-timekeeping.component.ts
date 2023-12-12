@@ -167,6 +167,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
               const foundRecord = record.records.find((record: any) => record.subId === staff.sub);
               if (foundRecord) {
                 const details = foundRecord.details;
+
                 staff.clockInStatus = (details.clock_in !== undefined && details.clock_in !== "0") ? 'Đã chấm' : 'Chưa chấm';
                 staff.clockOutStatus = (details.clock_out !== undefined && details.clock_out !== "0") ? 'Đã chấm' : 'Chưa chấm';
                 staff.clock_in = (details.clock_in !== undefined && details.clock_in !== "0") ? this.timestampToGMT7String(details.clock_in) : '';
@@ -174,6 +175,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
                 staff.isClockin = !!details.clock_in;
                 staff.isClockout = (details.clock_out !== undefined && details.clock_out !== "0") ? true : false;
                 staff.isClockoutDisabled = (details.clock_in !== undefined && details.clock_in !== "0") ? false : true;
+                console.log("staff: ", staff);
               } else {
                 staff.clockInStatus = 'Chưa chấm';
                 staff.clockOutStatus = 'Chưa chấm';
