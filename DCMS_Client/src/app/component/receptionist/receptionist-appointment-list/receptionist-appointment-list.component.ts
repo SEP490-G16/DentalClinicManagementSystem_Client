@@ -117,7 +117,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     const selectedDay = this.model.day.toString().padStart(2, '0');
     const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
     var dateTime = this.currentDate + ' ' + "00:00:00";
-    var startTime = this.dateToTimestamp(dateTime);
+    //var startTime = this.dateToTimestamp(dateTime);
     // const currentDate = new Date();
     // const vnTimezoneOffset = 7 * 60;
     // const vietnamTime = new Date(currentDate.getTime() + vnTimezoneOffset * 60 * 1000);
@@ -129,6 +129,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     // var endTime = temp[2] + '-' + temp[0] + '-' + temp[1] + ' 23:59:59';
     // this.nextDate = temp[2] + '-' + temp[0] + '-' + temp[1];
     this.appointmentService.getAppointmentList(this.dateToTimestamp(selectedDate + ' ' + "00:00:00"), this.dateToTimestamp(selectedDate + ' ' + "23:59:59")).subscribe(data => {
+      console.log(data);
       this.appointmentList = ConvertJson.processApiResponse(data);
       console.log(this.appointmentList);
       localStorage.setItem("ListAppointment", JSON.stringify(this.appointmentList));
