@@ -80,8 +80,15 @@
               <td>{{ mu.mu_total_paid | currency:'VND' }}</td>
               <td>{{ (mu.mu_total - mu.mu_total_paid) | currency:'VND' }}</td>
               <ng-container *ngIf="checkPayment ">
-                <td><input style="border-radius: 5px" [disabled]="mu.mu_total - mu.mu_total_paid == 0" type="number" min="0"
-                    [(ngModel)]="mu.tempPaidAmount"></td>
+                <td>
+                  <input style="border-radius: 5px" [disabled]="mu.mu_total - mu.mu_total_paid == 0" type="number" min="0"
+                    [(ngModel)]="mu.tempPaidAmount">
+                  <div *ngIf="isSubmittedAmout"  class="alert-danger-custom">
+                    <p>
+                      {{validateAmount.soTien}}
+                    </p>
+                  </div>
+                </td>
               </ng-container>
             </tr>
             <tr>

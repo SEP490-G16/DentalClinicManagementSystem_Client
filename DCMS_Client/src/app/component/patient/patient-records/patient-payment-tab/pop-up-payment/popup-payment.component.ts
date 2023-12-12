@@ -75,11 +75,31 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
     payment_type: null ,
     receipt: [] as Paid_material_usage[]
   }
-
+  private checkNumber(number:any):boolean{
+    return /^[1-9]\d*$/.test(number);
+  }
+  validateAmount={
+    soTien:''
+  }
+  isSubmittedAmout:boolean = false;
+  resetValidateAmount(){
+    this.validateAmount ={
+      soTien: ''
+    }
+    this.isSubmittedAmout = false;
+  }
   postPayment() {
     console.log("Material Usage: ", this.MaterialUsage)
     this.MaterialUsage.forEach((item:any) => {
       if (item.tempPaidAmount !=0 && item.tempPaidAmount != null && item.tempPaidAmount != undefined) {
+        this.resetValidateAmount();
+        if (!this.checkNumber(item.tempPaidAmount)){
+          this.validateAmount.soTien = "Vui lòng nhập lại số tiền!";
+          this.isSubmittedAmout = true;
+        }
+        if (this.isSubmittedAmout){
+          return;
+        }
         this.Body_Paid_MU.push({
           treatment_course_id: this.TreatmentCourse.tc_treatment_course_id,
           material_usage_id: item.mu_material_usage_id,

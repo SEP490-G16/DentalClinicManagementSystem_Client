@@ -1,13 +1,13 @@
 <div class="modal" id="wrNewModal">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header color-main">
         <h4 class="modal-title title text-center">Thêm bệnh nhân đợi</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="close()"></button>
       </div>
       <div class="modal-body">
-        <div class="modal-body">
-          <div class="row mt-2">
+        <div class="modal-body row">
+          <div class="col-md-7 row mt-2">
             <div class="col-md-12">
               <div class="card mb-4">
                 <div class="card-body">
@@ -42,7 +42,6 @@
                         </div>
                       </div>
                     </div>
-
                   </div>
                   <div class="row gx-3 mb-3">
                     <div class="col-md-6">
@@ -50,11 +49,6 @@
                         <label class="small mb-1" for="email">Email</label>
                         <input class="form-control" [(ngModel)]="patient1.Email" id="email" type="text" name="birthday"
                                placeholder="Email">
-                        <div *ngIf="isSubmitted" class="alert-danger-custom">
-                          <p style="color:#FF0000FF;">
-                            {{validatePatient.email}}
-                          </p>
-                        </div>
                       </div>
                     </div>
                     <div class="col-md-6">
@@ -68,10 +62,8 @@
                           <input type="radio" [(ngModel)]="patient1.Gender" class="radio m-2" value="0">
                           <label for="female">Nữ</label>
                         </div>
-
                       </div>
                     </div>
-
                   </div>
                   <div class="row gx-3 mb-3">
                     <div class="col-md-6">
@@ -84,11 +76,6 @@
                           <input type="text" class="form-control" [(ngModel)]="patient1.phone_Number" id="inputPhone"
                                  name="inputPhone" aria-label="phoneNumber" aria-describedby="basic-addon1">
                         </div>
-<!--                        <div *ngIf="isSubmitted" class="alert-danger-custom">-->
-<!--                          <p style="color:#FF0000FF;">-->
-<!--                            {{validatePatient.phone}}-->
-<!--                          </p>-->
-<!--                        </div>-->
                       </div>
                     </div>
                     <div class="col-md-6">
@@ -126,35 +113,39 @@
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-6">
-              <div class="form-group mt-2">
-                <label>Loại điều trị <span class="required">*</span></label>
-                <select [(ngModel)]="POST_WAITTINGROOM.produce_id" (change)="onProcedureChange($event)"
-                        class="form-select input-custom float-end" aria-label="Default select example">
-                  <option *ngFor="let a of listGroupService" [value]="a.medical_procedure_group_id">{{a.name}}</option>
-                </select>
+          <div class="col-md-5  ">
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group mt-2">
+                  <label>Loại điều trị <span class="required">*</span></label>
+                  <select [(ngModel)]="POST_WAITTINGROOM.produce_id" (change)="onProcedureChange($event)"
+                          class="form-select input-custom float-end" aria-label="Default select example">
+                    <option *ngFor="let a of listGroupService" [value]="a.medical_procedure_group_id">{{a.name}}</option>
+                  </select>
+                  <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
+                    <p>
+                      {{validateWatingRoom.procedure}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-12">
+                <textarea [(ngModel)]="POST_WAITTINGROOM.reason" class="form-control" placeholder="Lý do khám"
+                          style="height: 200px;"></textarea>
                 <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
                   <p>
-                    {{validateWatingRoom.procedure}}
+                    {{validateWatingRoom.reason}}
                   </p>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row mt-3">
-            <div class="col-12">
-              <textarea [(ngModel)]="POST_WAITTINGROOM.reason" class="form-control" placeholder="Lý do khám"
-                        style="height: 200px;"></textarea>
-              <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
-                <p>
-                  {{validateWatingRoom.reason}}
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
-        <div class="button-conf float-end">
+        </div>
+      </div>
+      <div class="modal-footer" style="display:flex;justify-content: space-around;">
+        <div class="button-conf">
           <button type="button" class="btn btn-cancel" data-bs-dismiss="modal" id="cancel-add-waiting-new">Quay lại</button>
           <button type="button" class="btn button-timekeeping" (click)="addPatient()" >
             <i class="bi bi-plus-circle"></i> Thêm mới hàng chờ</button>

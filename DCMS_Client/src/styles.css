@@ -695,6 +695,10 @@ button:hover {
   background-color: #9e92d1;
 }
 
+.sticky-thead-no-data {
+  margin: auto !important;
+  width: 100%;
+}
 .sticky-thead-no-data div {
   padding-top: 1.4rem;
   padding-bottom: 1.4rem;
@@ -705,8 +709,11 @@ button:hover {
 }
 
 .no-data {
+  width: 100%;
   min-height: 85%;
+  display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .no-data span {

@@ -155,7 +155,7 @@
           </div>
         </ng-container>
         <div class="save-xray">
-          <button class="btn button-add" (click)="onPostXRayImage()"><i
+          <button class="btn button-add" *ngIf="isAddImage" (click)="onPostXRayImage()"><i
             class="bi bi-plus-circle"></i>Lưu ảnh</button>
         </div>
       </div>

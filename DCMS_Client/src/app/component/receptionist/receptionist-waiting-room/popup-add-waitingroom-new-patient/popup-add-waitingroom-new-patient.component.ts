@@ -223,7 +223,6 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
     //           action: "sendMessage",
     //           message: `{"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}`
     //         };
-    //         console.log(this.messageBody);
     //         this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
 
     //       }
@@ -236,8 +235,14 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
 
   addPatient() {
     this.resetValidate();
+    this.resetValidate1();
     if (!this.patient1.patientName) {
       this.validatePatient.name = "Vui lòng nhập tên bệnh nhân!";
+      this.isSubmitted = true;
+    }
+    var regex = /[0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\\-/]/;
+    if(regex.test(this.patient1.patientName)==true){
+      this.validatePatient.name = "Tên không hợp lệ!";
       this.isSubmitted = true;
     }
     if (!this.patient1.phone_Number) {
@@ -263,7 +268,6 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
 
     const currentDateTimeGMT7 = moment().tz('Asia/Ho_Chi_Minh');
     this.POST_WAITTINGROOM.epoch = Math.floor(currentDateTimeGMT7.valueOf() / 1000).toString();
-    this.resetValidate();
     if (!this.POST_WAITTINGROOM.produce_id) {
       this.validateWatingRoom.procedure = "Vui lòng chọn loại điều trị!";
       this.isSubmitted = true;
@@ -309,7 +313,6 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
         date_of_birth: FormatNgbDate.formatNgbDateToVNString(this.dobNgb),
       }
     }
-    console.log("Patient body: ", this.patientBody);
     this.PATIENT_SERVICE.addPatient(this.patientBody).subscribe((data: any) => {
       this.toastr.success('Thêm mới bệnh nhân thành công!');
       this.currentPatientCreated = true;
@@ -342,7 +345,6 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
               action: "sendMessage",
               message: `{"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}`
             };
-            console.log(this.messageBody);
             this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
 
           }
@@ -435,13 +437,24 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
     }
     this.isSubmitted = false;
   }
+  private resetValidate1() {
+    this.validatePatient = {
+      name: '',
+      gender: '',
+      phone: '',
+      address: '',
+      dob: '',
+      email: ''
+    }
+    this.isSubmitted = false;
+  }
   private isVietnamesePhoneNumber(number: string): boolean {
     return /^(\+84|84|0)?[1-9]\d{8}$/
       .test(number);
   }
   private isValidEmail(email: string): boolean {
     // Thực hiện kiểm tra địa chỉ email ở đây, có thể sử dụng biểu thức chính quy
-    return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email);
+    return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/.test(email);
   }
   private isDob(dob: string): boolean {
     return /^\d{2}\/\d{2}\/\d{4}$/.test(dob);
