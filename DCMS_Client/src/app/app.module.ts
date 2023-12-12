@@ -82,11 +82,11 @@ registerLocaleData(localeVi);
   providers: [CookieService, { provide: LOCALE_ID, useValue: 'vi' },
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
     PatientService,
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: AuthInterceptor,
-    //   multi: true,
-    // },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent]
 })
