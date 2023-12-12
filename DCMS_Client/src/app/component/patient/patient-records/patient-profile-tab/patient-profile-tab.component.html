@@ -86,8 +86,14 @@
                 <div class="col-md-6">
                   <div class="form-group mb-3">
                     <label class="small mb-1" for="dob">Ngày sinh</label>
-                    <input class="form-control" [(ngModel)]="patient.date_of_birth" [disabled]="!isEditing" id="dob"
-                      type="date">
+                    <!-- <input class="form-control" [(ngModel)]="patient.date_of_birth" [disabled]="!isEditing" id="dob"
+                      type="date"> -->
+                      <div class="input-group">
+                        <input class="form-control" placeholder="dd/mm/yyyy"
+                        name="dp" ngbDatepicker [(ngModel)]="dob"
+                          #d="ngbDatepicker" (ngModelChange)="onDOBChange()"/>
+                        <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
+                      </div>
                     <div *ngIf="isSubmitted" class="alert-danger-custom">
                       <p>
                         {{validatePatient.dob}}
