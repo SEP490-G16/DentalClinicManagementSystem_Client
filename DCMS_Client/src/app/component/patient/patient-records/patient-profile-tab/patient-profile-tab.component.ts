@@ -99,6 +99,8 @@ export class PatientProfileTabComponent implements OnInit {
       console.log(this.clickCount)
       console.log(this.isEditing)
       this.isEditing = true;
+
+    } else {
       this.resetValidate();
       if (!this.patient.patient_name) {
         this.validatePatient.name = "Vui lòng nhập tên bệnh nhân!";
@@ -108,10 +110,11 @@ export class PatientProfileTabComponent implements OnInit {
         this.validatePatient.email = "Email không hợp lệ!";
         this.isSubmitted = true;
       }
-      if (!this.patient.gender) {
-        this.validatePatient.gender = "Vui lòng chọn giới tính!";
-        this.isSubmitted = true;
-      }
+      // if (this.patient.gender != 1 || this.patient.gender != 0) {
+      //   alert(this.patient.gender)
+      //   this.validatePatient.gender = "Vui lòng chọn giới tính!";
+      //   this.isSubmitted = true;
+      // }
       if (!this.patient.date_of_birth) {
         this.validatePatient.dob = 'Vui lòng nhập ngày sinh!';
         this.isSubmitted = true;
@@ -130,8 +133,6 @@ export class PatientProfileTabComponent implements OnInit {
       if (this.isSubmitted) {
         return;
       }
-
-    } else {
       let phone = ''
       if (this.patient.phone_number && this.patient.phone_number.length === 9) {
         phone = '+84' + this.patient.phone_number;
@@ -218,7 +219,7 @@ export class PatientProfileTabComponent implements OnInit {
 
   private isValidEmail(email: string): boolean {
     // Thực hiện kiểm tra địa chỉ email ở đây, có thể sử dụng biểu thức chính quy
-    return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email);
+    return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/.test(email);
   }
 
   normalizePhoneNumber(phoneNumber: string): string {

@@ -173,7 +173,7 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
   toggleSave() {
     this.isAdd = false;
   }
-
+  isSubmittedBill:boolean = false;
   //test
   userInput: string = '';
   showPopup: boolean = false;
@@ -197,6 +197,35 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
       creator: this.importBill.creator,
       facility_id: this.importBillBody.facility_id
     }
+    this.records.forEach((record:any) =>{
+      this.resetValidateMaterial();
+      let donGia = record.donGia;
+      let soLuong = record.soLuong;
+      let hanSuDung = record.hanSudung;
+      if (!donGia){
+        this.validateMaterial.donGia = "Vui lòng nhập đơn giá!";
+        this.isSubmittedBill = true;
+      }
+      else if (!this.checkNumber(donGia)){
+        this.validateMaterial.donGia = "Vui lòng nhập đơn giá > 0!";
+        this.isSubmittedBill = true;
+      }
+      if (!soLuong){
+        this.validateMaterial.soLuong = "Vui lòng nhập số lượng!";
+        this.isSubmittedBill = true;
+      }
+      else if (!this.checkNumber(soLuong)){
+        this.validateMaterial.soLuong = "Vui lòng nhập số lượng > 0!";
+        this.isSubmittedBill = true;
+      }
+      if (!hanSuDung){
+        this.validateMaterial.hanSuDung = "Vui lòng nhập hạn sử dụng!";
+        this.isSubmittedBill = true;
+      }
+    })
+    if (this.isSubmittedBill){
+      return;
+    }
     this.importMaterialService.addImportBill(this.importBillBody).subscribe(data => {
         this.toastr.success('Thêm mới phiếu thành công!');
         this.phieuLapId = data.data.import_material_id;
@@ -205,6 +234,7 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
           console.log("record", this.records);
           let warrantyDate = new Date(record.hanSudung);
           let warrantyTimestamp = (warrantyDate.getTime() / 1000).toString();
+
           this.importMaterialBody = {
             material_id: record.tenVatLieu,
             import_material_id: this.phieuLapId,
@@ -291,7 +321,15 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
       }
     }
   }
-
+  private resetValidateMaterial(){
+    this.validateMaterial = {
+      tenVatLieu:'',
+      soLuong:'',
+      donGia:'',
+      hanSuDung:''
+    }
+    this.isSubmittedBill = false;
+  }
   private resetMaterialInput() {
     this.materialInput = {
       tenVatLieu: '',

@@ -40,7 +40,18 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
   userName: any;
   facility:any;
   currentDate:any;
-
+  validateMaterial={
+    soLuong:''
+  }
+  isSubmittedMaterial:boolean = false;
+  valdateSpecimens ={
+    soLuong:''
+  }
+  isSubmittedSpecimens:boolean = false;
+  validateMedicine = {
+    soLuong:''
+  }
+  isSubmittedMedicines:boolean = false;
   TreatmentCouseBody = {
     name: '',
     lydo: '',
@@ -343,6 +354,30 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     this.Post_TreatmentCourse.provisional_diagnosis = this.TreatmentCouseBody.chuandoan;
     this.Post_TreatmentCourse.description = this.TreatmentCouseBody.luuy;
     this.Post_TreatmentCourse.prescription = JSON.stringify(this.recordsMedicine);
+    this.listMaterialUsage.forEach((item: any) => {
+      this.resetValidateMaterial();
+      let soLuong = item.quantity;
+      if (!this.checkNumber(soLuong)){
+        this.validateMaterial.soLuong = "Vui lòng nhập số lượng > 0!";
+        this.isSubmittedMaterial = true;
+      }
+    })
+    if (this.isSubmittedMaterial){
+      return;
+    }
+    this.resetValidateSpecimens();
+    this.list.forEach((item: any) => {
+      item.procedure.forEach((it: any) => {
+        let soLuong = it.quantity
+        if (!this.checkNumber(soLuong)){
+          this.valdateSpecimens.soLuong = "Vui lòng nhập số lượng > 0!";
+          this.isSubmittedSpecimens = true
+        }
+      })
+    })
+    if (this.isSubmittedSpecimens){
+      return;
+    }
     this.treatmentCourseService.postTreatmentCourse(this.Post_TreatmentCourse).
       subscribe((res) => {
         this.toastr.success(res.message, "Thêm liệu trình thành công");
@@ -568,6 +603,21 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     const timeZone = 'Asia/Ho_Chi_Minh';
     var timestamp = moment.tz(dateStr, format, timeZone).valueOf() / 1000;
     return timestamp;
+  }
+  private checkNumber(number:any):boolean{
+    return /^[1-9]\d*$/.test(number);
+  }
+  private resetValidateMaterial(){
+    this.validateMaterial = {
+      soLuong: ''
+    }
+    this.isSubmittedMaterial = false;
+  }
+  private resetValidateSpecimens(){
+    this.valdateSpecimens = {
+      soLuong: ''
+    }
+    this.isSubmittedSpecimens = false;
   }
 }
 

@@ -41,7 +41,7 @@
         <tr>
           <th>Mã bệnh nhân</th>
           <th>Tên bệnh nhân</th>
-          <th>Khách hàng mới</th>
+          <th>Bệnh nhân mới</th>
           <th>SĐT</th>
           <th>Loại điều trị</th>
           <th>Bác sĩ</th>
@@ -62,8 +62,8 @@
                 <td class="patient-name">
                   {{detail.patient_name}}
                 </td>
-                <td>{{detail.patient_created_date == 1 ? "Bệnh nhân đến lần đầu tiên" : detail.patient_created_date
-                  == 2 ? "Bệnh nhân tái khám" : "Dữ liệu trước"}}</td>
+                <td>{{detail.patient_created_date == 1 ? "Mới" : detail.patient_created_date
+                  == 2 ? "Cũ" : "Dữ liệu trước"}}</td>
                 <td class="patient-phone">
                   {{normalizePhoneNumber(detail.phone_number)}}
                 </td>
@@ -106,7 +106,7 @@
       <div class="row sticky-thead-no-data">
         <div class="col-md-1">Mã bệnh nhân</div>
         <div class="col-md-2">Tên bệnh nhân</div>
-        <div class="col-md-2">Khách hàng mới</div>
+        <div class="col-md-2">Bệnh nhân mới</div>
         <div class="col-md-1">SĐT</div>
         <div class="col-md-1">Loại điều trị</div>
         <div class="col-md-1">Bác sĩ</div>
@@ -133,5 +133,5 @@
 <app-popup-edit-appointment [selectedAppointment]="selectedAppointment"
   [dateString]="dateString" [timeString]="timeString"
   [filteredAppointments]="filteredAppointments"></app-popup-edit-appointment>
-<app-popup-add-appointment-new 
+<app-popup-add-appointment-new
                            [filteredAppointments]="filteredAppointments" (newAppointmentAdded)="onNewAppointmentAdded($event)"></app-popup-add-appointment-new>

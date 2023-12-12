@@ -95,7 +95,12 @@ export class SpecimensComponent implements OnInit {
     const formatdate = `${year}-${month}-${day}`;
     return formatdate
   }
-
+  getLaboName(id:string):any{
+     const labo = this.labos.find((s:any) => s.labo_id === id);
+     if (labo){
+       return labo.name;
+     }
+  }
 
   filterByOrderDate(order: any) {
     const orderSplit = order.split(' - ');
@@ -176,7 +181,7 @@ export class SpecimensComponent implements OnInit {
         this.specimenObject.ms_quantity = item.quantity;
         this.specimenObject.ms_unit_price = item.unit_price;
         this.specimenObject.lb_id = item.labo_id;
-        this.specimenObject.lb_name = '';
+        this.specimenObject.lb_name = this.getLaboName(item.labo_id);
         this.specimenObject.ms_status = item.status;
         this.specimenObject.ms_order_date = item.order_date;
         this.specimenObject.ms_used_date = item.used_date;

@@ -436,7 +436,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
   }
   private isValidEmail(email: string): boolean {
     // Thực hiện kiểm tra địa chỉ email ở đây, có thể sử dụng biểu thức chính quy
-    return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email);
+    return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/.test(email);
   }
   private isDob(dob: string): boolean {
     return /^\d{2}\/\d{2}\/\d{4}$/.test(dob);

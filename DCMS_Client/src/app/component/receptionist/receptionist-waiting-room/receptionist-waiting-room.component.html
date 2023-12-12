@@ -28,7 +28,7 @@
           <th style="width:100px">Thời gian</th>
           <th style="width:100px">Mã bệnh nhân</th>
           <th style="width:250px">Tên bệnh nhân</th>
-          <th style="width:250px">Khách hàng mới</th>
+          <th style="width:250px">Bệnh nhân mới</th>
           <th style="width:300px">Lý do khám</th>
           <th style="width:200px">Loại điều trị</th>
           <th style="width:200px">Trạng thái</th>
@@ -45,9 +45,9 @@
             <td style="width:100px">{{ i + 1 }}</td>
             <td style="width:100px">{{wtr.date}}</td>
             <td style="width:100px">{{ wtr.patient_id }}</td>
-            <td>{{ wtr.patient_name }}</td>
-            <td>{{wtr.patient_created_date == 1 ? "Bệnh nhân đến lần đầu tiên" : wtr.patient_created_date == 2 ?
-              "Bệnh nhân tái khám" : "Dữ liệu trước"}}</td>
+            <td><a style="text-decoration: underline">{{ wtr.patient_name }}</a></td>
+            <td>{{wtr.patient_created_date == 1 ? "Mới" : wtr.patient_created_date == 2 ?
+              "Cũ" : "Dữ liệu trước"}}</td>
             <td style="width:300px" class="truncate" data-bs-toggle="tooltip" title="{{wtr.reason}}">{{wtr.reason }}
             </td>
             <td style="width:200px">{{ wtr.produce_name }}</td>
@@ -94,7 +94,7 @@
         <div class="col-md-1">Thời gian</div>
         <div class="col-md-2">Mã bệnh nhân</div>
         <div class="col-md-2">Tên bệnh nhân</div>
-        <div class="col-md-2">Khách hàng mới</div>
+        <div class="col-md-2">Bệnh nhân mới</div>
         <div class="col-md-1">Lý do khám</div>
         <div class="col-md-1">Loại điều trị</div>
         <div class="col-md-1">Trạng thái</div>
