@@ -218,7 +218,6 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
     //           action: "sendMessage",
     //           message: `{"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}`
     //         };
-    //         console.log(this.messageBody);
     //         this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
 
     //       }
@@ -231,8 +230,14 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
 
   addPatient() {
     this.resetValidate();
+    this.resetValidate1();
     if (!this.patient1.patientName) {
       this.validatePatient.name = "Vui lòng nhập tên bệnh nhân!";
+      this.isSubmitted = true;
+    }
+    var regex = /[0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\\-/]/;
+    if(regex.test(this.patient1.patientName)==true){
+      this.validatePatient.name = "Tên không hợp lệ!";
       this.isSubmitted = true;
     }
     if (!this.patient1.phone_Number) {
@@ -258,7 +263,6 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
 
     const currentDateTimeGMT7 = moment().tz('Asia/Ho_Chi_Minh');
     this.POST_WAITTINGROOM.epoch = Math.floor(currentDateTimeGMT7.valueOf() / 1000).toString();
-    this.resetValidate();
     if (!this.POST_WAITTINGROOM.produce_id) {
       this.validateWatingRoom.procedure = "Vui lòng chọn loại điều trị!";
       this.isSubmitted = true;
@@ -304,7 +308,6 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
         date_of_birth: FormatNgbDate.formatNgbDateToString(this.dobNgb),
       }
     }
-    console.log("Patient body: ", this.patientBody);
     this.PATIENT_SERVICE.addPatient(this.patientBody).subscribe((data: any) => {
       this.toastr.success('Thêm mới bệnh nhân thành công!');
       this.currentPatientCreated = true;
@@ -337,7 +340,6 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
               action: "sendMessage",
               message: `{"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}`
             };
-            console.log(this.messageBody);
             this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
 
           }
@@ -427,6 +429,17 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
       procedure: '',
       status: '',
       reason: ''
+    }
+    this.isSubmitted = false;
+  }
+  private resetValidate1() {
+    this.validatePatient = {
+      name: '',
+      gender: '',
+      phone: '',
+      address: '',
+      dob: '',
+      email: ''
     }
     this.isSubmitted = false;
   }

@@ -22,42 +22,6 @@
   --custom-box-shadow: 0 2rem 3rem var(--custom-color-light);
 }
 
-.recent-orders {
-  margin-top: 1.3rem;
-  background-color: var(--custom-color-white);
-  box-shadow: var(--custom-box-shadow);
-  border-radius: 15px;
-  min-height: 82vh;
-}
-
-.recent-orders:hover {
-  box-shadow: none;
-}
-
-.loading-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.loading-spinner {
-  border: 16px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 16px solid #3498db;
-  width: 120px;
-  height: 120px;
-  -webkit-animation: spin 2s linear infinite;
-  /* Safari */
-  animation: spin 2s linear infinite;
-}
-
 .table-container {
   max-height: 400px;
   overflow-y: auto;
@@ -97,7 +61,7 @@ a {
 /* General table styles */
 
 .timekeeping-container {
-  padding: 30px;
+  padding: 10px;
 }
 
 

@@ -276,6 +276,11 @@ export class PopupAddAppointmentNewComponent implements OnInit {
       this.validatePatient.name = "Vui lòng nhập tên bệnh nhân!";
       this.isSubmittedPatient = true;
     }
+    var regex = /[0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\\-/]/;
+    if(regex.test(this.patient1.patientName)==true){
+      this.validatePatient.name = "Tên không hợp lệ!";
+      this.isSubmitted = true;
+    }
     if (!this.patient1.phone_Number) {
       this.validatePatient.phone = "Vui lòng nhập số điện thoại!";
       this.isSubmittedPatient = true;
