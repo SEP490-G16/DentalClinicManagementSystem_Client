@@ -96,20 +96,10 @@ export class PatientProfileTabComponent implements OnInit {
   toggleEditing() {
     this.clickCount++;
     if (this.clickCount % 2 !== 0) {
-      console.log(this.clickCount)
-      console.log(this.isEditing)
       this.isEditing = true;
       this.resetValidate();
       if (!this.patient.patient_name) {
         this.validatePatient.name = "Vui lòng nhập tên bệnh nhân!";
-        this.isSubmitted = true;
-      }
-      if (this.patient.email && !this.isValidEmail(this.patient.email)) {
-        this.validatePatient.email = "Email không hợp lệ!";
-        this.isSubmitted = true;
-      }
-      if (!this.patient.gender) {
-        this.validatePatient.gender = "Vui lòng chọn giới tính!";
         this.isSubmitted = true;
       }
       if (!this.patient.date_of_birth) {
@@ -152,17 +142,16 @@ export class PatientProfileTabComponent implements OnInit {
         profile_image: this.imageURL,
         // patient_id: this.id
       }
-      console.log(this.patientBody);
       this.isEditing = false;
       let status = 0;
       this.patientService.updatePatient(this.patientBody, this.id).subscribe(res => {
-        this.toastr.success("", 'Cập nhật bệnh nhân thành công !');
-        console.log("res", res);
+        
       }, (error) => {
         //this.toastr.error(error.error.message,'Cập nhật bệnh nhân thất bại!')
         console.log("res", error);
         ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test + "/patient/" + this.id, error);
       })
+      this.toastr.success("", 'Cập nhật bệnh nhân thành công !');
     }
 
   }
