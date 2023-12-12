@@ -17,8 +17,13 @@
           <label>Từ:</label>
         </div>
         <div class="col-md-8" style="padding: 0">
-          <input style="width: 100%" type="date" [(ngModel)]="fromDate" #input (change)="onChangeFromDate(input.value)"
-            class="form-control input-custom  p-2">
+<!--          <input style="width: 100%" type="date" [(ngModel)]="fromDate" #input (change)="onChangeFromDate(input.value)"-->
+<!--            class="form-control input-custom  p-2">-->
+          <div class="input-group">
+            <input class="form-control" placeholder="dd/mm/yyyy" style="font-size: 20px; text-align: center;" name="dp" ngbDatepicker [(ngModel)]="fromDate" #input
+                   #from="ngbDatepicker" (ngModelChange)="onChangeFromDate($event)"/>
+            <button class="btn btn-outline-secondary bi bi-calendar3" (click)="from.toggle()" type="button"></button>
+          </div>
         </div>
       </div>
       <div class="col-md-6 row row-title">
@@ -26,8 +31,13 @@
           <label>Đến:</label>
         </div>
         <div class="col-md-8" style="padding: 0">
-          <input style="width: 100%" type="date" [(ngModel)]="toDate" #inpu (change)="onChangeToDate(inpu.value)"
-            class="form-control input-custom  p-2">
+<!--          <input style="width: 100%" type="date" [(ngModel)]="toDate" #inpu (change)="onChangeToDate(inpu.value)"-->
+<!--            class="form-control input-custom  p-2">-->
+          <div class="input-group">
+            <input class="form-control" placeholder="dd/mm/yyyy" style="font-size: 20px; text-align: center;" name="dp" ngbDatepicker [(ngModel)]="toDate" #inpu
+                   #to="ngbDatepicker" (ngModelChange)="onChangeToDate($event)"/>
+            <button class="btn btn-outline-secondary bi bi-calendar3" (click)="to.toggle()" type="button"></button>
+          </div>
         </div>
         <div class="col-md-2">
           <div>

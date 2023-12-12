@@ -15,10 +15,10 @@
   <!-- Date and Payment Type -->
   <div class="row">
     <div class="col-md-6 col-sm-12">
-      <p>Ngày tạo: <b>{{ receiptDetails?.r_created_date }}</b></p>
+      <p>Ngày tạo: <b>{{ createDate | VNdateTimeFormat }}</b></p>
     </div>
     <div class="col-md-6 col-sm-12">
-      <p>Hình thức/Type: <b>{{ receiptDetails?.payment_type }}</b></p> <!-- Assuming you have a variable for Payment Type -->
+      <p>Hình thức/Type: <b>{{ paymentType == "1" ? 'Thanh toán bằng tiền mặt' : 'Thanh toán qua chuyển khoản'  }}</b></p> <!-- Assuming you have a variable for Payment Type -->
     </div>
   </div>
 
@@ -26,27 +26,27 @@
   <!-- Patient Information -->
   <div class="row">
     <div class="col-md-6 col-sm-12">
-      <p>Mã khách hàng/Patient Code: {{Patient.patient_id}}<b></b></p>
+      <p>Mã khách hàng/Patient Code: <b>{{Patient.patient_id}}</b></p>
     </div>
     <div class="col-md-6 col-sm-12">
-      <p>Tên khách hàng/Patient Name: {{Patient.patient_name}}<b></b></p>
+      <p>Tên khách hàng/Patient Name: <b>{{Patient.patient_name}}</b></p>
     </div>
   </div>
 
   <!-- Address -->
   <div class="row">
     <div class="col-12">
-      <p>Địa chỉ/Address: {{Patient.address}}<b></b></p>
+      <p>Địa chỉ/Address: <b>{{Patient.address}}</b></p>
     </div>
   </div>
 
   <!-- Contact Information -->
   <div class="row">
     <div class="col-md-6 col-sm-12">
-      <p>Email: {{Patient.email}}<b></b></p>
+      <p>Email: <b>{{Patient.email}}</b></p>
     </div>
     <div class="col-md-6 col-sm-12">
-      <p>Điện thoại/Tel: {{Patient.phone_number}}<b></b></p>
+      <p>Điện thoại/Tel: <b>{{Patient.phone_number}}</b></p>
     </div>
   </div>
   <!-- Services Table -->

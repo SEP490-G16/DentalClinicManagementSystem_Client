@@ -70,7 +70,7 @@ export class PopupEditSpecimensComponent implements OnInit {
     warranty: '',
     description: '',
     status: 2,
-    facility_id: 'F-08',
+    facility_id: '',
     labo_id: '',
     patient_id: ''
   }
@@ -98,7 +98,11 @@ export class PopupEditSpecimensComponent implements OnInit {
       this.IPutSpecimens.ms_quantity = this.PutSpecimen.ms_quantity;
       this.IPutSpecimens.ms_orderer = this.PutSpecimen.ms_orderer;
       this.IPutSpecimens.lb_id = this.PutSpecimen.lb_id;
-      this.IPutSpecimens.facility_id = 'F-08'
+      let faci = sessionStorage.getItem('locale');
+      if (faci != null) {
+        this.IPutSpecimens.facility_id = faci;
+      }
+      // this.IPutSpecimens.facility_id = 'F-08'
 
       const orderDateParts = this.PutSpecimen.ms_order_date?.split(' ')[0].split('-').map(Number);
       const receivedDateParts = this.PutSpecimen.ms_received_date?.split(' ')[0].split('-').map(Number);
@@ -204,20 +208,30 @@ export class PopupEditSpecimensComponent implements OnInit {
     if (this.isSubmitted) {
       return;
     }
+    let orderDateParse = new Date(orderDate);
+    let receivedDateParse = new Date(receivedDate);
+    let usedDateParse = new Date(usedDate);
+    let orderDateTimestamp = (orderDateParse.getTime()/1000).toString();
+    let receivedDateTimestamp = (receivedDateParse.getTime()/1000).toString();
+    let userDateTimestamp = (usedDateParse.getTime()/1000).toString();
+    let faci = sessionStorage.getItem('locale');
+    if (faci != null) {
+      this.putSpecimensBody.facility_id = faci;
+    }
     this.putSpecimensBody = {
       name: this.IPutSpecimens.ms_name,
       type: this.IPutSpecimens.ms_type,
       quantity: this.IPutSpecimens.ms_quantity,
       unit_price: this.IPutSpecimens.ms_unit_price,
-      order_date: orderDate != ''? this.dateToTimestamp(orderDate).toString() : '',
+      order_date: orderDateTimestamp,
       orderer: this.IPutSpecimens.ms_orderer,
-      received_date: receivedDate != '' ? this.dateToTimestamp(receivedDate).toString() : '',
+      received_date: receivedDateTimestamp,
       receiver: this.IPutSpecimens.ms_receiver,
-      used_date: usedDate != '' ? this.dateToTimestamp(usedDate).toString() : '',
+      used_date: userDateTimestamp,
       warranty: warranty,
       description: this.IPutSpecimens.ms_description,
       status: this.IPutSpecimens.ms_status,
-      facility_id: 'F-08',
+      facility_id: this.putSpecimensBody.facility_id,
       labo_id: this.IPutSpecimens.lb_id,
       patient_id: this.IPutSpecimens.p_patient_id
     }

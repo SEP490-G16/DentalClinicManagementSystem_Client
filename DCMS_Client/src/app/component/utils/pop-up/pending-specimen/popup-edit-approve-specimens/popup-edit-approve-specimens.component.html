@@ -42,7 +42,17 @@
               <div class="form-group row mt-3">
                 <label for="orderdate" class="col-3 name-title">Ngày đặt <span class="required">*</span></label>
                 <div class="col-9 value-staff">
-                  <input type="date" [(ngModel)]="specimen.orderDate" required #orderDate="ngModel" class="form-control date-input-custom" id="orderdate" name="orderdate">
+<!--                  <input type="date" [(ngModel)]="specimen.orderDate" required #orderDate="ngModel" class="form-control date-input-custom" id="orderdate" name="orderdate">-->
+                  <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="orderDateNgbModal"
+                           ngbDatepicker #orderDatepicker="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày đặt">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary calendar" style="height: 48px;"
+                              (click)="orderDatepicker.toggle()" type="button">
+                        <i class="bi bi-calendar3"></i>
+                      </button>
+                    </div>
+                  </div>
                   <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.orderDate}}
@@ -54,7 +64,17 @@
               <div class="form-group row mt-3">
                 <label for="receiverdate" class="col-3 name-title">Ngày nhận</label>
                 <div class="col-9 value-staff">
-                  <input type="date" [(ngModel)]="specimen.receiverDate" required #receiverDate="ngModel" class="form-control date-input-custom" id="receiverdate" name="receiverdate">
+<!--                  <input type="date" [(ngModel)]="specimen.receiverDate" required #receiverDate="ngModel" class="form-control date-input-custom" id="receiverdate" name="receiverdate">-->
+                  <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="receiverDateNgbModal"
+                           ngbDatepicker #receivedDatepicker="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày nhận">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary calendar" style="height: 48px;"
+                              (click)="receivedDatepicker.toggle()" type="button">
+                        <i class="bi bi-calendar3"></i>
+                      </button>
+                    </div>
+                  </div>
                   <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.receiverDate}}
@@ -66,7 +86,17 @@
               <div class="form-group row mt-3">
                 <label for="installationdate" class="col-3 name-title">Ngày lắp</label>
                 <div class="col-9 value-staff">
-                  <input type="date" [(ngModel)]="specimen.usedDate" required #usedDate="ngModel" class="form-control date-input-custom" id="installationdate" name="installationdate">
+<!--                  <input type="date" [(ngModel)]="specimen.usedDate" required #usedDate="ngModel" class="form-control date-input-custom" id="installationdate" name="installationdate">-->
+                  <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="usedDateNgbModal"
+                           ngbDatepicker #usedDatepicker="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày lắp">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary calendar" style="height: 48px;"
+                              (click)="usedDatepicker.toggle()" type="button">
+                        <i class="bi bi-calendar3"></i>
+                      </button>
+                    </div>
+                  </div>
                   <div *ngIf="isSubmitted"  class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.usedDate}}
