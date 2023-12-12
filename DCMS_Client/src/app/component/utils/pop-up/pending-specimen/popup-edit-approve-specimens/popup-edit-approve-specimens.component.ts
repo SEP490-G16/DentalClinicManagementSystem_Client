@@ -135,7 +135,7 @@ export class PopupEditApproveSpecimensComponent implements OnChanges  {
     if (changes['id']){
       this.specimenId = this.id;
     }
-    if (changes['specimens']){
+    if (changes['specimens'] && this.specimens){
       this.specimen.name = this.specimens.ms_name;
       this.specimen.type = this.specimens.ms_type;
       const orginalReceivedDate = this.specimens.ms_received_date;
