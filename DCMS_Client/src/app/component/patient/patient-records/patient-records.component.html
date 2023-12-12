@@ -24,20 +24,20 @@
       </thead>
       <tbody>
           <tr class="hover-patient" *ngFor="let p of searchPatientsList"
-            [ngClass]="{'new-record': p.isNew,'pulse': p.isPulsing}" style="cursor: pointer;">
-            <td (click)="detail(p.patient_id)" style="width: 100px;">
+            [ngClass]="{'new-record': p.isNew,'pulse': p.isPulsing}">
+            <td  style="width: 100px;">
               {{p.patient_id}}
             </td>
             <td (click)="detail(p.patient_id)" style="width: 300px; justify-content: center;">
-              <a style="cursor: pointer;">{{p.patient_name}}</a>
+              <a style="cursor: pointer; text-decoration: underline;">{{p.patient_name}}</a>
             </td>
-            <td (click)="detail(p.patient_id)" style="width: 150px;">
+            <td style="width: 150px;">
               {{p.phone_number}}
             </td>
-            <td (click)="detail(p.patient_id)" style="width: 250px;">
+            <td style="width: 250px;">
               {{p.address}}
             </td>
-            <td (click)="detail(p.patient_id)" style="width: 250px;">
+            <td style="width: 250px;">
               {{p.created_date | date:"dd/MM/yyyy"}}
             </td>
             <td style="width: 100px;">
