@@ -1,7 +1,7 @@
 <div class="modal" id="AddTreatmentModal">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
-    
+
       <div class="modal-header color-main">
         <h4 class="modal-title title text-center w-100">Thêm mới ngày khám</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -139,7 +139,13 @@
                             <ng-container *ngIf="gro.checked">
                               <td style="padding: 10px"><input class="form-control"
                                   style="padding: 5px; border-radius: 5px;border: 1px solid #664FC3;height: 42px"
-                                  type="number" [(ngModel)]="gro.quantity" (input)="changeQuantity(gro, $event)"></td>
+                                  type="number" [(ngModel)]="gro.quantity" (input)="changeQuantity(gro, $event)">
+                                <div *ngIf="isSubmittedSpecimens"  class="alert-danger-custom">
+                                  <p>
+                                    {{valdateSpecimens.soLuong}}
+                                  </p>
+                                </div>
+                              </td>
                             </ng-container>
                             <ng-container *ngIf="gro.checked && pro.groupId == 'PG-03'">
                               <td style="padding: 10px">
@@ -283,6 +289,11 @@
                     <td style="padding: 10px">{{a.description}}</td>
                     <td style="padding: 10px"><input class="form-control value-staff" type="number"
                         [(ngModel)]="a.quantity">
+                      <div *ngIf="isSubmittedMaterial"  class="alert-danger-custom">
+                        <p>
+                          {{validateMaterial.soLuong}}
+                        </p>
+                      </div>
                     </td>
                     <td style="padding: 10px">
                       <div class="delete-cell">

@@ -128,3 +128,6 @@ p {
 .row .right p{
   float: right;
 }
+.modal-body div p {
+  color: #FF0000FF;
+}

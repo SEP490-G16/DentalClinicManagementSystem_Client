@@ -322,6 +322,8 @@
   cursor: pointer;
 }
 .button-zalo img {
+  width: 80px;
+  height: 80px;
   vertical-align: middle;
   margin-right: 8px;
 }

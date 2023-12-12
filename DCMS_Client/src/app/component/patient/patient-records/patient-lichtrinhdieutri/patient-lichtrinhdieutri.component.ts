@@ -198,6 +198,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     this.treatmentCourseService.postImageXRay(this.id, this.listInsertImage).subscribe((data) => {
       this.toastr.success('Thêm mới ảnh x-quang thành công');
     })
+    this.isAddImage = false;
   }
 
   onDeleteXRayImage(image:any) {

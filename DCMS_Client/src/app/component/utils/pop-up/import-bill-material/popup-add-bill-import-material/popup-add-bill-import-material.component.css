@@ -242,3 +242,6 @@ button:active{
   border: 1px solid;
   border-radius: 5px;
 }
+.modal-body div p {
+  color: #FF0000FF;
+}
