@@ -17,12 +17,12 @@ export class PopupEditMaterialRealComponent implements OnInit, OnChanges {
     unit: '',
     quantity: '',
     unitPrice: '',
-    total: 1,
+    total: 0,
   }
   materialBody = {
     material_name: '',
     unit: '',
-    total: 1
+    total: 0
   }
   validateMaterial = {
     name: '',
@@ -40,7 +40,7 @@ export class PopupEditMaterialRealComponent implements OnInit, OnChanges {
       console.log(this.materialEdit);
       this.material.name = this.materialEdit.material_name;
       this.material.unit = this.materialEdit.unit;
-      this.material.total = this.materialEdit.total ? this.materialEdit.total : 1
+      this.material.total = this.materialEdit.total ? this.materialEdit.total : 0
     }
   }
 
@@ -63,7 +63,7 @@ export class PopupEditMaterialRealComponent implements OnInit, OnChanges {
       total: this.material.total
     }
     this.materialSerivce.updateMaterial(this.materialEdit.material_id, this.materialBody).subscribe(data => {
-      this.toastr.success('Thêm mới vật liệu thành công!');
+      this.toastr.success('Chính sửa vật liệu thành công!');
       //window.location.reload();
       let ref = document.getElementById('cancel-editMaterial');
       ref?.click();
@@ -76,8 +76,8 @@ export class PopupEditMaterialRealComponent implements OnInit, OnChanges {
       this.materialUpdated.emit(Body);
     },
       error => {
-        //this.toastr.error('Thêm mới vật liệu thất bại!');
-        ResponseHandler.HANDLE_HTTP_STATUS(this.materialSerivce.url + "/material", error);
+        this.toastr.error(error.error.message, 'Sửa vật liệu thất bại!');
+        // ResponseHandler.HANDLE_HTTP_STATUS(this.materialSerivce.url + "/material", error);
       }
     )
   }

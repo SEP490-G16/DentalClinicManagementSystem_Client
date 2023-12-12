@@ -238,26 +238,26 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
     this.startDate = currentDateGMT7;
     var count = 0;
-    this.appointmentService.getAppointmentList(this.dateToTimestamp(this.startDate + " 00:00:00"), this.dateToTimestamp(this.startDate + " 23:59:59")).subscribe((data) => {
-      this.appointmentList = ConvertJson.processApiResponse(data);
-      console.log("check appointment", this.appointmentList.length);
-      console.log("check appointment", this.appointmentList);
-      this.analyses.total_appointment = 0;
-      this.appointmentList.forEach((item:any) => {
-        item.appointments.forEach((it:any) => {
-          if (item.date == this.dateToTimestamp(this.startDate)) {
-            console.log("vô nha")
-            it.details.forEach((a:any) => {
-              console.log(a.migrated);
-              if (a.migrated == "false") {
-                console.log("vô nha 1")
-                this.analyses.total_appointment++;
-              }
-            })
-          }
-        })
-      })
-    })
+    // this.appointmentService.getAppointmentList(this.dateToTimestamp(this.startDate + " 00:00:00"), this.dateToTimestamp(this.startDate + " 23:59:59")).subscribe((data) => {
+    //   this.appointmentList = ConvertJson.processApiResponse(data);
+    //   console.log("check appointment", this.appointmentList.length);
+    //   console.log("check appointment", this.appointmentList);
+    //   this.analyses.total_appointment = 0;
+    //   this.appointmentList.forEach((item:any) => {
+    //     item.appointments.forEach((it:any) => {
+    //       if (item.date == this.dateToTimestamp(this.startDate)) {
+    //         console.log("vô nha")
+    //         it.details.forEach((a:any) => {
+    //           console.log(a.migrated);
+    //           if (a.migrated == "false") {
+    //             console.log("vô nha 1")
+    //             this.analyses.total_appointment++;
+    //           }
+    //         })
+    //       }
+    //     })
+    //   })
+    // })
   }
 
   togglePopup(event: MouseEvent): void {

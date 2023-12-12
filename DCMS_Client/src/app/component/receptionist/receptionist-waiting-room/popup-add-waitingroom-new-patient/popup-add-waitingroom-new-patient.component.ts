@@ -13,7 +13,7 @@ import {SendMessageSocket} from "../../../shared/services/SendMessageSocket.serv
 import * as moment from "moment-timezone";
 import {ResponseHandler} from "../../../utils/libs/ResponseHandler";
 import {Normalize} from "../../../../service/Lib/Normalize";
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { FormatNgbDate } from 'src/app/component/utils/libs/formatNgbDateToString';
 
 @Component({
@@ -67,8 +67,13 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
     private router: Router,private webSocketService: WebsocketService,
     private medicaoProcedureGroupService: MedicalProcedureGroupService,
     private dataService: DataService,
-    private sendMessageSocket: SendMessageSocket
+    private sendMessageSocket: SendMessageSocket,
+    private config: NgbDatepickerConfig,
   ) {
+
+    const currentYear = new Date().getFullYear();
+    config.minDate = { year: 1900, month: 1, day: 1 };
+    config.maxDate = { year: currentYear, month: 12, day: 31 };
 
     this.POST_WAITTINGROOM = {
       epoch: "",
@@ -247,7 +252,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
       this.validatePatient.dob = "Vui lòng nhập ngày sinh!";
       this.isSubmitted = true;
     }
-    else if (!this.isDob(FormatNgbDate.formatNgbDateToString(this.dobNgb))){
+    else if (!this.isDob(FormatNgbDate.formatNgbDateToVNString(this.dobNgb))){
       this.validatePatient.dob = "Vui lòng nhập ngày sinh đúng định dạng dd/MM/yyyy !";
       this.isSubmitted = true;
     }
@@ -276,7 +281,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
       address: this.patient1.Address,
       full_medical_history: this.patient1.full_medical_History,
       dental_medical_history: this.patient1.dental_medical_History,
-      date_of_birth: FormatNgbDate.formatNgbDateToString(this.dobNgb),
+      date_of_birth: FormatNgbDate.formatNgbDateToVNString(this.dobNgb),
     }
     if (this.patient1.phone_Number && this.patient1.phone_Number.length === 9) {
       this.patientBody = {
@@ -288,7 +293,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
         address: this.patient1.Address,
         full_medical_history: this.patient1.full_medical_History,
         dental_medical_history: this.patient1.dental_medical_History,
-        date_of_birth: FormatNgbDate.formatNgbDateToString(this.dobNgb),
+        date_of_birth: FormatNgbDate.formatNgbDateToVNString(this.dobNgb),
       }
     }
     if (this.patient1.phone_Number && this.patient1.phone_Number.length === 10) {
@@ -301,7 +306,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
         address: this.patient1.Address,
         full_medical_history: this.patient1.full_medical_History,
         dental_medical_history: this.patient1.dental_medical_History,
-        date_of_birth: FormatNgbDate.formatNgbDateToString(this.dobNgb),
+        date_of_birth: FormatNgbDate.formatNgbDateToVNString(this.dobNgb),
       }
     }
     console.log("Patient body: ", this.patientBody);

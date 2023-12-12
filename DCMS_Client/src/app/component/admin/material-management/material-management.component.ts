@@ -30,6 +30,7 @@ export class MaterialManagementComponent implements OnInit {
     this.currentPage = page;
     this.materials = [];
     this.materialService.getMaterial(this.currentPage).subscribe(data =>{
+      console.log(data.data);
       this.materials = data.data;
       this.checkNextPage();
       if (this.materials.length > 10) {

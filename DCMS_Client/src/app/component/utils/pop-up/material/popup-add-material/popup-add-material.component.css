@@ -54,3 +54,8 @@
 .value-staff{
   padding: 6px 12px;
 }
+
+.required {
+  color: red;
+  margin-left: 3px;
+}

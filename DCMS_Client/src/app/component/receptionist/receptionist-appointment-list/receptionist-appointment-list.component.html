@@ -62,8 +62,8 @@
                 <td class="patient-name">
                   {{detail.patient_name}}
                 </td>
-                <td>{{detail.patient_created_date == 1 ? "Bệnh nhân đến lần đầu tiên" : detail.patient_created_date
-                  == 2 ? "Bệnh nhân tái khám" : "Dữ liệu trước"}}</td>
+                <td>{{detail.patient_created_date == 1 ? "Bệnh nhân mới" : detail.patient_created_date
+                  == 2 ? "Bệnh nhân cũ" : "Dữ liệu trước"}}</td>
                 <td class="patient-phone">
                   {{normalizePhoneNumber(detail.phone_number)}}
                 </td>
@@ -133,5 +133,5 @@
 <app-popup-edit-appointment [selectedAppointment]="selectedAppointment"
   [dateString]="dateString" [timeString]="timeString"
   [filteredAppointments]="filteredAppointments"></app-popup-edit-appointment>
-<app-popup-add-appointment-new 
+<app-popup-add-appointment-new
                            [filteredAppointments]="filteredAppointments" (newAppointmentAdded)="onNewAppointmentAdded($event)"></app-popup-add-appointment-new>

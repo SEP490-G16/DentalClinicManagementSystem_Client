@@ -223,9 +223,9 @@ export class PopupAddSpecimensComponent implements OnInit {
       return;
     }
 
-    let orderDateTimestamp = this.dateToTimestamp(orderDate);
-    let receivedDateTimestamp = receivedDate != "" ? this.dateToTimestamp(receivedDate) : 0;
-    let userDateTimestamp = usedDate != '' ? this.dateToTimestamp(usedDate) : 0;
+    let orderDateTimestamp = this.dateToTimestamp(orderDate + " 20:00");
+    let receivedDateTimestamp = receivedDate != "" ? this.dateToTimestamp(receivedDate + " 20:00") : 0;
+    let userDateTimestamp = usedDate != '' ? this.dateToTimestamp(usedDate + " 20:00") : 0;
 
     const pa = this.patientIdSelected.split(" - ");
     this.specimenBody = {
@@ -249,7 +249,9 @@ export class PopupAddSpecimensComponent implements OnInit {
       this.toastr.success('Thêm mới mẫu thành công !');
       let ref = document.getElementById('cancel-specimen');
       ref?.click();
+      console.log(this.specimenBody);
       window.location.reload();
+      this.loading = false;
     },
       error => {
         this.loading = false;
