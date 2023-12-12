@@ -49,7 +49,6 @@ export class MaterialComponent implements OnInit {
     this.materialService.getMaterials(paging).subscribe(data => {
       this.materialList = data.data;
       console.log(this.materialList);
-      //this.results = [];
       if (this.materialList) {
         if (this.materialList.length >= 1) {
           for (let i = 0; i < this.materialList.length; i++) {
@@ -58,14 +57,14 @@ export class MaterialComponent implements OnInit {
               this.uniqueList.push(currentNumber.m_material_id);
               let newExpiryObject = {
                 mw_material_warehouse_id: currentNumber.mw_material_warehouse_id,
-                quantity: currentNumber.mw_quantity_import,
+                quantity: currentNumber.mw_remaining,
                 expiryDate: currentNumber.mw_warranty,
                 discount: currentNumber.mw_discount,
                 expanded: false,
               };
               this.wareHouseMaterial.materialId = currentNumber.m_material_id,
                 this.wareHouseMaterial.materialName = currentNumber.m_material_name,
-                this.wareHouseMaterial.quantity = currentNumber.mw_quantity_import,
+                this.wareHouseMaterial.quantity = currentNumber.mw_remaining,
                 this.wareHouseMaterial.unitPrice = currentNumber.mw_price,
                 this.wareHouseMaterial.unit = currentNumber.m_unit,
                 this.wareHouseMaterial.expiryDate = currentNumber.mw_warranty,
@@ -91,10 +90,10 @@ export class MaterialComponent implements OnInit {
             } else {
               this.results.forEach((e: any) => {
                 if (e.materialId == currentNumber.m_material_id) {
-                  e.quantity += currentNumber.mw_quantity_import;
+                  e.quantity += currentNumber.mw_remaining;
                   let newExpiryObject = {
                     mw_material_warehouse_id: currentNumber.mw_material_warehouse_id,
-                    quantity: currentNumber.mw_quantity_import,
+                    quantity: currentNumber.mw_remaining,
                     expiryDate: currentNumber.mw_warranty,
                     discount: currentNumber.mw_discount,
                     expanded: false,
