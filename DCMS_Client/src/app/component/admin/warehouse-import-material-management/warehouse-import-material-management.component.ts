@@ -124,7 +124,6 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
     this.hasNextPage = this.importBills.length > 10;
   }
   loadPage(page: number) {
-    console.log("page", page)
     this.loading = true;
     this.currentPage = page;
     if (this.startDate != '' && this.endDate != '') {

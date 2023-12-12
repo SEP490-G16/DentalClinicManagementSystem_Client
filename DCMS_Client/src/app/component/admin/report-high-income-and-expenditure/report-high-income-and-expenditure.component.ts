@@ -145,7 +145,9 @@ export class ReportHighIncomeAndExpenditureComponent implements OnInit {
       this.stastisticRevenuePatientSearch = this.stastisticRevenuePatient;
     }
   }
-
+  formatCurrency(value: number): string {
+    return value.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+  }
   onValueChangeStartDate(event: any) {
     // alert(this.startDate);
     // alert(this.endDate);

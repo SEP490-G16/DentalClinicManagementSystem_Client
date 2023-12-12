@@ -66,7 +66,7 @@
               <td>{{ bill.createDate | date: 'dd-MM-yyyy'}}</td>
               <td>{{bill.createBy}}</td>
               <td>{{bill.typeExpense? 'Mẫu' : bill.typeExpense == 2? 'Vật liệu sử dụng' : 'Khác'}}</td>
-              <td>{{bill.totalAmount}}</td>
+              <td>{{formatCurrency(bill.totalAmount)}}</td>
               <td>{{bill.note}}</td>
               <td>
                 <button class="btn btn-primary p-1 m-r-3" style="padding: 2px 3px; margin-right: 3px" title="Sửa"
@@ -89,7 +89,7 @@
       <div style="padding: 15px 10px; border-bottom: 10px; background-color: white; border-top: 2px solid black;">
       <div class="row" style="color:black; font-weight: bold;">
         <div class="col-md-9"></div>
-        <div class="col-md-3">Tổng tiền chi: {{totalBill}} VNĐ</div>
+        <div class="col-md-3">Tổng tiền chi: {{formatCurrency(totalBill)}} VNĐ</div>
       </div>
     </div>
     </div>

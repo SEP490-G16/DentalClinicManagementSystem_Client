@@ -44,6 +44,13 @@
       </tbody>
     </table>
   </div>
+  <div class="sep-pagination">
+    <a (click)="currentPage > 1 ? pageChanged(currentPage - 1) : null" [class.disabled]="currentPage <= 1"
+      style="color: black" title="Trang trước">&laquo;</a>
+    <a>{{currentPage}}</a>
+    <a [class.disabled]="!hasNextPage" (click)="hasNextPage && pageChanged(currentPage + 1)"
+      style="color: black" title="Trang sau">&raquo;</a>
+  </div>
 </div>
 
 <app-popup-add-material [materialList]="materials"></app-popup-add-material>

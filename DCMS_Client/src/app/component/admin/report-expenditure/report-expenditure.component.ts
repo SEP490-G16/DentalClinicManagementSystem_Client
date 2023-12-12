@@ -73,6 +73,7 @@ export class ReportExpenditureComponent implements OnInit {
               totalAmount: it.details.totalAmount,
               note: it.details.note
             }
+            expenseObject.totalAmount = parseInt(expenseObject.totalAmount)
             try {
               this.totalBill += parseInt(it.details.totalAmount);
             } catch(e) {
@@ -119,7 +120,9 @@ export class ReportExpenditureComponent implements OnInit {
       return timekeepingEntry;
     });
   }
-
+  formatCurrency(value: number): string {
+    return value.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+  }
   openEditBill(bill:any) {
     this.billEdit = bill;
   }
