@@ -24,14 +24,24 @@
   </div>
   <div class="row">
     <div class="col-sm-3 col-md-2" style="padding: 0 10px">
+<!--      <div class="input-group">-->
+<!--        <input type="date" [(ngModel)]="startDate" class="form-control input-custom  p-2" (ngModelChange)="onValueChangeStartDate($event)">-->
+<!--      </div>-->
       <div class="input-group">
-        <input type="date" [(ngModel)]="startDate" class="form-control input-custom  p-2" (ngModelChange)="onValueChangeStartDate($event)">
+        <input class="form-control" placeholder="dd/mm/yyyy" style="font-size: 20px; text-align: center;" name="dp" ngbDatepicker [(ngModel)]="startDate"
+               #startdate="ngbDatepicker" (ngModelChange)="onValueChangeStartDate($event)"/>
+        <button class="btn btn-outline-secondary bi bi-calendar3" (click)="startdate.toggle()" type="button"></button>
       </div>
     </div>
     <div class="col-sm-3 col-md-2" style="padding: 0 10px">
+<!--      <div class="input-group">-->
+<!--        <input type="date" [(ngModel)]="endDate"-->
+<!--          class="form-control input-custom  p-2" (ngModelChange)="onValueChangeEndDate($event)">-->
+<!--      </div>-->
       <div class="input-group">
-        <input type="date" [(ngModel)]="endDate"
-          class="form-control input-custom  p-2" (ngModelChange)="onValueChangeEndDate($event)">
+        <input class="form-control" placeholder="dd/mm/yyyy" style="font-size: 20px; text-align: center;" name="dp" ngbDatepicker [(ngModel)]="endDate"
+               #enddate="ngbDatepicker" (ngModelChange)="onValueChangeEndDate($event)"/>
+        <button class="btn btn-outline-secondary bi bi-calendar3" (click)="enddate.toggle()" type="button"></button>
       </div>
     </div>
     <div class="col-md-2">

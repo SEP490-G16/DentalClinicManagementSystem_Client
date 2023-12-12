@@ -51,11 +51,11 @@
             </thead>
             <tbody>
               <tr title="Xem chi tiết phiếu thu" *ngFor="let rec of ReceiptsList" style="cursor: pointer">
-                <td (click)="openPopupDetail(rec.detail)">
+                <td (click)="openPopupDetail(rec.detail,rec.r_created_date,rec.r_payment_type,Patient)">
                   {{rec.r_receipt_id}}
                 </td>
-                <td (click)="openPopupDetail(rec.detail)">{{rec.r_created_date | date: 'dd/MM/yyyy'}}</td>
-                <td (click)="openPopupDetail(rec.detail)">{{calculateTotalPayment(rec.detail) |
+                <td (click)="openPopupDetail(rec.detail,rec.r_created_date,rec.r_payment_type,Patient)">{{rec.r_created_date | date: 'dd/MM/yyyy'}}</td>
+                <td (click)="openPopupDetail(rec.detail,rec.r_created_date,rec.r_payment_type,Patient)">{{calculateTotalPayment(rec.detail) |
                   currency:'VND':'symbol':'1.0-0'}}</td>
                 <ng-container *ngIf="rec.r_status == 1">
                   <td>
@@ -73,7 +73,7 @@
                   </td>
                 </ng-container>
                 <ng-container *ngIf="rec.r_status == 2">
-                  <td (click)="openPopupDetail(rec.detail)">{{rec.r_payment_type == "1" ? 'Đã thanh toán bằng tiền mặt' : 'Đã thanh toán qua chuyển
+                  <td (click)="openPopupDetail(rec.detail,rec.r_created_date,rec.r_payment_type,Patient)">{{rec.r_payment_type == "1" ? 'Đã thanh toán bằng tiền mặt' : 'Đã thanh toán qua chuyển
                     khoản'}}</td>
                   <!-- <td>
                     <button class="btn button-timekeeping" title="Xác nhận thanh toán">Đã thu tiền</button>
