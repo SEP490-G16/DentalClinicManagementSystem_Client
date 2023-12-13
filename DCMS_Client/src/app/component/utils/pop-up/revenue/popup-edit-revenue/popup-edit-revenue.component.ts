@@ -2,6 +2,7 @@ import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { PaidMaterialUsageService } from 'src/app/service/PaidMaterialUsageService/paid-material-usage.service';
 import * as moment from 'moment-timezone';
+import {NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-popup-edit-revenue',
@@ -12,7 +13,7 @@ export class PopupEditRevenueComponent implements OnInit {
 
   @Input() billEdit:any;
   @Input() listFilterDate:any;
-
+  createDateNgbModal!:NgbDateStruct;
   EDIT_BILL_BODY = {
     id: '',
     epoch: '',
@@ -42,10 +43,15 @@ export class PopupEditRevenueComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['billEdit']) {
+      const createDateParts = this.billEdit.createDate?.split(' ')[0].split('-').map(Number);
+      if (createDateParts && createDateParts.length === 3) {
+        this.createDateNgbModal = { year: createDateParts[0], month: createDateParts[1], day: createDateParts[2] };
+      }
       this.EDIT_BILL_BODY = {
         id: this.billEdit.id,
         epoch: this.billEdit.epoch,
-        createDate: this.billEdit.createDate,
+        // createDate: this.billEdit.createDate,
+        createDate: createDateParts,
         createBy: this.billEdit.createBy,
         typeExpense: this.billEdit.typeExpense,
         note: this.billEdit.note,

@@ -137,13 +137,16 @@
                                   type="text" [(ngModel)]="gro.price" (input)="changePrice(gro, $event)"></td>
                             </ng-container>
                             <ng-container *ngIf="gro.checked">
-                              <td style="padding: 10px"><input class="form-control"
-                                  style="padding: 5px; border-radius: 5px;border: 1px solid #664FC3;height: 42px"
-                                  type="number" [(ngModel)]="gro.quantity" (input)="changeQuantity(gro, $event)">
-                                <div *ngIf="isSubmittedSpecimens"  class="alert-danger-custom">
-                                  <p>
-                                    {{valdateSpecimens.soLuong}}
-                                  </p>
+                              <td style="padding: 10px">
+                                <div class="position-relative">
+                                  <input class="form-control"
+                                         style="padding: 5px; border-radius: 5px;border: 1px solid #664FC3;height: 42px"
+                                         type="number" [(ngModel)]="gro.quantity" (input)="changeQuantity(gro, $event)">
+                                  <div *ngIf="isSubmittedSpecimens"  [ngClass]="{'alert-danger-custom': true, 'active': valdateSpecimens.soLuong}">
+                                    <p>
+                                      {{valdateSpecimens.soLuong}}
+                                    </p>
+                                  </div>
                                 </div>
                               </td>
                             </ng-container>

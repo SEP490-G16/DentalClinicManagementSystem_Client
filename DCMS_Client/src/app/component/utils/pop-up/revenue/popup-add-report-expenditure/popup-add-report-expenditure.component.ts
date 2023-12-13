@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { PaidMaterialUsageService } from 'src/app/service/PaidMaterialUsageService/paid-material-usage.service';
 import * as moment from 'moment-timezone';
+import {NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
+import {FormatNgbDate} from "../../../libs/formatNgbDateToString";
 
 @Component({
   selector: 'app-popup-add-report-expenditure',
@@ -10,7 +12,7 @@ import * as moment from 'moment-timezone';
 })
 export class PopupAddReportExpenditureComponent implements OnInit {
 
-
+  createDateNgbModal!:NgbDateStruct;
   paidExpense = {
     createDate: '',
     createBy: '',
@@ -40,15 +42,25 @@ export class PopupAddReportExpenditureComponent implements OnInit {
     if (user != null) {
       this.paidExpense.createBy = user;
     }
-    const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
-    const year = currentDateGMT7.split('-')[0];
-    const month = currentDateGMT7.split('-')[1];
-    const day = currentDateGMT7.split('-')[2];
+    //const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
+    // const year = currentDateGMT7.split('-')[0];
+    // const month = currentDateGMT7.split('-')[1];
+    // const day = currentDateGMT7.split('-')[2];
+    //
+    // this.paidExpense.createDate = `${year}-${month}-${day}`;
 
-    this.paidExpense.createDate = `${year}-${month}-${day}`;
+    const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
+    this.createDateNgbModal = {
+      year: parseInt(currentDateGMT7.split('-')[0]),
+      month: parseInt(currentDateGMT7.split('-')[1]),
+      day: parseInt(currentDateGMT7.split('-')[2])
+    };
+    this.paidExpense.createDate = `${this.createDateNgbModal.year}-${FormatNgbDate.pad(this.createDateNgbModal.month)}-${FormatNgbDate.pad(this.createDateNgbModal.day)}`;
+
   }
 
   AddNewExpense() {
+    const createDate = FormatNgbDate.formatNgbDateToString(this.createDateNgbModal);
     this.resetValidate();
     if (!this.paidExpense.createBy){
       this.validate.createBy = "Vui lòng nhập người chi!";
@@ -58,7 +70,7 @@ export class PopupAddReportExpenditureComponent implements OnInit {
       this.validate.type = "Vui lòng nhập loại chi!";
       this.isSubmitted = true;
     }
-    if (!this.paidExpense.createDate || !this.formatDate(this.paidExpense.createDate)) {
+    if (!createDate || !this.formatDate(createDate)) {
       this.validate.createDate = 'Vui lòng nhập nhập ngày tạo!';
       this.isSubmitted = true;
     }

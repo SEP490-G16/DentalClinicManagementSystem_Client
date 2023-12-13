@@ -4,6 +4,8 @@ import {MaterialWarehouseService} from "../../../../../service/MaterialService/m
 import {ToastrService} from "ngx-toastr";
 import {MaterialService} from "../../../../../service/MaterialService/material.service";
 import {ResponseHandler} from "../../../libs/ResponseHandler";
+import {NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
+import {FormatNgbDate} from "../../../libs/formatNgbDateToString";
 
 @Component({
   selector: 'app-popup-edit-bill-import-material',
@@ -66,6 +68,15 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
   paging:number=1;
   selectedMaterial: boolean = false;
   loading:boolean = false;
+  hanSuDungNgbModal!:NgbDateStruct;
+  createDateNgbModal!:NgbDateStruct;
+  validateMaterial = {
+    tenVatLieu:'',
+    soLuong:'',
+    donGia:'',
+    hanSuDung:''
+  }
+  isSubmittedBill:boolean = false;
   ngOnInit(): void {
   }
   updateImportBill(){
@@ -73,7 +84,9 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
     if (faci != null) {
       this.importBillBody.facility_id = faci;
     }
-    let createDate = new Date(this.importBill.createDate);
+    const createDateParse = FormatNgbDate.formatNgbDateToString(this.createDateNgbModal);
+    //let createDate = new Date(this.importBill.createDate);
+    let createDate = new Date(createDateParse);
     let createDateTimestamp = (createDate.getTime()/1000).toString();
     this.importBillBody={
       created_date: createDateTimestamp,
@@ -83,6 +96,7 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
     this.importMaterialService.updateImportBill(this.importMaterialBillId,this.importBillBody).subscribe(data=>{
         this.toastr.success('Cập nhật phiếu thành công!');
         this.status = true;
+        window.location.reload();
       },
       error => {
         //this.toastr.error('Cập nhật phiếu thất bại !');
@@ -126,7 +140,12 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
           }
         })
         this.materialInput.totalAmount = m.quantity_import * m.price * (1 - m.discount);
-        const date = new Date(m.warranty);
+        const warrantyDateParts = m.warranty?.split(' ')[0].split('-').map(Number);
+        if (warrantyDateParts && warrantyDateParts.length === 3) {
+          this.hanSuDungNgbModal = { year: warrantyDateParts[0], month: warrantyDateParts[1], day: warrantyDateParts[2] };
+        }
+        //const date = new Date(m.warranty);
+        const date = new Date(warrantyDateParts);
         const year = date.getFullYear();
         const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Thêm '0' ở đầu nếu cần
         const day = date.getDate().toString().padStart(2, '0'); // Thêm '0' ở đầu nếu cần
@@ -169,7 +188,34 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
           console.log(this.materialWareHouseId)
         }
       })
-      let warrantyDate = new Date(material.warranty);
+      this.resetValidateMaterial();
+      let hanSudung = FormatNgbDate.formatNgbDateToString(this.hanSuDungNgbModal);
+      if (!material.price){
+        this.validateMaterial.donGia = "Vui lòng nhập đơn giá!";
+        this.isSubmittedBill = true;
+      }
+      else if (!this.checkNumber(material.price)){
+        this.validateMaterial.donGia = "Vui lòng nhập đơn giá > 0!";
+        this.isSubmittedBill = true;
+      }
+      if (!material.quantity_import){
+        this.validateMaterial.soLuong = "Vui lòng nhập số lượng!";
+        this.isSubmittedBill = true;
+      }
+      else if (!this.checkNumber(material.quantity_import)){
+        this.validateMaterial.soLuong = "Vui lòng nhập số lượng > 0!";
+        this.isSubmittedBill = true;
+      }
+      if (!hanSudung || !this.formatDate(hanSudung)){
+        this.validateMaterial.hanSuDung = "Vui lòng nhập hạn sử dụng!";
+        this.isSubmittedBill = true;
+      }
+      if (this.isSubmittedBill){
+        return;
+      }
+      //const warranty = FormatNgbDate.formatNgbDateToString(this.hanSuDungNgbModal);
+      //let warrantyDate = new Date(material.warranty);
+      let warrantyDate = new Date(hanSudung);
       let warrantyTimestamp = (warrantyDate.getTime() / 1000).toString();
       this.importMaterialBody = {
         material_id: material.material_id,
@@ -260,10 +306,14 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
     if (changes['importMaterialBill']){
       console.log(this.importMaterialBill.CreateDate)
       //let createdDate = new Date(this.importMaterialBill.created_date);
-      const orginalCreateDate = this.importMaterialBill.CreateDate;
-      const createDatePart = orginalCreateDate.split(" ");
-      const formattedCreateDate = createDatePart[0];
-      this.importBill.createDate = formattedCreateDate;
+      // const orginalCreateDate = this.importMaterialBill.CreateDate;
+      // const createDatePart = orginalCreateDate.split(" ");
+      // const formattedCreateDate = createDatePart[0];
+      // this.importBill.createDate = formattedCreateDate;
+      const createDateParts = this.importMaterialBill.CreateDate?.split(' ')[0].split('-').map(Number);
+      if (createDateParts && createDateParts.length === 3) {
+        this.createDateNgbModal = { year: createDateParts[0], month: createDateParts[1], day: createDateParts[2] };
+      }
       this.importBill.creator = this.importMaterialBill.CreateBy;
       this.importBill.totalAmount = this.importMaterialBill.TotalAmount;
     }
@@ -291,5 +341,20 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
       discount: '',
     });
     this.isAdd = true;
+  }
+  private resetValidateMaterial(){
+    this.validateMaterial = {
+      tenVatLieu:'',
+      soLuong:'',
+      donGia:'',
+      hanSuDung:''
+    }
+    this.isSubmittedBill = false;
+  }
+  private checkNumber(number:any):boolean{
+    return /^[1-9]\d*$/.test(number);
+  }
+  private formatDate(dateString: any): boolean {
+    return /^\d{4}-(0[1-9]|1[0-2])-([0-2][0-9]|3[01])$/.test(dateString);
   }
 }

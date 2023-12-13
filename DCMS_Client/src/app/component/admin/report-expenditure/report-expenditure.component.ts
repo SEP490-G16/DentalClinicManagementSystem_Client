@@ -102,7 +102,7 @@ export class ReportExpenditureComponent implements OnInit {
         console.error('Items not found in the JSON string.');
       }
     }, (error) => {
-      this.router.navigate(["/bao-mat"]);
+      //this.router.navigate(["/bao-mat"]);
     })
   }
 
