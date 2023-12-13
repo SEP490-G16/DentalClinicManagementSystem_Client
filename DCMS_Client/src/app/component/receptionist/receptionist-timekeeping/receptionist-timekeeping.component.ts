@@ -92,6 +92,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
             isClockout: false,
             register_clock_in: 0,
             register_clock_out: 0,
+            isClockoutDisabled: true,
             weekTimekeeping: {}
           };
           let isNotAdmin = true;
@@ -156,36 +157,61 @@ export class ReceptionistTimekeepingComponent implements OnInit {
                         ? this.timestampToGMT7String(detail.details.clock_in)
                         : '';
 
+
                     staff.weekTimekeeping[weekTimestamp].clockOut =
                       (detail.details.clock_out !== undefined && detail.details.clock_out !== "0")
                         ? this.timestampToGMT7String(detail.details.clock_out)
                         : '';
 
+                    if (weekTimestamp === this.currentDateTimeStamp) {
+                      console.log(detail.details);
+                      staff.clock_in = (detail.details.clock_in !== undefined || detail.details.clock_in !== "0")
+                        ? this.timestampToGMT7String(detail.details.clock_in)
+                        : '';
+                      staff.clock_out = (detail.details.clock_out !== undefined && detail.details.clock_out !== "0")
+                        ? this.timestampToGMT7String(detail.details.clock_out)
+                        : '';
+                      staff.clockInStatus = (detail.details.clock_in !== undefined && detail.details.clock_in !== "0") ? 'Đã chấm' : 'Chưa chấm';
+                      staff.clockOutStatus = (detail.details.clock_out !== undefined && detail.details.clock_out !== "0") ? 'Đã chấm' : 'Chưa chấm';
+                      staff.isClockin = !!detail.details.clock_in;
+                      staff.isClockout = (detail.details.clock_out !== undefined && detail.details.clock_out !== "0") ? true : false;
+                      staff.isClockoutDisabled = (detail.details.clock_in !== undefined && detail.details.clock_in !== "0" && detail.details.clock_out !== undefined && detail.details.clock_out !== "0") ? false : true;
+                    }else {
+                      staff.clockInStatus = 'Chưa chấm';
+                      staff.clockOutStatus = 'Chưa chấm';
+                      staff.clock_in = '';
+                      staff.clock_out = '';
+                      staff.isClockin = false;
+                      staff.isClockout = false;
+                      staff.isClockoutDisabled = true;
+                    }
                   }
                 }
               }
-              const foundRecord = record.records.find((record: any) => record.subId === staff.sub);
-              if (foundRecord) {
-                const details = foundRecord.details;
+              // const foundRecord = record.records.find((record: any) => record.subId === staff.sub);
+              // if (foundRecord) {
+              //   const details = foundRecord.details;
+              //   staff.clockInStatus = (details.clock_in !== undefined && details.clock_in !== "0") ? 'Đã chấm' : 'Chưa chấm';
+              //   staff.clockOutStatus = (details.clock_out !== undefined && details.clock_out !== "0") ? 'Đã chấm' : 'Chưa chấm';
+              //   staff.clock_in = (details.clock_in !== undefined && details.clock_in !== "0") ? this.timestampToGMT7String(details.clock_in) : '';
+              //   staff.clock_out = (details.clock_out !== undefined && details.clock_out !== "0") ? this.timestampToGMT7String(details.clock_out) : '';
+              //   staff.isClockin = !!details.clock_in;
+              //   staff.isClockout = (details.clock_out !== undefined && details.clock_out !== "0") ? true : false;
+              //   staff.isClockoutDisabled = (details.clock_in !== undefined && details.clock_in !== "0") ? false : true;
+              //   console.log("staff: ", staff, details);
+              // } else {
+              //   staff.clockInStatus = 'Chưa chấm';
+              //   staff.clockOutStatus = 'Chưa chấm';
+              //   staff.clock_in = '';
+              //   staff.clock_out = '';
+              //   staff.isClockin = false;
+              //   staff.isClockout = false;
+              //   staff.isClockoutDisabled = true;
+              // }
 
-                staff.clockInStatus = (details.clock_in !== undefined && details.clock_in !== "0") ? 'Đã chấm' : 'Chưa chấm';
-                staff.clockOutStatus = (details.clock_out !== undefined && details.clock_out !== "0") ? 'Đã chấm' : 'Chưa chấm';
-                staff.clock_in = (details.clock_in !== undefined && details.clock_in !== "0") ? this.timestampToGMT7String(details.clock_in) : '';
-                staff.clock_out = (details.clock_out !== undefined && details.clock_out !== "0") ? this.timestampToGMT7String(details.clock_out) : '';
-                staff.isClockin = !!details.clock_in;
-                staff.isClockout = (details.clock_out !== undefined && details.clock_out !== "0") ? true : false;
-                staff.isClockoutDisabled = (details.clock_in !== undefined && details.clock_in !== "0") ? false : true;
-                console.log("staff: ", staff);
-              } else {
-                staff.clockInStatus = 'Chưa chấm';
-                staff.clockOutStatus = 'Chưa chấm';
-                staff.clock_in = '';
-                staff.clock_out = '';
-                staff.isClockin = false;
-                staff.isClockout = false;
-                staff.isClockoutDisabled = true;
-              }
+
             });
+            console.log(staff);
           });
         });
         console.log("Staff match: ", this.Staff);

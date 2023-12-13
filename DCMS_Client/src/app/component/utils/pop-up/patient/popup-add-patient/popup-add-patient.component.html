@@ -27,16 +27,18 @@
                 <div class="card-body">
                   <div class="row mb-3">
                     <div class="col-md-6">
-                      <div class="form-group mb-3">
+                      <div class="form-group mb-3 position-relative">
                         <label class="small mb-1" for="hovaten">Họ và tên<span class="required">*</span></label>
-                        <input class="form-control" [(ngModel)]="patient1.patientName" id="hovaten" type="text"
-                               placeholder="Họ và tên">
-                        <div *ngIf="isSubmitted" class="alert-danger-custom">
+                        <input class="form-control" [(ngModel)]="patient1.patientName" id="hovaten" type="text" placeholder="Họ và tên">
+                        <div *ngIf="isSubmitted" [ngClass]="{'alert-danger-custom': true, 'active': validatePatient.name}">
                           <p>
                             {{validatePatient.name}}
                           </p>
+                          <span class="close-icon" (click)="closeTooltip()">X</span>
                         </div>
+
                       </div>
+
                     </div>
                     <div class="col-md-6">
                       <div class="form-group mb-3">
