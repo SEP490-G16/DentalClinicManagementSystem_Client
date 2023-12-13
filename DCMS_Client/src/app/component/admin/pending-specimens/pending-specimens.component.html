@@ -99,39 +99,39 @@
     <table>
       <thead class="sticky-thead">
         <tr>
-          <th *ngIf="checkbox1" style="padding: 20px;">Mã mẫu</th> <!--1-->
-          <th *ngIf="checkbox2" style="min-width: 80px">Tên mẫu</th> <!--2-->
-          <th *ngIf="checkbox3" style="min-width: 82px">Tên bệnh nhân</th> <!--3-->
-          <th *ngIf="checkbox4" style="min-width: 85px">Chất liệu</th> <!--4-->
-          <th *ngIf="checkbox5" style="min-width: 75px">Số lượng</th> <!--5-->
-          <th *ngIf="checkbox6" style="min-width: 80px">Đơn giá</th> <!--6-->
-          <th *ngIf="checkbox7" style="min-width: 80px">Ngày đặt</th> <!--7-->
-          <th *ngIf="checkbox8" style="min-width: 80px">Ngày nhận</th> <!--8-->
-          <th *ngIf="checkbox9" style="min-width: 90px">Ngày lắp</th> <!--9-->
-          <th *ngIf="checkbox10" style="min-width: 80px">Labo</th> <!--10-->
-          <th *ngIf="checkbox11" style="min-width: 80px">Người đặt</th> <!--11-->
-          <th *ngIf="checkbox12" style="min-width: 75px">Thành tiền</th><!--12-->
-          <th style="min-width: 101px">Thao tác</th> <!--13-->
+          <th *ngIf="checkbox1">Mã mẫu</th> <!--1-->
+          <th *ngIf="checkbox2">Tên mẫu</th> <!--2-->
+          <th *ngIf="checkbox3">Tên bệnh nhân</th> <!--3-->
+          <th *ngIf="checkbox4">Chất liệu</th> <!--4-->
+          <th *ngIf="checkbox5">Số lượng</th> <!--5-->
+          <th *ngIf="checkbox6">Đơn giá</th> <!--6-->
+          <th *ngIf="checkbox7">Ngày đặt</th> <!--7-->
+          <th *ngIf="checkbox8">Ngày nhận</th> <!--8-->
+          <th *ngIf="checkbox9">Ngày lắp</th> <!--9-->
+          <th *ngIf="checkbox10">Labo</th> <!--10-->
+          <th *ngIf="checkbox11">Người đặt</th> <!--11-->
+          <th *ngIf="checkbox12">Thành tiền</th><!--12-->
+          <th>Thao tác</th> <!--13-->
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let m of approveSpecimensList">
-          <td *ngIf="checkbox1" style="padding: 20px;">{{m.ms_id}}</td><!--1-->
-          <td *ngIf="checkbox2" class="truncate" data-bs-toggle="tooltip" title="{{m.ms_name}}" style="padding: 20px;">
+          <td *ngIf="checkbox1" >{{m.ms_id}}</td><!--1-->
+          <td *ngIf="checkbox2" class="truncate" data-bs-toggle="tooltip" title="{{m.ms_name}}">
             {{m.ms_name}}</td><!--2-->
-          <td *ngIf="checkbox3" style="padding: 20px;">{{m.p_patient_name}}</td><!--3-->
-          <td *ngIf="checkbox4" style="padding: 20px;">{{m.ms_type}}</td><!--4-->
-          <td *ngIf="checkbox5" style="padding: 20px;">{{m.ms_quantity || ""}}</td><!--5-->
-          <td *ngIf="checkbox6" style="padding: 20px;">{{(m.ms_unit_price !== 0) ? (m.ms_unit_price |currency:'VND':'symbol':'1.0-0') : ""}}</td>
+          <td *ngIf="checkbox3">{{m.p_patient_name}}</td><!--3-->
+          <td *ngIf="checkbox4">{{m.ms_type}}</td><!--4-->
+          <td *ngIf="checkbox5">{{m.ms_quantity || ""}}</td><!--5-->
+          <td *ngIf="checkbox6">{{(m.ms_unit_price !== 0) ? (m.ms_unit_price |currency:'VND':'symbol':'1.0-0') : ""}}</td>
           <!-- <td *ngIf="checkbox7" style="padding: 20px;">{{(m.ms_order_date)?(m.ms_order_date | date:'dd-MM-yyyy'): ""}}</td> -->
-          <td *ngIf="checkbox7" style="padding: 20px;">{{ convertToFormattedDate(m.ms_order_date) }}</td>
-          <td *ngIf="checkbox8" style="padding: 20px;">{{ convertToFormattedDate(m.ms_received_date) }}</td>
-          <td *ngIf="checkbox9" style="padding: 20px;">{{ convertToFormattedDate(m.ms_used_date) }}</td>
-          <td *ngIf="checkbox10" style="padding: 20px;">{{m.lb_name}}</td><!--10-->
-          <td *ngIf="checkbox11" style="padding: 20px;">{{m.ms_orderer}}</td> <!--11-->
-          <td *ngIf="checkbox12" style="padding: 20px;">{{ ((m.ms_quantity * m.ms_unit_price)? (m.ms_quantity * m.ms_unit_price | currency:'VND':'symbol':'1.0-0'): "")}}</td>
+          <td *ngIf="checkbox7">{{ convertToFormattedDate(m.ms_order_date) }}</td>
+          <td *ngIf="checkbox8">{{ convertToFormattedDate(m.ms_received_date) }}</td>
+          <td *ngIf="checkbox9">{{ convertToFormattedDate(m.ms_used_date) }}</td>
+          <td *ngIf="checkbox10">{{m.lb_name}}</td><!--10-->
+          <td *ngIf="checkbox11">{{m.ms_orderer}}</td> <!--11-->
+          <td *ngIf="checkbox12">{{ ((m.ms_quantity * m.ms_unit_price)? (m.ms_quantity * m.ms_unit_price | currency:'VND':'symbol':'1.0-0'): "")}}</td>
           <!--12-->
-          <td class="text-center" style="min-width: 150px">
+          <td class="text-center">
             <button href="#" class="btn btn-primary float-right btn-rounded" style="padding: 2px 5px; margin-right: 3px"
               title="Duyệt mẫu" (click)="approveSpecimens(m.ms_id,m)"><i class="bi bi-check-circle"></i></button>
             <button href="#" class="btn btn-primary float-right btn-rounded" style="padding: 2px 5px; margin-right: 3px"

@@ -45,3 +45,10 @@
   color: black;
   background-color: #d9d9d9;
 }
+
+@media screen and (max-width: 1366px) {
+
+  .sep-recent-orders {
+    max-width: 1000px;
+  }
+}

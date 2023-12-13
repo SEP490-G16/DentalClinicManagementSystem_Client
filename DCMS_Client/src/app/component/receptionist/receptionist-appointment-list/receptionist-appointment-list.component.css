@@ -99,3 +99,14 @@
 .button-app{
   display: flex;
 }
+
+
+@media screen and (max-width: 1366px) {
+  .button-add {
+    font-size: 12px;
+  }
+
+  .btn-redirect {
+    font-size: 10px;
+  }
+}

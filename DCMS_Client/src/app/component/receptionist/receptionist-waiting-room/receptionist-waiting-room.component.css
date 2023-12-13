@@ -85,3 +85,10 @@
 .new-patient::after {
   animation: gentlePulse 3s ease-in-out infinite;
 }
+
+
+@media screen and (max-width: 1366px) {
+  .button-timekeeping {
+    font-size: 12px;
+  }
+}

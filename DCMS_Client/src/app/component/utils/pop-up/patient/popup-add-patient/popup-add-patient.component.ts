@@ -51,7 +51,7 @@ export class PopupAddPatientComponent implements OnInit {
   }
 
   onDateChange() {
-    this.patient1.dob = FormatNgbDate.formatNgbDateToVNString(this.model);
+    this.patient1.dob = FormatNgbDate.formatNgbDateToString(this.model);
   }
 
 
@@ -69,9 +69,9 @@ export class PopupAddPatientComponent implements OnInit {
   ngOnInit(): void {
   }
   // Thêm hàm này vào component để đóng tooltip khi nhấp vào nút đóng (X)
-closeTooltip() {
-  this.isSubmitted = false;
-}
+  closeTooltip() {
+    this.isSubmitted = false;
+  }
 
   addPatient() {
     var regex = /[0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\\-/]/;
@@ -80,7 +80,7 @@ closeTooltip() {
       this.validatePatient.name = "Vui lòng nhập tên bệnh nhân!";
       this.isSubmitted = true;
     }
-    if(regex.test(this.patient1.patientName)==true){
+    if (regex.test(this.patient1.patientName) == true) {
       this.validatePatient.name = "Tên không hợp lệ!";
       this.isSubmitted = true;
     }
