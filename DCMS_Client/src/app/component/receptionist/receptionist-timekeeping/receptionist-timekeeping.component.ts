@@ -118,7 +118,6 @@ export class ReceptionistTimekeepingComponent implements OnInit {
 
           return isNotAdmin ? newStaff : null;
         }).filter((staff: any) => staff !== null);
-        console.log(this.Staff);
         this.StaffFilter = this.Staff;
         this.getTimekeeping();
       },
@@ -135,8 +134,6 @@ export class ReceptionistTimekeepingComponent implements OnInit {
         console.log("Api: ", data);
         this.timekeepingOnWeeks = this.organizeData(this.timekeepingOnWeeks);
         console.log("TimekeepingOnWeeks: ", this.timekeepingOnWeeks);
-
-        console.log("Staff có undefined hay ko?: ", this.Staff);
         this.Staff.forEach(staff => {
           staff.weekTimekeeping = {};
 
@@ -164,7 +161,6 @@ export class ReceptionistTimekeepingComponent implements OnInit {
                         : '';
 
                     if (weekTimestamp === this.currentDateTimeStamp) {
-                      console.log(detail.details);
                       staff.clock_in = (detail.details.clock_in !== undefined || detail.details.clock_in !== "0")
                         ? this.timestampToGMT7String(detail.details.clock_in)
                         : '';
@@ -211,7 +207,6 @@ export class ReceptionistTimekeepingComponent implements OnInit {
 
 
             });
-            console.log(staff);
           });
         });
         console.log("Staff match: ", this.Staff);

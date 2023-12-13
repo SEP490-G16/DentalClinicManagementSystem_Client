@@ -244,10 +244,7 @@ export class CognitoService {
     return Auth.currentSession()
       .then((session) => {
         const accessToken = session.getAccessToken();
-        console.log(accessToken);
-        console.log(sessionStorage.getItem("id_Token"));
         const newAccessToken = accessToken.getJwtToken();
-        console.log(newAccessToken);
         sessionStorage.setItem('id_Token', newAccessToken);
         return newAccessToken;
       })
