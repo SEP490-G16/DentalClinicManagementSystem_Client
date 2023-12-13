@@ -4,7 +4,7 @@ import { ToastrService } from "ngx-toastr";
 import { MaterialWarehouseService } from 'src/app/service/MaterialService/material-warehouse.service';
 import { ResponseHandler } from "../../../libs/ResponseHandler";
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { FormatNgbDate } from '../../../libs/formatNgbDateToString';
+import { FormatNgbDate } from '../../../libs/formatNgbDate';
 import { TimestampFormat } from '../../../libs/timestampFormat';
 
 @Component({

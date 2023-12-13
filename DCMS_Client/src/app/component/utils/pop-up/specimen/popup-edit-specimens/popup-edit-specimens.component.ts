@@ -7,7 +7,7 @@ import { CognitoService } from 'src/app/service/cognito.service';
 import { ResponseHandler } from "../../../libs/ResponseHandler";
 import { PatientService } from "../../../../../service/PatientService/patient.service";
 import * as moment from 'moment';
-import { FormatNgbDate } from '../../../libs/formatNgbDateToString';
+import { FormatNgbDate } from '../../../libs/formatNgbDate';
 import { NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({

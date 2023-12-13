@@ -158,17 +158,12 @@
             <td *ngIf="checkbox5" style="min-width: 82px;padding: 10px">{{specimens.ms_type}}</td> <!--3-->
             <td *ngIf="checkbox6" style="min-width: 80px;padding: 10px">{{specimens.ms_status == 2? "Chưa nhận":
               (specimens.ms_status == 3)?"Đã nhận":"Hàng lỗi"}}</td> <!--7-->
-            <td *ngIf="checkbox7" style="min-width: 75px;padding: 10px">{{specimens.ms_order_date | date:'dd-MM-yyyy'}}
-            </td> <!--8-->
+            <td *ngIf="checkbox7" style="min-width: 75px; padding: 10px;">{{ convertToFormattedDate(specimens.ms_order_date) }}</td>
             <td *ngIf="checkbox8" style="min-width: 120px;padding: 10px">{{specimens.ms_orderer}}</td> <!--9-->
-            <td *ngIf="checkbox9" style="min-width: 95px;padding: 10px">{{specimens.ms_received_date == '' ? '' : specimens.ms_received_date == 0 ? '' : specimens.ms_received_date |
-              date:'dd-MM-yyyy'}}
-            </td> <!--10-->
+            <td *ngIf="checkbox9" style="min-width: 95px; padding: 10px;">{{ convertToFormattedDate(specimens.ms_received_date) }}</td>
             <td *ngIf="checkbox10" style="min-width: 105px;padding: 10px">{{specimens.ms_receiver}}</td> <!--11-->
-            <td *ngIf="checkbox11" style="min-width: 95px;padding: 10px">{{specimens.ms_used_date == '' ? '' : specimens.ms_used_date == 0 ? '' : specimens.ms_used_date | date:'dd-MM-yyyy'}}
-            </td> <!--12-->
-            <td *ngIf="checkbox12" style="min-width: 90px;padding: 10px">{{specimens.ms_warranty == '' ? '' : specimens.ms_warranty == 0? '' : specimens.ms_warranty | date:'dd-MM-yyyy'}}
-            </td> <!--13-->
+            <td *ngIf="checkbox11" style="min-width: 95px; padding: 10px;">{{ convertToFormattedDate(specimens.ms_used_date) }}</td>
+            <td *ngIf="checkbox12" style="min-width: 90px; padding: 10px;">{{ convertToFormattedDate(specimens.ms_warranty) }}</td>
             <td class="text-center" style="min-width: 101px;padding: 10px"> <!--14-->
               <button class="btn btn-primary p-1 m-2" title="Sửa mẫu"><i class="bi bi-pencil-square" data-bs-toggle="modal"
                   data-bs-target="#editSpecimensModal" (click)="openEditSpecimen(specimens)"></i></button>

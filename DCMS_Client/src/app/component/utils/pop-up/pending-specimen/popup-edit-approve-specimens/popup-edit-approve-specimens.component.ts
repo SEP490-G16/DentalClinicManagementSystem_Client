@@ -6,7 +6,7 @@ import { LaboService } from 'src/app/service/LaboService/Labo.service';
 import {ResponseHandler} from "../../../libs/ResponseHandler";
 import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/TreatmentCourse.service';
 import {NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
-import {FormatNgbDate} from "../../../libs/formatNgbDateToString";
+import {FormatNgbDate} from "../../../libs/formatNgbDate";
 
 @Component({
   selector: 'app-popup-edit-approve-specimens',

@@ -6,7 +6,7 @@ import {MaterialWarehouseService} from "../../../../../service/MaterialService/m
 import {MaterialService} from "../../../../../service/MaterialService/material.service";
 import * as moment from "moment-timezone";
 import {ResponseHandler} from "../../../libs/ResponseHandler";
-import {FormatNgbDate} from "../../../libs/formatNgbDateToString";
+import {FormatNgbDate} from "../../../libs/formatNgbDate";
 
 @Component({
   selector: 'app-popup-add-bill-import-material',

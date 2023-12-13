@@ -5,7 +5,7 @@ import {ToastrService} from "ngx-toastr";
 import {MaterialService} from "../../../../../service/MaterialService/material.service";
 import {ResponseHandler} from "../../../libs/ResponseHandler";
 import {NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
-import {FormatNgbDate} from "../../../libs/formatNgbDateToString";
+import {FormatNgbDate} from "../../../libs/formatNgbDate";
 import * as moment from 'moment';
 
 @Component({

@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { PaidMaterialUsageService } from 'src/app/service/PaidMaterialUsageService/paid-material-usage.service';
 import * as moment from 'moment-timezone';
 import {NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
-import {FormatNgbDate} from "../../../libs/formatNgbDateToString";
+import {FormatNgbDate} from "../../../libs/formatNgbDate";
 
 @Component({
   selector: 'app-popup-add-report-expenditure',

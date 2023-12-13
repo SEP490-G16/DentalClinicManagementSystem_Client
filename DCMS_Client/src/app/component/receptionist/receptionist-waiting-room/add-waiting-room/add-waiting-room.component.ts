@@ -15,7 +15,7 @@ import { SendMessageSocket } from 'src/app/component/shared/services/SendMessage
 
 import { Normalize } from 'src/app/service/Lib/Normalize';
 import { NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
-import { FormatNgbDate } from 'src/app/component/utils/libs/formatNgbDateToString';
+import { FormatNgbDate } from 'src/app/component/utils/libs/formatNgbDate';
 
 @Component({
   selector: 'app-add-waiting-room',

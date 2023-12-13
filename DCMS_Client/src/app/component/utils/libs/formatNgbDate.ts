@@ -1,4 +1,6 @@
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import * as moment from "moment";
+import 'moment/locale/vi';
 
 export class FormatNgbDate {
 
@@ -19,6 +21,11 @@ export class FormatNgbDate {
 
     const pad = (number: number) => number < 10 ? `0${number}` : number;
     return `${pad(date.day)}/${pad(date.month)}/${date.year}`;
+  }
+
+  static timestampToNgbDate(timestamp: number): NgbDateStruct {
+    const date = moment.unix(timestamp).tz('Asia/Ho_Chi_Minh');
+    return { year: date.year(), month: date.month() + 1, day: date.date() };
   }
 
 }
