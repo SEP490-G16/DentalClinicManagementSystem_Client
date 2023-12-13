@@ -98,25 +98,30 @@
                           <p *ngIf="!isAdd">{{ record.donVi }}</p>
                         </td>
                         <td>
-                          <input type="number" [(ngModel)]="record.soLuong" *ngIf="isAdd"
-                            class="form-control value-staff">
-                          <p *ngIf="!isAdd">{{ record.soLuong }}</p>
-                          <!--                        <div class="error" *ngIf="showPopup">{{ suggestion }}</div>-->
-                          <div *ngIf="isSubmittedBill"  class="alert-danger-custom">
-                            <p>
-                              {{validateMaterial.soLuong}}
-                            </p>
+                          <div class="position-relative">
+                            <input type="number" [(ngModel)]="record.soLuong" *ngIf="isAdd"
+                                   class="form-control value-staff">
+                            <p *ngIf="!isAdd">{{ record.soLuong }}</p>
+                            <!--                        <div class="error" *ngIf="showPopup">{{ suggestion }}</div>-->
+                            <div *ngIf="isSubmittedBill"  [ngClass]="{'alert-danger-custom': true, 'active': validateMaterial.soLuong}">
+                              <p>
+                                {{validateMaterial.soLuong}}
+                              </p>
+                            </div>
                           </div>
                         </td>
                         <td>
-                          <input type="number" [(ngModel)]="record.donGia" *ngIf="isAdd"
-                            (ngModelChange)="calculateThanhTien(record)" class="form-control value-staff">
-                          <!--<p *ngIf="!isAdd">1.000.000</p>-->
-                          <div *ngIf="isSubmittedBill"  class="alert-danger-custom">
-                            <p>
-                              {{validateMaterial.donGia}}
-                            </p>
+                          <div class="position-relative">
+                            <input type="number" [(ngModel)]="record.donGia" *ngIf="isAdd"
+                                   (ngModelChange)="calculateThanhTien(record)" class="form-control value-staff">
+                            <!--<p *ngIf="!isAdd">1.000.000</p>-->
+                            <div *ngIf="isSubmittedBill"  [ngClass]="{'alert-danger-custom': true, 'active': validateMaterial.donGia}">
+                              <p>
+                                {{validateMaterial.donGia}}
+                              </p>
+                            </div>
                           </div>
+
                           <p *ngIf="!isAdd">{{ record.donGia }}</p>
                         </td>
                         <td>
@@ -126,14 +131,26 @@
                           <p *ngIf="!isAdd">{{ record.thanhTien }}</p>
                         </td>
                         <td>
-                          <input type="date" [(ngModel)]="record.hanSudung" *ngIf="isAdd"
-                            class="form-control value-staff">
-                          <div *ngIf="isSubmittedBill"  class="alert-danger-custom">
-                            <p>
-                              {{validateMaterial.hanSuDung}}
-                            </p>
+                          <div class="position-relative">
+<!--                            <input type="date" [(ngModel)]="record.hanSudung" *ngIf="isAdd"-->
+<!--                                   class="form-control value-staff">-->
+                            <div class="input-group">
+                              <input class="form-control" placeholder="dd-mm-yyyy" name="dp" [(ngModel)]="hanSuDungNgbModal"
+                                     ngbDatepicker #hDatepicker="ngbDatepicker" [placement]="'right'">
+                              <div class="input-group-append">
+                                <button class="btn btn-outline-secondary calendar" style="height: 48px;" (click)="hDatepicker.toggle()"
+                                        type="button">
+                                  <i class="bi bi-calendar3"></i>
+                                </button>
+                              </div>
+                            </div>
+                            <div *ngIf="isSubmittedBill"  [ngClass]="{'alert-danger-custom': true, 'active': validateMaterial.hanSuDung}">
+                              <p>
+                                {{validateMaterial.hanSuDung}}
+                              </p>
+                            </div>
+                            <p *ngIf="!isAdd">{{ record.hanSudung }}</p>
                           </div>
-                          <p *ngIf="!isAdd">{{ record.hanSudung }}</p>
                         </td>
                         <td>
                           <input type="text" [(ngModel)]="record.chietKhau" *ngIf="isAdd"

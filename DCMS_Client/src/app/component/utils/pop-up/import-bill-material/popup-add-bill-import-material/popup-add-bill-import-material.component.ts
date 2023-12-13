@@ -6,6 +6,7 @@ import {MaterialWarehouseService} from "../../../../../service/MaterialService/m
 import {MaterialService} from "../../../../../service/MaterialService/material.service";
 import * as moment from "moment-timezone";
 import {ResponseHandler} from "../../../libs/ResponseHandler";
+import {FormatNgbDate} from "../../../libs/formatNgbDateToString";
 
 @Component({
   selector: 'app-popup-add-bill-import-material',
@@ -14,6 +15,7 @@ import {ResponseHandler} from "../../../libs/ResponseHandler";
 })
 export class PopupAddBillImportMaterialComponent implements OnInit {
   model!: NgbDateStruct;
+  hanSuDungNgbModal!:NgbDateStruct;
   options = ['Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 4', 'Option 4', 'Option 4', 'Option 4', 'Option 4', 'Option 4'];
   selectedOption: any;
 
@@ -201,7 +203,8 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
       this.resetValidateMaterial();
       let donGia = record.donGia;
       let soLuong = record.soLuong;
-      let hanSuDung = record.hanSudung;
+      let hanSuDung = FormatNgbDate.formatNgbDateToString(this.hanSuDungNgbModal);
+      //let hanSuDung = record.hanSudung;
       if (!donGia){
         this.validateMaterial.donGia = "Vui lòng nhập đơn giá!";
         this.isSubmittedBill = true;
@@ -218,7 +221,7 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
         this.validateMaterial.soLuong = "Vui lòng nhập số lượng > 0!";
         this.isSubmittedBill = true;
       }
-      if (!hanSuDung){
+      if (!hanSuDung || !this.formatDate(hanSuDung)){
         this.validateMaterial.hanSuDung = "Vui lòng nhập hạn sử dụng!";
         this.isSubmittedBill = true;
       }
@@ -232,7 +235,8 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
         this.status = true;
         this.records.forEach((record: any) => {
           console.log("record", this.records);
-          let warrantyDate = new Date(record.hanSudung);
+          let hanSuDung = FormatNgbDate.formatNgbDateToString(this.hanSuDungNgbModal);
+          let warrantyDate = new Date(hanSuDung);
           let warrantyTimestamp = (warrantyDate.getTime() / 1000).toString();
 
           this.importMaterialBody = {
@@ -359,6 +363,9 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
     const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
     const timestamp = moment.tz(dateStr, format, timeZone).valueOf() / 1000;
     return timestamp;
+  }
+  private formatDate(dateString: any): boolean {
+    return /^\d{4}-(0[1-9]|1[0-2])-([0-2][0-9]|3[01])$/.test(dateString);
   }
 }
 

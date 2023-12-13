@@ -26,10 +26,15 @@
                   #d="ngbDatepicker"
                 />
                 <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>-->
-                <!-- <input type="date" [(ngModel)]="importBill.createDate" required class="form-control date-input-custom" id="receiverdate" name="receiverdate" #receiverDate="ngModel"> -->
-                <input class="form-control" placeholder="Ngày lập" name="dp" [(ngModel)]="model" ngbDatepicker
-                  #d="ngbDatepicker" (ngModelChange)="onDateChange()" />
-                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
+<!--                <input type="date" [(ngModel)]="importBill.createDate" required class="form-control date-input-custom" id="receiverdate" name="receiverdate" #receiverDate="ngModel">-->
+                <input class="form-control" placeholder="dd-mm-yyyy" name="dp" [(ngModel)]="createDateNgbModal"
+                       ngbDatepicker #createDatepicker="ngbDatepicker" [placement]="'right'">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" style="height: 48px;" (click)="createDatepicker.toggle()"
+                          type="button">
+                    <i class="bi bi-calendar3"></i>
+                  </button>
+                </div>
               </div>
             </div>
             <div class="col-md-5">
@@ -84,41 +89,65 @@
                                     mới</button>
                                 </div>
                               </div>
-                            </ng-template>
-                          </ng-select>
-                        </td>
-                        <!-- <td *ngIf="!isAdd">{{m.donVi}}</td>-->
-                        <td>
-                          <input type="text" [(ngModel)]="m.unit" disabled class="form-control value-staff">
-                        </td>
-                        <!--<td *ngIf="!isAdd">{{m.quantity_import}}</td>-->
-                        <td>
-                          <input type="text" [(ngModel)]="m.quantity_import" (ngModelChange)="calculateThanhTien(m)"
-                            class="form-control value-staff">
-                        </td>
-                        <!--<td *ngIf="!isAdd">{{m.price}}</td>-->
-                        <td>
-                          <input type="text" [(ngModel)]="m.price" (ngModelChange)="calculateThanhTien(m)"
-                            class="form-control value-staff">
-                        </td>
-                        <!--<td *ngIf="!isAdd"></td>-->
-                        <td>
-                          <input type="text" [(ngModel)]="m.totalAmount" class="form-control value-staff">
-
-                        </td>
-                        <!--<td *ngIf="!isAdd">{{m.warranty}}</td>-->
-                        <td>
-                          <!-- <input type="date"  [(ngModel)]="m.warranty" class="form-control value-staff"> -->
-                          <div class="input-group">
-                            <input class="form-control" placeholder="Ngày bảo hành" name="dp"
-                              [(ngModel)]="m.warranty" ngbDatepicker #dd="ngbDatepicker" />
-                            <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dd.toggle()"
-                              type="button"></button>
+                            </div>
+                          </ng-template>
+                        </ng-select>
+                      </td>
+                     <!-- <td *ngIf="!isAdd">{{m.donVi}}</td>-->
+                      <td>
+                        <input type="text" [(ngModel)]="m.unit" disabled class="form-control value-staff">
+                      </td>
+                      <!--<td *ngIf="!isAdd">{{m.quantity_import}}</td>-->
+                      <td>
+                        <div class="position-relative">
+                          <input type="text"  [(ngModel)]="m.quantity_import"  (ngModelChange)="calculateThanhTien(m)" class="form-control value-staff">
+                          <div *ngIf="isSubmittedBill"  [ngClass]="{'alert-danger-custom': true, 'active': validateMaterial.soLuong}">
+                            <p>
+                              {{validateMaterial.soLuong}}
+                            </p>
                           </div>
-                        </td>
-                        <!-- <td *ngIf="!isAdd">{{m.discount}}</td>-->
-                        <td>
-                          <input type="text" [(ngModel)]="m.discount" class="form-control value-staff">
+                        </div>
+                      </td>
+                      <!--<td *ngIf="!isAdd">{{m.price}}</td>-->
+                      <td>
+                        <div class="position-relative">
+                          <input type="text" [(ngModel)]="m.price" (ngModelChange)="calculateThanhTien(m)" class="form-control value-staff">
+                          <div *ngIf="isSubmittedBill"  [ngClass]="{'alert-danger-custom': true, 'active': validateMaterial.donGia}">
+                            <p>
+                              {{validateMaterial.donGia}}
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                      <!--<td *ngIf="!isAdd"></td>-->
+                      <td>
+                        <input type="text"  [(ngModel)]="m.totalAmount" class="form-control value-staff">
+
+                      </td>
+                      <!--<td *ngIf="!isAdd">{{m.warranty}}</td>-->
+                      <td>
+<!--                        <input type="date"  [(ngModel)]="m.warranty" class="form-control value-staff">-->
+                        <div class="position-relative">
+                          <div class="input-group">
+                            <input class="form-control" placeholder="dd-mm-yyyy" name="dp" [(ngModel)]="hanSuDungNgbModal"
+                                   ngbDatepicker #hDatepicker="ngbDatepicker" [placement]="'right'">
+                            <div class="input-group-append">
+                              <button class="btn btn-outline-secondary calendar" style="height: 48px;" (click)="hDatepicker.toggle()"
+                                      type="button">
+                                <i class="bi bi-calendar3"></i>
+                              </button>
+                            </div>
+                          </div>
+                          <div *ngIf="isSubmittedBill"  [ngClass]="{'alert-danger-custom': true, 'active': validateMaterial.hanSuDung}">
+                            <p>
+                              {{validateMaterial.hanSuDung}}
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                     <!-- <td *ngIf="!isAdd">{{m.discount}}</td>-->
+                      <td>
+                        <input type="text" [(ngModel)]="m.discount" class="form-control value-staff">
 
                         </td>
                         <td class="delete-cell">

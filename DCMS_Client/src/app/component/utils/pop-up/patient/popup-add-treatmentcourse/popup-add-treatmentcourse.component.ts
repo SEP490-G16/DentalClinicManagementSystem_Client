@@ -354,8 +354,8 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     this.Post_TreatmentCourse.provisional_diagnosis = this.TreatmentCouseBody.chuandoan;
     this.Post_TreatmentCourse.description = this.TreatmentCouseBody.luuy;
     this.Post_TreatmentCourse.prescription = JSON.stringify(this.recordsMedicine);
+    this.resetValidateMaterial();
     this.listMaterialUsage.forEach((item: any) => {
-      this.resetValidateMaterial();
       let soLuong = item.quantity;
       if (!this.checkNumber(soLuong)){
         this.validateMaterial.soLuong = "Vui lòng nhập số lượng > 0!";
