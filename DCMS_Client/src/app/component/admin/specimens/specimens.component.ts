@@ -101,25 +101,34 @@ export class SpecimensComponent implements OnInit {
        return labo.name;
      }
   }
-
+  private formatDate(date: string): string {
+    const [month, day, year] = date.split('/');
+    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+  }
   filterByOrderDate(order: any) {
     const orderSplit = order.split(' - ');
-    this.orderFromDateFilter = this.dateToTimestamp(orderSplit[0] +" 00:00:00")+"";
-    this.orderToDateFilter = this.dateToTimestamp(orderSplit[1]+ " 23:59:59")+"";
+    const orderFromDate = this.formatDate(orderSplit[0]);
+    const orderToDate = this.formatDate(orderSplit[1]);
+    this.orderFromDateFilter = this.dateToTimestamp(orderFromDate +" 00:00:00")+"";
+    this.orderToDateFilter = this.dateToTimestamp(orderToDate+ " 23:59:59")+"";
     this.filterSpecimenInSystem(this.laboFilter, this.orderFromDateFilter, this.orderToDateFilter, this.receivedFromDateFilter, this.receivedToDateFilter, this.useFromDateFilter, this.useToDateFilter, this.statusFilter, this.pagingSearch.paging);
   }
 
   filterByReceivedDate(received: string) {
     const orderSplit = received.split(' - ');
-    this.receivedFromDateFilter = this.dateToTimestamp(orderSplit[0] +" 00:00:00")+"";
-    this.receivedToDateFilter = this.dateToTimestamp(orderSplit[1]+ " 23:59:59")+""
+    const receivedFromDate = this.formatDate(orderSplit[0]);
+    const receivedToDate = this.formatDate(orderSplit[1]);
+    this.receivedFromDateFilter = this.dateToTimestamp(receivedFromDate +" 00:00:00")+"";
+    this.receivedToDateFilter = this.dateToTimestamp(receivedToDate+ " 23:59:59")+""
     this.filterSpecimenInSystem(this.laboFilter, this.orderFromDateFilter, this.orderToDateFilter, this.receivedFromDateFilter, this.receivedToDateFilter, this.useFromDateFilter, this.useToDateFilter, this.statusFilter, this.pagingSearch.paging);
   }
 
   filterByUseDate(useD: string) {
     const orderSplit = useD.split(' - ');
-    this.useFromDateFilter = this.dateToTimestamp(orderSplit[0] +" 00:00:00")+"";
-    this.useToDateFilter = this.dateToTimestamp(orderSplit[1]+ " 23:59:59")+""
+    const useFromDate = this.formatDate(orderSplit[0]);
+    const useToDate = this.formatDate(orderSplit[1]);
+    this.useFromDateFilter = this.dateToTimestamp(useFromDate +" 00:00:00")+"";
+    this.useToDateFilter = this.dateToTimestamp(useToDate+ " 23:59:59")+""
     this.filterSpecimenInSystem(this.laboFilter, this.orderFromDateFilter, this.orderToDateFilter, this.receivedFromDateFilter, this.receivedToDateFilter, this.useFromDateFilter, this.useToDateFilter, this.statusFilter, this.pagingSearch.paging);
   }
 
