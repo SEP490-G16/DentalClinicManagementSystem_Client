@@ -26,15 +26,18 @@
                   #d="ngbDatepicker"
                 />
                 <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>-->
-                <input type="date" [(ngModel)]="importBill.createDate" required class="form-control date-input-custom" id="receiverdate" name="receiverdate" #receiverDate="ngModel">
-
+                <!-- <input type="date" [(ngModel)]="importBill.createDate" required class="form-control date-input-custom" id="receiverdate" name="receiverdate" #receiverDate="ngModel"> -->
+                <input class="form-control" placeholder="Ngày lập" name="dp" [(ngModel)]="model" ngbDatepicker
+                  #d="ngbDatepicker" (ngModelChange)="onDateChange()" />
+                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
               </div>
             </div>
             <div class="col-md-5">
               <div class="form-group row">
                 <label for="creator" class="col-3 name-title">Người lập phiếu</label>
                 <div class="col-8">
-                  <input type="text" [(ngModel)]="importBill.creator" class="form-control value-staff" id="creator" name="creator">
+                  <input type="text" [(ngModel)]="importBill.creator" class="form-control value-staff" id="creator"
+                    name="creator">
                 </div>
               </div>
             </div>
@@ -42,7 +45,8 @@
               <div class="form-group row">
                 <label for="total" class="col-3 name-title">Tổng tiền</label>
                 <div class="col-8">
-                  <input type="text" [(ngModel)]="importBill.totalAmount"  class="form-control value-staff" disabled id="total" name="total">
+                  <input type="text" [(ngModel)]="importBill.totalAmount" class="form-control value-staff" disabled
+                    id="total" name="total">
                 </div>
               </div>
             </div>
@@ -52,68 +56,79 @@
               <div>
                 <table class="table-bordered">
                   <thead class="sticky-thead">
-                  <tr>
-                    <th style="min-width: 150px">Tên vật liệu</th>
-                    <th>Đơn vị</th>
-                    <th>Số lượng</th>
-                    <th>Đơn giá</th>
-                    <th>Thành tiền</th>
-                    <th>Hạn sử dụng</th>
-                    <th>Chiết khấu</th>
-                    <th *ngIf="!isAdd" class="text-center">Thao tác</th>
-                  </tr>
+                    <tr>
+                      <th style="min-width: 150px">Tên vật liệu</th>
+                      <th>Đơn vị</th>
+                      <th>Số lượng</th>
+                      <th>Đơn giá</th>
+                      <th>Thành tiền</th>
+                      <th>Hạn sử dụng</th>
+                      <th>Chiết khấu</th>
+                      <th *ngIf="!isAdd" class="text-center">Thao tác</th>
+                    </tr>
                   </thead>
                   <tbody>
-                  <ng-container  >
-                    <tr *ngFor="let m of displayListImport">
+                    <ng-container>
+                      <tr *ngFor="let m of displayListImport">
 
-                      <td>
-                        <!--<input type="text" *ngIf="isAdd" [disabled]="!isAdd" [(ngModel)]="m.material_id" class="form-control value-staff">-->
-                        <ng-select [disabled]="!isAdd" [items]="materialList" [(ngModel)]="m.material_id" [searchable] = "true" bindLabel="tenVatLieu" bindValue="id">
-                          <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
-                            <div class="not-found">
-                              <span>Không tìm thấy vật liệu!</span>
-                              <div class="add-materials">
-                                <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#addMaterialModal"><i class="bi bi-plus-circle"></i> Thêm mới</button>
+                        <td>
+                          <!--<input type="text" *ngIf="isAdd" [disabled]="!isAdd" [(ngModel)]="m.material_id" class="form-control value-staff">-->
+                          <ng-select [disabled]="!isAdd" [items]="materialList" [(ngModel)]="m.material_id"
+                            [searchable]="true" bindLabel="tenVatLieu" bindValue="id">
+                            <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
+                              <div class="not-found">
+                                <span>Không tìm thấy vật liệu!</span>
+                                <div class="add-materials">
+                                  <button class="btn button-timekeeping" data-bs-toggle="modal"
+                                    data-bs-target="#addMaterialModal"><i class="bi bi-plus-circle"></i> Thêm
+                                    mới</button>
+                                </div>
                               </div>
-                            </div>
-                          </ng-template>
-                        </ng-select>
-                      </td>
-                     <!-- <td *ngIf="!isAdd">{{m.donVi}}</td>-->
-                      <td>
-                        <input type="text" [(ngModel)]="m.unit" disabled class="form-control value-staff">
-                      </td>
-                      <!--<td *ngIf="!isAdd">{{m.quantity_import}}</td>-->
-                      <td>
-                        <input type="text"  [(ngModel)]="m.quantity_import"  (ngModelChange)="calculateThanhTien(m)" class="form-control value-staff">
-                      </td>
-                      <!--<td *ngIf="!isAdd">{{m.price}}</td>-->
-                      <td>
-                        <input type="text" [(ngModel)]="m.price" (ngModelChange)="calculateThanhTien(m)" class="form-control value-staff">
-                      </td>
-                      <!--<td *ngIf="!isAdd"></td>-->
-                      <td>
-                        <input type="text"  [(ngModel)]="m.totalAmount" class="form-control value-staff">
+                            </ng-template>
+                          </ng-select>
+                        </td>
+                        <!-- <td *ngIf="!isAdd">{{m.donVi}}</td>-->
+                        <td>
+                          <input type="text" [(ngModel)]="m.unit" disabled class="form-control value-staff">
+                        </td>
+                        <!--<td *ngIf="!isAdd">{{m.quantity_import}}</td>-->
+                        <td>
+                          <input type="text" [(ngModel)]="m.quantity_import" (ngModelChange)="calculateThanhTien(m)"
+                            class="form-control value-staff">
+                        </td>
+                        <!--<td *ngIf="!isAdd">{{m.price}}</td>-->
+                        <td>
+                          <input type="text" [(ngModel)]="m.price" (ngModelChange)="calculateThanhTien(m)"
+                            class="form-control value-staff">
+                        </td>
+                        <!--<td *ngIf="!isAdd"></td>-->
+                        <td>
+                          <input type="text" [(ngModel)]="m.totalAmount" class="form-control value-staff">
 
-                      </td>
-                      <!--<td *ngIf="!isAdd">{{m.warranty}}</td>-->
-                      <td>
-                        <input type="date"  [(ngModel)]="m.warranty" class="form-control value-staff">
+                        </td>
+                        <!--<td *ngIf="!isAdd">{{m.warranty}}</td>-->
+                        <td>
+                          <!-- <input type="date"  [(ngModel)]="m.warranty" class="form-control value-staff"> -->
+                          <div class="input-group">
+                            <input class="form-control" placeholder="Ngày bảo hành" name="dp"
+                              [(ngModel)]="m.warranty" ngbDatepicker #dd="ngbDatepicker" />
+                            <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dd.toggle()"
+                              type="button"></button>
+                          </div>
+                        </td>
+                        <!-- <td *ngIf="!isAdd">{{m.discount}}</td>-->
+                        <td>
+                          <input type="text" [(ngModel)]="m.discount" class="form-control value-staff">
 
-                      </td>
-                     <!-- <td *ngIf="!isAdd">{{m.discount}}</td>-->
-                      <td>
-                        <input type="text" [(ngModel)]="m.discount" class="form-control value-staff">
-
-                      </td>
-                      <td class="delete-cell">
-                        <button class="delete-button" (click)="deleteMaterialWareHouse(m.material_warehouse_Import_Id)">
-                          x
-                        </button>
-                      </td>
-                    </tr>
-                  </ng-container>
+                        </td>
+                        <td class="delete-cell">
+                          <button class="delete-button"
+                            (click)="deleteMaterialWareHouse(m.material_warehouse_Import_Id)">
+                            x
+                          </button>
+                        </td>
+                      </tr>
+                    </ng-container>
 
                   </tbody>
                 </table>
@@ -128,12 +143,11 @@
       <!-- Modal footer -->
       <div class="modal-footer">
         <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn button-timekeeping"  (click)="updateImportMaterial()"><i class="bi bi-floppy2"></i> Lưu</button>
+        <button type="button" class="btn button-timekeeping" (click)="updateImportMaterial()"><i
+            class="bi bi-floppy2"></i> Lưu</button>
       </div>
 
     </div>
   </div>
 </div>
-<app-popup-add-material [materialList] = "materialList"></app-popup-add-material>
-
-
+<app-popup-add-material [materialList]="materialList"></app-popup-add-material>
