@@ -10,7 +10,7 @@ import {
 } from "../../../../../service/MedicalProcedureService/medical-procedure-group.service";
 import { CognitoIdentityServiceProvider } from 'aws-sdk';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { FormatNgbDate } from '../../../libs/formatNgbDateToString';
+import { FormatNgbDate } from '../../../libs/formatNgbDate';
 
 @Component({
   selector: 'app-popup-add-staff',

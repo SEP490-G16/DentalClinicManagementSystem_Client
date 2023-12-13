@@ -14,7 +14,7 @@ import * as moment from "moment-timezone";
 import {ResponseHandler} from "../../../utils/libs/ResponseHandler";
 import {Normalize} from "../../../../service/Lib/Normalize";
 import { NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
-import { FormatNgbDate } from 'src/app/component/utils/libs/formatNgbDateToString';
+import { FormatNgbDate } from 'src/app/component/utils/libs/formatNgbDate';
 
 @Component({
   selector: 'app-popup-add-waitingroom-new-patient',
@@ -122,7 +122,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
     })
 
     this.WaitingRoomService.data$.subscribe((dataList) => {
-      this.filteredWaitingRoomData = dataList; 
+      this.filteredWaitingRoomData = dataList;
     })
   }
   onProcedureChange(event: Event) {

@@ -9,7 +9,7 @@ import { ResponseHandler } from "../../../libs/ResponseHandler";
 import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/TreatmentCourse.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { FormatNgbDate } from '../../../libs/formatNgbDateToString';
+import { FormatNgbDate } from '../../../libs/formatNgbDate';
 
 @Component({
   selector: 'app-popup-add-specimens',

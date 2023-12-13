@@ -8,7 +8,7 @@ import { ResponseHandler } from "../../../utils/libs/ResponseHandler";
 import * as moment from "moment-timezone";
 import { TimestampFormat } from 'src/app/component/utils/libs/timestampFormat';
 import { NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
-import { FormatNgbDate } from 'src/app/component/utils/libs/formatNgbDateToString';
+import { FormatNgbDate } from 'src/app/component/utils/libs/formatNgbDate';
 //import * as imageSize from 'image-size';
 @Component({
   selector: 'app-patient-profile-tab',

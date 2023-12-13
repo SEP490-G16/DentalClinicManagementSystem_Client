@@ -5,7 +5,7 @@ import { ResponseHandler } from "../../../libs/ResponseHandler";
 import { SendMessageSocket } from 'src/app/component/shared/services/SendMessageSocket.service';
 import { NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
-import { FormatNgbDate } from '../../../libs/formatNgbDateToString';
+import { FormatNgbDate } from '../../../libs/formatNgbDate';
 import { TimestampFormat } from '../../../libs/timestampFormat';
 import * as moment from 'moment';
 @Component({

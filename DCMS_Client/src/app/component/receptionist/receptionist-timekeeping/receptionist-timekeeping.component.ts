@@ -8,8 +8,10 @@ import { RequestBodyTimekeeping, StaffTimekeeping, TimekeepingDetail, Timekeepin
 import { ConvertJson } from 'src/app/service/Lib/ConvertJson';
 import { CognitoService } from 'src/app/service/cognito.service';
 import { ResponseHandler } from "../../utils/libs/ResponseHandler";
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCalendar, NgbDate, NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from '../../utils/pop-up/common/confirm-modal/confirm-modal.component';
+import { FormatNgbDate } from '../../utils/libs/formatNgbDate';
+import { TimestampFormat } from '../../utils/libs/timestampFormat';
 @Component({
   selector: 'app-receptionist-timekeeping',
   templateUrl: './receptionist-timekeeping.component.html',
@@ -35,11 +37,18 @@ export class ReceptionistTimekeepingComponent implements OnInit {
   //Role
   roleId: any;
 
+  //NgbDate
+  fromDate!: NgbDate | null;
+  toDate!: NgbDate | null;
+  hoveredDate: NgbDate | null = null;
+
   timekeepingOnWeeks: any
   timeClockinColor: string = "onTime";
   timeClockoutColor: string = "lateTime";
   constructor(private cognitoService: CognitoService,
     private timekeepingService: ReceptionistTimekeepingService,
+    private calendar: NgbCalendar,
+    public formatter: NgbDateParserFormatter,
     private toastr: ToastrService,
     private modalService: NgbModal,
     private cd: ChangeDetectorRef,
@@ -50,18 +59,21 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     //Get Date
     this.currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
     this.currentTimeGMT7 = moment.tz('Asia/Ho_Chi_Minh').format('HH:mm');
+
     //Set epoch to body
     this.currentDateTimeStamp = this.dateToTimestamp(this.currentDateGMT7);
-    console.log("Current Date Timestamp: ", this.currentDateTimeStamp);
     this.currentTimeTimeStamp = this.timeAndDateToTimestamp(this.currentTimeGMT7, this.currentDateGMT7);
-    console.log("CurrentTimes: ", this.currentTimeTimeStamp);
+
     //Set week
     for (let i = 0; i < 7; i++) {
       this.weekTimestamps.push(moment.tz('Asia/Ho_Chi_Minh').startOf('week').add(i, 'days').unix());
     }
-    console.log("WeekTimes: ", this.weekTimestamps);
     this.startTime = this.weekTimestamps[0];
     this.endTime = this.weekTimestamps[6];
+
+    //Set interval time
+    this.fromDate = FormatNgbDate.timestampToNgbDate(this.weekTimestamps[0]) as NgbDate;
+    this.toDate = FormatNgbDate.timestampToNgbDate(this.weekTimestamps[6]) as NgbDate;
   }
 
   ngOnInit(): void {
@@ -69,12 +81,11 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     if (role) {
       this.roleId = role;
     }
-
-    this.getListStaff();
+    this.getStaffs();
   }
 
 
-  getListStaff() {
+  getStaffs() {
     this.cognitoService.getListStaff()
       .subscribe((res) => {
         this.Staff = res.message.map((StaffMember: any) => {
@@ -172,7 +183,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
                       staff.isClockin = !!detail.details.clock_in;
                       staff.isClockout = (detail.details.clock_out !== undefined && detail.details.clock_out !== "0") ? true : false;
                       staff.isClockoutDisabled = (detail.details.clock_in !== undefined && detail.details.clock_in !== "0" && detail.details.clock_out !== undefined && detail.details.clock_out !== "0") ? false : true;
-                    }else {
+                    } else {
                       staff.clockInStatus = 'Chưa chấm';
                       staff.clockOutStatus = 'Chưa chấm';
                       staff.clock_in = '';
@@ -204,7 +215,6 @@ export class ReceptionistTimekeepingComponent implements OnInit {
               //   staff.isClockout = false;
               //   staff.isClockoutDisabled = true;
               // }
-
 
             });
           });
@@ -418,6 +428,59 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     }
   }
 
+  onDateSelection(date: NgbDate) {
+    if (!this.fromDate && !this.toDate) {
+      this.fromDate = date;
+    } else if (this.fromDate && !this.toDate && date && date.after(this.fromDate)) {
+      this.toDate = date;
+    } else {
+      this.toDate = null;
+      this.fromDate = date;
+    }
+    // this.updateStartAndEndDates();
+  }
+
+  updateStartAndEndDates() {
+    if (this.fromDate) {
+      // Chuyển đổi ngày từ NgbDate sang chuỗi định dạng YYYY-MM-DD
+      var startDate = `${this.fromDate.year}-${this.pad(this.fromDate.month)}-${this.pad(this.fromDate.day)}`;
+      this.startTime = TimestampFormat.dateToTimestamp(startDate);
+      if (this.toDate) {
+        // Chuyển đổi ngày từ NgbDate sang chuỗi định dạng YYYY-MM-DD
+        var endDate = `${this.toDate.year}-${this.pad(this.toDate.month)}-${this.pad(this.toDate.day)}`;
+        this.endTime = TimestampFormat.dateToTimestamp(endDate);
+        this.getStaffs();
+      }
+    }
+  }
+
+  pad(number: number) {
+    return (number < 10) ? `0${number}` : number;
+  }
+
+  isHovered(date: NgbDate) {
+    return (
+      this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate)
+    );
+  }
+
+  isInside(date: NgbDate) {
+    return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
+  }
+
+  isRange(date: NgbDate) {
+    return (
+      date.equals(this.fromDate) ||
+      (this.toDate && date.equals(this.toDate)) ||
+      this.isInside(date) ||
+      this.isHovered(date)
+    );
+  }
+
+  validateInput(currentValue: NgbDate | null, input: string): NgbDate | null {
+    const parsed = this.formatter.parse(input);
+    return parsed && this.calendar.isValid(NgbDate.from(parsed)) ? NgbDate.from(parsed) : currentValue;
+  }
 
   //Convert Date
   dateToTimestamp(dateStr: string): number {

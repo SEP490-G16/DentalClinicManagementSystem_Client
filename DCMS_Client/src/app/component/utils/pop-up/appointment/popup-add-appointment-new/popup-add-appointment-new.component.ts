@@ -18,7 +18,7 @@ import * as moment from "moment-timezone";
 import {ConvertJson} from "../../../../../service/Lib/ConvertJson";
 import {Normalize} from "../../../../../service/Lib/Normalize";
 import {ResponseHandler} from "../../../libs/ResponseHandler";
-import {FormatNgbDate} from "../../../libs/formatNgbDateToString";
+import {FormatNgbDate} from "../../../libs/formatNgbDate";
 
 @Component({
   selector: 'app-popup-add-appointment-new',
@@ -467,7 +467,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
         this.checkNewPatent = false;
       }
 
-      const now = new Date(); 
+      const now = new Date();
       const curr = (now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDay() +" "+now.getHours()+":"+now.getMinutes()+":"+now.getSeconds()).toString();
       const patientInfor = this.AppointmentBody.appointment.patient_id+ " - "+this.AppointmentBody.appointment.patient_name+" - "+this.AppointmentBody.appointment.phone_number+" - "+this.patientBody.address+" - "+ curr+" - "+"pa";
       this.sendMessageSocket.sendMessageSocket('CheckRealTimeWaitingRoom@@@',`${patientInfor}`,`${Number('1')}`);
