@@ -36,17 +36,8 @@ export interface StaffTimekeeping {
   sub: string,
   staff_avt: string,
   locale:string,
-  clockInStatus: string,
-  clockOutStatus: string,
-  clock_in: string,
-  clock_out: string,
   register_clock_in?: number,
   register_clock_out?: number,
-  isClockinDisabled?: boolean;
-  isClockoutDisabled?: boolean;
-  isInputEnabled?: boolean;
-  isClockin: boolean,
-  isClockout: boolean,
   weekTimekeeping: { [key: number]: { clockIn: string, clockOut: string } };
 }
 
