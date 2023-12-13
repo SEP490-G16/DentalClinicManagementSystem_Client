@@ -1,9 +1,12 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {ImportMaterialService} from "../../../../../service/MaterialService/import-material.service";
-import {MaterialWarehouseService} from "../../../../../service/MaterialService/material-warehouse.service";
-import {ToastrService} from "ngx-toastr";
-import {MaterialService} from "../../../../../service/MaterialService/material.service";
-import {ResponseHandler} from "../../../libs/ResponseHandler";
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ImportMaterialService } from "../../../../../service/MaterialService/import-material.service";
+import { MaterialWarehouseService } from "../../../../../service/MaterialService/material-warehouse.service";
+import { ToastrService } from "ngx-toastr";
+import { MaterialService } from "../../../../../service/MaterialService/material.service";
+import { ResponseHandler } from "../../../libs/ResponseHandler";
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { FormatNgbDate } from '../../../libs/formatNgbDateToString';
+import * as moment from "moment-timezone";
 
 @Component({
   selector: 'app-popup-edit-bill-import-material',
@@ -11,92 +14,102 @@ import {ResponseHandler} from "../../../libs/ResponseHandler";
   styleUrls: ['./popup-edit-bill-import-material.component.css']
 })
 export class PopupEditBillImportMaterialComponent implements OnChanges {
-  @Input() importMaterialId:any;
-  @Input() importMaterialBill:any;
+  @Input() importMaterialId: any;
+  @Input() importMaterialBill: any;
+  model!: NgbDateStruct;
   constructor(private importMaterialService: ImportMaterialService,
-              private materialWarehouseService:MaterialWarehouseService,
-              private toastr: ToastrService,
-              private materialService:MaterialService) { }
-
-  status:boolean = false;
-  importBill={
-    createDate:'',
-    creator:'',
-    totalAmount:0
+    private materialWarehouseService: MaterialWarehouseService,
+    private toastr: ToastrService,
+    private materialService: MaterialService) {
+    const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
+    this.model = {
+      year: parseInt(currentDateGMT7.split('-')[0]),
+      month: parseInt(currentDateGMT7.split('-')[1]),
+      day: parseInt(currentDateGMT7.split('-')[2])
+    };
   }
-  importBillBody={
-    created_date:'',
-    creator:'',
+
+  status: boolean = false;
+  importBill = {
+    createDate: '',
+    creator: '',
+    totalAmount: 0
+  }
+  importBillBody = {
+    created_date: '',
+    creator: '',
     facility_id: ''
   }
-  importMaterialBody={
-    material_id:'',
-    import_material_id:'',
-    quantity_import:'',
-    price:'',
-    warranty:'',
-    discount:0,
-    remaining:'',
+  importMaterialBody = {
+    material_id: '',
+    import_material_id: '',
+    quantity_import: '',
+    price: '',
+    warranty: '',
+    discount: 0,
+    remaining: '',
   }
 
-  material_warehouse_Import_Id:string='';
-  materialInput={
-    material_id:'',
+  material_warehouse_Import_Id: string = '';
+  materialInput = {
+    material_id: '',
     material_warehouse_Import_Id: '',
-    import_material_id:'',
-    quantity_import:'',
+    import_material_id: '',
+    quantity_import: '',
     unit: '',
-    price:'',
+    price: '',
     totalAmount: 0,
-    warranty:'',
-    discount:0,
-    remaining:'',
+    warranty: {
+
+    },
+    discount: 0,
+    remaining: '',
   }
 
-  displayListImport:any[]= [];
+  displayListImport: any[] = [];
 
   isAdd: boolean = false;
   records: any[] = [];
   materials: any[] = [];
-  importMaterialBillId:any;
-  materialListByImportMaterialId:any;
-  materialList:any;
+  importMaterialBillId: any;
+  materialListByImportMaterialId: any;
+  materialList: any;
   totalAmount: number = 0;
-  temporaryName: string='';
-  paging:number=1;
+  temporaryName: string = '';
+  paging: number = 1;
   selectedMaterial: boolean = false;
-  loading:boolean = false;
+  loading: boolean = false;
   ngOnInit(): void {
   }
-  updateImportBill(){
+  updateImportBill() {
     let faci = sessionStorage.getItem('locale');
     if (faci != null) {
       this.importBillBody.facility_id = faci;
     }
     let createDate = new Date(this.importBill.createDate);
-    let createDateTimestamp = (createDate.getTime()/1000).toString();
-    this.importBillBody={
+    let createDateTimestamp = (createDate.getTime() / 1000).toString();
+    this.importBillBody = {
       created_date: createDateTimestamp,
       creator: this.importBill.creator,
       facility_id: this.importBillBody.facility_id
     }
-    this.importMaterialService.updateImportBill(this.importMaterialBillId,this.importBillBody).subscribe(data=>{
-        this.toastr.success('Cập nhật phiếu thành công!');
-        this.status = true;
-      },
+    this.importMaterialService.updateImportBill(this.importMaterialBillId, this.importBillBody).subscribe(data => {
+      this.toastr.success('Cập nhật phiếu thành công!');
+      this.status = true;
+    },
       error => {
         //this.toastr.error('Cập nhật phiếu thất bại !');
-        ResponseHandler.HANDLE_HTTP_STATUS(this.importMaterialService.url+"/import-material/"+this.importMaterialBillId, error);
+        ResponseHandler.HANDLE_HTTP_STATUS(this.importMaterialService.url + "/import-material/" + this.importMaterialBillId, error);
       }
     )
   }
-  getMaterials(paging:number){
-    this.materialService.getMaterial(paging).subscribe(data=>{
-      const transformedMaterialList = data.data.map((item:any) => {
+  getMaterials(paging: number) {
+    this.materialService.getMaterial(paging).subscribe(data => {
+      const transformedMaterialList = data.data.map((item: any) => {
         return {
           id: item.material_id,
           tenVatLieu: item.material_name,
-          donVi:item.unit
+          donVi: item.unit
         };
 
       });
@@ -104,23 +117,23 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
       //console.log(this.materialList);
     },
       error => {
-        ResponseHandler.HANDLE_HTTP_STATUS(this.materialService.url+"/material/"+paging, error);
+        ResponseHandler.HANDLE_HTTP_STATUS(this.materialService.url + "/material/" + paging, error);
       }
-      )
+    )
   }
-  getMaterialsImportMaterialBills(importMaterialBillId:any){
-      this.displayListImport = [];
-      this.materialWarehouseService.getMaterialsByImportMaterialBill(importMaterialBillId).subscribe(data=>{
+  getMaterialsImportMaterialBills(importMaterialBillId: any) {
+    this.displayListImport = [];
+    this.materialWarehouseService.getMaterialsByImportMaterialBill(importMaterialBillId).subscribe(data => {
       this.materialListByImportMaterialId = data.data;
       this.getMaterials(this.paging);
 
-      this.materialListByImportMaterialId.forEach((m:any) => {
+      this.materialListByImportMaterialId.forEach((m: any) => {
         this.materialInput.material_warehouse_Import_Id = m.material_warehouse_id;
         console.log(m.material_warehouse_id);
         console.log("1hgvh", this.material_warehouse_Import_Id)
         this.materialInput.material_id = m.material_id;
         console.log(this.materialList);
-        this.materialList.forEach((a:any) => {
+        this.materialList.forEach((a: any) => {
           if (a.id == this.materialInput.material_id) {
             this.materialInput.unit = a.donVi;
           }
@@ -130,34 +143,41 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
         const year = date.getFullYear();
         const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Thêm '0' ở đầu nếu cần
         const day = date.getDate().toString().padStart(2, '0'); // Thêm '0' ở đầu nếu cần
-        //m.warranty = `${year}-${month}-${day}`;
-        this.materialInput.warranty = `${year}-${month}-${day}`;
+        m.warranty = `${year}-${month}-${day}`;
+        this.materialInput.warranty = {
+          year: year,
+          month: Number(month),
+          day: Number(day)
+        };
         this.materialInput.price = m.price;
         this.materialInput.discount = m.discount;
         this.materialInput.quantity_import = m.quantity_import;
         this.displayListImport.push(this.materialInput);
-        this.materialInput={
-          material_id:'',
-          import_material_id:'',
+        this.materialInput = {
+          material_id: '',
+          import_material_id: '',
           material_warehouse_Import_Id: '',
-          quantity_import:'',
+          quantity_import: '',
           unit: '',
-          price:'',
+          price: '',
           totalAmount: 0,
-          warranty:'',
-          discount:0,
-          remaining:'',
+          warranty: {},
+          discount: 0,
+          remaining: '',
         }
       });
 
       console.log(this.materialListByImportMaterialId)
     },
-        error => {
-          ResponseHandler.HANDLE_HTTP_STATUS(this.materialWarehouseService.url+"/material-warehouse/"+importMaterialBillId, error);
-        }
-        )
+      error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.materialWarehouseService.url + "/material-warehouse/" + importMaterialBillId, error);
+      }
+    )
   }
-  materialWareHouseId:any;
+  onDateChange() {
+    this.importBill.createDate = FormatNgbDate.formatNgbDateToString(this.model);
+  }
+  materialWareHouseId: any;
   updateImportMaterial() {
     this.updateImportBill();
     this.displayListImport.forEach((material: any) => {
@@ -169,7 +189,7 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
           console.log(this.materialWareHouseId)
         }
       })
-      let warrantyDate = new Date(material.warranty);
+      let warrantyDate = new Date(FormatNgbDate.formatNgbDateToString(material.warranty));
       let warrantyTimestamp = (warrantyDate.getTime() / 1000).toString();
       this.importMaterialBody = {
         material_id: material.material_id,
@@ -189,16 +209,16 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
         error => {
           this.loading = false;
           //this.toastr.error('Cập nhật thất bại !');
-          ResponseHandler.HANDLE_HTTP_STATUS(this.materialWarehouseService.url+"/material-warehouse/material_warehouse_id/"+this.materialWareHouseId, error);
+          ResponseHandler.HANDLE_HTTP_STATUS(this.materialWarehouseService.url + "/material-warehouse/material_warehouse_id/" + this.materialWareHouseId, error);
         }
       )
     })
   }
-  updateTemporaryName(m:any,event:any) {
+  updateTemporaryName(m: any, event: any) {
     // event chứa tên vật liệu được chọn
     console.log(event);
     m.materialList = event;
-    const selectedMaterial = this.materialList.find((material:any) => material.id === event);
+    const selectedMaterial = this.materialList.find((material: any) => material.id === event);
     this.selectedMaterial = true;
     console.log(selectedMaterial.donVi);
     if (selectedMaterial) {
@@ -208,7 +228,7 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
     }
     if (m.material_id && this.materialList) {
       // Tìm vật liệu tương ứng trong danh sách materialList
-      const selectedMaterial = this.materialList.find((material:any) => material.id === m.material_id);
+      const selectedMaterial = this.materialList.find((material: any) => material.id === m.material_id);
 
       if (selectedMaterial) {
         // Cập nhật đơn vị của vật liệu tương ứng
@@ -216,7 +236,7 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
       }
     }
   }
-  calculateThanhTien(record:any) {
+  calculateThanhTien(record: any) {
     if (record.quantity_import && record.price) {
       record.totalAmount = record.quantity_import * record.price * (1 - record.discount);
     } else {
@@ -225,7 +245,7 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
     this.calculateTotalAmount();
   }
   calculateTotalAmount() {
-   this.importBill.totalAmount = 0;
+    this.importBill.totalAmount = 0;
     for (const record of this.displayListImport) {
       if (record.totalAmount) {
         this.importBill.totalAmount += record.totalAmount;
@@ -234,15 +254,15 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
   }
   toggleAdd() {
     this.isAdd = true;
-    console.log("A",this.isAdd);
-    if (this.isAdd){
-      this.records.push({...this.materialInput});
+    console.log("A", this.isAdd);
+    if (this.isAdd) {
+      this.records.push({ ...this.materialInput });
       /*this.getMaterials(this.paging);*/
     }
 
   }
 
-  toggleCancel(){
+  toggleCancel() {
     this.isAdd = false;
     if (this.records.length > 0) {
       this.records.pop();
@@ -253,33 +273,38 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['importMaterialId']){
+    if (changes['importMaterialId']) {
       this.importMaterialBillId = this.importMaterialId;
       this.getMaterialsImportMaterialBills(this.importMaterialBillId);
     }
-    if (changes['importMaterialBill']){
+    if (changes['importMaterialBill']) {
       console.log(this.importMaterialBill.CreateDate)
       //let createdDate = new Date(this.importMaterialBill.created_date);
       const orginalCreateDate = this.importMaterialBill.CreateDate;
       const createDatePart = orginalCreateDate.split(" ");
       const formattedCreateDate = createDatePart[0];
       this.importBill.createDate = formattedCreateDate;
+      this.model = {
+        year: Number(formattedCreateDate.split("-")[0]),
+        month: Number(formattedCreateDate.split("-")[1]),
+        day: Number(formattedCreateDate.split("-")[2])
+      }
       this.importBill.creator = this.importMaterialBill.CreateBy;
       this.importBill.totalAmount = this.importMaterialBill.TotalAmount;
     }
   }
 
-  deleteMaterialWareHouse(id:any){
-    this.materialWarehouseService.deleteMaterialImportMaterial(id).subscribe(data=>{
+  deleteMaterialWareHouse(id: any) {
+    this.materialWarehouseService.deleteMaterialImportMaterial(id).subscribe(data => {
       this.toastr.success('Xoá thành công!');
-      const index = this.displayListImport.findIndex((item:any) => item.m.material_warehouse_Import_Id == id);
+      const index = this.displayListImport.findIndex((item: any) => item.m.material_warehouse_Import_Id == id);
       if (index != -1) {
         this.displayListImport.splice(index, 1);
       }
     },
       error => {
-      //this.toastr.error('Xoá thất bại!');
-        ResponseHandler.HANDLE_HTTP_STATUS(this.materialWarehouseService.url+"/material-warehouse/material_warehouse_id/"+id, error);
+        //this.toastr.error('Xoá thất bại!');
+        ResponseHandler.HANDLE_HTTP_STATUS(this.materialWarehouseService.url + "/material-warehouse/material_warehouse_id/" + id, error);
       })
   }
   addNewMaterials() {

@@ -113,8 +113,14 @@ export class PopupAddAppointmentNewComponent implements OnInit {
               private PATIENT_SERVICE: PatientService,
               private toastr: ToastrService,
               private calendar: NgbCalendar,
-              private sendMessageSocket: SendMessageSocket
+              private sendMessageSocket: SendMessageSocket,
+              private config: NgbDatepickerConfig,
   ) {
+
+    const currentYear = new Date().getFullYear();
+    config.minDate = { year: 1900, month: 1, day: 1 };
+    config.maxDate = { year: currentYear, month: 12, day: 31 };
+
     this.isDisabled = (
       date: NgbDateStruct
       //current: { day: number; month: number; year: number }
