@@ -34,8 +34,7 @@
       <div class="input-group">
         <input #dpFromDate class="form-control" placeholder="Ngày bắt đầu" name="dpFromDate"
           [value]="formatter.format(fromDate)" (input)="fromDate = validateInput(fromDate, dpFromDate.value)" />
-        <button class="btn btn-outline-secondary bi bi-calendar3" (click)="datepicker.toggle()"
-          type="button"></button>
+        <button class="btn btn-outline-secondary bi bi-calendar3" (click)="datepicker.toggle()" type="button"></button>
       </div>
     </div>
     <span>--</span>
@@ -43,8 +42,7 @@
       <div class="input-group">
         <input #dpToDate class="form-control" placeholder="Ngày kết thúc" name="dpToDate"
           [value]="formatter.format(toDate)" (input)="toDate = validateInput(toDate, dpToDate.value)" />
-        <button class="btn btn-outline-secondary bi bi-calendar3" (click)="datepicker.toggle()"
-          type="button"></button>
+        <button class="btn btn-outline-secondary bi bi-calendar3" (click)="datepicker.toggle()" type="button"></button>
       </div>
     </div>
   </form>
@@ -99,30 +97,35 @@
           <td>
             <p>{{staff.name}}</p>
           </td>
-          <ng-container *ngFor="let timestamp of weekTimestamps; let dayIndex = index">
-            <ng-container *ngIf="timestamp === currentDateTimeStamp">
+          <ng-container *ngFor="let dateTimestamp of weekTimestamps; let dayIndex = index">
+            <ng-container *ngIf="dateTimestamp === currentDateTimeStamp">
               <td>
-                <button class="button-timekeeping" (click)="onClockin(staff)" [disabled]="staff.isClockin">
-                  {{ staff.clockInStatus }}
+                <button class="button-timekeeping" (click)="onClockin(staff, dateTimestamp)"
+                  [disabled]="staff.weekTimekeeping[dateTimestamp]?.clockIn">
+                  {{ staff.weekTimekeeping[dateTimestamp]?.clockIn ? "Đã chấm" : "Chưa chấm" }}
                 </button> <br />
-                <input type="time" [ngModel]="staff.clock_in" [class]="timeClockinColor"
-                [disabled]="!staff.isClockin || roleId!= '1'" (change)="handleClockInChange(staff, $event)">
+                <input type="time" [ngModel]="staff.weekTimekeeping[dateTimestamp]?.clockIn" [class]="timeClockinColor"
+                  [disabled]="!staff.weekTimekeeping[dateTimestamp]?.clockIn || roleId!= '1'"
+                  (change)="handleClockInChange(staff, $event, dateTimestamp)">
               </td>
               <td>
-                <button class="button-timekeeping" (click)="onClockout(staff, $event)" [disabled]="staff.isClockout && staff.isClockin">
-                  {{ staff.clockOutStatus }}
+                <button class="button-timekeeping" (click)="onClockout(staff, $event, dateTimestamp)"
+                  [disabled]="staff.weekTimekeeping[dateTimestamp]?.clockOut && staff.weekTimekeeping[dateTimestamp]?.clockIn">
+                  {{ staff.weekTimekeeping[dateTimestamp]?.clockOut ? "Đã chấm": "Chưa chấm"}}
                 </button> <br />
-                <input type="time" [(ngModel)]="staff.clock_out" [class]="timeClockoutColor"
-                       [disabled]="staff.isClockoutDisabled || roleId!= '1'" (change)="handleClockOutChange(staff, $event)">
+                <input type="time" [ngModel]="staff.weekTimekeeping[dateTimestamp]?.clockOut"
+                  [class]="timeClockoutColor"
+                  [disabled]="!staff.weekTimekeeping[dateTimestamp]?.clockOut || roleId!= '1'"
+                  (ngModelChange)="handleClockOutChange(staff, $event, dateTimestamp)">
 
               </td>
             </ng-container>
-            <ng-container *ngIf="timestamp !== currentDateTimeStamp">
+            <ng-container *ngIf="dateTimestamp !== currentDateTimeStamp">
               <td class="onTime">
-                {{ staff.weekTimekeeping[timestamp]?.clockIn || '' }}
+                {{ staff.weekTimekeeping[dateTimestamp]?.clockIn || '' }}
               </td>
               <td class="lateTime">
-                {{ staff.weekTimekeeping[timestamp]?.clockOut || '' }}
+                {{ staff.weekTimekeeping[dateTimestamp]?.clockOut || '' }}
               </td>
             </ng-container>
           </ng-container>
