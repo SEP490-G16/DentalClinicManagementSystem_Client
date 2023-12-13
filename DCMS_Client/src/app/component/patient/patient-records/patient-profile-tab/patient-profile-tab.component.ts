@@ -7,9 +7,9 @@ import { CommonService } from 'src/app/service/commonMethod/common.service';
 import { ResponseHandler } from "../../../utils/libs/ResponseHandler";
 import * as moment from "moment-timezone";
 import { TimestampFormat } from 'src/app/component/utils/libs/timestampFormat';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { FormatNgbDate } from 'src/app/component/utils/libs/formatNgbDateToString';
-
+import * as imageSize from 'image-size';
 @Component({
   selector: 'app-patient-profile-tab',
   templateUrl: './patient-profile-tab.component.html',
@@ -17,17 +17,22 @@ import { FormatNgbDate } from 'src/app/component/utils/libs/formatNgbDateToStrin
 })
 export class PatientProfileTabComponent implements OnInit {
   protected readonly window = window;
-  dob!:NgbDateStruct;
+  dob!: NgbDateStruct;
   constructor(private patientService: PatientService,
     private route: ActivatedRoute,
     private cognitoService: CognitoService,
     private router: Router,
+    private config: NgbDatepickerConfig,
     private commonService: CommonService,
     private toastr: ToastrService) {
+    const currentYear = new Date().getFullYear();
+    config.minDate = { year: 1900, month: 1, day: 1 };
+    config.maxDate = { year: currentYear, month: 12, day: 31 };
   }
 
-  patient: any;
+  patientDisplay: any;
   id: any;
+
   patientBody: any = {
     date_of_birth: '',
     patient_name: '',
@@ -61,13 +66,14 @@ export class PatientProfileTabComponent implements OnInit {
     if (ro != null) {
       this.roleId = ro.split(',');
     }
+
   }
 
   navigateHref(href: string) {
     this.commonService.navigateHref(href, this.id);
   }
 
-  imageURL: string | ArrayBuffer = '';
+  imageURL: string | ArrayBuffer = 'https://static.vecteezy.com/system/resources/thumbnails/004/141/669/small/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg';
 
   onFileSelected(event: any) {
     const fileInput = event.target;
@@ -76,19 +82,77 @@ export class PatientProfileTabComponent implements OnInit {
       const reader = new FileReader();
 
       reader.onload = (e: any) => {
-        this.imageURL = e.target.result;
+        const base64Data = e.target.result;
+        this.resizeImage(base64Data, 150, 200)
+          .then(resizedBase64 => {
+            this.imageURL = resizedBase64;
+          })
+          .catch(error => {
+            console.error('Error resizing image:', error);
+          });
       };
-
       reader.readAsDataURL(file);
     }
   }
+
+  async resizeImage(base64Data: string, maxWidth: number, maxHeight: number): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+      const img = new Image();
+      img.src = base64Data;
+
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > maxWidth) {
+            height *= maxWidth / width;
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width *= maxHeight / height;
+            height = maxHeight;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext('2d');
+
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // Convert the image to WebP format
+          canvas.toBlob((blob) => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              const resizedBase64 = reader.result as string;
+              resolve(resizedBase64);
+            };
+            reader.readAsDataURL(blob as Blob);
+          }, 'image/webp', 0.8);
+        } else {
+          reject(new Error('Unable to get 2D context for canvas.'));
+        }
+      };
+
+      img.onerror = (error) => {
+        reject(error);
+      };
+    });
+  }
+
+
 
   setPatientId() {
     this.router.navigate(['/benhnhan/danhsach/tab/lichtrinhdieutri', this.id])
   }
 
   onDOBChange() {
-    this.patient.date_of_birth = FormatNgbDate.formatNgbDateToVNString(this.dob);
+    this.patientDisplay.date_of_birth = FormatNgbDate.formatNgbDateToString(this.dob);
   }
 
   clickCount: number = 0;
@@ -100,26 +164,26 @@ export class PatientProfileTabComponent implements OnInit {
 
     } else {
       this.resetValidate();
-      if (!this.patient.patient_name) {
+      if (!this.patientDisplay.patient_name) {
         this.validatePatient.name = "Vui lòng nhập tên bệnh nhân!";
         this.isSubmitted = true;
       }
-      if (!this.patient.date_of_birth) {
+      if (!this.patientDisplay.date_of_birth) {
         this.validatePatient.dob = 'Vui lòng nhập ngày sinh!';
         this.isSubmitted = true;
       }
-      if (!this.isValidEmail(this.patient.email)){
+      if (!this.isValidEmail(this.patientDisplay.email)) {
         this.validatePatient.email = "Email không hợp lệ!";
         this.isSubmitted = true;
       }
-      if (this.patient.phone_number === '') {
+      if (this.patientDisplay.phone_number === '') {
         this.validatePatient.phone = "Vui lòng nhập số điện thoại!";
         this.isSubmitted = true;
-      } else if (!this.isVietnamesePhoneNumber(this.patient.phone_number)) {
+      } else if (!this.isVietnamesePhoneNumber(this.patientDisplay.phone_number)) {
         this.validatePatient.phone = "Số điện thoại không hợp lệ!";
         this.isSubmitted = true;
       }
-      if (!this.patient.address) {
+      if (!this.patientDisplay.address) {
         this.validatePatient.address = "Vui lòng nhập địa chỉ!";
         this.isSubmitted = true;
       }
@@ -128,22 +192,22 @@ export class PatientProfileTabComponent implements OnInit {
         return;
       }
       let phone = ''
-      if (this.patient.phone_number && this.patient.phone_number.length === 9) {
-        phone = '+84' + this.patient.phone_number;
+      if (this.patientDisplay.phone_number && this.patientDisplay.phone_number.length === 9) {
+        phone = '+84' + this.patientDisplay.phone_number;
       }
-      if (this.patient.phone_number && this.patient.phone_number.length === 10) {
-        phone = '+84' + this.patient.phone_number.substring(1);
+      if (this.patientDisplay.phone_number && this.patientDisplay.phone_number.length === 10) {
+        phone = '+84' + this.patientDisplay.phone_number.substring(1);
       }
       this.patientBody = {
-        date_of_birth: TimestampFormat.dateToTimestamp(this.patient.date_of_birth),
-        patient_name: this.patient.patient_name,
-        gender: this.patient.gender,
+        date_of_birth: TimestampFormat.timeAndDateToTimestamp("20:00",this.patientDisplay.date_of_birth),
+        patient_name: this.patientDisplay.patient_name,
+        gender: this.patientDisplay.gender,
         phone_number: phone,
-        email: this.patient.email,
-        address: this.patient.address,
-        dental_medical_history: this.patient.dental_medical_history || "",
-        full_medical_history: this.patient.full_medical_History || "",
-        description: this.patient.description,
+        email: this.patientDisplay.email,
+        address: this.patientDisplay.address,
+        dental_medical_history: this.patientDisplay.dental_medical_history || "",
+        full_medical_history: this.patientDisplay.full_medical_History || "",
+        description: this.patientDisplay.description,
         profile_image: this.imageURL,
         // patient_id: this.id
       }
@@ -162,23 +226,26 @@ export class PatientProfileTabComponent implements OnInit {
 
   getPatient(id: string) {
     this.patientService.getPatientById(id).subscribe(data => {
-      this.patient = data;
-      const check = this.patient.description.split('@@isnew##_');
+      this.patientDisplay = data;
+      const check = this.patientDisplay.description.split('@@isnew##_');
       if (check.length > 1) {
-        this.patient.description = check[1]
+        this.patientDisplay.description = check[1]
       } else {
-        this.patient.description = check[0];
+        this.patientDisplay.description = check[0];
       }
       this.dob = {
-        year: parseInt(this.patient.date_of_birth.split('-')[0]),
-        month: parseInt(this.patient.date_of_birth.split('-')[1]),
-        day: parseInt(this.patient.date_of_birth.split('-')[2])
+        year: parseInt(this.patientDisplay.date_of_birth.split('-')[0]),
+        month: parseInt(this.patientDisplay.date_of_birth.split('-')[1]),
+        day: parseInt(this.patientDisplay.date_of_birth.split('-')[2])
       };
-      console.log("DOB: ", this.dob);
-      this.patient.phone_number = this.normalizePhoneNumber(this.patient.phone_number);
-      console.log("Patient temp: ", this.patient);
+      console.log("image: ", this.patientDisplay);
+      if(this.patientDisplay.profile_image) {
+        this.imageURL = this.patientDisplay.profile_image;
+      }
+      this.patientDisplay.phone_number = this.normalizePhoneNumber(this.patientDisplay.phone_number);
+      console.log("Patient temp: ", this.patientDisplay);
       sessionStorage.removeItem('patient');
-      sessionStorage.setItem('patient', JSON.stringify(this.patient))
+      sessionStorage.setItem('patient', JSON.stringify(this.patientDisplay))
     },
       error => {
         ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test + "/patient/" + id, error);

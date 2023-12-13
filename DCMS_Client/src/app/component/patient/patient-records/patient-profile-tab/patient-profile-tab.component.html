@@ -37,9 +37,10 @@
           <div class="card mb-4 mb-xl-0">
             <div class="card-body text-center">
               <img class="img-account-profile mb-2"
-                src="https://static.vecteezy.com/system/resources/thumbnails/004/141/669/small/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg"
+                [src]="imageURL"
                 alt="">
-              <button class="btn btn-primary" type="button">Chọn ảnh</button>
+                <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput style="display: none;">
+              <button class="btn btn-primary" type="button" (click)="fileInput.click()" [hidden]="!isEditing">Chọn ảnh</button>
             </div>
           </div>
         </div>
@@ -51,7 +52,7 @@
               <div class="mb-3">
                 <div class="form-group mb-3">
                   <label class="small mb-1" for="maHoSo">Mã hồ sơ</label>
-                  <input class="form-control" disabled [(ngModel)]="patient.patient_id" id="maHoSo" type="text"
+                  <input class="form-control" disabled [(ngModel)]="patientDisplay.patient_id" id="maHoSo" type="text"
                     placeholder="Mã hồ sơ">
                 </div>
               </div>
@@ -60,7 +61,7 @@
                 <div class="col-md-6">
                   <div class="form-group mb-3">
                     <label class="small mb-1" for="hoVaTen">Họ và tên</label>
-                    <input class="form-control" id="hoVaTen" [(ngModel)]="patient.patient_name" type="text"
+                    <input class="form-control" id="hoVaTen" [(ngModel)]="patientDisplay.patient_name" type="text"
                       [disabled]="!isEditing" placeholder="Họ và tên">
                     <div *ngIf="isSubmitted" class="alert-danger-custom">
                       <p>
@@ -72,7 +73,7 @@
                 <div class="col-md-6">
                   <div class="form-group mb-3">
                     <label class="small mb-1" for="inputLocation">Địa chỉ</label>
-                    <input class="form-control" [(ngModel)]="patient.address" id="inputLocation" [disabled]="!isEditing"
+                    <input class="form-control" [(ngModel)]="patientDisplay.address" id="inputLocation" [disabled]="!isEditing"
                       type="text" placeholder="Địa chỉ">
                     <div *ngIf="isSubmitted" class="alert-danger-custom">
                       <p>
@@ -90,9 +91,11 @@
                       type="date"> -->
                       <div class="input-group">
                         <input class="form-control" placeholder="dd/mm/yyyy"
-                        name="dp" ngbDatepicker [(ngModel)]="dob"
+                        name="dp" ngbDatepicker [(ngModel)]="dob"  [disabled]="!isEditing"
                           #d="ngbDatepicker" (ngModelChange)="onDOBChange()"/>
-                        <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
+                        <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()"
+                        [hidden]="!isEditing"
+                        type="button"></button>
                       </div>
                     <div *ngIf="isSubmitted" class="alert-danger-custom">
                       <p>
@@ -107,8 +110,8 @@
                       <label class="small mb-1">Giới tính</label>
                     </div>
                     <div class="border form-control">
-                      <input type="radio" [(ngModel)]="patient.gender" [value]="1" [disabled]="!isEditing"> Nam
-                      <input type="radio" [(ngModel)]="patient.gender" [value]="0" [disabled]="!isEditing"> Nữ
+                      <input type="radio" [(ngModel)]="patientDisplay.gender" [value]="1" [disabled]="!isEditing"> Nam
+                      <input type="radio" [(ngModel)]="patientDisplay.gender" [value]="0" [disabled]="!isEditing"> Nữ
                     </div>
                     <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
                       <p>
@@ -126,7 +129,7 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text custom-span" id="basic-addon1">(+84)</span>
                       </div>
-                      <input type="text" class="form-control" [disabled]="!isEditing" [(ngModel)]="patient.phone_number"
+                      <input type="text" class="form-control" [disabled]="!isEditing" [(ngModel)]="patientDisplay.phone_number"
                         id="inputPhone" name="inputPhone" aria-label="phoneNumber" aria-describedby="basic-addon1">
                     </div>
                     <!--                    <input class="form-control" [(ngModel)]="patient.phone_number" id="inputPhone"-->
@@ -142,7 +145,7 @@
                 <div class="col-md-6">
                   <div class="form-group mb-3">
                     <label class="small mb-1" for="email">Email</label>
-                    <input class="form-control" [(ngModel)]="patient.email" id="email" type="text"
+                    <input class="form-control" [(ngModel)]="patientDisplay.email" id="email" type="text"
                       [disabled]="!isEditing" name="birthday" placeholder="Email">
                     <div *ngIf="isSubmitted" class="alert-danger-custom">
                       <p>
@@ -153,12 +156,12 @@
                 </div>
                 <div class="mb-3">
                   <label class="small mb-1" for="tieuSuBenh">Tiểu sử bệnh</label>
-                  <input class="form-control" [(ngModel)]="patient.dental_medical_history" [disabled]="!isEditing"
+                  <input class="form-control" [(ngModel)]="patientDisplay.dental_medical_history" [disabled]="!isEditing"
                     id="tieuSuBenh" type="text">
                 </div>
                 <div class="mb-3">
                   <label class="small mb-1" for="note">Ghi chú</label>
-                  <input class="form-control" [(ngModel)]="patient.description" [disabled]="!isEditing" id="note"
+                  <input class="form-control" [(ngModel)]="patientDisplay.description" [disabled]="!isEditing" id="note"
                     type="text">
                 </div>
               </div>
