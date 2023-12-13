@@ -68,6 +68,11 @@ export class PopupAddPatientComponent implements OnInit {
   }
   ngOnInit(): void {
   }
+  // Thêm hàm này vào component để đóng tooltip khi nhấp vào nút đóng (X)
+closeTooltip() {
+  this.isSubmitted = false;
+}
+
   addPatient() {
     var regex = /[0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\\-/]/;
     this.resetValidate();
