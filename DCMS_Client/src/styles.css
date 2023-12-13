@@ -50,23 +50,16 @@
 }
 
 /* Màn hình nhỏ hơn 13 inch */
-@media (max-width: 1366px) {
-  :root {
-    --size: 15px;
-    /* Giảm kích thước cho màn hình nhỏ */
-    --sidebar-width: 60px;
-    --sidebar-width-active: 200px;
-    --sidebar-inset: 20px 0 20px 20px;
-    --sidebar-toggle-button-padding: 0 23px !important;
-    --slidebar-sep-navigation-ul-li: 45px;
+@media screen and (max-width: 1366px) {
+
+  .table-container table {
+    width: 100%;
+    table-layout: fixed;
   }
 
-  .mat-typography {
-    font-size: 12px !important;
-  }
-
-  .sep-recent-orders {
-    font-size: 12px !important;
+  .table-container th, .table-container td {
+    width: 100px; /* Set a fixed width for each column */
+    overflow: hidden; /* Hide content that overflows the fixed width */
   }
 }
 

@@ -14,33 +14,33 @@
     <table>
       <thead class="sticky-thead">
         <tr>
-          <th style="width: 100px;">Mã bệnh nhân</th>
-          <th style="width: 300px;">Tên bệnh nhân</th>
-          <th style="width: 150px;">SĐT</th>
-          <th style="width: 250px;">Địa chỉ</th>
-          <th style="width: 250px;">Ngày tạo hồ sơ</th>
-          <th style="width: 100px;">Thao tác</th>
+          <th>Mã bệnh nhân</th>
+          <th>Tên bệnh nhân</th>
+          <th>SĐT</th>
+          <th>Địa chỉ</th>
+          <th>Ngày tạo hồ sơ</th>
+          <th>Thao tác</th>
         </tr>
       </thead>
       <tbody>
           <tr class="hover-patient" *ngFor="let p of searchPatientsList"
             [ngClass]="{'new-record': p.isNew,'pulse': p.isPulsing}">
-            <td  style="width: 100px;">
+            <td>
               {{p.patient_id}}
             </td>
             <td (click)="detail(p.patient_id)" style="width: 300px; justify-content: center;">
               <a style="cursor: pointer; text-decoration: underline;">{{p.patient_name}}</a>
             </td>
-            <td style="width: 150px;">
+            <td>
               {{p.phone_number}}
             </td>
-            <td style="width: 250px;">
+            <td>
               {{p.address}}
             </td>
-            <td style="width: 250px;">
+            <td>
               {{p.created_date | date:"dd/MM/yyyy"}}
             </td>
-            <td style="width: 100px;">
+            <td>
               <button class="btn btn-primary" title="Sửa bệnh nhân" (click)="detail(p.patient_id)"
                 style="padding: 2px 5px; margin-right: 3px">
                 <i class="bi bi-pencil-square"></i>

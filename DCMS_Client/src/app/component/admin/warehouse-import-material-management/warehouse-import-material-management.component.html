@@ -27,7 +27,7 @@
     </div>
 
     <div class="col-md-2">
-      <select class="form-select" style="max-width: 60%;" aria-label="Default select example" (change)="filterByStaff()"
+      <select class="form-select" aria-label="Default select example" (change)="filterByStaff()"
         [(ngModel)]="staffName">
         <option value="" selected>Chọn người lập</option>
         <option *ngFor="let s of listStaffDisplay" value="{{s.staffName}}">{{s.staffName}}</option>

@@ -14,7 +14,7 @@
     </div>
     <div class="col-6">
       <select class="form-select input-custom float-end" aria-label="Default select example" [(ngModel)]="procedure"
-        (change)="filterProcedure()" style="width: 25%;">
+        (change)="filterProcedure()" style="width: 30%;">
         <option selected value="0">Loại điều trị</option>
         <option *ngFor="let a of listGroupService" value={{a.medical_procedure_group_id}}>{{a.name}}</option>
       </select>
@@ -24,16 +24,16 @@
     <table id="myTable" *ngIf="filteredWaitingRoomData.length > 0,else noDataMessage">
       <thead class="sticky-thead">
         <tr>
-          <th style="width:100px">STT</th>
-          <th style="width:100px">Thời gian</th>
-          <th style="width:100px">Mã bệnh nhân</th>
-          <th style="width:250px">Tên bệnh nhân</th>
-          <th style="width:250px">Bệnh nhân mới</th>
-          <th style="width:300px">Lý do khám</th>
-          <th style="width:200px">Loại điều trị</th>
-          <th style="width:200px">Trạng thái</th>
+          <th style="width: 50px">STT</th>
+          <th>Thời gian</th>
+          <th>Mã bệnh nhân</th>
+          <th>Tên bệnh nhân</th>
+          <th>Bệnh nhân mới</th>
+          <th>Lý do khám</th>
+          <th>Loại điều trị</th>
+          <th>Trạng thái</th>
           <ng-container *ngIf="roleId.includes('3') || roleId.includes('1')">
-            <th style="width:200px">Thanh toán</th>
+            <th>Thanh toán</th>
           </ng-container>
         </tr>
       </thead>
@@ -46,8 +46,8 @@
             <td>{{wtr.date}}</td>
             <td>{{ wtr.patient_id }}</td>
             <td style="text-decoration: underline;">{{ wtr.patient_name }}</td>
-            <td>{{wtr.patient_created_date == 1 ? "Bệnh nhân mới" : wtr.patient_created_date == 2 ?
-              "Tái khám" : "Dữ liệu trước"}}</td>
+            <td>{{wtr.patient_created_date == 1 ? "Mới" : wtr.patient_created_date == 2 ?
+              "Cũ" : "Dữ liệu trước"}}</td>
             <td class="truncate" data-bs-toggle="tooltip" title="{{wtr.reason}}">{{wtr.reason }}
             </td>
             <td >{{ wtr.produce_name }}</td>

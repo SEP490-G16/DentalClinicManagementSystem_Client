@@ -119,3 +119,13 @@ a {
   background-color: rgba(2, 117, 216, 0.5);
 }
 
+@media screen and (max-width: 1366px) {
+  .button-add {
+    font-size: 11px;
+  }
+
+  .form-select {
+    width: 100%;
+  }
+
+}
