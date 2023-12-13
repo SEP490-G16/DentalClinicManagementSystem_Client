@@ -108,6 +108,10 @@ export class PatientProfileTabComponent implements OnInit {
         this.validatePatient.dob = 'Vui lòng nhập ngày sinh!';
         this.isSubmitted = true;
       }
+      if (!this.isValidEmail(this.patient.email)){
+        this.validatePatient.email = "Email không hợp lệ!";
+        this.isSubmitted = true;
+      }
       if (this.patient.phone_number === '') {
         this.validatePatient.phone = "Vui lòng nhập số điện thoại!";
         this.isSubmitted = true;
@@ -120,6 +124,7 @@ export class PatientProfileTabComponent implements OnInit {
         this.isSubmitted = true;
       }
       if (this.isSubmitted) {
+        this.clickCount--;
         return;
       }
       let phone = ''

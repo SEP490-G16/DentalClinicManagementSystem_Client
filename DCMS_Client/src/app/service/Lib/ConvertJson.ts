@@ -12,10 +12,12 @@ export class ConvertJson{
   }
 
    static decodeEscapedUnicode(input: string): string {
-    const regex = /\\u([\d\w]{4})/gi;
-    return input.replace(regex, (match, grp) => {
-      return String.fromCharCode(parseInt(grp, 16));
-    });
+    // const regex = /\\u([\d\w]{4})/gi;
+    // return input.replace(regex, (match, grp) => {
+    //   return String.fromCharCode(parseInt(grp, 16));
+    // });
+
+    return input.replace(/\\u([\dA-F]{4})/gi, (match, grp) => String.fromCharCode(parseInt(grp, 16)));
   }
    static processApiResponse(textData: string): any {
     const detailsPattern = /"details": (\[\{[^\[]+?\}\])/g;

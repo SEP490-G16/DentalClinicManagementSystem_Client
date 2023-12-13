@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as moment from "moment-timezone";
 import { MaterialUsageReportService } from "../../../service/MaterialUsageService/material-usage-report.service";
 import { ResponseHandler } from "../../utils/libs/ResponseHandler";
+import {NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
 @Component({
   selector: 'app-report-high-income-and-expenditure',
   templateUrl: './report-high-income-and-expenditure.component.html',
@@ -11,14 +12,28 @@ export class ReportHighIncomeAndExpenditureComponent implements OnInit {
 
   getReports: any[] = [];
   status: string = "0";
-  constructor(private materialUsageService: MaterialUsageReportService) { }
-  startDate: string = '';
-  endDate: string = '';
+  constructor(private materialUsageService: MaterialUsageReportService) {
+    const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
+    this.startDate = {
+      year: parseInt(currentDateGMT7.split('-')[0]),
+      month: parseInt(currentDateGMT7.split('-')[1]),
+      day: parseInt(currentDateGMT7.split('-')[2])
+    };
+    this.endDate = {
+      year: parseInt(currentDateGMT7.split('-')[0]),
+      month: parseInt(currentDateGMT7.split('-')[1]),
+      day: parseInt(currentDateGMT7.split('-')[2])
+    };
+  }
+  // startDate: string = '';
+  // endDate: string = '';
+  startDate!: NgbDateStruct;
+  endDate!: NgbDateStruct
   searchName: string = '';
   ngOnInit(): void {
-    var today = new Date();
-    this.startDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-    this.endDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
+    // var today = new Date();
+    // this.startDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    // this.endDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
     this.getReportMaterialUsage();
   }
   dateToTimestamp(dateStr: string): number {
@@ -60,8 +75,17 @@ export class ReportHighIncomeAndExpenditureComponent implements OnInit {
       totalPay: 0,
       totalLeft: 0
     };
-    const startTime = this.dateToTimestamp(this.startDate + '00:00:00');
-    const endTime = this.dateToTimestamp(this.endDate + '23:59:59');
+    const startDateYear = this.startDate.year;
+    const startDateMonth = this.startDate.month.toString().padStart(2, '0');
+    const startDateDay = this.startDate.day.toString().padStart(2, '0');
+    const startDate = `${startDateYear}-${startDateMonth}-${startDateDay}`;
+    const startTime = this.dateToTimestamp(startDate + '00:00:00');
+
+    const endDateYear = this.endDate.year;
+    const endDateMonth = this.endDate.month.toString().padStart(2, '0');
+    const endDateDay = this.endDate.day.toString().padStart(2, '0');
+    const endDate = `${endDateYear}-${endDateMonth}-${endDateDay}`;
+    const endTime = this.dateToTimestamp(endDate + '23:59:59');
     this.stastisticRevenuePatient.splice(0, this.stastisticRevenuePatient.length);
     this.materialUsageService.getMaterialUsages(startTime, endTime).subscribe(data => {
       this.getReports = data.data;
@@ -77,7 +101,7 @@ export class ReportHighIncomeAndExpenditureComponent implements OnInit {
               this.stastisticTotal.totalPay += parseInt(item.mu_total_paid);
               this.stastisticTotal.totalLeft += parseInt(item.mu_price) * parseInt(item.mu_quantity) - parseInt(item.mu_total_paid);
             }
-          }   
+          }
         })
         if (!this.uniqueList.includes(currentObject.p_data.p_patient_id)) {
           this.uniqueList.push(currentObject.p_data.p_patient_id);
@@ -149,13 +173,14 @@ export class ReportHighIncomeAndExpenditureComponent implements OnInit {
     return value.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
   }
   onValueChangeStartDate(event: any) {
+
     // alert(this.startDate);
     // alert(this.endDate);
     var today = new Date();
     if (event != null) {
       this.startDate = event;
     } else {
-      this.startDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+      //this.startDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     }
     this.stastisticRevenuePatient.splice(0, this.stastisticRevenuePatient.length);
     this.getReportMaterialUsage();
@@ -166,7 +191,7 @@ export class ReportHighIncomeAndExpenditureComponent implements OnInit {
     if (event != null) {
       this.endDate = event;
     } else {
-      this.endDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+      //this.endDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     }
     this.stastisticRevenuePatient.splice(0, this.stastisticRevenuePatient.length);
     this.getReportMaterialUsage();

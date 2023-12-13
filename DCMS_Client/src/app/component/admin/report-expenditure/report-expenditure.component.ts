@@ -5,7 +5,7 @@ import { ConvertJson } from 'src/app/service/Lib/ConvertJson';
 import { error } from '@angular/compiler-cli/src/transformers/util';
 import * as moment from 'moment-timezone';
 import { IsThisSecondPipeModule } from 'ngx-date-fns';
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {NgbDateStruct, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {
   ConfirmDeleteModalComponent
 } from "../../utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component";
@@ -21,14 +21,29 @@ import { Router } from '@angular/router';
 export class ReportExpenditureComponent implements OnInit {
 
   billEdit:any;
-  fromDate: string = '';
-  toDate: string = '';
+  // fromDate: string = '';
+  //toDate: string = '';
+  fromDate!: NgbDateStruct;
+  toDate!: NgbDateStruct
   endDate: any;
+  startDate:any;
   constructor(private paidMaterialUsageService: PaidMaterialUsageService,
               private modalService: NgbModal,
-              private datePipe: DatePipe, 
+              private datePipe: DatePipe,
               private router: Router,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService) {
+    //const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
+    // this.fromDate = {
+    //   year: parseInt(currentDateGMT7.split('-')[0]),
+    //   month: parseInt(currentDateGMT7.split('-')[1]),
+    //   day: parseInt(currentDateGMT7.split('-')[2])
+    // };
+    // this.toDate = {
+    //   year: parseInt(currentDateGMT7.split('-')[0]),
+    //   month: parseInt(currentDateGMT7.split('-')[1]),
+    //   day: parseInt(currentDateGMT7.split('-')[2])
+    // };
+  }
 
   ngOnInit(): void {
     this.getListExpense();
@@ -80,7 +95,6 @@ export class ReportExpenditureComponent implements OnInit {
 
             }
             this.listFilterDate.push(expenseObject);
-            
           })
         })
         console.log(this.listFilterDate);
@@ -148,16 +162,33 @@ export class ReportExpenditureComponent implements OnInit {
     });
   }
 
-  onChangeFromDate(fromDate: any) {
-    this.fromDate = fromDate;
-    const noewFromDate = fromDate
-    this.filterByDate(noewFromDate, this.endDate);
+  // onChangeFromDate(fromDate: any) {
+  //   this.fromDate = fromDate;
+  //   const noewFromDate = fromDate
+  //   this.filterByDate(noewFromDate, this.endDate);
+  // }
+  onChangeFromDate(event: any) {
+    this.fromDate = event;
+    const fromDateYear = this.fromDate.year;
+    const fromDateMonth = this.fromDate.month.toString().padStart(2, '0');
+    const fromDateDay = this.fromDate.day.toString().padStart(2, '0');
+    const fromDate = `${fromDateYear}-${fromDateMonth}-${fromDateDay}`;
+    this.startDate = fromDate
+    this.filterByDate(this.startDate, this.endDate);
   }
-
-  onChangeToDate(toDate:any) {
+  onChangeToDate(event: any) {
+    this.toDate = event;
+    const toDateYear = this.toDate.year;
+    const toDateMonth = this.toDate.month.toString().padStart(2, '0');
+    const toDateDay = this.toDate.day.toString().padStart(2, '0');
+    const toDate = `${toDateYear}-${toDateMonth}-${toDateDay}`;
     this.endDate = toDate;
-    this.filterByDate(this.fromDate, this.endDate);
+    this.filterByDate(this.startDate, this.endDate);
   }
+  // onChangeToDate(toDate:any) {
+  //   this.endDate = toDate;
+  //   this.filterByDate(this.fromDate, this.endDate);
+  // }
 
   filterByDate(fromDate: string, toDate:string) {
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');

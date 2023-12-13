@@ -105,3 +105,6 @@ b {
 .modal-header button{
   color: #FFFFFF;
 }
+.modal-body div p{
+  color: red;
+}

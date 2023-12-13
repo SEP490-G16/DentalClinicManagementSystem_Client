@@ -8,6 +8,8 @@ import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 interface TimekeepingDetail {
   clock_in?: string;
   clock_out?: string;
+  register_clock_in?: number;
+  register_clock_out?: number;
   staff_name?: string;
   role?:string;
 }
@@ -34,6 +36,7 @@ export class FollowingTimekeepingComponent implements OnInit {
 
 	fromDateNgB!: NgbDate | null;
 	toDateNgB!: NgbDate | null;
+  totalWorkingDay: number = 0;
 
   constructor(private timekeepingService: TimeKeepingService, private router: Router,) { }
 
@@ -49,6 +52,8 @@ export class FollowingTimekeepingComponent implements OnInit {
     const tDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + daysInMonth;
     this.setDefaultMonth();
     this.getDateinFromDatetoToDate(frDate, tDate);
+
+    
 
     let ro = sessionStorage.getItem('role');
     if (ro != null) {
@@ -182,10 +187,20 @@ export class FollowingTimekeepingComponent implements OnInit {
                 clock_in: currentObject.details.clock_in,
                 clock_out: currentObject.details.clock_out,
               }
-              this.staffTimeKeeping.sub_id = currentObject.subId,
-                this.staffTimeKeeping.staff_name = currentObject.details.staff_name,
-                this.staffTimeKeeping.role_name = currentObject.details.role == "1" ? "Admin" : currentObject.details.role == "2" ? 'Bác sĩ' : currentObject.details.role == "3" ? 'Lễ tân' : currentObject.details.role == "4" ? 'Y tá': 'Y tá trưởng',
-                this.staffTimeKeeping.timeKeeping.push(newtimeKeepingObject);
+              this.staffTimeKeeping.sub_id = currentObject.subId;
+              this.staffTimeKeeping.staff_name = currentObject.details.staff_name;
+              this.staffTimeKeeping.role_name = currentObject.details.role == "1" ? "Admin" : currentObject.details.role == "2" ? 'Bác sĩ' : currentObject.details.role == "3" ? 'Lễ tân' : currentObject.details.role == "4" ? 'Y tá': 'Y tá trưởng';
+              if (currentObject.details.register_clock_in == 1) {
+                if (currentObject.details.clock_in != '' && currentObject.details.clock_out != '') {
+                  this.staffTimeKeeping.total_working++;
+                } 
+              }
+              if (currentObject.details.register_clock_out == 2) {
+                if (currentObject.details.clock_in != '' && currentObject.details.clock_out != '') {
+                  this.staffTimeKeeping.total_working++;
+                }
+              }
+              this.staffTimeKeeping.timeKeeping.push(newtimeKeepingObject);
               this.listStaffTimeKeeping.push(this.staffTimeKeeping);
               newtimeKeepingObject = {
                 epoch: '',
@@ -196,6 +211,7 @@ export class FollowingTimekeepingComponent implements OnInit {
                 sub_id: '',
                 staff_name: '',
                 role_name: '',
+                total_working: 0,
                 timeKeeping: [] as timeKeepingObject[]
               }
             } else {
@@ -230,6 +246,7 @@ export class FollowingTimekeepingComponent implements OnInit {
     sub_id: '',
     staff_name: '',
     role_name: '',
+    total_working: 0,
     timeKeeping: [] as timeKeepingObject[]
   }
 
@@ -248,6 +265,8 @@ export class FollowingTimekeepingComponent implements OnInit {
           const details: TimekeepingDetail = {
             clock_in: item[key]?.M?.clock_in?.N,
             clock_out: item[key]?.M?.clock_out?.N,
+            register_clock_in: item[key]?.M?.register_clock_in?.N, 
+            register_clock_out: item[key]?.M?.register_clock_out?.N,
             staff_name: item[key]?.M?.staff_name?.S,
             role: item[key]?.M?.role?.S,
           };
@@ -290,25 +309,16 @@ export class FollowingTimekeepingComponent implements OnInit {
       parseInt(endDateParts[1]) - 1,
       parseInt(endDateParts[2])
     );
-   
-    var count = 0;
     let currentDate = startDate;
     while (currentDate <= endDate) {
-      // if (count == 0 && this.first == 1) {
-      //   this.listDayInMonth.push("1" + "/" + (current.getMonth() + 1) + "/" + current.getFullYear())
-      // }
+      this.totalWorkingDay++;
       const day = currentDate.getDate();
       const month = currentDate.getMonth() + 1;
       const year = currentDate.getFullYear();
       const formattedDate = `${day < 10 ? '0' + day : day}/${month < 10 ? '0' + month : month}/${year}`;
       this.listDayInMonth.push(formattedDate);
       currentDate.setDate(currentDate.getDate() + 1);
-      count++;
     }
-    // while (currentDate.isSameOrBefore(endDate)) {
-    //   this.listDayInMonth.push(currentDate.format('DD/MM/YYYY'));
-    //   currentDate.add(1, 'days');
-    // }
   }
 
   isSameDay(epoch: number, compareDate: Date): boolean {
@@ -321,6 +331,7 @@ export class FollowingTimekeepingComponent implements OnInit {
   }
   currentMonth: number = new Date().getMonth();
   currentYear: number = new Date().getFullYear();
+
   isClockInDay(day: string, epoch: string): boolean {
     const date = day.split('/');
     const epochInt = parseInt(epoch, 10);
@@ -336,48 +347,30 @@ export class FollowingTimekeepingComponent implements OnInit {
 
   navigateHref(href: string) {
     this.router.navigate(['' + href]);
-    // const userGroupsString = sessionStorage.getItem('userGroups');
-
-    // if (userGroupsString) {
-    //   const userGroups = JSON.parse(userGroupsString) as string[];
-
-    //   if (userGroups.includes('dev-dcms-doctor')) {
-    //     this.router.navigate(['nhanvien' + href]);
-    //   } else if (userGroups.includes('dev-dcms-nurse')) {
-    //     this.router.navigate(['nhanvien' + href]);
-    //   } else if (userGroups.includes('dev-dcms-receptionist')) {
-    //     this.router.navigate(['nhanvien' + href]);
-    //   } else if (userGroups.includes('dev-dcms-admin')) {
-    //     this.router.navigate(['admin' + href]);
-    //   }
-    // } else {
-    //   console.error('Không có thông tin về nhóm người dùng.');
-    //   this.router.navigate(['/default-route']);
-    // }
   }
-  calculateTotalHours() {
-    // Khởi tạo/reset đối tượng chứa tổng giờ làm việc
-    this.totalHoursByEmployee = {};
+  // calculateTotalHours() {
+  //   // Khởi tạo/reset đối tượng chứa tổng giờ làm việc
+  //   this.totalHoursByEmployee = {};
 
-    // Duyệt qua từng bản ghi chấm công
-    this.followingTimekeepings.forEach(record => {
-      record.records.forEach((detail: any) => {
-        const staffName = detail.details.staff_name;
-        const clockIn = this.timeToTimestamp(detail.details.clock_in);
-        const clockOut = this.timeToTimestamp(detail.details.clock_out);
+  //   // Duyệt qua từng bản ghi chấm công
+  //   this.followingTimekeepings.forEach(record => {
+  //     record.records.forEach((detail: any) => {
+  //       const staffName = detail.details.staff_name;
+  //       const clockIn = this.timeToTimestamp(detail.details.clock_in);
+  //       const clockOut = this.timeToTimestamp(detail.details.clock_out);
 
-        // Tính toán tổng giờ làm việc của nhân viên
-        const hoursWorked = (clockOut - clockIn) / (1000 * 60 * 60); // Chuyển đổi từ milliseconds sang giờ
+  //       // Tính toán tổng giờ làm việc của nhân viên
+  //       const hoursWorked = (clockOut - clockIn) / (1000 * 60 * 60); // Chuyển đổi từ milliseconds sang giờ
 
-        // Cập nhật tổng giờ làm việc trong đối tượng
-        if (this.totalHoursByEmployee[staffName]) {
-          this.totalHoursByEmployee[staffName] += hoursWorked;
-        } else {
-          this.totalHoursByEmployee[staffName] = hoursWorked;
-        }
-      });
-    });
-  }
+  //       // Cập nhật tổng giờ làm việc trong đối tượng
+  //       if (this.totalHoursByEmployee[staffName]) {
+  //         this.totalHoursByEmployee[staffName] += hoursWorked;
+  //       } else {
+  //         this.totalHoursByEmployee[staffName] = hoursWorked;
+  //       }
+  //     });
+  //   });
+  // }
 
   timeToTimestamp(timeStr: string): number {
     const time = moment(timeStr, "HH:mm:ss");
@@ -392,14 +385,9 @@ export class FollowingTimekeepingComponent implements OnInit {
   }
 
   convertToTimestamp(time: string): number {
-    // Giả định rằng time là một chuỗi định dạng 'HH:mm:ss' hoặc một timestamp
-    // Thay đổi logic nếu cần để phù hợp với định dạng dữ liệu của bạn
     if (typeof time === 'string') {
-      // Chuyển đổi chuỗi giờ thành timestamp
-      // Lưu ý: bạn cần cung cấp ngày cụ thể nếu thời gian không bao gồm ngày
       return new Date('1970-01-01T' + time + 'Z').getTime();
     } else {
-      // Nếu thời gian đã là một timestamp, chỉ cần trả về nó
       return time;
     }
   }
