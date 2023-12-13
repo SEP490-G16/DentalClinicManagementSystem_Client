@@ -4,7 +4,7 @@ import { count } from "rxjs";
 import * as moment from "moment-timezone";
 import { RequestBodyTimekeeping } from "../../../model/ITimekeeping";
 import { Router } from "@angular/router";
-import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCalendar, NgbDate, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 interface TimekeepingDetail {
   clock_in?: string;
   clock_out?: string;
@@ -34,11 +34,15 @@ export class FollowingTimekeepingComponent implements OnInit {
 
   hoveredDate: NgbDate | null = null;
 
-	fromDateNgB!: NgbDate | null;
-	toDateNgB!: NgbDate | null;
+  fromDate2!: NgbDate | null;
+  toDate2!: NgbDate | null;
   totalWorkingDay: number = 0;
 
-  constructor(private timekeepingService: TimeKeepingService, private router: Router,) { }
+  fromDate:string = "";
+  toDate: string = "";
+  constructor(private timekeepingService: TimeKeepingService,
+    private calendar: NgbCalendar, public formatter: NgbDateParserFormatter,
+    private router: Router,) { }
 
 
   roleId: string[] = [];
@@ -53,7 +57,7 @@ export class FollowingTimekeepingComponent implements OnInit {
     this.setDefaultMonth();
     this.getDateinFromDatetoToDate(frDate, tDate);
 
-    
+
 
     let ro = sessionStorage.getItem('role');
     if (ro != null) {
@@ -68,8 +72,6 @@ export class FollowingTimekeepingComponent implements OnInit {
   selectedMonth: string = '';
   startTime: string = '';
   endTime: string = '';
-  fromDate: string = '';
-  toDate: string = '';
 
   fromDateFilter: string = '';
   toDateFilter: string = '';
@@ -94,6 +96,56 @@ export class FollowingTimekeepingComponent implements OnInit {
   }
   countChange2() {
     this.count = 0;
+  }
+
+  onDateSelection(date: NgbDate) {
+    if (!this.fromDate2 && !this.toDate2) {
+      this.fromDate2 = date;
+    } else if (this.fromDate2 && !this.toDate2 && date && date.after(this.fromDate2)) {
+      this.toDate2 = date;
+    } else {
+      this.toDate2 = null;
+      this.fromDate2 = date;
+    }
+    this.updateStartAndEndDates();
+  }
+
+  updateStartAndEndDates() {
+    if (this.fromDate2) {
+      this.fromDateFilter = `${this.fromDate2.year}-${this.pad(this.fromDate2.month)}-${this.pad(this.fromDate2.day)}`;
+    }
+    if (this.toDate2) {
+      this.toDateFilter = `${this.toDate2.year}-${this.pad(this.toDate2.month)}-${this.pad(this.toDate2.day)}`;
+    }
+    console.log("fromDateFilter and toDateFilter: ", this.fromDateFilter, this.toDateFilter);
+  }
+
+  pad(number: number) {
+    return (number < 10) ? `0${number}` : number;
+  }
+
+  isHovered(date: NgbDate) {
+    return (
+      this.fromDate2 && !this.toDate2 && this.hoveredDate && date.after(this.fromDate2) && date.before(this.hoveredDate)
+    );
+  }
+
+  isInside(date: NgbDate) {
+    return this.toDate2 && date.after(this.fromDate2) && date.before(this.toDate2);
+  }
+
+  isRange(date: NgbDate) {
+    return (
+      date.equals(this.fromDate2) ||
+      (this.toDate2 && date.equals(this.toDate2)) ||
+      this.isInside(date) ||
+      this.isHovered(date)
+    );
+  }
+
+  validateInput(currentValue: NgbDate | null, input: string): NgbDate | null {
+    const parsed = this.formatter.parse(input);
+    return parsed && this.calendar.isValid(NgbDate.from(parsed)) ? NgbDate.from(parsed) : currentValue;
   }
 
   dateToTimestamp(dateStr: string): number {
@@ -193,7 +245,7 @@ export class FollowingTimekeepingComponent implements OnInit {
               if (currentObject.details.register_clock_in == 1) {
                 if (currentObject.details.clock_in != '' && currentObject.details.clock_out != '') {
                   this.staffTimeKeeping.total_working++;
-                } 
+                }
               }
               if (currentObject.details.register_clock_out == 2) {
                 if (currentObject.details.clock_in != '' && currentObject.details.clock_out != '') {
@@ -265,7 +317,7 @@ export class FollowingTimekeepingComponent implements OnInit {
           const details: TimekeepingDetail = {
             clock_in: item[key]?.M?.clock_in?.N,
             clock_out: item[key]?.M?.clock_out?.N,
-            register_clock_in: item[key]?.M?.register_clock_in?.N, 
+            register_clock_in: item[key]?.M?.register_clock_in?.N,
             register_clock_out: item[key]?.M?.register_clock_out?.N,
             staff_name: item[key]?.M?.staff_name?.S,
             role: item[key]?.M?.role?.S,
@@ -281,7 +333,9 @@ export class FollowingTimekeepingComponent implements OnInit {
   }
   daysInMonth: number[] = [];
   totalDate: string = '';
-  
+
+
+
   changeFromDate(fromDate: any) {
     this.fromDateFilter = fromDate;
   }
