@@ -103,35 +103,13 @@ export class DataService {
         }
     }
 
-    UpdatePatientExaminated(param:any, total:any): void {
+    UpdatePatientExaminated(param: any, total: any): void {
         const currentData = this.ANALYSES.getValue();
-        if (param == 0) {
-            if (currentData.total_patient_examinated > 0) {
-                const newData = {
-                    ...currentData,
-                    total_patient_examinated: currentData.total_patient_examinated - 1
-                };
-                this.updateAnalysesData(newData);
-            }
-        } else if (param == 1) {
-            const currentData = this.ANALYSES.getValue();
-            //var check;
-            // const checkTotal = localStorage.getItem('patient_examinated');
-            // if (checkTotal != null) {
-            //     check = JSON.parse(checkTotal);
-            // }
-            const newData = {
-                ...currentData,
-                total_patient_examinated: currentData.total_patient_examinated + 1
-            };
-            this.updateAnalysesData(newData);
-        } else {
-            const newData = {
-                ...currentData,
-                total_patient_examinated: total
-            };
-            this.updateAnalysesData(newData);
-        }
+        const newData = {
+            ...currentData,
+            total_patient_examinated: param
+        };
+        this.updateAnalysesData(newData);
     }
 
     UpdatePatientTotal(param:any, total:any): void {

@@ -9,7 +9,7 @@ import * as moment from "moment-timezone";
 import { TimestampFormat } from 'src/app/component/utils/libs/timestampFormat';
 import { NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { FormatNgbDate } from 'src/app/component/utils/libs/formatNgbDateToString';
-import * as imageSize from 'image-size';
+//import * as imageSize from 'image-size';
 @Component({
   selector: 'app-patient-profile-tab',
   templateUrl: './patient-profile-tab.component.html',
@@ -277,8 +277,11 @@ export class PatientProfileTabComponent implements OnInit {
   }
 
   private isValidEmail(email: string): boolean {
-    // Thực hiện kiểm tra địa chỉ email ở đây, có thể sử dụng biểu thức chính quy
-    return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/.test(email);
+    if (email == "") {
+      return true;
+    } else {
+      return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/.test(email);
+    }
   }
 
   normalizePhoneNumber(phoneNumber: string): string {

@@ -157,22 +157,24 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           this.loading = false;
           this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
           this.showSuccessToast('Xóa hàng chờ thành công');
+          this.sendMessageSocket.sendMessageSocket("CheckRealTimeWaitingRoom@@@", `${wtr.patient_id}`, `${Number('4')}`);
           this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "minus", "wtr1");
           this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "minus", "wtr");
           this.getWaitingRoomData();
 
-          this.messageContent = `CheckRealTimeWaitingRoom@@@,${wtr.patient_id},${Number('4')}`;
-          this.messageBody = {
-            action: '',
-            message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
-          }
-          if (this.messageContent.trim() !== '' && sessionStorage.getItem('sub-id') != null && sessionStorage.getItem('username') != null) {
-            this.messageBody = {
-              action: "sendMessage",
-              message: `{"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}`
-            };
-            this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
-          }
+          //this.messageContent = `CheckRealTimeWaitingRoom@@@,${wtr.patient_id},${Number('4')}`;
+          
+          // this.messageBody = {
+          //   action: '',
+          //   message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
+          // }
+          // if (this.messageContent.trim() !== '' && sessionStorage.getItem('sub-id') != null && sessionStorage.getItem('username') != null) {
+          //   this.messageBody = {
+          //     action: "sendMessage",
+          //     message: `{"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}`
+          //   };
+          //   this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
+          // }
 
         },
           (error) => {
@@ -272,7 +274,6 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
             };
             this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
           }
-
         },
           (error) => {
             this.loading = false;

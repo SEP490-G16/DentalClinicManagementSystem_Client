@@ -276,6 +276,9 @@ export class PopupAddAppointmentNewComponent implements OnInit {
   appointmentDate: string = '';
   checkNewPatent: boolean = false;
   addPatient() {
+
+    //const a = new Date();
+    //alert(a.getHours()+":"+a.getMinutes()+":"+a.getSeconds());
     //Check validate create new patient
     this.resetValidatePatient();
     if (!this.patient1.patientName) {
@@ -336,7 +339,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
 
     var store = localStorage.getItem("listGroupService");
     if (store != null) {
-      this.listGroupService = JSON.parse(store);
+      //this.listGroupService = JSON.parse(store);
     }
 
     let procedureNameSelected;
@@ -463,6 +466,11 @@ export class PopupAddAppointmentNewComponent implements OnInit {
         this.AppointmentBody.appointment.patient_created_date = "1";
         this.checkNewPatent = false;
       }
+
+      const now = new Date(); 
+      const curr = (now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDay() +" "+now.getHours()+":"+now.getMinutes()+":"+now.getSeconds()).toString();
+      const patientInfor = this.AppointmentBody.appointment.patient_id+ " - "+this.AppointmentBody.appointment.patient_name+" - "+this.AppointmentBody.appointment.phone_number+" - "+this.patientBody.address+" - "+ curr+" - "+"pa";
+      this.sendMessageSocket.sendMessageSocket('CheckRealTimeWaitingRoom@@@',`${patientInfor}`,`${Number('1')}`);
       this.APPOINTMENT_SERVICE.postAppointment(this.AppointmentBody).subscribe(
         (response) => {
           this.loading = false;
@@ -486,24 +494,28 @@ export class PopupAddAppointmentNewComponent implements OnInit {
             migrated: 'false'
           };
 
-          const appointmentIndex = this.filteredAppointments.findIndex((a: any) => a.date === this.AppointmentBody.epoch);
+          const now = new Date();
+          const currDate = now.getFullYear() + "-"+(now.getMonth()+1)+"-"+now.getDate();
+          if (currDate == selectedDate) {
+            const appointmentIndex = this.filteredAppointments.findIndex((a: any) => a.date === this.AppointmentBody.epoch);
 
-          if (appointmentIndex !== -1) {
-            this.filteredAppointments[appointmentIndex].appointments.push({
-              procedure: this.AppointmentBody.appointment.procedure_id,
-              count: 1,
-              details: [newDetail]
-            });
-          } else {
-            const newAppointment: any = {
-              procedure: (this.AppointmentBody.appointment.procedure_id),
-              count: 1,
-              details: [newDetail]
-            };
-            this.filteredAppointments.push({
-              date: this.AppointmentBody.epoch,
-              appointments: [newAppointment]
-            });
+            if (appointmentIndex !== -1) {
+              this.filteredAppointments[appointmentIndex].appointments.push({
+                procedure: this.AppointmentBody.appointment.procedure_id,
+                count: 1,
+                details: [newDetail]
+              });
+            } else {
+              const newAppointment: any = {
+                procedure: (this.AppointmentBody.appointment.procedure_id),
+                count: 1,
+                details: [newDetail]
+              };
+              this.filteredAppointments.push({
+                date: this.AppointmentBody.epoch,
+                appointments: [newAppointment]
+              });
+            }
           }
           this.newAppointmentAdded.emit(this.filteredAppointments);
           this.procedure = '';

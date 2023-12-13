@@ -204,11 +204,20 @@ export class PopupAddAppointmentComponent implements OnInit {
   }
 
   onPostAppointment() {
+
+    
     const selectedYear = this.model.year;
     const selectedMonth = this.model.month.toString().padStart(2, '0');
     const selectedDay = this.model.day.toString().padStart(2, '0');
     const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
-    this.AppointmentBody.epoch = this.dateToTimestamp(selectedDate);
+
+    const now = new Date();
+    const currDate = now.getFullYear() + "-"+(now.getMonth()+1)+"-"+now.getDate();
+    this.AppointmentBody.epoch = this.dateToTimestamp(selectedDate); 
+    //console.log("check current: ", currDate);
+    //console.log("check selected: ", selectedDate);
+    //alert(currDate == selectedDate);
+    //return;
     this.AppointmentBody.appointment.time = this.timeToTimestamp(this.appointmentTime);
     this.listGroupService.forEach(e => {
       if (e.medical_procedure_group_id == this.procedure) {
@@ -378,24 +387,27 @@ export class PopupAddAppointmentComponent implements OnInit {
           patient_created_date: this.AppointmentBody.appointment.patient_created_date,
           migrated: 'false'
         };
-        const appointmentIndex = this.filteredAppointments.findIndex((a: any) => a.date === this.AppointmentBody.epoch);
-        if (appointmentIndex !== -1) {
-          this.filteredAppointments[appointmentIndex].appointments.push({
-            procedure: this.AppointmentBody.appointment.procedure_id,
-            count: 1,
-            details: [newDetail]
-          });
-        } else {
-          const newAppointment: any = {
-            procedure: this.AppointmentBody.appointment.procedure_id,
-            count: 1,
-            details: [newDetail]
-          };
-          this.filteredAppointments.push({
-            date: this.AppointmentBody.epoch,
-            appointments: [newAppointment]
-          });
+        if (currDate == selectedDate) {
+          const appointmentIndex = this.filteredAppointments.findIndex((a: any) => a.date === this.AppointmentBody.epoch);
+          if (appointmentIndex !== -1) {
+            this.filteredAppointments[appointmentIndex].appointments.push({
+              procedure: this.AppointmentBody.appointment.procedure_id,
+              count: 1,
+              details: [newDetail]
+            });
+          } else {
+            const newAppointment: any = {
+              procedure: this.AppointmentBody.appointment.procedure_id,
+              count: 1,
+              details: [newDetail]
+            };
+            this.filteredAppointments.push({
+              date: this.AppointmentBody.epoch,
+              appointments: [newAppointment]
+            });
+          }
         }
+        
         this.newAppointmentAdded.emit(this.filteredAppointments);
         this.procedure = '';
         this.appointmentTime = '';

@@ -47,28 +47,30 @@ export class PatientRecordsComponent implements OnInit {
   @ViewChild(PopupDeletePatientComponent) popupDeletePatientComponent!: PopupDeletePatientComponent;
   ngOnInit(): void {
     this.loadPage(this.pagingSearch.paging);
+    this.patientService.data$.subscribe((dataList) => {
+      this.searchPatientsList = dataList; 
+    })
   }
   checkNextPage() {
     this.hasNextPage = this.searchPatientsList.length > 10;
   }
+
+  searchLi : any[] = [];
   loadPage(paging: number) {
-    // this.currentPage = paging;
-    // this.subscription.add(this.patientService.patientList$.subscribe(updatedList => {
-    //   this.searchPatientsList = updatedList;
-    // }));
     this.currentPage = paging;
     this.patientService.getPatientList(paging).subscribe(patients => {
       this.originPatientList = patients.data;
-      this.searchPatientsList = patients.data;
-      this.searchPatientsList.forEach((p: any) => {
+      this.searchLi = patients.data;
+      this.searchLi.forEach((p: any) => {
         p.phone_number = this.normalizePhoneNumber(p.phone_number);
       })
       this.checkNextPage();
-      if (this.searchPatientsList.length > 10) {
-        this.searchPatientsList.pop();
+      if (this.searchLi.length > 10) {
+        this.searchLi.pop();
       }
       if (this.search.trim() !== "") {
       }
+      this.patientService.updateData(this.searchLi)
     },
       error => {
         ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test + "/patient/name/" + paging, error);
@@ -77,11 +79,6 @@ export class PatientRecordsComponent implements OnInit {
   }
 
   searchPatient() {
-    // Normalize.normalizeDiacritics(sP.patient_name.toLowerCase()).includes(Normalize.normalizeDiacritics(this.search.toLocaleLowerCase()))
-
-    // else {
-    //   this.searchPatientsList = this.originPatientList;
-    // }
     if (this.search != null && this.search != "" && this.search != undefined) {
       setTimeout(() => {
       }, 1000);
@@ -161,7 +158,6 @@ export class PatientRecordsComponent implements OnInit {
             this.toastr.success("Xóa bệnh nhân thành công");
             this.searchPatientsList.splice(index, 1);
           }
-          this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'minus', 'pat');
         })
       }
     });
