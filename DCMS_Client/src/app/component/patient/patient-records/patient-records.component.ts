@@ -82,33 +82,42 @@ export class PatientRecordsComponent implements OnInit {
     // else {
     //   this.searchPatientsList = this.originPatientList;
     // }
-    console.log(this.searchPatientsList);
     if (this.search != null && this.search != "" && this.search != undefined) {
       setTimeout(() => {
       }, 1000);
-      if (this.isDate(this.search)) {
+
+      if (/^[a-zA-Z]+$/.test(this.search)) {
+        this.patientService.getPatientByName(this.search, this.pagingSearch.paging).subscribe(
+          patients => {
+            this.searchPatientsList = [];
+            this.searchPatientsList = patients.data.filter((sP: any) =>
+              Normalize.normalizeDiacritics(sP.patient_name.toLowerCase()).includes(Normalize.normalizeDiacritics(this.search.toLocaleLowerCase()))
+            );
+
+            this.searchPatientsList.forEach((p: any) => {
+              p.phone_number = this.normalizePhoneNumber(p.phone_number);
+            })
+
+            this.checkNextPage();
+
+            if (this.searchPatientsList.length > 10) {
+              this.searchPatientsList.pop();
+            }
+          },
+          error => {
+            ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test + "/patient/name/" + this.search + "/" + this.pagingSearch.paging, error)
+          }
+        );
+      } else {
         this.searchPatientsList = this.searchPatientsList.filter(sP =>
-          format(new Date(sP.created_date), 'dd/MM/yyyy') === this.search
+          format(new Date(sP.created_date), 'dd/MM/yyyy').includes(this.search)
         );
       }
-      this.patientService.getPatientByName(this.search, this.pagingSearch.paging).subscribe(patients => {
-        this.searchPatientsList = [];
-        this.searchPatientsList = patients.data;
-        this.searchPatientsList.forEach((p: any) => {
-          p.phone_number = this.normalizePhoneNumber(p.phone_number);
-        })
-        this.checkNextPage();
-        if (this.searchPatientsList.length > 10) {
-          this.searchPatientsList.pop();
-        }
-      }, error => {
-        ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test + "/patient/name/" + this.search + "/" + this.pagingSearch.paging, error)
-      }
-      )
     } else {
       this.loadPage(this.currentPage);
     }
   }
+
   ngAfterViewInit() {
     this.popupDeletePatientComponent.patientDeleted.subscribe(() => {
       this.loadPage(this.pagingSearch.paging);

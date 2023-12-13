@@ -125,15 +125,14 @@ export class PatientProfileTabComponent implements OnInit {
         if (ctx) {
           ctx.drawImage(img, 0, 0, width, height);
 
-          // Convert the image to WebP format
           canvas.toBlob((blob) => {
             const reader = new FileReader();
             reader.onloadend = () => {
-              const resizedBase64 = reader.result as string;
-              resolve(resizedBase64);
+              const compressedBase64 = reader.result as string;
+              resolve(compressedBase64);
             };
             reader.readAsDataURL(blob as Blob);
-          }, 'image/webp', 0.8);
+          }, 'image/jpeg', 0.1);
         } else {
           reject(new Error('Unable to get 2D context for canvas.'));
         }
@@ -144,6 +143,7 @@ export class PatientProfileTabComponent implements OnInit {
       };
     });
   }
+
 
 
 
