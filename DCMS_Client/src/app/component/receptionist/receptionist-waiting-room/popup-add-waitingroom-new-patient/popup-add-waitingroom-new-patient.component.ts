@@ -105,6 +105,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
 
   listGroupService: any[] = [];
   isSubmitted: boolean = false;
+  filteredWaitingRoomData: any[] = [];
   ngOnInit(): void {
 
     this.getListGroupService();
@@ -118,6 +119,10 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
 
     this.dataService.dataAn$.subscribe((data) => {
       this.analyses = data;
+    })
+
+    this.WaitingRoomService.data$.subscribe((dataList) => {
+      this.filteredWaitingRoomData = dataList; 
     })
   }
   onProcedureChange(event: Event) {
@@ -147,90 +152,6 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
       this.POST_WAITTINGROOM.produce_id = this.listGroupService[0].medical_procedure_group_id;
       this.POST_WAITTINGROOM.produce_name = this.listGroupService[0].name;
     }
-  }
-  onPostWaitingRoom() {
-    //let patientIn = this.patientInfor.split(' - ');
-    // this.POST_WAITTINGROOM.patient_id = patientIn[0];
-    // this.POST_WAITTINGROOM.patient_name = patientIn[1];
-    // this.POST_WAITTINGROOM.status = "1";
-    // this.POST_WAITTINGROOM.appointment_id = "";
-    // this.POST_WAITTINGROOM.appointment_epoch = "";
-    //const storedPatientIdsString = localStorage.getItem('listPatientId');
-    // let storedPatientIds = [];
-    // if (storedPatientIdsString) {
-    //   storedPatientIds = JSON.parse(storedPatientIdsString);
-    // }
-    // const currentDateTimeGMT7 = moment().tz('Asia/Ho_Chi_Minh');
-    // this.POST_WAITTINGROOM.epoch = Math.floor(currentDateTimeGMT7.valueOf() / 1000).toString();
-    // this.resetValidate();
-    // if (this.patientInfor == '' || this.patientInfor == null) {
-    //   this.validateWatingRoom.patientName = "Vui lòng chọn bệnh nhân!";
-    //   this.isSubmitted = true;
-    //   return;
-    // }
-    // if (!this.POST_WAITTINGROOM.produce_id) {
-    //   this.validateWatingRoom.procedure = "Vui lòng chọn loại điều trị!";
-    //   this.isSubmitted = true;
-    // }
-    // if (this.isSubmitted) {
-    //   return;
-    // }
-
-    // if (storedPatientIds.includes(this.POST_WAITTINGROOM.patient_id)) {
-    //   this.showErrorToast('Bệnh nhân đã tồn tại trong phòng chờ!');
-    //   return;
-    // }
-    //const wrPatientId = sessionStorage.getItem("WaitingRoomPatientId");
-
-    // if (this.currentPatientCreated == true) {
-    //   this.POST_WAITTINGROOM.patient_created_date = '1';
-    //   this.currentPatientCreated = false;
-    // } else {
-    //   const storeLi = localStorage.getItem('listSearchPatient');
-    //   var ListPatientStore = [];
-    //   if (storeLi != null) {
-    //     ListPatientStore = JSON.parse(storeLi);
-    //   }
-    //   if (ListPatientStore.length != 0) {
-    //     ListPatientStore.forEach((item: any) => {
-    //       if (item.patientId == this.POST_WAITTINGROOM.patient_id) {
-    //         if (item.patientDescription != null && item.patientDescription.includes('@@isnew##')) {
-    //           this.POST_WAITTINGROOM.patient_created_date = '1';
-    //         } else {
-    //           this.POST_WAITTINGROOM.patient_created_date = '2';
-    //         }
-    //       }
-    //     })
-    //   }
-    // }
-    // const postInfo = this.POST_WAITTINGROOM.epoch + ' - ' + this.POST_WAITTINGROOM.produce_id + ' - ' + this.POST_WAITTINGROOM.produce_name + ' - '
-    //   + this.POST_WAITTINGROOM.patient_id + ' - ' +this.POST_WAITTINGROOM.patient_name + ' - ' + this.POST_WAITTINGROOM.reason + ' - '
-    //   + this.POST_WAITTINGROOM.status + ' - ' + this.POST_WAITTINGROOM.appointment_id + ' - ' + this.POST_WAITTINGROOM.appointment_epoch + ' - ' + this.POST_WAITTINGROOM.patient_created_date;
-
-    // this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
-    //   .subscribe((data) => {
-    //       this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'wtr');
-    //       this.showSuccessToast("Thêm phòng chờ thành công!!");
-    //       let ref = document.getElementById('cancel-add-waiting');
-    //       ref?.click();
-    //       this.messageContent = `CheckRealTimeWaitingRoom@@@,${postInfo},${Number('1')}`;
-    //       this.messageBody = {
-    //         action: '',
-    //         message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
-    //       }
-    //       if (this.messageContent.trim() !== '' && sessionStorage.getItem('sub-id') != null && sessionStorage.getItem('username') != null) {
-    //         this.messageBody = {
-    //           action: "sendMessage",
-    //           message: `{"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}`
-    //         };
-    //         this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
-
-    //       }
-    //     },
-    //     (err) => {
-    //       this.showErrorToast('Lỗi khi thêm phòng chờ');
-    //     }
-    //   );
   }
 
   addPatient() {
@@ -326,12 +247,18 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
         this.POST_WAITTINGROOM.patient_created_date = '1';
         this.currentPatientCreated = false;
       }
+
+      const now = new Date();
+      const curr = (now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDay() +" "+now.getHours()+":"+now.getMinutes()+":"+now.getSeconds()).toString();
+      const patientInfor = this.POST_WAITTINGROOM.patient_id+ " - "+this.POST_WAITTINGROOM.patient_name+" - "+this.patientBody.phone_number+" - "+this.patientBody.address+" - "+ curr+" - "+"pa";
+
       const postInfo = this.POST_WAITTINGROOM.epoch + ' - ' + this.POST_WAITTINGROOM.produce_id + ' - ' + this.POST_WAITTINGROOM.produce_name + ' - '
       + this.POST_WAITTINGROOM.patient_id + ' - ' +this.POST_WAITTINGROOM.patient_name + ' - ' + this.POST_WAITTINGROOM.reason + ' - '
       + this.POST_WAITTINGROOM.status + ' - ' + this.POST_WAITTINGROOM.appointment_id + ' - ' + this.POST_WAITTINGROOM.appointment_epoch + ' - ' + this.POST_WAITTINGROOM.patient_created_date;
       this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
       .subscribe((data) => {
           this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'wtr');
+          this.sendMessageSocket.sendMessageSocket('CheckRealTimeWaitingRoom@@@',`${patientInfor}`,`${Number('1')}`);
           this.showSuccessToast("Thêm phòng chờ thành công!!");
           let ref = document.getElementById('cancel-add-waiting-new');
           ref?.click();

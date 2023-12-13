@@ -16,10 +16,10 @@ export class WebsocketService {
     };
     this.socket.onmessage = (event)=>{
 
-      console.log(event);
-      const message = event.data;
+      //console.log(event);
+      //const message = event.data;
       console.log("Received message:",event.data);
-      this.messageReceived.next(message);
+      this.messageReceived.next(event.data);
     };
     this.socket.onclose = (even)=>{
       console.log('WebSocket connection closed:',event);

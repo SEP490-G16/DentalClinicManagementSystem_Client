@@ -154,7 +154,7 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
     if (user != null) {
       this.userName = user;
     }
-    console.log("oninit");
+  
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.currentRoute = this.router.url;
@@ -168,15 +168,11 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
     let userGroups = sessionStorage.getItem('userGroups');
     this.userGroupString = userGroups || '';
 
-    //this.compareUserGroup = '["dev-dcms-admin"]';
-    //console.log("Layout: ", this.userGroupString);
-
     let ro = sessionStorage.getItem('role');
     if (ro != null) {
       this.roleId = ro.split(',');
       if (this.roleId.includes('1')) {
         this.roleName = 'Admin';
-        console.log("role", this.roleName)
       }
       else if (this.roleId.includes('2')) {
         this.roleName = 'Bác sĩ'
@@ -205,7 +201,6 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
     this.waitingRoomService.getWaitingRooms().subscribe((data) => {
       const listWatingRoom = data;
       var count = 0;
-      console.log("check waiting", data);
       this.analyses.total_waiting_room = parseInt(data.length);
       listWatingRoom.forEach((item: any) => {
         if (item.status == 2) {
@@ -214,7 +209,6 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
       })
       this.analyses.total_patient_examinate = count;
       const checkTotal = localStorage.getItem('patient_examinated');
-      console.log("checkTotal", checkTotal);
       if (checkTotal != null) {
         const check = JSON.parse(checkTotal);
         this.analyses.total_patient_examinated = check.total;
@@ -222,6 +216,12 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
           this.analyses.total_patient_examinated = 0;
           let ob = {
             total: 0,
+            currentDate: currentDate
+          }
+          localStorage.setItem('patient_examinated', JSON.stringify(ob));
+        } else {
+          let ob = {
+            total: this.analyses.total_patient_examinated,
             currentDate: currentDate
           }
           localStorage.setItem('patient_examinated', JSON.stringify(ob));
@@ -237,27 +237,21 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
 
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
     this.startDate = currentDateGMT7;
-    var count = 0;
-    // this.appointmentService.getAppointmentList(this.dateToTimestamp(this.startDate + " 00:00:00"), this.dateToTimestamp(this.startDate + " 23:59:59")).subscribe((data) => {
-    //   this.appointmentList = ConvertJson.processApiResponse(data);
-    //   console.log("check appointment", this.appointmentList.length);
-    //   console.log("check appointment", this.appointmentList);
-    //   this.analyses.total_appointment = 0;
-    //   this.appointmentList.forEach((item:any) => {
-    //     item.appointments.forEach((it:any) => {
-    //       if (item.date == this.dateToTimestamp(this.startDate)) {
-    //         console.log("vô nha")
-    //         it.details.forEach((a:any) => {
-    //           console.log(a.migrated);
-    //           if (a.migrated == "false") {
-    //             console.log("vô nha 1")
-    //             this.analyses.total_appointment++;
-    //           }
-    //         })
-    //       }
-    //     })
-    //   })
-    // })
+    this.appointmentService.getAppointmentList(this.dateToTimestamp(this.startDate + " 00:00:00"), this.dateToTimestamp(this.startDate + " 23:59:59")).subscribe((data) => {
+      this.appointmentList = ConvertJson.processApiResponse(data);
+      this.analyses.total_appointment = 0;
+      this.appointmentList.forEach((item:any) => {
+        item.appointments.forEach((it:any) => {
+          if (item.date == this.dateToTimestamp(this.startDate)) {
+            it.details.forEach((a:any) => {
+              if (a.migrated == "false") {
+                this.analyses.total_appointment++;
+              }
+            })
+          }
+        })
+      })
+    })
   }
 
   togglePopup(event: MouseEvent): void {
@@ -272,14 +266,12 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
     }
   }
 
-
   signOut() {
     this.cognitoService.signOut().then(() => {
       localStorage.removeItem("role");
       localStorage.removeItem("lastLoginTime");
       localStorage.removeItem("cognitoUser");
       sessionStorage.clear();
-      console.log("Logged out!");
       this.router.navigate(['dangnhap']);
     })
   }

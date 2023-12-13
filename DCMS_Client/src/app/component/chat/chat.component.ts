@@ -8,6 +8,7 @@ import { Location } from '@angular/common';
 import { CheckRealTimeService } from 'src/app/service/CheckRealTime/CheckRealTime.service';
 import { IPostWaitingRoom } from 'src/app/model/IWaitingRoom';
 import { DataService } from '../shared/services/DataService.service';
+import { PatientService } from 'src/app/service/PatientService/patient.service';
 
 @Component({
   selector: 'app-chat',
@@ -36,14 +37,14 @@ export class ChatComponent implements OnInit, OnDestroy {
     date: '',
     patient_created_date: '',
   }
-  isHovered = false;
+  isHovered = true;
   unreadMessagesCount = 0;
   //POST_WAITTINGROOM: IPostWaitingRoom;
   constructor(private webSocketService: WebsocketService,
     private waitingRoomService: ReceptionistWaitingRoomService,
     private location: Location,
-    private checkRealTime: CheckRealTimeService,
-    private dataService: DataService,) {
+    private dataService: DataService,
+    private patientService: PatientService) {
     // this.POST_WAITTINGROOM = {
     //   epoch: Math.floor(this.currentDateTimeGMT7.valueOf() / 1000).toString(),
     //   produce_id: '',
@@ -57,7 +58,8 @@ export class ChatComponent implements OnInit, OnDestroy {
     //   patient_created_date: '',
     // } as IPostWaitingRoom
   }
-  filteredWaitingRoomData=  [] as IPostWaitingRoom[];
+  filteredWaitingRoomData = [] as IPostWaitingRoom[];
+  searchPatientsList: any[] = [];
   analyses = {
     total_appointment: 0,
     total_waiting_room: 0,
@@ -68,6 +70,11 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.waitingRoomService.data$.subscribe((dataList) => {
       this.filteredWaitingRoomData = dataList;
     })
+    
+    this.patientService.data$.subscribe((dataList) => {
+      this.searchPatientsList = dataList; 
+    })
+
 
     this.dataService.dataAn$.subscribe((data) => {
       this.analyses = data;
@@ -76,12 +83,13 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.webSocketService.connect();
     this.webSocketService.messageReceived.subscribe((message: any) => {
       const parsedMessage = JSON.parse(message);
+      console.log("check content:", parsedMessage.content);
       const check = parsedMessage.content.split(',');
       var checkPa = true;
-      var count = 0;
       if (check[0] == 'CheckRealTimeWaitingRoom@@@') {
         var shouldBreakFor = false;
         let postInfo = check[1].split(' - ');
+        console.log("check add new patient: ", postInfo);
         this.POST_WAITTINGROOM.epoch = postInfo[0];
         this.POST_WAITTINGROOM.produce_id = postInfo[1];
         this.POST_WAITTINGROOM.produce_name = postInfo[2];
@@ -94,38 +102,90 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.POST_WAITTINGROOM.patient_created_date = postInfo[9];
         this.POST_WAITTINGROOM.date = this.timestampToTime(postInfo[0]);
         const currentUrl = this.location.path();
-        if (currentUrl.includes('phong-cho')) {
-          if (this.filteredWaitingRoomData.length == 0) {
-            this.filteredWaitingRoomData.push(this.POST_WAITTINGROOM);
-          } else {
-            this.filteredWaitingRoomData.forEach((item: any) => {
-              if (item.patient_id == check[1]) {
-                if (check[2] == 4 && checkPa) {
-                  const index = this.filteredWaitingRoomData.findIndex((item: any) => { item.patient_id == check[1] });
-                  if (index != -1) {
-                    this.filteredWaitingRoomData.splice(index, 1);
-                  }
-                  checkPa = false;
-                } else {
-                  item.status = check[2];
-                }
-              } else if (shouldBreakFor == false && this.POST_WAITTINGROOM.patient_id != "") {
-                this.filteredWaitingRoomData.push(this.POST_WAITTINGROOM);
-                localStorage.setItem("ListPatientWaiting", JSON.stringify(this.filteredWaitingRoomData));
-                shouldBreakFor = true;
-              }
-            })
+
+        if (this.POST_WAITTINGROOM.reason == "pa") {
+          alert("vô nha")
+          let patientOb = {
+            patient_id: this.POST_WAITTINGROOM.epoch,
+            patient_name: this.POST_WAITTINGROOM.produce_id,
+            date_of_birth: "",
+            gender: 1,
+            phone_number: this.POST_WAITTINGROOM.produce_name,
+            full_medical_history: "",
+            dental_medical_history: "",
+            email: "",
+            address: this.POST_WAITTINGROOM.patient_id,
+            description: "",
+            profile_image: null,
+            active: 1,
+            created_date: this.POST_WAITTINGROOM.patient_name
           }
-          const statusOrder: { [key: number]: number } = { 2: 1, 3: 2, 1: 3, 4: 4 };
-          if (this.filteredWaitingRoomData.length > 0) {
-            this.filteredWaitingRoomData.sort((a: any, b: any) => {
-              const orderA = statusOrder[a.status] ?? Number.MAX_VALUE; // Fallback if status is not a valid key
-              const orderB = statusOrder[b.status] ?? Number.MAX_VALUE; // Fallback if status is not a valid key
-              return orderA - orderB;
-            });
-            this.waitingRoomService.updateData(this.filteredWaitingRoomData);
-          }
+          this.searchPatientsList.push(patientOb);
+          this.patientService.updateData(this.searchPatientsList);
         }
+        if (this.filteredWaitingRoomData.length == 0 && this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_name != "" && this.POST_WAITTINGROOM.patient_name != null && this.POST_WAITTINGROOM.patient_name != null && this.POST_WAITTINGROOM.status != "" && this.POST_WAITTINGROOM.status != null && this.POST_WAITTINGROOM.status != undefined) {
+          this.filteredWaitingRoomData.push(this.POST_WAITTINGROOM);
+          shouldBreakFor = true;
+          this.POST_WAITTINGROOM = {
+            epoch: '',
+            produce_id: '',
+            produce_name: '',
+            patient_id: '',
+            patient_name: '',
+            reason: '',
+            status: "1",
+            appointment_id: '',
+            appointment_epoch: '',
+            date: '',
+            patient_created_date: '',
+          }
+        } else {
+          var checkPa = true;
+          this.filteredWaitingRoomData.forEach((item: any) => {
+            if (item.patient_id == check[1]) {
+              if (check[2] == 4 && checkPa) {
+                //alert("delete");
+                const index = this.filteredWaitingRoomData.findIndex((item: any) => { item.patient_id == check[1] });
+                if (index != -1) {
+                  this.filteredWaitingRoomData.splice(index, 1);
+                }
+                this.waitingRoomService.updateData(this.filteredWaitingRoomData);
+                checkPa = false;
+              } else {
+                item.status = check[2];
+              }
+            } else if (shouldBreakFor == false && this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_name != "" && this.POST_WAITTINGROOM.patient_name != null && this.POST_WAITTINGROOM.patient_name != null && this.POST_WAITTINGROOM.produce_id != "" && this.POST_WAITTINGROOM.status != "" && this.POST_WAITTINGROOM.status != null && this.POST_WAITTINGROOM.status != undefined) {
+              this.filteredWaitingRoomData.push(this.POST_WAITTINGROOM);
+              this.POST_WAITTINGROOM = {
+                epoch: '',
+                produce_id: '',
+                produce_name: '',
+                patient_id: '',
+                patient_name: '',
+                reason: '',
+                status: "1",
+                appointment_id: '',
+                appointment_epoch: '',
+                date: '',
+                patient_created_date: '',
+              }
+              localStorage.setItem("ListPatientWaiting", JSON.stringify(this.filteredWaitingRoomData));
+              shouldBreakFor = true;
+            }
+          })
+        }
+        const statusOrder: { [key: number]: number } = { 2: 1, 3: 2, 1: 3, 4: 4 };
+        if (this.filteredWaitingRoomData.length > 0) {
+          this.filteredWaitingRoomData.sort((a: any, b: any) => {
+            const orderA = statusOrder[a.status] ?? Number.MAX_VALUE; // Fallback if status is not a valid key
+            const orderB = statusOrder[b.status] ?? Number.MAX_VALUE; // Fallback if status is not a valid key
+            return orderA - orderB;
+          });
+          this.waitingRoomService.updateData(this.filteredWaitingRoomData);
+        } else {
+          this.waitingRoomService.updateData(this.filteredWaitingRoomData);
+        }
+        // }
       } else if (check[0] == 'UpdateAnalysesTotal@@@') {
         if (check[1] == 'plus') {
           if (check[2] == 'wtr') {
@@ -137,7 +197,13 @@ export class ChatComponent implements OnInit, OnDestroy {
           } else if (check[2] == 'wtr1') {
             this.dataService.UpdatePatientExaminate(1, 0);
           } else if (check[2] == 'wtr2') {
-            this.dataService.UpdatePatientExaminated(1, 0);
+            var total = localStorage.getItem('patient_examinated');
+            var final = 0;
+            if (total != null) {
+              var a = JSON.parse(total);
+              final = parseInt(a.total);
+            }
+            this.dataService.UpdatePatientExaminated(final, 0);
           }
         }
         else if (check[1] == 'minus') {
@@ -183,9 +249,11 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.webSocketService.closeConnection();
     this.chatContainerVisible = false;
   }
-  setHover(value: boolean) {
-    this.isHovered = value;
-  }
+
+  // setHover(value: boolean) {
+  //   this.isHovered = value;
+  // }
+
   isSentMessage(subId: string): boolean {
 
     return subId === sessionStorage.getItem('sub-id');

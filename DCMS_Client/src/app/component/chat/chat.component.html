@@ -14,7 +14,7 @@
     </div>
 
     <div class="msg-container">
-      <div class="msg mt-2" *ngFor="let msg of receivedMessages" [ngClass]="{'sent-message': isSentMessage(msg.message['sub-id']), 'received-message': !isSentMessage(msg.message['sub-id'])}" style="display: flex" (mouseenter)="setHover(true)" (mouseleave)="setHover(false)">
+      <div class="msg mt-2" *ngFor="let msg of receivedMessages" [ngClass]="{'sent-message': isSentMessage(msg.message['sub-id']), 'received-message': !isSentMessage(msg.message['sub-id'])}" style="display: flex">
         <div [ngClass]="{'hovered': isHovered}" >
           <div class="message-name">
             <b>{{msg.message.sender}}</b>
