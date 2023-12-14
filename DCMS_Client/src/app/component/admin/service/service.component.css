@@ -72,3 +72,7 @@
 .table__header .input-group {
   margin: auto;
 }
+.active {
+  background-color: #d9d9d9; /* Chọn màu sắc phù hợp */
+  /* Các style khác nếu cần */
+}

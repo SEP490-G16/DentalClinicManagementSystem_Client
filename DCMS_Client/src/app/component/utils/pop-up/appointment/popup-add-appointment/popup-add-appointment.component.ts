@@ -384,6 +384,7 @@ export class PopupAddAppointmentComponent implements OnInit {
           procedure_name: this.AppointmentBody.appointment.procedure_name,
           doctor: this.AppointmentBody.appointment.doctor,
           time: this.AppointmentBody.appointment.time,
+          reason: this.AppointmentBody.appointment.reason,
           status: this.AppointmentBody.appointment.status,
           patient_created_date: this.AppointmentBody.appointment.patient_created_date,
           migrated: 'false'

@@ -76,7 +76,8 @@ export class PopupAddAppointmentNewComponent implements OnInit {
     phone: '',
     address: '',
     dob: '',
-    email: ''
+    email: '',
+    zalo:''
   }
   //@Input() datesDisabled: any;
   @Input() filteredAppointments: any
@@ -292,18 +293,22 @@ export class PopupAddAppointmentNewComponent implements OnInit {
       this.isSubmitted = true;
     }
     if (!this.patient1.phone_Number) {
-      this.validatePatient.phone = "Vui lòng nhập số điện thoại!";
+      this.validatePatient.zalo = "Vui lòng nhập số zalo!";
       this.isSubmittedPatient = true;
     }
-    else if (!this.isVietnamesePhoneNumber(this.patient1.phone_Number)) {
-      this.validatePatient.phone = "Số điện thoại không hợp lệ!";
+    else if (!this.isVietnamesePhoneNumber(this.patient1.phone_Number)){
+      this.validatePatient.zalo = "Số zalo không hợp lệ!";
       this.isSubmittedPatient = true;
     }
+    // if (!this.isVietnamesePhoneNumber(this.patient1.phone_Number) && this.patient1.phone_Number) {
+    //   this.validatePatient.phone = "Số điện thoại không hợp lệ!";
+    //   this.isSubmittedPatient = true;
+    // }
     if (!this.dobNgb || !this.dobNgb.year || !this.dobNgb.month || !this.dobNgb.day) {
       this.validatePatient.dob = "Vui lòng nhập ngày sinh!";
       this.isSubmitted = true;
     }
-    else if (!this.isDob(FormatNgbDate.formatNgbDateToString(this.dobNgb))){
+    else if (this.isDob(FormatNgbDate.formatNgbDateToString(this.dobNgb))){
       this.validatePatient.dob = "Vui lòng nhập ngày sinh đúng định dạng dd/MM/yyyy !";
       this.isSubmitted = true;
     }
@@ -492,7 +497,8 @@ export class PopupAddAppointmentNewComponent implements OnInit {
             time: this.AppointmentBody.appointment.time,
             status: this.AppointmentBody.appointment.status,
             patient_created_date: this.AppointmentBody.appointment.patient_created_date,
-            migrated: 'false'
+            migrated: 'false',
+            reason:this.AppointmentBody.appointment.reason
           };
 
           const now = new Date();
@@ -589,7 +595,8 @@ export class PopupAddAppointmentNewComponent implements OnInit {
       phone: '',
       address: '',
       dob: '',
-      email: ''
+      email: '',
+      zalo:''
     }
     this.isSubmittedPatient = false;
   }

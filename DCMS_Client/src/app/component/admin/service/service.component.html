@@ -35,7 +35,7 @@
           </tr>
         </thead>
         <tbody class="groupservice-body">
-          <tr *ngFor="let t of filteredMgData" title="Xem thông tin thủ thuật của nhóm {{t.mg_name}}" [ngClass]="{'new-recordd': t.isNew,'pulsee': t.isPulsing}"
+          <tr *ngFor="let t of filteredMgData" title="Xem thông tin thủ thuật của nhóm {{t.mg_name}}" [ngClass]="{'active': t.mg_id === activeGroupId}"
             (click)="getMedicalProcedureChildren(t.mg_id);">
             <td>{{t.mg_id}}</td>
             <td><a class="title-group-service">{{t.mg_name}}</a></td>

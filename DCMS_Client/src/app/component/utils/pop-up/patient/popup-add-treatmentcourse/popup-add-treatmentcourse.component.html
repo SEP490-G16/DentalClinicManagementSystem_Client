@@ -46,9 +46,11 @@
         <div class="row">
           <div class="col-12">
             <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Phương án điều trị</label>
+              <label for="exampleInputEmail1" class="form-label">Phương án điều trị <span class="required">*</span></label>
               <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="TreatmentCouseBody.name"
                 aria-describedby="emailHelp">
+              <div *ngIf="isSubmittedTreatmentCourse" class="alert-danger-custommm" style="color:#FF0000FF;">
+                {{validateTreatmentCouse.name}}</div>
             </div>
           </div>
         </div>
@@ -290,12 +292,15 @@
                 <ng-container *ngFor="let a of listMaterialUsage">
                   <tr>
                     <td style="padding: 10px">{{a.description}}</td>
-                    <td style="padding: 10px"><input class="form-control value-staff" type="number"
-                        [(ngModel)]="a.quantity">
-                      <div *ngIf="isSubmittedMaterial"  class="alert-danger-custom">
-                        <p>
-                          {{validateMaterial.soLuong}}
-                        </p>
+                    <td style="padding: 10px">
+                      <div class="position-relative">
+                        <input class="form-control value-staff" type="number"
+                               [(ngModel)]="a.quantity">
+                        <div *ngIf="isSubmittedMaterial"  [ngClass]="{'alert-danger-custom': true, 'active': validateMaterial.soLuong}">
+                          <p>
+                            {{validateMaterial.soLuong}}
+                          </p>
+                        </div>
                       </div>
                     </td>
                     <td style="padding: 10px">

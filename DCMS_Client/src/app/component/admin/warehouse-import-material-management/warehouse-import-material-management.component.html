@@ -26,7 +26,7 @@
       </button>
     </div>
 
-    <div class="col-md-2">
+    <div class="col-md-3">
       <select class="form-select" aria-label="Default select example" (change)="filterByStaff()"
         [(ngModel)]="staffName">
         <option value="" selected>Chọn người lập</option>
@@ -73,19 +73,22 @@
         <div class="col-12">
           <div class="input-group">
             <input #dpToDate class="form-control" placeholder="dd-mm-yyyy" name="dpToDate"
-              [value]="formatter.format(toDate)" (input)="toDate = validateInput(toDate, dpToDate.value)" />
+              [value]="formatter.format(toDate)" (input)="toDate = validateInput(toDate, dpToDate.value)"/>
             <button class="btn btn-outline-secondary bi bi-calendar3" (click)="datepicker.toggle()"
               type="button"></button>
           </div>
         </div>
       </form>
     </div>
-
-    <div class="col-md-3">
+    <div class="col-md-1">
       <button class="btn button-add" (click)="loadPage(currentPage)">Lọc
       </button>
     </div>
-
+    <div class="col-md-1">
+      <button class="btn button-add p-2" style="margin-left: 8px;" title="không lọc" (click)="resetPage(currentPage)">
+        <i class="bi bi-arrow-clockwise"></i>
+      </button>
+    </div>
   </div>
 
 
@@ -107,7 +110,7 @@
       <tbody>
         <tr *ngFor="let p of displayWarehouse">
           <td>{{p.Id}}</td>
-          <td><a class="a-custom" style="text-align: center;">{{p.CreateDate | date:'dd-MM-yyyy'}}</a></td>
+          <td>{{p.CreateDate | date:'dd-MM-yyyy'}}</td>
           <td>{{p.CreateBy}}</td>
           <td>{{p.Note}}</td>
           <td *ngIf="p.TotalAmount == null">0</td>

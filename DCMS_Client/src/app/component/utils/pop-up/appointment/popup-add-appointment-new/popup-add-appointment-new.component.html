@@ -13,9 +13,14 @@
         <div class="container">
           <div class="row">
             <div class="col-12 col-md-6 mt-3">
-              <div class="row mt-2">
+              <div class="row">
                 <div class="col-md-12">
                   <div class="card">
+                    <div class="title-label">
+                      <div>
+                        <label>Thêm bệnh nhân</label>
+                      </div>
+                    </div>
                     <div class="card-body">
                       <div class="row">
                         <div class="col-md-6">
@@ -83,6 +88,11 @@
                               <input type="text" class="form-control" id="inputPhone" name="inputPhone"
                                 aria-label="phoneNumber" aria-describedby="basic-addon1">
                             </div>
+                            <div *ngIf="isSubmittedPatient" class="alert-danger-custom">
+                              <p style="color:#FF0000FF;">
+                                {{validatePatient.phone}}
+                              </p>
+                            </div>
                           </div>
                         </div>
                         <div class="col-md-6">
@@ -94,6 +104,11 @@
                               </div>
                               <input type="text" class="form-control" [(ngModel)]="patient1.phone_Number" id="zalo"
                                 name="inputPhone" aria-label="phoneNumber" aria-describedby="basic-addon2">
+                            </div>
+                            <div *ngIf="isSubmittedPatient" class="alert-danger-custom">
+                              <p style="color:#FF0000FF;">
+                                {{validatePatient.zalo}}
+                              </p>
                             </div>
                           </div>
                         </div>
@@ -120,12 +135,17 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6">
-            <div class="form-group mt-2">
+            <div class="col-md-6 mt-3">
+              <div class="title-label">
+                <div>
+                  <label>Thêm lịch hẹn</label>
+                </div>
+              </div>
+                  <div class="form-group mt-2">
               <label for="treatment">Lý do khám <span class="required">*</span></label>
               <input type="text" class="form-control" [(ngModel)]="reason">
             </div>
-            <div class="form-group mt-2">
+                  <div class="form-group mt-2">
               <label for="treatment">Loại điều trị <span class="required">*</span></label>
               <select class="form-control" id="treatment" [(ngModel)]="procedure">
                 <option selected value="1">Phân loại điều trị</option>
@@ -133,7 +153,7 @@
               </select>
               <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.procedure}}</p>
             </div>
-            <div class="col mt-2">
+                  <div class="col mt-2">
               <label for="treatment">Chọn ngày khám <span class="required">*</span></label>
               <form class="form-inline">
                 <div class="form-group">
@@ -151,13 +171,13 @@
                 </div>
               </form>
             </div>
-            <div class="form-group mt-2">
+                  <div class="form-group mt-2">
               <label for="appointmentTime" name="userCredential">Giờ hẹn khám <span class="required">*</span></label>
               <input type="time" class="form-control date-input-custom" id="appointmentTime" name="time"
                 [(ngModel)]="appointmentTime" [min]="minTime">
               <p *ngIf="isSubmitted" class="error" style="color: red;">{{validateAppointment.appointmentTime}}</p>
             </div>
-            <div class="doctors-list mt-2">
+                  <div class="doctors-list mt-2">
               <label for="appointmentTime" name="userCredential">Chọn Bác Sĩ</label>
               <input type="text" class="form-control">
             </div>
