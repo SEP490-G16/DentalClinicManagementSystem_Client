@@ -41,15 +41,13 @@
             <ng-container *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('4') || roleId.includes('5')">
               <td (click)="stopClick($event)">
                 <select class="text-center status-selector" [(ngModel)]="wtr.status"
-                  (change)="onPutStatus(wtr, wtr.epoch)" [ngStyle]="{'color': selectedColor}">
-                  <ng-container *ngIf="wtr.status == 2">
+                  (change)="onPutStatus(wtr, wtr.epoch)" [ngStyle]="{'color': selectedColor}" *ngIf="wtr.status == 2">
                     <option value="2" class="status-option in-progress">Đang khám</option> <!--x-->
                     <option value="3" class="status-option completed">Khám xong</option> <!--x-->
-                  </ng-container>
-                  <ng-container *ngIf="wtr.status == 3">
-                    <option value="3" class="status-option completed">Khám xong</option>
-                  </ng-container>
                 </select>
+                <ng-container *ngIf="wtr.status == 3">
+                  <b style="color: green;">Khám xong</b>
+                </ng-container>
               </td>
             </ng-container>
           </ng-container>
