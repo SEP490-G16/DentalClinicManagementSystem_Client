@@ -1,0 +1,94 @@
+.input-custom {
+  width: 30%;
+  padding: 10px 20px;
+  border: 1px solid #664FC3;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+
+.button-timekeeping {
+  font-family: "Poppins", sans-serif;
+  background: #664FC3;
+  text-align: center;
+  cursor: pointer;
+  border: 0px solid white;
+  color: white;
+  font-weight: bold;
+  outline: 0px;
+  padding: 10px 20px;
+}
+.status-selector {
+  padding: 10px 10px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #333;
+  appearance: none;
+  position: relative;
+  background-position: right 10px center;
+  background-repeat: no-repeat;
+  background-size: 10px;
+  cursor: pointer;
+  outline: none;
+}
+
+.status-selector {
+  background-image: linear-gradient(45deg, transparent 50%, gray 50%),
+                    linear-gradient(135deg, gray 50%, transparent 50%),
+                    linear-gradient(to right, #dedede, #dedede);
+  background-position: calc(100% - 10px) calc(1em + 5px), calc(100% - 5px) calc(1em + 5px), calc(125% - 2.5em);
+  background-size: 5px 5px, 5px 5px, 1px 1.5em;
+  background-repeat: no-repeat;
+}
+
+.status-selector:focus {
+  border-color: #664FC3;
+  box-shadow: 0 0 5px #7e57c2;
+}
+
+.status-option {
+  font-weight: normal;
+}
+
+.new-patient::after {
+  content: 'New';
+  position: relative;
+  top: 0;
+  right: 0;
+  background-color: #7a5db1; /* A slightly softer purple */
+  color: white;
+  padding: 3px 6px;
+  font-size: 12px;
+  font-weight: bold; /* Make text bolder */
+  border-radius: 0 0 0 5px;
+  text-shadow: 1px 1px 2px #000; /* Text shadow for depth */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Soft box shadow for 3D effect */
+  transition: all 0.3s ease; /* Transition for smooth hover effect */
+}
+
+.new-patient:hover::after {
+  background-color: #8a6bd0; /* Lighter purple on hover */
+  transform: scale(1.05); /* Slight scale up on hover */
+}
+
+@keyframes gentlePulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.7;
+  }
+}
+
+.new-patient::after {
+  animation: gentlePulse 3s ease-in-out infinite;
+}
+
+
+@media screen and (max-width: 1366px) {
+  .button-timekeeping {
+    font-size: 12px;
+  }
+}

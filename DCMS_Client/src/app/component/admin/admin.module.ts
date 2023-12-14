@@ -108,6 +108,7 @@ import { SecurityRevenueComponent } from './security-revenue/security-revenue.co
 import { SubmitOtpComponent } from './submit-otp/submit-otp.component';
 import { AuthInterceptor } from 'src/app/service/RefreshToken/auth.interceptor';
 import { CustomReuseStrategy } from 'src/app/service/RouteReuseStrategy/route-reuse-strategy.component';
+import { PatientExaminationManagementComponent } from '../patient/patient-examination-management/patient-examination-management.component';
 
 @NgModule({
   declarations: [
@@ -195,7 +196,8 @@ import { CustomReuseStrategy } from 'src/app/service/RouteReuseStrategy/route-re
     PopupEditMaterialRealComponent,
     RegisterWorkScheduleComponent,
     SecurityRevenueComponent,
-    SubmitOtpComponent
+    SubmitOtpComponent,
+    PatientExaminationManagementComponent
   ],
   imports: [
     CommonModule,

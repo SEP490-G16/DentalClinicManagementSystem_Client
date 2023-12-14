@@ -1,0 +1,77 @@
+<div class="sep-recent-orders">
+  <div class="row mt-4 mb-4">
+    <div class="col-6">
+    </div>
+    <div class="col-6">
+      <select class="form-select input-custom float-end" aria-label="Default select example" [(ngModel)]="procedureFilter"
+        (change)="filterProcedure()" style="width: 30%;">
+        <option selected value="0">Loại điều trị</option>
+        <option *ngFor="let a of groupServices" value={{a.medical_procedure_group_id}}>{{a.name}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="table-container">
+    <table *ngIf="filteredWaitingRoomData.length > 0,else noDataMessage">
+      <thead class="sticky-thead">
+        <tr>
+          <th style="width: 50px">STT</th>
+          <th>Thời gian</th>
+          <th>Mã bệnh nhân</th>
+          <th>Tên bệnh nhân</th>
+          <th>Bệnh nhân mới</th>
+          <th>Lý do khám</th>
+          <th>Loại điều trị</th>
+          <th>Trạng thái</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr title="Xem thông tin bệnh nhân {{ wtr.patient_name }}"
+          *ngFor="let wtr of filteredWaitingRoomData; let i = index" (click)="goTreatmentCoursePage(wtr.patient_id)"
+          style="cursor: pointer;">
+          <ng-container *ngIf="wtr.date != '' && wtr.date != undefined">
+            <td>{{ i + 1 }}</td>
+            <td>{{wtr.date}}</td>
+            <td>{{ wtr.patient_id }}</td>
+            <td style="text-decoration: underline;">{{ wtr.patient_name }}</td>
+            <td>{{wtr.patient_created_date == 1 ? "Mới" : wtr.patient_created_date == 2 ?
+              "Cũ" : "Dữ liệu trước"}}</td>
+            <td class="truncate" data-bs-toggle="tooltip" title="{{wtr.reason}}">{{wtr.reason }}
+            </td>
+            <td >{{ wtr.produce_name }}</td>
+            <ng-container *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('4') || roleId.includes('5')">
+              <td (click)="stopClick($event)">
+                <select class="text-center status-selector" [(ngModel)]="wtr.status"
+                  (change)="onPutStatus(wtr, wtr.epoch)" [ngStyle]="{'color': selectedColor}">
+                  <ng-container *ngIf="wtr.status == 2">
+                    <option value="2" class="status-option in-progress">Đang khám</option> <!--x-->
+                    <option value="3" class="status-option completed">Khám xong</option> <!--x-->
+                  </ng-container>
+                  <ng-container *ngIf="wtr.status == 3">
+                    <option value="3" class="status-option completed">Khám xong</option>
+                  </ng-container>
+                </select>
+              </td>
+            </ng-container>
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
+    <ng-template #noDataMessage>
+      <div class="row sticky-thead-no-data">
+        <div class="col-md-1">STT</div>
+        <div class="col-md-1">Thời gian</div>
+        <div class="col-md-2">Mã bệnh nhân</div>
+        <div class="col-md-2">Tên bệnh nhân</div>
+        <div class="col-md-2">Bệnh nhân mới</div>
+        <div class="col-md-1">Lý do khám</div>
+        <div class="col-md-1">Loại điều trị</div>
+        <div class="col-md-1">Trạng thái</div>
+      </div>
+      <div class="text-center no-data">
+        <span>
+          Không có bệnh nhân đang khám
+        </span>
+      </div>
+    </ng-template>
+  </div>
+</div>

@@ -26,8 +26,9 @@ import { ReceptionistWaitingRoomComponent } from '../receptionist/receptionist-w
 import { ReceptionistTimekeepingComponent } from '../receptionist/receptionist-timekeeping/receptionist-timekeeping.component';
 import { RegisterWorkScheduleComponent } from '../shared/register-work-schedule/register-work-schedule.component';
 import { MaterialManagementComponent } from './material-management/material-management.component';
-import {SecurityRevenueComponent} from "./security-revenue/security-revenue.component";
-import {SubmitOtpComponent} from "./submit-otp/submit-otp.component";
+import { SecurityRevenueComponent } from "./security-revenue/security-revenue.component";
+import { SubmitOtpComponent } from "./submit-otp/submit-otp.component";
+import { PatientExaminationManagementComponent } from '../patient/patient-examination-management/patient-examination-management.component';
 
 const adminRoutes: Routes = [
   { path: '', redirectTo: 'phong-cho', pathMatch: 'full' },
@@ -37,9 +38,10 @@ const adminRoutes: Routes = [
   { path: 'bao-cao-thu', component: ReportHighIncomeAndExpenditureComponent },
   { path: 'bao-cao-chi', component: ReportExpenditureComponent },
   { path: 'lich-hen', component: ReceptionistAppointmentListComponent },
-  { path: 'phong-cho', component: ReceptionistWaitingRoomComponent},
-  { path:'bao-mat',component:SecurityRevenueComponent},
-  { path:'gui-otp',component:SubmitOtpComponent},
+  { path: 'phong-cho', component: ReceptionistWaitingRoomComponent },
+  { path: 'benh-nhan-dang-kham', component: PatientExaminationManagementComponent },
+  { path: 'bao-mat', component: SecurityRevenueComponent },
+  { path: 'gui-otp', component: SubmitOtpComponent },
   {
     path: '', children: [
       { path: 'kho', component: MaterialComponent },
@@ -61,8 +63,8 @@ const adminRoutes: Routes = [
       { path: 'chi-tiet-nhan-vien', component: StaffDetailComponent }
     ]
   },
-  { path: 'dang-ky-lich-lam-viec', component: RegisterWorkScheduleComponent},
-  { path: 'cham-cong', component: ReceptionistTimekeepingComponent},
+  { path: 'dang-ky-lich-lam-viec', component: RegisterWorkScheduleComponent },
+  { path: 'cham-cong', component: ReceptionistTimekeepingComponent },
   { path: 'theo-doi-cham-cong', component: FollowingTimekeepingComponent },
 ]
 
