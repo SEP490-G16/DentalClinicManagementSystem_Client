@@ -61,6 +61,7 @@
 .header-header {
   color: rgb(54, 25, 192);
   margin-bottom: 15px;
+  text-transform: uppercase;
 }
 
 p {

@@ -8,8 +8,8 @@
 
 <!-- Modal Body -->
 <div class="modal-body">
+  <h4 class="text-start">Nha khoa Nguyễn Trần</h4>
   <h2 class="text-center header-header">Phiếu thu</h2>
-
   <!-- Date and Payment Type -->
   <div class="row">
     <div class="col-md-6 col-sm-12">
@@ -37,8 +37,11 @@
 
   <!-- Address -->
   <div class="row">
-    <div class="col-12">
+    <div class="col-md-6 col-sm-12">
       <p>Địa chỉ/Address: <b>{{Patient.p_address}}</b></p>
+    </div>
+    <div class="col-md-6 col-sm-12 right">
+      <p>Cơ sở: <b></b></p>
     </div>
   </div>
 
@@ -73,7 +76,7 @@
           <tbody>
             <tr *ngFor="let mu of MaterialUsage; let i = index">
               <td>{{ i + 1 }}</td>
-              <td>{{ mu.mu_medical_procedure_id }}</td>
+              <td>{{ mu.mu_mpname }}</td>
               <td>{{ mu.mu_price | currency:'VND' }}</td>
               <td>{{ mu.mu_quantity }}</td>
               <td>{{ mu.mu_total | currency:'VND' }}</td>

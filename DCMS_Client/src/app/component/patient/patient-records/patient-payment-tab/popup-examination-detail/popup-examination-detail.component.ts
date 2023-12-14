@@ -81,6 +81,7 @@ interface MaterialUsage {
   mu_material_usage_id: string;
   mu_medical_procedure_id: string,
   material_warehouse_id: string;
+  mu_mpname:string;
   mu_price: number;
   mu_quantity: number;
   mu_status: number;
