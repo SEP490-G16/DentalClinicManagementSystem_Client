@@ -108,9 +108,15 @@
     </div>
   </div>
 
-  <div class="row mt-5 mb-5">
-    <h4>Thanh toán: {{totalPaid | currency:'VND'}}</h4>
-    <h4>Tổng nợ: {{remaining | currency:'VND'}}</h4>
+  <div class="custom-row mt-5 mb-5">
+    <div class="payment-info">
+      <h4>Thanh toán: {{totalPaid | currency:'VND'}}</h4>
+      <i>{{totalPaid | numberToWords}}</i>
+    </div>
+    <div class="remaining-info">
+      <h4>Tổng nợ: {{remaining | currency:'VND'}}</h4>
+      <i>{{remaining | numberToWords}}</i>
+    </div>
   </div>
 </div>
 

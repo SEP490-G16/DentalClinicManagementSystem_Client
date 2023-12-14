@@ -109,6 +109,7 @@ import { SubmitOtpComponent } from './submit-otp/submit-otp.component';
 import { AuthInterceptor } from 'src/app/service/RefreshToken/auth.interceptor';
 import { CustomReuseStrategy } from 'src/app/service/RouteReuseStrategy/route-reuse-strategy.component';
 import { PatientExaminationManagementComponent } from '../patient/patient-examination-management/patient-examination-management.component';
+import { NumberToWordsPipe } from '../utils/libs/moneyPronounciation.pipe';
 
 @NgModule({
   declarations: [
@@ -197,7 +198,8 @@ import { PatientExaminationManagementComponent } from '../patient/patient-examin
     RegisterWorkScheduleComponent,
     SecurityRevenueComponent,
     SubmitOtpComponent,
-    PatientExaminationManagementComponent
+    PatientExaminationManagementComponent,
+    NumberToWordsPipe
   ],
   imports: [
     CommonModule,
