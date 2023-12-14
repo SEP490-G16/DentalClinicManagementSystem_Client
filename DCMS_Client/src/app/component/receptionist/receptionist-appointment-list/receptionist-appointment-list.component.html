@@ -43,6 +43,7 @@
           <th>Tên bệnh nhân</th>
           <th>Bệnh nhân mới</th>
           <th>SĐT</th>
+          <th>Lý do khám</th>
           <th>Loại điều trị</th>
           <th>Bác sĩ</th>
           <th>Thời gian hẹn khám</th>
@@ -66,6 +67,9 @@
                   == 2 ? "Cũ" : "Dữ liệu trước"}}</td>
                 <td class="patient-phone">
                   {{normalizePhoneNumber(detail.phone_number)}}
+                </td>
+                <td>
+                  {{detail.reason}}
                 </td>
                 <td class="patient-pn">
                   {{detail.procedure_name}}
@@ -106,8 +110,9 @@
       <div class="row sticky-thead-no-data">
         <div class="col-md-2">Mã bệnh nhân</div>
         <div class="col-md-2">Tên bệnh nhân</div>
-        <div class="col-md-2">Bệnh nhân mới</div>
+        <div class="col-md-1">Bệnh nhân mới</div>
         <div class="col-md-1">SĐT</div>
+        <div class="col-md-1">Lý do khám</div>
         <div class="col-md-1">Loại điều trị</div>
         <div class="col-md-1">Bác sĩ</div>
         <div class="col-md-1">Thời gian</div>

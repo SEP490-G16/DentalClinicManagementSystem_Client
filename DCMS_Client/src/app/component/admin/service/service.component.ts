@@ -63,7 +63,9 @@ export class ServiceComponent implements OnInit {
       }
     )
   }
+  activeGroupId: any = null;
   getMedicalProcedureChildren(id: any) {
+    this.activeGroupId = id;
     this.medicalProcedureList = [];
     for (var i = 0; i < this.medicalProcedureGroups.length; i++) {
       if (this.searchTerm == "" || this.searchTerm == null || this.searchTerm == undefined) {

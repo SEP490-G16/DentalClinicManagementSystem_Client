@@ -541,3 +541,7 @@ table .tr-children:hover{
   font-weight: bold;
   color: #721c24; /* Màu chữ đỏ đậm */
 }
+.required {
+  color: red;
+  margin-left: 3px;
+}

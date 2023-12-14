@@ -49,9 +49,11 @@
           <div class="row">
             <div class="col-12">
               <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Phương án điều trị</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="Edit_TreatmentCourse.name"
+                <label for="exampleInputEmail1" class="form-label">Phương án điều trị <span class="required">*</span></label>
+                <input type="text" class="form-control" id="exampleInputEmail1"
                   [(ngModel)]="Edit_TreatmentCourse.name" aria-describedby="emailHelp">
+                <div *ngIf="isSubmittedTreatmentCourse" class="alert-danger-custommm" style="color:#FF0000FF;">
+                  {{validateTreatmentCouse.name}}</div>
               </div>
             </div>
           </div>
@@ -211,8 +213,8 @@
                     <th style="padding: 10px">Liều dùng</th>
                     <th style="padding: 10px">Thao tác</th>
                   </tr>
-    
-    
+
+
                   <ng-container *ngFor="let record of recordsMedicine; let i = index">
                     <tr>
                       <td style="padding: 10px">{{ i + 1 }}</td>
@@ -256,13 +258,13 @@
                   <ng-select [items]="results" [(ngModel)]="material_warehouse_id"
                     (ngModelChange)="updateTemporaryNameMaterial()" [searchable]="true" bindLabel="materialName"
                     bindValue="id" [notFoundText]="'Không tìm thấy vật liệu'">
-    
+
                   </ng-select>
                 </div>
               </div>
             </div>
           </div>
-    
+
           <div class="row">
             <div class="col-12">
               <div class="mb-3">
@@ -291,7 +293,7 @@
                             </button>
                           </div>
                         </div>
-    
+
                       </td>
                     </tr>
                   </ng-container>

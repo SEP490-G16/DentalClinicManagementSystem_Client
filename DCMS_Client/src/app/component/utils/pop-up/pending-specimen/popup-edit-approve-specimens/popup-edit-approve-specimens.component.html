@@ -28,6 +28,23 @@
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row mt-3">
+                <label for="quantity" class="col-3 name-title">Số lượng</label>
+                <div class="col-9 value-staff">
+                  <input type="number" [(ngModel)]="specimen.quantity" required #quantity="ngModel" class="form-control date-input-custom" id="quantity" name="quantity">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                    <p>
+                      {{validateSpecimens.quantity}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
               <div class="form-group row mt-3">
                 <label for="material" class="col-3 name-title">Chất liệu</label>
                 <div class="col-9 value-staff">
@@ -39,10 +56,27 @@
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row mt-3">
+                <label for="unitprice" class="col-3 name-title">Đơn giá</label>
+                <div class="col-9 value-staff">
+                  <input type="number" [(ngModel)]="specimen.price" required #price=ngModel (input)="calculateTotal()" class="form-control" id="unitprice" name="unitprice">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                    <p>
+                      {{validateSpecimens.price}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
               <div class="form-group row mt-3">
                 <label for="orderdate" class="col-3 name-title">Ngày đặt <span class="required">*</span></label>
                 <div class="col-9 value-staff">
-<!--                  <input type="date" [(ngModel)]="specimen.orderDate" required #orderDate="ngModel" class="form-control date-input-custom" id="orderdate" name="orderdate">-->
+                  <!--                  <input type="date" [(ngModel)]="specimen.orderDate" required #orderDate="ngModel" class="form-control date-input-custom" id="orderdate" name="orderdate">-->
                   <div class="input-group">
                     <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="orderDateNgbModal"
                            ngbDatepicker #orderDatepicker="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày đặt">
@@ -61,10 +95,22 @@
                 </div>
 
               </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row mt-3">
+                <label for="intomoney" class="col-3 name-title">Thành tiền</label>
+                <div class="col-9 value-staff">
+                  <input type="text" [(ngModel)]="specimen.total" class="form-control" disabled id="intomoney" name="intomoney">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
               <div class="form-group row mt-3">
                 <label for="receiverdate" class="col-3 name-title">Ngày nhận</label>
                 <div class="col-9 value-staff">
-<!--                  <input type="date" [(ngModel)]="specimen.receiverDate" required #receiverDate="ngModel" class="form-control date-input-custom" id="receiverdate" name="receiverdate">-->
+                  <!--                  <input type="date" [(ngModel)]="specimen.receiverDate" required #receiverDate="ngModel" class="form-control date-input-custom" id="receiverdate" name="receiverdate">-->
                   <div class="input-group">
                     <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="receiverDateNgbModal"
                            ngbDatepicker #receivedDatepicker="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày nhận">
@@ -83,10 +129,27 @@
                 </div>
 
               </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row mt-3">
+                <label for="orderby" class="col-3 name-title">Người đặt</label>
+                <div class="col-9 value-staff">
+                  <input type="text" [(ngModel)]="specimen.orderer" required #order="ngModel" class="form-control" id="orderby" name="orderby">
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                    <p>
+                      {{validateSpecimens.orderer}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
               <div class="form-group row mt-3">
                 <label for="installationdate" class="col-3 name-title">Ngày lắp</label>
                 <div class="col-9 value-staff">
-<!--                  <input type="date" [(ngModel)]="specimen.usedDate" required #usedDate="ngModel" class="form-control date-input-custom" id="installationdate" name="installationdate">-->
+                  <!--                  <input type="date" [(ngModel)]="specimen.usedDate" required #usedDate="ngModel" class="form-control date-input-custom" id="installationdate" name="installationdate">-->
                   <div class="input-group">
                     <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="usedDateNgbModal"
                            ngbDatepicker #usedDatepicker="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày lắp">
@@ -104,6 +167,26 @@
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row mt-3">
+                <label for="patient" class="col-3 name-title">Bệnh nhân <span class="required">*</span></label>
+                <div class="col-9 value-staff">
+                  <ng-select id="patient" [items]="patientList" bindLabel="patientInfor" (click)="clickPatient(patientInfor)" [(ngModel)]="specimen.patientId" bindValue="patientId" (keyup)="onsearch($event)"
+                             [notFoundText]="'Không tìm thấy bệnh nhân'">
+
+                  </ng-select>
+                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
+                    <p>
+                      {{validateSpecimens.receiver}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
               <div class="form-group row mt-3">
                 <label for="labo" class="col-3 name-title">Labo <span class="required">*</span></label>
                 <select class="form-select p-2" style="margin-left: 10px; width: 71%; border: 1px solid #664FC3;
@@ -121,59 +204,6 @@
             </div>
 
             <div class="col-md-6">
-              <div class="form-group row mt-3">
-                <label for="quantity" class="col-3 name-title">Số lượng</label>
-                <div class="col-9 value-staff">
-                  <input type="number" [(ngModel)]="specimen.quantity" required #quantity="ngModel" class="form-control date-input-custom" id="quantity" name="quantity">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
-                    <p>
-                      {{validateSpecimens.quantity}}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row mt-3">
-                <label for="unitprice" class="col-3 name-title">Đơn giá</label>
-                <div class="col-9 value-staff">
-                  <input type="number" [(ngModel)]="specimen.price" required #price=ngModel (input)="calculateTotal()" class="form-control" id="unitprice" name="unitprice">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
-                    <p>
-                      {{validateSpecimens.price}}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row mt-3">
-                <label for="intomoney" class="col-3 name-title">Thành tiền</label>
-                <div class="col-9 value-staff">
-                  <input type="text" [(ngModel)]="specimen.total" class="form-control" disabled id="intomoney" name="intomoney">
-                </div>
-              </div>
-              <div class="form-group row mt-3">
-                <label for="orderby" class="col-3 name-title">Người đặt</label>
-                <div class="col-9 value-staff">
-                  <input type="text" [(ngModel)]="specimen.orderer" required #order="ngModel" class="form-control" id="orderby" name="orderby">
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
-                    <p>
-                      {{validateSpecimens.orderer}}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row mt-3">
-                <label for="patient" class="col-3 name-title">Bệnh nhân <span class="required">*</span></label>
-                <div class="col-9 value-staff">
-                  <ng-select id="patient" [items]="patientList" bindLabel="patientInfor" (click)="clickPatient(patientInfor)" [(ngModel)]="specimen.patientId" bindValue="patientId" (keyup)="onsearch($event)"
-                             [notFoundText]="'Không tìm thấy bệnh nhân'">
-
-                  </ng-select>
-                  <div *ngIf="isSubmitted"  class="alert-danger-custom">
-                    <p>
-                      {{validateSpecimens.receiver}}
-                    </p>
-                  </div>
-                </div>
-              </div>
               <div class="form-group row mt-3">
                 <label for="patient" class="col-3 name-title">Liệu trình:</label>
                 <select class="form-select p-2" id="patient" style="margin-left: 10px; width: 71%; border: 1px solid #664FC3;

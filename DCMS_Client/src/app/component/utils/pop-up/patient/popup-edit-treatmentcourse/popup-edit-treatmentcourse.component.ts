@@ -49,7 +49,10 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
       name: "",
     }
   }
-
+  validateTreatmentCouse ={
+    name:''
+  }
+  isSubmittedTreatmentCourse:boolean = false;
 
   Edit_TreatmentCourse: any;
   ngOnInit(): void {
@@ -311,7 +314,7 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
       if (item.medical_procedure_id == gro.procedureId) {
         if (!this.listChange.includes(item.material_usage_id)) {
           this.listChange.push(item.material_usage_id);
-        } 
+        }
         item.price = event.target.value;
       }
     })
@@ -328,7 +331,7 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
       if (item.medical_procedure_id == gro.procedureId) {
         if (!this.listChange.includes(item.material_usage_id)) {
           this.listChange.push(item.material_usage_id);
-        } 
+        }
         item.quantity = event.target.value;
       }
     })
@@ -337,7 +340,7 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
       if (item.medical_procedure_id == gro.procedureId) {
         if (!this.listChange.includes(item.material_usage_id)) {
           this.listChange.push(item.material_usage_id);
-        } 
+        }
         item.quantity = event.target.value;
       }
     })
@@ -362,6 +365,14 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
   listUpdateMaterial: any[] = [];
 
   editTreatmentCourse() {
+    this.resetValidateTreatmentCourse();
+    if (!this.Edit_TreatmentCourse.name){
+      this.validateTreatmentCouse.name = "Vui lòng nhập phương án điều trị!";
+      this.isSubmittedTreatmentCourse = true;
+    }
+    if (this.isSubmittedTreatmentCourse){
+      return;
+    }
     this.Edit_TreatmentCourse.prescription = this.recordsMedicine;
     this.Edit_TreatmentCourse.prescription = JSON.stringify(this.Edit_TreatmentCourse.prescription);
 
@@ -562,7 +573,7 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
     size: 'lg',
     centered: true
   }
-  
+
   Patient: any;
   getPatient() {
     this.patientService.getPatientById(this.Patient_Id)
@@ -675,7 +686,12 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
       this.unique.splice(index2, 1);
     }
   }
-
+  resetValidateTreatmentCourse(){
+    this.validateTreatmentCouse = {
+      name: ''
+    }
+    this.isSubmittedTreatmentCourse = false;
+  }
 }
 
 interface ProcedureOb {

@@ -786,3 +786,7 @@ table .tr-children:hover{
 .modal-content::-webkit-scrollbar-thumb:hover {
   background: #8c8a8a;
 }
+.required {
+  color: red;
+  margin-left: 3px;
+}

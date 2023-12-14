@@ -210,6 +210,41 @@ export class WarehouseImportMaterialManagementComponent implements OnInit {
       )
     }
   }
+  resetPage(page: number){
+    this.loading = true;
+    this.currentPage = page;
+    this.importMaterialService.getImportMaterials(this.currentPage).subscribe(data => {
+        this.importBills = [];
+        this.importBills = data.data;
+        this.checkNextPage();
+        this.loading = false;
+        if (this.importBills.length > 10) {
+          this.importBills.pop();
+        }
+        this.displayWarehouse = [];
+        console.log("Checkdate", this.importBills);
+        this.importBills.forEach((p: any) => {
+          this.materbyId.Id = p.id;
+          this.materbyId.CreateDate = p.created_date;
+          this.materbyId.CreateBy = p.creator;
+          this.materbyId.Note = p.description;
+          this.materbyId.TotalAmount = p.total;
+          this.displayWarehouse.push(this.materbyId);
+          //total = 0;
+          this.materbyId = {
+            Id: '',
+            CreateDate: '',
+            Note: '',
+            TotalAmount: 0,
+            CreateBy: ''
+          }
+        })
+      },
+      error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.importMaterialService.url + "/import-material/page/" + this.currentPage, error);
+      }
+    )
+  }
   getMaterials(paging: number) {
     this.materialService.getMaterials(paging).subscribe(data => {
       this.materialList = data.data;

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import {Component, OnDestroy, OnInit, AfterViewInit, ViewChild, ElementRef, AfterViewChecked} from '@angular/core';
 import { NgForm } from "@angular/forms";
 import { WebsocketService } from "../../service/Chat/websocket.service";
 import { ResponseHandler } from "../utils/libs/ResponseHandler";
@@ -15,7 +15,8 @@ import { PatientService } from 'src/app/service/PatientService/patient.service';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
-export class ChatComponent implements OnInit, OnDestroy {
+export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked{
+  @ViewChild('scrollMe') private myScrollContainer!: ElementRef;
   currentDateTimeGMT7 = moment().tz('Asia/Ho_Chi_Minh');
   messageContent: string = '';
   receivedMessages: any[] = [];
@@ -58,6 +59,15 @@ export class ChatComponent implements OnInit, OnDestroy {
     //   patient_created_date: '',
     // } as IPostWaitingRoom
   }
+
+  ngAfterViewChecked(): void {
+        this.scrollToBottom();
+    }
+  scrollToBottom(): void {
+    try {
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch(err) { }
+  }
   filteredWaitingRoomData = [] as IPostWaitingRoom[];
   searchPatientsList: any[] = [];
   analyses = {
@@ -70,9 +80,9 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.waitingRoomService.data$.subscribe((dataList) => {
       this.filteredWaitingRoomData = dataList;
     })
-    
+
     this.patientService.data$.subscribe((dataList) => {
-      this.searchPatientsList = dataList; 
+      this.searchPatientsList = dataList;
     })
 
 
@@ -223,6 +233,7 @@ export class ChatComponent implements OnInit, OnDestroy {
           this.unreadMessagesCount++;
         }
         this.playMessageSound();
+        setTimeout(() => this.scrollToBottom(), 100);
       }
     })
   }

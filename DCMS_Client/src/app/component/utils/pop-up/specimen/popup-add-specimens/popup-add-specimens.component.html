@@ -20,7 +20,7 @@
                 <label for="name-specimens" class="col-3 name-title">Tên mẫu <span class="required">*</span></label>
                 <div class="col-9 value-staff">
                   <input type="text" [(ngModel)]="specimen.name" required class="form-control" id="name-specimens"
-                    name="specimensName" #name="ngModel">
+                         name="specimensName" #name="ngModel">
                   <div *ngIf="isSubmitted" class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.name}}
@@ -28,11 +28,29 @@
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row mt-3">
+                <label for="quantity" class="col-3 name-title">Số lượng</label>
+                <div class="col-9 value-staff">
+                  <input type="number" [(ngModel)]="specimen.quantity" #quantity="ngModel" required
+                         class="form-control date-input-custom" id="quantity" name="quantity">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom">
+                    <p>
+                      {{validateSpecimens.quantity}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
               <div class="form-group row mt-3">
                 <label for="material" class="col-3 name-title">Chất liệu</label>
                 <div class="col-9 value-staff">
                   <input type="text" [(ngModel)]="specimen.type" required class="form-control" id="material"
-                    name="material" #type="ngModel">
+                         name="material" #type="ngModel">
                   <div *ngIf="isSubmitted" class="alert-danger-custom">
                     <p>
                       {{validateSpecimens.type}}
@@ -40,15 +58,33 @@
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row mt-3">
+                <label for="unitprice" class="col-3 name-title">Đơn giá</label>
+                <div class="col-9 value-staff">
+                  <input type="number" [(ngModel)]="specimen.price" #price="ngModel" required (input)="calculateTotal()"
+                         class="form-control" id="unitprice" name="unitprice">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom">
+                    <p>
+                      {{validateSpecimens.price}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
               <div class="form-group row mt-3">
                 <label for="orderdate" class="col-3 name-title">Ngày đặt <span class="required">*</span></label>
                 <div class="col-9 value-staff">
                   <div class="input-group">
                     <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="orderDateNgbModal"
-                      ngbDatepicker #orderDatepicker="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày đặt">
+                           ngbDatepicker #orderDatepicker="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày đặt">
                     <div class="input-group-append">
                       <button class="btn btn-outline-secondary calendar" style="height: 48px;" (click)="orderDatepicker.toggle()"
-                        type="button">
+                              type="button">
                         <i class="bi bi-calendar3"></i>
                       </button>
                     </div>
@@ -62,16 +98,29 @@
                 </div>
 
               </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row mt-3">
+                <label for="intomoney" class="col-3 name-title">Thành tiền:</label>
+                <div class="col-9 value-staff">
+                  <input type="text" [(ngModel)]="specimen.total" class="form-control" disabled id="intomoney"
+                         name="intomoney">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
               <div class="form-group row mt-3">
                 <label for="receiverdate" class="col-3 name-title">Ngày nhận</label>
                 <div class="col-9 value-staff">
                   <div class="input-group">
                     <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="receiverDateNgbModal"
-                      ngbDatepicker #receivedDatepicker="ngbDatepicker" [placement]="'right'"
-                      placeholder="Chọn ngày nhận">
+                           ngbDatepicker #receivedDatepicker="ngbDatepicker" [placement]="'right'"
+                           placeholder="Chọn ngày nhận">
                     <div class="input-group-append">
                       <button class="btn btn-outline-secondary calendar" style="height: 48px;" (click)="receivedDatepicker.toggle()"
-                        type="button">
+                              type="button">
                         <i class="bi bi-calendar3"></i>
                       </button>
                     </div>
@@ -83,15 +132,33 @@
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row mt-3">
+                <label for="orderby" class="col-3 name-title">Người đặt</label>
+                <div class="col-9 value-staff">
+                  <input type="text" [(ngModel)]="specimen.orderer" required class="form-control" id="orderby"
+                         name="orderby" #order="ngModel">
+                  <div *ngIf="isSubmitted" class="alert-danger-custom">
+                    <p>
+                      {{validateSpecimens.orderer}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
               <div class="form-group row mt-3">
                 <label for="installationdate" class="col-3 name-title">Ngày lắp</label>
                 <div class="col-9 value-staff">
                   <div class="input-group">
                     <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="usedDateNgbModal"
-                      ngbDatepicker #usedDatepicker="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày lắp">
+                           ngbDatepicker #usedDatepicker="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày lắp">
                     <div class="input-group-append">
                       <button class="btn btn-outline-secondary calendar" style="height: 48px;"
-                        (click)="usedDatepicker.toggle()" type="button">
+                              (click)="usedDatepicker.toggle()" type="button">
                         <i class="bi bi-calendar3"></i>
                       </button>
                     </div>
@@ -103,6 +170,26 @@
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row mt-3">
+                <label for="patient" class="col-3 name-title">Bệnh nhân <span class="required">*</span></label>
+                <div class="col-9 value-staff">
+                  <ng-select [items]="patientList" bindLabel="patientInfor" [(ngModel)]="patientIdSelected"
+                             bindValue="patientId" (keyup)="onsearch($event)" [notFoundText]="'Không tìm thấy bệnh nhân'"
+                             (click)="clickPatient(patientIdSelected)" [disabled]="Patient_Id">
+                  </ng-select>
+                  <div *ngIf="isSubmitted" class="alert-danger-custom">
+                    <p>
+                      {{validateSpecimens.receiver}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
               <div class="form-group row mt-3">
                 <label for="patient" class="col-3 name-title">Labo <span class="required">*</span></label>
                 <div class="col-9">
@@ -121,63 +208,6 @@
             </div>
 
             <div class="col-md-6">
-              <div class="form-group row mt-3">
-                <label for="quantity" class="col-3 name-title">Số lượng</label>
-                <div class="col-9 value-staff">
-                  <input type="number" [(ngModel)]="specimen.quantity" #quantity="ngModel" required
-                    class="form-control date-input-custom" id="quantity" name="quantity">
-                  <div *ngIf="isSubmitted" class="alert-danger-custom">
-                    <p>
-                      {{validateSpecimens.quantity}}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row mt-3">
-                <label for="unitprice" class="col-3 name-title">Đơn giá</label>
-                <div class="col-9 value-staff">
-                  <input type="number" [(ngModel)]="specimen.price" #price="ngModel" required (input)="calculateTotal()"
-                    class="form-control" id="unitprice" name="unitprice">
-                  <div *ngIf="isSubmitted" class="alert-danger-custom">
-                    <p>
-                      {{validateSpecimens.price}}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row mt-3">
-                <label for="intomoney" class="col-3 name-title">Thành tiền:</label>
-                <div class="col-9 value-staff">
-                  <input type="text" [(ngModel)]="specimen.total" class="form-control" disabled id="intomoney"
-                    name="intomoney">
-                </div>
-              </div>
-              <div class="form-group row mt-3">
-                <label for="orderby" class="col-3 name-title">Người đặt</label>
-                <div class="col-9 value-staff">
-                  <input type="text" [(ngModel)]="specimen.orderer" required class="form-control" id="orderby"
-                    name="orderby" #order="ngModel">
-                  <div *ngIf="isSubmitted" class="alert-danger-custom">
-                    <p>
-                      {{validateSpecimens.orderer}}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row mt-3">
-                <label for="patient" class="col-3 name-title">Bệnh nhân <span class="required">*</span></label>
-                <div class="col-9 value-staff">
-                  <ng-select [items]="patientList" bindLabel="patientInfor" [(ngModel)]="patientIdSelected"
-                    bindValue="patientId" (keyup)="onsearch($event)" [notFoundText]="'Không tìm thấy bệnh nhân'"
-                    (click)="clickPatient(patientIdSelected)" [disabled]="Patient_Id">
-                  </ng-select>
-                  <div *ngIf="isSubmitted" class="alert-danger-custom">
-                    <p>
-                      {{validateSpecimens.receiver}}
-                    </p>
-                  </div>
-                </div>
-              </div>
               <div class="form-group row mt-3">
                 <label for="patient" class="col-3 name-title">Liệu trình:</label>
                 <select class="form-select p-2" id="patient" style="margin-left: 10px; width: 71%;
