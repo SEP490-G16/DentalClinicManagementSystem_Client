@@ -34,22 +34,22 @@
               <span class="text">Phòng chờ</span>
             </a>
           </li>
-          <li class="list" routerLinkActive="active" routerLink="/phong-cho" *ngIf="roleId.includes('2')">
+          <li class="list" routerLinkActive="active" routerLink="/benh-nhan-dang-kham" *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('4') || roleId.includes('5')">
             <a style="--clr:#664FC3">
               <span class="icon">
-                <i class="bi bi-house-heart"></i>
+                <i class="bi bi-person-hearts"></i>
               </span>
               <span class="text">Bệnh nhân đang khám</span>
             </a>
           </li>
-          <li class="list" routerLinkActive="active" routerLink="/phong-cho" *ngIf="roleId.includes('4') || roleId.includes('5')">
+          <!-- <li class="list" routerLinkActive="active" routerLink="/phong-cho" *ngIf="roleId.includes('4') || roleId.includes('5')">
             <a style="--clr:#664FC3">
               <span class="icon">
                 <i class="bi bi-house-heart"></i>
               </span>
               <span class="text">Bệnh nhân đang chờ</span>
             </a>
-          </li>
+          </li> -->
           <li class="list" routerLinkActive="active" routerLink="/benhnhan/danhsach"
             *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('3') || roleId.includes('4') || roleId.includes('5')">
             <a style="--clr:#664FC3">
