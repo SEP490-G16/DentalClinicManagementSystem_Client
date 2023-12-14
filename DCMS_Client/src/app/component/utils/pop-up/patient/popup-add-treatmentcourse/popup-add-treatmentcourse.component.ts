@@ -40,13 +40,9 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
   userName: any;
   facility:any;
   currentDate:any;
-  validateMaterial={
-    soLuong:''
-  }
+  validateMaterial:any = {}
   isSubmittedMaterial:boolean = false;
-  valdateSpecimens ={
-    soLuong:''
-  }
+  valdateSpecimens:any = {}
   isSubmittedSpecimens:boolean = false;
   validateMedicine = {
     soLuong:''
@@ -365,28 +361,49 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     this.Post_TreatmentCourse.provisional_diagnosis = this.TreatmentCouseBody.chuandoan;
     this.Post_TreatmentCourse.description = this.TreatmentCouseBody.luuy;
     this.Post_TreatmentCourse.prescription = JSON.stringify(this.recordsMedicine);
-    this.resetValidateMaterial();
-    this.listMaterialUsage.forEach((item: any) => {
+    //this.resetValidateMaterial();
+    this.listMaterialUsage.forEach((item: any, itemIndex: number) => {
+      const key = `soLuong_${itemIndex}`;
       let soLuong = item.quantity;
       if (!this.checkNumber(soLuong)){
-        this.validateMaterial.soLuong = "Vui lòng nhập số lượng > 0!";
+        this.validateMaterial[key] = "Vui lòng nhập số lượng > 0!";
         this.isSubmittedMaterial = true;
       }
+      else {
+        if (this.validateMaterial[key]){
+          delete this.validateMaterial[key]
+        }
+      }
     })
-    if (this.isSubmittedMaterial){
+    // if (this.isSubmittedMaterial){
+    //   return;
+    // }
+    if (Object.keys(this.validateMaterial).length > 0){
+      this.isSubmittedMaterial = true;
       return;
     }
-    this.resetValidateSpecimens();
-    this.list.forEach((item: any) => {
-      item.procedure.forEach((it: any) => {
-        let soLuong = it.quantity
-        if (!this.checkNumber(soLuong)){
-          this.valdateSpecimens.soLuong = "Vui lòng nhập số lượng > 0!";
-          this.isSubmittedSpecimens = true
-        }
+    //this.resetValidateSpecimens();
+    this.list.forEach((item: any, itemIndex: number) => {
+      item.procedure.forEach((it: any,procIndex: number) => {
+          const key = `soLuong_${itemIndex}_${procIndex}`;
+          let soLuong = it.quantity
+          if (!this.checkNumber(soLuong)){
+            this.valdateSpecimens[key] = "Vui lòng nhập số lượng > 0!";
+            this.isSubmittedSpecimens = true
+          }
+          else {
+            if (this.valdateSpecimens[key]) {
+              delete this.valdateSpecimens[key];
+            }
+          }
+
       })
     })
-    if (this.isSubmittedSpecimens){
+    // if (this.isSubmittedSpecimens){
+    //   return;
+    // }
+    if (Object.keys(this.valdateSpecimens).length > 0){
+      this.isSubmittedSpecimens = true;
       return;
     }
     this.treatmentCourseService.postTreatmentCourse(this.Post_TreatmentCourse).
@@ -626,7 +643,7 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
   }
   private resetValidateSpecimens(){
     this.valdateSpecimens = {
-      soLuong: ''
+      // soLuong: ''
     }
     this.isSubmittedSpecimens = false;
   }

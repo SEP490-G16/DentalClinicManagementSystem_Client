@@ -48,7 +48,7 @@ export class PatientRecordsComponent implements OnInit {
   ngOnInit(): void {
     this.loadPage(this.pagingSearch.paging);
     this.patientService.data$.subscribe((dataList) => {
-      this.searchPatientsList = dataList; 
+      this.searchPatientsList = dataList;
     })
   }
   checkNextPage() {
@@ -60,17 +60,17 @@ export class PatientRecordsComponent implements OnInit {
     this.currentPage = paging;
     this.patientService.getPatientList(paging).subscribe(patients => {
       this.originPatientList = patients.data;
-      this.searchLi = patients.data;
-      this.searchLi.forEach((p: any) => {
+      this.searchPatientsList = patients.data;
+      this.searchPatientsList.forEach((p: any) => {
         p.phone_number = this.normalizePhoneNumber(p.phone_number);
       })
       this.checkNextPage();
-      if (this.searchLi.length > 10) {
-        this.searchLi.pop();
+      if (this.searchPatientsList.length > 10) {
+        this.searchPatientsList.pop();
       }
       if (this.search.trim() !== "") {
       }
-      this.patientService.updateData(this.searchLi)
+      this.patientService.updateData(this.searchPatientsList)
     },
       error => {
         ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test + "/patient/name/" + paging, error);
