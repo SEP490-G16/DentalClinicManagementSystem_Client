@@ -104,7 +104,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         const currentUrl = this.location.path();
 
         if (this.POST_WAITTINGROOM.reason == "pa") {
-          alert("vô nha")
+          //alert("vô nha")
           let patientOb = {
             patient_id: this.POST_WAITTINGROOM.epoch,
             patient_name: this.POST_WAITTINGROOM.produce_id,
@@ -120,11 +120,16 @@ export class ChatComponent implements OnInit, OnDestroy {
             active: 1,
             created_date: this.POST_WAITTINGROOM.patient_name
           }
+          this.POST_WAITTINGROOM.status = "";
           this.searchPatientsList.push(patientOb);
           this.patientService.updateData(this.searchPatientsList);
         }
-        if (this.filteredWaitingRoomData.length == 0 && this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_name != "" && this.POST_WAITTINGROOM.patient_name != null && this.POST_WAITTINGROOM.patient_name != null && this.POST_WAITTINGROOM.status != "" && this.POST_WAITTINGROOM.status != null && this.POST_WAITTINGROOM.status != undefined) {
+        if (this.filteredWaitingRoomData.length == 0 && this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_name != "" && this.POST_WAITTINGROOM.patient_name != null 
+        && this.POST_WAITTINGROOM.patient_name != null && this.POST_WAITTINGROOM.patient_created_date != "" && this.POST_WAITTINGROOM.patient_created_date != null 
+        && this.POST_WAITTINGROOM.patient_created_date != undefined) {
+          //alert("check add successful trước")
           this.filteredWaitingRoomData.push(this.POST_WAITTINGROOM);
+          this.waitingRoomService.updateData(this.filteredWaitingRoomData);
           shouldBreakFor = true;
           this.POST_WAITTINGROOM = {
             epoch: '',
@@ -140,21 +145,20 @@ export class ChatComponent implements OnInit, OnDestroy {
             patient_created_date: '',
           }
         } else {
-          var checkPa = true;
           this.filteredWaitingRoomData.forEach((item: any) => {
             if (item.patient_id == check[1]) {
-              if (check[2] == 4 && checkPa) {
-                //alert("delete");
-                const index = this.filteredWaitingRoomData.findIndex((item: any) => { item.patient_id == check[1] });
+              if (check[2] == "4") {
+                const index = this.filteredWaitingRoomData.findIndex(it => it.patient_id == check[1]);
                 if (index != -1) {
                   this.filteredWaitingRoomData.splice(index, 1);
+                  this.waitingRoomService.updateData(this.filteredWaitingRoomData);
                 }
-                this.waitingRoomService.updateData(this.filteredWaitingRoomData);
-                checkPa = false;
               } else {
                 item.status = check[2];
               }
-            } else if (shouldBreakFor == false && this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_name != "" && this.POST_WAITTINGROOM.patient_name != null && this.POST_WAITTINGROOM.patient_name != null && this.POST_WAITTINGROOM.produce_id != "" && this.POST_WAITTINGROOM.status != "" && this.POST_WAITTINGROOM.status != null && this.POST_WAITTINGROOM.status != undefined) {
+            } else if (shouldBreakFor == false && this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_name != null 
+            && this.POST_WAITTINGROOM.patient_name != null && this.POST_WAITTINGROOM.produce_id != "" && this.POST_WAITTINGROOM.patient_created_date != "" && this.POST_WAITTINGROOM.patient_created_date != null 
+            && this.POST_WAITTINGROOM.patient_created_date != undefined) {
               this.filteredWaitingRoomData.push(this.POST_WAITTINGROOM);
               this.POST_WAITTINGROOM = {
                 epoch: '',
@@ -249,10 +253,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.webSocketService.closeConnection();
     this.chatContainerVisible = false;
   }
-
-  // setHover(value: boolean) {
-  //   this.isHovered = value;
-  // }
 
   isSentMessage(subId: string): boolean {
 

@@ -196,6 +196,7 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
 
   searchTimeout: any;
   getDataAnalysis() {
+    //localStorage.removeItem("patient_examinated");
     const now = new Date();
     const currentDate = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
     this.waitingRoomService.getWaitingRooms().subscribe((data) => {
@@ -208,6 +209,7 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
         }
       })
       this.analyses.total_patient_examinate = count;
+
       const checkTotal = localStorage.getItem('patient_examinated');
       if (checkTotal != null) {
         const check = JSON.parse(checkTotal);

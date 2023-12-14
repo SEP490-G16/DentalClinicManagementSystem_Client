@@ -15,9 +15,6 @@ export class WebsocketService {
       console.log('WebSocket connection established.');
     };
     this.socket.onmessage = (event)=>{
-
-      //console.log(event);
-      //const message = event.data;
       console.log("Received message:",event.data);
       this.messageReceived.next(event.data);
     };

@@ -161,21 +161,6 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "minus", "wtr1");
           this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "minus", "wtr");
           this.getWaitingRoomData();
-
-          //this.messageContent = `CheckRealTimeWaitingRoom@@@,${wtr.patient_id},${Number('4')}`;
-          
-          // this.messageBody = {
-          //   action: '',
-          //   message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
-          // }
-          // if (this.messageContent.trim() !== '' && sessionStorage.getItem('sub-id') != null && sessionStorage.getItem('username') != null) {
-          //   this.messageBody = {
-          //     action: "sendMessage",
-          //     message: `{"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}`
-          //   };
-          //   this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
-          // }
-
         },
           (error) => {
             this.loading = false;
