@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { RouterModule } from "@angular/router";
+import { RouteReuseStrategy, RouterModule } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
@@ -107,6 +107,7 @@ import { PopupEditMaterialRealComponent } from '../utils/pop-up/material/popup-e
 import { SecurityRevenueComponent } from './security-revenue/security-revenue.component';
 import { SubmitOtpComponent } from './submit-otp/submit-otp.component';
 import { AuthInterceptor } from 'src/app/service/RefreshToken/auth.interceptor';
+import { CustomReuseStrategy } from 'src/app/service/RouteReuseStrategy/route-reuse-strategy.component';
 
 @NgModule({
   declarations: [
@@ -228,6 +229,7 @@ import { AuthInterceptor } from 'src/app/service/RefreshToken/auth.interceptor';
     //   useClass: AuthInterceptor,
     //   multi: true,
     // },
+    { provide: RouteReuseStrategy, useClass: CustomReuseStrategy }
   ],
   exports: [
     PopupAddApproveSpecimensComponent,

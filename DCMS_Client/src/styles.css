@@ -833,3 +833,29 @@ button:hover {
   }
 
 }
+
+/*Ngb Timepicker css*/
+ngb-timepicker .btn-link {
+  display: none;
+}
+
+/* Tùy chỉnh màu nền của timepicker */
+ngb-timepicker {
+  background-color: #f2f2f2; /* màu nền xám nhạt */
+}
+
+/* Tùy chỉnh màu của các số */
+ngb-timepicker .ngb-tp-input {
+  color: #333333; /* màu đậm */
+}
+
+/* Tùy chỉnh màu nền và màu văn bản của các nút */
+ngb-timepicker .btn {
+  background-color: #664FC3; /* màu nền xanh */
+  color: white; /* màu văn bản trắng */
+}
+
+/* Tùy chỉnh màu của các nút khi hover */
+ngb-timepicker .btn:hover {
+  background-color: #664FC3; /* màu nền xanh đậm hơn khi hover */
+}

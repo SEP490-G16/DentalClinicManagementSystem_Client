@@ -41,7 +41,7 @@ import { Normalize } from 'src/app/service/Lib/Normalize';
 export class PopupAddAppointmentComponent implements OnInit {
   phoneRegex = /^[0-9]{10}$|^[0-9]{4}\s[0-9]{3}\s[0-9]{3}$/;
 
-
+  time = {hour: 13, minute: 20}
   private itemsSource = new BehaviorSubject<any[]>([]);
   items = this.itemsSource.asObservable();
   isCheckProcedure: boolean = true;
@@ -62,6 +62,7 @@ export class PopupAddAppointmentComponent implements OnInit {
     count: 0,
   }
   // @Input() datesDisabled: any;
+  @Input()selectedDateCache:any;
   @Input() filteredAppointments: any
   @Output() newItemEvent = new EventEmitter<any>();
   @Output() newAppointmentAdded = new EventEmitter<any>();
@@ -388,7 +389,7 @@ export class PopupAddAppointmentComponent implements OnInit {
           patient_created_date: this.AppointmentBody.appointment.patient_created_date,
           migrated: 'false'
         };
-        if (currDate == selectedDate) {
+        if (this.selectedDateCache === selectedDate) {
           const appointmentIndex = this.filteredAppointments.findIndex((a: any) => a.date === this.AppointmentBody.epoch);
           if (appointmentIndex !== -1) {
             this.filteredAppointments[appointmentIndex].appointments.push({

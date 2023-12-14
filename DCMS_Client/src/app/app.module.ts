@@ -25,8 +25,6 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { WebSocketSubject } from 'rxjs/webSocket';
 import { AppRoutingModule } from './app-routing.module';
 import { LOCALE_ID } from '@angular/core';
-import { registerLocaleData } from '@angular/common';
-import localeVi from '@angular/common/locales/vi';
 import { PopupAddReportExpenditureComponent } from './component/utils/pop-up/revenue/popup-add-report-expenditure/popup-add-report-expenditure.component';
 import { PopupConfirmServiceComponent } from './component/utils/pop-up/appointment/popup-confirm-service/popup-confirm-service.component';
 import { TableComponent } from './component/shared/table/table.component';
@@ -44,6 +42,8 @@ import { PatientService } from './service/PatientService/patient.service';
 import { AuthInterceptor } from './service/RefreshToken/auth.interceptor';
 // import { AuthInterceptor } from './service/RefreshToken/auth.interceptor';
 // Register the Vietnamese locale data
+import { registerLocaleData } from '@angular/common';
+import localeVi from '@angular/common/locales/vi';
 registerLocaleData(localeVi);
 @NgModule({
   declarations: [
@@ -79,7 +79,7 @@ registerLocaleData(localeVi);
     }),
     BsDatepickerModule.forRoot()
   ],
-  providers: [CookieService, { provide: LOCALE_ID, useValue: 'vi' },
+  providers: [CookieService, { provide: LOCALE_ID, useValue: 'vi-VN' },
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
     PatientService,
     {

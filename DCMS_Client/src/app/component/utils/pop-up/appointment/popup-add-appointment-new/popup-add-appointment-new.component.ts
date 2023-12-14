@@ -26,6 +26,7 @@ import {FormatNgbDate} from "../../../libs/formatNgbDate";
   styleUrls: ['./popup-add-appointment-new.component.css']
 })
 export class PopupAddAppointmentNewComponent implements OnInit {
+  @Input()selectedDateCache:any;
   dobNgb!: NgbDateStruct
   private itemsSource = new BehaviorSubject<any[]>([]);
   items = this.itemsSource.asObservable();
@@ -502,7 +503,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
 
           const now = new Date();
           const currDate = now.getFullYear() + "-"+(now.getMonth()+1)+"-"+now.getDate();
-          if (currDate == selectedDate) {
+          if (this.selectedDateCache == selectedDate) {
             const appointmentIndex = this.filteredAppointments.findIndex((a: any) => a.date === this.AppointmentBody.epoch);
 
             if (appointmentIndex !== -1) {

@@ -22,6 +22,7 @@ import { end } from '@popperjs/core';
 import { ConfirmDeleteModalComponent } from '../../utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component';
 import { TimeKeepingService } from 'src/app/service/Follow-TimeKeepingService/time-keeping.service';
 import { SendMessageSocket } from '../../shared/services/SendMessageSocket.service';
+import { FormatNgbDate } from '../../utils/libs/formatNgbDate';
 
 @Component({
   selector: 'app-receptionist-appointment-list',
@@ -41,12 +42,13 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   filteredAppointments: any;
   appointmentList: RootObject[] = [];
   listGroupService: any[] = [];
-  currentDate:any;
+  currentDate: any;
   startDate: any;
   startDateTimestamp: number = 0;
   endDateTimestamp: number = 0;
   nextDate: any;
 
+  selectedDateCache:any;
   constructor(private appointmentService: ReceptionistAppointmentService,
     private waitingRoomService: ReceptionistWaitingRoomService,
     private router: Router,
@@ -111,6 +113,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     )
   }
 
+
   getAppointmentList() {
     const selectedYear = this.model.year;
     const selectedMonth = this.model.month.toString().padStart(2, '0');
@@ -132,12 +135,31 @@ export class ReceptionistAppointmentListComponent implements OnInit {
       this.appointmentList = ConvertJson.processApiResponse(data);
       localStorage.setItem("ListAppointment", JSON.stringify(this.appointmentList));
       this.filteredAppointments = this.appointmentList.filter(app => app.date === this.dateToTimestamp(selectedDate));
-      this.filteredAppointments.forEach((a: any) => {
-        this.dateEpoch = this.timestampToDate(a.date);
-        a.appointments.forEach((b: any) => {
-          b.details = b.details.sort((a: any, b: any) => a.time - b.time);
-        })
-      })
+
+      this.filteredAppointments.forEach((appointmentParent: any) => {
+        // Assuming timestampToDate is a method that converts timestamp to Date.
+        this.dateEpoch = this.timestampToDate(appointmentParent.date);
+
+        // Flatten the details from each appointment into a single array.
+        const allDetails = appointmentParent.appointments
+          .map((appointment: any) => appointment.details)
+          .flat();
+
+        // Sort the flattened details array by time.
+        allDetails.sort((a: any, b: any) => {
+          const timeA = typeof a.time === "string" ? parseInt(a.time, 10) : a.time;
+          const timeB = typeof b.time === "string" ? parseInt(b.time, 10) : b.time;
+          return timeA - timeB;
+        });
+
+        // Now we need to redistribute the sorted details back into the appointments.
+        // This assumes that each appointment has exactly one detail.
+        for (let i = 0; i < appointmentParent.appointments.length; i++) {
+          appointmentParent.appointments[i].details = [allDetails[i]];
+        }
+      });
+
+      console.log("Filter Appointment: ", this.filteredAppointments);
       this.loading = false;
       //this.appointmentDateInvalid();
     },
@@ -275,6 +297,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   }
 
   onNewAppointmentAdded(newAppointment: any) {
+    this. selectedDateCache = FormatNgbDate.formatNgbDateToString(this.model);
     this.filteredAppointments = newAppointment;
   }
 
@@ -282,6 +305,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   dateString: any;
   timeString: any;
   openEditModal(appointment: any, dateTimestamp: any, event: Event) {
+    this. selectedDateCache = FormatNgbDate.formatNgbDateToString(this.model);
     this.dateString = this.timestampToDate(dateTimestamp);
     this.selectedAppointment = appointment;
     this.timeString = this.timestampToTime(appointment.time);
@@ -460,7 +484,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
             patient_created_date: b.patient_created_date
           }
           if (this.ListPatientWaiting != null && this.ListPatientWaiting != undefined && this.ListPatientWaiting.length != 0) {
-            this.ListPatientWaiting.forEach((item:any) => {
+            this.ListPatientWaiting.forEach((item: any) => {
               if (item.epoch == update1.epoch) {
                 if (item.appointment.patient_id == update1.patient_id) {
                   item = update1;
@@ -514,6 +538,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   }
 
   openAddAppointmentModal() {
+    this. selectedDateCache = FormatNgbDate.formatNgbDateToString(this.model);
     this.filteredAppointments = this.filteredAppointments;
     this.datesDisabled = this.datesDisabled;
   }

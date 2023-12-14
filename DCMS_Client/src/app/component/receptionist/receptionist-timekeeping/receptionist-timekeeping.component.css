@@ -119,11 +119,27 @@ tbody tr:last-child td:last-child {
 }
 
 input[type="time"] {
-  padding: 2px 6px;
+  padding: 2px;
   font-size: 0.8em;
   border: 1px solid #ced4da;
   border-radius: 4px;
+  max-width: 100%;
+  box-sizing: border-box;
 }
+
+/* Điều chỉnh chiều cao của các hàng trong bảng nếu cần */
+td {
+  height: auto;
+  /* Cho phép chiều cao tự điều chỉnh */
+  padding: 4px;
+  /* Giữ padding nhỏ để tiết kiệm không gian */
+  white-space: nowrap;
+  /* Ngăn chặn xuống dòng */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* Hiển thị dấu ba chấm nếu text quá dài */
+}
+
 
 td {
   padding: 4px;
@@ -131,6 +147,14 @@ td {
   text-align: center;
   vertical-align: middle;
   width: auto;
+}
+
+/* Thêm vào CSS của bạn */
+td:first-child {
+  white-space: normal;
+  /* Cho phép nội dung xuống dòng */
+  word-wrap: break-word;
+  /* Đảm bảo từ ngắt đúng cách nếu không vừa */
 }
 
 
@@ -158,19 +182,27 @@ td {
   }
 
 }
+
 .page-title.active-link {
   cursor: pointer;
-  color: blue; /* hoặc màu khác bạn muốn sử dụng cho đường dẫn được chọn */
+  color: blue;
+  /* hoặc màu khác bạn muốn sử dụng cho đường dẫn được chọn */
 }
+
 .page-title:hover {
-  color: blue; /* Màu khi di chuột vào liên kết không được chọn */
+  color: blue;
+  /* Màu khi di chuột vào liên kết không được chọn */
 }
+
 .page-title {
   cursor: pointer;
 
-  color: black; /* Màu mặc định cho liên kết không được chọn */
-  text-decoration: none; /* Loại bỏ gạch chân mặc định của liên kết */
-  transition: color 0.3s; /* Hiệu ứng chuyển đổi màu sắc */
+  color: black;
+  /* Màu mặc định cho liên kết không được chọn */
+  text-decoration: none;
+  /* Loại bỏ gạch chân mặc định của liên kết */
+  transition: color 0.3s;
+  /* Hiệu ứng chuyển đổi màu sắc */
 }
 
 .onTime {
@@ -180,14 +212,17 @@ td {
 .lateTime {
   color: #7B4C50;
 }
-.link-tab{
+
+.link-tab {
   display: flex;
   margin-top: 1%;
   margin-bottom: 1%;
 }
-.link-tab .dang-ki-lam-viec{
+
+.link-tab .dang-ki-lam-viec {
   margin-left: 1%;
 }
-.link-tab .theo-doi{
+
+.link-tab .theo-doi {
   margin-left: 1%;
 }

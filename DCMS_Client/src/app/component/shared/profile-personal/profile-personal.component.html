@@ -1,13 +1,14 @@
 <div class="container">
   <div class="row mt-5">
     <div class="col-md-3 custom-content">
-      <div class="image-container" >
-        <img [src]="imageURL ||'https://i.pinimg.com/736x/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'" alt="Ảnh nhân viên">
+      <div class="image-container">
+        <img [src]="imageURL ||'https://i.pinimg.com/736x/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'"
+          alt="Ảnh nhân viên">
         <input type="file" accept="image/*" (change)="onFileSelected($event)" #fileInput style="display: none;">
       </div>
       <div class="button-container">
-        <button class="btn button-timekeeping" (click)="fileInput.click()"><i
-          class="bi bi-plus-circle"></i> Chọn ảnh</button>
+        <button class="btn button-timekeeping" (click)="fileInput.click()"><i class="bi bi-plus-circle"></i> Chọn
+          ảnh</button>
       </div>
     </div>
 
@@ -25,7 +26,15 @@
       <div class="form-group row mb-3">
         <label for="dob" class="col-3">Ngày sinh:</label>
         <div class="col-9">
-          <input type="date" [(ngModel)]="staff.DOB" class="form-control date-input-custom" id="dob" name="dob">
+          <div style="display: flex">
+            <div style="width: 100%">
+              <input class="form-control date-input-custom" placeholder="dd/mm/yyyy" name="dp" ngbDatepicker
+                [(ngModel)]="model" (ngModelChange)="onDateChange()" #d="ngbDatepicker" />
+            </div>
+            <div>
+              <button class="btn btn-outline-secondary bi bi-calendar3" style="height: 100%" (click)="d.toggle()" type="button"></button>
+            </div>
+          </div>
           <div *ngIf="isSubmitted" class="alert-danger-custom" style="color: #FF0000FF;">
             <p>{{vailidateStaff.dob}}</p>
           </div>
@@ -79,7 +88,8 @@
           <label for="role">Vai trò:</label>
         </div>
         <div class="col-md-9">
-          <select id="role" [(ngModel)]="staff.role" class="form-select" aria-label="Default select example" [disabled]="true">
+          <select id="role" [(ngModel)]="staff.role" class="form-select" aria-label="Default select example"
+            [disabled]="true">
             <option value="1">Admin</option>
             <option value="2">Bác sĩ</option>
             <option value="3">Lễ tân</option>
@@ -99,9 +109,9 @@
           <div>
             <label for="male" class="m-2">Nam</label>
           </div>
-         <div>
-           <input type="radio" class="radio m-2" [(ngModel)]="staff.gender" id="male" name="gender" value="male">
-         </div>
+          <div>
+            <input type="radio" class="radio m-2" [(ngModel)]="staff.gender" id="male" name="gender" value="male">
+          </div>
           <div>
             <label for="female" class="m-2">Nữ</label>
           </div>
@@ -188,4 +198,3 @@
     <button type="button" style="margin-left: 10px" class="btn btn-cancel">Hủy</button>
   </div>
 </div>
-
