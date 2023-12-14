@@ -67,12 +67,14 @@ export class ProfilePersonalComponent implements OnInit {
       this.staff = attributes;
       const cognitoAttributes: any = attributes;
       this.staff.role = cognitoAttributes['custom:role'] || '';
+      console.log(this.staff);
       this.staff.DOB = this.timestampToDate(cognitoAttributes['custom:DOB']) || '';
       this.model = {
         year: Number(this.staff.DOB.split("-")[0]),
         month: Number(this.staff.DOB.split("-")[1]),
         day: Number(this.staff.DOB.split("-")[2]),
       }
+      console.log(this.model);
       this.staff.image = cognitoAttributes['custom:image'] || '';
       this.imageURL = this.staff.image;
       this.staff.phone = cognitoAttributes.phone_number || '';
@@ -106,11 +108,11 @@ export class ProfilePersonalComponent implements OnInit {
 
     this.cognitoService.updateUserAttributesOpt2(this.buildUpdateAttributes())
       .then(() => {
-        this.toastr.success('User attributes updated successfully');
+        this.toastr.success('Thay đổi thông tin cá nhân thành công');
       })
       .catch(error => {
-        console.error('Error updating user attributes: ', error);
-        this.toastr.error('Failed to update user attributes');
+        this.toastr.error('Lỗi khi cập nhật thông tin cá nhân: ', error);
+        // this.toastr.error('Failed to update user attributes');
       });
   }
 
@@ -149,49 +151,42 @@ export class ProfilePersonalComponent implements OnInit {
   }
 
 
- // Function to handle file selection
- onFileSelected(event: any) {
-  const fileInput = event.target;
-  if (fileInput.files && fileInput.files[0]) {
-    const file = fileInput.files[0];
+  async onFileSelected(event: any) {
+    const fileInput = event.target;
+    if (fileInput.files && fileInput.files[0]) {
+      const file = fileInput.files[0];
 
-    // Configuration options for more aggressive compression
-    const options = {
-      maxSizeMB: 0.1,  // Reduce the target size significantly
-      maxWidthOrHeight: 1280, // Choose a smaller max width/height
-      useWebWorker: true
-    };
+      const options = {
+        maxSizeMB: 0.02,
+        maxWidthOrHeight: 100,
+        useWebWorker: true
+      };
 
-    imageCompression(file, options)
-      .then(compressedFile => {
-        // Read the compressed file as base64
+      try {
+        const compressedFile = await imageCompression(file, options);
         const reader = new FileReader();
         reader.onloadend = (e: ProgressEvent<FileReader>) => {
           if (e.target && typeof e.target.result === 'string') {
-            // The result is the compressed image in base64 format
             const base64Image = e.target.result;
-            this.imageURL = base64Image;
-            this.staff.image = base64Image; // Assign to a staff member's image property
+            console.log(`Base64 Image Length: ${base64Image.length}`);
 
-            // Additional check for the base64 size if needed
-            const base64Size = Math.round((base64Image.length * 3/4) / 1024);
-            console.log(`The base64 image size is approximately ${base64Size} KB`);
-
-            // Here you would send this.imageURL to your server
-            // Make sure to handle the logic to send the data in chunks if it's still too large
+            if (base64Image.length <= 2048) {
+              this.imageURL = base64Image;
+              this.staff.image = base64Image;
+            } else {
+              this.toastr.error('Ảnh quá nặng. Kích thước tối đa cho phép là 2 KB.');
+            }
           }
         };
         reader.onerror = error => {
           console.error('Error occurred while reading compressed image', error);
         };
         reader.readAsDataURL(compressedFile);
-      })
-      .catch(error => {
+      } catch (error) {
         console.error('Error during image compression', error);
-      });
+      }
+    }
   }
-}
-
   showSuccessToast(message: string) {
     this.toastr.success(message, 'Thành công', {
       timeOut: 3000,
