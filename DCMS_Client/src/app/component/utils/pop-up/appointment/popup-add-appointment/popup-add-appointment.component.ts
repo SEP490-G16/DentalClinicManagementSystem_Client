@@ -205,7 +205,7 @@ export class PopupAddAppointmentComponent implements OnInit {
 
   onPostAppointment() {
 
-    
+
     const selectedYear = this.model.year;
     const selectedMonth = this.model.month.toString().padStart(2, '0');
     const selectedDay = this.model.day.toString().padStart(2, '0');
@@ -213,7 +213,7 @@ export class PopupAddAppointmentComponent implements OnInit {
 
     const now = new Date();
     const currDate = now.getFullYear() + "-"+(now.getMonth()+1)+"-"+now.getDate();
-    this.AppointmentBody.epoch = this.dateToTimestamp(selectedDate); 
+    this.AppointmentBody.epoch = this.dateToTimestamp(selectedDate);
     //console.log("check current: ", currDate);
     //console.log("check selected: ", selectedDate);
     //alert(currDate == selectedDate);
@@ -383,6 +383,7 @@ export class PopupAddAppointmentComponent implements OnInit {
           procedure_name: this.AppointmentBody.appointment.procedure_name,
           doctor: this.AppointmentBody.appointment.doctor,
           time: this.AppointmentBody.appointment.time,
+          reason: this.AppointmentBody.appointment.reason,
           status: this.AppointmentBody.appointment.status,
           patient_created_date: this.AppointmentBody.appointment.patient_created_date,
           migrated: 'false'
@@ -407,7 +408,7 @@ export class PopupAddAppointmentComponent implements OnInit {
             });
           }
         }
-        
+
         this.newAppointmentAdded.emit(this.filteredAppointments);
         this.procedure = '';
         this.appointmentTime = '';

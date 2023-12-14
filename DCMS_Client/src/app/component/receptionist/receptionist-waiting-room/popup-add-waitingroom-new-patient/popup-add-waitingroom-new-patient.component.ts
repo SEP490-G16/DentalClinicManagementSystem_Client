@@ -55,7 +55,8 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
     phone: '',
     address: '',
     dob: '',
-    email: ''
+    email: '',
+    zalo:''
   }
   currentPatientCreated : boolean = false;
   isAddOld:boolean = false;
@@ -167,13 +168,17 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
       this.isSubmitted = true;
     }
     if (!this.patient1.phone_Number) {
-      this.validatePatient.phone = "Vui lòng nhập số điện thoại!";
+      this.validatePatient.zalo = "Vui lòng nhập số zalo!";
       this.isSubmitted = true;
     }
-    else if (!this.isVietnamesePhoneNumber(this.patient1.phone_Number)) {
-      this.validatePatient.phone = "Số điện thoại không hợp lệ!";
+    else if (!this.isVietnamesePhoneNumber(this.patient1.phone_Number)){
+      this.validatePatient.zalo = "Số zalo không hợp lệ!";
       this.isSubmitted = true;
     }
+    // if (!this.isVietnamesePhoneNumber(this.patient1.phone_Number) && this.patient1.phone_Number) {
+    //   this.validatePatient.phone = "Số điện thoại không hợp lệ!";
+    //   this.isSubmitted = true;
+    // }
     if (!this.dobNgb || !this.dobNgb.year || !this.dobNgb.month || !this.dobNgb.day) {
       this.validatePatient.dob = "Vui lòng nhập ngày sinh!";
       this.isSubmitted = true;
@@ -371,7 +376,8 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
       phone: '',
       address: '',
       dob: '',
-      email: ''
+      email: '',
+      zalo:''
     }
     this.isSubmitted = false;
   }

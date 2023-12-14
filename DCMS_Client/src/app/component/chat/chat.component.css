@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700');
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700');
 /*
 body{
   background-color: #fff;
@@ -70,7 +70,7 @@ body {
   right: 16px;
   position: fixed;
   z-index: 9;
-  width: 320px;
+  width: 350px;
   display: none;
 }
 
@@ -218,7 +218,8 @@ body {
 }
 .msg-container {
   overflow-y: auto; /* Cho phép cuộn nếu nội dung nhiều hơn khung nhìn */
-  max-height: 450px; /* Giới hạn chiều cao để tránh quá trình cuộn lâu dựa trên nội dung */
+  height: 455px;
+  max-height: 460px; /* Giới hạn chiều cao để tránh quá trình cuộn lâu dựa trên nội dung */
   scrollbar-width: none; /* Ẩn thanh cuộn trên trình duyệt hỗ trợ */
   -ms-overflow-style: none;
 }
@@ -233,7 +234,7 @@ body {
   word-wrap: break-word; /* Đảm bảo nội dung xuống dòng khi quá dài */
 }
 .msg {
-  padding: 10px;
+  padding: 5px;
   border: 1px solid #ddd;
   margin-bottom: 10px;
   border-radius: 10px;
@@ -252,8 +253,8 @@ body {
   font-weight: bold; /* Chữ đậm */
 }
 .message-content p{
-  font-size: 20px;
+  font-size: 13px;
 }
 .message-name b{
-  font-size: 12px;
+  font-size: 10px;
 }

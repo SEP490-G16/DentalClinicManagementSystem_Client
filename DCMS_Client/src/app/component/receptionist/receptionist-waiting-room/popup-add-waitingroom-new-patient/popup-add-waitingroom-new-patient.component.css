@@ -340,3 +340,8 @@
   outline: 0px;
   padding: 10px 20px;
 }
+.title-label{
+  padding: 10px;
+  background-color: #664FC3;
+  color: #FFFFFF;
+}

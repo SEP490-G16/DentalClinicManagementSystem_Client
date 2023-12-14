@@ -60,6 +60,10 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     thuoc: '',
     luuy: ''
   }
+  validateTreatmentCouse ={
+    name:''
+  }
+  isSubmittedTreatmentCourse:boolean = false;
   groupProcedureO = {
     groupId:'',
     groupName: '',
@@ -270,7 +274,7 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
       this.materialList = data.data;
       if (this.materialList) {
         if (this.materialList.length >= 1) {
-          for (let i = 0; i < this.materialList.length - 1; i++) {
+          for (let i = 0; i <= this.materialList.length - 1; i++) {
             const currentNumber = this.materialList[i];
             if (!this.uniqueList.includes(currentNumber.m_material_id)) {
               this.uniqueList.push(currentNumber.m_material_id);
@@ -344,10 +348,17 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
         localStorage.setItem("ListLabo", JSON.stringify(this.Labos))
       })
   }
-
   treatmentCourseId: any;
   postTreatmentCourse() {
+    this.resetValidateTreatmentCourse();
     this.Post_TreatmentCourse.patient_id = this.Patient_Id;
+    if (!this.TreatmentCouseBody.name){
+      this.validateTreatmentCouse.name = "Vui lòng nhập phương án điều trị!";
+      this.isSubmittedTreatmentCourse = true;
+    }
+    if (this.isSubmittedTreatmentCourse){
+      return;
+    }
     this.Post_TreatmentCourse.name = this.TreatmentCouseBody.name;
     this.Post_TreatmentCourse.chief_complaint = this.TreatmentCouseBody.lydo;
     this.Post_TreatmentCourse.differential_diagnosis = this.TreatmentCouseBody.nguyennhan;
@@ -618,6 +629,12 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
       soLuong: ''
     }
     this.isSubmittedSpecimens = false;
+  }
+  resetValidateTreatmentCourse(){
+    this.validateTreatmentCouse = {
+      name: ''
+    }
+    this.isSubmittedTreatmentCourse = false;
   }
 }
 
