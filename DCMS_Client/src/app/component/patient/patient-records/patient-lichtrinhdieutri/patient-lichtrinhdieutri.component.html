@@ -270,9 +270,16 @@
                     <p *ngIf="!isAddMedicine">{{record.ten}}</p>
                   </td>
                   <td style="padding: 10px">
-                    <input type="number" *ngIf="isAddMedicine" [(ngModel)]="record.soLuong"
-                           class="form-control value-staff">
-                    <p *ngIf="!isAddMedicine">{{record.soLuong}}</p>
+                    <div class="position-relative">
+                      <input type="number" *ngIf="isAddMedicine" [(ngModel)]="record.soLuong"
+                             class="form-control value-staff">
+                      <p *ngIf="!isAddMedicine">{{record.soLuong}}</p>
+                      <div *ngIf="validateMedicine['soLuong_' + i]"  [ngClass]="{'alert-danger-custom': true, 'active': validateMedicine['soLuong_' + i]}">
+                        <p style="font-size: 13px">
+                          {{validateMedicine['soLuong_' + i]}}
+                        </p>
+                      </div>
+                    </div>
                   </td>
                   <td style="padding: 10px">
                     <input type="text" *ngIf="isAddMedicine" [(ngModel)]="record.donvi"

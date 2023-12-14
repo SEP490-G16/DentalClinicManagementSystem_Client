@@ -44,6 +44,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
   facility:any;
   valdateSpecimens:any = {}
   isSubmittedSpecimens:boolean = false;
+  validateMedicine:any = {}
   TreatmentCouseBody = {
     name: '',
     lydo: '',
@@ -307,6 +308,20 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     // }
     if (Object.keys(this.valdateSpecimens).length > 0){
       this.isSubmittedSpecimens = true;
+      return;
+    }
+    this.recordsMedicine.forEach((item:any,itemIndex:any)=>{
+      const key = `soLuong_${itemIndex}`;
+      if (!this.checkNumber(item.soLuong)){
+        this.validateMedicine[key] = "Nhập số lượng > 0!";
+      }
+      else {
+        if (this.validateMedicine[key]) {
+          delete this.validateMedicine[key];
+        }
+      }
+    })
+    if (Object.keys(this.validateMedicine).length > 0){
       return;
     }
     this.treatmentCourseService.postTreatmentCourse(this.Post_TreatmentCourse).
