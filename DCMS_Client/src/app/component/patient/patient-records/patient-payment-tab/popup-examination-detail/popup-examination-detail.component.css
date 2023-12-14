@@ -57,6 +57,7 @@ b {
 .header-header {
   margin-bottom: 1rem; /* Adds a little space below the header */
   color: #4a4a4a; /* Adjust the color for better contrast */
+  text-transform: uppercase;
 }
 
 .btn-secondary {
@@ -91,4 +92,7 @@ b {
   color: #ffffff;
   opacity: 1;
   text-decoration: none;
+}
+.row .right p{
+  float: right;
 }

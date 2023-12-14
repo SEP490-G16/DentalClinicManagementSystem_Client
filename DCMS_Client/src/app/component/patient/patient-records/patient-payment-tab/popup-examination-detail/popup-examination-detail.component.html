@@ -13,10 +13,10 @@
     Website <a href="">nguyentranclinic.com</a>
   </div>
 
-  <div class="float-end">
-    <p>Số/ID: </p>
-  </div>
-
+<!--  <div class="float-end">-->
+<!--    <p>Số/ID: </p>-->
+<!--  </div>-->
+  <h4 class="text-start">Nha khoa Nguyễn Trần</h4>
   <h2 class="text-center header-header">Phiếu thu (Receipts)</h2>
 
   <!-- Date and Payment Type -->
@@ -24,7 +24,7 @@
     <div class="col-md-6 col-sm-12">
       <p>Ngày/Date: <b>{{MaterialUsage.mu_created_date}}</b></p>
     </div>
-    <div class="col-md-6 col-sm-12">
+    <div class="col-md-6 col-sm-12 right">
       <p>Hình thức/Type: <b></b></p> <!-- Assuming you have a variable for Payment Type -->
     </div>
   </div>
@@ -35,15 +35,18 @@
     <div class="col-md-6 col-sm-12">
       <p>Mã khách hàng/Patient Code: <b>{{Patient.p_patient_id}}</b></p>
     </div>
-    <div class="col-md-6 col-sm-12">
+    <div class="col-md-6 col-sm-12 right">
       <p>Tên khách hàng/Patient Name: <b>{{Patient.p_patient_name}}</b></p>
     </div>
   </div>
 
   <!-- Address -->
   <div class="row">
-    <div class="col-12">
+    <div class="col-md-6 col-sm-12">
       <p>Địa chỉ/Address: <b>{{Patient.p_address}}</b></p>
+    </div>
+    <div class="col-md-6 col-sm-12 right">
+      <p>Cơ sở: <b></b></p>
     </div>
   </div>
 
@@ -52,7 +55,7 @@
     <div class="col-md-6 col-sm-12">
       <p>Email: <b>{{Patient.p_email}}</b></p>
     </div>
-    <div class="col-md-6 col-sm-12">
+    <div class="col-md-6 col-sm-12 right">
       <p>Điện thoại/Tel: <b>{{Patient.p_phone_number}}</b></p>
     </div>
   </div>
@@ -75,7 +78,7 @@
           <tbody>
             <tr>
               <td>1</td>
-              <td>{{ MaterialUsage.mu_medical_procedure_id }}</td>
+              <td>{{ MaterialUsage.mu_mpname }}</td>
               <td>{{ MaterialUsage.mu_price }}</td>
               <td>{{ MaterialUsage.mu_quantity }}</td>
               <td>{{ MaterialUsage.mu_total}}</td>
