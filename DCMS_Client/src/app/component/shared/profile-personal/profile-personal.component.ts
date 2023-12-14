@@ -5,6 +5,8 @@ import { IStaff } from 'src/app/model/Staff';
 import { CognitoService } from 'src/app/service/cognito.service';
 import imageCompression from 'browser-image-compression';
 import * as moment from "moment-timezone";
+import { FormatNgbDate } from '../../utils/libs/formatNgbDate';
+import { NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-profile-personal',
   templateUrl: './profile-personal.component.html',
@@ -14,7 +16,7 @@ export class ProfilePersonalComponent implements OnInit {
 
   staff: IStaff; // Biến để lưu thông tin người dùng
   cognitoUser: ICognitoUser;
-
+  model!: NgbDateStruct;
   imageURL: string | ArrayBuffer = '';
   showPassword: boolean = true;
   showPasswordRepeat: boolean = true;
@@ -23,10 +25,14 @@ export class ProfilePersonalComponent implements OnInit {
   passwordRepeat: string = '';
   constructor(
     private cognitoService: CognitoService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private config: NgbDatepickerConfig,
   ) {
     this.staff = {} as IStaff;
     this.cognitoUser = {} as ICognitoUser
+    const currentYear = new Date().getFullYear();
+    config.minDate = { year: 1900, month: 1, day: 1 };
+    config.maxDate = { year: currentYear, month: 12, day: 31 };
   }
   vailidateStaff = {
     name: '',
@@ -52,12 +58,21 @@ export class ProfilePersonalComponent implements OnInit {
     this.loadUserAttributes();
   }
 
+  onDateChange() {
+    this.staff.DOB = FormatNgbDate.formatNgbDateToString(this.model);
+  }
+
   private loadUserAttributes(): void {
     this.cognitoService.getUserAttributes().then(attributes => {
       this.staff = attributes;
       const cognitoAttributes: any = attributes;
       this.staff.role = cognitoAttributes['custom:role'] || '';
       this.staff.DOB = this.timestampToDate(cognitoAttributes['custom:DOB']) || '';
+      this.model = {
+        year: Number(this.staff.DOB.split("-")[0]),
+        month: Number(this.staff.DOB.split("-")[1]),
+        day: Number(this.staff.DOB.split("-")[2]),
+      }
       this.staff.image = cognitoAttributes['custom:image'] || '';
       this.imageURL = this.staff.image;
       this.staff.phone = cognitoAttributes.phone_number || '';
@@ -134,35 +149,49 @@ export class ProfilePersonalComponent implements OnInit {
   }
 
 
-  onFileSelected(event: any) {
-    const fileInput = event.target;
-    if (fileInput.files && fileInput.files[0]) {
-      const file = fileInput.files[0];
-      const reader = new FileReader();
+ // Function to handle file selection
+ onFileSelected(event: any) {
+  const fileInput = event.target;
+  if (fileInput.files && fileInput.files[0]) {
+    const file = fileInput.files[0];
 
-      // Config
-      const options = {
-        maxSizeMB: 1,
-        maxWidthOrHeight: 1920,
-        useWebWorker: true
-      };
+    // Configuration options for more aggressive compression
+    const options = {
+      maxSizeMB: 0.1,  // Reduce the target size significantly
+      maxWidthOrHeight: 1280, // Choose a smaller max width/height
+      useWebWorker: true
+    };
 
-      imageCompression(file, options)
-        .then(compressedFile => {
-          const reader = new FileReader();
-          reader.onload = (e: ProgressEvent<FileReader>) => {
-            if (e.target && typeof e.target.result === 'string') {
-              this.imageURL = e.target.result;
-              this.staff.image = this.imageURL;
-            }
-          };
-          reader.readAsDataURL(compressedFile);
-        })
-        .catch(error => {
-          console.error('Error during image compression', error);
-        });
-    }
+    imageCompression(file, options)
+      .then(compressedFile => {
+        // Read the compressed file as base64
+        const reader = new FileReader();
+        reader.onloadend = (e: ProgressEvent<FileReader>) => {
+          if (e.target && typeof e.target.result === 'string') {
+            // The result is the compressed image in base64 format
+            const base64Image = e.target.result;
+            this.imageURL = base64Image;
+            this.staff.image = base64Image; // Assign to a staff member's image property
+
+            // Additional check for the base64 size if needed
+            const base64Size = Math.round((base64Image.length * 3/4) / 1024);
+            console.log(`The base64 image size is approximately ${base64Size} KB`);
+
+            // Here you would send this.imageURL to your server
+            // Make sure to handle the logic to send the data in chunks if it's still too large
+          }
+        };
+        reader.onerror = error => {
+          console.error('Error occurred while reading compressed image', error);
+        };
+        reader.readAsDataURL(compressedFile);
+      })
+      .catch(error => {
+        console.error('Error during image compression', error);
+      });
   }
+}
+
   showSuccessToast(message: string) {
     this.toastr.success(message, 'Thành công', {
       timeOut: 3000,

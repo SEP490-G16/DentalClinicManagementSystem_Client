@@ -19,6 +19,7 @@ import { TimestampFormat } from '../../utils/libs/timestampFormat';
 })
 
 export class ReceptionistTimekeepingComponent implements OnInit {
+  time = { hour: 13, minute: 30 };
   Body: RequestBodyTimekeeping = {} as RequestBodyTimekeeping;
   Staff!: StaffTimekeeping[];
   StaffFilter: any;

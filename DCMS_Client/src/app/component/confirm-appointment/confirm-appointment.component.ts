@@ -43,7 +43,7 @@ export class ConfirmAppointmentComponent implements OnInit {
     if (this.isCheck == false) {
       this.data = await this.appointmentService.getAppointmentByPatient(this.epoch_PathParam, this.epoch_PathParam);
     }
-    
+
 
     // Kiểm tra xem data có giá trị không
     const AppointmentParent = ConvertJson.processApiResponse(this.data);
@@ -64,7 +64,7 @@ export class ConfirmAppointmentComponent implements OnInit {
         reason: appointmentChild.reason,
         doctor: appointmentChild.doctor, //x
         time: appointmentChild.time,
-        status: 4,
+        status: 2,
         patient_created_date: appointmentChild.patient_created_date
       }
     }

@@ -129,9 +129,13 @@
 
 <app-popup-add-appointment
   (newAppointmentAdded)="onNewAppointmentAdded($event)"
-  [filteredAppointments]="filteredAppointments"></app-popup-add-appointment>
+  [filteredAppointments]="filteredAppointments"
+  [selectedDateCache]="selectedDateCache"
+  ></app-popup-add-appointment>
 <app-popup-edit-appointment [selectedAppointment]="selectedAppointment"
   [dateString]="dateString" [timeString]="timeString"
+  [selectedDateCache]="selectedDateCache"
   [filteredAppointments]="filteredAppointments"></app-popup-edit-appointment>
 <app-popup-add-appointment-new
+[selectedDateCache]="selectedDateCache"
                            [filteredAppointments]="filteredAppointments" (newAppointmentAdded)="onNewAppointmentAdded($event)"></app-popup-add-appointment-new>

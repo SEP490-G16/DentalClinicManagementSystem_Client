@@ -33,7 +33,7 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
   @Input() dateString: any;
   @Input() timeString: any;
   @Input() filteredAppointments: any;
-
+  @Input()selectedDateCache:any;
   //@Input() datesDisabled: any;
   datesDisabled: any[] = [];
   listDate: any[] = [];
@@ -79,17 +79,17 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     private medicaoProcedureGroupService: MedicalProcedureGroupService
   ) {
     this.EDIT_APPOINTMENT_BODY = {
-      epoch: 0,   
+      epoch: 0,
       new_epoch: 0,
       appointment: {
-        patient_id: '', 
-        patient_name: '', 
-        phone_number: '', 
-        procedure_id: "1",  
+        patient_id: '',
+        patient_name: '',
+        phone_number: '',
+        procedure_id: "1",
         doctor: '',
         reason: '',
-        status: 2, 
-        time: 0 
+        status: 2,
+        time: 0
       }
     } as IEditAppointmentBody;
     this.minDate = new Date();

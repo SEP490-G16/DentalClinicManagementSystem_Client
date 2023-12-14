@@ -6,11 +6,11 @@ import {RouterModule} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import { LayoutsComponent } from './layouts/layouts.component';
 import { ProfilePersonalComponent } from './profile-personal/profile-personal.component';
-import { RegisterWorkScheduleComponent } from './register-work-schedule/register-work-schedule.component';
 import { AppModule } from 'src/app/app.module';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import {ChatComponent} from "../chat/chat.component";
 import { LayoutsAdminComponent } from './layouts-admin/layouts-admin.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -26,6 +26,8 @@ import { LayoutsAdminComponent } from './layouts-admin/layouts-admin.component';
     CommonModule,
     RouterModule,
     FormsModule,
+    NgbModule,
+
   ]
 })
 export class SharedModule { }

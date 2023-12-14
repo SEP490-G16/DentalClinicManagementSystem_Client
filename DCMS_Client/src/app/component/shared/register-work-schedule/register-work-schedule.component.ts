@@ -129,6 +129,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
       this.UserObj = null;
     }
     //this.DisplayResgisterTimeByWeek();
+    this.listDisplayClone = [];
     this.getDateinFromDatetoToDate(TimestampFormat.timestampToGMT7Date(this.startTime), TimestampFormat.timestampToGMT7Date(this.endTime));
     this.timekeepingService.listDisplay$.subscribe(
       data => {
@@ -321,7 +322,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
     else if (role == null) {
       return
     }
-    
+
     var count = 0;
     this.listDayInMonth.forEach((item: any) => {
       const ab = item.currentD.split('/');
