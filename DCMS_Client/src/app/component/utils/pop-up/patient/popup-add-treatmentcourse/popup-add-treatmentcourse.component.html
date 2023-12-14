@@ -99,7 +99,7 @@
                   <th style="padding: 10px">Số lượng</th>
                   <th style="padding: 10px">Labo</th>
                 </tr>
-                <ng-container *ngFor="let pro of list">
+                <ng-container *ngFor="let pro of list; let itemIndex = index">
                   <ng-container *ngIf="pro.checked == true">
                     <tr class="tr-children" (click)="toggleExpand(pro)">
                       <td style="padding: 10px;float: right">
@@ -125,7 +125,7 @@
                             <col style="width: 10%">
                             <col style="width: 20%">
                           </colgroup>
-                          <tr class="tr-children" *ngFor="let gro of pro.procedure">
+                          <tr class="tr-children" *ngFor="let gro of pro.procedure;let procIndex = index">
                             <td style="padding: 10px"></td>
                             <td style="padding: 10px"><i class="bi bi-arrow-return-right"></i></td>
                             <td style="padding: 10px;float: left;margin-left: 24%">
@@ -144,9 +144,9 @@
                                   <input class="form-control"
                                          style="padding: 5px; border-radius: 5px;border: 1px solid #664FC3;height: 42px"
                                          type="number" [(ngModel)]="gro.quantity" (input)="changeQuantity(gro, $event)">
-                                  <div *ngIf="isSubmittedSpecimens"  [ngClass]="{'alert-danger-custom': true, 'active': valdateSpecimens.soLuong}">
+                                  <div *ngIf="valdateSpecimens['soLuong_' + itemIndex + '_' + procIndex]"  [ngClass]="{'alert-danger-custom': true, 'active': valdateSpecimens['soLuong_' + itemIndex + '_' + procIndex]}">
                                     <p>
-                                      {{valdateSpecimens.soLuong}}
+                                      {{valdateSpecimens['soLuong_' + itemIndex + '_' + procIndex]}}
                                     </p>
                                   </div>
                                 </div>
@@ -289,16 +289,16 @@
                   <th style="padding: 10px">Số lượng</th>
                   <th style="padding: 10px">Thao tác</th>
                 </tr>
-                <ng-container *ngFor="let a of listMaterialUsage">
+                <ng-container *ngFor="let a of listMaterialUsage;let itemIndex = index">
                   <tr>
                     <td style="padding: 10px">{{a.description}}</td>
                     <td style="padding: 10px">
                       <div class="position-relative">
                         <input class="form-control value-staff" type="number"
                                [(ngModel)]="a.quantity">
-                        <div *ngIf="isSubmittedMaterial"  [ngClass]="{'alert-danger-custom': true, 'active': validateMaterial.soLuong}">
+                        <div *ngIf="validateMaterial['soLuong_' + itemIndex]"  [ngClass]="{'alert-danger-custom': true, 'active': validateMaterial['soLuong_' + itemIndex]}">
                           <p>
-                            {{validateMaterial.soLuong}}
+                            {{validateMaterial['soLuong_' + itemIndex]}}
                           </p>
                         </div>
                       </div>

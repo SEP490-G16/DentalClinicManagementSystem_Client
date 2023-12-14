@@ -89,18 +89,18 @@ export class PopupAddPatientComponent implements OnInit {
       this.isSubmitted = true;
     }
     if (!this.patient1.phone_Number) {
-      this.validatePatient.phone = "Vui lòng nhập số điện thoại!";
+      this.validatePatient.phone = "Vui lòng nhập số zalo!";
       this.isSubmitted = true;
     }
     else if (!this.isVietnamesePhoneNumber(this.patient1.phone_Number)) {
-      this.validatePatient.phone = "Số điện thoại không hợp lệ!";
+      this.validatePatient.phone = "Số zalo không hợp lệ!";
       this.isSubmitted = true;
     }
-    if (!this.patient1.dob) {
+    if (!this.model || !this.model.year || !this.model.month || !this.model.day) {
       this.validatePatient.dob = "Vui lòng nhập ngày sinh!";
       this.isSubmitted = true;
     }
-    else if (!this.isDob(this.patient1.dob)) {
+    else if (this.isDob(FormatNgbDate.formatNgbDateToString(this.model))){
       this.validatePatient.dob = "Vui lòng nhập ngày sinh đúng định dạng dd/MM/yyyy !";
       this.isSubmitted = true;
     }
@@ -121,7 +121,7 @@ export class PopupAddPatientComponent implements OnInit {
       address: this.patient1.Address,
       full_medical_history: this.patient1.full_medical_History,
       dental_medical_history: this.patient1.dental_medical_History,
-      date_of_birth: this.convertDateToISOFormat(this.patient1.dob)
+      date_of_birth: FormatNgbDate.formatNgbDateToString(this.model)
     }
     if (this.patient1.phone_Number && this.patient1.phone_Number.length === 9) {
       this.patientBody = {
@@ -133,7 +133,7 @@ export class PopupAddPatientComponent implements OnInit {
         address: this.patient1.Address,
         full_medical_history: this.patient1.full_medical_History,
         dental_medical_history: this.patient1.dental_medical_History,
-        date_of_birth: this.convertDateToISOFormat(this.patient1.dob)
+        date_of_birth: FormatNgbDate.formatNgbDateToString(this.model)
       }
     }
     if (this.patient1.phone_Number && this.patient1.phone_Number.length === 10) {
@@ -146,7 +146,7 @@ export class PopupAddPatientComponent implements OnInit {
         address: this.patient1.Address,
         full_medical_history: this.patient1.full_medical_History,
         dental_medical_history: this.patient1.dental_medical_History,
-        date_of_birth: this.convertDateToISOFormat(this.patient1.dob)
+        date_of_birth: FormatNgbDate.formatNgbDateToString(this.model)
       }
     }
 
