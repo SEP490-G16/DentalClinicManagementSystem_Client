@@ -260,13 +260,23 @@ export class AddWaitingRoomComponent implements OnInit {
           this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
         }
         console.log("Here nha");
-        const wt = { 
-          type: 'w', 
-          epoch: this.POST_WAITTINGROOM.epoch, 
-          produce_id: this.POST_WAITTINGROOM.produce_id, 
+        const wt = {
+          type: 'w',
+          epoch: this.POST_WAITTINGROOM.epoch,
+          produce_id: this.POST_WAITTINGROOM.produce_id,
           produce_name: this.POST_WAITTINGROOM.produce_name, patient_id: this.POST_WAITTINGROOM.patient_id, patient_name: this.POST_WAITTINGROOM.patient_name, patient_created_date: this.POST_WAITTINGROOM.patient_created_date, reason: "", status: "1", appointment_id: "", appointment_epoch: "" }
         console.log("check wt: ", this.filteredWaitingRoomData);
         this.filteredWaitingRoomData.push(wt);
+
+        //Nếu dùng Behavior Subject
+
+        //C1:
+        // this.WaitingRoomService.updateData(this.filteredWaitingRoomData);
+
+        //C2: Ok nhất nhưng phải call api, mà thôi kệ đi
+        this.updateWaitingRoomList();
+
+        //Còn không
         this.newWaitingRoom.emit(this.filteredWaitingRoomData);
         this.POST_WAITTINGROOM = {
           epoch: "",

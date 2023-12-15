@@ -281,6 +281,10 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
             this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
 
           }
+          this.updateWaitingRoomList();
+          // this.router.navigate(["phong-cho"]);
+          this.filteredWaitingRoomData.push
+          this.WaitingRoomService.updateData
           this.POST_WAITTINGROOM = {
             epoch: "",
             produce_id: '',
@@ -304,6 +308,27 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
     })
   }
 
+  updateWaitingRoomList() {
+    this.WaitingRoomService.getWaitingRooms().subscribe(
+      data => {
+        console.log('Got new waiting room data:', data);
+        let waitingRoomData = data;
+        waitingRoomData.forEach((i: any) => {
+          i.date = this.timestampToTime(i.epoch)
+        });
+        const statusOrder: { [key: number]: number } = { 2: 1, 3: 2, 1: 3, 4: 4 };
+        waitingRoomData.sort((a: any, b: any) => {
+          const orderA = statusOrder[a.status] ?? Number.MAX_VALUE;
+          const orderB = statusOrder[b.status] ?? Number.MAX_VALUE;
+          return orderA - orderB;
+        });
+        this.WaitingRoomService.updateData(waitingRoomData);
+      },
+      error => {
+        console.error('Failed to get waiting room data:', error);
+      }
+    );
+  }
 
   searchTimeout: any;
   onsearchPatientInWaitingRoom(event: any) {
@@ -325,6 +350,12 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
         localStorage.setItem("listSearchPatient", JSON.stringify(this.patientList));
       });
     }, 500);
+  }
+
+  timestampToTime(timestamp: number): string {
+    const time = moment.unix(timestamp);
+    const timeStr = time.format('HH:mm');
+    return timeStr;
   }
 
 
