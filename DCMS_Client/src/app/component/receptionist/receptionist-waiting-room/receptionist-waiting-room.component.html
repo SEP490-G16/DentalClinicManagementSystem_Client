@@ -67,6 +67,7 @@
                   </ng-container>
                   <ng-container *ngIf="wtr.status == 3">
                     <option value="3" class="status-option completed">Khám xong</option>
+                    <option value="4" class="status-option remove">Xóa hàng chờ</option>
                   </ng-container>
                 </select>
               </td>
@@ -116,5 +117,5 @@
     </ng-template>
   </div>
 </div>
-<app-add-waiting-room></app-add-waiting-room>
+<app-add-waiting-room (newWaitingRoom)="onNewWaitingRoomAdded($event)" (filteredWaitingRoomData)="filteredWaitingRoomData"></app-add-waiting-room>
 <app-popup-add-waitingroom-new-patient></app-popup-add-waitingroom-new-patient>

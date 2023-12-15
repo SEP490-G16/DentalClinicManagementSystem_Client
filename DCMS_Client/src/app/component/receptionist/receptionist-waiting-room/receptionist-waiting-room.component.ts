@@ -166,8 +166,8 @@ export class ReceptionistWaitingRoomComponent implements OnInit, DoCheck {
           this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
           this.showSuccessToast('Xóa hàng chờ thành công');
           this.sendMessageSocket.sendMessageSocket("CheckRealTimeWaitingRoom@@@", `${wtr.patient_id}`, `${Number('4')}`);
-          this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "minus", "wtr1");
-          this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "minus", "wtr");
+          //this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "minus", "wtr1");
+          //this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "minus", "wtr");
           this.getWaitingRoomData();
         },
           (error) => {
@@ -179,7 +179,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit, DoCheck {
       this.waitingRoomService.putWaitingRoom(this.PUT_WAITINGROO)
         .subscribe(data => {
           if (this.PUT_WAITINGROO.status_value == "2") {
-            this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "plus", "wtr1");
+            //this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "plus", "wtr1");
             const storeList = localStorage.getItem('ListPatientWaiting');
             let listWaiting;
             console.log("vô nha");
@@ -220,14 +220,14 @@ export class ReceptionistWaitingRoomComponent implements OnInit, DoCheck {
           }
 
           if (this.PUT_WAITINGROO.status_value == "3") {
-            this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "minus", "wtr1");
+            //this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "minus", "wtr1");
             const checkTotal = localStorage.getItem('patient_examinated');
-          if (checkTotal != null) {
-            var check = JSON.parse(checkTotal);
-            check.total = check.total + 1;
-            localStorage.setItem("patient_examinated", JSON.stringify({total: check.total, currentDate: check.currentDate}));
-          }
-          this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "plus", "wtr2");
+            if (checkTotal != null) {
+              var check = JSON.parse(checkTotal);
+              check.total = check.total + 1;
+              localStorage.setItem("patient_examinated", JSON.stringify({ total: check.total, currentDate: check.currentDate }));
+            }
+            //this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "plus", "wtr2");
             if (wtr.patient_created_date == "1") {
               this.waitingRoomService.putNewPatientId(wtr.patient_id).subscribe((data) => {
               })
@@ -275,6 +275,11 @@ export class ReceptionistWaitingRoomComponent implements OnInit, DoCheck {
         )
     }
   }
+
+  onNewWaitingRoomAdded(newWait:any) {
+    this.filteredWaitingRoomData = newWait;
+  }
+
   normalizePhoneNumber(phoneNumber: string): string {
     if (phoneNumber.startsWith('(+84)')) {
       return '0' + phoneNumber.slice(5);
@@ -311,7 +316,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit, DoCheck {
     this.router.navigate([href + id]);
   }
 
-  updateStatus(id:any, status:any) {
+  updateStatus(id: any, status: any) {
     this.getWaitingRoomData();
   }
 
