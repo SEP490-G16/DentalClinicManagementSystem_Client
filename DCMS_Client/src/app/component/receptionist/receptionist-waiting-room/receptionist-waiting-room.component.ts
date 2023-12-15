@@ -285,6 +285,13 @@ export class ReceptionistWaitingRoomComponent implements OnInit, DoCheck {
               }
             }
           }
+
+          // if (this.PUT_WAITINGROO.status_value == '2') {
+          //   this.applyAnimation(wtr.patient_id, 'slide-in-top');
+          // } else if (this.PUT_WAITINGROO.status_value == '3') {
+          //   this.applyAnimation(wtr.patient_id, 'slide-out-bottom');
+          // }
+
           this.loading = false;
           this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
           this.showSuccessToast('Chỉnh sửa hàng chờ thành công');
@@ -307,6 +314,17 @@ export class ReceptionistWaitingRoomComponent implements OnInit, DoCheck {
             ResponseHandler.HANDLE_HTTP_STATUS(this.waitingRoomService.apiUrl + "/waiting-room/" + this.PUT_WAITINGROO, error);
           }
         )
+    }
+  }
+
+  applyAnimation(patientId: string, animationClass: string) {
+    const patientElement = document.getElementById('patient-' + patientId);
+    if (patientElement) {
+      patientElement.classList.add(animationClass);
+      patientElement.addEventListener('animationend', () => {
+        patientElement.classList.remove(animationClass);
+        this.getWaitingRoomData();
+      });
     }
   }
 
