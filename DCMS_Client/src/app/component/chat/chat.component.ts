@@ -78,183 +78,223 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     })
 
     this.webSocketService.connect();
+    var count = 0;
     this.webSocketService.messageReceived.subscribe((message: any) => {
-      const parsedMessage = JSON.parse(message);
-      console.log("check content:", parsedMessage.content);
-      // var result = localStorage.getItem('UpdatePlus@@@');
-      // localStorage.removeItem('UpdatePlus@@@');
-      // var checkPlus;
-      // if (result != null) {
-      //   checkPlus = result.split(',');
-      //   if (checkPlus[0] == 'UpdateAnalysesTotal@@@') {
-      //     if (checkPlus[1] == 'plus') {
-      //       if (checkPlus[2] == 'wtr') {
-      //         this.dataService.UpdateWaitingRoomTotal(1, 0);
-      //       } else if (checkPlus[2] == 'app') {
-      //         this.dataService.UpdateAppointmentTotal(1, 0);
-      //       } else if (checkPlus[2] == 'pat') {
-      //         this.dataService.UpdatePatientTotal(1, 0);
-      //       } else if (checkPlus[2] == 'wtr1') {
-      //         this.dataService.UpdatePatientExaminate(1, 0);
-      //       } else if (checkPlus[2] == 'wtr2') {
-      //         this.dataService.UpdatePatientExaminated(1, 0);
-      //       }
-      //     }
-      //   }
-      // }
-      const check = parsedMessage.content.split(',');
-      var checkPa = true;
-      if (check[0] == 'CheckRealTimeWaitingRoom@@@') {
-        var shouldBreakFor = false;
-        let postInfo = check[1].split(' - ');
-        console.log("check add new patient: ", postInfo);
-        this.POST_WAITTINGROOM.epoch = postInfo[0];
-        this.POST_WAITTINGROOM.produce_id = postInfo[1];
-        this.POST_WAITTINGROOM.produce_name = postInfo[2];
-        this.POST_WAITTINGROOM.patient_id = postInfo[3];
-        this.POST_WAITTINGROOM.patient_name = postInfo[4];
-        this.POST_WAITTINGROOM.reason = postInfo[5];
-        this.POST_WAITTINGROOM.status = postInfo[6];
-        this.POST_WAITTINGROOM.appointment_id = postInfo[7];
-        this.POST_WAITTINGROOM.appointment_epoch = postInfo[8];
-        this.POST_WAITTINGROOM.patient_created_date = postInfo[9];
-        this.POST_WAITTINGROOM.date = this.timestampToTime(postInfo[0]);
-        const currentUrl = this.location.path();
-
-        if (this.POST_WAITTINGROOM.reason == "pa") {
-          let patientOb = {
-            patient_id: this.POST_WAITTINGROOM.epoch,
-            patient_name: this.POST_WAITTINGROOM.produce_id,
-            date_of_birth: "",
-            gender: 1,
-            phone_number: this.POST_WAITTINGROOM.produce_name,
-            full_medical_history: "",
-            dental_medical_history: "",
-            email: "",
-            address: this.POST_WAITTINGROOM.patient_id,
-            description: "",
-            profile_image: null,
-            active: 1,
-            created_date: this.POST_WAITTINGROOM.patient_name
-          }
-          this.POST_WAITTINGROOM.status = "";
-          this.searchPatientsList.push(patientOb);
-          this.patientService.updateData(this.searchPatientsList);
-        }
-        // if (this.filteredWaitingRoomData.length == 0 && this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_name != "" && this.POST_WAITTINGROOM.patient_name != null
-        //   && this.POST_WAITTINGROOM.patient_name != null && this.POST_WAITTINGROOM.patient_created_date != "" && this.POST_WAITTINGROOM.patient_created_date != null
-        //   && this.POST_WAITTINGROOM.patient_created_date != undefined) {
-        //   //alert("check add successful trước")
-        //   this.filteredWaitingRoomData.push(this.POST_WAITTINGROOM);
-        //   this.waitingRoomService.updateData(this.filteredWaitingRoomData);
-        //   shouldBreakFor = true;
-        //   this.POST_WAITTINGROOM = {
-        //     epoch: '',
-        //     produce_id: '',
-        //     produce_name: '',
-        //     patient_id: '',
-        //     patient_name: '',
-        //     reason: '',
-        //     status: "1",
-        //     appointment_id: '',
-        //     appointment_epoch: '',
-        //     date: '',
-        //     patient_created_date: '',
+      if (count == 0) {
+        count++;
+        const parsedMessage = JSON.parse(message);
+        console.log("check content:", parsedMessage.content);
+        // var result = localStorage.getItem('UpdatePlus@@@');
+        // localStorage.removeItem('UpdatePlus@@@');
+        // var checkPlus;
+        // if (result != null) {
+        //   checkPlus = result.split(',');
+        //   if (checkPlus[0] == 'UpdateAnalysesTotal@@@') {
+        //     if (checkPlus[1] == 'plus') {
+        //       if (checkPlus[2] == 'wtr') {
+        //         this.dataService.UpdateWaitingRoomTotal(1, 0);
+        //       } else if (checkPlus[2] == 'app') {
+        //         this.dataService.UpdateAppointmentTotal(1, 0);
+        //       } else if (checkPlus[2] == 'pat') {
+        //         this.dataService.UpdatePatientTotal(1, 0);
+        //       } else if (checkPlus[2] == 'wtr1') {
+        //         this.dataService.UpdatePatientExaminate(1, 0);
+        //       } else if (checkPlus[2] == 'wtr2') {
+        //         this.dataService.UpdatePatientExaminated(1, 0);
+        //       }
+        //     }
         //   }
-        //} 
-        //else {
+        // }
+        const check = parsedMessage.content.split(',');
+        //var checkPa = true;
+        if (check[0] == 'CheckRealTimeWaitingRoom@@@') {
+          var shouldBreakFor = false;
+          let postInfo;
+          if (check[1] != undefined && check[1] != '') {
+            postInfo = check[1].split(' - ');
+          } else {
+            let ob = localStorage.getItem('ob');
+            if (ob!= null) {
+              postInfo = ob.split(' - ');
+            }
+            localStorage.removeItem('ob');
+          }
+          console.log("check add new patient: ", postInfo);
+          this.POST_WAITTINGROOM.epoch = postInfo[0];
+          this.POST_WAITTINGROOM.produce_id = postInfo[1];
+          this.POST_WAITTINGROOM.produce_name = postInfo[2];
+          this.POST_WAITTINGROOM.patient_id = postInfo[3];
+          this.POST_WAITTINGROOM.patient_name = postInfo[4];
+          this.POST_WAITTINGROOM.reason = postInfo[5];
+          this.POST_WAITTINGROOM.status = postInfo[6];
+          this.POST_WAITTINGROOM.appointment_id = postInfo[7];
+          this.POST_WAITTINGROOM.appointment_epoch = postInfo[8];
+          this.POST_WAITTINGROOM.patient_created_date = postInfo[9];
+          this.POST_WAITTINGROOM.date = this.timestampToTime(postInfo[0]);
+          const currentUrl = this.location.path();
+
+          if (this.POST_WAITTINGROOM.reason == "pa") {
+            let patientOb = {
+              patient_id: this.POST_WAITTINGROOM.epoch,
+              patient_name: this.POST_WAITTINGROOM.produce_id,
+              date_of_birth: "",
+              gender: 1,
+              phone_number: this.POST_WAITTINGROOM.produce_name,
+              full_medical_history: "",
+              dental_medical_history: "",
+              email: "",
+              address: this.POST_WAITTINGROOM.patient_id,
+              description: "",
+              profile_image: null,
+              active: 1,
+              created_date: this.POST_WAITTINGROOM.patient_name
+            }
+            this.POST_WAITTINGROOM.status = "";
+            this.searchPatientsList.push(patientOb);
+            this.patientService.updateData(this.searchPatientsList);
+          }
+          // if (this.filteredWaitingRoomData.length == 0 && this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_name != "" && this.POST_WAITTINGROOM.patient_name != null
+          //   && this.POST_WAITTINGROOM.patient_name != null && this.POST_WAITTINGROOM.patient_created_date != "" && this.POST_WAITTINGROOM.patient_created_date != null
+          //   && this.POST_WAITTINGROOM.patient_created_date != undefined) {
+          //   //alert("check add successful trước")
+          //   this.filteredWaitingRoomData.push(this.POST_WAITTINGROOM);
+          //   this.waitingRoomService.updateData(this.filteredWaitingRoomData);
+          //   shouldBreakFor = true;
+          //   this.POST_WAITTINGROOM = {
+          //     epoch: '',
+          //     produce_id: '',
+          //     produce_name: '',
+          //     patient_id: '',
+          //     patient_name: '',
+          //     reason: '',
+          //     status: "1",
+          //     appointment_id: '',
+          //     appointment_epoch: '',
+          //     date: '',
+          //     patient_created_date: '',
+          //   }
+          // } 
+          // else {
           this.filteredWaitingRoomData.forEach((item: any) => {
             if (item.patient_id == check[1]) {
               if (check[2] == "4") {
                 const index = this.filteredWaitingRoomData.findIndex(it => it.patient_id == check[1]);
                 if (index != -1) {
                   this.filteredWaitingRoomData.splice(index, 1);
+                  this.dataService.UpdateWaitingRoomTotal(0, 0);
+                  this.dataService.UpdatePatientExaminate(0, 0);
                   this.waitingRoomService.updateData(this.filteredWaitingRoomData);
                 }
               } else {
                 item.status = check[2];
+                if (item.status == "2") {
+                  this.dataService.UpdatePatientExaminate(1, 0);
+                } else if (item.status == "3") {
+                  this.dataService.UpdatePatientExaminate(0, 0);
+                  this.dataService.UpdatePatientExaminated(1, 0);
+                }
               }
-            } else if (shouldBreakFor == false && this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_name != null
-              && this.POST_WAITTINGROOM.patient_name != null && this.POST_WAITTINGROOM.produce_id != "" && this.POST_WAITTINGROOM.patient_created_date != "" && this.POST_WAITTINGROOM.patient_created_date != null
-              && this.POST_WAITTINGROOM.patient_created_date != undefined) {
-              this.dataService.UpdateWaitingRoomTotal(1, 0);
-              this.filteredWaitingRoomData.push(this.POST_WAITTINGROOM);
-              this.POST_WAITTINGROOM = {
-                epoch: '',
-                produce_id: '',
-                produce_name: '',
-                patient_id: '',
-                patient_name: '',
-                reason: '',
-                status: "1",
-                appointment_id: '',
-                appointment_epoch: '',
-                date: '',
-                patient_created_date: '',
+            } else {
+              // if (shouldBreakFor == false && this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_name != null
+              //   && this.POST_WAITTINGROOM.patient_name != undefined) {
+                console.log("có vô được add")
+              if (this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_name != null
+                && this.POST_WAITTINGROOM.patient_name != undefined) {
+                  console.log("đã add");
+                this.dataService.UpdateWaitingRoomTotal(1, 0);
+                this.filteredWaitingRoomData.push(this.POST_WAITTINGROOM);
+                this.POST_WAITTINGROOM = {
+                  epoch: '',
+                  produce_id: '',
+                  produce_name: '',
+                  patient_id: '',
+                  patient_name: '',
+                  reason: '',
+                  status: "1",
+                  appointment_id: '',
+                  appointment_epoch: '',
+                  date: '',
+                  patient_created_date: '',
+                }
+                this.waitingRoomService.updateData(this.filteredWaitingRoomData);
+                return;
               }
-              localStorage.setItem("ListPatientWaiting", JSON.stringify(this.filteredWaitingRoomData));
-              shouldBreakFor = true;
-              return;
             }
-          })
-        //}
-        const statusOrder: { [key: number]: number } = { 2: 1, 3: 2, 1: 3, 4: 4 };
-        if (this.filteredWaitingRoomData.length > 0) {
-          this.filteredWaitingRoomData.sort((a: any, b: any) => {
-            const orderA = statusOrder[a.status] ?? Number.MAX_VALUE; // Fallback if status is not a valid key
-            const orderB = statusOrder[b.status] ?? Number.MAX_VALUE; // Fallback if status is not a valid key
-            return orderA - orderB;
-          });
-          this.waitingRoomService.updateData(this.filteredWaitingRoomData);
-        } else {
-          this.waitingRoomService.updateData(this.filteredWaitingRoomData);
-        }
-        // }
-      } else if (check[0] == 'UpdateAnalysesTotal@@@') {
-        if (check[1] == 'plus') {
-          if (check[2] == 'wtr') {
+          }) 
+          if (this.filteredWaitingRoomData.length == 0 && this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_name != null
+            && this.POST_WAITTINGROOM.patient_name != undefined) {
             this.dataService.UpdateWaitingRoomTotal(1, 0);
-          } else if (check[2] == 'app') {
-            this.dataService.UpdateAppointmentTotal(1, 0);
-          } else if (check[2] == 'pat') {
-            this.dataService.UpdatePatientTotal(1, 0);
-          } else if (check[2] == 'wtr1') {
-            this.dataService.UpdatePatientExaminate(1, 0);
-          } else if (check[2] == 'wtr2') {
-            var total = localStorage.getItem('patient_examinated');
-            var final = 0;
-            if (total != null) {
-              var a = JSON.parse(total);
-              final = parseInt(a.total);
+            this.filteredWaitingRoomData.push(this.POST_WAITTINGROOM);
+            this.POST_WAITTINGROOM = {
+              epoch: '',
+              produce_id: '',
+              produce_name: '',
+              patient_id: '',
+              patient_name: '',
+              reason: '',
+              status: "1",
+              appointment_id: '',
+              appointment_epoch: '',
+              date: '',
+              patient_created_date: '',
             }
-            this.dataService.UpdatePatientExaminated(final, 0);
+            this.waitingRoomService.updateData(this.filteredWaitingRoomData);
+            return;
           }
-        }
-        else if (check[1] == 'minus') {
-          if (check[2] == 'wtr') {
-            this.dataService.UpdateWaitingRoomTotal(0, 0);
-          } else if (check[2] == 'app') {
-            this.dataService.UpdateAppointmentTotal(0, 0);
-          } else if (check[2] == 'pat') {
-            this.dataService.UpdatePatientTotal(0, 0);
-          } else if (check[2] == 'wtr1') {
-            this.dataService.UpdatePatientExaminate(0, 0);
+          //}
+          const statusOrder: { [key: number]: number } = { 2: 1, 3: 2, 1: 3, 4: 4 };
+          if (this.filteredWaitingRoomData.length > 0) {
+            this.filteredWaitingRoomData.sort((a: any, b: any) => {
+              const orderA = statusOrder[a.status] ?? Number.MAX_VALUE;
+              const orderB = statusOrder[b.status] ?? Number.MAX_VALUE;
+              return orderA - orderB;
+            });
+            this.waitingRoomService.updateData(this.filteredWaitingRoomData);
           }
+          // else {
+          //   this.waitingRoomService.updateData(this.filteredWaitingRoomData);
+          // }
+          // }
+          // } else if (check[0] == 'UpdateAnalysesTotal@@@') {
+          //   if (check[1] == 'plus') {
+          //     if (check[2] == 'wtr') {
+          //       //this.dataService.UpdateWaitingRoomTotal(1, 0);
+          //     } else if (check[2] == 'app') {
+          //       this.dataService.UpdateAppointmentTotal(1, 0);
+          //     } else if (check[2] == 'pat') {
+          //       this.dataService.UpdatePatientTotal(1, 0);
+          //     } else if (check[2] == 'wtr1') {
+          //       this.dataService.UpdatePatientExaminate(1, 0);
+          //     } else if (check[2] == 'wtr2') {
+          //       this.dataService.UpdatePatientExaminated(1, 0);
+          //     }
+          //   }
+          //   else if (check[1] == 'minus') {
+          //     if (check[2] == 'wtr') {
+          //       //this.dataService.UpdateWaitingRoomTotal(0, 0);
+          //     } else if (check[2] == 'app') {
+          //       this.dataService.UpdateAppointmentTotal(0, 0);
+          //     } else if (check[2] == 'pat') {
+          //       this.dataService.UpdatePatientTotal(0, 0);
+          //     } else if (check[2] == 'wtr1') {
+          //       this.dataService.UpdatePatientExaminate(0, 0);
+          //     }
+          //   }
+        } else {
+          this.receivedMessages.push({ message: parsedMessage, timestamp: new Date() });
+          if (!this.chatContainerVisible) {
+            this.unreadMessagesCount++;
+          }
+          this.playMessageSound();
+          setTimeout(() => this.scrollToBottom(), 100);
         }
-      } else {
-        this.receivedMessages.push({ message: parsedMessage, timestamp: new Date() });
-        if (!this.chatContainerVisible) {
-          this.unreadMessagesCount++;
-        }
-        this.playMessageSound();
-        setTimeout(() => this.scrollToBottom(), 100);
       }
+      count = 0;
     })
   }
   ngAfterViewInit() {
   }
   ngOnDestroy() {
-    // Lifecycle hook này được gọi khi component sắp bị hủy
     this.close();
   }
   chatContainerVisible = false;

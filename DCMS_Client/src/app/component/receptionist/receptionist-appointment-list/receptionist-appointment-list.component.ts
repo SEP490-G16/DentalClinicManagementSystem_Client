@@ -297,7 +297,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   }
 
   onNewAppointmentAdded(newAppointment: any) {
-    this. selectedDateCache = FormatNgbDate.formatNgbDateToString(this.model);
+    this.selectedDateCache = FormatNgbDate.formatNgbDateToString(this.model);
     this.filteredAppointments = newAppointment;
   }
 

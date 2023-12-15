@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2, EventEmitter } from '@angular/core';
+import { Component, OnInit, Renderer2, EventEmitter, Output, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IPostWaitingRoom } from 'src/app/model/IWaitingRoom';
@@ -23,6 +23,10 @@ import { FormatNgbDate } from 'src/app/component/utils/libs/formatNgbDate';
   styleUrls: ['./add-waiting-room.component.css']
 })
 export class AddWaitingRoomComponent implements OnInit {
+
+  //@Input() filteredWaitingRoomData:any;
+  @Output() newWaitingRoom = new EventEmitter<any>();
+  @Output() newAppointmentAdded = new EventEmitter<any>();
   dobNgb!: NgbDateStruct
   patientList: any[] = [];
   patientInfor: any;
@@ -108,6 +112,7 @@ export class AddWaitingRoomComponent implements OnInit {
   isSubmitted: boolean = false;
   ngOnInit(): void {
     this.getListGroupService();
+    this.getWaitingRoomData();
     const patientData = localStorage.getItem("patient");
     if (patientData === null) {
       return;
@@ -118,6 +123,37 @@ export class AddWaitingRoomComponent implements OnInit {
     this.dataService.dataAn$.subscribe((data) => {
       this.analyses = data;
     })
+  }
+
+  waitingRoomData:any[] = [];
+  CheckRealTimeWaiting:any[] = [];
+  filteredWaitingRoomData:any[] = [];
+  getWaitingRoomData() {
+    this.WaitingRoomService.getWaitingRooms().subscribe(
+      data => {
+        this.waitingRoomData = data;
+        this.waitingRoomData.forEach((i: any) => {
+          i.date = this.timestampToTime(i.epoch)
+        });
+        const statusOrder: { [key: number]: number } = { 2: 1, 3: 2, 1: 3, 4: 4 };
+        this.waitingRoomData.sort((a: any, b: any) => {
+          const orderA = statusOrder[a.status] ?? Number.MAX_VALUE;
+          const orderB = statusOrder[b.status] ?? Number.MAX_VALUE;
+          return orderA - orderB;
+        });
+        //this.listPatientId = this.waitingRoomData.map((item: any) => item.patient_id);
+        //localStorage.setItem('listPatientId', JSON.stringify(this.listPatientId));
+        this.filteredWaitingRoomData = [...this.waitingRoomData];
+        console.log("Check realtime waiting: ", this.CheckRealTimeWaiting)
+        //this.waitingRoomService.updateData(this.CheckRealTimeWaiting);
+        this.dataService.UpdateWaitingRoomTotal(3, this.CheckRealTimeWaiting.length);
+        localStorage.setItem("ListPatientWaiting", JSON.stringify(this.CheckRealTimeWaiting));
+      },
+      (error) => {
+        //this.loading = false;
+        //ResponseHandler.HANDLE_HTTP_STATUS(this.waitingRoomService.apiUrl + "/waiting-room", error);
+      }
+    );
   }
 
   onProcedureChange(event: Event) {
@@ -203,11 +239,10 @@ export class AddWaitingRoomComponent implements OnInit {
     const postInfo = this.POST_WAITTINGROOM.epoch + ' - ' + this.POST_WAITTINGROOM.produce_id + ' - ' + this.POST_WAITTINGROOM.produce_name + ' - '
       + this.POST_WAITTINGROOM.patient_id + ' - ' + this.POST_WAITTINGROOM.patient_name + ' - ' + this.POST_WAITTINGROOM.reason + ' - '
       + this.POST_WAITTINGROOM.status + ' - ' + this.POST_WAITTINGROOM.appointment_id + ' - ' + this.POST_WAITTINGROOM.appointment_epoch + ' - ' + this.POST_WAITTINGROOM.patient_created_date;
-    this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
+    localStorage.setItem("ob", JSON.stringify(postInfo));
+      this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
       .subscribe((data) => {
-        this.updateWaitingRoomList();
-        //this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'wtr');
-        localStorage.setItem('UpdatePlus@@@', 'UpdateAnalysesTotal@@@,plus,wtr');
+        //this.updateWaitingRoomList();
         this.showSuccessToast("Thêm phòng chờ thành công!!");
         let ref = document.getElementById('cancel-add-waiting');
         ref?.click();
@@ -224,6 +259,15 @@ export class AddWaitingRoomComponent implements OnInit {
           console.log(this.messageBody);
           this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
         }
+        console.log("Here nha");
+        const wt = { 
+          type: 'w', 
+          epoch: this.POST_WAITTINGROOM.epoch, 
+          produce_id: this.POST_WAITTINGROOM.produce_id, 
+          produce_name: this.POST_WAITTINGROOM.produce_name, patient_id: this.POST_WAITTINGROOM.patient_id, patient_name: this.POST_WAITTINGROOM.patient_name, patient_created_date: this.POST_WAITTINGROOM.patient_created_date, reason: "", status: "1", appointment_id: "", appointment_epoch: "" }
+        console.log("check wt: ", this.filteredWaitingRoomData);
+        this.filteredWaitingRoomData.push(wt);
+        this.newWaitingRoom.emit(this.filteredWaitingRoomData);
         this.POST_WAITTINGROOM = {
           epoch: "",
           produce_id: '',

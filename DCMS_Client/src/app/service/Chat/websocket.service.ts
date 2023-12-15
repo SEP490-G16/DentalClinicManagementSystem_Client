@@ -26,8 +26,7 @@ export class WebsocketService {
     }
   }
   sendMessage(message: any):void {
-    //const messageBody = JSON.stringify(message);
-    this.socket?.send(message);
+      this.socket?.send(message);
   }
   closeConnection():void{
     this.socket?.close();
