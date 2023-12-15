@@ -95,9 +95,7 @@ export class PatientExaminationManagementComponent implements OnInit {
     this.waitingRoomService.getWaitingRooms().subscribe(
       data => {
         this.exRooms = data.filter((appointment: any) => appointment.status == 2 || appointment.status == 3);
-        console.log(data);
-        console.log(this.exRooms);
-        // this.filteredWaitingRoomData = this.exRooms;
+
         this.exRooms.forEach((i: any) => {
           i.date = this.timestampToTime(i.epoch)
         });
@@ -110,9 +108,9 @@ export class PatientExaminationManagementComponent implements OnInit {
         this.listPatientId = this.exRooms.map((item: any) => item.patient_id);
         localStorage.setItem('listPatientId', JSON.stringify(this.listPatientId));
         this.CheckRealTimeWaiting = [...this.exRooms];
-        if (this.roleId.includes('2') || this.roleId.includes('4') || this.roleId.includes('5')) {
-          this.CheckRealTimeWaiting = this.CheckRealTimeWaiting.filter((item) => item.status.includes('2'));
-        }
+        // if (this.roleId.includes('2') || this.roleId.includes('4') || this.roleId.includes('5')) {
+        //   this.CheckRealTimeWaiting = this.CheckRealTimeWaiting.filter((item) => item.status.includes('2') || item.status.includes('3'));
+        // }
         this.waitingRoomService.updateData(this.CheckRealTimeWaiting);
         this.dataService.UpdateWaitingRoomTotal(3, this.CheckRealTimeWaiting.length);
         localStorage.setItem("ListPatientWaiting", JSON.stringify(this.CheckRealTimeWaiting));
@@ -240,6 +238,7 @@ export class PatientExaminationManagementComponent implements OnInit {
             }
           }
           this.exRooms.sort((a: any, b: any) => a.epoch - b.epoch);
+          this.waitingRoomService.updateData(this.exRooms);
           this.toastr.success('Chỉnh sửa hàng chờ thành công');
           this.getWaitingRoomData();
           this.messageContent = `CheckRealTimeWaitingRoom@@@,${wtr.patient_id},${Number(wtr.status)}`;
@@ -258,7 +257,6 @@ export class PatientExaminationManagementComponent implements OnInit {
           if (wtr.status == 3) {
             this.router.navigate(['/benhnhan/danhsach/tab/thanhtoan', wtr.patient_id])
           }
-
         },
           (error) => {
             ResponseHandler.HANDLE_HTTP_STATUS(this.waitingRoomService.apiUrl + "/waiting-room/" + this.PUT_WAITINGROO, error);
@@ -281,6 +279,4 @@ export class PatientExaminationManagementComponent implements OnInit {
     const timeStr = time.format('HH:mm');
     return timeStr;
   }
-
-
 }
