@@ -42,8 +42,8 @@
               <td (click)="stopClick($event)">
                 <select class="text-center status-selector" [(ngModel)]="wtr.status"
                   (change)="onPutStatus(wtr, wtr.epoch)" [ngStyle]="{'color': selectedColor}" *ngIf="wtr.status == 2">
-                    <option value="2" class="status-option in-progress">Đang khám</option> <!--x-->
-                    <option value="3" class="status-option completed">Khám xong</option> <!--x-->
+                    <option value="2" class="status-option in-progress">Đang khám</option> 
+                    <option value="3" class="status-option completed">Khám xong</option> 
                 </select>
                 <ng-container *ngIf="wtr.status == 3">
                   <b style="color: green;">Khám xong</b>

@@ -107,7 +107,7 @@ export class DataService {
         const currentData = this.ANALYSES.getValue();
         const newData = {
             ...currentData,
-            total_patient_examinated: param
+            total_patient_examinated: currentData.total_patient_examinated + 1
         };
         this.updateAnalysesData(newData);
     }
