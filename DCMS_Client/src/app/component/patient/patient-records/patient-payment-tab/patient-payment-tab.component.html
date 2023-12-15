@@ -18,9 +18,9 @@
             <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
                 (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Mẫu</a>
             </li>
-            <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
-                (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
-            </li>
+<!--            <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"-->
+<!--                (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>-->
+<!--            </li>-->
           </ng-container>
           <li class="nav-item mr-2"><a class="nav-link active" style="padding: 10px; color: #664FC3; cursor: pointer;"
               (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/')">Thanh toán</a>
@@ -46,7 +46,7 @@
           <b>Đã thu: {{formatCurrency(totalPaid.totalPaid)}}</b>
         </div>
         <div>
-          <b class="tong-no">Tổng nợ: {{formatCurrency(totalPaid.remaining)}}</b> 
+          <b class="tong-no">Tổng nợ: {{formatCurrency(totalPaid.remaining)}}</b>
         </div>
       </div>
       <br>
@@ -61,15 +61,15 @@
         <div class="col-md-4 "><b>Tổng nợ</b><br> <br>
         {{totalPaid.remaining}}
         </div>
-      </div> 
+      </div>
       </div>-->
-      
+
       <div class="payment-grid-wrapper" *ngIf="Material_Usage_Report.length > 0; else noPaymentRecord">
         <div class="payment-container" *ngFor="let report of Material_Usage_Report">
           <div class="payment-header">
-            <h2 class="schedule-title" title="Xem thông tin thanh toán"
+            <a class="schedule-title" title="Xem thông tin thanh toán"
               (click)="toggleDetails(report.tc_data.tc_treatment_course_id)">Đợt khám:
-              {{report.tc_data.tc_name}}</h2>
+              {{report.tc_data.tc_name}}</a>
             <div class="payment-summary">
               <span class="total-amount">Tổng tiền: {{ report.total | currency:'VND'}}</span>
               <!-- <span class="discount">Giảm giá:</span> -->
