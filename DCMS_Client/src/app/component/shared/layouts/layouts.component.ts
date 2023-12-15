@@ -154,7 +154,7 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
     if (user != null) {
       this.userName = user;
     }
-  
+
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.currentRoute = this.router.url;
@@ -181,7 +181,7 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
         this.roleName = 'Lễ tân';
       }
       else if (this.roleId.includes('4')) {
-        this.roleName = 'Y tá';
+        this.roleName = 'Điều dưỡng';
       }
       else if (this.roleId.includes('5')) {
         this.roleName = 'Y tá trưởng';
