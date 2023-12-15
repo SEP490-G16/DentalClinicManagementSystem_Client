@@ -32,6 +32,7 @@
           <th>Lý do khám</th>
           <th>Loại điều trị</th>
           <th>Trạng thái</th>
+          <th></th>
           <ng-container *ngIf="roleId.includes('3') || roleId.includes('1')">
             <th>Thanh toán</th>
           </ng-container>
@@ -86,6 +87,10 @@
                 </select>
               </td>
             </ng-container>
+            <td (click)="stopClick($event)">
+              <button class="btn button-timekeeping" (click)="openNotification(wtr.status)">
+                <i class="bi bi-bell"></i></button>
+            </td>
             <ng-container *ngIf="roleId.includes('3') || roleId.includes('1')">
               <td>
                 <button class="btn button-timekeeping"

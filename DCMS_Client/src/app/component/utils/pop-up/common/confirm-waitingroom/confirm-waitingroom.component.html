@@ -1,0 +1,15 @@
+<div class="modal-header">
+  <h4 class="modal-title">Mời bệnh nhân lên khám</h4>
+  <p class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </p>
+</div>
+<div class="modal-body">
+  <div class="image-container">
+    <img src="../../../../../../assets/icon/tooth-extraction.png" alt="Dental Image" class="modal-image">
+  </div>
+  <p>{{ message }}</p>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn button-add" (click)="modal.close(true)">Xác nhận</button>
+</div>
