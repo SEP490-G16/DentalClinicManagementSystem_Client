@@ -68,7 +68,18 @@ export class LoginComponent implements OnInit {
     if (this.User && this.User.userCredential && this.User.password) {
       this.cognitoService.signIn(this.User).then(() => {
         this.loading = false;
-        this.router.navigate(['']);
+
+        const role = sessionStorage.getItem("role");
+
+        switch(role) {
+          case '1' || '3':
+          this.router.navigate(['']);
+          break;
+
+          default:
+          this.router.navigate(['/benh-nhan-dang-kham'])
+        }
+
       })
         .catch((err) => {
            this.loading = false;

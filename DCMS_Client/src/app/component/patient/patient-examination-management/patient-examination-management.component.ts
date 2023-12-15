@@ -97,7 +97,7 @@ export class PatientExaminationManagementComponent implements OnInit {
         this.exRooms = data.filter((appointment: any) => appointment.status == 2 || appointment.status == 3);
         console.log(data);
         console.log(this.exRooms);
-        this.filteredWaitingRoomData = this.exRooms;
+        // this.filteredWaitingRoomData = this.exRooms;
         this.exRooms.forEach((i: any) => {
           i.date = this.timestampToTime(i.epoch)
         });
