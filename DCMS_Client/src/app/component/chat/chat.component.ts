@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, AfterViewInit, ViewChild, ElementRef, AfterViewChecked} from '@angular/core';
+import { Component, OnDestroy, OnInit, AfterViewInit, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { NgForm } from "@angular/forms";
 import { WebsocketService } from "../../service/Chat/websocket.service";
 import { ResponseHandler } from "../utils/libs/ResponseHandler";
@@ -15,7 +15,7 @@ import { PatientService } from 'src/app/service/PatientService/patient.service';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
-export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked{
+export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('scrollMe') private myScrollContainer!: ElementRef;
   currentDateTimeGMT7 = moment().tz('Asia/Ho_Chi_Minh');
   messageContent: string = '';
@@ -40,33 +40,20 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked{
   }
   isHovered = true;
   unreadMessagesCount = 0;
-  //POST_WAITTINGROOM: IPostWaitingRoom;
   constructor(private webSocketService: WebsocketService,
     private waitingRoomService: ReceptionistWaitingRoomService,
     private location: Location,
     private dataService: DataService,
     private patientService: PatientService) {
-    // this.POST_WAITTINGROOM = {
-    //   epoch: Math.floor(this.currentDateTimeGMT7.valueOf() / 1000).toString(),
-    //   produce_id: '',
-    //   produce_name: '',
-    //   patient_id: "P-000157",
-    //   patient_name: '',
-    //   reason: '',
-    //   status: "1",
-    //   appointment_id: '',
-    //   appointment_epoch: '',
-    //   patient_created_date: '',
-    // } as IPostWaitingRoom
   }
 
   ngAfterViewChecked(): void {
-        this.scrollToBottom();
-    }
+    this.scrollToBottom();
+  }
   scrollToBottom(): void {
     try {
       this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-    } catch(err) { }
+    } catch (err) { }
   }
   filteredWaitingRoomData = [] as IPostWaitingRoom[];
   searchPatientsList: any[] = [];
@@ -94,6 +81,27 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked{
     this.webSocketService.messageReceived.subscribe((message: any) => {
       const parsedMessage = JSON.parse(message);
       console.log("check content:", parsedMessage.content);
+      // var result = localStorage.getItem('UpdatePlus@@@');
+      // localStorage.removeItem('UpdatePlus@@@');
+      // var checkPlus;
+      // if (result != null) {
+      //   checkPlus = result.split(',');
+      //   if (checkPlus[0] == 'UpdateAnalysesTotal@@@') {
+      //     if (checkPlus[1] == 'plus') {
+      //       if (checkPlus[2] == 'wtr') {
+      //         this.dataService.UpdateWaitingRoomTotal(1, 0);
+      //       } else if (checkPlus[2] == 'app') {
+      //         this.dataService.UpdateAppointmentTotal(1, 0);
+      //       } else if (checkPlus[2] == 'pat') {
+      //         this.dataService.UpdatePatientTotal(1, 0);
+      //       } else if (checkPlus[2] == 'wtr1') {
+      //         this.dataService.UpdatePatientExaminate(1, 0);
+      //       } else if (checkPlus[2] == 'wtr2') {
+      //         this.dataService.UpdatePatientExaminated(1, 0);
+      //       }
+      //     }
+      //   }
+      // }
       const check = parsedMessage.content.split(',');
       var checkPa = true;
       if (check[0] == 'CheckRealTimeWaitingRoom@@@') {
@@ -114,7 +122,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked{
         const currentUrl = this.location.path();
 
         if (this.POST_WAITTINGROOM.reason == "pa") {
-          //alert("vô nha")
           let patientOb = {
             patient_id: this.POST_WAITTINGROOM.epoch,
             patient_name: this.POST_WAITTINGROOM.produce_id,
@@ -134,27 +141,28 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked{
           this.searchPatientsList.push(patientOb);
           this.patientService.updateData(this.searchPatientsList);
         }
-        if (this.filteredWaitingRoomData.length == 0 && this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_name != "" && this.POST_WAITTINGROOM.patient_name != null 
-        && this.POST_WAITTINGROOM.patient_name != null && this.POST_WAITTINGROOM.patient_created_date != "" && this.POST_WAITTINGROOM.patient_created_date != null 
-        && this.POST_WAITTINGROOM.patient_created_date != undefined) {
-          //alert("check add successful trước")
-          this.filteredWaitingRoomData.push(this.POST_WAITTINGROOM);
-          this.waitingRoomService.updateData(this.filteredWaitingRoomData);
-          shouldBreakFor = true;
-          this.POST_WAITTINGROOM = {
-            epoch: '',
-            produce_id: '',
-            produce_name: '',
-            patient_id: '',
-            patient_name: '',
-            reason: '',
-            status: "1",
-            appointment_id: '',
-            appointment_epoch: '',
-            date: '',
-            patient_created_date: '',
-          }
-        } else {
+        // if (this.filteredWaitingRoomData.length == 0 && this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_name != "" && this.POST_WAITTINGROOM.patient_name != null
+        //   && this.POST_WAITTINGROOM.patient_name != null && this.POST_WAITTINGROOM.patient_created_date != "" && this.POST_WAITTINGROOM.patient_created_date != null
+        //   && this.POST_WAITTINGROOM.patient_created_date != undefined) {
+        //   //alert("check add successful trước")
+        //   this.filteredWaitingRoomData.push(this.POST_WAITTINGROOM);
+        //   this.waitingRoomService.updateData(this.filteredWaitingRoomData);
+        //   shouldBreakFor = true;
+        //   this.POST_WAITTINGROOM = {
+        //     epoch: '',
+        //     produce_id: '',
+        //     produce_name: '',
+        //     patient_id: '',
+        //     patient_name: '',
+        //     reason: '',
+        //     status: "1",
+        //     appointment_id: '',
+        //     appointment_epoch: '',
+        //     date: '',
+        //     patient_created_date: '',
+        //   }
+        //} 
+        //else {
           this.filteredWaitingRoomData.forEach((item: any) => {
             if (item.patient_id == check[1]) {
               if (check[2] == "4") {
@@ -166,9 +174,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked{
               } else {
                 item.status = check[2];
               }
-            } else if (shouldBreakFor == false && this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_name != null 
-            && this.POST_WAITTINGROOM.patient_name != null && this.POST_WAITTINGROOM.produce_id != "" && this.POST_WAITTINGROOM.patient_created_date != "" && this.POST_WAITTINGROOM.patient_created_date != null 
-            && this.POST_WAITTINGROOM.patient_created_date != undefined) {
+            } else if (shouldBreakFor == false && this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_name != null
+              && this.POST_WAITTINGROOM.patient_name != null && this.POST_WAITTINGROOM.produce_id != "" && this.POST_WAITTINGROOM.patient_created_date != "" && this.POST_WAITTINGROOM.patient_created_date != null
+              && this.POST_WAITTINGROOM.patient_created_date != undefined) {
+              this.dataService.UpdateWaitingRoomTotal(1, 0);
               this.filteredWaitingRoomData.push(this.POST_WAITTINGROOM);
               this.POST_WAITTINGROOM = {
                 epoch: '',
@@ -185,9 +194,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked{
               }
               localStorage.setItem("ListPatientWaiting", JSON.stringify(this.filteredWaitingRoomData));
               shouldBreakFor = true;
+              return;
             }
           })
-        }
+        //}
         const statusOrder: { [key: number]: number } = { 2: 1, 3: 2, 1: 3, 4: 4 };
         if (this.filteredWaitingRoomData.length > 0) {
           this.filteredWaitingRoomData.sort((a: any, b: any) => {

@@ -58,8 +58,8 @@ export class AddWaitingRoomComponent implements OnInit {
     dob: '',
     email: ''
   }
-  currentPatientCreated : boolean = false;
-  isAddOld:boolean = false;
+  currentPatientCreated: boolean = false;
+  isAddOld: boolean = false;
   constructor(
     private WaitingRoomService: ReceptionistWaitingRoomService,
     private PATIENT_SERVICE: PatientService,
@@ -205,8 +205,8 @@ export class AddWaitingRoomComponent implements OnInit {
       + this.POST_WAITTINGROOM.status + ' - ' + this.POST_WAITTINGROOM.appointment_id + ' - ' + this.POST_WAITTINGROOM.appointment_epoch + ' - ' + this.POST_WAITTINGROOM.patient_created_date;
     this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
       .subscribe((data) => {
-        console.log("lần 1");
-        this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'wtr');
+        //this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'wtr');
+        localStorage.setItem('UpdatePlus@@@', 'UpdateAnalysesTotal@@@,plus,wtr');
         this.showSuccessToast("Thêm phòng chờ thành công!!");
         let ref = document.getElementById('cancel-add-waiting');
         ref?.click();
@@ -223,19 +223,19 @@ export class AddWaitingRoomComponent implements OnInit {
           console.log(this.messageBody);
           this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
         }
-          this.POST_WAITTINGROOM = {
-            epoch: "",
-            produce_id: '',
-            produce_name: '',
-            patient_id: '',
-            patient_name: '',
-            reason: '',
-            status: "1",
-            appointment_id: '',
-            appointment_epoch: '',
-            patient_created_date: '',
-          } as IPostWaitingRoom
-          this.patientInfor = '';
+        this.POST_WAITTINGROOM = {
+          epoch: "",
+          produce_id: '',
+          produce_name: '',
+          patient_id: '',
+          patient_name: '',
+          reason: '',
+          status: "1",
+          appointment_id: '',
+          appointment_epoch: '',
+          patient_created_date: '',
+        } as IPostWaitingRoom
+        this.patientInfor = '';
       },
         (err) => {
           this.showErrorToast('Lỗi khi thêm phòng chờ');
@@ -243,91 +243,7 @@ export class AddWaitingRoomComponent implements OnInit {
       );
   }
 
-  addPatient() {
-    console.log(this.patient1.gender);
-    this.resetValidate();
-    if (!this.patient1.patientName) {
-      this.validatePatient.name = "Vui lòng nhập tên bệnh nhân!";
-      this.isSubmitted = true;
-    }
-    if (this.patient1.Email && !this.isValidEmail(this.patient1.Email)) {
-      this.validatePatient.email = "Email không hợp lệ!";
-      this.isSubmitted = true;
-    }
-    if (!this.patient1.Gender) {
-      this.validatePatient.gender = "Vui lòng chọn giới tính!";
-      this.isSubmitted = true;
-    }
-    if (!this.patient1.phone_Number) {
-      this.validatePatient.phone = "Vui lòng nhập số điện thoại!";
-      this.isSubmitted = true;
-    }
-    else if (!this.isVietnamesePhoneNumber(this.patient1.phone_Number)) {
-      this.validatePatient.phone = "Số điện thoại không hợp lệ!";
-      this.isSubmitted = true;
-    }
-    if (!this.dobNgb || !this.dobNgb.year || !this.dobNgb.month || !this.dobNgb.day) {
-      this.validatePatient.dob = "Vui lòng nhập ngày sinh!";
-      this.isSubmitted = true;
-    }
-    if (!this.patient1.Address) {
-      this.validatePatient.address = "Vui lòng nhập địa chỉ!";
-      this.isSubmitted = true;
-    }
-    if (this.isSubmitted) {
-      return;
-    }
-    this.patientBody = {
-      patient_id: null,
-      patient_name: this.patient1.patientName,
-      email: this.patient1.Email,
-      gender: this.patient1.Gender,
-      phone_number: this.patient1.phone_Number,
-      address: this.patient1.Address,
-      full_medical_history: this.patient1.full_medical_History,
-      dental_medical_history: this.patient1.dental_medical_History,
-      date_of_birth: FormatNgbDate.formatNgbDateToString(this.dobNgb),
-    }
-    if (this.patient1.phone_Number && this.patient1.phone_Number.length === 9) {
-      this.patientBody = {
-        patient_id: null,
-        patient_name: this.patient1.patientName,
-        email: this.patient1.Email,
-        gender: this.patient1.Gender,
-        phone_number: '+84' + this.patient1.phone_Number,
-        address: this.patient1.Address,
-        full_medical_history: this.patient1.full_medical_History,
-        dental_medical_history: this.patient1.dental_medical_History,
-        date_of_birth: FormatNgbDate.formatNgbDateToString(this.dobNgb),
-      }
-    }
-    if (this.patient1.phone_Number && this.patient1.phone_Number.length === 10) {
-      this.patientBody = {
-        patient_id: null,
-        patient_name: this.patient1.patientName,
-        email: this.patient1.Email,
-        gender: this.patient1.Gender,
-        phone_number: '+84' + this.patient1.phone_Number.substring(1),
-        address: this.patient1.Address,
-        full_medical_history: this.patient1.full_medical_History,
-        dental_medical_history: this.patient1.dental_medical_History,
-        date_of_birth: FormatNgbDate.formatNgbDateToString(this.dobNgb),
-      }
-    }
-    console.log("Patient body: ", this.patientBody);
-    this.PATIENT_SERVICE.addPatient(this.patientBody).subscribe((data: any) => {
-      this.toastr.success('Thêm mới bệnh nhân thành công!');
-      this.currentPatientCreated = true;
-      let ref = document.getElementById('cancel-patient');
-      ref?.click();
-      this.patient1 = [];
-      this.patientInfor = data.data.patient_id + " - " + this.patientBody.patient_name + " - " + this.normalizePhoneNumber(this.patientBody.phone_number);
-      // sessionStorage.setItem("WaitingRoomPatientId", data.data.patient_id);
-    }, error => {
-      ResponseHandler.HANDLE_HTTP_STATUS(this.PATIENT_SERVICE.test + "/patient", error);
-    })
-  }
-  isSearching:boolean = false;
+  isSearching: boolean = false;
   notFoundMessage: string = 'Không tìm thấy bệnh nhân';
   searchTimeout: any;
   onsearchPatientInWaitingRoom(event: any) {
@@ -350,11 +266,11 @@ export class AddWaitingRoomComponent implements OnInit {
           localStorage.setItem("listSearchPatient", JSON.stringify(this.patientList));
         });
       }, 500);
-      if(this.patientList.length == 0){
+      if (this.patientList.length == 0) {
         this.notFoundMessage = 'Không tìm thấy bệnh nhân';
       }
       this.isSearching = false;
-    } else{
+    } else {
       this.notFoundMessage = 'Không tìm thấy bệnh nhân';
       this.isSearching = false;
     }
@@ -415,7 +331,7 @@ export class AddWaitingRoomComponent implements OnInit {
     this.isAdd = true;
     this.isAddOld = true;
   }
-  toggleAddOld(){
+  toggleAddOld() {
     this.isAddOld = true;
     this.isAdd = false;
   }

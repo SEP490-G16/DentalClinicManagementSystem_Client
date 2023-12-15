@@ -196,45 +196,23 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
 
   searchTimeout: any;
   getDataAnalysis() {
-    //localStorage.removeItem("patient_examinated");
     const now = new Date();
     const currentDate = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
     this.waitingRoomService.getWaitingRooms().subscribe((data) => {
       const listWatingRoom = data;
       var count = 0;
+      var count1 = 0;
       this.analyses.total_waiting_room = parseInt(data.length);
       listWatingRoom.forEach((item: any) => {
         if (item.status == 2) {
           count++;
         }
+        if (item.status == 3) {
+          count1++;
+        }
       })
       this.analyses.total_patient_examinate = count;
-
-      const checkTotal = localStorage.getItem('patient_examinated');
-      if (checkTotal != null) {
-        const check = JSON.parse(checkTotal);
-        this.analyses.total_patient_examinated = check.total;
-        if (check.currentDate != currentDate) {
-          this.analyses.total_patient_examinated = 0;
-          let ob = {
-            total: 0,
-            currentDate: currentDate
-          }
-          localStorage.setItem('patient_examinated', JSON.stringify(ob));
-        } else {
-          let ob = {
-            total: this.analyses.total_patient_examinated,
-            currentDate: currentDate
-          }
-          localStorage.setItem('patient_examinated', JSON.stringify(ob));
-        }
-      } else {
-        let ob = {
-          total: 0,
-          currentDate: currentDate
-        }
-        localStorage.setItem('patient_examinated', JSON.stringify(ob));
-      }
+      this.analyses.total_patient_examinated = count1;
     })
 
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
