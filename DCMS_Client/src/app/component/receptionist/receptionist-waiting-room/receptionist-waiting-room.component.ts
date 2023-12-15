@@ -16,6 +16,11 @@ import { NullValidationHandler } from 'angular-oauth2-oidc';
 import { DataService } from '../../shared/services/DataService.service';
 import { SendMessageSocket } from '../../shared/services/SendMessageSocket.service';
 import { TimestampFormat } from '../../utils/libs/timestampFormat';
+import {
+  ConfirmDeleteModalComponent
+} from "../../utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ConfirmWaitingroomComponent} from "../../utils/pop-up/common/confirm-waitingroom/confirm-waitingroom.component";
 
 @Component({
   selector: 'app-receptionist-waiting-room',
@@ -46,7 +51,8 @@ export class ReceptionistWaitingRoomComponent implements OnInit, DoCheck {
     private toastr: ToastrService, private webSocketService: WebsocketService,
     private medicaoProcedureGroupService: MedicalProcedureGroupService,
     private dataService: DataService,
-    private sendMessageSocket: SendMessageSocket
+    private sendMessageSocket: SendMessageSocket,
+    private modalService: NgbModal
   ) {
 
     this.PUT_WAITINGROOM = {
@@ -347,7 +353,21 @@ export class ReceptionistWaitingRoomComponent implements OnInit, DoCheck {
   updateStatus(id: any, status: any) {
     this.getWaitingRoomData();
   }
+  openConfirmationModal(message: string): Promise<any> {
+    const modalRef = this.modalService.open(ConfirmWaitingroomComponent);
+    modalRef.componentInstance.message = message;
+    return modalRef.result;
+  }
+  openNotification(status:any){
+    if (this.roleId.includes('3') && status == 2){
+      this.openConfirmationModal(`Mời bệnh nhân ... lên khám!`).then((result) =>{
 
+      })
+    }
+    else {
+
+    }
+  }
   messageContent: string = `CheckRealTime,${this.patient_Id}`;
   messageBody = {
     action: '',
