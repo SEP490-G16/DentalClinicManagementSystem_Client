@@ -17,9 +17,9 @@
             <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
                 (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Mẫu</a>
             </li>
-            <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
-                (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
-            </li>
+<!--            <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"-->
+<!--                (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>-->
+<!--            </li>-->
           </ng-container>
           <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
               (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/')">Thanh toán</a>
@@ -201,6 +201,11 @@
                                 <option value="0">Chọn labo</option>
                                 <option *ngFor="let a of Labos" value={{a.labo_id}}>{{a.name}}</option>
                               </select>
+                            </td>
+                          </ng-container>
+                          <ng-container *ngIf="gro.checked && pro.groupId != 'PG-03'">
+                            <td style="padding: 10px">
+
                             </td>
                           </ng-container>
                         </tr>
