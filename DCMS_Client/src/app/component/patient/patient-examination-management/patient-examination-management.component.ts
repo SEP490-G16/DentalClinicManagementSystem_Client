@@ -95,6 +95,7 @@ export class PatientExaminationManagementComponent implements OnInit {
     this.waitingRoomService.getWaitingRooms().subscribe(
       data => {
         this.exRooms = data.filter((appointment: any) => appointment.status == 2 || appointment.status == 3);
+
         this.exRooms.forEach((i: any) => {
           i.date = this.timestampToTime(i.epoch)
         });
@@ -110,7 +111,7 @@ export class PatientExaminationManagementComponent implements OnInit {
         // if (this.roleId.includes('2') || this.roleId.includes('4') || this.roleId.includes('5')) {
         //   this.CheckRealTimeWaiting = this.CheckRealTimeWaiting.filter((item) => item.status.includes('2') || item.status.includes('3'));
         // }
-        this.waitingRoomService.updateData(this.CheckRealTimeWaiting);
+        this.waitingRoomService.updateData(this.exRooms);
         this.dataService.UpdateWaitingRoomTotal(3, this.CheckRealTimeWaiting.length);
         localStorage.setItem("ListPatientWaiting", JSON.stringify(this.CheckRealTimeWaiting));
       },

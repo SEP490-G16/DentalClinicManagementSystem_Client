@@ -10,7 +10,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 export class ReceptionistWaitingRoomService {
   public apiUrl = 'https://gg1spfr4gl.execute-api.ap-southeast-1.amazonaws.com/dev';
 
-  constructor(private http: HttpClient, private cognitoService:CognitoService) { }
+  constructor(private http: HttpClient, private cognitoService: CognitoService) { }
 
   private listWatingRoom = new BehaviorSubject<any[]>([]);
   data$ = this.listWatingRoom.asObservable();
@@ -18,13 +18,13 @@ export class ReceptionistWaitingRoomService {
     this.listWatingRoom.next(newData);
   }
 
-  getWaitingRooms():Observable<any> {
+  getWaitingRooms(): Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
 
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`
     });
-      return this.http.get(`${this.apiUrl}/waiting-room`, { headers });
+    return this.http.get(`${this.apiUrl}/waiting-room`, { headers });
   }
 
   postWaitingRoom(PostWaitingRoom: IPostWaitingRoom): Observable<any> {
@@ -47,21 +47,21 @@ export class ReceptionistWaitingRoomService {
     return this.http.put(`${this.apiUrl}/waiting-room/${PutWaitingRoom.epoch}`, requestBody, { headers });
   }
 
-  deleteWaitingRooms(DeleteWaitingRoom:IPostWaitingRoom):Observable<any> {
+  deleteWaitingRooms(DeleteWaitingRoom: IPostWaitingRoom): Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
 
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`
     });
-      return this.http.delete(`${this.apiUrl}/waiting-room/${DeleteWaitingRoom.epoch}`, { headers });
+    return this.http.delete(`${this.apiUrl}/waiting-room/${DeleteWaitingRoom.epoch}`, { headers });
   }
 
-  putNewPatientId(id:any): Observable<any> {
+  putNewPatientId(id: any): Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`,
       "Content-Type": "application/json; charset=utf8"
     });
-    return this.http.put(`https://gf4tlb2kyi.execute-api.ap-southeast-1.amazonaws.com/dev/update-new-patient/${id}`,{}, { headers });
+    return this.http.put(`https://gf4tlb2kyi.execute-api.ap-southeast-1.amazonaws.com/dev/update-new-patient/${id}`, {}, { headers });
   }
 }
