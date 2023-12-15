@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, DoCheck, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 
 
 import { Auth } from 'aws-amplify';
@@ -21,7 +21,7 @@ import { SendMessageSocket } from '../../shared/services/SendMessageSocket.servi
   templateUrl: './receptionist-waiting-room.component.html',
   styleUrls: ['./receptionist-waiting-room.component.css']
 })
-export class ReceptionistWaitingRoomComponent implements OnInit {
+export class ReceptionistWaitingRoomComponent implements OnInit, DoCheck {
   waitingRoomData: any;
   loading: boolean = false;
   procedure: string = '0';
@@ -59,6 +59,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
     } as IPostWaitingRoom
   }
 
+
   ngOnInit(): void {
     let co = sessionStorage.getItem('role');
     if (co != null) {
@@ -71,11 +72,17 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
       this.getWaitingRoomData();
     }
     this.waitingRoomService.data$.subscribe((dataList) => {
-      this.filteredWaitingRoomData = dataList; 
+      this.filteredWaitingRoomData = dataList;
     })
   }
 
-  CheckRealTimeWaiting: any[] = []; 
+  ngDoCheck() {
+    // if (this.filteredWaitingRoomData) {
+    //   console.log("Check: ", this.filteredWaitingRoomData);
+    // }
+  }
+
+  CheckRealTimeWaiting: any[] = [];
   getWaitingRoomData() {
     this.waitingRoomService.getWaitingRooms().subscribe(
       data => {
@@ -85,8 +92,8 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
         });
         const statusOrder: { [key: number]: number } = { 2: 1, 3: 2, 1: 3, 4: 4 };
         this.waitingRoomData.sort((a: any, b: any) => {
-          const orderA = statusOrder[a.status] ?? Number.MAX_VALUE; 
-          const orderB = statusOrder[b.status] ?? Number.MAX_VALUE; 
+          const orderA = statusOrder[a.status] ?? Number.MAX_VALUE;
+          const orderB = statusOrder[b.status] ?? Number.MAX_VALUE;
           return orderA - orderB;
         });
         this.listPatientId = this.waitingRoomData.map((item: any) => item.patient_id);
@@ -95,6 +102,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
         if (this.roleId.includes('2') || this.roleId.includes('4') || this.roleId.includes('5')) {
           this.CheckRealTimeWaiting = this.CheckRealTimeWaiting.filter((item) => item.status.includes('2'));
         }
+        console.log("Check realtime waiting: ", this.CheckRealTimeWaiting)
         this.waitingRoomService.updateData(this.CheckRealTimeWaiting);
         this.dataService.UpdateWaitingRoomTotal(3, this.CheckRealTimeWaiting.length);
         localStorage.setItem("ListPatientWaiting", JSON.stringify(this.CheckRealTimeWaiting));

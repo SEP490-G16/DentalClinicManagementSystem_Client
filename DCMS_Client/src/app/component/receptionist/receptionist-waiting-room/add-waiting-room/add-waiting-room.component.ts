@@ -205,6 +205,7 @@ export class AddWaitingRoomComponent implements OnInit {
       + this.POST_WAITTINGROOM.status + ' - ' + this.POST_WAITTINGROOM.appointment_id + ' - ' + this.POST_WAITTINGROOM.appointment_epoch + ' - ' + this.POST_WAITTINGROOM.patient_created_date;
     this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
       .subscribe((data) => {
+        this.updateWaitingRoomList();
         //this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'wtr');
         localStorage.setItem('UpdatePlus@@@', 'UpdateAnalysesTotal@@@,plus,wtr');
         this.showSuccessToast("Thêm phòng chờ thành công!!");
@@ -241,6 +242,34 @@ export class AddWaitingRoomComponent implements OnInit {
           this.showErrorToast('Lỗi khi thêm phòng chờ');
         }
       );
+  }
+
+  updateWaitingRoomList() {
+    this.WaitingRoomService.getWaitingRooms().subscribe(
+      data => {
+        console.log('Got new waiting room data:', data);
+        let waitingRoomData = data;
+        waitingRoomData.forEach((i: any) => {
+          i.date = this.timestampToTime(i.epoch)
+        });
+        const statusOrder: { [key: number]: number } = { 2: 1, 3: 2, 1: 3, 4: 4 };
+        waitingRoomData.sort((a: any, b: any) => {
+          const orderA = statusOrder[a.status] ?? Number.MAX_VALUE;
+          const orderB = statusOrder[b.status] ?? Number.MAX_VALUE;
+          return orderA - orderB;
+        });
+        this.WaitingRoomService.updateData(waitingRoomData);
+      },
+      error => {
+        console.error('Failed to get waiting room data:', error);
+      }
+    );
+  }
+
+  timestampToTime(timestamp: number): string {
+    const time = moment.unix(timestamp);
+    const timeStr = time.format('HH:mm');
+    return timeStr;
   }
 
   isSearching: boolean = false;
