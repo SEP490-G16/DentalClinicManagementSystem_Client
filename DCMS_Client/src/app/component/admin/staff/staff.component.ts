@@ -135,7 +135,7 @@ export class StaffComponent implements OnInit {
     } else if (id == "3") {
       return "Lễ tân";
     } else if (id == "4") {
-      return "Y tá";
+      return "Điều dưỡng";
     } else if (id == "5") {
       return "Y tá trưởng";
     }
