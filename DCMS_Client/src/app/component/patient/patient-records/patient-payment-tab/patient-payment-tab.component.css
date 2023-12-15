@@ -179,6 +179,8 @@ button:active {
   color: #5e2750;
   font-weight: bold;
   cursor: pointer;
+  text-align: start;
+  font-size: 25px;
 }
 
 .schedule-title:hover {

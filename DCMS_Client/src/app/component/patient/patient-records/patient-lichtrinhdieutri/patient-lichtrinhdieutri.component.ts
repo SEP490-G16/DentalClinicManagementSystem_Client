@@ -366,12 +366,12 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
         const modalRef = this.modelService.open(ConfirmAddTreatmentcourseComponent);
         modalRef.result.then((res:any) =>{
           switch (res){
-            case 'lich-hen':
-              const ref = document.getElementById('cancel');
-              ref?.click();
-              this.goAppointment();
-
-              break;
+            // case 'lich-hen':
+            //   const ref = document.getElementById('cancel');
+            //   ref?.click();
+            //   this.goAppointment();
+            //
+            //   break;
             case 'thanh-toan':
               const ref1 = document.getElementById('cancel');
               ref1?.click();
