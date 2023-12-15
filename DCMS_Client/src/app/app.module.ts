@@ -44,6 +44,7 @@ import { AuthInterceptor } from './service/RefreshToken/auth.interceptor';
 // Register the Vietnamese locale data
 import { registerLocaleData } from '@angular/common';
 import localeVi from '@angular/common/locales/vi';
+import { ConfirmWaitingroomComponent } from './component/utils/pop-up/common/confirm-waitingroom/confirm-waitingroom.component';
 registerLocaleData(localeVi);
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ registerLocaleData(localeVi);
     ConfirmAddTreatmentcourseComponent,
     ViDateRangePipe,
     FullDateVnPipe,
+    ConfirmWaitingroomComponent,
   ],
   imports: [
     FormsModule,
