@@ -18,6 +18,16 @@ export class ReceptionistTimekeepingService {
 
   constructor(private http: HttpClient, private cognitoService: CognitoService) { }
 
+  // Trong timekeeping.service.ts
+  updateListDisplay(newData: any) {
+    // Lấy giá trị hiện tại của BehaviorSubject
+    const currentData = this.listDisplaySource.value;
+    // Cập nhật dữ liệu mới vào mảng
+    const updatedData = [...currentData, newData];
+    // Phát ra dữ liệu mới
+    this.listDisplaySource.next(updatedData);
+  }
+
   getTimekeeping(startTime: number, endTime: number): Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
 
@@ -36,16 +46,6 @@ export class ReceptionistTimekeepingService {
     });
     const requestBody = JSON.stringify(PostTimekeeping);
     return this.http.post(`${this.apiUrl}/timekeeping `, requestBody, { headers });
-  }
-
-  // Trong timekeeping.service.ts
-  updateListDisplay(newData: any) {
-    // Lấy giá trị hiện tại của BehaviorSubject
-    const currentData = this.listDisplaySource.value;
-    // Cập nhật dữ liệu mới vào mảng
-    const updatedData = [...currentData, newData];
-    // Phát ra dữ liệu mới
-    this.listDisplaySource.next(updatedData);
   }
 
 
