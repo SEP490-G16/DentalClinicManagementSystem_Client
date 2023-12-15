@@ -13,12 +13,14 @@ export class DataService {
         this.LABO_LIST.next(newData);
     }
 
+    //Thống kê
     private ANALYSES = new BehaviorSubject<any>({
-        total_appointment: 0, 
-        total_waiting_room: 0, 
-        total_patient_examinate: 0, 
+        total_appointment: 0,
+        total_waiting_room: 0,
+        total_patient_examinate: 0,
         total_patient_examinated: 0
     });
+
     dataAn$ = this.ANALYSES.asObservable();
     updateAnalysesData(newData: any): void {
         this.ANALYSES.next(newData);
@@ -33,7 +35,7 @@ export class DataService {
                     total_waiting_room: currentData.total_waiting_room - 1
                 };
                 this.updateAnalysesData(newData);
-            }  
+            }
         } else if (param == 1) {
             const currentData = this.ANALYSES.getValue();
             const newData = {

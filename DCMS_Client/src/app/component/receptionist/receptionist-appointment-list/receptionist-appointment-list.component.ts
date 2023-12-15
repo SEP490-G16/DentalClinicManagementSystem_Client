@@ -48,7 +48,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   endDateTimestamp: number = 0;
   nextDate: any;
 
-  selectedDateCache:any;
+  selectedDateCache: any;
   constructor(private appointmentService: ReceptionistAppointmentService,
     private waitingRoomService: ReceptionistWaitingRoomService,
     private router: Router,
@@ -305,7 +305,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   dateString: any;
   timeString: any;
   openEditModal(appointment: any, dateTimestamp: any, event: Event) {
-    this. selectedDateCache = FormatNgbDate.formatNgbDateToString(this.model);
+    this.selectedDateCache = FormatNgbDate.formatNgbDateToString(this.model);
     this.dateString = this.timestampToDate(dateTimestamp);
     this.selectedAppointment = appointment;
     this.timeString = this.timestampToTime(appointment.time);
@@ -403,11 +403,9 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   }
 
   ListPatientWaiting: any[] = []
-  status: boolean = true;
-  postExchangeAppointmentToWaitingRoom(a: any, b: any, event: Event) {
-    console.log("a la gi:", a);
-    console.log("b la gi:", b);
-    let status = true;
+  postExchangeAppointmentToWaitingRoom(epoch: any, appointmentSelected: any, event: Event) {
+
+    //Check xem bệnh nhân đã có trong phòng chờ chưa
     const listWaiting = localStorage.getItem('ListPatientWaiting');
     if (listWaiting != null) {
       this.filteredWaitingRoomData = JSON.parse(listWaiting);
@@ -429,75 +427,76 @@ export class ReceptionistAppointmentListComponent implements OnInit {
           localStorage.setItem("ListPatientWaiting", JSON.stringify(this.ListPatientWaiting));
         })
     }
-
-    console.log("Lich hen danh sach: ", this.filteredAppointments);
-
     this.filteredWaitingRoomData.forEach((data: any) => {
-      if (data.patient_id == b.patient_id) {
-        status = false;
+      if (data.patient_id == appointmentSelected.patient_id) {
         this.showErrorToast('Bệnh nhân đã có trong hàng chờ!');
+        return;
       }
     })
+    // End
 
-    if (status == true) {
-      const currentDateTimeGMT7 = moment().tz('Asia/Ho_Chi_Minh');
-      this.Exchange.epoch = Math.floor(currentDateTimeGMT7.valueOf() / 1000).toString();
-      this.Exchange.patient_id = b.patient_id;
-      this.Exchange.patient_name = b.patient_name;
-      this.Exchange.produce_id = b.procedure_id;
-      this.Exchange.produce_name = b.procedure_name;
-      this.Exchange.reason = b.reason;
-      this.Exchange.appointment_id = b.appointment_id;
-      this.Exchange.appointment_epoch = a;
-      this.Exchange.patient_created_date = b.patient_created_date;
-      this.receptionistWaitingRoom.postWaitingRoom(this.Exchange).subscribe(
-        (data) => {
-          let updatePatient = {
-            epoch: parseInt(a),
-            new_epoch: parseInt(a),
-            appointment: {
-              patient_id: b.patient_id,
-              patient_name: b.patient_name,
-              phone_number: b.phone_number,
-              procedure_id: b.procedure_id,
-              procedure_name: b.procedure_name,
-              reason: b.reason,
-              doctor: b.doctor,
-              status: 3,
-              time: b.time,
-              patient_created_date: b.patient_created_date
-            }
-          }
+    //Chuyển bệnh nhân đến phòng chờ
+    const currentDateTimeGMT7 = moment().tz('Asia/Ho_Chi_Minh');
+    this.Exchange.epoch = Math.floor(currentDateTimeGMT7.valueOf() / 1000).toString();
+    this.Exchange.patient_id = appointmentSelected.patient_id;
+    this.Exchange.patient_name = appointmentSelected.patient_name;
+    this.Exchange.produce_id = appointmentSelected.procedure_id;
+    this.Exchange.produce_name = appointmentSelected.procedure_name;
+    this.Exchange.reason = appointmentSelected.reason;
+    this.Exchange.appointment_id = appointmentSelected.appointment_id;
+    this.Exchange.appointment_epoch = epoch;
+    this.Exchange.patient_created_date = appointmentSelected.patient_created_date;
 
-          let update1 = {
-            epoch: parseInt(a),
-            new_epoch: parseInt(a),
-            patient_id: b.patient_id,
-            patient_name: b.patient_name,
-            phone_number: b.phone_number,
-            procedure_id: b.procedure_id,
-            procedure_name: b.procedure_name,
-            reason: b.reason,
-            doctor: b.doctor,
-            status: 3,
-            time: b.time,
-            patient_created_date: b.patient_created_date
-          }
-          if (this.ListPatientWaiting != null && this.ListPatientWaiting != undefined && this.ListPatientWaiting.length != 0) {
-            this.ListPatientWaiting.forEach((item: any) => {
-              if (item.epoch == update1.epoch) {
-                if (item.appointment.patient_id == update1.patient_id) {
-                  item = update1;
-                }
+    this.receptionistWaitingRoom.postWaitingRoom(this.Exchange).subscribe(
+      () => {
+
+        let update1 = {
+          epoch: parseInt(epoch),
+          new_epoch: parseInt(epoch),
+          patient_id: appointmentSelected.patient_id,
+          patient_name: appointmentSelected.patient_name,
+          phone_number: appointmentSelected.phone_number,
+          procedure_id: appointmentSelected.procedure_id,
+          procedure_name: appointmentSelected.procedure_name,
+          reason: appointmentSelected.reason,
+          doctor: appointmentSelected.doctor,
+          status: 3,
+          time: appointmentSelected.time,
+          patient_created_date: appointmentSelected.patient_created_date
+        }
+        if (this.ListPatientWaiting != null && this.ListPatientWaiting != undefined && this.ListPatientWaiting.length != 0) {
+          this.ListPatientWaiting.forEach((item: any) => {
+            if (item.epoch == update1.epoch) {
+              if (item.appointment.patient_id == update1.patient_id) {
+                item = update1;
               }
-            })
-          } else {
-            this.ListPatientWaiting.push(update1);
-          }
-          console.log("eXCHANGE", this.Exchange)
-          this.appointmentService.putAppointment(updatePatient, this.Exchange.appointment_id).subscribe((data) => {
-            this.showSuccessToast(`Đã thêm bệnh nhân ${this.Exchange.patient_name} vào hàng đợi`);
+            }
           })
+        } else {
+          this.ListPatientWaiting.push(update1);
+        }
+
+        //Cập nhật lịch hẹn
+        let PutAppointment = {
+          epoch: parseInt(epoch),
+          new_epoch: parseInt(epoch),
+          appointment: {
+            patient_id: appointmentSelected.patient_id,
+            patient_name: appointmentSelected.patient_name,
+            phone_number: appointmentSelected.phone_number,
+            procedure_id: appointmentSelected.procedure_id,
+            procedure_name: appointmentSelected.procedure_name,
+            reason: appointmentSelected.reason,
+            doctor: appointmentSelected.doctor,
+            status: 3,
+            time: appointmentSelected.time,
+            patient_created_date: appointmentSelected.patient_created_date
+          }
+        }
+        console.log("PutAppointment", PutAppointment)
+        this.appointmentService.putAppointment(PutAppointment, this.Exchange.appointment_id).subscribe((data) => {
+          this.showSuccessToast(`Đã thêm bệnh nhân ${this.Exchange.patient_name} vào hàng đợi`);
+
           localStorage.setItem("ListPatientWaiting", JSON.stringify(this.ListPatientWaiting));
           this.Exchange = {
             epoch: "0",
@@ -511,14 +510,15 @@ export class ReceptionistAppointmentListComponent implements OnInit {
             appointment_epoch: '',
             patient_created_date: '',
           }
-          window.location.href = "/phong-cho";
-        },
-        (error) => {
-          this.loading = false;
-          ResponseHandler.HANDLE_HTTP_STATUS(this.receptionistWaitingRoom.apiUrl + "/waiting-room", error);
-        }
-      );
-    }
+          this.router.navigate(['phong-cho'])
+        })
+      },
+      (error) => {
+        this.loading = false;
+        ResponseHandler.HANDLE_HTTP_STATUS(this.receptionistWaitingRoom.apiUrl + "/waiting-room", error);
+      }
+    );
+
     // },
     // (error) => {
     //   this.loading = false;
@@ -528,17 +528,12 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     event.stopPropagation();
   }
 
-  private isVietnamesePhoneNumber(number: string): boolean {
-    return /^(\+84|84|0)?[1-9]\d{8}$/
-      .test(number);
-  }
-
   navigateToPatientDetail(patientId: any) {
     this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', patientId]);
   }
 
   openAddAppointmentModal() {
-    this. selectedDateCache = FormatNgbDate.formatNgbDateToString(this.model);
+    this.selectedDateCache = FormatNgbDate.formatNgbDateToString(this.model);
     this.filteredAppointments = this.filteredAppointments;
     this.datesDisabled = this.datesDisabled;
   }

@@ -4,7 +4,7 @@
     </div>
     <div class="col-6">
       <select class="form-select input-custom float-end" aria-label="Default select example" [(ngModel)]="procedureFilter"
-        (change)="filterProcedure()" style="width: 30%;">
+        (ngModelChange)="filterProcedure()" style="width: 30%;">
         <option selected value="0">Loại điều trị</option>
         <option *ngFor="let a of groupServices" value={{a.medical_procedure_group_id}}>{{a.name}}</option>
       </select>
@@ -42,8 +42,8 @@
               <td (click)="stopClick($event)">
                 <select class="text-center status-selector" [(ngModel)]="wtr.status"
                   (change)="onPutStatus(wtr, wtr.epoch)" [ngStyle]="{'color': selectedColor}" *ngIf="wtr.status == 2">
-                    <option value="2" class="status-option in-progress">Đang khám</option> 
-                    <option value="3" class="status-option completed">Khám xong</option> 
+                    <option value="2" class="status-option in-progress">Đang khám</option>
+                    <option value="3" class="status-option completed">Khám xong</option>
                 </select>
                 <ng-container *ngIf="wtr.status == 3">
                   <b style="color: green;">Khám xong</b>
@@ -63,7 +63,7 @@
         <div class="col-md-2">Bệnh nhân mới</div>
         <div class="col-md-1">Lý do khám</div>
         <div class="col-md-1">Loại điều trị</div>
-        <div class="col-md-1">Trạng thái</div>
+        <div class="col-md-2">Trạng thái</div>
       </div>
       <div class="text-center no-data">
         <span>
