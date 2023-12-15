@@ -150,12 +150,12 @@ export class ReceptionistTimekeepingComponent implements OnInit {
                 if (record.epoch === weekTimestamp.toString()) {
                   let detail = record.records.find((r: any) => r.subId === staff.sub);
                   if (detail && detail.details) {
-                    staff.register_clock_in = (detail.details.register_clock_in !== undefined) ? detail.details.register_clock_in : 0;
-                    staff.register_clock_out = (detail.details.register_clock_out !== undefined) ? detail.details.register_clock_out : 0;
+                    staff.register_clock_in = (detail.details.register_clock_in !== undefined && detail.details.register_clock_in !== "0") ? detail.details.register_clock_in : 0;
+                    staff.register_clock_out = (detail.details.register_clock_out !== undefined && detail.details.register_clock_out !== "0") ? detail.details.register_clock_out : 0;
 
 
                     staff.weekTimekeeping[weekTimestamp].clockIn =
-                      (detail.details.clock_in !== undefined || detail.details.clock_in !== "0")
+                      (detail.details.clock_in !== undefined && detail.details.clock_in !== "0")
                         ? this.timestampToGMT7String(detail.details.clock_in)
                         : '';
 
