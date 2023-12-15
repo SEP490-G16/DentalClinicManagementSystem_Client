@@ -11,7 +11,8 @@ import { DataService } from '../../shared/services/DataService.service';
 import { SendMessageSocket } from '../../shared/services/SendMessageSocket.service';
 import * as moment from 'moment';
 import { ResponseHandler } from '../../utils/libs/ResponseHandler';
-
+import { catchError, tap } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 @Component({
   selector: 'app-patient-examination-management',
   templateUrl: './patient-examination-management.component.html',
@@ -31,19 +32,18 @@ export class PatientExaminationManagementComponent implements OnInit {
   listPatientId: any[] = [];
 
   //Call Api
-  putExamination!: IPostWaitingRoom;
+  PUT_WAITINGROO: any;
+
 
   //Role
   roleId: any;
 
   selectedColor: string = "#000"
 
-  PUT_WAITINGROO: any;
-  patient_Id: any = "";
-
   //Socket
+  Socket_Patient_Id: any = "";
   CheckRealTimeWaiting: any[] = [];
-  messageContent: string = `CheckRealTime,${this.patient_Id}`;
+  messageContent: string = `CheckRealTime,${this.Socket_Patient_Id}`;
   messageBody = {
     action: '',
     message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
@@ -61,17 +61,14 @@ export class PatientExaminationManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.authorize();
+    this.getListGroupService();
+    this.getWaitingRoomData(null);
     this.enableBehaviorSubject();
   }
 
   authorize() {
     let co = sessionStorage.getItem('role');
-    if (co != null) {
-      this.roleId = co.split(',');
-    }
-    this.getListGroupService();
-    this.getWaitingRoomData();
-
+    (co != null) ? this.roleId = co.split(',') : '';
   }
 
   enableBehaviorSubject() {
@@ -91,46 +88,53 @@ export class PatientExaminationManagementComponent implements OnInit {
     )
   }
 
-  getWaitingRoomData() {
-    this.waitingRoomService.getWaitingRooms().subscribe(
-      data => {
+  getWaitingRoomData(exRoomDetail: any) {
+    return this.waitingRoomService.getWaitingRooms()
+      .subscribe(data => {
         this.exRooms = data.filter((appointment: any) => appointment.status == 2 || appointment.status == 3);
 
-        this.exRooms.forEach((i: any) => {
-          i.date = this.timestampToTime(i.epoch)
+        this.exRooms.forEach((exRoom: any) => {
+          exRoom.date = this.timestampToTime(exRoom.epoch);
         });
+
+        console.log("Ex room: ", this.exRooms);
         const statusOrder: { [key: number]: number } = { 2: 1, 3: 2, 1: 3, 4: 4 };
-        this.exRooms.sort((a: any, b: any) => {
-          const orderA = statusOrder[a.status] ?? Number.MAX_VALUE;
-          const orderB = statusOrder[b.status] ?? Number.MAX_VALUE;
+        this.exRooms.sort((exRoomBefore: any, exRoomAfter: any) => {
+          const orderA = statusOrder[exRoomBefore.status] ?? Number.MAX_VALUE;
+          const orderB = statusOrder[exRoomAfter.status] ?? Number.MAX_VALUE;
           return orderA - orderB;
         });
+
+        // Đồng bộ danh sách phòng chờ
+        this.waitingRoomService.updateData(this.exRooms);
+
+        // Thống kê trên navbar
+        this.CheckRealTimeWaiting = [...this.exRooms];
+        this.dataService.UpdateWaitingRoomTotal(3, this.CheckRealTimeWaiting.length);
+
+        // Cache
         this.listPatientId = this.exRooms.map((item: any) => item.patient_id);
         localStorage.setItem('listPatientId', JSON.stringify(this.listPatientId));
-        this.CheckRealTimeWaiting = [...this.exRooms];
-        // if (this.roleId.includes('2') || this.roleId.includes('4') || this.roleId.includes('5')) {
-        //   this.CheckRealTimeWaiting = this.CheckRealTimeWaiting.filter((item) => item.status.includes('2') || item.status.includes('3'));
-        // }
-        this.waitingRoomService.updateData(this.exRooms);
-        this.dataService.UpdateWaitingRoomTotal(3, this.CheckRealTimeWaiting.length);
         localStorage.setItem("ListPatientWaiting", JSON.stringify(this.CheckRealTimeWaiting));
-      },
-      (error) => {
+
+        if (exRoomDetail) {
+          this.toastr.success('Chỉnh sửa hàng chờ thành công');
+          if (exRoomDetail.status == 3) {
+            this.router.navigate(['/benhnhan/danhsach/tab/thanhtoan', exRoomDetail.patient_id]);
+          }
+        }
+      }),
+      catchError(error => {
         ResponseHandler.HANDLE_HTTP_STATUS(this.waitingRoomService.apiUrl + "/waiting-room", error);
-      }
-    );
+        return throwError(error);
+      })
+    // );
   }
 
-
-  filterProcedure() {
-    if (this.procedureFilter === '0') {
-      this.filteredWaitingRoomData = [...this.exRooms];
-    } else {
-      this.filteredWaitingRoomData = this.exRooms.filter((item: IPostWaitingRoom) => item.produce_id === this.procedureFilter);
-    }
-  }
 
   onPutStatus(wtr: any, epoch: number) {
+    this.Socket_Patient_Id = wtr.patient_id;
+
     this.PUT_WAITINGROO = {
       epoch: epoch,
       produce_id: wtr.produce_id,
@@ -143,32 +147,35 @@ export class PatientExaminationManagementComponent implements OnInit {
       appointment_id: wtr.appointment_id,
       appointment_epoch: wtr.appointment_epoch,
     }
-    this.patient_Id = wtr.patient_id;
+
+    //Xóa khỏi hàng chờ
     if (this.PUT_WAITINGROO.status_value == 4) {
       this.listTemp = this.filteredWaitingRoomData;
       localStorage.setItem("ListPatientWaiting", JSON.stringify(this.filteredWaitingRoomData));
       localStorage.setItem('listPatientId', JSON.stringify(this.listTemp));
       this.waitingRoomService.deleteWaitingRooms(this.PUT_WAITINGROO)
-        .subscribe((data) => {
+        .subscribe(() => {
           this.exRooms.sort((a: any, b: any) => a.epoch - b.epoch);
           this.toastr.success('Xóa hàng chờ thành công');
           this.sendMessageSocket.sendMessageSocket("CheckRealTimeWaitingRoom@@@", `${wtr.patient_id}`, `${Number('4')}`);
           this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "minus", "wtr1");
           this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "minus", "wtr");
-          this.getWaitingRoomData();
+          this.getWaitingRoomData(wtr);
         },
           (error) => {
             ResponseHandler.HANDLE_HTTP_STATUS(this.waitingRoomService.apiUrl + "/waiting-room/" + this.PUT_WAITINGROO, error);
           }
         )
-    } else {
+    }
+    //
+    else {
       this.waitingRoomService.putWaitingRoom(this.PUT_WAITINGROO)
-        .subscribe(data => {
+        .subscribe((res) => {
+          //Chuyển trạng thái đang khám
           if (this.PUT_WAITINGROO.status_value == "2") {
             this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "plus", "wtr1");
             const storeList = localStorage.getItem('ListPatientWaiting');
             let listWaiting;
-            console.log("vô nha");
             if (storeList != null) {
               console.log("check storeList", storeList);
               listWaiting = JSON.parse(storeList);
@@ -195,16 +202,13 @@ export class PatientExaminationManagementComponent implements OnInit {
                         }
                       }
                       item.status = "3";
-                      // this.appointmentService.putAppointment(a, this.PUT_WAITINGROO.appointment_id).subscribe((data) => {
-                      //   this.showSuccessToast(`${item.patient_name} đang khám`);
-                      // })
                     }
                   })
                 }
               }
             }
           }
-
+          //Chuyển trạng thái khám xong
           if (this.PUT_WAITINGROO.status_value == "3") {
             this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "minus", "wtr1");
             const checkTotal = localStorage.getItem('patient_examinated');
@@ -228,24 +232,20 @@ export class PatientExaminationManagementComponent implements OnInit {
                   listWaiting.forEach((item: any) => {
                     if (item.patient_id == this.PUT_WAITINGROO.patient_id) {
                       item.status = "1";
-                      // this.appointmentService.putAppointment(item, this.PUT_WAITINGROO.appointment_id).subscribe((data) => {
-                      //   this.showSuccessToast(`${item.patient_name} đã khám xong`);
-                      // })
                     }
                   })
                 }
               }
             }
           }
-          this.exRooms.sort((a: any, b: any) => a.epoch - b.epoch);
-          this.waitingRoomService.updateData(this.exRooms);
-          this.toastr.success('Chỉnh sửa hàng chờ thành công');
-          this.getWaitingRoomData();
+
+          //Socket
           this.messageContent = `CheckRealTimeWaitingRoom@@@,${wtr.patient_id},${Number(wtr.status)}`;
           this.messageBody = {
             action: '',
             message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
           }
+
           if (this.messageContent.trim() !== '' && sessionStorage.getItem('sub-id') != null && sessionStorage.getItem('username') != null) {
             this.messageBody = {
               action: "sendMessage",
@@ -254,9 +254,8 @@ export class PatientExaminationManagementComponent implements OnInit {
             this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
           }
 
-          if (wtr.status == 3) {
-            this.router.navigate(['/benhnhan/danhsach/tab/thanhtoan', wtr.patient_id])
-          }
+          this.getWaitingRoomData(wtr);
+
         },
           (error) => {
             ResponseHandler.HANDLE_HTTP_STATUS(this.waitingRoomService.apiUrl + "/waiting-room/" + this.PUT_WAITINGROO, error);
@@ -265,13 +264,20 @@ export class PatientExaminationManagementComponent implements OnInit {
     }
   }
 
-
   stopClick(event: Event) {
     event.stopPropagation();
   }
 
   goTreatmentCoursePage(patientId: any) {
     this.router.navigate(['benhnhan/danhsach/tab/lichtrinhdieutri', patientId]);
+  }
+
+  filterProcedure() {
+    if (this.procedureFilter === '0') {
+      this.filteredWaitingRoomData = [...this.exRooms];
+    } else {
+      this.filteredWaitingRoomData = this.exRooms.filter((item: IPostWaitingRoom) => item.produce_id === this.procedureFilter);
+    }
   }
 
   timestampToTime(timestamp: number): string {
