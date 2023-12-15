@@ -15,6 +15,7 @@ import { WebsocketService } from "../../../service/Chat/websocket.service";
 import { NullValidationHandler } from 'angular-oauth2-oidc';
 import { DataService } from '../../shared/services/DataService.service';
 import { SendMessageSocket } from '../../shared/services/SendMessageSocket.service';
+import { TimestampFormat } from '../../utils/libs/timestampFormat';
 
 @Component({
   selector: 'app-receptionist-waiting-room',
@@ -228,10 +229,37 @@ export class ReceptionistWaitingRoomComponent implements OnInit, DoCheck {
               localStorage.setItem("patient_examinated", JSON.stringify({ total: check.total, currentDate: check.currentDate }));
             }
             //this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "plus", "wtr2");
+
+            //Chuyển từ bệnh nhân mới sang cũ
             if (wtr.patient_created_date == "1") {
               this.waitingRoomService.putNewPatientId(wtr.patient_id).subscribe((data) => {
               })
             }
+
+            //Cập nhật lịch hẹn
+            // console.log("WTR: ", wtr);
+            // let PutAppointment = {
+            //   epoch: epoch,
+            //   new_epoch: epoch,
+            //   appointment: {
+            //     patient_id: wtr.patient_id,
+            //     patient_name: wtr.patient_name,
+            //     phone_number: wtr.phone_number || 0,
+            //     procedure_id: wtr.produce_id,
+            //     procedure_name: wtr.produce_name,
+            //     reason: wtr.reason,
+            //     doctor: wtr.doctor || "",
+            //     status: 1,
+            //     time: TimestampFormat.timeAndDateToTimestamp(wtr.date, TimestampFormat.timestampToGMT7Date(epoch)),
+            //     patient_created_date: wtr.patient_created_date
+            //   }
+            // }
+            // console.log("PutAppointment: ", PutAppointment);
+            // this.appointmentService.putAppointment(PutAppointment, wtr.patient_id).subscribe((data) => {
+            //   console.log("Cập nhật lịch hẹn thành công - Đã khám xong")
+            // });
+
+            //Cache
             const storeList = localStorage.getItem('ListPatientWaiting');
             let listWaiting;
             if (storeList != null) {
@@ -276,7 +304,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit, DoCheck {
     }
   }
 
-  onNewWaitingRoomAdded(newWait:any) {
+  onNewWaitingRoomAdded(newWait: any) {
     this.filteredWaitingRoomData = newWait;
   }
 
