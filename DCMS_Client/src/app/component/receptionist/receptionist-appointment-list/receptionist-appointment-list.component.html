@@ -52,10 +52,10 @@
         </tr>
       </thead>
       <tbody>
-        <ng-container *ngFor="let a of filteredAppointments">
+        <ng-container *ngFor="let a of filteredAppointments" [@fadeOut]>
           <ng-container *ngFor="let ap of a.appointments">
             <tr class="hover-patient" title="Xem thông tin bệnh nhân {{detail.patient_name}}"
-              *ngFor="let detail of ap.details" (click)="details(detail.patient_id)">
+              *ngFor="let detail of ap.details" (click)="details(detail.patient_id)" id="appointment-{{detail.appointment_id}}">
               <ng-container *ngIf="detail.migrated == 'false'">
                 <td class="patient-id">
                   {{detail.patient_id}}

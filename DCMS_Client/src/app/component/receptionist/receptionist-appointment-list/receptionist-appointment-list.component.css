@@ -100,6 +100,21 @@
   display: flex;
 }
 
+.fade-and-slide-out {
+  animation: fadeAndSlideOut 0.5s ease forwards;
+}
+
+@keyframes fadeAndSlideOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
 
 @media screen and (max-width: 1366px) {
   .button-add {

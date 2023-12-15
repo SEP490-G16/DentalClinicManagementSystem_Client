@@ -23,11 +23,17 @@ import { ConfirmDeleteModalComponent } from '../../utils/pop-up/common/confirm-d
 import { TimeKeepingService } from 'src/app/service/Follow-TimeKeepingService/time-keeping.service';
 import { SendMessageSocket } from '../../shared/services/SendMessageSocket.service';
 import { FormatNgbDate } from '../../utils/libs/formatNgbDate';
-
+import { trigger, state, style, transition, animate } from '@angular/animations';
 @Component({
   selector: 'app-receptionist-appointment-list',
   templateUrl: './receptionist-appointment-list.component.html',
-  styleUrls: ['./receptionist-appointment-list.component.css']
+  styleUrls: ['./receptionist-appointment-list.component.css'],
+  animations: [
+    trigger('fadeOut', [
+      state('void', style({ opacity: 0 })),
+      transition('* => void', [animate('1s')])
+    ])
+  ]
 })
 
 export class ReceptionistAppointmentListComponent implements OnInit {
@@ -333,16 +339,25 @@ export class ReceptionistAppointmentListComponent implements OnInit {
           }
 
         } as IEditAppointmentBody;
+
+
         this.appointmentService.deleteAppointment(dateTimestamp, appointment.appointment_id).subscribe(response => {
           this.showSuccessToast('Xóa lịch hẹn thành công!');
-          this.filteredAppointments = this.filteredAppointments.map((app: any) => ({
-            ...app,
-            appointments: app.appointments.map((ap: any) => ({
-              ...ap,
-              details: ap.details.filter((detail: any) => detail.appointment_id !== appointment.appointment_id)
-            })).filter((ap: any) => ap.details.length > 0)
-          })).filter((app: any) => app.appointments.length > 0);
 
+          //Animation
+          const appointmentElement = document.getElementById('appointment-' + appointment.appointment_id);
+          if (appointmentElement) {
+            appointmentElement.classList.add('fade-and-slide-out');
+            setTimeout(() => {
+              this.filteredAppointments = this.filteredAppointments.map((app: any) => ({
+                ...app,
+                appointments: app.appointments.map((ap: any) => ({
+                  ...ap,
+                  details: ap.details.filter((detail: any) => detail.appointment_id !== appointment.appointment_id)
+                })).filter((ap: any) => ap.details.length > 0)
+              })).filter((app: any) => app.appointments.length > 0);
+            }, 500); // The timeout should match the animation duration
+          }
           console.log("Đã xóa: ", this.filteredAppointments);
           console.log("xóa lịch hẹn: ", this.startDate == this.timestampToDate(this.DELETE_APPOINTMENT_BODY.epoch))
           const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
