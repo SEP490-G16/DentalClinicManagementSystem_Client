@@ -1,18 +1,18 @@
 <div class="sep-recent-orders">
   <div class="row row-custom mt-4 mb-4">
     <div class="col-6">
-      <div class="button-app">
-        <div style="margin-right: 1%;">
+      <div class="button-app equal-size-buttons">
+        <div class="button-wrapper">
           <button class="btn button-add" data-bs-toggle="modal"
-                  data-bs-target="#myModal" (click)="openAddAppointmentModal()"><i class="bi bi-plus-circle"></i>
-            Thêm
-            lịch hẹn bệnh nhân cũ</button>
+                  data-bs-target="#myModal" (click)="openAddAppointmentModal()">
+            <i class="bi bi-plus-circle"></i> Thêm lịch hẹn bệnh nhân cũ
+          </button>
         </div>
-        <div>
+        <div class="button-wrapper">
           <button class="btn button-add" data-bs-toggle="modal"
-                  data-bs-target="#myNewModal" (click)="openAddAppointmentModal()"><i class="bi bi-plus-circle"></i>
-            Thêm
-            lịch hẹn bệnh nhân mới</button>
+                  data-bs-target="#myNewModal" (click)="openAddAppointmentModal()">
+            <i class="bi bi-plus-circle"></i> Thêm lịch hẹn bệnh nhân mới
+          </button>
         </div>
       </div>
     </div>
@@ -52,15 +52,15 @@
         </tr>
       </thead>
       <tbody>
-        <ng-container *ngFor="let a of filteredAppointments" [@fadeOut]>
+        <ng-container *ngFor="let a of filteredAppointments">
           <ng-container *ngFor="let ap of a.appointments">
             <tr class="hover-patient" title="Xem thông tin bệnh nhân {{detail.patient_name}}"
               *ngFor="let detail of ap.details" (click)="details(detail.patient_id)" id="appointment-{{detail.appointment_id}}">
               <ng-container *ngIf="detail.migrated == 'false'">
-                <td class="patient-id">
+                <td>
                   {{detail.patient_id}}
                 </td>
-                <td class="patient-name" style="text-decoration: underline;">
+                <td style="text-decoration: underline;">
                   {{detail.patient_name}}
                 </td>
                 <td>{{detail.patient_created_date == 1 ? "Mới" : detail.patient_created_date
@@ -71,13 +71,12 @@
                 <td>
                   {{detail.reason}}
                 </td>
-                <td class="patient-pn">
+                <td>
                   {{detail.procedure_name}}
                 </td>
-                <td class="patient-doctorname">{{ detail.doctor }}</td>
-                <td class="appointments-time">{{timestampToTime(detail.time)}} - {{timestampToDate(a.date) | date:
-                  'dd-MM-yyyy'}}</td>
-                <td class="table_button">
+                <td>{{ detail.doctor }}</td>
+                <td>{{timestampToTime(detail.time)}} - {{timestampToDate(a.date) | date: 'dd-MM-yyyy'}}</td>
+                <td>
                   <button class="btn btn-primary p-1 m-r-3" style="padding: 2px 3px; margin-right: 3px"
                     title="Sửa lịch hẹn" data-bs-toggle="modal" data-bs-target="#editAppointmentModal"
                     (click)="openEditModal(detail, a.date, $event)">
@@ -85,13 +84,13 @@
                   <button class="btn btn-danger p-1" style="padding: 2px 5px" title="Xoá lịch hẹn"
                     (click)="deleteAppointment(detail, a.date, $event)"> <i class="bi bi-trash"></i></button>
                 </td>
-                <td *ngIf="detail.status == 2 && checkDate(a.date)" class="direct-click">
+                <td *ngIf="detail.status == 2 && checkDate(a.date)">
                   <button class="btn btn-redirect"
                     (click)="postExchangeAppointmentToWaitingRoom(a.date, detail ,$event)">
                     Đến phòng chờ
                   </button>
                 </td>
-                <td *ngIf="detail.status == 2 && !checkDate(a.date)" class="direct-click">
+                <td *ngIf="detail.status == 2 && !checkDate(a.date)">
                     <b>Trễ lịch hẹn</b>
                 </td>
                 <td *ngIf="detail.status == 1" class="direct-click">

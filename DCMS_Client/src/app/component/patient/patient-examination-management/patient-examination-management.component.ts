@@ -42,7 +42,8 @@ export class PatientExaminationManagementComponent implements OnInit {
 
   //Socket
   Socket_Patient_Id: any = "";
-  CheckRealTimeWaiting: any[] = [];
+  realTimeWaiting: any[] = [];
+  realTimeExaminated:any [] = []
   messageContent: string = `CheckRealTime,${this.Socket_Patient_Id}`;
   messageBody = {
     action: '',
@@ -91,7 +92,7 @@ export class PatientExaminationManagementComponent implements OnInit {
   getWaitingRoomData(exRoomDetail: any) {
     return this.waitingRoomService.getWaitingRooms()
       .subscribe(data => {
-        this.exRooms = data.filter((appointment: any) => appointment.status == 2 || appointment.status == 3);
+        this.exRooms = data.filter((waittingRoom: any) => waittingRoom.status == 2 || waittingRoom.status == 3);
 
         this.exRooms.forEach((exRoom: any) => {
           exRoom.date = this.timestampToTime(exRoom.epoch);
@@ -109,13 +110,14 @@ export class PatientExaminationManagementComponent implements OnInit {
         this.waitingRoomService.updateData(this.exRooms);
 
         // Thống kê trên navbar
-        this.CheckRealTimeWaiting = [...this.exRooms];
-        this.dataService.UpdateWaitingRoomTotal(3, this.CheckRealTimeWaiting.length);
+        this.realTimeWaiting = [...this.exRooms].filter((waitingRoom:any) => waitingRoom.status == 2);
+        this.realTimeExaminated = [...this.exRooms].filter((waitingRoom:any) => waitingRoom.status == 3);
+        this.dataService.UpdateWaitingRoomTotal(3, this.realTimeWaiting.length);
 
         // Cache
         this.listPatientId = this.exRooms.map((item: any) => item.patient_id);
         localStorage.setItem('listPatientId', JSON.stringify(this.listPatientId));
-        localStorage.setItem("ListPatientWaiting", JSON.stringify(this.CheckRealTimeWaiting));
+        localStorage.setItem("ListPatientWaiting", JSON.stringify(this.realTimeWaiting));
 
         if (exRoomDetail) {
           this.toastr.success('Chỉnh sửa hàng chờ thành công');

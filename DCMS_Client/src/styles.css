@@ -49,68 +49,6 @@
   --table-height: 85%;
 }
 
-/* Màn hình nhỏ hơn 13 inch */
-@media screen and (max-width: 1366px) {
-
-  .table-container table {
-    width: 100%;
-    table-layout: fixed;
-  }
-
-  .table-container th, .table-container td {
-    width: 100px; /* Set a fixed width for each column */
-    overflow: hidden; /* Hide content that overflows the fixed width */
-  }
-}
-
-/* Màn hình từ 13 inch đến 24 inch */
-@media (min-width: 1367px) and (max-width: 2560px) {
-  :root {
-    --size: 20px;
-    /* Kích thước trung bình */
-    --sidebar-width: 75px;
-    --sidebar-width-active: 250px;
-    --sidebar-inset: 20px 0 20px 20px;
-    --sidebar-toggle-button-padding: 0 23px !important;
-    --slidebar-sep-navigation-ul-li: 70px;
-  }
-
-  .mat-typography {
-    font-size: 16px !important;
-  }
-
-  .sep-recent-orders {
-    font-size: 16px !important;
-  }
-
-  .sep-main {
-    max-width: 82vw;
-  }
-}
-
-/* Màn hình lớn hơn 24 inch */
-@media (min-width: 2561px) {
-  :root {
-    --size: 25px;
-    /* Tăng kích thước cho màn hình lớn */
-    --sidebar-width: 90px;
-    --sidebar-width-active: 300px;
-    --sidebar-inset: 20px 0 20px 20px;
-    --sidebar-toggle-button-padding: 0 23px !important;
-  }
-
-  .mat-typography {
-    font-size: 22px !important;
-  }
-
-  .sep-recent-orders {
-    font-size: 22px !important;
-  }
-
-  .sep-main {
-    max-width: 88vw;
-  }
-}
 
 html,
 body {
@@ -565,6 +503,24 @@ table tbody td {
   scrollbar-color: #888 #f1f1f1;
 }
 
+.sticky-thead {
+  position: sticky;
+  top: 0;
+  /* Giữ phần thead ở vị trí trên cùng khi cuộn */
+  background-color: white;
+  z-index: 1;
+  /* Đảm bảo phần thead nằm trên cùng của bảng */
+}
+
+.sticky-thead tr {
+  background-color: #9e92d1;
+}
+
+.sticky-thead-no-data {
+  margin: auto !important;
+  width: 100%;
+}
+
 .table-container::-webkit-scrollbar-thumb {
   background-color: #c0c0c0;
   border-radius: 6px;
@@ -583,41 +539,6 @@ table tbody td {
 .table-container::-webkit-scrollbar-thumb:hover {
   background: #8c8a8a;
 }
-
-table tbody .patient-id {
-  width: 140px;
-}
-
-table tbody .patient-name {
-  text-align: center;
-  width: 180px;
-}
-
-table tbody .patient-phone {
-  width: 140px;
-}
-
-table tbody .patient-pn {
-  width: 220px;
-}
-
-table tbody .patient-doctorname {
-  text-align: center;
-  width: 180px;
-}
-
-table tbody .appointments-time {
-  width: 180px;
-}
-
-table tbody .table_button {
-  width: 80px;
-}
-
-table tbody .direct-click {
-  width: 140px;
-}
-
 
 /*end table */
 /* ---------------------------------------- */
@@ -675,23 +596,6 @@ button:hover {
 /* end icon*/
 /*------------------------------------------*/
 /* bên trong table */
-.sticky-thead {
-  position: sticky;
-  top: 0;
-  /* Giữ phần thead ở vị trí trên cùng khi cuộn */
-  background-color: white;
-  z-index: 1;
-  /* Đảm bảo phần thead nằm trên cùng của bảng */
-}
-
-.sticky-thead tr {
-  background-color: #9e92d1;
-}
-
-.sticky-thead-no-data {
-  margin: auto !important;
-  width: 100%;
-}
 .sticky-thead-no-data div {
   padding-top: 1.4rem;
   padding-bottom: 1.4rem;
@@ -858,4 +762,122 @@ ngb-timepicker .btn {
 /* Tùy chỉnh màu của các nút khi hover */
 ngb-timepicker .btn:hover {
   background-color: #664FC3; /* màu nền xanh đậm hơn khi hover */
+}
+
+/* Màn hình nhỏ hơn 13 inch */
+@media screen and (max-width: 1366px) {
+
+  .table-container table {
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .table-container th, .table-container td {
+    width: 100px; /* Set a fixed width for each column */
+    overflow: hidden; /* Hide content that overflows the fixed width */
+  }
+}
+
+
+/* Màn hình lớn hơn 24 inch */
+@media (min-width: 2561px) {
+  :root {
+    --size: 25px;
+    /* Tăng kích thước cho màn hình lớn */
+    --sidebar-width: 90px;
+    --sidebar-width-active: 300px;
+    --sidebar-inset: 20px 0 20px 20px;
+    --sidebar-toggle-button-padding: 0 23px !important;
+  }
+
+  .mat-typography {
+    font-size: 22px !important;
+  }
+
+  .sep-recent-orders {
+    font-size: 22px !important;
+  }
+
+  .sep-main {
+    max-width: 88vw;
+  }
+}
+
+
+/* Tablet Styles */
+@media only screen and (min-width: 601px) and (max-width: 900px) {
+  .col-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+  .col-3 {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+  /* Thêm các phong cách khác cho tablet ở đây */
+}
+
+/* Laptop Styles */
+@media only screen and (min-width: 901px) and (max-width: 1200px) {
+  /* Thêm các phong cách cho laptop ở đây */
+}
+
+/* Desktop Styles */
+@media only screen and (min-width: 1201px) {
+  /* Thêm các phong cách cho desktop ở đây */
+
+  :root {
+    --size: 20px;
+    /* Kích thước trung bình */
+    --sidebar-width: 75px;
+    --sidebar-width-active: 250px;
+    --sidebar-inset: 20px 0 20px 20px;
+    --sidebar-toggle-button-padding: 0 23px !important;
+    --slidebar-sep-navigation-ul-li: 70px;
+  }
+
+  .mat-typography {
+    font-size: 16px !important;
+  }
+
+  .sep-recent-orders {
+    font-size: 16px !important;
+  }
+
+  .sep-main {
+    max-width: 82vw;
+  }
+}
+
+/* Màn hình từ 13 inch đến 24 inch */
+@media (min-width: 1367px) and (max-width: 2560px) {
+  :root {
+    --size: 20px;
+    /* Kích thước trung bình */
+    --sidebar-width: 75px;
+    --sidebar-width-active: 250px;
+    --sidebar-inset: 20px 0 20px 20px;
+    --sidebar-toggle-button-padding: 0 23px !important;
+    --slidebar-sep-navigation-ul-li: 70px;
+  }
+
+  .mat-typography {
+    font-size: 16px !important;
+  }
+
+  .sep-recent-orders {
+    font-size: 16px !important;
+  }
+
+  .sep-main {
+    max-width: 82vw;
+  }
+}
+
+/* Mobile Styles */
+@media only screen and (max-width: 600px) {
+  .col-6, .col-3 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
 }

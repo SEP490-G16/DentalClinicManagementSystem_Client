@@ -22,7 +22,7 @@
   </div>
 
   <div class="row text-center">
-    <div class="col-9">
+    <div class="col-lg-9 col-md-12">
       <table border="1" class="table-schedule">
         <thead>
           <tr>
@@ -79,7 +79,7 @@
       </table>
     </div>
 
-    <div class="form-schedule col-3">
+    <div class="form-schedule col-lg-3">
       <h3>Đăng ký lịch làm việc</h3>
       <ng-container *ngFor="let a of listDayInMonth">
         <label>Ngày {{a.currentD}}:</label> <input type="checkbox" [(ngModel)]="a.isSang" (click)="checkSang(a)"> Ca
@@ -91,6 +91,16 @@
 
   </div>
 
+
+  <div class="mac-form-schedule">
+    <h3>Đăng ký lịch làm việc</h3>
+    <ng-container *ngFor="let a of listDayInMonth">
+      <label>Ngày {{a.currentD}}:</label> <input type="checkbox" [(ngModel)]="a.isSang" (click)="checkSang(a)"> Ca
+      Sáng <input type="checkbox" [(ngModel)]="a.isChieu" (click)="checkChieu(a)"> Ca
+      Chiều <br> <br>
+    </ng-container>
+    <button (click)="ResgisterByWeek()">Lưu</button>
+  </div>
 
   <!-- <form>
     <div id="myDate">
