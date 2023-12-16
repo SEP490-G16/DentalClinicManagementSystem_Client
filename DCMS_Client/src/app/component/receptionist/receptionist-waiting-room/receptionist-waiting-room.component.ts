@@ -114,7 +114,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
         this.waitingRoomData.forEach((i: any) => {
           i.date = this.timestampToTime(i.epoch)
         });
-        const statusOrder: { [key: number]: number } = { 2: 1, 3: 2, 1: 3, 4: 4 };
+        const statusOrder: { [key: number]: number } = { 2: 1, 1: 2, 3: 3, 4: 4 };
         this.waitingRoomData.sort((a: any, b: any) => {
           const orderA = statusOrder[a.status] ?? Number.MAX_VALUE;
           const orderB = statusOrder[b.status] ?? Number.MAX_VALUE;

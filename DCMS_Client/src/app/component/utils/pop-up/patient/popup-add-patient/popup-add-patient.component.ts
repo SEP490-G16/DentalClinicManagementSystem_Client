@@ -149,7 +149,10 @@ export class PopupAddPatientComponent implements OnInit {
         date_of_birth: FormatNgbDate.formatNgbDateToString(this.model)
       }
     }
+    this.patientBody.date_of_birth = TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.model));
+    console.log("Post: ", this.patientBody);
 
+    // return;
     this.patientService.addPatient(this.patientBody).subscribe((data: any) => {
       this.toastr.success('Thêm mới bệnh nhân thành công!');
 

@@ -70,12 +70,12 @@ export class LoginComponent implements OnInit {
         this.loading = false;
 
         const role = sessionStorage.getItem("role");
-
+        console.log("Role la gi? : ", role);
         switch(role) {
           case '1':
           this.router.navigate(['']);
           break;
-          case '2':
+          case '3':
           this.router.navigate(['']);
           break;
           default:
