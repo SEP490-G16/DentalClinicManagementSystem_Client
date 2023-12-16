@@ -41,11 +41,11 @@ export class PatientExaminationManagementComponent implements OnInit {
   selectedColor: string = "#000"
 
   //Socket
-  // Socket_Patient_Id: any = "";
-  // realTimeWaiting: any[] = [];
-  // realTimeExaminated:any [] = []
+  Socket_Patient_Id: any = "";
+  realTimeWaiting: any[] = [];
+  realTimeExaminated:any [] = []
   // messageContent: string = `CheckRealTime,${this.Socket_Patient_Id}`;
-  //Socke
+  //Socket
   CheckRealTimeWaiting: any[] = [];
   messageContent: string = '';
   messageBody = {
@@ -94,7 +94,6 @@ export class PatientExaminationManagementComponent implements OnInit {
   getWaitingRoomData(exRoomDetail: any) {
     return this.waitingRoomService.getWaitingRooms()
       .subscribe(data => {
-        // this.exRooms = data.filter((waittingRoom: any) => waittingRoom.status == 2 || waittingRoom.status == 3);
         this.exRooms = data;
 
         this.exRooms.forEach((exRoom: any) => {
@@ -108,28 +107,32 @@ export class PatientExaminationManagementComponent implements OnInit {
         });
 
         // Đồng bộ danh sách phòng chờ
-         this.waitingRoomService.updateData(this.exRooms);
+        this.waitingRoomService.updateData(this.exRooms);
+
+        this.exRooms = data.filter((waittingRoom: any) => waittingRoom.status == 2 || waittingRoom.status == 3);
 
         // Thống kê trên navbar
         // this.realTimeWaiting = [...this.exRooms].filter((waitingRoom:any) => waitingRoom.status == 2);
         // this.realTimeExaminated = [...this.exRooms].filter((waitingRoom:any) => waitingRoom.status == 3);
-        // this.dataService.UpdateWaitingRoomTotal(3, this.realTimeWaiting.length);
+
+        this.dataService.UpdateWaitingRoomTotal(3, data.length);
 
         // Cache
-      //   this.listPatientId = this.exRooms.map((item: any) => item.patient_id);
-      //   localStorage.setItem('listPatientId', JSON.stringify(this.listPatientId));
-      //   localStorage.setItem("ListPatientWaiting", JSON.stringify(this.realTimeWaiting));
+        this.listPatientId = this.exRooms.map((item: any) => item.patient_id);
+        localStorage.setItem('listPatientId', JSON.stringify(this.listPatientId));
+        localStorage.setItem("ListPatientWaiting", JSON.stringify(this.realTimeWaiting));
 
-      //   if (exRoomDetail) {
-      //     this.toastr.success('Chỉnh sửa hàng chờ thành công');
-      //     if (exRoomDetail.status == 3) {
-      //       this.router.navigate(['/benhnhan/danhsach/tab/thanhtoan', exRoomDetail.patient_id]);
-      //     }
-      //   }
-      // }),
-      // catchError(error => {
-      //   ResponseHandler.HANDLE_HTTP_STATUS(this.waitingRoomService.apiUrl + "/waiting-room", error);
-      //   return throwError(error);
+        if (exRoomDetail) {
+          this.toastr.success('Chỉnh sửa hàng chờ thành công');
+          if (exRoomDetail.status == 3) {
+            sessionStorage.setItem("examination_reason", exRoomDetail.reason);
+            this.router.navigate(['/benhnhan/danhsach/tab/thanhtoan', exRoomDetail.patient_id]);
+          }
+        }
+      }),
+      catchError(error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.waitingRoomService.apiUrl + "/waiting-room", error);
+        return throwError(error);
       })
   }
 
@@ -191,7 +194,7 @@ export class PatientExaminationManagementComponent implements OnInit {
           };
           this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
         }
-        //this.getWaitingRoomData(wtr)
+        this.getWaitingRoomData(wtr)
       },
         (error) => {
           ResponseHandler.HANDLE_HTTP_STATUS(this.waitingRoomService.apiUrl + "/waiting-room/" + this.PUT_WAITINGROO, error);
@@ -203,11 +206,13 @@ export class PatientExaminationManagementComponent implements OnInit {
     event.stopPropagation();
   }
 
-  goTreatmentCoursePage(patientId: any) {
+  goTreatmentCoursePage(patientId: any, wtr:any) {
+    sessionStorage.setItem("examination_reason", wtr.reason);
     this.router.navigate(['benhnhan/danhsach/tab/lichtrinhdieutri', patientId]);
   }
 
   filterProcedure() {
+      console.log("aa");
     if (this.procedureFilter === '0') {
       this.filteredWaitingRoomData = [...this.exRooms];
     } else {

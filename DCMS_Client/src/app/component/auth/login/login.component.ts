@@ -72,10 +72,12 @@ export class LoginComponent implements OnInit {
         const role = sessionStorage.getItem("role");
 
         switch(role) {
-          case '1' || '3':
+          case '1':
           this.router.navigate(['']);
           break;
-
+          case '2':
+          this.router.navigate(['']);
+          break;
           default:
           this.router.navigate(['/benh-nhan-dang-kham'])
         }
