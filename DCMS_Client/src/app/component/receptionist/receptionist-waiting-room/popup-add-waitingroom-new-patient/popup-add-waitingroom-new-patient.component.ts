@@ -1,18 +1,18 @@
-import {Component, OnInit, Renderer2} from '@angular/core';
-import {IPostWaitingRoom} from "../../../../model/IWaitingRoom";
-import {ReceptionistWaitingRoomService} from "../../../../service/ReceptionistService/receptionist-waitingroom.service";
-import {PatientService} from "../../../../service/PatientService/patient.service";
-import {ToastrService} from "ngx-toastr";
-import {Router} from "@angular/router";
-import {WebsocketService} from "../../../../service/Chat/websocket.service";
+import { Component, OnInit, Renderer2 } from '@angular/core';
+import { IPostWaitingRoom } from "../../../../model/IWaitingRoom";
+import { ReceptionistWaitingRoomService } from "../../../../service/ReceptionistService/receptionist-waitingroom.service";
+import { PatientService } from "../../../../service/PatientService/patient.service";
+import { ToastrService } from "ngx-toastr";
+import { Router } from "@angular/router";
+import { WebsocketService } from "../../../../service/Chat/websocket.service";
 import {
   MedicalProcedureGroupService
 } from "../../../../service/MedicalProcedureService/medical-procedure-group.service";
-import {DataService} from "../../../shared/services/DataService.service";
-import {SendMessageSocket} from "../../../shared/services/SendMessageSocket.service";
+import { DataService } from "../../../shared/services/DataService.service";
+import { SendMessageSocket } from "../../../shared/services/SendMessageSocket.service";
 import * as moment from "moment-timezone";
-import {ResponseHandler} from "../../../utils/libs/ResponseHandler";
-import {Normalize} from "../../../../service/Lib/Normalize";
+import { ResponseHandler } from "../../../utils/libs/ResponseHandler";
+import { Normalize } from "../../../../service/Lib/Normalize";
 import { NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { FormatNgbDate } from 'src/app/component/utils/libs/formatNgbDate';
 
@@ -56,16 +56,16 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
     address: '',
     dob: '',
     email: '',
-    zalo:''
+    zalo: ''
   }
-  currentPatientCreated : boolean = false;
-  isAddOld:boolean = false;
+  currentPatientCreated: boolean = false;
+  isAddOld: boolean = false;
   constructor(
     private WaitingRoomService: ReceptionistWaitingRoomService,
     private PATIENT_SERVICE: PatientService,
     private renderer: Renderer2,
     private toastr: ToastrService,
-    private router: Router,private webSocketService: WebsocketService,
+    private router: Router, private webSocketService: WebsocketService,
     private medicaoProcedureGroupService: MedicalProcedureGroupService,
     private dataService: DataService,
     private sendMessageSocket: SendMessageSocket,
@@ -163,7 +163,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
       this.isSubmitted = true;
     }
     var regex = /[0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\\-/]/;
-    if(regex.test(this.patient1.patientName)==true){
+    if (regex.test(this.patient1.patientName) == true) {
       this.validatePatient.name = "Tên không hợp lệ!";
       this.isSubmitted = true;
     }
@@ -171,7 +171,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
       this.validatePatient.zalo = "Vui lòng nhập số zalo!";
       this.isSubmitted = true;
     }
-    else if (!this.isVietnamesePhoneNumber(this.patient1.phone_Number)){
+    else if (!this.isVietnamesePhoneNumber(this.patient1.phone_Number)) {
       this.validatePatient.zalo = "Số zalo không hợp lệ!";
       this.isSubmitted = true;
     }
@@ -183,7 +183,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
       this.validatePatient.dob = "Vui lòng nhập ngày sinh!";
       this.isSubmitted = true;
     }
-    else if (!this.isDob(FormatNgbDate.formatNgbDateToVNString(this.dobNgb))){
+    else if (!this.isDob(FormatNgbDate.formatNgbDateToVNString(this.dobNgb))) {
       this.validatePatient.dob = "Vui lòng nhập ngày sinh đúng định dạng dd/MM/yyyy !";
       this.isSubmitted = true;
     }
@@ -254,17 +254,17 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
       }
 
       const now = new Date();
-      const curr = (now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDay() +" "+now.getHours()+":"+now.getMinutes()+":"+now.getSeconds()).toString();
-      const patientInfor = this.POST_WAITTINGROOM.patient_id+ " - "+this.POST_WAITTINGROOM.patient_name+" - "+this.patientBody.phone_number+" - "+this.patientBody.address+" - "+ curr+" - "+"pa";
+      const curr = (now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDay() + " " + now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds()).toString();
+      const patientInfor = this.POST_WAITTINGROOM.patient_id + " - " + this.POST_WAITTINGROOM.patient_name + " - " + this.patientBody.phone_number + " - " + this.patientBody.address + " - " + curr + " - " + "pa";
 
       const postInfo = this.POST_WAITTINGROOM.epoch + ' - ' + this.POST_WAITTINGROOM.produce_id + ' - ' + this.POST_WAITTINGROOM.produce_name + ' - '
-      + this.POST_WAITTINGROOM.patient_id + ' - ' +this.POST_WAITTINGROOM.patient_name + ' - ' + this.POST_WAITTINGROOM.reason + ' - '
-      + this.POST_WAITTINGROOM.status + ' - ' + this.POST_WAITTINGROOM.appointment_id + ' - ' + this.POST_WAITTINGROOM.appointment_epoch + ' - ' + this.POST_WAITTINGROOM.patient_created_date;
+        + this.POST_WAITTINGROOM.patient_id + ' - ' + this.POST_WAITTINGROOM.patient_name + ' - ' + this.POST_WAITTINGROOM.reason + ' - '
+        + this.POST_WAITTINGROOM.status + ' - ' + this.POST_WAITTINGROOM.appointment_id + ' - ' + this.POST_WAITTINGROOM.appointment_epoch + ' - ' + this.POST_WAITTINGROOM.patient_created_date;
       this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
-      .subscribe((data) => {
+        .subscribe((data) => {
           //this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'wtr');
           localStorage.setItem('UpdatePlus@@@', 'UpdateAnalysesTotal@@@,plus,wtr');
-          this.sendMessageSocket.sendMessageSocket('CheckRealTimeWaitingRoom@@@',`${patientInfor}`,`${Number('1')}`);
+          this.sendMessageSocket.sendMessageSocket('CheckRealTimeWaitingRoom@@@', `${patientInfor}`, `${Number('1')}`);
           this.showSuccessToast("Thêm phòng chờ thành công!!");
           let ref = document.getElementById('cancel-add-waiting-new');
           ref?.click();
@@ -283,7 +283,6 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
           }
           this.updateWaitingRoomList();
           // this.router.navigate(["phong-cho"]);
-          this.filteredWaitingRoomData.push
           this.WaitingRoomService.updateData
           this.POST_WAITTINGROOM = {
             epoch: "",
@@ -299,10 +298,10 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
           } as IPostWaitingRoom
           this.patientInfor = '';
         },
-        (err) => {
-          this.showErrorToast('Lỗi khi thêm phòng chờ');
-        }
-      );
+          (err) => {
+            this.showErrorToast('Lỗi khi thêm phòng chờ');
+          }
+        );
     }, error => {
       ResponseHandler.HANDLE_HTTP_STATUS(this.PATIENT_SERVICE.test + "/patient", error);
     })
@@ -323,6 +322,18 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
           return orderA - orderB;
         });
         this.WaitingRoomService.updateData(waitingRoomData);
+
+        //Cache
+        // var listPatientId = waitingRoomData.map((item: any) => item.patient_id);
+        // localStorage.setItem('listPatientId', JSON.stringify(listPatientId));
+        // localStorage.setItem("ListPatientWaiting", JSON.stringify(waitingRoomData));
+
+        //Realtime thống kê navbar
+        var patientExamination = [...waitingRoomData];
+        patientExamination = patientExamination.filter((item) => item.status == '2');
+
+        console.log("Check patient examination: ", patientExamination);
+        this.dataService.UpdateWaitingRoomTotal(3, patientExamination.length);
       },
       error => {
         console.error('Failed to get waiting room data:', error);
@@ -409,7 +420,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
       address: '',
       dob: '',
       email: '',
-      zalo:''
+      zalo: ''
     }
     this.isSubmitted = false;
   }
@@ -436,7 +447,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
     this.isAdd = true;
     this.isAddOld = true;
   }
-  toggleAddOld(){
+  toggleAddOld() {
     this.isAddOld = true;
     this.isAdd = false;
   }

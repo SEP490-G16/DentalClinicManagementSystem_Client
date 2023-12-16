@@ -313,6 +313,18 @@ export class AddWaitingRoomComponent implements OnInit {
           return orderA - orderB;
         });
         this.WaitingRoomService.updateData(waitingRoomData);
+
+        //Cache
+        // var listPatientId = waitingRoomData.map((item: any) => item.patient_id);
+        // localStorage.setItem('listPatientId', JSON.stringify(listPatientId));
+        // localStorage.setItem("ListPatientWaiting", JSON.stringify(waitingRoomData));
+
+        //Realtime thống kê navbar
+        var patientExamination = [...waitingRoomData];
+        patientExamination = patientExamination.filter((item) => item.status == '2');
+
+        console.log("Check patient examination: ", patientExamination);
+        this.dataService.UpdateWaitingRoomTotal(3, patientExamination.length);
       },
       error => {
         console.error('Failed to get waiting room data:', error);
