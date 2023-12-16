@@ -61,7 +61,7 @@
           <div class="row">
             <div class="col-12">
               <div class="mb-3">
-                <label for="procedureGroupSelect" class="form-label">Nhóm thủ thuật</label>
+                <label for="procedureGroupSelect" class="form-label">Bảng kê chi phí</label>
                 <div class="select-checkbox" (mouseleave)="showDropDown = false">
                   <button class="drop-toggle btn flat" (click)="showDropDown=!showDropDown">
                     <span style="color: #1e1e1e">Chọn nhóm thủ thuật</span>
@@ -104,7 +104,7 @@
                     <th style="padding: 10px">Số lượng</th>
                     <th style="padding: 10px">Labo</th>
                   </tr>
-                  <ng-container *ngFor="let pro of list">
+                  <ng-container *ngFor="let pro of list;let itemIndex = index">
                     <ng-container *ngIf="pro.checked == true">
                       <tr class="tr-children" (click)="toggleExpand(pro)">
                         <td style="padding: 10px;float: right">
@@ -130,7 +130,7 @@
                               <col style="width: 10%">
                               <col style="width: 20%">
                             </colgroup>
-                            <tr class="tr-children" *ngFor="let gro of pro.procedure">
+                            <tr class="tr-children" *ngFor="let gro of pro.procedure;let procIndex = index">
                               <td style="padding: 10px"></td>
                               <td style="padding: 10px"><i class="bi bi-arrow-return-right"></i></td>
                               <td style="padding: 10px;float: left;margin-left: 24%">
@@ -144,9 +144,18 @@
                                     type="text" [(ngModel)]="gro.price" (input)="changePrice(gro, $event)"></td>
                               </ng-container>
                               <ng-container *ngIf="gro.checked">
-                                <td style="padding: 10px"><input class="form-control"
-                                    style="padding: 5px; border-radius: 5px;border: 1px solid #664FC3;height: 42px"
-                                    type="number" [(ngModel)]="gro.quantity" (input)="changeQuantity(gro, $event)"></td>
+                                <td style="padding: 10px">
+                                  <div class="position-relative">
+                                    <input class="form-control"
+                                           style="padding: 5px; border-radius: 5px;border: 1px solid #664FC3;height: 42px"
+                                           type="number" [(ngModel)]="gro.quantity" (input)="changeQuantity(gro, $event)">
+                                    <div *ngIf="valdateSpecimens['soLuong_' + itemIndex + '_' + procIndex]"  [ngClass]="{'alert-danger-custom': true, 'active': valdateSpecimens['soLuong_' + itemIndex + '_' + procIndex]}">
+                                      <p style="font-size: 13px">
+                                        {{valdateSpecimens['soLuong_' + itemIndex + '_' + procIndex]}}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </td>
                               </ng-container>
                               <ng-container *ngIf="gro.checked && pro.groupId == 'PG-03'">
                                 <td style="padding: 10px">
@@ -154,6 +163,11 @@
                                     <option value="0">Chọn labo</option>
                                     <option *ngFor="let a of Labos" value={{a.labo_id}}>{{a.name}}</option>
                                   </select>
+                                </td>
+                              </ng-container>
+                              <ng-container *ngIf="gro.checked && pro.groupId != 'PG-03'">
+                                <td style="padding: 10px">
+
                                 </td>
                               </ng-container>
                             </tr>
@@ -250,57 +264,57 @@
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-12">
-              <div class="mb-3 row">
-                <label for="procedureGroupSelect" class="form-label">Vật liệu sử dụng</label>
-                <div class="select col-md-2">
-                  <ng-select [items]="results" [(ngModel)]="material_warehouse_id"
-                    (ngModelChange)="updateTemporaryNameMaterial()" [searchable]="true" bindLabel="materialName"
-                    bindValue="id" [notFoundText]="'Không tìm thấy vật liệu'">
+<!--          <div class="row">-->
+<!--            <div class="col-12">-->
+<!--              <div class="mb-3 row">-->
+<!--                <label for="procedureGroupSelect" class="form-label">Vật liệu sử dụng</label>-->
+<!--                <div class="select col-md-2">-->
+<!--                  <ng-select [items]="results" [(ngModel)]="material_warehouse_id"-->
+<!--                    (ngModelChange)="updateTemporaryNameMaterial()" [searchable]="true" bindLabel="materialName"-->
+<!--                    bindValue="id" [notFoundText]="'Không tìm thấy vật liệu'">-->
 
-                  </ng-select>
-                </div>
-              </div>
-            </div>
-          </div>
+<!--                  </ng-select>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
 
-          <div class="row">
-            <div class="col-12">
-              <div class="mb-3">
-                <table>
-                  <colgroup>
-                    <col style="width: 20%">
-                    <col style="width: 20%">
-                    <col style="width: 20%">
-                  </colgroup>
-                  <tr class="sticky-thead">
-                    <th style="padding: 10px">Tên vật liệu</th>
-                    <th style="padding: 10px">Số lượng</th>
-                    <th style="padding: 10px">Thao tác</th>
-                  </tr>
-                  <ng-container *ngFor="let a of listMaterialUsage">
-                    <tr>
-                      <td style="padding: 10px">{{a.description}}</td>
-                      <td style="padding: 10px"><input class="form-control value-staff" type="number"
-                          [(ngModel)]="a.quantity">
-                      </td>
-                      <td style="padding: 10px">
-                        <div class="delete-cell">
-                          <div>
-                            <button class="delete-button" (click)="deleteMaterialUsage(a.material_warehouse_id)">
-                              x
-                            </button>
-                          </div>
-                        </div>
+<!--          <div class="row">-->
+<!--            <div class="col-12">-->
+<!--              <div class="mb-3">-->
+<!--                <table>-->
+<!--                  <colgroup>-->
+<!--                    <col style="width: 20%">-->
+<!--                    <col style="width: 20%">-->
+<!--                    <col style="width: 20%">-->
+<!--                  </colgroup>-->
+<!--                  <tr class="sticky-thead">-->
+<!--                    <th style="padding: 10px">Tên vật liệu</th>-->
+<!--                    <th style="padding: 10px">Số lượng</th>-->
+<!--                    <th style="padding: 10px">Thao tác</th>-->
+<!--                  </tr>-->
+<!--                  <ng-container *ngFor="let a of listMaterialUsage">-->
+<!--                    <tr>-->
+<!--                      <td style="padding: 10px">{{a.description}}</td>-->
+<!--                      <td style="padding: 10px"><input class="form-control value-staff" type="number"-->
+<!--                          [(ngModel)]="a.quantity">-->
+<!--                      </td>-->
+<!--                      <td style="padding: 10px">-->
+<!--                        <div class="delete-cell">-->
+<!--                          <div>-->
+<!--                            <button class="delete-button" (click)="deleteMaterialUsage(a.material_warehouse_id)">-->
+<!--                              x-->
+<!--                            </button>-->
+<!--                          </div>-->
+<!--                        </div>-->
 
-                      </td>
-                    </tr>
-                  </ng-container>
-                </table>
-              </div>
-            </div>
-          </div>
+<!--                      </td>-->
+<!--                    </tr>-->
+<!--                  </ng-container>-->
+<!--                </table>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
 
           <div class="row">
             <div class="col-12">
@@ -315,7 +329,7 @@
           <div class="button-conf float-end">
 
             <button type="button" id="cancel" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
-            <button type="button" class="btn button-add" data-bs-dismiss="modal"
+            <button type="button" class="btn button-add"
               (click)="editTreatmentCourse()">Lưu</button>
           </div>
         </div>
