@@ -5,6 +5,7 @@ import jsPDF from 'jspdf';
 import * as moment from 'moment-timezone';
 import 'moment/locale/vi';
 import { ToastrService } from 'ngx-toastr';
+import { FacilityService } from 'src/app/service/FacilityService/facility.service';
 import { TreatmentCourseDetailService } from 'src/app/service/ITreatmentCourseDetail/treatmentcoureDetail.service';
 import { PaidMaterialUsageService } from 'src/app/service/PatientService/patientPayment.service';
 
@@ -22,6 +23,7 @@ export class PopupExaminationDetailComponent implements OnInit {
   totalPaid: number = 0
   remaining: number = 0
   currentDate: string = ""
+  facility_name:any;
 
   Body_Paid_MU: Paid_material_usage[] = [];
 
@@ -29,7 +31,8 @@ export class PopupExaminationDetailComponent implements OnInit {
     private toastr: ToastrService,
     private examinationService: TreatmentCourseDetailService,
     private paidMaterialUsageService: PaidMaterialUsageService,
-    private modalService: NgbModal
+    private modalService: NgbModal, 
+    private facilityService: FacilityService
   ) {
     this.currentDate = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
   }
@@ -40,6 +43,17 @@ export class PopupExaminationDetailComponent implements OnInit {
     console.log("TreatmentCourse :", this.TreatmentCourse);
     console.log("Material Usage Sort: ", this.MaterialUsage);
 
+    const facility = sessionStorage.getItem('locale');
+    if (facility != null) {
+      this.facilityService.getFacilityList().subscribe((data) => {
+        var listFacility = data.data;
+        listFacility.forEach((item:any) => {
+          if (item.facility_id == facility) {
+            this.facility_name = item.name;
+          }
+        })
+      })
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {

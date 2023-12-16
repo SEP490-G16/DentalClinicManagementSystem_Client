@@ -8,6 +8,7 @@ import { CognitoService } from 'src/app/service/cognito.service';
 import * as moment from 'moment-timezone';
 import 'moment/locale/vi';
 import { PaidMaterialUsageService } from 'src/app/service/PatientService/patientPayment.service';
+import { FacilityService } from 'src/app/service/FacilityService/facility.service';
 
 @Component({
   selector: 'app-popup-payment-tab',
@@ -30,16 +31,15 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
     private toastr: ToastrService,
     private examinationService: TreatmentCourseDetailService,
     private paidMaterialUsageService: PaidMaterialUsageService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private facilityService: FacilityService
   ) {
     this.currentDate = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
   }
 
   checkPayment: boolean = false;
+  facility_name:any;
   ngOnInit(): void {
-    console.log("Material :", this.MaterialUsage);
-    console.log("Patient :", this.Patient);
-    console.log("TreatmentCourse :", this.TreatmentCourse);
     this.MaterialUsage.sort((a: any, b: any) => {
       const dateA = new Date(a.created_date).getTime();
       const dateB = new Date(b.created_date).getTime();
@@ -56,11 +56,17 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
     this.totalPaid = this.MaterialUsage.reduce((acc: any, mu: any) => acc + (Number(mu.mu_total_paid) || 0), 0);
     this.total = this.MaterialUsage.reduce((acc: any, mu: any) => acc + (Number(mu.mu_total) || 0), 0);
     this.remaining = this.total - this.totalPaid;
-
-    console.log("Body Paid MU: ", this.Body_Paid_MU);
-    console.log("Total Paid: ", this.totalPaid);
-    console.log("Total: ", this.total);
-    console.log("Remaining: ", this.remaining);
+    const facility = sessionStorage.getItem('locale');
+    if (facility != null) {
+      this.facilityService.getFacilityList().subscribe((data) => {
+        var listFacility = data.data;
+        listFacility.forEach((item:any) => {
+          if (item.facility_id == facility) {
+            this.facility_name = item.name;
+          }
+        })
+      })
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {

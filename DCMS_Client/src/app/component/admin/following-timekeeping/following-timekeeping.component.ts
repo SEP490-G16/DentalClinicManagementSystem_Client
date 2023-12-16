@@ -47,18 +47,18 @@ export class FollowingTimekeepingComponent implements OnInit {
 
   roleId: string[] = [];
   ownSubId: string = '';
+  totalShift: number = 0;
   ngOnInit(): void {
     const current = new Date();
     const daysInMonth = new Date(current.getFullYear(), (current.getMonth() + 1), 0).getDate();
     this.totalDate = daysInMonth + '';
-    console.log("Check dates",this.totalDate);
+    this.totalShift = parseInt(this.toDate) * 2;
+    
+    //console.log("Check dates",this.totalDate);
     const frDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + 1;
     const tDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + daysInMonth;
     this.setDefaultMonth();
     this.getDateinFromDatetoToDate(frDate, tDate);
-
-
-
     let ro = sessionStorage.getItem('role');
     if (ro != null) {
       this.roleId = ro.split(',');
@@ -288,6 +288,7 @@ export class FollowingTimekeepingComponent implements OnInit {
         console.log(this.listStaffTimeKeeping);
       })
     }
+    this.totalShift = parseInt(this.totalDate) * 2;
   }
 
   uniqueList: string[] = [];

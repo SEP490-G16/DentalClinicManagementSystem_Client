@@ -27,7 +27,7 @@ import {ConfirmWaitingroomComponent} from "../../utils/pop-up/common/confirm-wai
   templateUrl: './receptionist-waiting-room.component.html',
   styleUrls: ['./receptionist-waiting-room.component.css']
 })
-export class ReceptionistWaitingRoomComponent implements OnInit, DoCheck {
+export class ReceptionistWaitingRoomComponent implements OnInit {
   waitingRoomData: any;
   loading: boolean = false;
   procedure: string = '0';
@@ -66,6 +66,21 @@ export class ReceptionistWaitingRoomComponent implements OnInit, DoCheck {
     } as IPostWaitingRoom
   }
 
+  notification = {
+    status: '1', 
+    content: {
+      epoch: '',
+      produce_id: '',
+      produce_name: '',
+      patient_id: '',
+      patient_name: '',
+      reason: '',
+      patient_created_date: '',
+      status_value: '',
+      appointment_id: '',
+      appointment_epoch: '',
+    }
+  }
 
   ngOnInit(): void {
     let co = sessionStorage.getItem('role');
@@ -81,12 +96,14 @@ export class ReceptionistWaitingRoomComponent implements OnInit, DoCheck {
     this.waitingRoomService.data$.subscribe((dataList) => {
       this.filteredWaitingRoomData = dataList;
     })
-  }
 
-  ngDoCheck() {
-    // if (this.filteredWaitingRoomData) {
-    //   console.log("Check: ", this.filteredWaitingRoomData);
-    // }
+    this.waitingRoomService.dataAn$.subscribe((data) => {
+      this.notification = data;
+      console.log("check update: ", this.notification);
+      if (this.notification.status == '2') {
+        this.openNotification(this.notification);
+      }
+    })
   }
 
   CheckRealTimeWaiting: any[] = [];
@@ -371,14 +388,18 @@ export class ReceptionistWaitingRoomComponent implements OnInit, DoCheck {
   updateStatus(id: any, status: any) {
     this.getWaitingRoomData();
   }
-  openConfirmationModal(message: string): Promise<any> {
+
+  openConfirmationModal(message: string, content: any): Promise<any> {
     const modalRef = this.modalService.open(ConfirmWaitingroomComponent);
     modalRef.componentInstance.message = message;
+    modalRef.componentInstance.content = content
     return modalRef.result;
   }
-  openNotification(status:any){
-    if (this.roleId.includes('3') && status == 2){
-      this.openConfirmationModal(`Mời bệnh nhân ... lên khám!`).then((result) =>{
+
+  openNotification(notification: any) {
+    console.log("Xuống đây nha");
+    if (this.roleId.includes('3') && notification.status == "2") {
+      this.openConfirmationModal(`Mời bệnh nhân ${notification.content.patient_name} lên khám!`, notification.content).then((result) => {
 
       })
     }
@@ -386,6 +407,30 @@ export class ReceptionistWaitingRoomComponent implements OnInit, DoCheck {
 
     }
   }
+
+  sendNotification(epoch:any, wtr:any) {
+
+    console.log("check: ",epoch);
+    console.log("")
+    let a = {
+      epoch: epoch,
+      produce_id: wtr.produce_id,
+      produce_name: wtr.produce_name,
+      patient_id: wtr.patient_id,
+      patient_name: wtr.patient_name,
+      reason: wtr.reason,
+      patient_created_date: wtr.patient_created_date,
+      status_value: Number(wtr.status),
+      appointment_id: wtr.appointment_id,
+      appointment_epoch: wtr.appointment_epoch,
+    }
+
+    const out = epoch+ " - "+wtr.produce_id+ " - "+wtr.produce_name+" - "+ wtr.patient_id+" - "+wtr.patient_name+" - "+
+    wtr.reason+" - " + wtr.patient_created_date+" - "+ Number(wtr.status)+" - "+wtr.appointment_id+ " - "+wtr.appointment_epoch;
+    localStorage.setItem("pawtr", JSON.stringify(a));
+    this.sendMessageSocket.sendMessageSocket("CheckRealTimeWaitingRoom@@@", "notification", `${out}`);
+  }
+
   messageContent: string = `CheckRealTime,${this.patient_Id}`;
   messageBody = {
     action: '',
