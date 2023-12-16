@@ -112,7 +112,6 @@ export class AddWaitingRoomComponent implements OnInit {
   isSubmitted: boolean = false;
   ngOnInit(): void {
     this.getListGroupService();
-    this.getWaitingRoomData();
     const patientData = localStorage.getItem("patient");
     if (patientData === null) {
       return;
@@ -242,7 +241,6 @@ export class AddWaitingRoomComponent implements OnInit {
     localStorage.setItem("ob", JSON.stringify(postInfo));
       this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
       .subscribe((data) => {
-        //this.updateWaitingRoomList();
         this.showSuccessToast("Thêm phòng chờ thành công!!");
         let ref = document.getElementById('cancel-add-waiting');
         ref?.click();

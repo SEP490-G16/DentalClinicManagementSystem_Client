@@ -30,7 +30,7 @@ export class NumberToWordsPipe implements PipeTransform {
       unitIndex++;
     }
 
-    return words.trim() + ' Đồng';
+    return (words.charAt(0).toUpperCase() + words.slice(1).toLowerCase()).trim() + ' đồng';
   }
   private convertChunkToWords(chunk: number[]): string {
     const ones = ['', 'một', 'hai', 'ba', 'bốn', 'năm', 'sáu', 'bảy', 'tám', 'chín'];
@@ -43,7 +43,12 @@ export class NumberToWordsPipe implements PipeTransform {
 
       if (digit !== 0) {
         if (i === 0) {
-          chunkWords = ones[digit] + ' ' + chunkWords;
+          // Special handling for "lăm" (5) after "mươi" (10)
+          if (chunk.length > 1 && chunk[1] == 1 && digit == 5) {
+            chunkWords = 'lăm ' + chunkWords;
+          } else {
+            chunkWords = ones[digit] + ' ' + chunkWords;
+          }
         } else if (i === 1) {
           if (digit === 1) {
             chunkWords = teens[chunk[i - 1]] + ' ' + chunkWords;
@@ -58,4 +63,5 @@ export class NumberToWordsPipe implements PipeTransform {
 
     return chunkWords;
   }
+
 }

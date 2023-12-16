@@ -89,17 +89,17 @@
               <th colspan="4">Tổng cộng/Total: </th>
               <td>
                 <i>
-                  {{ MaterialUsage.mu_total | currency:'VND' }} - <br><i style="text-transform: capitalize;">{{ MaterialUsage.mu_total | numberToWords }}</i>
+                  {{ MaterialUsage.mu_total | currency:'VND' }} - <br><i>{{ MaterialUsage.mu_total | numberToWords }}</i>
                 </i>
               </td>
               <td>
                 <i>
-                  {{ MaterialUsage.mu_total_paid | currency:'VND'}} - <br><i style="text-transform: capitalize;">{{ MaterialUsage.mu_total_paid | numberToWords }}</i>
+                  {{ MaterialUsage.mu_total_paid | currency:'VND'}} - <br><i>{{ MaterialUsage.mu_total_paid | numberToWords }}</i>
                 </i>
               </td>
               <td>
                 <i>
-                  {{ (MaterialUsage.mu_total - MaterialUsage.mu_total_paid) | currency:'VND' }} <br><i style="text-transform: capitalize;">{{ (MaterialUsage.mu_total - MaterialUsage.mu_total_paid) | numberToWords }}</i>
+                  {{ (MaterialUsage.mu_total - MaterialUsage.mu_total_paid) | currency:'VND' }} <br><i>{{ (MaterialUsage.mu_total - MaterialUsage.mu_total_paid) | numberToWords }}</i>
                 </i>
               </td>
 

@@ -17,7 +17,7 @@
           <th style="width: 5%">STT</th>
           <th>Thời gian</th>
           <th>Mã bệnh nhân</th>
-          <th>Tên bệnh nhân</th> 
+          <th>Tên bệnh nhân</th>
           <th>Bệnh nhân mới</th>
           <th>Lý do khám</th>
           <th>Loại điều trị</th>
@@ -26,7 +26,7 @@
       </thead>
       <tbody>
         <tr title="Xem thông tin bệnh nhân {{ wtr.patient_name }}"
-          *ngFor="let wtr of filteredWaitingRoomData; let i = index" (click)="goTreatmentCoursePage(wtr.patient_id)"
+          *ngFor="let wtr of filteredWaitingRoomData; let i = index" (click)="goTreatmentCoursePage(wtr.patient_id, wtr)"
           style="cursor: pointer;">
           <ng-container *ngIf="wtr.date != '' && wtr.date != undefined && (wtr.status == 3 || wtr.status == 2)">
             <td>{{ i + 1 }}</td>

@@ -1,22 +1,22 @@
 import { TreatmentCourseDetailService } from './../../../../service/ITreatmentCourseDetail/treatmentcoureDetail.service';
-import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/TreatmentCourse.service';
 import { CognitoService } from 'src/app/service/cognito.service';
 import { CommonService } from 'src/app/service/commonMethod/common.service';
 import { ResponseHandler } from "../../../utils/libs/ResponseHandler";
-import {NgbModal, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmDeleteModalComponent } from 'src/app/component/utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component';
 import * as moment from "moment-timezone";
 import {
   MedicalProcedureGroupService
 } from "../../../../service/MedicalProcedureService/medical-procedure-group.service";
-import {MaterialUsageService} from "../../../../service/MaterialUsage/MaterialUsageService.component";
-import {PatientService} from "../../../../service/PatientService/patient.service";
-import {MaterialService} from "../../../../service/MaterialService/material.service";
-import {MedicalSupplyService} from "../../../../service/MedicalSupplyService/medical-supply.service";
-import {LaboService} from "../../../../service/LaboService/Labo.service";
+import { MaterialUsageService } from "../../../../service/MaterialUsage/MaterialUsageService.component";
+import { PatientService } from "../../../../service/PatientService/patient.service";
+import { MaterialService } from "../../../../service/MaterialService/material.service";
+import { MedicalSupplyService } from "../../../../service/MedicalSupplyService/medical-supply.service";
+import { LaboService } from "../../../../service/LaboService/Labo.service";
 import {
   ConfirmAddTreatmentcourseComponent
 } from "../../../utils/pop-up/common/confirm-add-treatmentcourse/confirm-add-treatmentcourse.component";
@@ -30,10 +30,10 @@ import {
 })
 export class PatientLichtrinhdieutriComponent implements OnInit {
   loading: boolean = false;
-  currentDate:any;
+  currentDate: any;
   id: string = "";
   examinations: any;
-  patientName:any;
+  patientName: any;
   ITreatmentCourse: any[] = [];
   collapsedStates: { [key: string]: boolean } = {};
   roleId: string[] = [];
@@ -41,10 +41,10 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
   Post_TreatmentCourse: Partial<IBodyTreatmentCourse> = {};
   Post_Procedure_Material_Usage: any[] = [];
   userName: any;
-  facility:any;
-  valdateSpecimens:any = {}
-  isSubmittedSpecimens:boolean = false;
-  validateMedicine:any = {}
+  facility: any;
+  valdateSpecimens: any = {}
+  isSubmittedSpecimens: boolean = false;
+  validateMedicine: any = {}
   TreatmentCouseBody = {
     name: '',
     lydo: '',
@@ -53,19 +53,19 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     thuoc: '',
     luuy: ''
   }
-  validateTreatmentCouse ={
-    name:''
+  validateTreatmentCouse = {
+    name: ''
   }
-  isSubmittedTreatmentCourse:boolean = false;
+  isSubmittedTreatmentCourse: boolean = false;
   groupProcedureO = {
-    groupId:'',
+    groupId: '',
     groupName: '',
     checked: true,
     procedure: [] as ProcedureOb[],
     isExpand: false,
   }
   UniqueList: string[] = [];
-  currentDateBody:any;
+  currentDateBody: any;
   constructor(
     private cognitoService: CognitoService, private router: Router,
     private route: ActivatedRoute,
@@ -73,7 +73,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     private treatmentCourseService: TreatmentCourseService,
     private medicalProcedureGroupService: MedicalProcedureGroupService,
     private procedureMaterialService: MaterialUsageService,
-    private modelService:NgbModal,
+    private modelService: NgbModal,
     private patientService: PatientService,
     private commonService: CommonService,
     private materialService: MaterialService,
@@ -87,10 +87,15 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     this.commonService.navigateHref(href, this.id);
   }
   navigateHref2() {
-   this.router.navigate([`/benhnhan/danhsach/tab/lichtrinhdieutri/${this.id}/themngaykham`]);
+    this.router.navigate([`/benhnhan/danhsach/tab/lichtrinhdieutri/${this.id}/themngaykham`]);
   }
-  name:any
+  name: any
   ngOnInit(): void {
+    let examination_reason = sessionStorage.getItem("examination_reason");
+
+    this.TreatmentCouseBody.lydo = examination_reason || "";
+
+
     this.id = this.route.snapshot.params['id'];
     this.getTreatmentCourse();
     let ro = sessionStorage.getItem('role');
@@ -98,7 +103,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
       this.roleId = ro.split(',');
     }
     this.name = sessionStorage.getItem('patient');
-    if (this.name){
+    if (this.name) {
       this.name = JSON.parse(this.name);
       this.patientName = this.name.patient_name;
     }
@@ -107,7 +112,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     const day = currentDateGMT7.date();
     const month = currentDateGMT7.month() + 1; // Tháng bắt đầu từ 0
     const year = currentDateGMT7.year();
-    this.currentDate = day+"/"+month+"/"+year;
+    this.currentDate = day + "/" + month + "/" + year;
     this.getPatient();
     this.getMedicalProcedureList();
     this.getLabo();
@@ -127,72 +132,72 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
   showDropDown: boolean = false;
   getMedicalProcedureList() {
     this.medicalProcedureGroupService.getMedicalProcedureGroupListandDetail().subscribe(data => {
-        this.ProcedureGroupList = data.data;
-        this.ProcedureGroupList.forEach((item: any) => {
-          const currentO = item;
-          if (!this.UniqueList.includes(currentO.mg_id)) {
-            this.UniqueList.push(currentO.mg_id);
-            let proObject = {
-              procedureId: currentO.mp_id,
-              procedureName: currentO.mp_name,
-              initPrice: currentO.mp_price,
-              price: currentO.mp_price,
-              quantity: 1,
-              laboId: "0",
-              checked: false,
-              isExpand: false,
-            };
-            this.groupProcedureO.groupId = currentO.mg_id;
-            this.groupProcedureO.groupName = currentO.mg_name;
-            this.groupProcedureO.checked = false;
-            this.groupProcedureO.procedure.push(proObject);
-            this.list.push(this.groupProcedureO);
-            this.groupProcedureO = {
-              groupId: '',
-              groupName: '',
-              checked: true,
-              procedure: [],
-              isExpand: false
-            }
-            proObject = {
-              procedureId: '',
-              procedureName: '',
-              initPrice: '',
-              price: '',
-              quantity: 1,
-              laboId: "0",
-              checked: true,
-              isExpand: false
-            };
-          } else {
-            this.list.forEach((item: any) => {
-              if (item.groupId == currentO.mg_id) {
-                let proObject = {
-                  procedureId: currentO.mp_id,
-                  procedureName: currentO.mp_name,
-                  initPrice: currentO.mp_price,
-                  price: currentO.mp_price,
-                  quantity: 1,
-                  laboId: "0",
-                  checked: false,
-                  isExpand: false,
-                };
-                item.procedure.push(proObject);
-                proObject = {
-                  procedureId: currentO.mp_id,
-                  procedureName: currentO.mp_name,
-                  initPrice: currentO.mp_price,
-                  price: '',
-                  quantity: 1,
-                  laboId: "0",
-                  checked: false,
-                  isExpand: false
-                };
-              }
-            })
+      this.ProcedureGroupList = data.data;
+      this.ProcedureGroupList.forEach((item: any) => {
+        const currentO = item;
+        if (!this.UniqueList.includes(currentO.mg_id)) {
+          this.UniqueList.push(currentO.mg_id);
+          let proObject = {
+            procedureId: currentO.mp_id,
+            procedureName: currentO.mp_name,
+            initPrice: currentO.mp_price,
+            price: currentO.mp_price,
+            quantity: 1,
+            laboId: "0",
+            checked: false,
+            isExpand: false,
+          };
+          this.groupProcedureO.groupId = currentO.mg_id;
+          this.groupProcedureO.groupName = currentO.mg_name;
+          this.groupProcedureO.checked = false;
+          this.groupProcedureO.procedure.push(proObject);
+          this.list.push(this.groupProcedureO);
+          this.groupProcedureO = {
+            groupId: '',
+            groupName: '',
+            checked: true,
+            procedure: [],
+            isExpand: false
           }
-        })
-      },
+          proObject = {
+            procedureId: '',
+            procedureName: '',
+            initPrice: '',
+            price: '',
+            quantity: 1,
+            laboId: "0",
+            checked: true,
+            isExpand: false
+          };
+        } else {
+          this.list.forEach((item: any) => {
+            if (item.groupId == currentO.mg_id) {
+              let proObject = {
+                procedureId: currentO.mp_id,
+                procedureName: currentO.mp_name,
+                initPrice: currentO.mp_price,
+                price: currentO.mp_price,
+                quantity: 1,
+                laboId: "0",
+                checked: false,
+                isExpand: false,
+              };
+              item.procedure.push(proObject);
+              proObject = {
+                procedureId: currentO.mp_id,
+                procedureName: currentO.mp_name,
+                initPrice: currentO.mp_price,
+                price: '',
+                quantity: 1,
+                laboId: "0",
+                checked: false,
+                isExpand: false
+              };
+            }
+          })
+        }
+      })
+    },
       (error) => {
         ResponseHandler.HANDLE_HTTP_STATUS(this.medicalProcedureGroupService.url + "/medical-procedure-group-with-detail", error);
       })
@@ -205,12 +210,12 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     })
   }
   checkListImport: string[] = [];
-  checkProcedureUse(it:any) {
-    this.list.forEach((item:any) => {
-      item.procedure.forEach((pro:any) => {
+  checkProcedureUse(it: any) {
+    this.list.forEach((item: any) => {
+      item.procedure.forEach((pro: any) => {
         if (pro.procedureId == it.procedureId) {
           pro.checked = !it.checked;
-          this.Post_Procedure_Material_Usage.forEach((item:any) => {
+          this.Post_Procedure_Material_Usage.forEach((item: any) => {
             if (item.medical_procedure_id == it.procedureId) {
               item.price = it.price;
               item.quantity = 1;
@@ -240,22 +245,22 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
       })
     })
   }
-  changePrice(gro:any, event:any) {
-    this.Post_Procedure_Material_Usage.forEach((item:any) => {
+  changePrice(gro: any, event: any) {
+    this.Post_Procedure_Material_Usage.forEach((item: any) => {
       if (item.medical_procedure_id == gro.procedureId) {
         item.price = event.target.value;
       }
     })
   }
-  changeQuantity(gro:any, event:any) {
-    this.Post_Procedure_Material_Usage.forEach((item:any) => {
+  changeQuantity(gro: any, event: any) {
+    this.Post_Procedure_Material_Usage.forEach((item: any) => {
       if (item.medical_procedure_id == gro.procedureId) {
         item.quantity = event.target.value;
       }
     })
   }
-  changeLabo(gro:any) {
-    this.Post_Procedure_Material_Usage.forEach((item:any) => {
+  changeLabo(gro: any) {
+    this.Post_Procedure_Material_Usage.forEach((item: any) => {
       if (item.medical_procedure_id == gro.procedureId) {
         item.description = gro.laboId;
       }
@@ -273,11 +278,11 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
   postTreatmentCourse() {
     this.resetValidateTreatmentCourse();
     this.Post_TreatmentCourse.patient_id = this.id;
-    if (!this.TreatmentCouseBody.name){
+    if (!this.TreatmentCouseBody.name) {
       this.validateTreatmentCouse.name = "Vui lòng nhập phương án điều trị!";
       this.isSubmittedTreatmentCourse = true;
     }
-    if (this.isSubmittedTreatmentCourse){
+    if (this.isSubmittedTreatmentCourse) {
       return;
     }
     this.Post_TreatmentCourse.name = this.TreatmentCouseBody.name;
@@ -288,10 +293,10 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     this.Post_TreatmentCourse.prescription = JSON.stringify(this.recordsMedicine);
     //this.resetValidateSpecimens();
     this.list.forEach((item: any, itemIndex: number) => {
-      item.procedure.forEach((it: any,procIndex: number) => {
+      item.procedure.forEach((it: any, procIndex: number) => {
         const key = `soLuong_${itemIndex}_${procIndex}`;
         let soLuong = it.quantity
-        if (!this.checkNumber(soLuong)){
+        if (!this.checkNumber(soLuong)) {
           this.valdateSpecimens[key] = "Nhập số lượng > 0!";
           this.isSubmittedSpecimens = true
         }
@@ -306,13 +311,13 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     // if (this.isSubmittedSpecimens){
     //   return;
     // }
-    if (Object.keys(this.valdateSpecimens).length > 0){
+    if (Object.keys(this.valdateSpecimens).length > 0) {
       this.isSubmittedSpecimens = true;
       return;
     }
-    this.recordsMedicine.forEach((item:any,itemIndex:any)=>{
+    this.recordsMedicine.forEach((item: any, itemIndex: any) => {
       const key = `soLuong_${itemIndex}`;
-      if (!this.checkNumber(item.soLuong)){
+      if (!this.checkNumber(item.soLuong)) {
         this.validateMedicine[key] = "Nhập số lượng > 0!";
       }
       else {
@@ -321,11 +326,11 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
         }
       }
     })
-    if (Object.keys(this.validateMedicine).length > 0){
+    if (Object.keys(this.validateMedicine).length > 0) {
       return;
     }
     this.treatmentCourseService.postTreatmentCourse(this.Post_TreatmentCourse).
-    subscribe((res) => {
+      subscribe((res) => {
         this.toastr.success(res.message, "Thêm liệu trình thành công");
         if (this.Post_Procedure_Material_Usage.length > 0) {
           this.Post_Procedure_Material_Usage.forEach((item) => {
@@ -364,8 +369,8 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
           })
         })
         const modalRef = this.modelService.open(ConfirmAddTreatmentcourseComponent);
-        modalRef.result.then((res:any) =>{
-          switch (res){
+        modalRef.result.then((res: any) => {
+          switch (res) {
             // case 'lich-hen':
             //   const ref = document.getElementById('cancel');
             //   ref?.click();
@@ -383,19 +388,19 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
         })
 
       },
-      (error) => {
-        ResponseHandler.HANDLE_HTTP_STATUS(this.treatmentCourseService.apiUrl + "/treatment-course", error);
-      }
-    )
+        (error) => {
+          ResponseHandler.HANDLE_HTTP_STATUS(this.treatmentCourseService.apiUrl + "/treatment-course", error);
+        }
+      )
   }
 
   close() {
     this.Post_TreatmentCourse = {}
     this.Post_Procedure_Material_Usage = []
   }
-  isExpand:boolean = false;
-  toggleExpand(check:any){
-    this.list.forEach((item:any) => {
+  isExpand: boolean = false;
+  toggleExpand(check: any) {
+    this.list.forEach((item: any) => {
       if (item.groupId == check.groupId) {
         item.isExpand = !check.isExpand;
       }
@@ -490,11 +495,11 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     if (this.isAddMedicine) {
       this.recordsMedicine.push({
         id: this.selectMedicine,
-        ten:'',
-        soLuong:'',
+        ten: '',
+        soLuong: '',
         donvi: '',
-        lieuDung:'',
-        ghiChu:''
+        lieuDung: '',
+        ghiChu: ''
       })
     }
   }
@@ -502,12 +507,12 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     //this.isAddMedicine = false;
     this.recordsMedicine.splice(index, 1);
   }
-  Patient:any;
+  Patient: any;
   getPatient() {
     this.patientService.getPatientById(this.id)
-      .subscribe((res)=> {
-          this.Patient = res;
-        },
+      .subscribe((res) => {
+        this.Patient = res;
+      },
         (err) => {
           this.toastr.error(err.error.message, "Lỗi khi lấy thông tin bệnh nhân")
         }
@@ -529,10 +534,10 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     var timestamp = moment.tz(dateStr, format, timeZone).valueOf() / 1000;
     return timestamp;
   }
-  private checkNumber(number:any):boolean{
+  private checkNumber(number: any): boolean {
     return /^[1-9]\d*$/.test(number);
   }
-  resetValidateTreatmentCourse(){
+  resetValidateTreatmentCourse() {
     this.validateTreatmentCouse = {
       name: ''
     }
@@ -632,13 +637,13 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     this.showZoomedInImage = false;
   }
 
-  response:any;
+  response: any;
   listImageXRay: any[] = [];
-  onGetXRayImage(id:any) {
+  onGetXRayImage(id: any) {
     this.treatmentCourseService.getImageXRay(id).subscribe((res) => {
       this.response = res
       this.listImageXRay = this.response.data;
-      this.listImageXRay.forEach((item:any) => {
+      this.listImageXRay.forEach((item: any) => {
         var length = this.recordsImage.length
         var id = length++;
         this.recordImage = {
@@ -687,8 +692,8 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     this.isAddImage = false;
   }
 
-  onDeleteXRayImage(image:any) {
-    this.recordsImage.forEach((item:any) => {
+  onDeleteXRayImage(image: any) {
+    this.recordsImage.forEach((item: any) => {
       if (item.id == image.id) {
         this.treatmentCourseService.deleteImageXRay(this.id, item.imageInsert).subscribe((data) => {
           this.toastr.success('Xóa ảnh x-quang thành công');
