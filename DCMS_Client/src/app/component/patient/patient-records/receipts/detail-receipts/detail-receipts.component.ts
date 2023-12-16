@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {FacilityService} from "../../../../../service/FacilityService/facility.service";
 
 @Component({
   selector: 'app-detail-receipts',
@@ -11,10 +12,22 @@ export class DetailReceiptsComponent implements OnInit {
   @Input() createDate: any
   @Input() paymentType:any;
   @Input() Patient:any;
-  constructor(private modalService: NgbModal) { }
+  facility_name:any;
+  constructor(private modalService: NgbModal,private facilityService: FacilityService) { }
 
   ngOnInit(): void {
     console.log(this.receiptDetails)
+    const facility = sessionStorage.getItem('locale');
+    if (facility != null) {
+      this.facilityService.getFacilityList().subscribe((data) => {
+        var listFacility = data.data;
+        listFacility.forEach((item:any) => {
+          if (item.facility_id == facility) {
+            this.facility_name = item.name;
+          }
+        })
+      })
+    }
   }
 
   getTotalDebtTotal(): number {
@@ -35,5 +48,18 @@ export class DetailReceiptsComponent implements OnInit {
 
   dismiss() {
     this.modalService.dismissAll('Cross click');
+  }
+  convertToFormattedDate(dateString: string): string {
+    const dateObject = new Date(dateString);
+
+    if (isNaN(dateObject.getTime())) {
+      return '';
+    }
+
+    const year = dateObject.getFullYear();
+    const month = dateObject.getMonth() + 1; // Tháng bắt đầu từ 0
+    const day = dateObject.getDate();
+
+    return `${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year}`;
   }
 }

@@ -53,7 +53,9 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
     name:''
   }
   isSubmittedTreatmentCourse:boolean = false;
-
+  valdateSpecimens:any = {};
+  isSubmittedSpecimens: boolean = false;
+  validateMedicine:any = {}
   Edit_TreatmentCourse: any;
   ngOnInit(): void {
     this.Patient_Id = this.route.snapshot.params['id'];
@@ -359,6 +361,9 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
       }
     })
   }
+  private checkNumber(number: any): boolean {
+    return /^[1-9]\d*$/.test(number);
+  }
 
   listData: any[] = [];
   listDisplay: any[] = [];
@@ -375,34 +380,55 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
     }
     this.Edit_TreatmentCourse.prescription = this.recordsMedicine;
     this.Edit_TreatmentCourse.prescription = JSON.stringify(this.Edit_TreatmentCourse.prescription);
-
-    // this.treatmentCourseService.putTreatmentCourse(this.Edit_TreatmentCourse.treatment_course_id, this.Edit_TreatmentCourse)
-    // .subscribe((res) => {
-    //   this.toastr.success(res.message, "Sửa Lịch trình điều trị");
-    //   window.location.reload();
-    // },
-    // (error) => {
-    //   ResponseHandler.HANDLE_HTTP_STATUS(this.treatmentCourseService.apiUrl+"/treatment-course/"+this.TreatmentCourse.treatment_course_id, error);
+    this.treatmentCourseService.putTreatmentCourse(this.Edit_TreatmentCourse.treatment_course_id, this.Edit_TreatmentCourse)
+    .subscribe((res) => {
+      this.toastr.success(res.message, "Sửa Lịch trình điều trị");
+      window.location.reload();
+    },
+    (error) => {
+      ResponseHandler.HANDLE_HTTP_STATUS(this.treatmentCourseService.apiUrl+"/treatment-course/"+this.TreatmentCourse.treatment_course_id, error);
+    }
+    )
+    // this.list.forEach((item: any, itemIndex: number) => {
+    //   item.procedure.forEach((it: any, procIndex: number) => {
+    //     const key = `soLuong_${itemIndex}_${procIndex}`;
+    //     let soLuong = it.quantity
+    //     if (!this.checkNumber(soLuong)) {
+    //       this.valdateSpecimens[key] = "Nhập số lượng > 0!";
+    //       this.isSubmittedSpecimens = true;
+    //     }
+    //     else {
+    //       if (this.valdateSpecimens[key]) {
+    //         delete this.valdateSpecimens[key];
+    //       }
+    //     }
+    //
+    //   })
+    // })
+    // if (Object.keys(this.valdateSpecimens).length > 0) {
+    //   this.isSubmittedSpecimens = true;
+    //   return;
     // }
-    // )
-
     if (this.Post_Procedure_Material_Usage_New.length > 0) {
       this.Post_Procedure_Material_Usage_New.forEach((item: any) => {
         item.treatment_course_id = this.Edit_TreatmentCourse.treatment_course_id;
         this.materialUsageService.postProcedureMaterialUsage(item)
           .subscribe((res) => {
             this.toastr.success("Thêm Thủ thuật thành công");
+            window.location.reload();
           }, (err) => {
             this.toastr.error(err.error.message, "Thêm Thủ thuật thất bại");
           })
       })
     }
-
+    console.log("đã vào");
     if (this.Post_Procedure_Material_Usage.length > 0) {
       this.Post_Procedure_Material_Usage.forEach((item: any) => {
         this.listChange.forEach((it: any) => {
           if (item.material_usage_id == it) {
             this.materialUsageService.putMaterialUsage(item.material_usage_id, item).subscribe((data) => {
+                this.toastr.success("Sửa Thủ thuật thành công");
+                window.location.reload();
             }, (error) => {
               this.toastr.error(error.message, "Sửa thủ thuật thất bại");
             }
@@ -412,61 +438,61 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
       })
     }
 
-    if (this.listInsertNewMaterial.length > 0) {
-      this.listMaterialUsage.forEach((item: any) => {
-        this.listInsertNewMaterial.forEach((it: any) => {
-          if (it.material_warehouse_id == item.material_warehouse_id) {
-            it.material_warehouse_id = item.material_warehouse_id;
-            it.treatment_course_id = this.Edit_TreatmentCourse.treatment_course_id;
-            it.examination_id = '';
-            it.quantity = item.quantity;
-            it.price = item.price;
-            it.total_paid = '';
-            it.description = item.materialName;
-          }
-        })
-      })
-
-      this.materialUsageService.postMaterialUsage(this.listInsertNewMaterial)
-        .subscribe((res) => {
-          this.toastr.success("Thêm vật liệu thành công");
-        }, (err) => {
-          this.toastr.error(err.error.message, "Thêm Thủ thuật thất bại");
-        })
-    }
+    // if (this.listInsertNewMaterial.length > 0) {
+    //   this.listMaterialUsage.forEach((item: any) => {
+    //     this.listInsertNewMaterial.forEach((it: any) => {
+    //       if (it.material_warehouse_id == item.material_warehouse_id) {
+    //         it.material_warehouse_id = item.material_warehouse_id;
+    //         it.treatment_course_id = this.Edit_TreatmentCourse.treatment_course_id;
+    //         it.examination_id = '';
+    //         it.quantity = item.quantity;
+    //         it.price = item.price;
+    //         it.total_paid = '';
+    //         it.description = item.materialName;
+    //       }
+    //     })
+    //   })
+    //
+    //   this.materialUsageService.postMaterialUsage(this.listInsertNewMaterial)
+    //     .subscribe((res) => {
+    //       this.toastr.success("Thêm vật liệu thành công");
+    //     }, (err) => {
+    //       this.toastr.error(err.error.message, "Thêm Thủ thuật thất bại");
+    //     })
+    // }
 
     console.log("đã đến đây");
-    if (this.listMaterialUsage.length > 0) {
-      console.log("đã vô 1");
-      this.listMaterialUsage.forEach((item: any) => {
-        if (this.listInsertNewMaterial.length > 0) {
-          this.listInsertNewMaterial.forEach((it: any) => {
-            if (it.material_warehouse_id != item.material_warehouse_id) {
-              this.listUpdateMaterial.push(item);
-              return;
-            }
-          })
-        } else {
-          this.listUpdateMaterial = this.listMaterialUsage;
-        }
-      })
-
-      this.listUpdateMaterial.forEach((item: any) => {
-        this.listCheckChangeMaterial.forEach((it: any) => {
-          if (item.material_usage_id == it.material_usage_id) {
-            if (it.quantity != item.quantity) {
-              item.price = 1;
-              this.materialUsageService.putMaterialUsage(item.material_usage_id, item)
-                .subscribe((res) => {
-                  return;
-                }, (err) => {
-                  this.toastr.error(err.error.message, "Chỉnh sửa Thủ thuật thất bại");
-                })
-            }
-          }
-        })
-      })
-    }
+    // if (this.listMaterialUsage.length > 0) {
+    //   console.log("đã vô 1");
+    //   this.listMaterialUsage.forEach((item: any) => {
+    //     if (this.listInsertNewMaterial.length > 0) {
+    //       this.listInsertNewMaterial.forEach((it: any) => {
+    //         if (it.material_warehouse_id != item.material_warehouse_id) {
+    //           this.listUpdateMaterial.push(item);
+    //           return;
+    //         }
+    //       })
+    //     } else {
+    //       this.listUpdateMaterial = this.listMaterialUsage;
+    //     }
+    //   })
+    //
+    //   this.listUpdateMaterial.forEach((item: any) => {
+    //     this.listCheckChangeMaterial.forEach((it: any) => {
+    //       if (item.material_usage_id == it.material_usage_id) {
+    //         if (it.quantity != item.quantity) {
+    //           item.price = 1;
+    //           this.materialUsageService.putMaterialUsage(item.material_usage_id, item)
+    //             .subscribe((res) => {
+    //               return;
+    //             }, (err) => {
+    //               this.toastr.error(err.error.message, "Chỉnh sửa Thủ thuật thất bại");
+    //             })
+    //         }
+    //       }
+    //     })
+    //   })
+    // }
   }
 
   selectMedicine: string = '0';
