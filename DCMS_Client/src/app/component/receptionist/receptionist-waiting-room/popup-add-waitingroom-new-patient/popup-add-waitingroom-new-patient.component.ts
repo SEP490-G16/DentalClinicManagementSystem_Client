@@ -149,10 +149,10 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
     if (storeList != null) {
       this.listGroupService = JSON.parse(storeList);
     }
-    if (this.listGroupService.length > 0) {
-      this.POST_WAITTINGROOM.produce_id = this.listGroupService[0].medical_procedure_group_id;
-      this.POST_WAITTINGROOM.produce_name = this.listGroupService[0].name;
-    }
+    // if (this.listGroupService.length > 0) {
+    //   this.POST_WAITTINGROOM.produce_id = this.listGroupService[0].medical_procedure_group_id;
+    //   this.POST_WAITTINGROOM.produce_name = this.listGroupService[0].name;
+    // }
   }
 
   addPatient() {
@@ -195,8 +195,10 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
     const currentDateTimeGMT7 = moment().tz('Asia/Ho_Chi_Minh');
     this.POST_WAITTINGROOM.epoch = Math.floor(currentDateTimeGMT7.valueOf() / 1000).toString();
     if (!this.POST_WAITTINGROOM.produce_id) {
-      this.validateWatingRoom.procedure = "Vui lòng chọn loại điều trị!";
-      this.isSubmitted = true;
+      // this.validateWatingRoom.procedure = "Vui lòng chọn loại điều trị!";
+      // this.isSubmitted = true;
+      this.POST_WAITTINGROOM.produce_id = '';
+      this.POST_WAITTINGROOM.produce_name = ''
     }
 
     if (this.isSubmitted) {
@@ -262,9 +264,6 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
         + this.POST_WAITTINGROOM.status + ' - ' + this.POST_WAITTINGROOM.appointment_id + ' - ' + this.POST_WAITTINGROOM.appointment_epoch + ' - ' + this.POST_WAITTINGROOM.patient_created_date;
       this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
         .subscribe((data) => {
-          //this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'wtr');
-          localStorage.setItem('UpdatePlus@@@', 'UpdateAnalysesTotal@@@,plus,wtr');
-          this.sendMessageSocket.sendMessageSocket('CheckRealTimeWaitingRoom@@@', `${patientInfor}`, `${Number('1')}`);
           this.showSuccessToast("Thêm phòng chờ thành công!!");
           let ref = document.getElementById('cancel-add-waiting-new');
           ref?.click();
@@ -281,9 +280,9 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
             this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
 
           }
-          this.updateWaitingRoomList();
+          //this.updateWaitingRoomList();
           // this.router.navigate(["phong-cho"]);
-          this.WaitingRoomService.updateData
+          //this.WaitingRoomService.updateData
           this.POST_WAITTINGROOM = {
             epoch: "",
             produce_id: '',

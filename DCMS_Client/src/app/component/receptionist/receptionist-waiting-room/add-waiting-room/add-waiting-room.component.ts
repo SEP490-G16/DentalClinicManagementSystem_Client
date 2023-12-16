@@ -24,9 +24,9 @@ import { FormatNgbDate } from 'src/app/component/utils/libs/formatNgbDate';
 })
 export class AddWaitingRoomComponent implements OnInit {
 
-  //@Input() filteredWaitingRoomData:any;
-  @Output() newWaitingRoom = new EventEmitter<any>();
-  @Output() newAppointmentAdded = new EventEmitter<any>();
+  @Input() filteredWaitingRoomData:any;
+  //@Output() newWaitingRoom = new EventEmitter<any>();
+  //@Output() newAppointmentAdded = new EventEmitter<any>();
   dobNgb!: NgbDateStruct
   patientList: any[] = [];
   patientInfor: any;
@@ -126,7 +126,7 @@ export class AddWaitingRoomComponent implements OnInit {
 
   waitingRoomData:any[] = [];
   CheckRealTimeWaiting:any[] = [];
-  filteredWaitingRoomData:any[] = [];
+  //filteredWaitingRoomData:any[] = [];
   getWaitingRoomData() {
     this.WaitingRoomService.getWaitingRooms().subscribe(
       data => {
@@ -175,10 +175,10 @@ export class AddWaitingRoomComponent implements OnInit {
     if (storeList != null) {
       this.listGroupService = JSON.parse(storeList);
     }
-    if (this.listGroupService.length > 0) {
-      this.POST_WAITTINGROOM.produce_id = this.listGroupService[0].medical_procedure_group_id;
-      this.POST_WAITTINGROOM.produce_name = this.listGroupService[0].name;
-    }
+    // if (this.listGroupService.length > 0) {
+    //   this.POST_WAITTINGROOM.produce_id = this.listGroupService[0].medical_procedure_group_id;
+    //   this.POST_WAITTINGROOM.produce_name = this.listGroupService[0].name;
+    // }
   }
   onPostWaitingRoom() {
     let patientIn = this.patientInfor.split(' - ');
@@ -201,8 +201,10 @@ export class AddWaitingRoomComponent implements OnInit {
       return;
     }
     if (!this.POST_WAITTINGROOM.produce_id) {
-      this.validateWatingRoom.procedure = "Vui lòng chọn loại điều trị!";
-      this.isSubmitted = true;
+      // this.validateWatingRoom.procedure = "Vui lòng chọn loại điều trị!";
+      // this.isSubmitted = true;
+      this.POST_WAITTINGROOM.produce_id = '';
+      this.POST_WAITTINGROOM.produce_name = '';
     }
     if (this.isSubmitted) {
       return;
@@ -257,14 +259,14 @@ export class AddWaitingRoomComponent implements OnInit {
           console.log(this.messageBody);
           this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
         }
-        console.log("Here nha");
-        const wt = {
-          type: 'w',
-          epoch: this.POST_WAITTINGROOM.epoch,
-          produce_id: this.POST_WAITTINGROOM.produce_id,
-          produce_name: this.POST_WAITTINGROOM.produce_name, patient_id: this.POST_WAITTINGROOM.patient_id, patient_name: this.POST_WAITTINGROOM.patient_name, patient_created_date: this.POST_WAITTINGROOM.patient_created_date, reason: "", status: "1", appointment_id: "", appointment_epoch: "" }
-        console.log("check wt: ", this.filteredWaitingRoomData);
-        this.filteredWaitingRoomData.push(wt);
+        // console.log("Here nha");
+        // const wt = {
+        //   type: 'w',
+        //   epoch: this.POST_WAITTINGROOM.epoch,
+        //   produce_id: this.POST_WAITTINGROOM.produce_id,
+        //   produce_name: this.POST_WAITTINGROOM.produce_name, patient_id: this.POST_WAITTINGROOM.patient_id, patient_name: this.POST_WAITTINGROOM.patient_name, patient_created_date: this.POST_WAITTINGROOM.patient_created_date, reason: "", status: "1", appointment_id: "", appointment_epoch: "" }
+        // console.log("check wt: ", this.filteredWaitingRoomData);
+        // this.filteredWaitingRoomData.push(wt);
 
         //Nếu dùng Behavior Subject
 
@@ -272,10 +274,10 @@ export class AddWaitingRoomComponent implements OnInit {
         // this.WaitingRoomService.updateData(this.filteredWaitingRoomData);
 
         //C2: Ok nhất nhưng phải call api, mà thôi kệ đi
-        this.updateWaitingRoomList();
+        //this.updateWaitingRoomList();
 
         //Còn không
-        this.newWaitingRoom.emit(this.filteredWaitingRoomData);
+        //this.newWaitingRoom.emit(this.filteredWaitingRoomData);
         this.POST_WAITTINGROOM = {
           epoch: "",
           produce_id: '',
