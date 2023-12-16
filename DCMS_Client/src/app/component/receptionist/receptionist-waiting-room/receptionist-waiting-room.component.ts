@@ -114,7 +114,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
         this.waitingRoomData.forEach((i: any) => {
           i.date = this.timestampToTime(i.epoch)
         });
-        const statusOrder: { [key: number]: number } = { 2: 1, 3: 2, 1: 3, 4: 4 };
+        const statusOrder: { [key: number]: number } = { 2: 1, 1: 2, 3: 3, 4: 4 };
         this.waitingRoomData.sort((a: any, b: any) => {
           const orderA = statusOrder[a.status] ?? Number.MAX_VALUE;
           const orderB = statusOrder[b.status] ?? Number.MAX_VALUE;
@@ -123,9 +123,6 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
         this.listPatientId = this.waitingRoomData.map((item: any) => item.patient_id);
         localStorage.setItem('listPatientId', JSON.stringify(this.listPatientId));
         this.CheckRealTimeWaiting = [...this.waitingRoomData];
-        if (this.roleId.includes('2') || this.roleId.includes('4') || this.roleId.includes('5')) {
-          this.CheckRealTimeWaiting = this.CheckRealTimeWaiting.filter((item) => item.status.includes('2'));
-        }
         console.log("Check realtime waiting: ", this.CheckRealTimeWaiting)
         this.waitingRoomService.updateData(this.CheckRealTimeWaiting);
         this.dataService.UpdateWaitingRoomTotal(3, this.CheckRealTimeWaiting.length);
