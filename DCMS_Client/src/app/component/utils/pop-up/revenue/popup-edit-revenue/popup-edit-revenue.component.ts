@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { PaidMaterialUsageService } from 'src/app/service/PaidMaterialUsageService/paid-material-usage.service';
 import * as moment from 'moment-timezone';
 import {NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
+import {FormatNgbDate} from "../../../libs/formatNgbDate";
 
 @Component({
   selector: 'app-popup-edit-revenue',
@@ -62,6 +63,7 @@ export class PopupEditRevenueComponent implements OnInit {
 
   putBillObjectEdit(bill: any) {
     console.log(this.EDIT_BILL_BODY);
+    const createDate = FormatNgbDate.formatNgbDateToString(this.createDateNgbModal);
     this.resetValidate();
     if (!this.EDIT_BILL_BODY.createBy){
       this.validate.createBy = "Vui lòng nhập người chi!";
@@ -71,7 +73,7 @@ export class PopupEditRevenueComponent implements OnInit {
       this.validate.type = "Vui lòng nhập loại chi!";
       this.isSubmitted = true;
     }
-    if (!this.EDIT_BILL_BODY.createDate || !this.formatDate(this.EDIT_BILL_BODY.createDate)) {
+    if (!createDate || !this.formatDate(createDate)) {
       this.validate.createDate = 'Vui lòng nhập nhập ngày tạo!';
       this.isSubmitted = true;
     }

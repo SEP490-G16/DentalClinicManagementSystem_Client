@@ -38,6 +38,7 @@ export class PatientRecordsComponent implements OnInit {
   id: any;
   search: string = '';
   isSearching: boolean = false;
+  roleId: any;
   constructor(private patientService: PatientService,
     private toastr: ToastrService,
     private router: Router,
@@ -46,6 +47,10 @@ export class PatientRecordsComponent implements OnInit {
     private sendMessageSocket: SendMessageSocket) { }
   @ViewChild(PopupDeletePatientComponent) popupDeletePatientComponent!: PopupDeletePatientComponent;
   ngOnInit(): void {
+    let co = sessionStorage.getItem('role');
+    if (co != null) {
+      this.roleId = co.split(',');
+    }
     this.loadPage(this.pagingSearch.paging);
     this.patientService.data$.subscribe((dataList) => {
       this.searchPatientsList = dataList;
