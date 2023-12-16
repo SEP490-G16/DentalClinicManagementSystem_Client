@@ -18,6 +18,28 @@ export class ReceptionistWaitingRoomService {
     this.listWatingRoom.next(newData);
   }
 
+  private Notification = new BehaviorSubject<any>({
+    status: '1', 
+    content: {
+      epoch: '',
+      produce_id: '',
+      produce_name: '',
+      patient_id: '',
+      patient_name: '',
+      reason: '',
+      patient_created_date: '',
+      status_value: '',
+      appointment_id: '',
+      appointment_epoch: '',
+    }
+  });
+
+  dataAn$ = this.Notification.asObservable();
+  updateAnalysesData(newData: any): void {
+    console.log("đã update nha");
+    this.Notification.next(newData);
+  }
+
   getWaitingRooms(): Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
 

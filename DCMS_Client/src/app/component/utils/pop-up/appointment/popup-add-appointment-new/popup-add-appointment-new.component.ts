@@ -334,12 +334,12 @@ export class PopupAddAppointmentNewComponent implements OnInit {
     // Gọi API POST
     this.resetValidate();
 
-    if (this.AppointmentBody.appointment.procedure_id == "1") {
-      this.validateAppointment.procedure = "Vui lòng chọn loại điều trị!";
-      this.isSubmitted = true;
-      this.loading = false;
-      return;
-    }
+    // if (this.AppointmentBody.appointment.procedure_id == "1") {
+    //   this.validateAppointment.procedure = "Vui lòng chọn loại điều trị!";
+    //   this.isSubmitted = true;
+    //   this.loading = false;
+    //   return;
+    // }
     const currentTime = new Date().toTimeString();
     const currentDate = moment().format('YYYY-MM-DD');
 

@@ -115,7 +115,7 @@
         <tr class="text-center">
           <th style="min-width: 120px">Tên nhân viên</th>
           <th style="min-width: 80px"> Chức vụ</th>
-          <th style="min-width: 100px">Tổng số ngày làm việc</th>
+          <th style="min-width: 100px">Tổng số ca làm việc</th>
           <th [colSpan]="totalDate+1"> Ngày</th>
         </tr>
         <tr>
@@ -132,7 +132,7 @@
             <tr>
               <td>{{timekeeping.staff_name}}</td>
               <td>{{timekeeping.role_name}}</td>
-              <td>{{timekeeping.total_working}} / {{totalDate}}</td>
+              <td>{{timekeeping.total_working}} / {{totalShift}}</td>
               <td *ngFor="let day of listDayInMonth">
                 <ng-container *ngFor="let p of timekeeping.timeKeeping">
                   <div style="display: flex" *ngIf="isClockInDay(day,p.epoch)">
@@ -167,7 +167,8 @@
           <ng-container *ngFor="let timekeeping of listStaffTimeKeeping">
             <tr *ngIf="timekeeping.sub_id == ownSubId">
               <td>{{timekeeping.staff_name}}</td>
-              <td>Lế tân</td>
+              <td>{{timekeeping.role_name}}</td>
+              <td>{{timekeeping.total_working}} / {{totalShift}}</td>
               <td *ngFor="let day of listDayInMonth">
                 <ng-container *ngFor="let p of timekeeping.timeKeeping">
                   <div style="display: flex" *ngIf="isClockInDay(day,p.epoch)">
@@ -197,10 +198,8 @@
                 </ng-container>
               </td>
             </tr>
-
           </ng-container>
         </ng-container>
-
       </tbody>
     </table>
   </div>
