@@ -790,3 +790,46 @@ table .tr-children:hover{
   color: red;
   margin-left: 3px;
 }
+.alert-danger-custom {
+  background-color: #f8d7da; /* Màu nền đỏ nhạt */
+  color: #721c24; /* Màu chữ đỏ đậm */
+  padding: 5px 10px; /* Kích thước lề nội dung */
+  border: 1px solid #f5c6cb; /* Viền đỏ nhạt */
+  border-radius: 5px; /* Góc bo tròn */
+  position: absolute; /* Thiết lập vị trí tuyệt đối */
+  top: 100%; /* Điều chỉnh vị trí theo chiều cao của mũi tên */
+  right: 0; /* Đặt vị trí ở góc bên phải */
+  display: none; /* Mặc định ẩn đi */
+  z-index: 1; /* Đảm bảo hiển thị trên các phần tử khác */
+}
+
+/* Hiển thị tooltip khi có lỗi */
+.alert-danger-custom.active {
+  display: block;
+}
+
+/* Kiểu chữ cho thông báo lỗi */
+.alert-danger-custom p {
+  margin: 0; /* Xóa lề ngoại dung mặc định của thẻ p */
+}
+
+/* Tạo mũi tên */
+/*.alert-danger-custom::before {*/
+/*  content: ''; !* Truyền nội dung rỗng *!*/
+/*  position: absolute; !* Thiết lập vị trí tuyệt đối *!*/
+/*  top: 100%; !* Điều chỉnh vị trí theo chiều cao của mũi tên *!*/
+/*  right: 10px; !* Đặt vị trí theo chiều ngang *!*/
+/*  border-width: 0 5px 10px 5px; !* Kích thước mũi tên *!*/
+/*  border-style: solid;*/
+/*  border-color: transparent transparent #f8d7da transparent; !* Màu sắc của mũi tên *!*/
+/*}*/
+
+/* Kiểu cho nút đóng tooltip */
+.close-icon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #721c24; /* Màu chữ đỏ đậm */
+}

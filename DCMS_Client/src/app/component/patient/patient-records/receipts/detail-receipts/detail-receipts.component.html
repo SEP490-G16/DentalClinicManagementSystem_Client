@@ -15,7 +15,7 @@
   <!-- Date and Payment Type -->
   <div class="row">
     <div class="col-md-6 col-sm-12">
-      <p>Ngày tạo: <b>{{ createDate | VNdateTimeFormat }}</b></p>
+      <p>Ngày tạo: <b>{{ convertToFormattedDate(createDate) }}</b></p>
     </div>
     <div class="col-md-6 col-sm-12 right">
       <p>Hình thức/Type: <b>{{ paymentType == "1" ? 'Thanh toán bằng tiền mặt' : 'Thanh toán qua chuyển khoản'  }}</b></p> <!-- Assuming you have a variable for Payment Type -->
@@ -39,7 +39,7 @@
       <p>Địa chỉ/Address: <b>{{Patient.address}}</b></p>
     </div>
     <div class="col-md-6 col-sm-12 right">
-      <p>Cơ sở: <b></b></p>
+      <p>Cơ sở: <b>{{facility_name}}</b></p>
     </div>
   </div>
 
@@ -73,17 +73,31 @@
             <td></td>
             <td>{{rc.mp_name
             }}</td>
-            <td>{{rc.mu_price | currency:'VND':'symbol':'1.0-0'}}</td>
+            <td>{{rc.mu_price | currency:'VND':'symbol':'1.0-0'}}<br>
+              <i>{{rc.mu_price| numberToWords}}</i>
+            </td>
             <td>{{rc.mu_quantity}}</td>
-            <td>{{rc.mu_total | currency:'VND':'symbol':'1.0-0'}}</td>
-            <td>{{rc.p_total_paid | currency:'VND':'symbol':'1.0-0'}}</td>
-            <td>{{rc.mu_total - rc.p_total_paid | currency:'VND':'symbol':'1.0-0'}}</td>
+            <td>{{rc.mu_total | currency:'VND':'symbol':'1.0-0'}}<br>
+              <i>{{rc.mu_total| numberToWords}}</i>
+            </td>
+            <td>{{rc.p_total_paid | currency:'VND':'symbol':'1.0-0'}}<br>
+              <i>{{rc.p_total_paid| numberToWords}}</i>
+            </td>
+            <td>{{rc.mu_total - rc.p_total_paid | currency:'VND':'symbol':'1.0-0'}}<br>
+              <i>{{rc.mu_total - rc.p_total_paid| numberToWords}}</i>
+            </td>
           </tr>
           <tr>
             <th colspan="4">Tổng cộng/Total: </th>
-            <td>{{ getTotalDebtTotal() | currency:'VND':'symbol':'1.0-0' }}</td>
-            <td>{{ getTotalPayment() | currency:'VND':'symbol':'1.0-0' }}</td>
-            <td>{{ getTotalRemain() | currency:'VND':'symbol':'1.0-0' }}</td>
+            <td>{{ getTotalDebtTotal() | currency:'VND':'symbol':'1.0-0' }}<br>
+              <i>{{getTotalDebtTotal()| numberToWords}}</i>
+            </td>
+            <td>{{ getTotalPayment() | currency:'VND':'symbol':'1.0-0' }}<br>
+              <i>{{getTotalPayment()| numberToWords}}</i>
+            </td>
+            <td>{{ getTotalRemain() | currency:'VND':'symbol':'1.0-0' }}<br>
+              <i>{{getTotalRemain()| numberToWords}}</i>
+            </td>
           </tr>
           </tbody>
         </table>

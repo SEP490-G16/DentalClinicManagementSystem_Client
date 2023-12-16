@@ -31,7 +31,7 @@ export class PopupExaminationDetailComponent implements OnInit {
     private toastr: ToastrService,
     private examinationService: TreatmentCourseDetailService,
     private paidMaterialUsageService: PaidMaterialUsageService,
-    private modalService: NgbModal, 
+    private modalService: NgbModal,
     private facilityService: FacilityService
   ) {
     this.currentDate = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
@@ -85,7 +85,19 @@ export class PopupExaminationDetailComponent implements OnInit {
   dismiss() {
     this.modalService.dismissAll('Cross click');
   }
+  convertToFormattedDate(dateString: string): string {
+    const dateObject = new Date(dateString);
 
+    if (isNaN(dateObject.getTime())) {
+      return '';
+    }
+
+    const year = dateObject.getFullYear();
+    const month = dateObject.getMonth() + 1; // Tháng bắt đầu từ 0
+    const day = dateObject.getDate();
+
+    return `${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year}`;
+  }
 }
 
 interface MaterialUsage {

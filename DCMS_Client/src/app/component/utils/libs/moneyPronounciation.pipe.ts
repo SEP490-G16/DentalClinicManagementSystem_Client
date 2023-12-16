@@ -45,7 +45,7 @@ export class NumberToWordsPipe implements PipeTransform {
         if (i === 0) {
           // Special handling for "lăm" (5) after "mươi" (10)
           if (chunk.length > 1 && chunk[1] == 1 && digit == 5) {
-            chunkWords = 'lăm ' + chunkWords;
+            chunkWords = chunkWords;
           } else {
             chunkWords = ones[digit] + ' ' + chunkWords;
           }
