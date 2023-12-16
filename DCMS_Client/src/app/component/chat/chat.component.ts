@@ -23,7 +23,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   messageSound = new Audio('assets/Messenger_Facebook.mp3');
   messageBody = {
     action: '',
-    message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
+    message: {"sub-id":"", "sender":"", "avt": "", "content":""}
   }
   POST_WAITTINGROOM = {
     epoch: '',
@@ -41,10 +41,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   isHovered = true;
   unreadMessagesCount = 0;
   constructor(private webSocketService: WebsocketService,
-    private waitingRoomService: ReceptionistWaitingRoomService,
-    private location: Location,
-    private dataService: DataService,
-    private patientService: PatientService) {
+              private waitingRoomService: ReceptionistWaitingRoomService,
+              private location: Location,
+              private dataService: DataService,
+              private patientService: PatientService) {
   }
 
   ngAfterViewChecked(): void {
@@ -92,7 +92,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             postInfo = check[1].split(' - ');
           } else {
             let ob = localStorage.getItem('ob');
-            if (ob!= null) {
+            if (ob != null) {
               postInfo = ob.split(' - ');
             }
             localStorage.removeItem('ob');
@@ -117,7 +117,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             if (check[2] != null && check[2] != undefined) {
               const pa = check[2].split(' - ');
               let notification = {
-                status: '2', 
+                status: '2',
                 content: {
                   epoch: pa[0],
                   produce_id: pa[1],
@@ -139,7 +139,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
               if (result != null) {
                 pa = JSON.parse(result);
                 let notification = {
-                  status: '2', 
+                  status: '2',
                   content: {
                     epoch: pa.epoch,
                     produce_id: pa.produce_id,
@@ -159,61 +159,22 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
               }
             }
           }
-          // if (this.POST_WAITTINGROOM.reason == "pa") {
-          //   let patientOb = {
-          //     patient_id: this.POST_WAITTINGROOM.epoch,
-          //     patient_name: this.POST_WAITTINGROOM.produce_id,
-          //     date_of_birth: "",
-          //     gender: 1,
-          //     phone_number: this.POST_WAITTINGROOM.produce_name,
-          //     full_medical_history: "",
-          //     dental_medical_history: "",
-          //     email: "",
-          //     address: this.POST_WAITTINGROOM.patient_id,
-          //     description: "",
-          //     profile_image: null,
-          //     active: 1,
-          //     created_date: this.POST_WAITTINGROOM.patient_name
-          //   }
-          //   this.POST_WAITTINGROOM.status = "";
-          //   this.searchPatientsList.push(patientOb);
-          //   this.patientService.updateData(this.searchPatientsList);
-          // }
-          // if (this.filteredWaitingRoomData.length == 0 && this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_name != "" && this.POST_WAITTINGROOM.patient_name != null
-          //   && this.POST_WAITTINGROOM.patient_name != null && this.POST_WAITTINGROOM.patient_created_date != "" && this.POST_WAITTINGROOM.patient_created_date != null
-          //   && this.POST_WAITTINGROOM.patient_created_date != undefined) {
-          //   //alert("check add successful trước")
-          //   this.filteredWaitingRoomData.push(this.POST_WAITTINGROOM);
-          //   this.waitingRoomService.updateData(this.filteredWaitingRoomData);
-          //   shouldBreakFor = true;
-          //   this.POST_WAITTINGROOM = {
-          //     epoch: '',
-          //     produce_id: '',
-          //     produce_name: '',
-          //     patient_id: '',
-          //     patient_name: '',
-          //     reason: '',
-          //     status: "1",
-          //     appointment_id: '',
-          //     appointment_epoch: '',
-          //     date: '',
-          //     patient_created_date: '',
-          //   }
-          // } 
-          // else {
+          var noLoop = false;
           this.filteredWaitingRoomData.forEach((item: any) => {
             if (item.patient_id == check[1]) {
               if (check[2] == "4") {
                 const index = this.filteredWaitingRoomData.findIndex(it => it.patient_id == check[1]);
                 if (index != -1) {
+                  console.log("delete patient wait");
                   this.filteredWaitingRoomData.splice(index, 1);
                   this.dataService.UpdateWaitingRoomTotal(0, 0);
                   this.dataService.UpdatePatientExaminate(0, 0);
-                  this.waitingRoomService.updateData(this.filteredWaitingRoomData);
+                  //this.waitingRoomService.updateData(this.filteredWaitingRoomData);
                 }
               } else {
                 item.status = check[2];
                 if (item.status == "2") {
+                  console.log("check log");
                   this.dataService.UpdatePatientExaminate(1, 0);
                 } else if (item.status == "3") {
                   this.dataService.UpdatePatientExaminate(0, 0);
@@ -221,8 +182,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 }
               }
             } else {
-              if (this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_name != null
+              if (noLoop == false && this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_name != null
                 && this.POST_WAITTINGROOM.patient_name != undefined) {
+                console.log("add patient1");
                 this.dataService.UpdateWaitingRoomTotal(1, 0);
                 this.filteredWaitingRoomData.push(this.POST_WAITTINGROOM);
                 this.POST_WAITTINGROOM = {
@@ -238,13 +200,15 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                   date: '',
                   patient_created_date: '',
                 }
-                this.waitingRoomService.updateData(this.filteredWaitingRoomData);
+                //this.waitingRoomService.updateData(this.filteredWaitingRoomData);
+                noLoop = true;
                 return;
               }
             }
-          }) 
-          if (this.filteredWaitingRoomData.length == 0 && this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_name != null
+          })
+          if (noLoop == false && this.filteredWaitingRoomData.length == 0 && this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_name != null
             && this.POST_WAITTINGROOM.patient_name != undefined) {
+            console.log("addpatient 2");
             this.dataService.UpdateWaitingRoomTotal(1, 0);
             this.filteredWaitingRoomData.push(this.POST_WAITTINGROOM);
             this.POST_WAITTINGROOM = {
@@ -260,7 +224,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
               date: '',
               patient_created_date: '',
             }
-            this.waitingRoomService.updateData(this.filteredWaitingRoomData);
+            noLoop = true;
+            //this.waitingRoomService.updateData(this.filteredWaitingRoomData);
             return;
           }
           const statusOrder: { [key: number]: number } = { 2: 1, 3: 2, 1: 3, 4: 4 };
@@ -272,33 +237,17 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             });
             this.waitingRoomService.updateData(this.filteredWaitingRoomData);
           }
-          } else if (check[0] == 'UpdateAnalysesTotal@@@') {
-            if (check[1] == 'plus') {
-              if (check[2] == 'app') {
-                this.dataService.UpdateAppointmentTotal(1, 0);
-              } 
-              // else if (check[2] == 'app') {
-              //   this.dataService.UpdateAppointmentTotal(1, 0);
-              // } else if (check[2] == 'pat') {
-              //   this.dataService.UpdatePatientTotal(1, 0);
-              // } else if (check[2] == 'wtr1') {
-              //   this.dataService.UpdatePatientExaminate(1, 0);
-              // } else if (check[2] == 'wtr2') {
-              //   this.dataService.UpdatePatientExaminated(1, 0);
-              // }
+        } else if (check[0] == 'UpdateAnalysesTotal@@@') {
+          if (check[1] == 'plus') {
+            if (check[2] == 'app') {
+              this.dataService.UpdateAppointmentTotal(1, 0);
             }
-            else if (check[1] == 'minus') {
-              if (check[2] == 'app') {
-                this.dataService.UpdateAppointmentTotal(0, 0);
-              } 
-              // else if (check[2] == 'app') {
-              //   this.dataService.UpdateAppointmentTotal(0, 0);
-              // } else if (check[2] == 'pat') {
-              //   this.dataService.UpdatePatientTotal(0, 0);
-              // } else if (check[2] == 'wtr1') {
-              //   this.dataService.UpdatePatientExaminate(0, 0);
-              // }
+          }
+          else if (check[1] == 'minus') {
+            if (check[2] == 'app') {
+              this.dataService.UpdateAppointmentTotal(0, 0);
             }
+          }
         } else {
           this.receivedMessages.push({ message: parsedMessage, timestamp: new Date() });
           if (!this.chatContainerVisible) {
@@ -322,7 +271,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (this.messageContent.trim() !== '' && sessionStorage.getItem('sub-id') != null && sessionStorage.getItem('username') != null) {
       this.messageBody = {
         action: "sendMessage",
-        message: `{"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}`
+        message: {"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}
       };
 
       this.webSocketService.sendMessage(JSON.stringify(this.messageBody));

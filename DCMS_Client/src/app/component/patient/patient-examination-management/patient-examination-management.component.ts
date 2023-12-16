@@ -108,7 +108,7 @@ export class PatientExaminationManagementComponent implements OnInit {
         });
 
         // Đồng bộ danh sách phòng chờ
-        // this.waitingRoomService.updateData(this.exRooms);
+         this.waitingRoomService.updateData(this.exRooms);
 
         // Thống kê trên navbar
         // this.realTimeWaiting = [...this.exRooms].filter((waitingRoom:any) => waitingRoom.status == 2);

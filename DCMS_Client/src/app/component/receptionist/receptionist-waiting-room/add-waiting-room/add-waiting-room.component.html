@@ -20,9 +20,10 @@
             </div>
             <div class="col-6">
               <div class="form-group mt-2">
-                <label>Loại điều trị <span class="required">*</span></label>
+                <label>Loại điều trị</label>
                 <select [(ngModel)]="POST_WAITTINGROOM.produce_id" (change)="onProcedureChange($event)"
                   class="form-select input-custom float-end" aria-label="Default select example">
+                  <option value="">Loại điều trị</option>
                   <option *ngFor="let a of listGroupService" [value]="a.medical_procedure_group_id">{{a.name}}</option>
                 </select>
                 <div *ngIf="isSubmitted" class="alert-danger-custom" style="color:#FF0000FF;">
@@ -180,7 +181,7 @@
         <div class="button-conf float-end">
           <button type="button" class="btn btn-cancel" data-bs-dismiss="modal" id="cancel-add-waiting">Quay lại</button>
           <button type="button" class="btn button-timekeeping" (click)="onPostWaitingRoom()">
-            <i class="bi bi-plus-circle"></i> Thêm mới hàng chờ</button>
+            <i class="bi bi-floppy2"></i> Lưu</button>
         </div>
       </div>
     </div>

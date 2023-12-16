@@ -40,7 +40,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
   dataStorage: string = '';
   intervalId: any;
   roleId: any;
-
+  notificationSound = new Audio('assets/Notification-13.mp3');
   NEW: string = "new";
   public dataArray: any[] = [];
 
@@ -67,7 +67,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
   }
 
   notification = {
-    status: '1', 
+    status: '1',
     content: {
       epoch: '',
       produce_id: '',
@@ -373,7 +373,10 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
   stopClick(event: Event) {
     event.stopPropagation();
   }
-  details(id: any) {
+  details(id: any, reason:any) {
+    if (reason != '' || reason != null){
+      sessionStorage.setItem('examination_reason', reason);
+    }
     this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', id])
   }
   signOut() {
@@ -407,9 +410,11 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
 
     }
   }
-
+  notificationSounds() {
+    this.notificationSound.play().catch(error => console.error('Error playing sound:', error));
+  }
   sendNotification(epoch:any, wtr:any) {
-
+    this.notificationSounds();
     console.log("check: ",epoch);
     console.log("")
     let a = {

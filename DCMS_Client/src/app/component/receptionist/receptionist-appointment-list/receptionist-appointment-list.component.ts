@@ -621,7 +621,10 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     } else
       return phoneNumber;
   }
-  details(id: any) {
+  details(id: any, reason:any) {
+    if (reason != '' || reason != null){
+      sessionStorage.setItem('examination_reason', reason);
+    }
     this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', id])
   }
 }
