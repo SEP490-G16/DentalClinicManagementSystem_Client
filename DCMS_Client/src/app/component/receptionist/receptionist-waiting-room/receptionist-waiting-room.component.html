@@ -55,7 +55,8 @@
             <ng-container *ngIf="roleId.includes('3') || roleId.includes('1')">
               <td (click)="stopClick($event)">
                 <select class="text-center status-selector" [(ngModel)]="wtr.status"
-                  (change)="onPutStatus(wtr, wtr.epoch)" [ngStyle]="{'color': selectedColor}" *ngIf="wtr.status == 1 || wtr.status == 2">
+                  (change)="onPutStatus(wtr, wtr.epoch)" [ngStyle]="{'color': selectedColor}"
+                  *ngIf="wtr.status == 1 || wtr.status == 2">
                   <ng-container *ngIf="wtr.status == 1">
                     <option value="1" class="status-option waiting">Đang chờ</option>
                     <option value="2" class="status-option in-progress">Đang khám</option>
@@ -66,28 +67,35 @@
                     <option value="3" class="status-option completed">Khám xong</option>
                     <option value="4" class="status-option remove">Xóa hàng chờ</option>
                   </ng-container>
-<!--                  <ng-container *ngIf="wtr.status == 3">-->
-<!--                    <option value="3" class="status-option completed">Khám xong</option>-->
-<!--                    <option value="4" class="status-option remove">Xóa hàng chờ</option>-->
-<!--                  </ng-container>-->
+                  <!--                  <ng-container *ngIf="wtr.status == 3">-->
+                  <!--                    <option value="3" class="status-option completed">Khám xong</option>-->
+                  <!--                    <option value="4" class="status-option remove">Xóa hàng chờ</option>-->
+                  <!--                  </ng-container>-->
                 </select>
                 <ng-container *ngIf="wtr.status == 3">
                   <b style="color: green;">Khám xong</b>
                 </ng-container>
               </td>
             </ng-container>
+
             <ng-container *ngIf="roleId.includes('2') || roleId.includes('4') || roleId.includes('5')">
-              <td>
+              <td (click)="stopClick($event)">
                 <select class="text-center status-selector" [(ngModel)]="wtr.status"
-                  (change)="onPutStatus(wtr, wtr.epoch)" [ngStyle]="{'color': selectedColor}">
+                  (change)="onPutStatus(wtr, wtr.epoch)" [ngStyle]="{'color': selectedColor}"
+                  *ngIf="wtr.status == 1 || wtr.status == 2"
+                  >
+                  <ng-container *ngIf="wtr.status == 1">
+                    <option value="1" class="status-option waiting">Đang chờ</option>
+                    <option value="2" class="status-option in-progress">Đang khám</option>
+                  </ng-container>
                   <ng-container *ngIf="wtr.status == 2">
                     <option value="2" class="status-option in-progress">Đang khám</option>
                     <option value="3" class="status-option completed">Khám xong</option>
                   </ng-container>
-                  <ng-container *ngIf="wtr.status == 3">
-                    <option value="3" class="status-option completed">Khám xong</option>
-                  </ng-container>
                 </select>
+                <ng-container *ngIf="wtr.status == 3">
+                  <b style="color: green;">Khám xong</b>
+                </ng-container>
               </td>
             </ng-container>
             <!-- <td (click)="stopClick($event)">
@@ -142,6 +150,5 @@
     </ng-template>
   </div>
 </div>
-<app-add-waiting-room
-  (filteredWaitingRoomData)="filteredWaitingRoomData"></app-add-waiting-room>
+<app-add-waiting-room (filteredWaitingRoomData)="filteredWaitingRoomData"></app-add-waiting-room>
 <app-popup-add-waitingroom-new-patient></app-popup-add-waitingroom-new-patient>

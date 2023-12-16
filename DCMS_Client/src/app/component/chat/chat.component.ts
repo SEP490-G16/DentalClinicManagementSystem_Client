@@ -23,7 +23,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   messageSound = new Audio('assets/Messenger_Facebook.mp3');
   messageBody = {
     action: '',
-    message: {"sub-id":"", "sender":"", "avt": "", "content":""}
+    message: `{"sub-id":"", "sender":"", "avt": "", "content":""}`
   }
   POST_WAITTINGROOM = {
     epoch: '',
@@ -41,10 +41,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   isHovered = true;
   unreadMessagesCount = 0;
   constructor(private webSocketService: WebsocketService,
-              private waitingRoomService: ReceptionistWaitingRoomService,
-              private location: Location,
-              private dataService: DataService,
-              private patientService: PatientService) {
+    private waitingRoomService: ReceptionistWaitingRoomService,
+    private location: Location,
+    private dataService: DataService,
+    private patientService: PatientService) {
   }
 
   ngAfterViewChecked(): void {
@@ -129,6 +129,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                   status_value: '2',
                   appointment_id: pa[8],
                   appointment_epoch: pa[9],
+                  fk: pa[10],
+                  sk: pa[11]
                 }
               }
               console.log("check noti:", notification);
@@ -271,7 +273,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (this.messageContent.trim() !== '' && sessionStorage.getItem('sub-id') != null && sessionStorage.getItem('username') != null) {
       this.messageBody = {
         action: "sendMessage",
-        message: {"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}
+        message: `{"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}`
       };
 
       this.webSocketService.sendMessage(JSON.stringify(this.messageBody));

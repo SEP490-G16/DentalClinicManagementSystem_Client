@@ -123,9 +123,6 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
         this.listPatientId = this.waitingRoomData.map((item: any) => item.patient_id);
         localStorage.setItem('listPatientId', JSON.stringify(this.listPatientId));
         this.CheckRealTimeWaiting = [...this.waitingRoomData];
-        if (this.roleId.includes('2') || this.roleId.includes('4') || this.roleId.includes('5')) {
-          this.CheckRealTimeWaiting = this.CheckRealTimeWaiting.filter((item) => item.status.includes('2'));
-        }
         console.log("Check realtime waiting: ", this.CheckRealTimeWaiting)
         this.waitingRoomService.updateData(this.CheckRealTimeWaiting);
         this.dataService.UpdateWaitingRoomTotal(3, this.CheckRealTimeWaiting.length);
