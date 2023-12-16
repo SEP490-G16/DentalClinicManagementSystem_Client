@@ -4,13 +4,13 @@
 </div> -->
 <div class="sep-recent-orders">
   <div class="row mt-4 mb-4">
-    <div class="col-6">
-      <button class="btn button-timekeeping" style="margin-right: 30px;" data-bs-toggle="modal"
-        data-bs-target="#wrModal"><i class="bi bi-plus-circle"></i>
-        Thêm bệnh nhân đợi cũ</button>
-      <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#wrNewModal"><i
-          class="bi bi-plus-circle"></i>
-        Thêm bệnh nhân đợi mới</button>
+    <div class="col-6 equal-width-buttons">
+      <button class="btn button-add-waitting" data-bs-toggle="modal" data-bs-target="#wrModal">
+        <i class="bi bi-plus-circle"></i> Thêm bệnh nhân đợi cũ
+      </button>
+      <button class="btn button-add-waitting" data-bs-toggle="modal" data-bs-target="#wrNewModal">
+        <i class="bi bi-plus-circle"></i> Thêm bệnh nhân đợi mới
+      </button>
     </div>
     <div class="col-6">
       <select class="form-select input-custom float-end" aria-label="Default select example" [(ngModel)]="procedure"
@@ -24,7 +24,7 @@
     <table id="myTable" *ngIf="filteredWaitingRoomData.length > 0,else noDataMessage">
       <thead class="sticky-thead">
         <tr>
-          <th style="width: 50px">STT</th>
+          <th style="width: 5%">STT</th>
           <th>Thời gian</th>
           <th>Mã bệnh nhân</th>
           <th>Tên bệnh nhân</th>

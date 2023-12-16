@@ -40,6 +40,11 @@ export class PatientExaminationManagementComponent implements OnInit {
 
   selectedColor: string = "#000"
 
+  //Socket
+  // Socket_Patient_Id: any = "";
+  // realTimeWaiting: any[] = [];
+  // realTimeExaminated:any [] = []
+  // messageContent: string = `CheckRealTime,${this.Socket_Patient_Id}`;
   //Socke
   CheckRealTimeWaiting: any[] = [];
   messageContent: string = '';
@@ -53,7 +58,8 @@ export class PatientExaminationManagementComponent implements OnInit {
     private toastr: ToastrService,
     private webSocketService: WebsocketService,
     private medicaoProcedureGroupService: MedicalProcedureGroupService,
-    private sendMessageSocket: SendMessageSocket
+    private sendMessageSocket: SendMessageSocket,
+    private dataService:DataService
   ) { }
 
   ngOnInit(): void {
@@ -88,6 +94,7 @@ export class PatientExaminationManagementComponent implements OnInit {
   getWaitingRoomData(exRoomDetail: any) {
     return this.waitingRoomService.getWaitingRooms()
       .subscribe(data => {
+        // this.exRooms = data.filter((waittingRoom: any) => waittingRoom.status == 2 || waittingRoom.status == 3);
         this.exRooms = data;
 
         this.exRooms.forEach((exRoom: any) => {
@@ -99,6 +106,30 @@ export class PatientExaminationManagementComponent implements OnInit {
           const orderB = statusOrder[exRoomAfter.status] ?? Number.MAX_VALUE;
           return orderA - orderB;
         });
+
+        // Đồng bộ danh sách phòng chờ
+        // this.waitingRoomService.updateData(this.exRooms);
+
+        // Thống kê trên navbar
+        // this.realTimeWaiting = [...this.exRooms].filter((waitingRoom:any) => waitingRoom.status == 2);
+        // this.realTimeExaminated = [...this.exRooms].filter((waitingRoom:any) => waitingRoom.status == 3);
+        // this.dataService.UpdateWaitingRoomTotal(3, this.realTimeWaiting.length);
+
+        // Cache
+      //   this.listPatientId = this.exRooms.map((item: any) => item.patient_id);
+      //   localStorage.setItem('listPatientId', JSON.stringify(this.listPatientId));
+      //   localStorage.setItem("ListPatientWaiting", JSON.stringify(this.realTimeWaiting));
+
+      //   if (exRoomDetail) {
+      //     this.toastr.success('Chỉnh sửa hàng chờ thành công');
+      //     if (exRoomDetail.status == 3) {
+      //       this.router.navigate(['/benhnhan/danhsach/tab/thanhtoan', exRoomDetail.patient_id]);
+      //     }
+      //   }
+      // }),
+      // catchError(error => {
+      //   ResponseHandler.HANDLE_HTTP_STATUS(this.waitingRoomService.apiUrl + "/waiting-room", error);
+      //   return throwError(error);
       })
   }
 

@@ -208,3 +208,57 @@ input[type="time"] {
     width: 100%;
   }
 }
+
+.mac-form-schedule {
+  display: none;
+}
+
+/* Màn hình nhỏ hơn 13 inch */
+@media screen and (max-width: 1366px) {
+  .form-schedule {
+    display: none;
+  }
+
+  .mac-form-schedule {
+    display: block;
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    height: fit-content;
+    z-index: 10;
+  }
+
+  .mac-form-schedule h3 {
+    color: #5D3FD3;
+    margin-bottom: 15px;
+  }
+
+  .mac-form-schedule label {
+    font-weight: 600;
+    color: #333;
+    margin-right: 10px;
+  }
+
+  .mac-form-schedule input[type="checkbox"] {
+    margin-right: 5px;
+  }
+
+  .mac-form-schedule button {
+    background-color: #5D3FD3;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .mac-form-scheduleschedule button:hover {
+    background-color: #4c31b0;
+  }
+}

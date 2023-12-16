@@ -42,7 +42,31 @@
   font-weight: bold;
   outline: 0px;
   padding: 10px 20px;
+
 }
+
+.equal-size-buttons {
+  display: flex;
+  gap: 10px;
+  flex-direction: row;
+}
+
+.equal-size-buttons .button-wrapper {
+  flex: 1; /* Mỗi wrapper chiếm không gian bằng nhau */
+  margin-bottom: 10px; /* Tạo khoảng cách giữa các nút */
+}
+
+.equal-size-buttons .button-wrapper:last-child {
+  margin-bottom: 0; /* Không có margin cho nút cuối cùng */
+}
+
+.equal-size-buttons .button-add {
+  width: 100%; /* Đảm bảo rằng nút chiếm toàn bộ chiều rộng của wrapper */
+  text-align: center;
+  padding: 10px 20px; /* Thêm padding để nút rộng ra */
+  white-space: normal; /* Đảm bảo nội dung không bị tràn ra ngoài */
+}
+
 
 .button-timekeeping {
   font-family: "Poppins", sans-serif;

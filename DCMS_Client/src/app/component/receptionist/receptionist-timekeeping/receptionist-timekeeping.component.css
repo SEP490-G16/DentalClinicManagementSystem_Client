@@ -127,26 +127,13 @@ input[type="time"] {
   box-sizing: border-box;
 }
 
-/* Điều chỉnh chiều cao của các hàng trong bảng nếu cần */
-td {
-  height: auto;
-  /* Cho phép chiều cao tự điều chỉnh */
-  padding: 4px;
-  /* Giữ padding nhỏ để tiết kiệm không gian */
-  white-space: nowrap;
-  /* Ngăn chặn xuống dòng */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  /* Hiển thị dấu ba chấm nếu text quá dài */
-}
-
-
 td {
   padding: 4px;
   overflow: hidden;
   text-align: center;
+  white-space: nowrap;
   vertical-align: middle;
-  width: auto;
+  text-overflow: ellipsis;
 }
 
 /* Thêm vào CSS của bạn */
@@ -155,32 +142,6 @@ td:first-child {
   /* Cho phép nội dung xuống dòng */
   word-wrap: break-word;
   /* Đảm bảo từ ngắt đúng cách nếu không vừa */
-}
-
-
-@media screen and (max-width: 1200px) {
-  .recent-orders {
-    width: 94%;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    margin: 2rem 0 0 0.8rem;
-  }
-}
-
-@media screen and (max-width: 768px) {
-
-  .recent-orders {
-    position: relative;
-    margin: 3rem 0 0 0;
-    width: 100%;
-  }
-
-  table {
-    width: 100%;
-    margin: 0;
-  }
-
 }
 
 .page-title.active-link {
@@ -226,3 +187,27 @@ td:first-child {
 .link-tab .theo-doi {
   margin-left: 1%;
 }
+
+/* Màn hình nhỏ hơn 13 inch */
+@media screen and (max-width: 1366px) {
+
+  .table-container table {
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .table-container th, .table-container td {
+    width: 150px; /* Set a fixed width for each column */
+    overflow: hidden; /* Hide content that overflows the fixed width */
+  }
+
+  .button-timekeeping {
+    font-size: 0.7em;
+  }
+
+  input[type="time"] {
+    font-size: 43%;
+  }
+}
+
+

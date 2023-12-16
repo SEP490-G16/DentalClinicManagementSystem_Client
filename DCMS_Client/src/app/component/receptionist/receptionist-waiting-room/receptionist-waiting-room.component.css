@@ -6,6 +6,18 @@
   margin-right: 10px;
 }
 
+.button-add-waitting {
+  font-family: "Poppins", sans-serif;
+  background: #664FC3;
+  text-align: center;
+  cursor: pointer;
+  border: 0px solid white;
+  color: white;
+  font-weight: bold;
+  outline: 0px;
+  padding: 10px 20px;
+}
+
 .button-timekeeping {
   font-family: "Poppins", sans-serif;
   background: #664FC3;
@@ -17,6 +29,23 @@
   outline: 0px;
   padding: 10px 20px;
 }
+
+.equal-width-buttons {
+  display: flex;
+  justify-content: space-between; /* Phân chia không gian đều giữa các nút */
+}
+
+.equal-width-buttons .button-add-waitting {
+  flex: 1; /* Mỗi nút chiếm không gian bằng nhau */
+  margin-right: 15px; /* Khoảng cách giữa các nút */
+  text-align: center;
+}
+
+.equal-width-buttons .button-add-waitting:last-child {
+  margin-right: 0; /* Không có margin bên phải cho nút cuối cùng */
+}
+
+
 .status-selector {
   padding: 10px 10px;
   border: 2px solid #ccc;
@@ -136,6 +165,16 @@
 
 @media screen and (max-width: 1366px) {
   .button-timekeeping {
-    font-size: 12px;
+    font-size: 10px;
+  }
+
+  .button-add-waitting {
+    font-size: 13px;
+    box-sizing: border-box;
+  }
+
+  .status-selector {
+    width: 100%;
+    box-sizing: border-box;
   }
 }
