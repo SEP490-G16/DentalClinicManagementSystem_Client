@@ -32,10 +32,10 @@
           <th>Lý do khám</th>
           <th>Loại điều trị</th>
           <th>Trạng thái</th>
-          <th></th>
-          <ng-container *ngIf="roleId.includes('3') || roleId.includes('1')">
-            <th>Thanh toán</th>
-          </ng-container>
+          <!-- <th></th> -->
+          <!-- <ng-container *ngIf="roleId.includes('3') || roleId.includes('1')"> -->
+          <th>Hành động</th>
+          <!-- </ng-container> -->
         </tr>
       </thead>
       <tbody>
@@ -51,7 +51,7 @@
               "Cũ" : "Dữ liệu trước"}}</td>
             <td class="truncate" data-bs-toggle="tooltip" title="{{wtr.reason}}">{{wtr.reason }}
             </td>
-            <td >{{ wtr.produce_name }}</td>
+            <td>{{ wtr.produce_name }}</td>
             <ng-container *ngIf="roleId.includes('3') || roleId.includes('1')">
               <td (click)="stopClick($event)">
                 <select class="text-center status-selector" [(ngModel)]="wtr.status"
@@ -75,8 +75,8 @@
             </ng-container>
             <ng-container *ngIf="roleId.includes('2') || roleId.includes('4') || roleId.includes('5')">
               <td>
-                <select class="text-center status-selector" [(ngModel)]="wtr.status" (change)="onPutStatus(wtr, wtr.epoch)"
-                  [ngStyle]="{'color': selectedColor}">
+                <select class="text-center status-selector" [(ngModel)]="wtr.status"
+                  (change)="onPutStatus(wtr, wtr.epoch)" [ngStyle]="{'color': selectedColor}">
                   <ng-container *ngIf="wtr.status == 2">
                     <option value="2" class="status-option in-progress">Đang khám</option>
                     <option value="3" class="status-option completed">Khám xong</option>
@@ -87,16 +87,33 @@
                 </select>
               </td>
             </ng-container>
-            <td (click)="stopClick($event)">
-              <button class="btn button-timekeeping" (click)="openNotification(wtr.status)">
+            <!-- <td (click)="stopClick($event)">
+              <button class="btn button-timekeeping" (click)="sendNotification(wtr.epoch, wtr)">
                 <i class="bi bi-bell"></i></button>
-            </td>
-            <ng-container *ngIf="roleId.includes('3') || roleId.includes('1')">
-              <td>
-                <button class="btn button-timekeeping"
-                  (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/',wtr.patient_id)">
-                  Thanh toán</button>
-              </td>
+            </td> -->
+            <ng-container
+              *ngIf="roleId.includes('3') || roleId.includes('1') || roleId.includes('4') || roleId.includes('5') || roleId.includes('2')">
+              <ng-container *ngIf="wtr.status == 1">
+                <td>
+                  <button class="btn button-timekeeping" (click)="sendNotification(wtr.epoch, wtr)">
+                    <i class="bi bi-bell"></i></button>
+                </td>
+              </ng-container>
+              <ng-container *ngIf="wtr.status == 2">
+                <td></td>
+              </ng-container>
+              <ng-container *ngIf="wtr.status == 3">
+                <ng-container *ngIf="roleId.includes('3') || roleId.includes('1')">
+                  <td>
+                    <button class="btn button-timekeeping"
+                      (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/',wtr.patient_id)">
+                      Thanh toán</button>
+                  </td>
+                </ng-container>
+                <ng-container>
+                  <td></td>
+                </ng-container>
+              </ng-container>
             </ng-container>
           </ng-container>
         </tr>
@@ -122,5 +139,6 @@
     </ng-template>
   </div>
 </div>
-<app-add-waiting-room (newWaitingRoom)="onNewWaitingRoomAdded($event)" (filteredWaitingRoomData)="filteredWaitingRoomData"></app-add-waiting-room>
+<app-add-waiting-room (newWaitingRoom)="onNewWaitingRoomAdded($event)"
+  (filteredWaitingRoomData)="filteredWaitingRoomData"></app-add-waiting-room>
 <app-popup-add-waitingroom-new-patient></app-popup-add-waitingroom-new-patient>

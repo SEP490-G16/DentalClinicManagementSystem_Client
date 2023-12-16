@@ -4,7 +4,7 @@ import { WebsocketService } from "../../service/Chat/websocket.service";
 import { ResponseHandler } from "../utils/libs/ResponseHandler";
 import { ReceptionistWaitingRoomService } from "../../service/ReceptionistService/receptionist-waitingroom.service";
 import * as moment from "moment/moment";
-import { Location } from '@angular/common';
+import { JsonPipe, Location } from '@angular/common';
 import { CheckRealTimeService } from 'src/app/service/CheckRealTime/CheckRealTime.service';
 import { IPostWaitingRoom } from 'src/app/model/IWaitingRoom';
 import { DataService } from '../shared/services/DataService.service';
@@ -84,29 +84,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         count++;
         const parsedMessage = JSON.parse(message);
         console.log("check content:", parsedMessage.content);
-        // var result = localStorage.getItem('UpdatePlus@@@');
-        // localStorage.removeItem('UpdatePlus@@@');
-        // var checkPlus;
-        // if (result != null) {
-        //   checkPlus = result.split(',');
-        //   if (checkPlus[0] == 'UpdateAnalysesTotal@@@') {
-        //     if (checkPlus[1] == 'plus') {
-        //       if (checkPlus[2] == 'wtr') {
-        //         this.dataService.UpdateWaitingRoomTotal(1, 0);
-        //       } else if (checkPlus[2] == 'app') {
-        //         this.dataService.UpdateAppointmentTotal(1, 0);
-        //       } else if (checkPlus[2] == 'pat') {
-        //         this.dataService.UpdatePatientTotal(1, 0);
-        //       } else if (checkPlus[2] == 'wtr1') {
-        //         this.dataService.UpdatePatientExaminate(1, 0);
-        //       } else if (checkPlus[2] == 'wtr2') {
-        //         this.dataService.UpdatePatientExaminated(1, 0);
-        //       }
-        //     }
-        //   }
-        // }
         const check = parsedMessage.content.split(',');
-        //var checkPa = true;
         if (check[0] == 'CheckRealTimeWaitingRoom@@@') {
           var shouldBreakFor = false;
           let postInfo;
@@ -131,28 +109,76 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
           this.POST_WAITTINGROOM.appointment_epoch = postInfo[8];
           this.POST_WAITTINGROOM.patient_created_date = postInfo[9];
           this.POST_WAITTINGROOM.date = this.timestampToTime(postInfo[0]);
-          const currentUrl = this.location.path();
 
-          if (this.POST_WAITTINGROOM.reason == "pa") {
-            let patientOb = {
-              patient_id: this.POST_WAITTINGROOM.epoch,
-              patient_name: this.POST_WAITTINGROOM.produce_id,
-              date_of_birth: "",
-              gender: 1,
-              phone_number: this.POST_WAITTINGROOM.produce_name,
-              full_medical_history: "",
-              dental_medical_history: "",
-              email: "",
-              address: this.POST_WAITTINGROOM.patient_id,
-              description: "",
-              profile_image: null,
-              active: 1,
-              created_date: this.POST_WAITTINGROOM.patient_name
+          if (this.POST_WAITTINGROOM.epoch == 'notification') {
+            console.log('Check notification');
+            this.POST_WAITTINGROOM.epoch = '';
+            var pa;
+            if (check[2] != null && check[2] != undefined) {
+              const pa = check[2].split(' - ');
+              let notification = {
+                status: '2', 
+                content: {
+                  epoch: pa[0],
+                  produce_id: pa[1],
+                  produce_name: pa[2],
+                  patient_id: pa[3],
+                  patient_name: pa[4],
+                  reason: pa[5],
+                  patient_created_date: pa[6],
+                  status_value: '2',
+                  appointment_id: pa[8],
+                  appointment_epoch: pa[9],
+                }
+              }
+              console.log("check noti:", notification);
+              localStorage.removeItem('pawtr');
+              this.waitingRoomService.updateAnalysesData(notification);
+            } else {
+              var result = localStorage.getItem('pawtr');
+              if (result != null) {
+                pa = JSON.parse(result);
+                let notification = {
+                  status: '2', 
+                  content: {
+                    epoch: pa.epoch,
+                    produce_id: pa.produce_id,
+                    produce_name: pa.produce_name,
+                    patient_id: pa.patient_id,
+                    patient_name: pa.patient_name,
+                    reason: pa.reason,
+                    patient_created_date: pa.patient_created_date,
+                    status_value: '2',
+                    appointment_id: pa.appointment_id,
+                    appointment_epoch: pa.appointment_epoch,
+                  }
+                }
+                console.log("check noti:", notification);
+                localStorage.removeItem('pawtr');
+                this.waitingRoomService.updateAnalysesData(notification);
+              }
             }
-            this.POST_WAITTINGROOM.status = "";
-            this.searchPatientsList.push(patientOb);
-            this.patientService.updateData(this.searchPatientsList);
           }
+          // if (this.POST_WAITTINGROOM.reason == "pa") {
+          //   let patientOb = {
+          //     patient_id: this.POST_WAITTINGROOM.epoch,
+          //     patient_name: this.POST_WAITTINGROOM.produce_id,
+          //     date_of_birth: "",
+          //     gender: 1,
+          //     phone_number: this.POST_WAITTINGROOM.produce_name,
+          //     full_medical_history: "",
+          //     dental_medical_history: "",
+          //     email: "",
+          //     address: this.POST_WAITTINGROOM.patient_id,
+          //     description: "",
+          //     profile_image: null,
+          //     active: 1,
+          //     created_date: this.POST_WAITTINGROOM.patient_name
+          //   }
+          //   this.POST_WAITTINGROOM.status = "";
+          //   this.searchPatientsList.push(patientOb);
+          //   this.patientService.updateData(this.searchPatientsList);
+          // }
           // if (this.filteredWaitingRoomData.length == 0 && this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_name != "" && this.POST_WAITTINGROOM.patient_name != null
           //   && this.POST_WAITTINGROOM.patient_name != null && this.POST_WAITTINGROOM.patient_created_date != "" && this.POST_WAITTINGROOM.patient_created_date != null
           //   && this.POST_WAITTINGROOM.patient_created_date != undefined) {
@@ -195,12 +221,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 }
               }
             } else {
-              // if (shouldBreakFor == false && this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_name != null
-              //   && this.POST_WAITTINGROOM.patient_name != undefined) {
-                console.log("có vô được add")
               if (this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_name != null
                 && this.POST_WAITTINGROOM.patient_name != undefined) {
-                  console.log("đã add");
                 this.dataService.UpdateWaitingRoomTotal(1, 0);
                 this.filteredWaitingRoomData.push(this.POST_WAITTINGROOM);
                 this.POST_WAITTINGROOM = {
@@ -241,7 +263,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             this.waitingRoomService.updateData(this.filteredWaitingRoomData);
             return;
           }
-          //}
           const statusOrder: { [key: number]: number } = { 2: 1, 3: 2, 1: 3, 4: 4 };
           if (this.filteredWaitingRoomData.length > 0) {
             this.filteredWaitingRoomData.sort((a: any, b: any) => {
@@ -251,35 +272,33 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             });
             this.waitingRoomService.updateData(this.filteredWaitingRoomData);
           }
-          // else {
-          //   this.waitingRoomService.updateData(this.filteredWaitingRoomData);
-          // }
-          // }
-          // } else if (check[0] == 'UpdateAnalysesTotal@@@') {
-          //   if (check[1] == 'plus') {
-          //     if (check[2] == 'wtr') {
-          //       //this.dataService.UpdateWaitingRoomTotal(1, 0);
-          //     } else if (check[2] == 'app') {
-          //       this.dataService.UpdateAppointmentTotal(1, 0);
-          //     } else if (check[2] == 'pat') {
-          //       this.dataService.UpdatePatientTotal(1, 0);
-          //     } else if (check[2] == 'wtr1') {
-          //       this.dataService.UpdatePatientExaminate(1, 0);
-          //     } else if (check[2] == 'wtr2') {
-          //       this.dataService.UpdatePatientExaminated(1, 0);
-          //     }
-          //   }
-          //   else if (check[1] == 'minus') {
-          //     if (check[2] == 'wtr') {
-          //       //this.dataService.UpdateWaitingRoomTotal(0, 0);
-          //     } else if (check[2] == 'app') {
-          //       this.dataService.UpdateAppointmentTotal(0, 0);
-          //     } else if (check[2] == 'pat') {
-          //       this.dataService.UpdatePatientTotal(0, 0);
-          //     } else if (check[2] == 'wtr1') {
-          //       this.dataService.UpdatePatientExaminate(0, 0);
-          //     }
-          //   }
+          } else if (check[0] == 'UpdateAnalysesTotal@@@') {
+            if (check[1] == 'plus') {
+              if (check[2] == 'app') {
+                this.dataService.UpdateAppointmentTotal(1, 0);
+              } 
+              // else if (check[2] == 'app') {
+              //   this.dataService.UpdateAppointmentTotal(1, 0);
+              // } else if (check[2] == 'pat') {
+              //   this.dataService.UpdatePatientTotal(1, 0);
+              // } else if (check[2] == 'wtr1') {
+              //   this.dataService.UpdatePatientExaminate(1, 0);
+              // } else if (check[2] == 'wtr2') {
+              //   this.dataService.UpdatePatientExaminated(1, 0);
+              // }
+            }
+            else if (check[1] == 'minus') {
+              if (check[2] == 'app') {
+                this.dataService.UpdateAppointmentTotal(0, 0);
+              } 
+              // else if (check[2] == 'app') {
+              //   this.dataService.UpdateAppointmentTotal(0, 0);
+              // } else if (check[2] == 'pat') {
+              //   this.dataService.UpdatePatientTotal(0, 0);
+              // } else if (check[2] == 'wtr1') {
+              //   this.dataService.UpdatePatientExaminate(0, 0);
+              // }
+            }
         } else {
           this.receivedMessages.push({ message: parsedMessage, timestamp: new Date() });
           if (!this.chatContainerVisible) {

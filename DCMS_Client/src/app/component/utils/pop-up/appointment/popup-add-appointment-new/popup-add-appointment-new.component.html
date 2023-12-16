@@ -146,7 +146,7 @@
               <input type="text" class="form-control" [(ngModel)]="reason">
             </div>
                   <div class="form-group mt-2">
-              <label for="treatment">Loại điều trị <span class="required">*</span></label>
+              <label for="treatment">Loại điều trị</label>
               <select class="form-control" id="treatment" [(ngModel)]="procedure">
                 <option selected value="1">Phân loại điều trị</option>
                 <option *ngFor="let a of listGroupService" value={{a.medical_procedure_group_id}}>{{a.name}}</option>
