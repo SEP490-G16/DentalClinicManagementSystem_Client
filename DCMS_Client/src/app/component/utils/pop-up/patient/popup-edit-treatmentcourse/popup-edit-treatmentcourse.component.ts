@@ -12,6 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MaterialService } from 'src/app/service/MaterialService/material.service';
 import { LaboService } from 'src/app/service/LaboService/Labo.service';
 import { MedicalSupplyService } from 'src/app/service/MedicalSupplyService/medical-supply.service';
+import * as moment from "moment-timezone";
 
 @Component({
   selector: 'app-popup-edit-treatmentcourse',

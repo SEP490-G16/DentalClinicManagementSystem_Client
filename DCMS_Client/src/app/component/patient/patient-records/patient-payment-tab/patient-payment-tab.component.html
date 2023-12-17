@@ -68,7 +68,7 @@
         <div class="payment-container" *ngFor="let report of Material_Usage_Report">
           <div class="payment-header">
             <a class="schedule-title" title="Xem thông tin thanh toán"
-              (click)="toggleDetails(report.tc_data.tc_treatment_course_id)">Đợt khám:
+              (click)="toggleDetails(report.tc_data.tc_treatment_course_id)">Ngày {{report.tc_data.tc_created_date | date: 'dd/MM/yyyy'}}
               {{report.tc_data.tc_name}}</a>
             <div class="payment-summary">
               <span class="total-amount">Tổng tiền: {{ report.total | currency:'VND'}}</span>
