@@ -1,6 +1,6 @@
 <div class="sep-recent-orders">
   <div class="link-tab">
-    <ng-container *ngIf="roleId.includes('1') || roleId.includes('3')">
+    <ng-container *ngIf="roleId.includes('1') || roleId.includes('3') || roleId.includes('5')">
       <div class="cham-cong">
         <a routerLink="/cham-cong" routerLinkActive="active-link" class="page-title">Chấm công</a>
       </div>
@@ -56,7 +56,7 @@
           aria-label="Default select example" [(ngModel)]="selectedFilter" (change)="filterStaff()">
           <option value="" selected>Tất cả nhân viên</option>
           <option value="2">Bác sĩ</option>
-          <option value="5">Y tá trưởng</option>
+          <option value="5">Điều dưỡng trưởng</option>
           <option value="4">Điều dưỡng</option>
           <option value="3">Lễ tân</option>
         </select>

@@ -184,7 +184,7 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
         this.roleName = 'Điều dưỡng';
       }
       else if (this.roleId.includes('5')) {
-        this.roleName = 'Y tá trưởng';
+        this.roleName = 'Điều dưỡng trưởng';
       }
     }
 
@@ -202,8 +202,22 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
       const listWatingRoom = data;
       var count = 0;
       var count1 = 0;
-      this.analyses.total_waiting_room = parseInt(data.length);
+      //this.analyses.total_waiting_room = parseInt(data.length);
+      // listWatingRoom.forEach((item: any) => {
+      //   if (item.status == 2) {
+      //     count++;
+      //   }
+      //   if (item.status == 3) {
+      //     count1++;
+      //   }
+      // })
+      // this.analyses.total_patient_examinate = count;
+      // this.analyses.total_patient_examinated = count1;
+      var count3 = 0;
       listWatingRoom.forEach((item: any) => {
+        if (item.status == 1) {
+          count3++;
+        }
         if (item.status == 2) {
           count++;
         }
@@ -211,6 +225,7 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
           count1++;
         }
       })
+      this.analyses.total_waiting_room = count3;
       this.analyses.total_patient_examinate = count;
       this.analyses.total_patient_examinated = count1;
     })
