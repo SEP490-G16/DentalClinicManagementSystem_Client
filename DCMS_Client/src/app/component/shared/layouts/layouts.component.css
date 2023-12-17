@@ -1,12 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&display=swap');
 
 .web-wrapper {
   --custom-color-primary: #507DBC;
   --custom-color-danger: #E56B6F;
   --custom-color-success: #48A9A6;
   --custom-color-warning: #ECA400;
-  --custom-color-white: #FFFFFF;
+  --custom-color-white: #ffffff;
+  --custom-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --primary-color: #0056b3;
+  /* Primary color for the brand */
+  --accent-color: #d9534f;
+  /* Accent color for emphasis */
+  --text-color-dark: #333;
+  /* Dark color for text */
+  --text-color-light: #f8f8f8;
+  /* Light color for backgrounds */
+  --transition-speed: 0.3s;
   --custom-color-info-dark: #324D67;
   --custom-color-dark: #273238;
   --custom-color-light: #B8C5D3;
@@ -19,7 +30,8 @@
 
   --custom-card-padding: .8rem;
   --custom-padding-1: 1.2rem;
-
+  --font-primary: 'Roboto', sans-serif;
+  --font-secondary: 'Lato', sans-serif;
   --custom-box-shadow: 0 2rem 3rem rgba(184, 197, 211, 0.5);
 
   /* Button colors */
@@ -62,16 +74,11 @@
   overflow-x: hidden;
   color: var(--custom-color-dark);
   background-color: #f6f6f9;
+  /* background-image: url('https://motionarray.imgix.net/preview-2081938-s0D5NLmWFnp4m5Tm-large.jpg?w=660&q=60&fit=max&auto=format'); */
 }
 
 a {
   color: var(--custom-color-dark);
-}
-
-img {
-  display: block;
-  width: 100%;
-  object-fit: cover;
 }
 
 h1 {
@@ -110,7 +117,7 @@ b {
 }
 
 .danger {
-  color: var(--custom-color-danger);
+  color: #5d48b1
 }
 
 .success {
@@ -127,10 +134,13 @@ b {
   margin: 0 auto;
   gap: 1.8rem;
   grid-template-columns: 15rem auto;
+  /* Sidebar width and main content */
 }
 
 aside {
   height: 95vh;
+  overflow-y: auto;
+  /* For scrolling if the content is longer than the viewport */
 }
 
 aside .sidebar {
@@ -140,10 +150,78 @@ aside .sidebar {
   box-shadow: var(--custom-box-shadow);
   border-radius: 15px;
   min-height: 97vh;
-  position: relative;
+  position: sticky;
   top: .9rem;
-  transition: all 0.3s ease;
+  transition: all var(--transition-speed) ease;
 }
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Giữ logo ở trung tâm */
+  flex-direction: column;
+  /* Chồng ảnh và văn bản theo chiều dọc */
+  padding: 1rem;
+  gap: 0.5rem;
+  /* Khoảng cách giữa logo và văn bản */
+  padding-bottom: 20%;
+
+}
+
+.logo p {
+  padding-left: 15%;
+  display: flex;
+  /* This will align the spans in a row */
+  white-space: nowrap;
+  /* Prevent the text from wrapping to a new line */
+  justify-content: center;
+  /* Center the text horizontally */
+  align-items: center;
+  /* Center the text vertically */
+  gap: 4px;
+  /* Adjust the gap between words as necessary */
+  color: #9DBAD5;
+  font-family: 'Rubik';
+}
+
+/* Assuming .clinic and .danger are classes for the respective <span> elements */
+.clinic,
+.danger {
+  display: inline;
+  /* Inline display to keep text in the same line */
+  font-weight: bold;
+  /* Bold for both parts of the text */
+  font-family: 'Dancing Script', cursive;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.logo img {
+  width: auto;
+  /* Cho phép logo mở rộng tự nhiên theo chiều cao */
+  max-width: 100%;
+  /* Cho phép logo mở rộng tối đa theo chiều rộng của phần tử chứa */
+  height: auto;
+  /* Duy trì tỷ lệ chiều rộng/chiều cao của logo */
+  min-width: 150px;
+  /* Đặt chiều rộng tối thiểu cho logo */
+  min-height: 50px;
+  /* Đặt chiều cao tối thiểu cho logo, có thể điều chỉnh nếu cần */
+  object-fit: contain;
+  /* Đảm bảo logo không bị biến dạng khi mở rộng */
+}
+
+
+.clinic {
+  color: var(--text-color-dark);
+  /* Dark color for clinic name */
+}
+
+.danger {
+  color: #6A5ACD;
+}
+
 
 main .analyse {
   display: grid;

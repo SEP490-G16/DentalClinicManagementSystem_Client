@@ -111,6 +111,7 @@ import { CustomReuseStrategy } from 'src/app/service/RouteReuseStrategy/route-re
 import { PatientExaminationManagementComponent } from '../patient/patient-examination-management/patient-examination-management.component';
 import { NumberToWordsPipe } from '../utils/libs/moneyPronounciation.pipe';
 import { CurrencyFormatDirective } from '../utils/libs/directive/thousandSeparator.directive';
+import { ConfirmAddTreatmentcourseComponent } from '../utils/pop-up/common/confirm-add-treatmentcourse/confirm-add-treatmentcourse.component';
 
 @NgModule({
   declarations: [
@@ -201,7 +202,8 @@ import { CurrencyFormatDirective } from '../utils/libs/directive/thousandSeparat
     SubmitOtpComponent,
     PatientExaminationManagementComponent,
     NumberToWordsPipe,
-    CurrencyFormatDirective
+    CurrencyFormatDirective,
+    ConfirmAddTreatmentcourseComponent
   ],
   imports: [
     CommonModule,

@@ -95,6 +95,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
 
     this.TreatmentCouseBody.lydo = examination_reason || "";
 
+    sessionStorage.removeItem("examination_reason");
 
     this.id = this.route.snapshot.params['id'];
     this.getTreatmentCourse();
@@ -335,7 +336,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
         if (this.Post_Procedure_Material_Usage.length > 0) {
           this.Post_Procedure_Material_Usage.forEach((item) => {
             item.treatment_course_id = res.treatment_course_id;
-            item.price = item.price * item.quantity
+            // item.price = item.price * item.quantity
             this.procedureMaterialService.postProcedureMaterialUsage(item)
               .subscribe((res) => {
                 this.toastr.success("Thêm Thủ thuật thành công");
@@ -371,12 +372,12 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
         const modalRef = this.modelService.open(ConfirmAddTreatmentcourseComponent);
         modalRef.result.then((res: any) => {
           switch (res) {
-            // case 'lich-hen':
-            //   const ref = document.getElementById('cancel');
-            //   ref?.click();
-            //   this.goAppointment();
-            //
-            //   break;
+            case 'lich-hen':
+              const ref = document.getElementById('cancel');
+              ref?.click();
+              this.goAppointment();
+
+              break;
             case 'thanh-toan':
               const ref1 = document.getElementById('cancel');
               ref1?.click();
@@ -407,7 +408,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     })
   }
   goAppointment(): void {
-    this.router.navigate(["/benhnhan/danhsach/tab/lichhen/" + this.id]);
+    this.router.navigate(["/benhnhan/danhsach/tab/lich-hen/" + this.id]);
   }
   goPayment(): void {
     this.router.navigate(["/benhnhan/danhsach/tab/thanhtoan/" + this.id]);

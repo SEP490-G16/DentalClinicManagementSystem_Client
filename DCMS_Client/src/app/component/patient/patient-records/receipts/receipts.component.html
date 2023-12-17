@@ -15,9 +15,9 @@
             <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
                 (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Mẫu</a>
             </li>
-<!--            <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"-->
-<!--                (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>-->
-<!--            </li>-->
+            <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
+                (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
+            </li>
           </ng-container>
           <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
               (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/')">Thanh toán</a>
@@ -54,18 +54,22 @@
                 <td (click)="openPopupDetail(rec.detail,rec.r_created_date,rec.r_payment_type,Patient)">
                   {{rec.r_receipt_id}}
                 </td>
-                <td (click)="openPopupDetail(rec.detail,rec.r_created_date,rec.r_payment_type,Patient)">{{rec.r_created_date | date: 'dd/MM/yyyy'}}</td>
-                <td (click)="openPopupDetail(rec.detail,rec.r_created_date,rec.r_payment_type,Patient)">{{calculateTotalPayment(rec.detail) |
+                <td (click)="openPopupDetail(rec.detail,rec.r_created_date,rec.r_payment_type,Patient)">
+                  {{rec.r_created_date | date: 'dd/MM/yyyy'}}</td>
+                <td (click)="openPopupDetail(rec.detail,rec.r_created_date,rec.r_payment_type,Patient)">
+                  {{calculateTotalPayment(rec.detail) |
                   currency:'VND':'symbol':'1.0-0'}}</td>
                 <ng-container *ngIf="rec.r_status == 1">
                   <td>
                     <div class="action-btn">
                       <div>
-                        <button class="btn button-timekeeping" title="Xác nhận thanh toán" (click)="confirmPaymentCast(rec)">Thanh toán tiền mặt</button>
+                        <button class="btn button-timekeeping" title="Xác nhận thanh toán"
+                          (click)="confirmPaymentCast(rec)">Thanh toán tiền mặt</button>
 
                       </div>
                       <div>
-                        <button class="btn button-timekeeping" title="Xác nhận thanh toán" (click)="confirmPaymentTrans(rec)">Thanh toán chuyển khoản
+                        <button class="btn button-timekeeping" title="Xác nhận thanh toán"
+                          (click)="confirmPaymentTrans(rec)">Thanh toán chuyển khoản
                         </button>
                       </div>
                     </div>
@@ -73,7 +77,8 @@
                   </td>
                 </ng-container>
                 <ng-container *ngIf="rec.r_status == 2">
-                  <td (click)="openPopupDetail(rec.detail,rec.r_created_date,rec.r_payment_type,Patient)">{{rec.r_payment_type == "1" ? 'Đã thanh toán bằng tiền mặt' : 'Đã thanh toán qua chuyển
+                  <td (click)="openPopupDetail(rec.detail,rec.r_created_date,rec.r_payment_type,Patient)">
+                    {{rec.r_payment_type == "1" ? 'Đã thanh toán bằng tiền mặt' : 'Đã thanh toán qua chuyển
                     khoản'}}</td>
                   <!-- <td>
                     <button class="btn button-timekeeping" title="Xác nhận thanh toán">Đã thu tiền</button>

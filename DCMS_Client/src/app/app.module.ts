@@ -51,7 +51,6 @@ registerLocaleData(localeVi);
     AppComponent,
     ConfirmationModalComponent,
     ConfirmDeleteModalComponent,
-    ConfirmAddTreatmentcourseComponent,
     ViDateRangePipe,
     FullDateVnPipe,
     ConfirmWaitingroomComponent,

@@ -9,8 +9,7 @@
       <div class="sep-navigation active">
         <div class="sep-menuToggle">
           <div class="logo">
-            <img
-              src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/163864132/original/92c0b38c480b786aa8ee12c771b842986302bbed/design-unique-dental-medical-health-hospital-and-clinic-logo.png">
+            <img [src]="currentLogo">
             <p><span class="clinic">Nha Khoa </span><span class="danger"><span class="nguyen">Nguyễn</span><span
                   class="tran"> Trần</span></span></p>
           </div>
@@ -76,7 +75,7 @@
             <span class="text">Chấm công</span>
           </a>
         </li>
-          <li class="list" routerLink="/thu-thuat" *ngIf="roleId.includes('1')" routerLinkActive="active">
+          <li class="list" routerLink="/thu-thuat" *ngIf="roleId.includes('1') || roleId.includes('4') || roleId.includes('5')" routerLinkActive="active">
             <a style="--clr:#664FC3">
               <span class="icon">
                 <i class="bi bi-clipboard2-pulse"></i>

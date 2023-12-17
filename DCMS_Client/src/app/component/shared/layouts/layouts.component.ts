@@ -17,6 +17,7 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
   userName: string = '';
   roleName: string = '';
   showPopup: boolean = false;
+  currentLogo: string = '../../../../assets/img/logo-main.png';
   constructor(private cognitoService: CognitoService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -158,6 +159,7 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.currentRoute = this.router.url;
+        this.updateLogo(event.urlAfterRedirects);
       }
     });
 
@@ -193,6 +195,18 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
       this.analyses = data;
     })
   }
+
+  updateLogo(url: string) {
+    if (url in this.logoMapping) {
+      this.currentLogo = this.logoMapping[url];
+    }
+  }
+
+  logoMapping: LogoMapping = {
+    '/thu-thuat': '../../../../assets/img/rangban.png',
+    '/phong-cho': '../../../../assets/img/logo-phong-cho.png',
+    '/benh-nhan-dang-kham': '../../../../assets/img/logo-benh-nhan.png',
+  };
 
   searchTimeout: any;
   getDataAnalysis() {
@@ -277,4 +291,8 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
     const timestamp = moment.tz(dateStr, format, timeZone).valueOf() / 1000;
     return timestamp;
   }
+}
+
+interface LogoMapping {
+  [key: string]: string;
 }
