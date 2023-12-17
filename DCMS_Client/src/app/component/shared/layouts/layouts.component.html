@@ -59,7 +59,7 @@
             </a>
           </li>
           <li class="list" routerLinkActive="active" routerLink="/cham-cong"
-            *ngIf="roleId.includes('1') || roleId.includes('3')">
+            *ngIf="roleId.includes('1') || roleId.includes('3') || roleId.includes('2') || roleId.includes('5') || roleId.includes('4')">
             <a style="--clr:#664FC3">
               <span class="icon">
                 <i class="bi bi-calendar3"></i>
@@ -73,10 +73,10 @@
             <span class="icon">
               <i class="bi bi-calendar3"></i>
             </span>
-            <span class="text">Chấm công</span>
+            <span class="text">Đăng kí lịch làm việc</span>
           </a>
         </li>
-          <li class="list" routerLink="/thu-thuat" *ngIf="roleId.includes('1')" routerLinkActive="active">
+          <li class="list" routerLink="/thu-thuat" *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('5') || roleId.includes('4')" routerLinkActive="active">
             <a style="--clr:#664FC3">
               <span class="icon">
                 <i class="bi bi-clipboard2-pulse"></i>
@@ -84,7 +84,7 @@
               <span class="text">Thủ thuật</span>
             </a>
           </li>
-          <li class="list" routerLink="/nhan-vien" *ngIf="roleId.includes('1')" routerLinkActive="active">
+          <li class="list" routerLink="/nhan-vien" *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('5') || roleId.includes('4')" routerLinkActive="active">
             <a style="--clr:#664FC3">
               <span class="icon">
                 <i class="bi bi-file-person-fill"></i>
@@ -101,7 +101,7 @@
           <!--            </a>-->
           <!--          </li>-->
           <li class="list" routerLink="/mau" routerLinkActive="active"
-            *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('5')">
+            *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('5') || roleId.includes('4')">
             <a style="--clr:#664FC3">
               <span class="icon">
                 <i class="bi bi-house-door"></i>
@@ -110,7 +110,7 @@
             </a>
           </li>
           <li class="list" routerLink="/vat-lieu" routerLinkActive="active"
-            *ngIf="roleId.includes('1') || roleId.includes('5')">
+            *ngIf="roleId.includes('1') || roleId.includes('5') || roleId.includes('2')">
             <a style="--clr:#664FC3">
               <span class="icon">
                 <i class="bi bi-prescription2"></i>
@@ -119,7 +119,7 @@
             </a>
           </li>
 
-          <li class="list" routerLink="/co-so" routerLinkActive="active" *ngIf="roleId.includes('1')">
+          <li class="list" routerLink="/co-so" routerLinkActive="active" *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('5') || roleId.includes('4')">
             <a style="--clr:#664FC3">
               <span class="icon">
                 <i class="bi bi-houses"></i>
