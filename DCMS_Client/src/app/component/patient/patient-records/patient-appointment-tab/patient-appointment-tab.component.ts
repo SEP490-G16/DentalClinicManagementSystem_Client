@@ -52,7 +52,7 @@ export class PatientAppointmentTabComponent implements OnInit {
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
     this.currentDateTimestamp = this.dateToTimestamp2(currentDateGMT7);
     console.log("Hum nay: ", this.currentDateTimestamp);
-    this.endDateTimestamp = this.dateToTimestamp("2023-12-31 23:59:59");
+    this.endDateTimestamp = this.dateToTimestamp("2023-01-15 23:59:59");
     this.selectedAppointment = {} as ISelectedAppointment
   }
   ngOnInit(): void {
@@ -70,7 +70,7 @@ export class PatientAppointmentTabComponent implements OnInit {
   }
 
   getAppointment() {
-    this.APPOINTMENT_SERVICE.getAppointmentList(1696925134, this.endDateTimestamp).subscribe(data => {
+    this.APPOINTMENT_SERVICE.getAppointmentList(1702684800, this.endDateTimestamp).subscribe(data => {
       this.appointmentList = ConvertJson.processApiResponse(data);
       this.patientAppointments = this.appointmentList.filter(appointment =>
         appointment.appointments.some(app =>

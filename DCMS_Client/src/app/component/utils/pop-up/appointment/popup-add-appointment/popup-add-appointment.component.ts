@@ -41,12 +41,12 @@ import { Normalize } from 'src/app/service/Lib/Normalize';
 export class PopupAddAppointmentComponent implements OnInit {
   phoneRegex = /^[0-9]{10}$|^[0-9]{4}\s[0-9]{3}\s[0-9]{3}$/;
 
-  time = {hour: 13, minute: 20}
+  time = { hour: 13, minute: 20 }
   private itemsSource = new BehaviorSubject<any[]>([]);
   items = this.itemsSource.asObservable();
   isCheckProcedure: boolean = true;
   reason: any;
-  isAddOld:boolean = false;
+  isAddOld: boolean = false;
   listGroupService: any[] = [];
   isCheck: boolean = false;
   procedure: string = "1";
@@ -62,7 +62,7 @@ export class PopupAddAppointmentComponent implements OnInit {
     count: 0,
   }
   // @Input() datesDisabled: any;
-  @Input()selectedDateCache:any;
+  @Input() selectedDateCache: any;
   @Input() filteredAppointments: any
   @Output() newItemEvent = new EventEmitter<any>();
   @Output() newAppointmentAdded = new EventEmitter<any>();
@@ -147,11 +147,19 @@ export class PopupAddAppointmentComponent implements OnInit {
   appointmentList: RootObject[] = [];
   dateEpoch: string = "";
 
+  patientSessionStorage:any;
   ngOnInit(): void {
     this.getListGroupService();
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
     this.startDate = currentDateGMT7;
     this.startDateTimestamp = this.dateToTimestamp(currentDateGMT7);
+
+    this.patientSessionStorage = sessionStorage.getItem('patient');
+    if (this.patientSessionStorage) {
+      this.patientSessionStorage = JSON.parse(this.patientSessionStorage);
+
+
+    }
   }
 
   getListGroupService() {
@@ -188,7 +196,7 @@ export class PopupAddAppointmentComponent implements OnInit {
           localStorage.setItem("listSearchPatient", JSON.stringify(this.patientList));
         });
       }, 500);
-      if(this.patientList.length == 0){
+      if (this.patientList.length == 0) {
         this.notFoundMessage = 'Không tìm thấy bệnh nhân';
       }
       this.isSearching = false;
@@ -213,7 +221,7 @@ export class PopupAddAppointmentComponent implements OnInit {
     const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
 
     const now = new Date();
-    const currDate = now.getFullYear() + "-"+(now.getMonth()+1)+"-"+now.getDate();
+    const currDate = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
     this.AppointmentBody.epoch = this.dateToTimestamp(selectedDate);
     //console.log("check current: ", currDate);
     //console.log("check selected: ", selectedDate);
@@ -526,7 +534,7 @@ export class PopupAddAppointmentComponent implements OnInit {
     this.isAdd = true;
     this.isAddOld = true;
   }
-  toggleAddOld(){
+  toggleAddOld() {
     this.isAddOld = true;
     this.isAdd = false;
   }

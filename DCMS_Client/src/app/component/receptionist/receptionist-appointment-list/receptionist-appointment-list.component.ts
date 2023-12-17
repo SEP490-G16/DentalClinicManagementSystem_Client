@@ -54,6 +54,12 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   endDateTimestamp: number = 0;
   nextDate: any;
 
+  // Set the minimum date to January 1, 1900
+  minDate: NgbDateStruct = { year: 1900, month: 1, day: 1 };
+
+  // Set the maximum date to 30 years from the current year
+  maxDate: NgbDateStruct = this.calculateMaxDate();
+
   selectedDateCache: any;
   constructor(private appointmentService: ReceptionistAppointmentService,
     private waitingRoomService: ReceptionistWaitingRoomService,
@@ -63,8 +69,11 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     private webSocketService: WebsocketService,
     private medicaoProcedureGroupService: MedicalProcedureGroupService,
     private receptionistWaitingRoom: ReceptionistWaitingRoomService,
+    private config: NgbDatepickerConfig,
     private sendMessageSocket: SendMessageSocket
   ) {
+
+
     this.DELETE_APPOINTMENT_BODY = {
       epoch: 0,
       new_epoch: 0,
@@ -96,6 +105,12 @@ export class ReceptionistAppointmentListComponent implements OnInit {
 
 
   }
+
+  calculateMaxDate(): NgbDateStruct {
+    const currentYear = new Date().getFullYear();
+    return { year: currentYear + 30, month: 12, day: 31 };
+  }
+
 
   ngOnInit(): void {
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
@@ -621,8 +636,8 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     } else
       return phoneNumber;
   }
-  details(id: any, reason:any) {
-    if (reason != '' || reason != null){
+  details(id: any, reason: any) {
+    if (reason != '' || reason != null) {
       sessionStorage.setItem('examination_reason', reason);
     }
     this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', id])

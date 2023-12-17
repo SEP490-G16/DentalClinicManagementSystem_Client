@@ -196,7 +196,7 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
               if (pro.procedureId == item.medical_procedure_id) {
                 ite.checked = true;
                 pro.checked = true;
-                pro.price = item.price / item.quantity;
+                pro.price = item.price;
                 pro.quantity = item.quantity;
                 pro.laboId = item.description;
                 let materialUsage = {

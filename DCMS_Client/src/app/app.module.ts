@@ -51,7 +51,6 @@ registerLocaleData(localeVi);
     AppComponent,
     ConfirmationModalComponent,
     ConfirmDeleteModalComponent,
-    ConfirmAddTreatmentcourseComponent,
     ViDateRangePipe,
     FullDateVnPipe,
     ConfirmWaitingroomComponent,
@@ -79,7 +78,7 @@ registerLocaleData(localeVi);
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
   ],
   providers: [CookieService, { provide: LOCALE_ID, useValue: 'vi-VN' },
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },

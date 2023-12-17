@@ -17,15 +17,15 @@
             <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
                 (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Mẫu</a>
             </li>
-<!--            <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"-->
-<!--                (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>-->
-<!--            </li>-->
+            <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
+                (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
+            </li>
           </ng-container>
           <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
               (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/')">Thanh toán</a>
           </li>
           <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
-                                       (click)="navigateHref('/benhnhan/danhsach/tab/phieu-thu/')">Phiếu thu</a>
+              (click)="navigateHref('/benhnhan/danhsach/tab/phieu-thu/')">Phiếu thu</a>
           </li>
         </ul>
       </div>
@@ -38,9 +38,9 @@
       </div>
       <div class="row" style="padding: 0px 80px 30px;">
         <div class="col-12 mt-4">
-<!--          <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#AddTreatmentModal"> <i-->
-<!--              class="bi bi-plus-circle-fill"></i> Ngày khám-->
-<!--          </button>-->
+          <!--          <button class="btn button-timekeeping" data-bs-toggle="modal" data-bs-target="#AddTreatmentModal"> <i-->
+          <!--              class="bi bi-plus-circle-fill"></i> Ngày khám-->
+          <!--          </button>-->
           <h4 class="title text-center w-100">Thêm mới ({{currentDate}})</h4>
         </div>
       </div>
@@ -49,14 +49,14 @@
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Mã bệnh nhân</label>
             <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="id" disabled
-                   aria-describedby="emailHelp">
+              aria-describedby="emailHelp">
           </div>
         </div>
         <div class="col-6">
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Lý do khám</label>
             <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="TreatmentCouseBody.lydo"
-                   aria-describedby="emailHelp">
+              aria-describedby="emailHelp">
           </div>
         </div>
       </div>
@@ -65,14 +65,14 @@
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Nguyên nhân</label>
             <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="TreatmentCouseBody.nguyennhan"
-                    aria-describedby="emailHelp">
+              aria-describedby="emailHelp">
           </div>
         </div>
         <div class="col-6">
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Chẩn đoán</label>
             <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="TreatmentCouseBody.chuandoan"
-                   aria-describedby="emailHelp">
+              aria-describedby="emailHelp">
           </div>
         </div>
       </div>
@@ -81,16 +81,16 @@
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Phương án điều trị</label>
             <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="TreatmentCouseBody.name"
-                   aria-describedby="emailHelp">
-<!--            <div *ngIf="isSubmittedTreatmentCourse" class="alert-danger-custommm" style="color:#FF0000FF;">-->
-<!--              {{validateTreatmentCouse.name}}</div>-->
+              aria-describedby="emailHelp">
+            <!--            <div *ngIf="isSubmittedTreatmentCourse" class="alert-danger-custommm" style="color:#FF0000FF;">-->
+            <!--              {{validateTreatmentCouse.name}}</div>-->
           </div>
         </div>
         <div class="col-6">
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Lưu ý</label>
             <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="TreatmentCouseBody.luuy"
-                   aria-describedby="emailHelp">
+              aria-describedby="emailHelp">
           </div>
         </div>
       </div>
@@ -106,7 +106,7 @@
               <div class="drop-show" *ngIf="showDropDown">
                 <div class="group-list" *ngFor="let a of list">
                   <div class="input-name">
-                    <input type="checkbox" [(ngModel)]="a.checked" (click)="getSelectedValue(a)"/>
+                    <input type="checkbox" [(ngModel)]="a.checked" (click)="getSelectedValue(a)" />
                   </div>
                   <div class="name-title">
                     <span> {{a.groupName}}</span>
@@ -144,7 +144,7 @@
                   <tr class="tr-children" (click)="toggleExpand(pro)">
                     <td style="padding: 10px;float: right">
                       <i class="bi"
-                         [ngClass]="{'bi-chevron-double-right': !pro.isExpand, 'bi-chevron-double-down': pro.isExpand}"></i>
+                        [ngClass]="{'bi-chevron-double-right': !pro.isExpand, 'bi-chevron-double-down': pro.isExpand}"></i>
                     </td>
                     <td style="padding: 10px">{{pro.groupName}}</td>
                     <td style="padding: 10px"></td>
@@ -170,21 +170,22 @@
                           <td style="padding: 10px"><i class="bi bi-arrow-return-right"></i></td>
                           <td style="padding: 10px;float: left;margin-left: 24%">
                             <input type="checkbox" style="margin-right: 3px"
-                                   (click)="checkProcedureUse(gro)" />{{gro.procedureName}}
+                              (click)="checkProcedureUse(gro)" />{{gro.procedureName}}
                           </td>
                           <td style="padding: 10px"> {{gro.initPrice}}</td>
                           <ng-container *ngIf="gro.checked">
                             <td style="padding: 10px"><input class="form-control"
-                                                             style="padding: 5px; border-radius: 5px;border: 1px solid #664FC3;height: 42px"
-                                                             type="text" [(ngModel)]="gro.price" (input)="changePrice(gro, $event)"></td>
+                                style="padding: 5px; border-radius: 5px;border: 1px solid #664FC3;height: 42px"
+                                type="text" [(ngModel)]="gro.price" (input)="changePrice(gro, $event)"></td>
                           </ng-container>
                           <ng-container *ngIf="gro.checked">
                             <td style="padding: 10px">
                               <div class="position-relative">
                                 <input class="form-control"
-                                       style="padding: 5px; border-radius: 5px;border: 1px solid #664FC3;height: 42px"
-                                       type="number" [(ngModel)]="gro.quantity" (input)="changeQuantity(gro, $event)">
-                                <div *ngIf="valdateSpecimens['soLuong_' + itemIndex + '_' + procIndex]"  [ngClass]="{'alert-danger-custom': true, 'active': valdateSpecimens['soLuong_' + itemIndex + '_' + procIndex]}">
+                                  style="padding: 5px; border-radius: 5px;border: 1px solid #664FC3;height: 42px"
+                                  type="number" [(ngModel)]="gro.quantity" (input)="changeQuantity(gro, $event)">
+                                <div *ngIf="valdateSpecimens['soLuong_' + itemIndex + '_' + procIndex]"
+                                  [ngClass]="{'alert-danger-custom': true, 'active': valdateSpecimens['soLuong_' + itemIndex + '_' + procIndex]}">
                                   <p style="font-size: 13px">
                                     {{valdateSpecimens['soLuong_' + itemIndex + '_' + procIndex]}}
                                   </p>
@@ -197,7 +198,8 @@
                               <select class="form-select p-2" id="patient" style="margin-left: 10px; border: 1px solid #664FC3;
 
                                                                                             border-radius: 10px;"
-                                      aria-label="Default select example" [(ngModel)]="gro.laboId" (ngModelChange)="changeLabo(gro)">
+                                aria-label="Default select example" [(ngModel)]="gro.laboId"
+                                (ngModelChange)="changeLabo(gro)">
                                 <option value="0">Chọn labo</option>
                                 <option *ngFor="let a of Labos" value={{a.labo_id}}>{{a.name}}</option>
                               </select>
@@ -224,7 +226,7 @@
             <label for="medicine" class="form-label">Đơn thuốc:</label>
             <select class="form-select p-2" id="medicine" style="width: 20%; border: 1px solid #664FC3;
                        border-radius: 10px;" aria-label="Default select example" (change)="onMedicineChange()"
-                    [(ngModel)]="selectMedicine">
+              [(ngModel)]="selectMedicine">
               <option value="0">Chọn mẫu đơn thuốc</option>
               <option value="1">Mẫu 1</option>
               <option value="2">Mẫu 2</option>
@@ -234,7 +236,7 @@
             <div class="button-content" *ngIf="showPrescriptionContent">
               <div class="btn-add-procedure">
                 <button class="btn button-add" style="margin-right: 3px" (click)="toggleAddMedicine()"><i
-                  class="bi bi-plus-circle"></i>Thêm
+                    class="bi bi-plus-circle"></i>Thêm
                   mới thuốc</button>
               </div>
               <div>
@@ -270,16 +272,16 @@
                 <tr>
                   <td style="padding: 10px">{{ i + 1 }}</td>
                   <td style="padding: 10px">
-                    <input type="text" *ngIf="isAddMedicine" [(ngModel)]="record.ten"
-                           class="form-control value-staff">
+                    <input type="text" *ngIf="isAddMedicine" [(ngModel)]="record.ten" class="form-control value-staff">
                     <p *ngIf="!isAddMedicine">{{record.ten}}</p>
                   </td>
                   <td style="padding: 10px">
                     <div class="position-relative">
                       <input type="number" *ngIf="isAddMedicine" [(ngModel)]="record.soLuong"
-                             class="form-control value-staff">
+                        class="form-control value-staff">
                       <p *ngIf="!isAddMedicine">{{record.soLuong}}</p>
-                      <div *ngIf="validateMedicine['soLuong_' + i]"  [ngClass]="{'alert-danger-custom': true, 'active': validateMedicine['soLuong_' + i]}">
+                      <div *ngIf="validateMedicine['soLuong_' + i]"
+                        [ngClass]="{'alert-danger-custom': true, 'active': validateMedicine['soLuong_' + i]}">
                         <p style="font-size: 13px">
                           {{validateMedicine['soLuong_' + i]}}
                         </p>
@@ -288,12 +290,12 @@
                   </td>
                   <td style="padding: 10px">
                     <input type="text" *ngIf="isAddMedicine" [(ngModel)]="record.donvi"
-                           class="form-control value-staff">
+                      class="form-control value-staff">
                     <p *ngIf="!isAddMedicine">{{record.donvi}}</p>
                   </td>
                   <td style="padding: 10px">
-                      <textarea type="text" *ngIf="isAddMedicine" [(ngModel)]="record.lieuDung"
-                                class="form-control value-staff"></textarea>
+                    <textarea type="text" *ngIf="isAddMedicine" [(ngModel)]="record.lieuDung"
+                      class="form-control value-staff"></textarea>
                     <p *ngIf="!isAddMedicine">{{record.lieuDung}}</p>
                   </td>
                   <td style="padding: 10px">
@@ -311,7 +313,8 @@
       </div>
       <div class="button-action" style="padding: 0px 80px 30px; display: flex">
         <div class="button-conf">
-          <button type="button" class="btn button-add" (click)="postTreatmentCourse()"><i class="bi bi-floppy2"></i> Lưu</button>
+          <button type="button" class="btn button-add" (click)="postTreatmentCourse()"><i class="bi bi-floppy2"></i>
+            Lưu</button>
         </div>
         <div class="bottom-left">
           <button class=" btn btn-secondary ml-2 mt-3" routerLink="/benhnhan/danhsach">Quay lại</button>
@@ -325,8 +328,10 @@
               <div class="card-header" (click)="toggleCollapse(course.treatment_course_id);">
                 <div class="row">
                   <div class="col-10">
-                    <a title="Xem thông tin lần khám của đợt khám {{ course.name }}" style="color: white;cursor: pointer; text-decoration: none; font-size: 15px; text-align: start;">
-                      <b style="color: white;">Ngày khám: {{course.created_date | date: 'dd/MM/yyyy'}} - Chẩn đoán: {{course.provisional_diagnosis}} - Điều trị: {{ course.name }} </b>
+                    <a title="Xem thông tin lần khám của đợt khám {{ course.name }}"
+                      style="color: white;cursor: pointer; text-decoration: none; font-size: 15px; text-align: start;">
+                      <b style="color: white;">Ngày khám: {{course.created_date | date: 'dd/MM/yyyy'}} - Chẩn đoán:
+                        {{course.provisional_diagnosis}} - Điều trị: {{ course.name || "(Hoàn thiện lần khám)" }} </b>
                     </a>
                   </div>
                   <div class="col-2">
@@ -389,8 +394,7 @@
         </div>
         <div class="button-add-img">
           <div class="btn-add-procedure">
-            <button class="btn button-add" (click)="toggleAddImage()"><i
-              class="bi bi-plus-circle"></i> Thêm
+            <button class="btn button-add" (click)="toggleAddImage()"><i class="bi bi-plus-circle"></i> Thêm
               mới ảnh X-Quang</button>
           </div>
         </div>
@@ -398,8 +402,9 @@
           <div class="col-md-3 custom-input-container">
             <div style="position: relative">
               <label for="diagnosis">Hình ảnh:</label>
-              <img [src]="record.imageInsert" (click)="zoomImage()" alt="Hình ảnh mặc định" style="height: 250px; border: 1px solid black;border-radius: 10px;cursor: pointer">
-              <div *ngIf="showZoomedInImage" class="modal-image"  (click)="closeZoom()">
+              <img [src]="record.imageInsert" (click)="zoomImage()" alt="Hình ảnh mặc định"
+                style="height: 250px; border: 1px solid black;border-radius: 10px;cursor: pointer">
+              <div *ngIf="showZoomedInImage" class="modal-image" (click)="closeZoom()">
                 <img [src]="record.imageInsert" alt="Zoomed In Image" class="zoomed-in-image">
               </div>
               <div class="delete-button-container">
@@ -411,7 +416,7 @@
             <div class="image-button">
               <div>
                 <button class="btn-image" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                        (click)="onChangeIndex(record.id)">Chọn hình ảnh</button>
+                  (click)="onChangeIndex(record.id)">Chọn hình ảnh</button>
               </div>
             </div>
           </div>
@@ -420,21 +425,21 @@
             <textarea style="border-radius: 10px" id="image" rows="3" [(ngModel)]="record.description"></textarea>
           </div>
           <div class="save-img" *ngIf="isAddImage">
-<!--            <div class="save">-->
-<!--              <button class="btn button-add" *ngIf="isAddImage" (click)="toggleAddImage()"-->
-<!--                      style="margin-right: 3px"><i class="bi bi-check-circle"> Lưu ảnh</i></button>-->
-<!--            </div>-->
-<!--            <div class="cancel">-->
-<!--              <button type="button" class="btn btn-cancel" (click)="deleteRecordImage(i)">Hủy</button>-->
-<!--            </div>-->
+            <!--            <div class="save">-->
+            <!--              <button class="btn button-add" *ngIf="isAddImage" (click)="toggleAddImage()"-->
+            <!--                      style="margin-right: 3px"><i class="bi bi-check-circle"> Lưu ảnh</i></button>-->
+            <!--            </div>-->
+            <!--            <div class="cancel">-->
+            <!--              <button type="button" class="btn btn-cancel" (click)="deleteRecordImage(i)">Hủy</button>-->
+            <!--            </div>-->
           </div>
         </ng-container>
         <div class="save-xray">
           <button class="btn button-add" *ngIf="isAddImage" (click)="onPostXRayImage()"><i
-            class="bi bi-plus-circle"></i>Lưu ảnh</button>
+              class="bi bi-plus-circle"></i>Lưu ảnh</button>
         </div>
       </div>
-      <div class="bottom-left"  style="padding: 0px 80px 50px">
+      <div class="bottom-left" style="padding: 0px 80px 50px">
         <button class=" btn btn-secondary ml-2 mt-3" routerLink="/benhnhan/danhsach">Quay lại</button>
       </div>
     </div>
@@ -451,7 +456,7 @@
         <div class="mb-3">
           <label for="submission-files" class="form-label">Chọn file</label>
           <input class="form-control" type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput multiple
-                 id="submission-files">
+            id="submission-files">
         </div>
         <div class="mb-3">
           <label for="link-submission" class="form-label" [(ngModel)]="imageLink">Link</label>
@@ -467,5 +472,5 @@
   </div>
 </div>
 
- <app-popup-add-treatmentcourse></app-popup-add-treatmentcourse>
+<app-popup-add-treatmentcourse></app-popup-add-treatmentcourse>
 <app-popup-edit-treatmentcourse [TreatmentCourse]="TreatmentCourse"></app-popup-edit-treatmentcourse>
