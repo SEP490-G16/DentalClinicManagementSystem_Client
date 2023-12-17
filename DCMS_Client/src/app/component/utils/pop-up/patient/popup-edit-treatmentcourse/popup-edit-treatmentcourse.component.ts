@@ -154,7 +154,7 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
     this.recordsMedicine.splice(0, this.recordsMedicine.length);
     this.listMaterialUsage.splice(0, this.listMaterialUsage.length);
     //this.getMedicalProcedureList();
-    if (changes['TreatmentCourse'].currentValue != undefined) {
+    if (changes['TreatmentCourse'].currentValue != undefined ) {
       this.Edit_TreatmentCourse = {
         treatment_course_id: this.TreatmentCourse.treatment_course_id,
         patient_id: this.TreatmentCourse.patient_id,

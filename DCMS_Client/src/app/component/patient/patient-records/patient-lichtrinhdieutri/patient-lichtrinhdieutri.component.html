@@ -36,23 +36,24 @@
           <b>Bệnh nhân: {{patientName}}</b>
         </div>
       </div>
+      <!--X-Ray-->
       <div class="row" style="padding: 0px 80px 50px">
         <div class="examination-body-middle-title mb-2">
           <label> X-Quang </label>
         </div>
         <div class="button-add-img">
           <div class="btn-add-procedure">
-            <button class="btn button-add" (click)="toggleAddImage()"><i class="bi bi-plus-circle"></i> Thêm
-              mới ảnh X-Quang</button>
+            <button class="btn button-add" (click)="toggleAddImage()"><i
+              class="bi bi-plus-circle"></i>Thêm
+              mới ảnh</button>
           </div>
         </div>
         <ng-container *ngFor="let record of recordsImage; let i = index">
           <div class="col-md-3 custom-input-container">
             <div style="position: relative">
               <label for="diagnosis">Hình ảnh:</label>
-              <img [src]="record.imageInsert" (click)="zoomImage()" alt="Hình ảnh mặc định"
-                style="height: 250px; border: 1px solid black;border-radius: 10px;cursor: pointer">
-              <div *ngIf="showZoomedInImage" class="modal-image" (click)="closeZoom()">
+              <img [src]="record.imageInsert" (click)="zoomImage()" alt="Hình ảnh mặc định" style="height: 250px; border: 1px solid black;border-radius: 10px;cursor: pointer">
+              <div *ngIf="showZoomedInImage" class="modal-image"  (click)="closeZoom()">
                 <img [src]="record.imageInsert" alt="Zoomed In Image" class="zoomed-in-image">
               </div>
               <div class="delete-button-container">
@@ -64,7 +65,7 @@
             <div class="image-button">
               <div>
                 <button class="btn-image" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                  (click)="onChangeIndex(record.id)">Chọn hình ảnh</button>
+                        (click)="onChangeIndex(record.id)">Chọn hình ảnh</button>
               </div>
             </div>
           </div>
@@ -73,47 +74,24 @@
             <textarea style="border-radius: 10px" id="image" rows="3" [(ngModel)]="record.description"></textarea>
           </div>
           <div class="save-img" *ngIf="isAddImage">
-            <!--            <div class="save">-->
-            <!--              <button class="btn button-add" *ngIf="isAddImage" (click)="toggleAddImage()"-->
-            <!--                      style="margin-right: 3px"><i class="bi bi-check-circle"> Lưu ảnh</i></button>-->
-            <!--            </div>-->
-            <!--            <div class="cancel">-->
-            <!--              <button type="button" class="btn btn-cancel" (click)="deleteRecordImage(i)">Hủy</button>-->
-            <!--            </div>-->
+<!--            <div class="save">-->
+<!--              <button class="btn button-add" *ngIf="isAddImage" (click)="toggleAddImage()"-->
+<!--                      style="margin-right: 3px"><i class="bi bi-check-circle"> Lưu ảnh</i></button>-->
+<!--            </div>-->
+<!--            <div class="cancel">-->
+<!--              <button type="button" class="btn btn-cancel" (click)="deleteRecordImage(i)">Hủy</button>-->
+<!--            </div>-->
           </div>
         </ng-container>
         <div class="save-xray">
           <button class="btn button-add" *ngIf="isAddImage" (click)="onPostXRayImage()"><i
-              class="bi bi-plus-circle"></i>Lưu ảnh</button>
+            class="bi bi-plus-circle"></i>Lưu ảnh</button>
         </div>
       </div>
-      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="submissionModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="submissionModalLabel">Chọn ảnh</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <div class="mb-3">
-                <label for="submission-files" class="form-label">Chọn file</label>
-                <input class="form-control" type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput
-                  multiple id="submission-files">
-              </div>
-              <div class="mb-3">
-                <label for="link-submission" class="form-label" [(ngModel)]="imageLink">Link</label>
-                <input type="text" class="form-control" id="link-submission" (change)="inputImageUrlInsert($event)"
-                  required>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="addImageUrl()">Hoàn
-                thành</button>
-            </div>
-          </div>
-        </div>
-      </div>
+
+
+
+
       <div class="row" style="padding: 0px 80px 50px;">
         <div class="col-md-12" id="accordion">
           <ng-container *ngIf="ITreatmentCourse.length > 0; else noTreatmentCourse">
@@ -479,6 +457,32 @@
   </div>
 </div>
 
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="submissionModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="submissionModalLabel">Chọn ảnh</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="submission-files" class="form-label">Chọn file</label>
+          <input class="form-control" type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput multiple
+            id="submission-files">
+        </div>
+        <div class="mb-3">
+          <label for="link-submission" class="form-label" [(ngModel)]="imageLink">Link</label>
+          <input type="text" class="form-control" id="link-submission" (change)="inputImageUrlInsert($event)" required>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="addImageUrl()">Hoàn
+          thành</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <app-popup-add-treatmentcourse></app-popup-add-treatmentcourse>
 <app-popup-edit-treatmentcourse [TreatmentCourse]="TreatmentCourse"></app-popup-edit-treatmentcourse>

@@ -771,6 +771,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
   TreatmentCourse: any;
   editTreatmentCourse(course: any) {
     this.TreatmentCourse = course;
+    console.log("Edit: ", this.TreatmentCourse);
   }
 
   openConfirmationModal(message: string): Promise<any> {
