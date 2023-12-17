@@ -207,6 +207,7 @@ export class PatientExaminationManagementComponent implements OnInit {
   }
 
   goTreatmentCoursePage(patientId: any, wtr:any) {
+    sessionStorage.setItem("patient", JSON.stringify(wtr))
     sessionStorage.setItem("examination_reason", wtr.reason);
     this.router.navigate(['benhnhan/danhsach/tab/lichtrinhdieutri', patientId]);
   }

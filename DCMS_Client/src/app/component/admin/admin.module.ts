@@ -110,6 +110,7 @@ import { AuthInterceptor } from 'src/app/service/RefreshToken/auth.interceptor';
 import { CustomReuseStrategy } from 'src/app/service/RouteReuseStrategy/route-reuse-strategy.component';
 import { PatientExaminationManagementComponent } from '../patient/patient-examination-management/patient-examination-management.component';
 import { NumberToWordsPipe } from '../utils/libs/moneyPronounciation.pipe';
+import { CurrencyFormatDirective } from '../utils/libs/directive/thousandSeparator.directive';
 
 @NgModule({
   declarations: [
@@ -199,7 +200,8 @@ import { NumberToWordsPipe } from '../utils/libs/moneyPronounciation.pipe';
     SecurityRevenueComponent,
     SubmitOtpComponent,
     PatientExaminationManagementComponent,
-    NumberToWordsPipe
+    NumberToWordsPipe,
+    CurrencyFormatDirective
   ],
   imports: [
     CommonModule,
@@ -222,6 +224,7 @@ import { NumberToWordsPipe } from '../utils/libs/moneyPronounciation.pipe';
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
+    ReactiveFormsModule,
     NgSelectModule,
     BsDatepickerModule,
   ],
