@@ -159,7 +159,7 @@
                 <div class="form-group">
                   <div class="input-group">
                     <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="model" ngbDatepicker
-                      #dd="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày khám" [minDate]="currentDate">
+                      #dd="ngbDatepicker" [placement]="'right'" placeholder="Chọn ngày khám" [minDate]="currentDate" [maxDate]="maxDate">
                     <div class="input-group-append">
                       <button class="btn btn-outline-secondary calendar" style="height: 48px;" (click)="dd.toggle()"
                         type="button">

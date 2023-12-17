@@ -78,6 +78,13 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
     appointmentTime: '',
     appointmentDate: '',
   }
+
+  // Set the minimum date to January 1, 1900
+  minDate: NgbDateStruct = { year: 1900, month: 1, day: 1 };
+
+  // Set the maximum date to 30 years from the current year
+  maxDate: NgbDateStruct = this.calculateMaxDate();
+
   isSubmitted: boolean = false;
   seedDateDisabled = [
     {
@@ -265,6 +272,11 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
         })
       })
     })
+  }
+
+  calculateMaxDate(): NgbDateStruct {
+    const currentYear = new Date().getFullYear();
+    return { year: currentYear + 30, month: 12, day: 31 };
   }
 
   getListGroupService() {

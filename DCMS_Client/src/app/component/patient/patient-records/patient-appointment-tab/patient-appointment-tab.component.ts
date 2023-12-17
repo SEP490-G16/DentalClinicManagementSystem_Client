@@ -10,12 +10,12 @@ import { ConvertJson } from 'src/app/service/Lib/ConvertJson';
 import { ISelectedAppointment, RootObject } from 'src/app/model/IAppointment';
 import { CommonService } from 'src/app/service/commonMethod/common.service';
 import { ResponseHandler } from "../../../utils/libs/ResponseHandler";
-import {NgbDateStruct, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IPatient } from 'src/app/model/IPatient';
 import {
   ConfirmDeleteModalComponent
 } from "../../../utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component";
-import {DatePipe} from "@angular/common";
+import { DatePipe } from "@angular/common";
 @Component({
   selector: 'app-patient-appointment-tab',
   templateUrl: './patient-appointment-tab.component.html',
@@ -29,8 +29,8 @@ export class PatientAppointmentTabComponent implements OnInit {
   patientAppointments: any;
   dateString: any;
   timeString: any;
-  patientName:any;
-  name:any
+  patientName: any;
+  name: any
   selectedAppointment: ISelectedAppointment;
   dateDis = { date: 0, procedure: '', count: 0, }
   model!: NgbDateStruct;
@@ -63,23 +63,37 @@ export class PatientAppointmentTabComponent implements OnInit {
       this.roleId = ro.split(',');
     }
     this.name = sessionStorage.getItem('patient');
-    if (this.name){
+    if (this.name) {
       this.name = JSON.parse(this.name);
       this.patientName = this.name.patient_name;
     }
+
+    // const startDate = moment().tz('Asia/Ho_Chi_Minh').subtract(15, 'days').startOf('day');
+    // const endDate = moment().tz('Asia/Ho_Chi_Minh').add(15, 'days').endOf('day');
+    // this.currentDateTimestamp = startDate.unix();
+    // this.endDateTimestamp = endDate.unix();
+
+    // console.log("Start Date Timestamp:", this.currentDateTimestamp);
+    // console.log("End Date Timestamp:", this.endDateTimestamp);
   }
 
   getAppointment() {
     this.APPOINTMENT_SERVICE.getAppointmentList(1702684800, this.endDateTimestamp).subscribe(data => {
       this.appointmentList = ConvertJson.processApiResponse(data);
-      this.patientAppointments = this.appointmentList.filter(appointment =>
-        appointment.appointments.some(app =>
-          app.details.some(detail =>
-            detail.patient_id === this.id
-          )
-        )
+      console.log("this.da", this.appointmentList);
+      this.patientAppointments = this.appointmentList.flatMap((appointment: any) =>
+        appointment.appointments
+          .filter((app: any) => app.details.some((detail: any) => detail.patient_id === this.id))
+          .map((app: any) => ({
+            ...app,
+            date: appointment.date,
+            details: app.details.filter((detail: any) => detail.patient_id === this.id)
+          }))
       );
+
       this.patientAppointments.sort((a: any, b: any) => b.date - a.date);
+
+      console.log("Filtered Patient Appointments:", this.patientAppointments);
       this.appointmentDateInvalid();
     },
       error => {
@@ -153,13 +167,13 @@ export class PatientAppointmentTabComponent implements OnInit {
       if (result) {
         this.APPOINTMENT_SERVICE.deleteAppointment(dateTimestamp, detail.appointment_id)
           .subscribe((res) => {
-              this.toastr.success('Xóa lịch hẹn thành công!');
-              window.location.reload();
-            },
+            this.toastr.success('Xóa lịch hẹn thành công!');
+            window.location.reload();
+          },
             (error) => {
               this.showErrorToast("Lỗi khi cập nhật");
               this.showErrorToast("Lỗi khi xóa");
-          }
+            }
           )
       }
     });
@@ -236,4 +250,21 @@ export class PatientAppointmentTabComponent implements OnInit {
     const dateStr = date.format('YYYY-MM-DD');
     return dateStr;
   }
+
+  timestampToDate2(timestamp: number) {
+    // Ensure moment-timezone is imported
+    const moment = require('moment-timezone');
+
+    // Create a moment object from the Unix timestamp
+    const date = moment.unix(timestamp);
+
+    // Convert the moment object to GMT+7 timezone
+    const dateInGMT7 = date.tz('Asia/Bangkok'); // Bangkok is in the GMT+7 timezone
+
+    // Format the date and time as 'HH:mm - DD/MM/YYYY'
+    const formattedString = dateInGMT7.format('HH:mm - DD/MM/YYYY');
+
+    return formattedString;
+  }
+
 }

@@ -11,16 +11,13 @@
             *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('4') || roleId.includes('5')">
             <li class="nav-item mr-2"><a class="nav-link"
                 (click)="navigateHref('/benhnhan/danhsach/tab/lichtrinhdieutri/')"
-                style="padding: 10px; color: #000; cursor: pointer;">Khám và
-                điều
-                trị</a>
-            </li>
+                style="padding: 10px; color: #000; cursor: pointer;">Khám và điều trị</a></li>
             <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
                 (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Mẫu</a>
             </li>
-           <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"-->
-               (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
-          </li>
+            <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
+                (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
+            </li>
           </ng-container>
           <li class="nav-item mr-2"><a class="nav-link active" style="padding: 10px; color: #664FC3; cursor: pointer;"
               (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/')">Thanh toán</a>

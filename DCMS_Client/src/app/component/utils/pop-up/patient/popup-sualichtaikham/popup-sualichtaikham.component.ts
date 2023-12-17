@@ -110,6 +110,10 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
 
   }
 
+
+  // Set the maximum date to 30 years from the current year
+  maxDate: NgbDateStruct = this.calculateMaxDate();
+
   responseO: any;
   ngOnInit(): void {
     console.log("oninit")
@@ -191,6 +195,11 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
     this.selectedDoctor = doctor;
     console.log(this.EDIT_APPOINTMENT_BODY.appointment.doctor = doctor.name)
     this.EDIT_APPOINTMENT_BODY.appointment.doctor = doctor.name;
+  }
+
+  calculateMaxDate(): NgbDateStruct {
+    const currentYear = new Date().getFullYear();
+    return { year: currentYear + 30, month: 12, day: 31 };
   }
 
   patientList: any[] = [];

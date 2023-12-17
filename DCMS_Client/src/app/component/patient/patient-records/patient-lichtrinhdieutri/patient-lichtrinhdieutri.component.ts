@@ -416,7 +416,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     })
   }
   goAppointment(): void {
-    this.router.navigate(["/benhnhan/danhsach/tab/lich-hen/" + this.id]);
+    this.router.navigate(["/benhnhan/danhsach/tab/lichhen/" + this.id]);
   }
   goPayment(): void {
     this.router.navigate(["/benhnhan/danhsach/tab/thanhtoan/" + this.id]);
