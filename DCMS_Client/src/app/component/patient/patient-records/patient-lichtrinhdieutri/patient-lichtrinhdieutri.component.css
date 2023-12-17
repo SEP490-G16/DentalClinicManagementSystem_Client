@@ -331,3 +331,11 @@ table .tr-children:hover{
 .name-title{
   margin-left: 5px;
 }
+.button-action{
+  display: flex;
+  justify-content: right;
+}
+.btn-secondary{
+  padding: 10px 20px;
+  margin-bottom: 15px;
+}
