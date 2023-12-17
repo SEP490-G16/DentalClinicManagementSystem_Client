@@ -274,7 +274,7 @@ export class AddWaitingRoomComponent implements OnInit {
         // this.WaitingRoomService.updateData(this.filteredWaitingRoomData);
 
         //C2: Ok nhất nhưng phải call api, mà thôi kệ đi
-        //this.updateWaitingRoomList();
+        this.updateWaitingRoomList();
 
         //Còn không
         //this.newWaitingRoom.emit(this.filteredWaitingRoomData);

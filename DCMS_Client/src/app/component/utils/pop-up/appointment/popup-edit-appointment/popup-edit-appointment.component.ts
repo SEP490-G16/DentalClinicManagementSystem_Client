@@ -69,6 +69,10 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
   }
   isSubmitted: boolean = false;
   minDate: Date;
+
+
+  // Set the maximum date to 30 years from the current year
+  maxDate: NgbDateStruct = this.calculateMaxDate();
   constructor(private APPOINTMENT_SERVICE: ReceptionistAppointmentService,
     private PATIENT_SERVICE: PatientService,
     private toastr: ToastrService,
@@ -112,6 +116,11 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
       day: parseInt(currentDateGMT7.split('-')[2])
     };
 
+  }
+
+  calculateMaxDate(): NgbDateStruct {
+    const currentYear = new Date().getFullYear();
+    return { year: currentYear + 30, month: 12, day: 31 };
   }
 
   ngOnInit(): void {

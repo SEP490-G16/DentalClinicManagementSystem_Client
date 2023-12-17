@@ -96,17 +96,24 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     this.TreatmentCouseBody.lydo = examination_reason || "";
 
     sessionStorage.removeItem("examination_reason");
-
     this.id = this.route.snapshot.params['id'];
     this.getTreatmentCourse();
     let ro = sessionStorage.getItem('role');
     if (ro != null) {
       this.roleId = ro.split(',');
     }
+
     this.name = sessionStorage.getItem('patient');
     if (this.name) {
       this.name = JSON.parse(this.name);
       this.patientName = this.name.patient_name;
+      // sessionStorage.removeItem("patient");
+    } else {
+      this.patientService.getPatientById(this.id).subscribe((patient: any) => {
+        console.log("Patient: ", patient);
+        this.patientName = patient.patient_name;
+        // sessionStorage.setItem('patient', patient);
+      })
     }
     this.onGetXRayImage(this.id)
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh');
@@ -134,6 +141,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
   getMedicalProcedureList() {
     this.medicalProcedureGroupService.getMedicalProcedureGroupListandDetail().subscribe(data => {
       this.ProcedureGroupList = data.data;
+      console.log("Loai dieu tri: ", this.ProcedureGroupList);
       this.ProcedureGroupList.forEach((item: any) => {
         const currentO = item;
         if (!this.UniqueList.includes(currentO.mg_id)) {
@@ -408,7 +416,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     })
   }
   goAppointment(): void {
-    this.router.navigate(["/benhnhan/danhsach/tab/lich-hen/" + this.id]);
+    this.router.navigate(["/benhnhan/danhsach/tab/lichhen/" + this.id]);
   }
   goPayment(): void {
     this.router.navigate(["/benhnhan/danhsach/tab/thanhtoan/" + this.id]);
@@ -717,6 +725,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
           const dateB = new Date(b.created_date).getTime();
           return dateB - dateA;
         });
+        this.checkHTLK();
         this.loading = false;
       },
         error => {
@@ -725,6 +734,22 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
         }
       )
   }
+
+  listProcedure: any
+  checkHTLK() {
+    this.ITreatmentCourse.forEach((Course: any) => {
+      this.procedureMaterialService.getMaterialUsage_By_TreatmentCourse(Course.treatment_course_id)
+        .subscribe((data: any) => {
+          this.listProcedure = data.data;
+          console.log("List procedure: ", this.listProcedure);
+
+          Course.isCompleted = Course.name && Course.provisional_diagnosis && Course.chief_complaint &&
+            Course.differential_diagnosis && Course.provisional_diagnosis &&
+            this.listProcedure.length > 0;
+        })
+    })
+  }
+
 
   toggleStates: { [key: string]: boolean } = {};
   toggleCollapse(courseId: string) {
@@ -746,6 +771,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
   TreatmentCourse: any;
   editTreatmentCourse(course: any) {
     this.TreatmentCourse = course;
+    console.log("Edit: ", this.TreatmentCourse);
   }
 
   openConfirmationModal(message: string): Promise<any> {

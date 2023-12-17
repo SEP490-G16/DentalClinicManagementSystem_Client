@@ -89,6 +89,13 @@ export class PopupAddAppointmentComponent implements OnInit {
   isSubmitted: boolean = false;
   currentDate: any;
   mindate: Date;
+
+  // Set the minimum date to January 1, 1900
+  minDate: NgbDateStruct = { year: 1900, month: 1, day: 1 };
+
+  // Set the maximum date to 30 years from the current year
+  maxDate: NgbDateStruct = this.calculateMaxDate();
+
   constructor(private APPOINTMENT_SERVICE: ReceptionistAppointmentService,
     private PATIENT_SERVICE: PatientService,
     private toastr: ToastrService,
@@ -138,6 +145,11 @@ export class PopupAddAppointmentComponent implements OnInit {
       month: parseInt(currentDateGMT7.split('-')[1]),
       day: parseInt(currentDateGMT7.split('-')[2])
     }
+  }
+
+  calculateMaxDate(): NgbDateStruct {
+    const currentYear = new Date().getFullYear();
+    return { year: currentYear + 30, month: 12, day: 31 };
   }
 
   startDate: any;

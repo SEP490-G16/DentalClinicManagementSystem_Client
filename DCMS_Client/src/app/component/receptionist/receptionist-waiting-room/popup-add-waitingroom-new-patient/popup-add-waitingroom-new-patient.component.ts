@@ -15,6 +15,7 @@ import { ResponseHandler } from "../../../utils/libs/ResponseHandler";
 import { Normalize } from "../../../../service/Lib/Normalize";
 import { NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { FormatNgbDate } from 'src/app/component/utils/libs/formatNgbDate';
+import { TimestampFormat } from 'src/app/component/utils/libs/timestampFormat';
 
 @Component({
   selector: 'app-popup-add-waitingroom-new-patient',
@@ -213,7 +214,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
       address: this.patient1.Address,
       full_medical_history: this.patient1.full_medical_History,
       dental_medical_history: this.patient1.dental_medical_History,
-      date_of_birth: FormatNgbDate.formatNgbDateToVNString(this.dobNgb),
+      date_of_birth: TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.dobNgb)),
     }
     if (this.patient1.phone_Number && this.patient1.phone_Number.length === 9) {
       this.patientBody = {
@@ -225,7 +226,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
         address: this.patient1.Address,
         full_medical_history: this.patient1.full_medical_History,
         dental_medical_history: this.patient1.dental_medical_History,
-        date_of_birth: FormatNgbDate.formatNgbDateToVNString(this.dobNgb),
+        date_of_birth: TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.dobNgb)),
       }
     }
     if (this.patient1.phone_Number && this.patient1.phone_Number.length === 10) {
@@ -238,7 +239,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
         address: this.patient1.Address,
         full_medical_history: this.patient1.full_medical_History,
         dental_medical_history: this.patient1.dental_medical_History,
-        date_of_birth: FormatNgbDate.formatNgbDateToVNString(this.dobNgb),
+        date_of_birth: TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.dobNgb)),
       }
     }
     this.PATIENT_SERVICE.addPatient(this.patientBody).subscribe((data: any) => {
@@ -280,7 +281,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
             this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
 
           }
-          //this.updateWaitingRoomList();
+          this.updateWaitingRoomList();
           // this.router.navigate(["phong-cho"]);
           //this.WaitingRoomService.updateData
           this.POST_WAITTINGROOM = {

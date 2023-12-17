@@ -121,7 +121,7 @@ export class PopupAddPatientComponent implements OnInit {
       address: this.patient1.Address,
       full_medical_history: this.patient1.full_medical_History,
       dental_medical_history: this.patient1.dental_medical_History,
-      date_of_birth: FormatNgbDate.formatNgbDateToString(this.model)
+      date_of_birth: TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.model))
     }
     if (this.patient1.phone_Number && this.patient1.phone_Number.length === 9) {
       this.patientBody = {
@@ -133,7 +133,7 @@ export class PopupAddPatientComponent implements OnInit {
         address: this.patient1.Address,
         full_medical_history: this.patient1.full_medical_History,
         dental_medical_history: this.patient1.dental_medical_History,
-        date_of_birth: FormatNgbDate.formatNgbDateToString(this.model)
+        date_of_birth: TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.model))
       }
     }
     if (this.patient1.phone_Number && this.patient1.phone_Number.length === 10) {
@@ -146,10 +146,9 @@ export class PopupAddPatientComponent implements OnInit {
         address: this.patient1.Address,
         full_medical_history: this.patient1.full_medical_History,
         dental_medical_history: this.patient1.dental_medical_History,
-        date_of_birth: FormatNgbDate.formatNgbDateToString(this.model)
+        date_of_birth: TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.model))
       }
     }
-    this.patientBody.date_of_birth = TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.model));
     console.log("Post: ", this.patientBody);
 
     // return;

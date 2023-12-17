@@ -19,6 +19,7 @@ import {ConvertJson} from "../../../../../service/Lib/ConvertJson";
 import {Normalize} from "../../../../../service/Lib/Normalize";
 import {ResponseHandler} from "../../../libs/ResponseHandler";
 import {FormatNgbDate} from "../../../libs/formatNgbDate";
+import { TimestampFormat } from '../../../libs/timestampFormat';
 
 @Component({
   selector: 'app-popup-add-appointment-new',
@@ -79,6 +80,11 @@ export class PopupAddAppointmentNewComponent implements OnInit {
     email: '',
     zalo:''
   }
+  // Set the minimum date to January 1, 1900
+  minDate: NgbDateStruct = { year: 1900, month: 1, day: 1 };
+
+  // Set the maximum date to 30 years from the current year
+  maxDate: NgbDateStruct = this.calculateMaxDate();
   //@Input() datesDisabled: any;
   @Input() filteredAppointments: any
 
@@ -234,6 +240,11 @@ export class PopupAddAppointmentNewComponent implements OnInit {
     if (storeList != null) {
       this.listGroupService = JSON.parse(storeList);
     }
+  }
+
+  calculateMaxDate(): NgbDateStruct {
+    const currentYear = new Date().getFullYear();
+    return { year: currentYear + 30, month: 12, day: 31 };
   }
 
   getDisableDate() {
@@ -432,7 +443,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
       address: this.patient1.Address,
       full_medical_history: this.patient1.full_medical_History,
       dental_medical_history: this.patient1.dental_medical_History,
-      date_of_birth:FormatNgbDate.formatNgbDateToString(this.dobNgb)
+      date_of_birth:TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.dobNgb))
     }
     if (this.patient1.phone_Number && this.patient1.phone_Number.length === 9) {
       this.patientBody = {
@@ -444,7 +455,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
         address: this.patient1.Address,
         full_medical_history: this.patient1.full_medical_History,
         dental_medical_history: this.patient1.dental_medical_History,
-        date_of_birth: FormatNgbDate.formatNgbDateToString(this.dobNgb)
+        date_of_birth: TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.dobNgb))
       }
     }
     if (this.patient1.phone_Number && this.patient1.phone_Number.length === 10) {
@@ -457,7 +468,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
         address: this.patient1.Address,
         full_medical_history: this.patient1.full_medical_History,
         dental_medical_history: this.patient1.dental_medical_History,
-        date_of_birth: FormatNgbDate.formatNgbDateToString(this.dobNgb)
+        date_of_birth: TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.dobNgb))
       }
     }
 
