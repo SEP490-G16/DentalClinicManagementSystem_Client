@@ -49,10 +49,6 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
       name: "",
     }
   }
-  validateTreatmentCouse ={
-    name:''
-  }
-  isSubmittedTreatmentCourse:boolean = false;
   valdateSpecimens:any = {};
   isSubmittedSpecimens: boolean = false;
   validateMedicine:any = {}
@@ -370,14 +366,6 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
   listUpdateMaterial: any[] = [];
 
   editTreatmentCourse() {
-    this.resetValidateTreatmentCourse();
-    if (!this.Edit_TreatmentCourse.name){
-      this.validateTreatmentCouse.name = "Vui lòng nhập phương án điều trị!";
-      this.isSubmittedTreatmentCourse = true;
-    }
-    if (this.isSubmittedTreatmentCourse){
-      return;
-    }
     this.Edit_TreatmentCourse.prescription = this.recordsMedicine;
     this.Edit_TreatmentCourse.prescription = JSON.stringify(this.Edit_TreatmentCourse.prescription);
     this.treatmentCourseService.putTreatmentCourse(this.Edit_TreatmentCourse.treatment_course_id, this.Edit_TreatmentCourse)
@@ -711,12 +699,6 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
     if (index2 != -1) {
       this.unique.splice(index2, 1);
     }
-  }
-  resetValidateTreatmentCourse(){
-    this.validateTreatmentCouse = {
-      name: ''
-    }
-    this.isSubmittedTreatmentCourse = false;
   }
 }
 
