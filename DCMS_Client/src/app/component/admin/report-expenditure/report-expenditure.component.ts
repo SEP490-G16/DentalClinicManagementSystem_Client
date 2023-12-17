@@ -76,7 +76,7 @@ export class ReportExpenditureComponent implements OnInit {
       console.log("Check organizeData",this.organizeData(JSON.parse(`[${itemsString[1]}]`)));
       if (itemsString && itemsString.length > 1) {
         this.listExpense = this.organizeData(JSON.parse(`[${itemsString[1]}]`));
-        //console.log(this.listExpense);
+        console.log("nhảy vào",this.listExpense);
         this.listExpense.forEach((item:any) => {
           item.records.forEach((it:any) => {
             let expenseObject = {
@@ -201,17 +201,72 @@ export class ReportExpenditureComponent implements OnInit {
         this.listExpense = res.Items;
         const itemsString = res.match(/Items=\[(.*?)\]/);
         if (itemsString && itemsString.length > 1) {
-          this.listExpense = JSON.parse(`[${itemsString[1]}]`);
+          this.listExpense = this.organizeData(JSON.parse(`[${itemsString[1]}]`));
         }
+        this.listExpense.forEach((item:any) => {
+
+          item.details.forEach((s:any) =>{
+            this.billObject = {
+              epoch: item.epoch,
+              createDate: s.details.createDate,
+              createBy: s.createBy,
+              typeExpense: s.typeExpense,
+              note: s.note,
+              totalAmount: s.totalAmount
+            }
+            this.totalBill += parseInt(s.totalAmount);
+            this.listDisplayExpense.push(this.billObject);
+            this.billObject = {
+              epoch: '',
+              createDate: '',
+              createBy: '',
+              typeExpense: '',
+              note: '',
+              totalAmount: ''
+            }
+          })
+
+        })
+        console.log("a",this.listDisplayExpense)
+        this.listFilterDate = this.listDisplayExpense;
       })
     } else if (fromDate != '' && toDate == undefined) {
       const currentDate2 = fromDate+" 23:59:59";
       this.paidMaterialUsageService.getListExpense(this.dateToTimestamp(fromDate+" 00:00:00").toString(), this.dateToTimestamp(currentDate2).toString()).subscribe((res) => {
         this.listExpense = res.Items;
+        console.log("item", res.Items);
         const itemsString = res.match(/Items=\[(.*?)\]/);
         if (itemsString && itemsString.length > 1) {
-          this.listExpense = JSON.parse(`[${itemsString[1]}]`);
+          //this.listExpense = JSON.parse(`[${itemsString[1]}]`);
+          this.listExpense = this.organizeData(JSON.parse(`[${itemsString[1]}]`));
+          console.log("listE", this.listExpense)
         }
+        this.listExpense.forEach((item:any) => {
+
+          item.records.forEach((s:any) =>{
+            this.billObject = {
+              epoch: item.epoch,
+              createDate: s.details.createDate,
+              createBy: s.details.createBy,
+              typeExpense: s.details.typeExpense,
+              note: s.details.note,
+              totalAmount: s.details.totalAmount
+            }
+            this.totalBill += parseInt(s.details.totalAmount);
+            this.listDisplayExpense.push(this.billObject);
+            this.billObject = {
+              epoch: '',
+              createDate: '',
+              createBy: '',
+              typeExpense: '',
+              note: '',
+              totalAmount: ''
+            }
+          })
+
+        })
+        console.log("a",this.listDisplayExpense)
+        this.listFilterDate = this.listDisplayExpense;
       })
     } else if (fromDate != '' && toDate != undefined) {
       //const currentDate1 = currentDate + " 00:00:00";
@@ -220,34 +275,38 @@ export class ReportExpenditureComponent implements OnInit {
         this.listExpense = res.Items;
         const itemsString = res.match(/Items=\[(.*?)\]/);
         if (itemsString && itemsString.length > 1) {
-          this.listExpense = JSON.parse(`[${itemsString[1]}]`);
+          this.listExpense = this.organizeData(JSON.parse(`[${itemsString[1]}]`));
+          console.log("list", this.listExpense)
         }
+
+        this.listExpense.forEach((item:any) => {
+
+          item.records.forEach((s:any) =>{
+            this.billObject = {
+              epoch: item.epoch,
+              createDate: s.details.createDate,
+              createBy: s.details.createBy,
+              typeExpense: s.details.typeExpense,
+              note: s.details.note,
+              totalAmount: s.details.totalAmount
+            }
+            this.totalBill += parseInt(s.details.totalAmount);
+            this.listDisplayExpense.push(this.billObject);
+            this.billObject = {
+              epoch: '',
+              createDate: '',
+              createBy: '',
+              typeExpense: '',
+              note: '',
+              totalAmount: ''
+            }
+          })
+
+        })
+        console.log("a",this.listDisplayExpense)
+        this.listFilterDate = this.listDisplayExpense;
       })
     }
-
-    this.listExpense.forEach((item:any) => {
-      console.log(ConvertJson.formatAndParse(item.expenses.S));
-      this.ex = ConvertJson.formatAndParse(item.expenses.S);
-      this.billObject = {
-        epoch: item.epoch.N,
-        createDate: this.timestampToDate(this.ex.createDate),
-        createBy: this.ex.createBy,
-        typeExpense: this.ex.typeExpense,
-        note: this.ex.note,
-        totalAmount: this.ex.totalAmount
-      }
-      this.totalBill += parseInt(this.ex.totalAmount);
-      this.listDisplayExpense.push(this.billObject);
-      this.billObject = {
-        epoch: '',
-        createDate: '',
-        createBy: '',
-        typeExpense: '',
-        note: '',
-        totalAmount: ''
-      }
-    })
-    this.listFilterDate = this.listDisplayExpense;
   }
 
   dateToTimestamp(dateStr: string): number {

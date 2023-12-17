@@ -125,7 +125,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
         this.CheckRealTimeWaiting = [...this.waitingRoomData];
         console.log("Check realtime waiting: ", this.CheckRealTimeWaiting)
         this.waitingRoomService.updateData(this.CheckRealTimeWaiting);
-        this.dataService.UpdateWaitingRoomTotal(3, this.CheckRealTimeWaiting.length);
+        //this.dataService.UpdateWaitingRoomTotal(3, this.CheckRealTimeWaiting.length);
         localStorage.setItem("ListPatientWaiting", JSON.stringify(this.CheckRealTimeWaiting));
       },
       (error) => {

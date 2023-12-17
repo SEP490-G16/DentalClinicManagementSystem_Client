@@ -21,7 +21,7 @@ export class PopupEditMaterialComponent implements OnChanges {
   materialInput = {
     name: '',
     unit: '',
-    quantity: 0,
+    quantity: '',
     warrantyDate: ""
   }
   materialBody = {
@@ -36,7 +36,7 @@ export class PopupEditMaterialComponent implements OnChanges {
     id: '',
     name: '',
     unit: '',
-    quantity: 0,
+    quantity: '',
     warrantyDate: ""
   }
   isSubmitted: boolean = false;
@@ -55,8 +55,6 @@ export class PopupEditMaterialComponent implements OnChanges {
   ngOnInit(): void {
   }
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("item: ", this.item)
-    console.log("Material: ", this.material)
     if (changes['material'] && this.material) {
       this.materialInput.name = this.material.materialName;
       this.materialInput.unit = this.material.unit;
@@ -74,6 +72,7 @@ export class PopupEditMaterialComponent implements OnChanges {
     this.materialInput.warrantyDate = FormatNgbDate.formatNgbDateToVNString(this.model)
   }
   updateMaterial() {
+    const warrantDate = FormatNgbDate.formatNgbDateToString(this.model);
     this.resetValidates();
     if (!this.materialInput.name) {
       this.validateMaterial.name = "Vui lòng nhập tên vật liệu!";
@@ -83,22 +82,24 @@ export class PopupEditMaterialComponent implements OnChanges {
       this.validateMaterial.unit = "Vui lòng nhập đơn vị!";
       this.isSubmitted = true;
     }
-    if(!this.isDate(this.materialInput.warrantyDate)) {
+    if (!this.checkNumber(this.materialInput.quantity)){
+      this.validateMaterial.quantity = "Vui lòng nhập số lượng > 0!";
+      this.isSubmitted = true;
+    }
+    if(this.isDate(warrantDate)) {
       this.validateMaterial.warrantyDate = "Vui lòng nhập đúng định dạng Ngày/Tháng/Năm !";
       this.isSubmitted = true;
     }
     if (this.isSubmitted) {
       return;
     }
-    console.log(this.materialInput.warrantyDate);
     this.materialBody = {
       discount: this.item.discount.toString(),
-      quantity_import: this.materialInput.quantity,
-      remaining: this.item.quantity,
+      quantity_import: this.item.quantity,
+      remaining: parseInt(this.materialInput.quantity),
       price: this.material.unitPrice,
       warranty:  TimestampFormat.timeAndDateToTimestamp("20:00",FormatNgbDate.formatNgbDateToString(this.model))
     }
-    console.log(this.materialBody);
     //return;
     this.matMaterialWarehouseService.updateMaterialImportMaterial(this.item.mw_material_warehouse_id, this.materialBody).subscribe(data => {
       this.toastr.success('Cập nhật vật liệu thành công!');
@@ -122,7 +123,7 @@ export class PopupEditMaterialComponent implements OnChanges {
       id: '',
       name: '',
       unit: '',
-      quantity: 0,
+      quantity: '',
       warrantyDate: ""
     }
     this.isSubmitted = false;

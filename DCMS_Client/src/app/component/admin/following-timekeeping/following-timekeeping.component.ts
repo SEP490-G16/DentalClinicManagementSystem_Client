@@ -53,7 +53,7 @@ export class FollowingTimekeepingComponent implements OnInit {
     const daysInMonth = new Date(current.getFullYear(), (current.getMonth() + 1), 0).getDate();
     this.totalDate = daysInMonth + '';
     this.totalShift = parseInt(this.toDate) * 2;
-    
+
     //console.log("Check dates",this.totalDate);
     const frDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + 1;
     const tDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + daysInMonth;
@@ -241,7 +241,7 @@ export class FollowingTimekeepingComponent implements OnInit {
               }
               this.staffTimeKeeping.sub_id = currentObject.subId;
               this.staffTimeKeeping.staff_name = currentObject.details.staff_name;
-              this.staffTimeKeeping.role_name = currentObject.details.role == "1" ? "Admin" : currentObject.details.role == "2" ? 'Bác sĩ' : currentObject.details.role == "3" ? 'Lễ tân' : currentObject.details.role == "4" ? 'Điều dưỡng': 'Y tá trưởng';
+              this.staffTimeKeeping.role_name = currentObject.details.role == "1" ? "Admin" : currentObject.details.role == "2" ? 'Bác sĩ' : currentObject.details.role == "3" ? 'Lễ tân' : currentObject.details.role == "4" ? 'Điều dưỡng': 'Điều dưỡng trưởng';
               if (currentObject.details.register_clock_in == 1) {
                 if (currentObject.details.clock_in != '' && currentObject.details.clock_out != '') {
                   this.staffTimeKeeping.total_working++;

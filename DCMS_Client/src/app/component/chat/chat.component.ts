@@ -176,6 +176,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
               } else {
                 item.status = check[2];
                 if (item.status == "2") {
+                  this.dataService.UpdateWaitingRoomTotal(0, 0);
                   console.log("check log");
                   this.dataService.UpdatePatientExaminate(1, 0);
                 } else if (item.status == "3") {

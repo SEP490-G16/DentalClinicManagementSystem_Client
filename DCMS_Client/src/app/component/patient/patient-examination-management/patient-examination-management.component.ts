@@ -115,7 +115,7 @@ export class PatientExaminationManagementComponent implements OnInit {
         // this.realTimeWaiting = [...this.exRooms].filter((waitingRoom:any) => waitingRoom.status == 2);
         // this.realTimeExaminated = [...this.exRooms].filter((waitingRoom:any) => waitingRoom.status == 3);
 
-        this.dataService.UpdateWaitingRoomTotal(3, data.length);
+        //this.dataService.UpdateWaitingRoomTotal(3, data.length);
 
         // Cache
         this.listPatientId = this.exRooms.map((item: any) => item.patient_id);

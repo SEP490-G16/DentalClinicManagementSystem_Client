@@ -137,7 +137,7 @@ export class StaffComponent implements OnInit {
     } else if (id == "4") {
       return "Điều dưỡng";
     } else if (id == "5") {
-      return "Y tá trưởng";
+      return "Điều dưỡng trưởng";
     }
   }
   staffEdit: any;
