@@ -278,13 +278,13 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
   postTreatmentCourse() {
     this.resetValidateTreatmentCourse();
     this.Post_TreatmentCourse.patient_id = this.id;
-    if (!this.TreatmentCouseBody.name) {
-      this.validateTreatmentCouse.name = "Vui lòng nhập phương án điều trị!";
-      this.isSubmittedTreatmentCourse = true;
-    }
-    if (this.isSubmittedTreatmentCourse) {
-      return;
-    }
+    // if (!this.TreatmentCouseBody.name) {
+    //   this.validateTreatmentCouse.name = "Vui lòng nhập phương án điều trị!";
+    //   this.isSubmittedTreatmentCourse = true;
+    // }
+    // if (this.isSubmittedTreatmentCourse) {
+    //   return;
+    // }
     this.Post_TreatmentCourse.name = this.TreatmentCouseBody.name;
     this.Post_TreatmentCourse.chief_complaint = this.TreatmentCouseBody.lydo;
     this.Post_TreatmentCourse.differential_diagnosis = this.TreatmentCouseBody.nguyennhan;

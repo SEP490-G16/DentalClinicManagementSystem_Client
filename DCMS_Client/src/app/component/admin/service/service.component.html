@@ -82,7 +82,7 @@
             <td>{{s.mp_id}}</td>
             <td class="truncate" title="{{s.mp_name}}">{{s.mp_name}}</td>
             <td>{{s.mg_name}}</td>
-            <td>{{s.mp_price}}</td>
+            <td>{{s.mp_price |currency:'VND':'symbol':'1.0-0'}}</td>
             <td>{{s.mp_description}}</td>
             <td class="text-center">
               <button href="#" class="btn btn-primary float-right btn-rounded" title="Sửa thủ thuật" (click)="openEditService(s.mp_id,s)"
