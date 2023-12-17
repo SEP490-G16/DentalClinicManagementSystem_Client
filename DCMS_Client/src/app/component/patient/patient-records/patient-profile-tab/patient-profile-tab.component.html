@@ -15,15 +15,15 @@
             <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
                 (click)="navigateHref('/benhnhan/danhsach/tab/mauvat/')">Mẫu</a>
             </li>
-<!--            <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"-->
-<!--                (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>-->
-<!--            </li>-->
+            <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
+                (click)="navigateHref('/benhnhan/danhsach/tab/lichhen/')">Lịch hẹn</a>
+            </li>
           </ng-container>
           <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
               (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/')">Thanh toán</a>
           </li>
           <li class="nav-item mr-2"><a class="nav-link" style="padding: 10px; color: #000; cursor: pointer;"
-                                       (click)="navigateHref('/benhnhan/danhsach/tab/phieu-thu/')">Phiếu thu</a>
+              (click)="navigateHref('/benhnhan/danhsach/tab/phieu-thu/')">Phiếu thu</a>
           </li>
         </ul>
         <!-- <div class="tab-content">
@@ -33,17 +33,17 @@
     </div>
     <div class="tab-pane show active" id="TTCtab">
       <div class="row">
-<!--        <div class="col-md-4 mt-5">-->
-<!--          <div class="card mb-4 mb-xl-0">-->
-<!--            <div class="card-body text-center">-->
-<!--              <img class="img-account-profile mb-2"-->
-<!--                [src]="imageURL"-->
-<!--                alt="">-->
-<!--                <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput style="display: none;">-->
-<!--              <button class="btn btn-primary" type="button" (click)="fileInput.click()" [hidden]="!isEditing">Chọn ảnh</button>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
+        <!--        <div class="col-md-4 mt-5">-->
+        <!--          <div class="card mb-4 mb-xl-0">-->
+        <!--            <div class="card-body text-center">-->
+        <!--              <img class="img-account-profile mb-2"-->
+        <!--                [src]="imageURL"-->
+        <!--                alt="">-->
+        <!--                <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput style="display: none;">-->
+        <!--              <button class="btn btn-primary" type="button" (click)="fileInput.click()" [hidden]="!isEditing">Chọn ảnh</button>-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--        </div>-->
         <div class="col-md-12">
           <!-- Account details card-->
           <div class="card mb-4">
@@ -73,8 +73,8 @@
                 <div class="col-md-6">
                   <div class="form-group mb-3">
                     <label class="small mb-1" for="inputLocation">Địa chỉ <span class="required">*</span></label>
-                    <input class="form-control" [(ngModel)]="patientDisplay.address" id="inputLocation" [disabled]="!isEditing"
-                      type="text" placeholder="Địa chỉ">
+                    <input class="form-control" [(ngModel)]="patientDisplay.address" id="inputLocation"
+                      [disabled]="!isEditing" type="text" placeholder="Địa chỉ">
                     <div *ngIf="isSubmitted" class="alert-danger-custom">
                       <p>
                         {{validatePatient.address}}
@@ -89,14 +89,12 @@
                     <label class="small mb-1" for="dob">Ngày sinh <span class="required">*</span></label>
                     <!-- <input class="form-control" [(ngModel)]="patient.date_of_birth" [disabled]="!isEditing" id="dob"
                       type="date"> -->
-                      <div class="input-group">
-                        <input class="form-control" placeholder="dd/mm/yyyy"
-                        name="dp" ngbDatepicker [(ngModel)]="dob"  [disabled]="!isEditing"
-                          #d="ngbDatepicker" (ngModelChange)="onDOBChange()"/>
-                        <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()"
-                        [hidden]="!isEditing"
-                        type="button"></button>
-                      </div>
+                    <div class="input-group">
+                      <input class="form-control" placeholder="dd/mm/yyyy" name="dp" ngbDatepicker [(ngModel)]="dob"
+                        [disabled]="!isEditing" #d="ngbDatepicker" (ngModelChange)="onDOBChange()" />
+                      <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()"
+                        [hidden]="!isEditing" type="button"></button>
+                    </div>
                     <div *ngIf="isSubmitted" class="alert-danger-custom">
                       <p>
                         {{validatePatient.dob}}
@@ -129,8 +127,9 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text custom-span" id="basic-addon1">(+84)</span>
                       </div>
-                      <input type="text" class="form-control" [disabled]="!isEditing" [(ngModel)]="patientDisplay.phone_number"
-                        id="inputPhone" name="inputPhone" aria-label="phoneNumber" aria-describedby="basic-addon1">
+                      <input type="text" class="form-control" [disabled]="!isEditing"
+                        [(ngModel)]="patientDisplay.phone_number" id="inputPhone" name="inputPhone"
+                        aria-label="phoneNumber" aria-describedby="basic-addon1">
                     </div>
                     <!--                    <input class="form-control" [(ngModel)]="patient.phone_number" id="inputPhone"-->
                     <!--                      [disabled]="!isEditing" type="tel" placeholder="Số điện thoại">-->
@@ -156,8 +155,8 @@
                 </div>
                 <div class="mb-3">
                   <label class="small mb-1" for="tieuSuBenh">Tiểu sử bệnh</label>
-                  <input class="form-control" [(ngModel)]="patientDisplay.dental_medical_history" [disabled]="!isEditing"
-                    id="tieuSuBenh" type="text">
+                  <input class="form-control" [(ngModel)]="patientDisplay.dental_medical_history"
+                    [disabled]="!isEditing" id="tieuSuBenh" type="text">
                 </div>
                 <div class="mb-3">
                   <label class="small mb-1" for="note">Ghi chú</label>
@@ -169,7 +168,8 @@
               <div style="text-align: center; width: 24%; margin-left: 38%;" class="d-flex justify-content-around">
                 <!-- <button *ngIf="!isEditing" class="btn btn-secondary ml-2 mt-3" routerLink="/benhnhan/danhsach">Quay
                   lại</button> -->
-                <button *ngIf="!isEditing" class="btn btn-secondary ml-2" routerLink="/benhnhan/danhsach">Quay lại</button>
+                <button *ngIf="!isEditing" class="btn btn-secondary ml-2" routerLink="/benhnhan/danhsach">Quay
+                  lại</button>
                 <button *ngIf="isEditing" class="btn btn-secondary ml-2" (click)="cancelUpdate()">Huỷ</button>
                 <button class="btn btn-primary" type="button" (click)="toggleEditing()">
                   {{ isEditing ? 'Lưu' : 'Cập nhật'}}</button>

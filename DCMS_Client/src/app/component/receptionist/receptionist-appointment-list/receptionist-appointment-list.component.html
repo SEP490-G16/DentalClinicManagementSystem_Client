@@ -20,7 +20,7 @@
       <form class="row row-cols-sm-auto">
         <div class="input-group">
           <input class="form-control" placeholder="dd/mm/yyyy" style="font-size: 20px; text-align: center;" name="dp" ngbDatepicker [(ngModel)]="model"
-            #d="ngbDatepicker" (ngModelChange)="getAppointmentList()"/>
+            #d="ngbDatepicker" (ngModelChange)="getAppointmentList()" [minDate]="minDate" [maxDate]="maxDate"/>
           <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
         </div>
       </form>
