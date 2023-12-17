@@ -49,7 +49,7 @@
                 style="padding: 2px 5px; margin-right: 3px">
                 <i class="bi bi-pencil-square"></i>
               </button>
-              <button *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('4') || roleId.includes('5')" href="#" class="btn btn-danger float-right btn-rounded" title="Xoá bệnh nhân"
+              <button href="#" class="btn btn-danger float-right btn-rounded" title="Xoá bệnh nhân"
                 style="padding: 2px 5px" (click)="openDeletePatient(p.patient_id, p.patient_name, $event)">
                 <i class="bi bi-trash"></i>
               </button>
