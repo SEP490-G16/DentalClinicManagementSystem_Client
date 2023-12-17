@@ -34,17 +34,16 @@
           },
           "configurations": {
             "production": {
-              "optimization": false,
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "50mb",
-                  "maximumError": "60mb"
+                  "maximumWarning": "50kb",
+                  "maximumError": "50kb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "50mb",
-                  "maximumError": "60mb"
+                  "maximumWarning": "50kb",
+                  "maximumError": "50kb"
                 }
               ],
               "fileReplacements": [
