@@ -34,6 +34,7 @@
   border-radius: 10px;
 }
 .button-add {
+  font-family: "Poppins", sans-serif;
   background: #664FC3;
   text-align: center;
   cursor: pointer;
@@ -42,8 +43,8 @@
   font-weight: bold;
   outline: 0px;
   padding: 10px 20px;
-
 }
+
 
 .equal-size-buttons {
   display: flex;

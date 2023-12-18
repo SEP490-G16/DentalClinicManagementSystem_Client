@@ -67,6 +67,7 @@ export class ReportExpenditureComponent implements OnInit {
   listFilterDate: any[] = [];
 
   getListExpense() {
+    this.listFilterDate = [];
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
     const currentDate1 = parseInt(currentDateGMT7.split('-')[0])+"-"+parseInt(currentDateGMT7.split('-')[1])+"-"+(parseInt(currentDateGMT7.split('-')[2]))+ " 00:00:00";
     const currentDate2 = parseInt(currentDateGMT7.split('-')[0])+"-"+parseInt(currentDateGMT7.split('-')[1])+"-"+parseInt(currentDateGMT7.split('-')[2])+ " 23:59:59" ;
@@ -174,7 +175,7 @@ export class ReportExpenditureComponent implements OnInit {
     const fromDateDay = this.fromDate.day.toString().padStart(2, '0');
     const fromDate = `${fromDateYear}-${fromDateMonth}-${fromDateDay}`;
     this.startDate = fromDate
-    this.filterByDate(this.startDate, this.endDate);
+    // this.filterByDate(this.startDate, this.endDate);
   }
   onChangeToDate(event: any) {
     this.toDate = event;
@@ -183,6 +184,7 @@ export class ReportExpenditureComponent implements OnInit {
     const toDateDay = this.toDate.day.toString().padStart(2, '0');
     const toDate = `${toDateYear}-${toDateMonth}-${toDateDay}`;
     this.endDate = toDate;
+    this.listFilterDate = [];
     this.filterByDate(this.startDate, this.endDate);
   }
   // onChangeToDate(toDate:any) {
