@@ -43,7 +43,7 @@ export class PopupEditRevenueComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['billEdit']) {
+    if (changes['billEdit'] && this.billEdit) {
       const createDateParts = this.billEdit.createDate?.split(' ')[0].split('-').map(Number);
       if (createDateParts && createDateParts.length === 3) {
         this.createDateNgbModal = { year: createDateParts[0], month: createDateParts[1], day: createDateParts[2] };
