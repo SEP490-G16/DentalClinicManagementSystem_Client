@@ -137,10 +137,6 @@ b {
   /* Sidebar width and main content */
 }
 
-.sep-navigation {
-  height: 80vh;
-}
-
 /* aside .sidebar {
   display: flex;
   flex-direction: column;

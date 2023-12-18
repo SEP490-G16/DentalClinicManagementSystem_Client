@@ -156,29 +156,24 @@ export class ReceptionistAppointmentListComponent implements OnInit {
       this.appointmentList = ConvertJson.processApiResponse(data);
       localStorage.setItem("ListAppointment", JSON.stringify(this.appointmentList));
       this.filteredAppointments = this.appointmentList.filter(app => app.date === this.dateToTimestamp(selectedDate));
+      console.log("Appointment: " ,this.appointmentList);
+      // this.filteredAppointments.forEach((appointmentParent: any) => {
+      //   this.dateEpoch = this.timestampToDate(appointmentParent.date);
 
-      this.filteredAppointments.forEach((appointmentParent: any) => {
-        // Assuming timestampToDate is a method that converts timestamp to Date.
-        this.dateEpoch = this.timestampToDate(appointmentParent.date);
+      //   const allDetails = appointmentParent.appointments
+      //     .map((appointment: any) => appointment.details)
+      //     .flat();
 
-        // Flatten the details from each appointment into a single array.
-        const allDetails = appointmentParent.appointments
-          .map((appointment: any) => appointment.details)
-          .flat();
+      //   allDetails.sort((a: any, b: any) => {
+      //     const timeA = typeof a.time === "string" ? parseInt(a.time, 10) : a.time;
+      //     const timeB = typeof b.time === "string" ? parseInt(b.time, 10) : b.time;
+      //     return timeA - timeB;
+      //   });
 
-        // Sort the flattened details array by time.
-        allDetails.sort((a: any, b: any) => {
-          const timeA = typeof a.time === "string" ? parseInt(a.time, 10) : a.time;
-          const timeB = typeof b.time === "string" ? parseInt(b.time, 10) : b.time;
-          return timeA - timeB;
-        });
-
-        // Now we need to redistribute the sorted details back into the appointments.
-        // This assumes that each appointment has exactly one detail.
-        for (let i = 0; i < appointmentParent.appointments.length; i++) {
-          appointmentParent.appointments[i].details = [allDetails[i]];
-        }
-      });
+      //   for (let i = 0; i < appointmentParent.appointments.length; i++) {
+      //     appointmentParent.appointments[i].details = [allDetails[i]];
+      //   }
+      // });
 
       console.log("Filter Appointment: ", this.filteredAppointments);
       this.loading = false;
