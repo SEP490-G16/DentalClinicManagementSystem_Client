@@ -64,16 +64,17 @@ export class PopupEditMaterialRealComponent implements OnInit, OnChanges {
     }
     this.materialSerivce.updateMaterial(this.materialEdit.material_id, this.materialBody).subscribe(data => {
       this.toastr.success('Chính sửa vật liệu thành công!');
-      //window.location.reload();
-      let ref = document.getElementById('cancel-editMaterial');
-      ref?.click();
-      const newMaterialId = data.data.medical_id;
-      const Body = {
-        material_id: newMaterialId,
-        material_name: this.material.name,
-        unit: this.material.unit
-      }
-      this.materialUpdated.emit(Body);
+      window.location.reload();
+      // let ref = document.getElementById('cancel-editMaterial');
+      // ref?.click();
+      // const newMaterialId = data.data.medical_id;
+      // const Body = {
+      //   material_id: newMaterialId,
+      //   material_name: this.material.name,
+      //   unit: this.material.unit,
+      //   total: this.material.total
+      // }
+      // this.materialUpdated.emit(Body);
     },
       error => {
         this.toastr.error(error.error.message, 'Sửa vật liệu thất bại!');

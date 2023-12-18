@@ -5,11 +5,11 @@
         <a routerLink="/cham-cong" routerLinkActive="active-link" class="page-title">Chấm công</a>
       </div>
     </ng-container>
-    <div class="dang-ki-lam-viec" *ngIf="roleId.includes('1') || roleId.includes('5') || roleId.includes('2') || roleId.includes('4')">
+    <div class="dang-ki-lam-viec" *ngIf="roleId.includes('1') || roleId.includes('3') || roleId.includes('5') || roleId.includes('2') || roleId.includes('4')">
       <a routerLink="/dang-ky-lich-lam-viec" routerLinkActive="active-link" class="page-title">Đăng kí lịch làm
         việc</a>
     </div>
-    <div class="theo-doi" *ngIf="roleId.includes('1') || roleId.includes('5') || roleId.includes('2') || roleId.includes('4')">
+    <div class="theo-doi" *ngIf="roleId.includes('1') || roleId.includes('3') || roleId.includes('5') || roleId.includes('2') || roleId.includes('4')">
       <a routerLink="/theo-doi-cham-cong" routerLinkActive="active-link" class="page-title">Theo dõi
         chấm công</a>
     </div>
