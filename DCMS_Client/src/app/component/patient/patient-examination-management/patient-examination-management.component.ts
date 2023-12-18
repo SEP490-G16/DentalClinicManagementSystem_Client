@@ -23,7 +23,7 @@ export class PatientExaminationManagementComponent implements OnInit {
   exRooms: any;
   groupServices: any[] = [];
   filteredWaitingRoomData: any[] = [];
-
+  currentDate: any;
   //Filter
   procedureFilter: string = '0';
   status: string = '1';
@@ -63,6 +63,11 @@ export class PatientExaminationManagementComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh');
+    const day = currentDateGMT7.date();
+    const month = currentDateGMT7.month() + 1; // Tháng bắt đầu từ 0
+    const year = currentDateGMT7.year();
+    this.currentDate = day + "/" + month + "/" + year;
     this.authorize();
     this.getListGroupService();
     this.getWaitingRoomData(null);
