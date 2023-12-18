@@ -165,7 +165,7 @@ b {
 }
 
 .sep-navigation.active .sep-menuToggle .logo {
-  padding-left: 30px;
+  padding-left: 20px;
   display: flex;
   gap: 0.5rem;
   visibility: visible;
@@ -229,16 +229,17 @@ b {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 92%;
+  height: 100vh;
 }
 
 .sep-navigation ul li {
   list-style: none;
-  position: relative;
+  /* position: relative;
   width: 100%;
   height: var(--slidebar-sep-navigation-ul-li);
   border-radius: 14px;
   border: 8px solid transparent;
+  */
   transition: 0.5s;
 }
 
@@ -776,6 +777,10 @@ ngb-timepicker .btn:hover {
     width: 100px; /* Set a fixed width for each column */
     overflow: hidden; /* Hide content that overflows the fixed width */
   }
+
+  aside ul {
+    min-height: 60vh;
+  }
 }
 
 
@@ -872,6 +877,7 @@ ngb-timepicker .btn:hover {
   .sep-main {
     max-width: 82vw;
   }
+
 }
 
 /* Mobile Styles */
