@@ -137,23 +137,21 @@ b {
   /* Sidebar width and main content */
 }
 
-aside {
-  height: 95vh;
-  overflow-y: auto;
-  /* For scrolling if the content is longer than the viewport */
+.sep-navigation {
+  height: 80vh;
 }
 
-aside .sidebar {
+/* aside .sidebar {
   display: flex;
   flex-direction: column;
   background-color: var(--custom-color-white);
   box-shadow: var(--custom-box-shadow);
   border-radius: 15px;
-  min-height: 97vh;
+  min-height: 80vh;
   position: sticky;
   top: .9rem;
   transition: all var(--transition-speed) ease;
-}
+} */
 
 .logo {
   display: flex;
@@ -170,7 +168,6 @@ aside .sidebar {
 }
 
 .logo p {
-  padding-left: 15%;
   display: flex;
   /* This will align the spans in a row */
   white-space: nowrap;
@@ -179,10 +176,10 @@ aside .sidebar {
   /* Center the text horizontally */
   align-items: center;
   /* Center the text vertically */
-  gap: 4px;
+  gap: 2px;
   /* Adjust the gap between words as necessary */
   color: #9DBAD5;
-  font-family: 'Rubik';
+  font-size: 8px;
 }
 
 /* Assuming .clinic and .danger are classes for the respective <span> elements */
@@ -192,8 +189,7 @@ aside .sidebar {
   /* Inline display to keep text in the same line */
   font-weight: bold;
   /* Bold for both parts of the text */
-  font-family: 'Dancing Script', cursive;
-  font-size: 20px;
+  font-size: 12px;
   font-weight: 900;
 }
 
@@ -204,7 +200,7 @@ aside .sidebar {
   /* Cho phép logo mở rộng tối đa theo chiều rộng của phần tử chứa */
   height: auto;
   /* Duy trì tỷ lệ chiều rộng/chiều cao của logo */
-  min-width: 150px;
+  min-width: 50px;
   /* Đặt chiều rộng tối thiểu cho logo */
   min-height: 50px;
   /* Đặt chiều cao tối thiểu cho logo, có thể điều chỉnh nếu cần */

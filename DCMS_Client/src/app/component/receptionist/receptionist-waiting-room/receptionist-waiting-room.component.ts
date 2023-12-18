@@ -102,6 +102,21 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
       console.log("check update: ", this.notification);
       if (this.notification.status == '2') {
         this.openNotification(this.notification);
+        this.waitingRoomService.updateAnalysesData({
+          status: '1',
+          content: {
+            epoch: '',
+            produce_id: '',
+            produce_name: '',
+            patient_id: '',
+            patient_name: '',
+            reason: '',
+            patient_created_date: '',
+            status_value: '',
+            appointment_id: '',
+            appointment_epoch: '',
+          }
+        });
       }
     })
   }
