@@ -42,6 +42,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
   roleId: any;
   notificationSound = new Audio('assets/Notification-13.mp3');
   NEW: string = "new";
+  currentDate: any;
   public dataArray: any[] = [];
 
   constructor(private waitingRoomService: ReceptionistWaitingRoomService,
@@ -83,6 +84,11 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh');
+    const day = currentDateGMT7.date();
+    const month = currentDateGMT7.month() + 1; // Tháng bắt đầu từ 0
+    const year = currentDateGMT7.year();
+    this.currentDate = day + "/" + month + "/" + year;
     let co = sessionStorage.getItem('role');
     if (co != null) {
       this.roleId = co.split(',');

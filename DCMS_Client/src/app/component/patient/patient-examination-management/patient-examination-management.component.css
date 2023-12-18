@@ -94,4 +94,10 @@
 }
 .date{
   font-size: 20px;
+  margin-bottom: 0;
+}
+.currentDate{
+  display: flex;
+  align-items: center;
+  justify-content: right;
 }
