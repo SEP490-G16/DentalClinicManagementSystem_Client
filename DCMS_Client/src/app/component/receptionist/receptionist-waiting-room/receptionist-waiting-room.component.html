@@ -4,22 +4,20 @@
 </div> -->
 <div class="sep-recent-orders">
   <div class="row mt-4 mb-4">
-    <div class="col-6 equal-width-buttons">
-      <button class="btn button-add-waitting" data-bs-toggle="modal" data-bs-target="#wrModal">
+    <div class="col-6">
+      <button class="btn button-add-waitting" style="margin-right: 3%;" data-bs-toggle="modal" data-bs-target="#wrModal">
         <i class="bi bi-plus-circle"></i> Thêm bệnh nhân đợi cũ
       </button>
       <button class="btn button-add-waitting" data-bs-toggle="modal" data-bs-target="#wrNewModal">
         <i class="bi bi-plus-circle"></i> Thêm bệnh nhân đợi mới
       </button>
     </div>
-    <div class="col-2 currentDate">
-      <div class="float-end">
-        <p class="date">Ngày khám: {{currentDate}}</p>
-      </div>
+    <div class="col-3">
+        <p class="date">{{currentDate}}</p>
     </div>
-    <div class="col-4">
-      <select class="form-select input-custom float-end" aria-label="Default select example" [(ngModel)]="procedure"
-        (change)="filterProcedure()" style="width: 30%;">
+    <div class="col-3">
+      <select class="form-select input-custom" aria-label="Default select example" [(ngModel)]="procedure"
+        (change)="filterProcedure()">
         <option selected value="0">Loại điều trị</option>
         <option *ngFor="let a of listGroupService" value={{a.medical_procedure_group_id}}>{{a.name}}</option>
       </select>
@@ -126,9 +124,9 @@
                       Thanh toán</button>
                   </td>
                 </ng-container>
-                <ng-container>
+                <!-- <ng-container>
                   <td></td>
-                </ng-container>
+                </ng-container> -->
               </ng-container>
             </ng-container>
           </ng-container>

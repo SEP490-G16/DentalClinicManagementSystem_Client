@@ -1,5 +1,4 @@
 .input-custom {
-  width: 30%;
   padding: 10px 20px;
   border: 1px solid #664FC3;
   border-radius: 10px;
@@ -177,13 +176,30 @@
     width: 100%;
     box-sizing: border-box;
   }
+
 }
-.date{
-  font-size: 20px;
-  margin-bottom: 0;
+
+.date {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Elegant and modern font */
+  font-size: 20px; /* Larger font size for prominence */
+  color: #000; /* White color for the text for better contrast */
+  padding: 10px 20px; /* Comfortable padding around the text */
+  border-radius: 30px; /* Smooth, pill-like rounded corners */
+  box-shadow: 0 8px 20px rgba(100, 109, 148, 0.6); /* More pronounced shadow for depth */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* More defined text shadow for a pop effect */
+  display: block; /* Allows width to be set */
+  border: none; /* No border for a clean and modern look */
+  font-weight: 600; /* Semi-bold font weight for emphasis */
+ text-align: center;/* Centers the text within the element */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effects */
+  cursor: default; /* Changes the cursor to indicate the element is not clickable */
+  width: 100%; /* Sets the width to fit the content with padding */
 }
-.currentDate{
-  display: flex;
-  align-items: center;
-  justify-content: right;
+
+.date:hover {
+  transform: translateY(-3px); /* Slightly raises the date block on hover */
+  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.8); /* Enhances shadow on hover for a lifting effect */
 }
+
+
+

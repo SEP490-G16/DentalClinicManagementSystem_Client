@@ -1,13 +1,14 @@
 <div class="sep-recent-orders">
   <div class="row mt-4 mb-4">
-    <div class="col-6 currentDate">
-      <div class="float-end">
-        <p class="date">Ngày khám: {{currentDate}}</p>
-      </div>
+    <div class="col-3">
+
     </div>
     <div class="col-6">
-      <select class="form-select input-custom float-end" aria-label="Default select example" [(ngModel)]="procedureFilter"
-        (ngModelChange)="filterProcedure()" style="width: 30%;">
+        <p class="date">{{currentDate}}</p>
+    </div>
+    <div class="col-3">
+      <select class="form-select input-custom" aria-label="Default select example" [(ngModel)]="procedureFilter"
+        (ngModelChange)="filterProcedure()">
         <option selected value="0">Loại điều trị</option>
         <option *ngFor="let a of groupServices" value={{a.medical_procedure_group_id}}>{{a.name}}</option>
       </select>
