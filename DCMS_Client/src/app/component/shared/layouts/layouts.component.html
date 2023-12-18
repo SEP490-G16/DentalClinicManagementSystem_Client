@@ -66,15 +66,15 @@
               <span class="text">Chấm công</span>
             </a>
           </li>
-          <li class="list" routerLinkActive="active" routerLink="/dang-ky-lich-lam-viec"
-          *ngIf="roleId.includes('2') || roleId.includes('4') || roleId.includes('5')">
-          <a style="--clr:#664FC3">
-            <span class="icon">
-              <i class="bi bi-calendar3"></i>
-            </span>
-            <span class="text">Đăng kí lịch làm việc</span>
-          </a>
-        </li>
+<!--          <li class="list" routerLinkActive="active" routerLink="/dang-ky-lich-lam-viec"-->
+<!--          *ngIf="roleId.includes('2') || roleId.includes('4') || roleId.includes('5')">-->
+<!--          <a style="&#45;&#45;clr:#664FC3">-->
+<!--            <span class="icon">-->
+<!--              <i class="bi bi-calendar3"></i>-->
+<!--            </span>-->
+<!--            <span class="text">Đăng kí lịch làm việc</span>-->
+<!--          </a>-->
+<!--        </li>-->
           <li class="list" routerLink="/thu-thuat" *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('5') || roleId.includes('4')" routerLinkActive="active">
             <a style="--clr:#664FC3">
               <span class="icon">
