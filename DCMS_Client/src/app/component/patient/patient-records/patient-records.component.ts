@@ -60,7 +60,7 @@ export class PatientRecordsComponent implements OnInit {
     this.hasNextPage = this.searchPatientsList.length > 10;
   }
 
-  searchLi : any[] = [];
+  searchLi: any[] = [];
   loadPage(paging: number) {
     this.currentPage = paging;
     this.patientService.getPatientList(paging).subscribe(patients => {
@@ -88,34 +88,47 @@ export class PatientRecordsComponent implements OnInit {
       setTimeout(() => {
       }, 1000);
 
-      if (/^[a-zA-Z]+$/.test(this.search)) {
-        this.patientService.getPatientByName(this.search, this.pagingSearch.paging).subscribe(
-          patients => {
-            this.searchPatientsList = [];
-            this.searchPatientsList = patients.data.filter((sP: any) =>
-              Normalize.normalizeDiacritics(sP.patient_name.toLowerCase()).includes(Normalize.normalizeDiacritics(this.search.toLocaleLowerCase()))
-            );
+      if (/\d/.test(this.search)) {
+        this.searchPatientsList = this.originPatientList.filter(sP =>
+          format(new Date(sP.created_date), 'dd/MM/yyyy').includes(this.search)
+        );
 
+        if (this.searchPatientsList.length === 0) {
+          let nextPage = this.pagingSearch.paging + 1;
+          while (this.searchPatientsList.length === 0) {
+            this.loadPage(nextPage);
+            nextPage++;
+
+            if(nextPage == 5) {
+              break;
+            }
+          }
+        }
+      } else {
+        this.patientService.getPatientByName(Normalize.normalizeDiacritics(this.search.toLowerCase()), 1).subscribe(
+          patients => {
+            console.log("Patient: ", patients);
+            this.searchPatientsList = patients.data.filter((sP: any) =>
+            Normalize.normalizeDiacritics(sP.patient_name.toLowerCase()).includes(Normalize.normalizeDiacritics(this.search.toLowerCase()))
+          );
+            console.log("Ptient search: ", this.searchPatientsList);
             this.searchPatientsList.forEach((p: any) => {
               p.phone_number = this.normalizePhoneNumber(p.phone_number);
             })
 
-            this.checkNextPage();
+            // this.checkNextPage();
 
-            if (this.searchPatientsList.length > 10) {
-              this.searchPatientsList.pop();
-            }
+            // if (this.searchPatientsList.length > 10) {
+            //   this.searchPatientsList.pop();
+            // }
           },
           error => {
             ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test + "/patient/name/" + this.search + "/" + this.pagingSearch.paging, error)
           }
         );
-      } else {
-        this.searchPatientsList = this.searchPatientsList.filter(sP =>
-          format(new Date(sP.created_date), 'dd/MM/yyyy').includes(this.search)
-        );
       }
     } else {
+      this.currentPage = 1;
       this.loadPage(this.currentPage);
     }
   }
