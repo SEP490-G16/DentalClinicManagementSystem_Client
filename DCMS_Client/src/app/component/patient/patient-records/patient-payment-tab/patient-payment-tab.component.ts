@@ -23,6 +23,8 @@ import { PopupExaminationDetailComponent } from './popup-examination-detail/popu
 export class PatientPaymentTabComponent implements OnInit {
   RoleId: any;
   Patient_Id: string = "";
+  PatientInfor:any;
+  TreatmentCourse:any
   currentDate: string = "";
   showDetails: { [key: string]: boolean } = {};
   Material_Usage_Report: any[] = [];
@@ -95,6 +97,7 @@ export class PatientPaymentTabComponent implements OnInit {
         this.Material_Usage_Report = Object.values(groupedReport);
 
         this.Material_Usage_Report.forEach(report => {
+          this.PatientInfor = report.p_data;
           report.total = this.calculateTotal(report.mu_data);
           report.totalPaid = this.calculateTotalPaid(report.mu_data);
           report.remaining = report.total - report.totalPaid;
@@ -133,23 +136,38 @@ export class PatientPaymentTabComponent implements OnInit {
     return Math.abs(value);
   }
 
-  toggleDetails(reportId: string): void {
-    if (this.showDetails[reportId] === undefined) {
-      this.showDetails[reportId] = false;
-    }
-    this.showDetails[reportId] = !this.showDetails[reportId];
+  // toggleDetails(reportId: string): void {
+  //   if (this.showDetails[reportId] === undefined) {
+  //     this.showDetails[reportId] = false;
+  //   }
+  //   this.showDetails[reportId] = !this.showDetails[reportId];
+  // }
+
+  toggleDetails(): void {
+
   }
 
-  thanhtoan(materialUsage: any, treatmentCourse: any, patient: any) {
-    const modalRef = this.modalService.open(PopupPaymentComponent, { size: 'xl' });
-    modalRef.componentInstance.TreatmentCourse = treatmentCourse;
-    modalRef.componentInstance.Patient = patient;
-    modalRef.componentInstance.MaterialUsage = materialUsage;
-    modalRef.result.then((result) => {
-    }, (reason) => {
+  // thanhtoan(materialUsage: any, treatmentCourse: any, patient: any) {
+  //   const modalRef = this.modalService.open(PopupPaymentComponent, { size: 'xl' });
+  //   modalRef.componentInstance.TreatmentCourse = treatmentCourse;
+  //   modalRef.componentInstance.Patient = patient;
+  //   modalRef.componentInstance.MaterialUsage = materialUsage;
+  //   modalRef.result.then((result) => {
+  //   }, (reason) => {
 
-    });
+  //   });
+  // }
+
+  thanhtoan() {
+      const modalRef = this.modalService.open(PopupPaymentComponent, { size: 'xl' });
+      modalRef.componentInstance.MaterialUsage = this.Material_Usage_Report;
+      modalRef.componentInstance.Patient = this.PatientInfor;
+      modalRef.result.then((result) => {
+      }, (reason) => {
+
+      });
   }
+
 
   examinationDetail(materialUsage: any, treatmentCourse: any, patient: any) {
     const modalRef = this.modalService.open(PopupExaminationDetailComponent, { size: 'xl' });

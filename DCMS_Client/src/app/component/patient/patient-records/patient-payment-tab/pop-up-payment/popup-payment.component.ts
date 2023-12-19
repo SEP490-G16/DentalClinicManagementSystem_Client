@@ -17,14 +17,15 @@ import { FacilityService } from 'src/app/service/FacilityService/facility.servic
 })
 export class PopupPaymentComponent implements OnInit, OnChanges {
   @Input() MaterialUsage!: MaterialUsage[];
-  @Input() TreatmentCourse: any
+  TreatmentCourse: any
   @Input() Patient: any
 
+  MaterialUsageDisplay: MaterialUsage[] = []
   total: number = 0
   totalPaid: number = 0
   remaining: number = 0
   currentDate: string = ""
-  paymentAmount:any;
+  paymentAmount: any;
   Body_Paid_MU: Paid_material_usage[] = [];
 
   constructor(
@@ -38,29 +39,34 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
   }
 
   checkPayment: boolean = false;
-  facility_name:any;
+  facility_name: any;
   ngOnInit(): void {
-    this.MaterialUsage.sort((a: any, b: any) => {
+    console.log("material usage: ", this.MaterialUsage);
+    this.MaterialUsageDisplay = this.MaterialUsage.map((item: any) => item.mu_data).flat();
+    this.TreatmentCourse = this.MaterialUsage.map((item: any) => item.tc_data).flat();
+    console.log("Material Usage Display : ", this.MaterialUsageDisplay);
+    this.MaterialUsageDisplay.sort((a: any, b: any) => {
       const dateA = new Date(a.created_date).getTime();
       const dateB = new Date(b.created_date).getTime();
       return dateB - dateA;
     })
 
-    this.MaterialUsage.forEach((mu: any) => {
+    this.MaterialUsageDisplay.forEach((mu: any) => {
       if ((mu.mu_total - mu.mu_total_paid) != 0) {
         this.checkPayment = true;
         return;
       }
     })
-    console.log("Material Usage Sort: ", this.MaterialUsage);
-    this.totalPaid = this.MaterialUsage.reduce((acc: any, mu: any) => acc + (Number(mu.mu_total_paid) || 0), 0);
-    this.total = this.MaterialUsage.reduce((acc: any, mu: any) => acc + (Number(mu.mu_total) || 0), 0);
+    console.log("Material Usage Display Sort: ", this.MaterialUsageDisplay);
+    console.log("TreatmentCourse: ", this.TreatmentCourse);
+    this.totalPaid = this.MaterialUsageDisplay.reduce((acc: any, mu: any) => acc + (Number(mu.mu_total_paid) || 0), 0);
+    this.total = this.MaterialUsageDisplay.reduce((acc: any, mu: any) => acc + (Number(mu.mu_total) || 0), 0);
     this.remaining = this.total - this.totalPaid;
     const facility = sessionStorage.getItem('locale');
     if (facility != null) {
       this.facilityService.getFacilityList().subscribe((data) => {
         var listFacility = data.data;
-        listFacility.forEach((item:any) => {
+        listFacility.forEach((item: any) => {
           if (item.facility_id == facility) {
             this.facility_name = item.name;
           }
@@ -76,72 +82,92 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
     return Math.abs(value);
   }
 
-  calculateDiscount(price:number, mu:any) {
+  calculateDiscount(price: number, mu: any) {
     const initialPriceStr = mu.mu_description.split(" ")[1];
     const intital = initialPriceStr ? parseInt(initialPriceStr) : 0;
 
+    if (intital == 0) {
+      return 0;
+    }
     // Calculate the discount; ensure not to divide by zero
-    if(intital == price) {
+    if (intital == price) {
       return 100;
     }
-    console.log("Oki", (price / intital)*100);
-    return (100 - ((price / intital)*100)).toFixed(1);
+    console.log("Oki", (price / intital) * 100);
+    return (100 - ((price / intital) * 100)).toFixed(1);
   }
 
-
-  receipt = {
-    patient_id : "",
-    payment_type: null ,
-    receipt: [] as Paid_material_usage[]
-  }
-  private checkNumber(number:any):boolean{
+  private checkNumber(number: any): boolean {
     return /^[1-9]\d*$/.test(number);
   }
-  validateAmount={
-    soTien:''
+  validateAmount = {
+    soTien: ''
   }
-  isSubmittedAmout:boolean = false;
-  resetValidateAmount(){
-    this.validateAmount ={
+  isSubmittedAmout: boolean = false;
+  resetValidateAmount() {
+    this.validateAmount = {
       soTien: ''
     }
     this.isSubmittedAmout = false;
   }
+
+  receipt = {
+    patient_id: "",
+    payment_type: null,
+    receipt: [] as Paid_material_usage[]
+  }
+
   postPayment() {
-    console.log("Material Usage: ", this.MaterialUsage)
+    console.log("Material Usage Display: ", this.MaterialUsageDisplay)
     this.resetValidateAmount();
-    if (!this.checkNumber(this.paymentAmount)  || this.paymentAmount > this.total){
+    if (!this.checkNumber(this.paymentAmount) || this.paymentAmount > this.total) {
       this.validateAmount.soTien = "Vui lòng nhập lại số tiền!";
       this.isSubmittedAmout = true;
     }
-    if (this.isSubmittedAmout){
+    if (this.isSubmittedAmout) {
       return;
     }
-    this.MaterialUsage.forEach((item:any) => {
-      if (item.tempPaidAmount !=0 && item.tempPaidAmount != null && item.tempPaidAmount != undefined) {
-        this.resetValidateAmount();
-        if (!this.checkNumber(item.tempPaidAmount)){
-          this.validateAmount.soTien = "Vui lòng nhập lại số tiền!";
-          this.isSubmittedAmout = true;
+
+    // this.MaterialUsageDisplay.forEach((item:any) => {
+    //   if (item.tempPaidAmount !=0 && item.tempPaidAmount != null && item.tempPaidAmount != undefined) {
+    //     this.resetValidateAmount();
+    //     if (!this.checkNumber(item.tempPaidAmount)){
+    //       this.validateAmount.soTien = "Vui lòng nhập lại số tiền!";
+    //       this.isSubmittedAmout = true;
+    //     }
+    //     if (this.isSubmittedAmout){
+    //       return;
+    //     }
+    //   }
+    // })
+
+    this.MaterialUsage.forEach((parent: any) => {
+      parent.mu_data.forEach((mu_data: any) => {
+        const amountDue = mu_data.mu_total - mu_data.mu_total_paid;
+        let total_paid;
+
+        if (this.paymentAmount > amountDue) {
+          total_paid = amountDue;
+          this.paymentAmount -= amountDue;
+        } else {
+          total_paid = this.paymentAmount;
+          this.paymentAmount = 0;
         }
-        if (this.isSubmittedAmout){
-          return;
-        }
-        this.Body_Paid_MU.push({
-          treatment_course_id: this.TreatmentCourse.tc_treatment_course_id,
-          material_usage_id: item.mu_material_usage_id,
-          total_paid: item.tempPaidAmount
-        });
-      }
-    })
-    // this.Body_Paid_MU = this.MaterialUsage.map(mu => ({
-    //   treatment_course_id: this.TreatmentCourse.tc_treatment_course_id,
-    //   material_usage_id: mu.mu_material_usage_id,
-    //   total_paid: mu.tempPaidAmount || 0
-    // }));
+
+        let body = {
+          treatment_course_id: parent.tc_data.tc_treatment_course_id,
+          material_usage_id: mu_data.mu_material_usage_id,
+          total_paid: total_paid
+        };
+
+        this.Body_Paid_MU.push(body);
+      });
+    });
+
+
     console.log("Body_Paid_Mu: ", this.Body_Paid_MU);
     this.receipt = {
-      patient_id : this.Patient.p_patient_id,
+      patient_id: this.Patient.p_patient_id,
       payment_type: null,
       receipt: this.Body_Paid_MU
     }
@@ -177,6 +203,12 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
   }
 }
 
+interface Paid_material_usage {
+  treatment_course_id: string,
+  material_usage_id: string,
+  total_paid: number
+}
+
 interface MaterialUsage {
   created_date: string;
   description: string;
@@ -185,7 +217,7 @@ interface MaterialUsage {
   mu_medical_procedure_id: string,
   material_warehouse_id: string;
   mu_price: number;
-  mu_mpname:string;
+  mu_mpname: string;
   mu_quantity: number;
   mu_status: number;
   mu_total: number;
@@ -194,8 +226,3 @@ interface MaterialUsage {
   tempPaidAmount?: number;
 }
 
-interface Paid_material_usage {
-  treatment_course_id: string,
-  material_usage_id: string,
-  total_paid: number
-}
