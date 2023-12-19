@@ -65,13 +65,15 @@
               <th scope="col">STT</th>
               <th scope="col">Dịch vụ</th>
               <th scope="col">Đơn giá</th>
+              <th scope="col">Chiếu khấu</th>
               <th scope="col">Số lượng</th>
               <th scope="col">Nợ trước/Tổng cộng</th>
               <th scope="col">Thanh toán</th>
               <th scope="col">Tổng nợ</th>
-              <ng-container *ngIf="checkPayment ">
-                <th scope="col">Nhập số tiền thanh toán</th>
-              </ng-container>
+<!--              <ng-container *ngIf="checkPayment ">-->
+<!--                <th scope="col">Nhập số tiền thanh toán</th>-->
+<!--              </ng-container>-->
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
@@ -79,29 +81,42 @@
               <td>{{ i + 1 }}</td>
               <td>{{ mu.mu_mpname }}</td>
               <td>{{ mu.mu_price | currency:'VND' }}</td>
+              <td></td>
               <td>{{ mu.mu_quantity }}</td>
               <td>{{ mu.mu_total | currency:'VND' }}</td>
               <td>{{ mu.mu_total_paid | currency:'VND' }}</td>
               <td>{{ (mu.mu_total - mu.mu_total_paid) | currency:'VND' }}</td>
-              <ng-container *ngIf="checkPayment ">
-                <td>
-                  <div class="position-relative">
-                    <input style="border-radius: 5px" [disabled]="mu.mu_total - mu.mu_total_paid == 0" type="number" min="0"
-                           [(ngModel)]="mu.tempPaidAmount">
-                    <div *ngIf="isSubmittedAmout"  [ngClass]="{'alert-danger-custom': true, 'active': validateAmount.soTien}">
-                      <p>
-                        {{validateAmount.soTien}}
-                      </p>
-                    </div>
-                  </div>
-                </td>
-              </ng-container>
+<!--              <ng-container *ngIf="checkPayment ">-->
+<!--                <td>-->
+<!--                  <div class="position-relative">-->
+<!--                    <input style="border-radius: 5px" [disabled]="mu.mu_total - mu.mu_total_paid == 0" type="number" min="0"-->
+<!--                           [(ngModel)]="mu.tempPaidAmount">-->
+<!--                    <div *ngIf="isSubmittedAmout"  [ngClass]="{'alert-danger-custom': true, 'active': validateAmount.soTien}">-->
+<!--                      <p>-->
+<!--                        {{validateAmount.soTien}}-->
+<!--                      </p>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </td>-->
+<!--              </ng-container>-->
+              <td></td>
             </tr>
             <tr>
-              <th colspan="4">Tổng cộng/Total: </th>
+              <th colspan="5">Tổng cộng/Total: </th>
               <td>{{ total | currency:'VND' }}</td>
               <td>{{ totalPaid | currency:'VND' }}</td>
               <td>{{ remaining | currency:'VND' }}</td>
+              <td>
+                <div class="position-relative">
+                  <input style="border-radius: 5px" [(ngModel)]="paymentAmount" class="form-control" type="number" min="0" placeholder="Nhập số tiền thanh toán"
+                  >
+                  <div *ngIf="isSubmittedAmout"  [ngClass]="{'alert-danger-custom': true, 'active': validateAmount.soTien}">
+                    <p>
+                      {{validateAmount.soTien}}
+                    </p>
+                  </div>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>

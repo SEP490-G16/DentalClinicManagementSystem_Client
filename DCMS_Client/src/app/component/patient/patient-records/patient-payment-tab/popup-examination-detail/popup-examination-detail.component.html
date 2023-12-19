@@ -9,10 +9,6 @@
 <!-- Modal Body -->
 <div #pdfContent class="modal-body">
 
-  <div>
-    Website <a href="nhakhoanguyentran.com">nhakhoanguyentran.com</a>
-  </div>
-
 <!--  <div class="float-end">-->
 <!--    <p>Số/ID: </p>-->
 <!--  </div>-->
@@ -71,9 +67,9 @@
               <th scope="col">Dịch vụ (Services)</th>
               <th scope="col">Đơn giá (Unit Price)</th>
               <th scope="col">SL (Quantity)</th>
-              <th scope="col">Nợ trước/Tổng cộng (Debt/Total)</th>
-              <th scope="col">Thanh toán (Payment)</th>
-              <th scope="col">Tổng nợ (Remain)</th>
+<!--              <th scope="col">Nợ trước/Tổng cộng (Debt/Total)</th>-->
+<!--              <th scope="col">Thanh toán (Payment)</th>-->
+<!--              <th scope="col">Tổng nợ (Remain)</th>-->
             </tr>
           </thead>
           <tbody>
@@ -82,28 +78,30 @@
               <td>{{ MaterialUsage.mu_mpname }}</td>
               <td>{{ MaterialUsage.mu_price | currency:'VND' }}</td>
               <td>{{ MaterialUsage.mu_quantity }}</td>
-              <td>{{ MaterialUsage.mu_total | currency:'VND'}}</td>
-              <td>{{ MaterialUsage.mu_total_paid | currency:'VND'}}</td>
-              <td>{{ (MaterialUsage.mu_total - MaterialUsage.mu_total_paid) | currency:'VND'}}</td>
+<!--              <td>{{ MaterialUsage.mu_total | currency:'VND'}}</td>-->
+<!--              <td>{{ MaterialUsage.mu_total_paid | currency:'VND'}}</td>-->
+<!--              <td>{{ (MaterialUsage.mu_total - MaterialUsage.mu_total_paid) | currency:'VND'}}</td>-->
             </tr>
             <tr>
-              <th colspan="4">Tổng cộng/Total: </th>
-              <td>
-                <i>
-                  {{ MaterialUsage.mu_total | currency:'VND' }} - <br><i>{{ MaterialUsage.mu_total | numberToWords }}</i>
-                </i>
-              </td>
-              <td>
-                <i>
-                  {{ MaterialUsage.mu_total_paid | currency:'VND'}} - <br><i>{{ MaterialUsage.mu_total_paid | numberToWords }}</i>
-                </i>
-              </td>
-              <td>
-                <i>
-                  {{ (MaterialUsage.mu_total - MaterialUsage.mu_total_paid) | currency:'VND' }} <br><i>{{ (MaterialUsage.mu_total - MaterialUsage.mu_total_paid) | numberToWords }}</i>
-                </i>
-              </td>
+              <th colspan="2">Tổng cộng/Total: </th>
+<!--              <td>-->
+<!--                <i>-->
+<!--                  {{ MaterialUsage.mu_total | currency:'VND' }} - <br><i>{{ MaterialUsage.mu_total | numberToWords }}</i>-->
+<!--                </i>-->
+<!--              </td>-->
+<!--              <td>-->
+<!--                <i>-->
+<!--                  {{ MaterialUsage.mu_total_paid | currency:'VND'}} - <br><i>{{ MaterialUsage.mu_total_paid | numberToWords }}</i>-->
+<!--                </i>-->
+<!--              </td>-->
+<!--              <td>-->
+<!--                <i>-->
+<!--                  {{ (MaterialUsage.mu_total - MaterialUsage.mu_total_paid) | currency:'VND' }} <br><i>{{ (MaterialUsage.mu_total - MaterialUsage.mu_total_paid) | numberToWords }}</i>-->
+<!--                </i>-->
+<!--              </td>-->
+                  <td colspan="2">
 
+                  </td>
             </tr>
           </tbody>
         </table>
