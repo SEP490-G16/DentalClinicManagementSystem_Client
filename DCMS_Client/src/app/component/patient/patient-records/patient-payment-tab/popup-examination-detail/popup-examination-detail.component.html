@@ -83,7 +83,7 @@
 <!--              <td>{{ (MaterialUsage.mu_total - MaterialUsage.mu_total_paid) | currency:'VND'}}</td>-->
             </tr>
             <tr>
-              <th colspan="2">Tổng cộng/Total: </th>
+              <th colspan="2">Tổng dịch vụ/Total: </th>
 <!--              <td>-->
 <!--                <i>-->
 <!--                  {{ MaterialUsage.mu_total | currency:'VND' }} - <br><i>{{ MaterialUsage.mu_total | numberToWords }}</i>-->
@@ -100,8 +100,31 @@
 <!--                </i>-->
 <!--              </td>-->
                   <td colspan="2">
-
+                    <i>
+                      {{ MaterialUsage.mu_total | currency:'VND' }} -
+                      <br><i>{{ MaterialUsage.mu_total | numberToWords }}</i>
+                    </i>
                   </td>
+            </tr>
+            <tr>
+              <th colspan="2">Nợ trước/Tổng cộng (Debt/Total)</th>
+              <td colspan="2">
+                {{ MaterialUsage.mu_total | currency:'VND'}} -
+                <br><i>{{ MaterialUsage.mu_total_paid | numberToWords }}</i>
+              </td>
+            </tr>
+            <tr>
+              <th colspan="2">Thanh toán (Payment)</th>
+              <td colspan="2">
+                {{ MaterialUsage.mu_total_paid | currency:'VND'}} -
+                <br><i>{{ MaterialUsage.mu_total_paid | numberToWords }}</i>
+              </td>
+            </tr>
+            <tr>
+              <th colspan="2">Tổng nợ (Remain)</th>
+              <td colspan="2">
+                {{ (MaterialUsage.mu_total - MaterialUsage.mu_total_paid) | currency:'VND'}}
+              </td>
             </tr>
           </tbody>
         </table>
