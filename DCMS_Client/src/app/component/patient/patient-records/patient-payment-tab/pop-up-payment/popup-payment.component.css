@@ -139,9 +139,9 @@ p {
   padding: 5px 10px; /* Kích thước lề nội dung */
   border: 1px solid #f5c6cb; /* Viền đỏ nhạt */
   border-radius: 5px; /* Góc bo tròn */
-  position: absolute; /* Thiết lập vị trí tuyệt đối */
+  position: relative; /* Thiết lập vị trí tuyệt đối */
   top: 100%; /* Điều chỉnh vị trí theo chiều cao của mũi tên */
-  right: 10%; /* Đặt vị trí ở góc bên phải */
+  right: 0; /* Đặt vị trí ở góc bên phải */
   display: none; /* Mặc định ẩn đi */
   z-index: 1; /* Đảm bảo hiển thị trên các phần tử khác */
 }
