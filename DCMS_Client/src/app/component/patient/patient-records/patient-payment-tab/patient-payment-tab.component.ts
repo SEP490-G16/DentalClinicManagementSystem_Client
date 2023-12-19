@@ -30,8 +30,8 @@ export class PatientPaymentTabComponent implements OnInit {
   patientName:any;
   name:any;
   totalPaid = {
-    totalPrice: 0, 
-    totalPaid: 0, 
+    totalPrice: 0,
+    totalPaid: 0,
     remaining: 0,
   }
 
@@ -72,7 +72,7 @@ export class PatientPaymentTabComponent implements OnInit {
   formatCurrency(value: number): string {
     return value.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
   }
-  
+
   getMaterialUsageReport(startDATE: number, endDATE: number) {
     this.materialUsageService.getMaterialUsagePatientReport(this.Patient_Id)
       .subscribe((res: any) => {

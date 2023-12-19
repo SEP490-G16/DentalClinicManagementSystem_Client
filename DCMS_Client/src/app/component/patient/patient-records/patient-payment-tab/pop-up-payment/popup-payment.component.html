@@ -81,7 +81,7 @@
               <td>{{ i + 1 }}</td>
               <td>{{ mu.mu_mpname }}</td>
               <td>{{ mu.mu_price | currency:'VND' }}</td>
-              <td></td>
+              <td>{{ calculateDiscount(mu.mu_price, mu) }}%</td>
               <td>{{ mu.mu_quantity }}</td>
               <td>{{ mu.mu_total | currency:'VND' }}</td>
               <td>{{ mu.mu_total_paid | currency:'VND' }}</td>
