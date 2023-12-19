@@ -224,9 +224,11 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
       item.procedure.forEach((pro: any) => {
         if (pro.procedureId == it.procedureId) {
           pro.checked = !it.checked;
+
           this.Post_Procedure_Material_Usage.forEach((item: any) => {
             if (item.medical_procedure_id == it.procedureId) {
               item.price = it.price;
+              // item.description = `0 ${pro.initPrice}`
               item.quantity = 1;
             }
           })
@@ -239,7 +241,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
             quantity: it.quantity,
             price: it.price,
             total_paid: '',
-            description: it.laboId
+            description: `0 ${pro.initPrice}`
           }
           this.Post_Procedure_Material_Usage.push(materialUsage);
           materialUsage = {
@@ -271,7 +273,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
   changeLabo(gro: any) {
     this.Post_Procedure_Material_Usage.forEach((item: any) => {
       if (item.medical_procedure_id == gro.procedureId) {
-        item.description = gro.laboId;
+        item.description = `${gro.laboId} ${gro.initPrice}`;
       }
     })
   }
@@ -314,7 +316,6 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
             delete this.valdateSpecimens[key];
           }
         }
-
       })
     })
     // if (this.isSubmittedSpecimens){
@@ -338,10 +339,14 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     if (Object.keys(this.validateMedicine).length > 0) {
       return;
     }
+    console.log("Procedure Post: ", this.Post_Procedure_Material_Usage);
+    console.log("List: ", this.list);
+    console.log("Post treatment: ", this, this.Post_TreatmentCourse);
     this.treatmentCourseService.postTreatmentCourse(this.Post_TreatmentCourse).
       subscribe((res) => {
         this.toastr.success(res.message, "Thêm liệu trình thành công");
         if (this.Post_Procedure_Material_Usage.length > 0) {
+
           this.Post_Procedure_Material_Usage.forEach((item) => {
             item.treatment_course_id = res.treatment_course_id;
             // item.price = item.price * item.quantity

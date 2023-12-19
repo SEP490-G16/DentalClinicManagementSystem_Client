@@ -198,7 +198,7 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
                 pro.checked = true;
                 pro.price = item.price;
                 pro.quantity = item.quantity;
-                pro.laboId = item.description;
+                pro.laboId = item.description.split(" ")[0];
                 let materialUsage = {
                   material_usage_id: item.material_usage_id,
                   medical_procedure_id: item.medical_procedure_id,
@@ -283,7 +283,7 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
             quantity: it.quantity,
             price: it.price,
             total_paid: '',
-            description: it.laboId
+            description: it.laboId + " " + it.initPrice
           }
           this.Post_Procedure_Material_Usage_New.push(materialUsage);
           materialUsage = {
@@ -348,13 +348,13 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
   changeLabo(gro:any) {
     this.Post_Procedure_Material_Usage.forEach((item:any) => {
       if (item.medical_procedure_id == gro.procedureId) {
-        item.description = gro.laboId;
+        item.description = `${gro.laboId} ${gro.initPrice}`;
       }
     })
 
     this.Post_Procedure_Material_Usage_New.forEach((item:any) => {
       if (item.medical_procedure_id == gro.procedureId) {
-        item.description = gro.laboId;
+        item.description = `${gro.laboId} ${gro.initPrice}`;
       }
     })
   }
@@ -395,19 +395,23 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
     //   })
     // })
     // if (Object.keys(this.valdateSpecimens).length > 0) {
-    //   this.isSubmittedSpecimens = true;
-    //   return;
-    // }
+      //   this.isSubmittedSpecimens = true;
+      //   return;
+      // }
+
+      console.log("Post thu thuat: ", this.Post_Procedure_Material_Usage_New);
+      console.log("Put thu thuat: ", this.Post_Procedure_Material_Usage);
+      return;
     if (this.Post_Procedure_Material_Usage_New.length > 0) {
       this.Post_Procedure_Material_Usage_New.forEach((item: any) => {
         item.treatment_course_id = this.Edit_TreatmentCourse.treatment_course_id;
         this.materialUsageService.postProcedureMaterialUsage(item)
-          .subscribe((res) => {
-            this.toastr.success("Thêm Thủ thuật thành công");
-            window.location.reload();
-          }, (err) => {
-            this.toastr.error(err.error.message, "Thêm Thủ thuật thất bại");
-          })
+        .subscribe((res) => {
+          this.toastr.success("Thêm Thủ thuật thành công");
+          window.location.reload();
+        }, (err) => {
+          this.toastr.error(err.error.message, "Thêm Thủ thuật thất bại");
+        })
       })
     }
     console.log("đã vào");
