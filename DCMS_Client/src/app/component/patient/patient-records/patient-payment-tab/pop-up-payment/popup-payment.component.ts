@@ -24,7 +24,7 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
   totalPaid: number = 0
   remaining: number = 0
   currentDate: string = ""
-
+  paymentAmount:any;
   Body_Paid_MU: Paid_material_usage[] = [];
 
   constructor(
@@ -96,6 +96,14 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
   }
   postPayment() {
     console.log("Material Usage: ", this.MaterialUsage)
+    this.resetValidateAmount();
+    if (!this.checkNumber(this.paymentAmount)  || this.paymentAmount > this.total){
+      this.validateAmount.soTien = "Vui lòng nhập lại số tiền!";
+      this.isSubmittedAmout = true;
+    }
+    if (this.isSubmittedAmout){
+      return;
+    }
     this.MaterialUsage.forEach((item:any) => {
       if (item.tempPaidAmount !=0 && item.tempPaidAmount != null && item.tempPaidAmount != undefined) {
         this.resetValidateAmount();
