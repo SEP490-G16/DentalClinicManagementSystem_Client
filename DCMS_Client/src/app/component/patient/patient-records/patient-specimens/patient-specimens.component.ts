@@ -11,6 +11,7 @@ import {
   ConfirmDeleteModalComponent
 } from "../../../utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component";
 import {ResponseHandler} from "../../../utils/libs/ResponseHandler";
+import { PatientService } from 'src/app/service/PatientService/patient.service';
 @Component({
   selector: 'app-patient-specimens',
   templateUrl: './patient-specimens.component.html',
@@ -45,6 +46,7 @@ export class PatientSpecimensComponent implements OnInit {
     private route: ActivatedRoute,
     private toastr: ToastrService,
     private modalService: NgbModal,
+    private patientService:PatientService,
   ) {
     this.status = 1;
     this.paging = 1;
@@ -61,9 +63,16 @@ export class PatientSpecimensComponent implements OnInit {
       this.roleId = ro.split(',');
     }
     this.name = sessionStorage.getItem('patient');
-    if (this.name){
+    if (this.name) {
       this.name = JSON.parse(this.name);
       this.patientName = this.name.patient_name;
+      // sessionStorage.removeItem("patient");
+    } else {
+      this.patientService.getPatientById(this.Patient_Id).subscribe((patient: any) => {
+        console.log("Patient: ", patient);
+        this.patientName = patient.patient_name;
+        // sessionStorage.setItem('patient', patient);
+      })
     }
   }
 

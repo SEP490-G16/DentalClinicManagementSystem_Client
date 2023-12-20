@@ -76,7 +76,7 @@ export class PopupAddPatientComponent implements OnInit {
   addPatient() {
     //console.log("check date: ",this.patientBody)
     //console.log("check date: ", TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.model)));
-    
+
     var regex = /[0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\\-/]/;
     this.resetValidate();
     if (!this.patient1.patientName) {

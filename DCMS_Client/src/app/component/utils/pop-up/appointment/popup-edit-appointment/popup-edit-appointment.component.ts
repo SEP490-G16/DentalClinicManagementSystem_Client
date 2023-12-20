@@ -158,7 +158,7 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
       this.selectedDoctor = this.selectedAppointment.doctor;
       this.patientInfor = this.EDIT_APPOINTMENT_BODY.appointment.patient_id + " - " + this.EDIT_APPOINTMENT_BODY.appointment.patient_name + " - " + this.EDIT_APPOINTMENT_BODY.appointment.phone_number;
     }
-    if (changes['dateString']) {
+    if (changes['dateString'] && this.dateString) {
       this.oldDate = this.dateString;
       this.EDIT_APPOINTMENT_BODY.epoch = this.dateString;
       if (this.dateString != null && this.dateString != undefined) {
