@@ -5,7 +5,8 @@
 <div class="sep-recent-orders">
   <div class="row mt-4 mb-4">
     <div class="col-6">
-      <button class="btn button-add-waitting" style="margin-right: 3%;" data-bs-toggle="modal" data-bs-target="#wrModal">
+      <button class="btn button-add-waitting" style="margin-right: 3%;" data-bs-toggle="modal"
+        data-bs-target="#wrModal">
         <i class="bi bi-plus-circle"></i> Thêm bệnh nhân đợi cũ
       </button>
       <button class="btn button-add-waitting" data-bs-toggle="modal" data-bs-target="#wrNewModal">
@@ -13,7 +14,7 @@
       </button>
     </div>
     <div class="col-3">
-        <p class="date">{{currentDate}}</p>
+      <p class="date">{{currentDate}}</p>
     </div>
     <div class="col-3">
       <select class="form-select input-custom" aria-label="Default select example" [(ngModel)]="procedure"
@@ -85,8 +86,7 @@
               <td (click)="stopClick($event)">
                 <select class="text-center status-selector" [(ngModel)]="wtr.status"
                   (change)="onPutStatus(wtr, wtr.epoch)" [ngStyle]="{'color': selectedColor}"
-                  *ngIf="wtr.status == 1 || wtr.status == 2"
-                  >
+                  *ngIf="wtr.status == 1 || wtr.status == 2">
                   <ng-container *ngIf="wtr.status == 1">
                     <option value="1" class="status-option waiting">Đang chờ</option>
                     <option value="2" class="status-option in-progress">Đang khám</option>
@@ -119,9 +119,10 @@
               <ng-container *ngIf="wtr.status == 3">
                 <ng-container *ngIf="roleId.includes('3') || roleId.includes('1')">
                   <td>
-                    <button class="btn button-timekeeping"
-                      (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/',wtr.patient_id)">
-                      Thanh toán</button>
+                    <button class="btn button-timekeeping" [disabled]="isButtonDisabled"
+                      (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/', wtr.patient_id, wtr)">
+                      Thanh toán
+                    </button>
                   </td>
                 </ng-container>
                 <!-- <ng-container>

@@ -66,9 +66,16 @@ export class PatientPaymentTabComponent implements OnInit {
       this.roleId = ro.split(',');
     }
     this.name = sessionStorage.getItem('patient');
-    if (this.name){
+    if (this.name) {
       this.name = JSON.parse(this.name);
       this.patientName = this.name.patient_name;
+      // sessionStorage.removeItem("patient");
+    } else {
+      this.patientService.getPatientById(this.Patient_Id).subscribe((patient: any) => {
+        console.log("Call api Patient: ", patient);
+        this.patientName = patient.patient_name;
+        // sessionStorage.setItem('patient', patient);
+      })
     }
   }
   formatCurrency(value: number): string {

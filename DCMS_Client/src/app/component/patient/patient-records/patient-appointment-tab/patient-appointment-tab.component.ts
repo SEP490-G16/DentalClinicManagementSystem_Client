@@ -27,6 +27,7 @@ export class PatientAppointmentTabComponent implements OnInit {
   currentDateTimestamp: number = 0;
   Patient: IPatient = {} as IPatient;
   patientAppointments: any[] = [];
+
   dateString: any;
   timeString: any;
   patientName: any;
@@ -66,6 +67,13 @@ export class PatientAppointmentTabComponent implements OnInit {
     if (this.name) {
       this.name = JSON.parse(this.name);
       this.patientName = this.name.patient_name;
+      // sessionStorage.removeItem("patient");
+    } else {
+      this.patientService.getPatientById(this.id).subscribe((patient: any) => {
+        console.log("Patient: ", patient);
+        this.patientName = patient.patient_name;
+        // sessionStorage.setItem('patient', patient);
+      })
     }
 
     // const startDate = moment().tz('Asia/Ho_Chi_Minh').subtract(15, 'days').startOf('day');
