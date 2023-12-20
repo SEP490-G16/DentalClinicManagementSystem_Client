@@ -402,7 +402,17 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
       this.router.navigate(['dangnhap']);
     })
   }
-  navigateHref(href: string, id: any) {
+
+  isButtonDisabled = false;
+ navigateHref(href: string, id: any, wtr: any) {
+    // console.log("Waiting room: ", wtr);
+    this.isButtonDisabled = true;
+
+    setTimeout(() => {
+      this.isButtonDisabled = false;
+    }, 3000);
+
+    sessionStorage.setItem("patient", JSON.stringify(wtr));
     this.router.navigate([href + id]);
   }
 

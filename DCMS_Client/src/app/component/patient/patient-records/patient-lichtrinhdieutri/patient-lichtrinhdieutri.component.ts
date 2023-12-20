@@ -110,7 +110,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
       // sessionStorage.removeItem("patient");
     } else {
       this.patientService.getPatientById(this.id).subscribe((patient: any) => {
-        console.log("Patient: ", patient);
+        console.log("Call api Patient: ", patient);
         this.patientName = patient.patient_name;
         // sessionStorage.setItem('patient', patient);
       })

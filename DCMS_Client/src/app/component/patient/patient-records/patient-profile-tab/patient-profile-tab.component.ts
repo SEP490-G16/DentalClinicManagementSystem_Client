@@ -30,7 +30,7 @@ export class PatientProfileTabComponent implements OnInit {
     config.maxDate = { year: currentYear, month: 12, day: 31 };
   }
 
-  patientDisplay: any;
+  patientDisplay:any = {};
   id: any;
 
   patientBody: any = {
