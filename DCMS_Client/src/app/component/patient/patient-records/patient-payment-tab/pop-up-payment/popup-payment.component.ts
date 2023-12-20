@@ -1,5 +1,5 @@
 import { TreatmentCourseDetailService } from './../../../../../service/ITreatmentCourseDetail/treatmentcoureDetail.service';
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -9,6 +9,8 @@ import * as moment from 'moment-timezone';
 import 'moment/locale/vi';
 import { PaidMaterialUsageService } from 'src/app/service/PatientService/patientPayment.service';
 import { FacilityService } from 'src/app/service/FacilityService/facility.service';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-popup-payment-tab',
@@ -180,6 +182,22 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
           this.toastr.error(err.error.message, "Thanh toán thất bại!")
         })
   }
+
+  @ViewChild('pdfContent') pdfContent!: ElementRef;
+  generateExDetailPdf() {
+    html2canvas(this.pdfContent.nativeElement, { scale: 0.5 }).then(canvas => {
+      const contentDataURL = canvas.toDataURL('image/png');
+      let pdf = new jsPDF('p', 'mm', 'a4');
+      var width = pdf.internal.pageSize.getWidth();
+      var maxHeight = 200;
+      var height = canvas.height * width / canvas.width;
+      height = Math.min(height, maxHeight);
+      pdf.addImage(contentDataURL, 'PNG', 0, 0, width, height);
+
+      window.open(pdf.output('bloburl'), '_blank');
+    });
+  }
+
 
   close() {
     this.modalService.dismissAll('Modal closed');

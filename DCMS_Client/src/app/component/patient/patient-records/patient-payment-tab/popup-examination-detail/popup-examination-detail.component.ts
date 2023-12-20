@@ -15,8 +15,7 @@ import { PaidMaterialUsageService } from 'src/app/service/PatientService/patient
   styleUrls: ['./popup-examination-detail.component.css']
 })
 export class PopupExaminationDetailComponent implements OnInit {
-  @Input() MaterialUsage!: MaterialUsage;
-  @Input() TreatmentCourse: any
+  @Input() MaterialUsage!: MaterialUsage [];
   @Input() Patient: any
   currency: any;
   total: number = 0
@@ -40,14 +39,31 @@ export class PopupExaminationDetailComponent implements OnInit {
   ngOnInit(): void {
     console.log("Material :", this.MaterialUsage);
     console.log("Patient :", this.Patient);
-    console.log("TreatmentCourse :", this.TreatmentCourse);
-    console.log("Material Usage Sort: ", this.MaterialUsage);
+
+    this.MaterialUsage = this.MaterialUsage.map((item: any) => item.mu_data).flat();
+    console.log("Material Usage Flat : ", this.MaterialUsage);
+    this.MaterialUsage.sort((a: any, b: any) => {
+      const dateA = new Date(a.created_date).getTime();
+      const dateB = new Date(b.created_date).getTime();
+      return dateB - dateA;
+    })
+
+    // this.MaterialUsage.forEach((mu: any) => {
+    //   if ((mu.mu_total - mu.mu_total_paid) != 0) {
+    //     this.checkPayment = true;
+    //     return;
+    //   }
+    // })
+    this.totalPaid = this.MaterialUsage.reduce((acc: any, mu: any) => acc + (Number(mu.mu_total_paid) || 0), 0);
+    this.total = this.MaterialUsage.reduce((acc: any, mu: any) => acc + (Number(mu.mu_total) || 0), 0);
+    this.remaining = this.total - this.totalPaid;
+
 
     const facility = sessionStorage.getItem('locale');
     if (facility != null) {
       this.facilityService.getFacilityList().subscribe((data) => {
         var listFacility = data.data;
-        listFacility.forEach((item:any) => {
+        listFacility.forEach((item: any) => {
           if (item.facility_id == facility) {
             this.facility_name = item.name;
           }

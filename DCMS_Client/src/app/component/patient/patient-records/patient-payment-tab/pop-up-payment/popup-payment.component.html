@@ -7,7 +7,7 @@
 </div>
 
 <!-- Modal Body -->
-<div class="modal-body">
+<div #pdfContent class="modal-body">
   <h4 class="text-start">Nha khoa Nguyễn Trần</h4>
   <p>Cơ sở: <b>{{facility_name}}</b></p>
   <h2 class="text-center header-header">Phiếu thu</h2>
@@ -66,8 +66,8 @@
               <th scope="col">Số lượng</th>
               <th scope="col">Nợ trước/Tổng cộng</th>
               <th scope="col">Đã thanh toán</th>
-              <th scope="col">Còn lại</th>
-              <th scope="col">Thanh toán</th>
+              <th scope="col" [hidden]="remaining == 0">Còn lại</th>
+              <th scope="col" [hidden]="remaining == 0">Thanh toán</th>
             </tr>
           </thead>
           <tbody>
@@ -79,18 +79,20 @@
               <td>{{ mu.mu_quantity }}</td>
               <td>{{ mu.mu_total | currency:'VND' }}</td>
               <td>{{ ((mu.mu_total_paid)?mu.mu_total_paid: 0) | currency:'VND' }}</td>
-              <td>{{mu.mu_total - mu.mu_total_paid | currency:'VND'}}</td>
+              <td [hidden]="remaining == 0">{{mu.mu_total - mu.mu_total_paid | currency:'VND'}}</td>
+              <td [hidden]="remaining == 0"></td>
             </tr>
             <tr>
               <th colspan="5">Tổng cộng/Total: </th>
               <td>{{ total | currency:'VND' }}</td>
               <td>{{ totalPaid | currency:'VND' }}</td>
-              <td>{{ remaining | currency:'VND' }}</td>
-              <td>
+              <td [hidden]="remaining == 0">{{ remaining | currency:'VND' }}</td>
+              <td [hidden]="remaining == 0">
                 <div class="position-relative">
-                  <input style="border-radius: 5px" [(ngModel)]="paymentAmount" class="form-control" type="number" min="0" placeholder="Nhập số tiền thanh toán"
-                  >
-                  <div *ngIf="isSubmittedAmout"  [ngClass]="{'alert-danger-custom': true, 'active': validateAmount.soTien}">
+                  <input style="border-radius: 5px" [(ngModel)]="paymentAmount" class="form-control" type="number"
+                    min="0" placeholder="Nhập số tiền thanh toán">
+                  <div *ngIf="isSubmittedAmout"
+                    [ngClass]="{'alert-danger-custom': true, 'active': validateAmount.soTien}">
                     <p>
                       {{validateAmount.soTien}}
                     </p>
@@ -119,7 +121,10 @@
 <!-- Modal Footer -->
 <div class="modal-footer">
   <button type="button" class="btn btn-cancel" (click)="close()">Đóng</button>
-  <ng-container *ngIf="remaining != 0">
+  <ng-container *ngIf="remaining != 0; else genPdf">
     <button type="button" class="btn button-add" (click)="postPayment()">Thanh toán</button>
   </ng-container>
+  <ng-template #genPdf>
+    <button type="button" class="btn button-add" (click)="generateExDetailPdf()">In phiếu thu</button>
+  </ng-template>
 </div>
