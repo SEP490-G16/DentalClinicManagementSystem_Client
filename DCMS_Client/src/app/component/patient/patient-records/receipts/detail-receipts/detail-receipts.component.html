@@ -96,20 +96,9 @@
 <!--              <i>{{getTotalRemain()| numberToWords}}</i>-->
 <!--            </td>-->
             <td colspan="2">
-
+              {{ getTotalDebtTotal() | currency:'VND':'symbol':'1.0-0' }}<br>
+              <i>{{getTotalDebtTotal()| numberToWords}}</i>
             </td>
-          </tr>
-          <tr>
-            <th colspan="2">Nợ trước/Tổng cộng (Debt/Total)</th>
-            <td></td>
-          </tr>
-          <tr>
-            <th colspan="2">Thanh toán (Payment)</th>
-            <td></td>
-          </tr>
-          <tr>
-            <th colspan="2">Tổng nợ (Remain)</th>
-            <td></td>
           </tr>
           </tbody>
         </table>

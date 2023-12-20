@@ -26,7 +26,8 @@ export class PatientAppointmentTabComponent implements OnInit {
   endDateTimestamp: number = 0;
   currentDateTimestamp: number = 0;
   Patient: IPatient = {} as IPatient;
-  patientAppointments: any [] = [];
+  patientAppointments: any[] = [];
+
   dateString: any;
   timeString: any;
   patientName: any;
@@ -175,7 +176,10 @@ export class PatientAppointmentTabComponent implements OnInit {
         this.APPOINTMENT_SERVICE.deleteAppointment(dateTimestamp, detail.appointment_id)
           .subscribe((res) => {
             this.toastr.success('Xóa lịch hẹn thành công!');
-            window.location.reload();
+            const index = this.patientAppointments.findIndex(item => item.appointment_id == detail.appointment_id);
+            if (index != -1) {
+              this.patientAppointments.splice(index, 1);
+            }
           },
             (error) => {
               this.showErrorToast("Lỗi khi cập nhật");

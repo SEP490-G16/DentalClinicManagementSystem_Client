@@ -169,8 +169,6 @@ export class PopupAddAppointmentComponent implements OnInit {
     this.patientSessionStorage = sessionStorage.getItem('patient');
     if (this.patientSessionStorage) {
       this.patientSessionStorage = JSON.parse(this.patientSessionStorage);
-
-
     }
   }
 
@@ -225,8 +223,6 @@ export class PopupAddAppointmentComponent implements OnInit {
   }
 
   onPostAppointment() {
-
-
     const selectedYear = this.model.year;
     const selectedMonth = this.model.month.toString().padStart(2, '0');
     const selectedDay = this.model.day.toString().padStart(2, '0');
@@ -235,10 +231,6 @@ export class PopupAddAppointmentComponent implements OnInit {
     const now = new Date();
     const currDate = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
     this.AppointmentBody.epoch = this.dateToTimestamp(selectedDate);
-    //console.log("check current: ", currDate);
-    //console.log("check selected: ", selectedDate);
-    //alert(currDate == selectedDate);
-    //return;
     this.AppointmentBody.appointment.time = this.timeToTimestamp(this.appointmentTime);
     this.listGroupService.forEach(e => {
       if (e.medical_procedure_group_id == this.procedure) {
@@ -255,12 +247,12 @@ export class PopupAddAppointmentComponent implements OnInit {
       return;
     }
 
-    // if (this.AppointmentBody.appointment.procedure_id == "1") {
-    //   this.validateAppointment.procedure = "Vui lòng chọn loại điều trị!";
-    //   this.isSubmitted = true;
-    //   this.loading = false;
-    //   return;
-    // }
+    if (this.AppointmentBody.appointment.procedure_id == "1") {
+      this.validateAppointment.procedure = "Vui lòng chọn loại điều trị!";
+      this.isSubmitted = true;
+      this.loading = false;
+      return;
+    }
     const currentTime = new Date().toTimeString();
     const currentDate = moment().format('YYYY-MM-DD');
     var store = localStorage.getItem("listGroupService");
@@ -274,6 +266,7 @@ export class PopupAddAppointmentComponent implements OnInit {
       this.APPOINTMENT_SERVICE.getAppointmentList(this.dateToTimestamp(selectedDate + " 00:00:00"), this.dateToTimestamp(selectedDate + " 23:59:59")).subscribe(data => {
         this.appointmentList = ConvertJson.processApiResponse(data);
         this.listDate = this.appointmentList;
+        this.filteredAppointments = this.appointmentList;
         this.listDate.forEach((a: any) => {
           a.appointments.forEach((b: any) => {
             this.dateDis.date = a.date;
@@ -334,13 +327,12 @@ export class PopupAddAppointmentComponent implements OnInit {
     this.AppointmentBody.appointment.patient_name = patientInfor[1];
     this.AppointmentBody.appointment.phone_number = patientInfor[2];
     var checkPatient = true;
-    let listAppointment;
-    const storeList = localStorage.getItem("ListAppointment");
-    if (storeList != null) {
-      listAppointment = JSON.parse(storeList);
-    }
-    // this.filteredAppointments = listAppointment.filter((ap: any) => ap.date === this.dateToTimestamp(selectedDate));
-
+    // let listAppointment;
+    // const storeList = localStorage.getItem("ListAppointment");
+    // if (storeList != null) {
+    //   listAppointment = JSON.parse(storeList);
+    // }
+    //this.filteredAppointments = listAppointment.filter((ap: any) => ap.date === this.dateToTimestamp(selectedDate));
     this.filteredAppointments.forEach((appo: any) => {
       appo.appointments.forEach((deta: any) => {
         deta.details.forEach((res: any) => {
@@ -410,6 +402,7 @@ export class PopupAddAppointmentComponent implements OnInit {
           patient_created_date: this.AppointmentBody.appointment.patient_created_date,
           migrated: 'false'
         };
+
         if (this.selectedDateCache === selectedDate) {
           const appointmentIndex = this.filteredAppointments.findIndex((a: any) => a.date === this.AppointmentBody.epoch);
           if (appointmentIndex !== -1) {
@@ -429,12 +422,11 @@ export class PopupAddAppointmentComponent implements OnInit {
               appointments: [newAppointment]
             });
           }
+          this.newAppointmentAdded.emit(this.filteredAppointments);
+          this.procedure = '';
+          this.appointmentTime = '';
+          this.newItemEvent.emit(this.AppointmentBody);
         }
-
-        this.newAppointmentAdded.emit(this.filteredAppointments);
-        this.procedure = '';
-        this.appointmentTime = '';
-        this.newItemEvent.emit(this.AppointmentBody);
         this.AppointmentBody = {
           epoch: 0,
           appointment: {
