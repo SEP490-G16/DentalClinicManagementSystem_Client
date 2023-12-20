@@ -72,13 +72,10 @@
               <td>{{specimens.lb_id}}</td> <!--6-->
               <td>{{specimens.ms_status == 1 ? "Chờ duyệt":(specimens.ms_status == 2)? "Chưa nhận":
                 (specimens.ms_status == 3) ?"Đã nhận":"Hàng lỗi"}}</td> <!--7-->
-              <td>{{ specimens.ms_order_date | date:'dd/MM/yyyy'}}</td> <!--8-->
-              <td>{{specimens.ms_received_date == '' ? '' : specimens.ms_received_date == 0 ? '' :
-                specimens.ms_received_date | date:'dd/MM/yyyy'}}</td>
-              <td>{{specimens.ms_used_date == '' ? '' : specimens.ms_used_date == 0 ? '' : specimens.ms_used_date |
-                date:'dd/MM/yyyy'}}</td> <!--12-->
-              <td>{{specimens.ms_warranty == '' ? '': specimens.ms_warranty == 0 ? '' : specimens.ms_warranty |
-                date:'dd/MM/yyyy'}}</td> <!--13-->
+              <td>{{ convertToFormattedDate(specimens.ms_order_date) }}</td>
+              <td>{{ convertToFormattedDate(specimens.ms_received_date) }}</td>
+              <td>{{ convertToFormattedDate(specimens.ms_used_date) }}</td>
+              <td>{{ convertToFormattedDate(specimens.ms_warranty) }}</td>
               <td> <!--14-->
                 <button class="btn btn-primary p-1 m-2" (click)="openEditSpecimen(specimens)"><i
                     class="bi bi-pencil-square" data-bs-toggle="modal"

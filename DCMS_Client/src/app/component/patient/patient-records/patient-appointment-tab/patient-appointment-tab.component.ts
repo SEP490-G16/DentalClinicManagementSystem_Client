@@ -58,7 +58,6 @@ export class PatientAppointmentTabComponent implements OnInit {
   }
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
-    this.getAppointment();
     let ro = sessionStorage.getItem('role');
     if (ro != null) {
       this.roleId = ro.split(',');
@@ -67,16 +66,16 @@ export class PatientAppointmentTabComponent implements OnInit {
     if (this.name) {
       this.name = JSON.parse(this.name);
       this.patientName = this.name.patient_name;
-      // sessionStorage.removeItem("patient");
     } else {
       this.patientService.getPatientById(this.id).subscribe((patient: any) => {
         console.log("Patient: ", patient);
         this.patientName = patient.patient_name;
-        // sessionStorage.setItem('patient', patient);
+        sessionStorage.setItem('patient', JSON.stringify(patient));
       })
     }
-
+    this.getAppointment();
     // const startDate = moment().tz('Asia/Ho_Chi_Minh').subtract(15, 'days').startOf('day');
+
     // const endDate = moment().tz('Asia/Ho_Chi_Minh').add(15, 'days').endOf('day');
     // this.currentDateTimestamp = startDate.unix();
     // this.endDateTimestamp = endDate.unix();

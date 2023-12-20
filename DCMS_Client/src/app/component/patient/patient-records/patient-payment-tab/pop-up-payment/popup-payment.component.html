@@ -64,29 +64,35 @@
               <th scope="col">Đơn giá</th>
               <th scope="col">Chiếu khấu</th>
               <th scope="col">Số lượng</th>
-              <th scope="col">Nợ trước/Tổng cộng</th>
-              <th scope="col">Đã thanh toán</th>
+              <th scope="col">Tổng cộng</th>
+              <th scope="col"></th>
+              <!-- <th scope="col">Đã thanh toán</th>
               <th scope="col" [hidden]="remaining == 0">Còn lại</th>
-              <th scope="col" [hidden]="remaining == 0">Thanh toán</th>
+              <th scope="col" [hidden]="remaining == 0">Thanh toán</th> -->
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let mu of MaterialUsageDisplay; let i = index">
-              <td>{{ i + 1 }}</td>
-              <td>{{ mu.mu_mpname }}</td>
-              <td>{{ mu.mu_price | currency:'VND' }}</td>
-              <td>{{ calculateDiscount(mu.mu_price, mu) }}%</td>
-              <td>{{ mu.mu_quantity }}</td>
-              <td>{{ mu.mu_total | currency:'VND' }}</td>
-              <td>{{ ((mu.mu_total_paid)?mu.mu_total_paid: 0) | currency:'VND' }}</td>
-              <td [hidden]="remaining == 0">{{mu.mu_total - mu.mu_total_paid | currency:'VND'}}</td>
-              <td [hidden]="remaining == 0"></td>
-            </tr>
+            <ng-container *ngFor="let mu_vodoi of MaterialUsage;let i = index">
+              <ng-container *ngFor="let mu of mu_vodoi.mu_data;let j = index">
+                <tr>
+                  <td>{{ i * mu_vodoi.mu_data.length + j + 1 }}</td>
+                  <td>{{ mu.mu_mpname }}</td>
+                  <td>{{ mu.mu_price | currency:'VND' }}</td>
+                  <!-- {{ calculateDiscount(mu.mu_price, mu) }}  -->
+                  <td><input type="number" [(ngModel)]="mu.chietkhau" [min]="0" [max]="100" (ngModelChange)="updateTotalandRemaining(mu)"> %</td>
+                  <td>{{ mu.mu_quantity }}</td>
+                  <td>{{ ((mu.chietkhau)?(calculateChietKhau(mu.mu_price, mu.mu_quantity, mu.chietkhau)):(mu.mu_price * mu.mu_quantity))| currency:'VND' }}</td>
+                  <!-- <td>{{ ((mu.mu_total_paid)?mu.mu_total_paid: 0) | currency:'VND' }}</td>
+                  <td [hidden]="remaining == 0">{{mu.mu_total - mu.mu_total_paid | currency:'VND'}}</td>
+                  <td [hidden]="remaining == 0"></td> -->
+                </tr>
+              </ng-container>
+            </ng-container>
             <tr>
               <th colspan="5">Tổng cộng/Total: </th>
               <td>{{ total | currency:'VND' }}</td>
-              <td>{{ totalPaid | currency:'VND' }}</td>
-              <td [hidden]="remaining == 0">{{ remaining | currency:'VND' }}</td>
+              <!-- <td>{{ totalPaid | currency:'VND' }}</td> -->
+              <!-- <td [hidden]="remaining == 0">{{ remaining | currency:'VND' }}</td> -->
               <td [hidden]="remaining == 0">
                 <div class="position-relative">
                   <input style="border-radius: 5px" [(ngModel)]="paymentAmount" class="form-control" type="number"

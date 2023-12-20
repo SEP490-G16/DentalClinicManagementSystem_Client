@@ -54,28 +54,27 @@ export class PatientSpecimensComponent implements OnInit {
 
   ngOnInit(): void {
     this.Patient_Id = this.route.snapshot.params['id'];
-    this.getAllSpecimens(this.pagingSearch.paging);
-    this.getAllLabo();
-    this.getApproveSpecimensList(this.status, this.paging);
-
-    let ro = sessionStorage.getItem('role');
-    if (ro != null) {
-      this.roleId = ro.split(',');
-    }
     this.name = sessionStorage.getItem('patient');
     if (this.name) {
       this.name = JSON.parse(this.name);
       this.patientName = this.name.patient_name;
-      // sessionStorage.removeItem("patient");
     } else {
       this.patientService.getPatientById(this.Patient_Id).subscribe((patient: any) => {
         console.log("Patient: ", patient);
         this.patientName = patient.patient_name;
-        // sessionStorage.setItem('patient', patient);
+        sessionStorage.setItem('patient', JSON.stringify(patient));
       })
     }
-  }
+    let ro = sessionStorage.getItem('role');
+    if (ro != null) {
+      this.roleId = ro.split(',');
+    }
 
+    this.getAllSpecimens(this.pagingSearch.paging);
+    this.getAllLabo();
+    this.getApproveSpecimensList(this.status, this.paging);
+
+  }
   getAllSpecimens(paging:number) {
     this.SpecimensService.getSpecimens(paging)
     .subscribe((res) => {
@@ -93,6 +92,24 @@ export class PatientSpecimensComponent implements OnInit {
       this.labos = data.data;
       console.log("Get all Labo: ", this.labos);
     })
+  }
+
+  convertToFormattedDate(dateString: string): string {
+    if (!dateString || dateString === '0000-00-00 00:00:00' || dateString.toLowerCase() === 'null') {
+      return '';
+    }
+
+    const dateObject = new Date(dateString);
+
+    if (isNaN(dateObject.getTime())) {
+      return '';
+    }
+
+    const year = dateObject.getFullYear();
+    const month = dateObject.getMonth() + 1; // Tháng bắt đầu từ 0
+    const day = dateObject.getDate();
+
+    return `${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year}`;
   }
 
   getApproveSpecimensList(status:any, paging:any){

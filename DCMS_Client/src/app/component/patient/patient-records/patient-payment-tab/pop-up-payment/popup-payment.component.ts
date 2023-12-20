@@ -11,6 +11,7 @@ import { PaidMaterialUsageService } from 'src/app/service/PatientService/patient
 import { FacilityService } from 'src/app/service/FacilityService/facility.service';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { MaterialUsageService } from 'src/app/service/MaterialUsage/MaterialUsageService.component';
 
 @Component({
   selector: 'app-popup-payment-tab',
@@ -18,7 +19,7 @@ import jsPDF from 'jspdf';
   styleUrls: ['./popup-payment.component.css']
 })
 export class PopupPaymentComponent implements OnInit, OnChanges {
-  @Input() MaterialUsage!: MaterialUsage[];
+  @Input() MaterialUsage!: any;
   TreatmentCourse: any
   @Input() Patient: any
 
@@ -35,10 +36,16 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
     private examinationService: TreatmentCourseDetailService,
     private paidMaterialUsageService: PaidMaterialUsageService,
     private modalService: NgbModal,
-    private facilityService: FacilityService
+    private facilityService: FacilityService,
+    private materialUsageService: MaterialUsageService
   ) {
     this.currentDate = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
   }
+
+  oldTotal: any
+  oldTotalPaid: any
+  oldRemaining: any
+
 
   checkPayment: boolean = false;
   facility_name: any;
@@ -62,8 +69,11 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
     console.log("Material Usage Display Sort: ", this.MaterialUsageDisplay);
     console.log("TreatmentCourse: ", this.TreatmentCourse);
     this.totalPaid = this.MaterialUsageDisplay.reduce((acc: any, mu: any) => acc + (Number(mu.mu_total_paid) || 0), 0);
+    this.oldTotalPaid = this.totalPaid;
     this.total = this.MaterialUsageDisplay.reduce((acc: any, mu: any) => acc + (Number(mu.mu_total) || 0), 0);
+    this.oldTotal = this.total;
     this.remaining = this.total - this.totalPaid;
+    this.oldRemaining = this.remaining;
     const facility = sessionStorage.getItem('locale');
     if (facility != null) {
       this.facilityService.getFacilityList().subscribe((data) => {
@@ -75,13 +85,46 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
         })
       })
     }
+
+    this.MaterialUsage.forEach((usage: any) => {
+      usage.mu_data.forEach((mu: any) => {
+        const chietkhau = mu.mu_description.split(" ")[2];
+        if (chietkhau) {
+          mu.chietkhau = parseInt(chietkhau);
+          mu.mu_price = ((mu.mu_price * 100) / (100 - mu.chietkhau));
+        } else {
+          mu.chietkhau = 0;
+        }
+      });
+    });
+    console.log("Final Material Usage: ", this.MaterialUsage);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
   }
 
+
+  updateTotalandRemaining(MaterialUsage: any) {
+   this.total = this.oldTotal;
+   this.remaining = this.oldRemaining;
+    this.MaterialUsage.forEach((parent: any) => {
+      parent.mu_data.forEach((mu: any) => {
+        if (mu.mu_material_usage_id == MaterialUsage.mu_material_usage_id) {
+          this.total += Number(this.calculateChietKhau(mu.mu_price, mu.mu_quantity, mu.chietkhau));
+        } else {
+          this.total += Number(((mu.mu_price * (100 - mu.chietkhau)) / 100) * mu.mu_quantity);
+        }
+      });
+    });
+    this.remaining = this.total - this.totalPaid;
+  }
+
   getAbsoluteValue(value: number): number {
     return Math.abs(value);
+  }
+
+  calculateChietKhau(price: number, quantity: number, chietkhau: number) {
+    return ((price * quantity * (100 - chietkhau)) / 100).toFixed(2);
   }
 
   calculateDiscount(price: number, mu: any) {
@@ -95,7 +138,7 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
     if (intital == price) {
       return 0;
     }
-    console.log("Oki", (price / intital) * 100);
+
     return (100 - ((price / intital) * 100)).toFixed(1);
   }
 
@@ -143,6 +186,8 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
     //   }
     // })
 
+
+    //total_paid = 0 thay cho null;
     this.MaterialUsage.forEach((parent: any) => {
       parent.mu_data.forEach((mu_data: any) => {
         const amountDue = mu_data.mu_total - mu_data.mu_total_paid;
@@ -164,9 +209,23 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
         if (amountDue > 0) {
           this.Body_Paid_MU.push(body);
         }
+        console.log("Chietkhau: ", mu_data.chietkhau);
+        if (mu_data.chietkhau !== 0 && mu_data.chietkhau != "") {
+          let Body_MaterialUsage = {
+            material_usage_id: mu_data.mu_material_usage_id,
+            medical_procedure_id: mu_data.mu_medical_procedure_id,
+            treatment_course_id: parent.tc_data.tc_treatment_course_id,
+            quantity: mu_data.mu_quantity,
+            price: ((mu_data.mu_price * (100 - mu_data.chietkhau)) / 100).toFixed(2),
+            total_paid: body.total_paid,
+            description: mu_data.mu_description + ` ${mu_data.chietkhau}`
+          }
+          this.materialUsageService.putMaterialUsage(Body_MaterialUsage.material_usage_id, Body_MaterialUsage).subscribe((res) => {
+            this.toastr.success(res.message, "Sửa Material Usage thành công!");
+          });
+        }
       });
     });
-    console.log("Body_Paid_Mu: ", this.Body_Paid_MU);
     this.receipt = {
       patient_id: this.Patient.p_patient_id,
       payment_type: null,
@@ -175,7 +234,7 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
     this.paidMaterialUsageService.postPaidMaterialUsage(this.receipt)
       .subscribe((res: any) => {
         this.toastr.success(res.message, "Thanh toán thành công!");
-        alert();
+        // alert();
         window.location.reload();
       },
         (err) => {
@@ -242,5 +301,6 @@ interface MaterialUsage {
   mu_total_paid: number;
   treatment_course_id: string;
   tempPaidAmount?: number;
+  chietkhau: number;
 }
 

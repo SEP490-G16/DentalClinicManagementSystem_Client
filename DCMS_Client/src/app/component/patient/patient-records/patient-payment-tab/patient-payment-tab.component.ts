@@ -57,10 +57,6 @@ export class PatientPaymentTabComponent implements OnInit {
       this.RoleId = role.split(',');
     }
     this.Patient_Id = this.route.snapshot.params['id'];
-    const startDATE = 1698827581;
-    const currentDATE = ConvertTimestamp.dateToTimestamp(moment().tz('Asia/Ho_Chi_Minh').add(1, 'days').format('YYYY-MM-DD'));
-    console.log("CurrentDate: ", currentDATE);
-    this.getMaterialUsageReport(startDATE, currentDATE);
     let ro = sessionStorage.getItem('role');
     if (ro != null) {
       this.roleId = ro.split(',');
@@ -74,9 +70,13 @@ export class PatientPaymentTabComponent implements OnInit {
       this.patientService.getPatientById(this.Patient_Id).subscribe((patient: any) => {
         console.log("Call api Patient: ", patient);
         this.patientName = patient.patient_name;
-        // sessionStorage.setItem('patient', patient);
+        sessionStorage.setItem('patient', JSON.stringify(patient));
       })
     }
+    const startDATE = 1698827581;
+    const currentDATE = ConvertTimestamp.dateToTimestamp(moment().tz('Asia/Ho_Chi_Minh').add(1, 'days').format('YYYY-MM-DD'));
+    console.log("CurrentDate: ", currentDATE);
+    this.getMaterialUsageReport(startDATE, currentDATE);
   }
   formatCurrency(value: number): string {
     return value.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
