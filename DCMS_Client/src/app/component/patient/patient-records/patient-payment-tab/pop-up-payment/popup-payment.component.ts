@@ -147,8 +147,7 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
       parent.mu_data.forEach((mu_data: any) => {
         const amountDue = mu_data.mu_total - mu_data.mu_total_paid;
         let total_paid;
-
-        if (this.paymentAmount > amountDue) {
+        if (this.paymentAmount >= amountDue) {
           total_paid = amountDue;
           this.paymentAmount -= amountDue;
         } else {
@@ -162,11 +161,11 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
           total_paid: total_paid
         };
 
-        this.Body_Paid_MU.push(body);
+        if (amountDue > 0) {
+          this.Body_Paid_MU.push(body);
+        }
       });
     });
-
-
     console.log("Body_Paid_Mu: ", this.Body_Paid_MU);
     this.receipt = {
       patient_id: this.Patient.p_patient_id,
@@ -176,6 +175,7 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
     this.paidMaterialUsageService.postPaidMaterialUsage(this.receipt)
       .subscribe((res: any) => {
         this.toastr.success(res.message, "Thanh toán thành công!");
+        alert();
         window.location.reload();
       },
         (err) => {
