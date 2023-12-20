@@ -40,6 +40,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
   isHovered = true;
   unreadMessagesCount = 0;
+  msg: any;
   constructor(private webSocketService: WebsocketService,
     private waitingRoomService: ReceptionistWaitingRoomService,
     private location: Location,
@@ -62,6 +63,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     total_waiting_room: 0,
     total_patient: 0
   }
+  check: any[] = [];
   //CheckRealTimeWaiting: any[] = [];
   ngOnInit(): void {
     this.waitingRoomService.data$.subscribe((dataList) => {
@@ -80,23 +82,39 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.webSocketService.connect();
     var count = 0;
     this.webSocketService.messageReceived.subscribe((message: any) => {
-      if (count == 0) {
+      console.log("check msg: ", this.msg)
+      if (count == 0 && this.msg != message) {
         count++;
+        this.msg = message == undefined ? '' : message;
         const parsedMessage = JSON.parse(message);
         console.log("check content:", parsedMessage.content);
-        const check = parsedMessage.content.split(',');
-        if (check[0] == 'CheckRealTimeWaitingRoom@@@') {
+        if (parsedMessage.content != undefined) {
+            this.check = parsedMessage.content.split(',');
+        } else {
+          console.log("vô nha");
+          let ob = localStorage.getItem('ob');
+          console.log("check ob đc truyền", ob)
+          if (ob != null) {
+            
+            this.check = ob.split(',');
+            console.log("split check: ", this.check)
+          }
+          localStorage.removeItem('ob');
+        }
+        
+        if (this.check[0] == 'CheckRealTimeWaitingRoom@@@') {
           var shouldBreakFor = false;
           let postInfo;
-          if (check[1] != undefined && check[1] != '') {
-            postInfo = check[1].split(' - ');
-          } else {
-            let ob = localStorage.getItem('ob');
-            if (ob != null) {
-              postInfo = ob.split(' - ');
-            }
-            localStorage.removeItem('ob');
-          }
+          if (this.check[1] != undefined && this.check[1] != '') {
+            postInfo = this.check[1].split(' - ');
+          } 
+          // else {
+          //   let ob = localStorage.getItem('ob');
+          //   if (ob != null) {
+          //     postInfo = ob.split(' - ');
+          //   }
+          //   localStorage.removeItem('ob');
+          // }
           console.log("check add new patient: ", postInfo);
           this.POST_WAITTINGROOM.epoch = postInfo[0];
           this.POST_WAITTINGROOM.produce_id = postInfo[1];
@@ -114,8 +132,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             console.log('Check notification');
             this.POST_WAITTINGROOM.epoch = '';
             var pa;
-            if (check[2] != null && check[2] != undefined) {
-              const pa = check[2].split(' - ');
+            if (this.check[2] != null && this.check[2] != undefined) {
+              const pa = this.check[2].split(' - ');
               let notification = {
                 status: '2',
                 content: {
@@ -163,9 +181,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
           }
           var noLoop = false;
           this.filteredWaitingRoomData.forEach((item: any) => {
-            if (item.patient_id == check[1]) {
-              if (check[2] == "4") {
-                const index = this.filteredWaitingRoomData.findIndex(it => it.patient_id == check[1]);
+            if (item.patient_id == this.check[1]) {
+              if (this.check[2] == "4") {
+                const index = this.filteredWaitingRoomData.findIndex(it => it.patient_id == this.check[1]);
                 if (index != -1) {
                   console.log("delete patient wait");
                   this.filteredWaitingRoomData.splice(index, 1);
@@ -174,7 +192,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                   //this.waitingRoomService.updateData(this.filteredWaitingRoomData);
                 }
               } else {
-                item.status = check[2];
+                item.status = this.check[2];
                 if (item.status == "2") {
                   this.dataService.UpdateWaitingRoomTotal(0, 0);
                   console.log("check log");
@@ -228,11 +246,11 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
               patient_created_date: '',
             }
             noLoop = true;
-            //this.waitingRoomService.updateData(this.filteredWaitingRoomData);
             return;
           }
-          const statusOrder: { [key: number]: number } = { 2: 1, 3: 2, 1: 3, 4: 4 };
-          if (this.filteredWaitingRoomData.length > 0) {
+          const statusOrder: { [key: number]: number } = { 2: 1, 1: 2, 3: 3, 4: 4 };
+          //{ 2: 1, 3: 2, 1: 3, 4: 4 };
+          if (this.filteredWaitingRoomData.length >= 0) {
             this.filteredWaitingRoomData.sort((a: any, b: any) => {
               const orderA = statusOrder[a.status] ?? Number.MAX_VALUE;
               const orderB = statusOrder[b.status] ?? Number.MAX_VALUE;
@@ -240,14 +258,14 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             });
             this.waitingRoomService.updateData(this.filteredWaitingRoomData);
           }
-        } else if (check[0] == 'UpdateAnalysesTotal@@@') {
-          if (check[1] == 'plus') {
-            if (check[2] == 'app') {
+        } else if (this.check[0] == 'UpdateAnalysesTotal@@@') {
+          if (this.check[1] == 'plus') {
+            if (this.check[2] == 'app') {
               this.dataService.UpdateAppointmentTotal(1, 0);
             }
           }
-          else if (check[1] == 'minus') {
-            if (check[2] == 'app') {
+          else if (this.check[1] == 'minus') {
+            if (this.check[2] == 'app') {
               this.dataService.UpdateAppointmentTotal(0, 0);
             }
           }
@@ -260,7 +278,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
           setTimeout(() => this.scrollToBottom(), 100);
         }
       }
-      count = 0;
+      count = 0; 
     })
   }
   ngAfterViewInit() {

@@ -240,7 +240,7 @@ export class AddWaitingRoomComponent implements OnInit {
     const postInfo = this.POST_WAITTINGROOM.epoch + ' - ' + this.POST_WAITTINGROOM.produce_id + ' - ' + this.POST_WAITTINGROOM.produce_name + ' - '
       + this.POST_WAITTINGROOM.patient_id + ' - ' + this.POST_WAITTINGROOM.patient_name + ' - ' + this.POST_WAITTINGROOM.reason + ' - '
       + this.POST_WAITTINGROOM.status + ' - ' + this.POST_WAITTINGROOM.appointment_id + ' - ' + this.POST_WAITTINGROOM.appointment_epoch + ' - ' + this.POST_WAITTINGROOM.patient_created_date;
-    localStorage.setItem("ob", JSON.stringify(postInfo));
+      localStorage.setItem("ob", `CheckRealTimeWaitingRoom@@@,${postInfo},${Number('1')}`);
       this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
       .subscribe((data) => {
         this.showSuccessToast("Thêm phòng chờ thành công!!");
@@ -274,7 +274,7 @@ export class AddWaitingRoomComponent implements OnInit {
         // this.WaitingRoomService.updateData(this.filteredWaitingRoomData);
 
         //C2: Ok nhất nhưng phải call api, mà thôi kệ đi
-        this.updateWaitingRoomList();
+        //this.updateWaitingRoomList();
 
         //Còn không
         //this.newWaitingRoom.emit(this.filteredWaitingRoomData);

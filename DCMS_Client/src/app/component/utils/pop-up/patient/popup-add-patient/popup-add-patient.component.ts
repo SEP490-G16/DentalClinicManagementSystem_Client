@@ -74,6 +74,9 @@ export class PopupAddPatientComponent implements OnInit {
   }
 
   addPatient() {
+    //console.log("check date: ",this.patientBody)
+    //console.log("check date: ", TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.model)));
+    
     var regex = /[0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\\-/]/;
     this.resetValidate();
     if (!this.patient1.patientName) {
@@ -151,7 +154,7 @@ export class PopupAddPatientComponent implements OnInit {
     }
     console.log("Post: ", this.patientBody);
 
-    // return;
+    //return;
     this.patientService.addPatient(this.patientBody).subscribe((data: any) => {
       this.toastr.success('Thêm mới bệnh nhân thành công!');
 
@@ -163,7 +166,7 @@ export class PopupAddPatientComponent implements OnInit {
 
       this.newPatientAdded.emit(this.patientBody);
 
-      this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'pat');
+      //this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'pat');
       localStorage.setItem("patient", JSON.stringify(this.patientBody))
       const newPatientId = data.data.patient_id;
       this.patientBody.patient_id = newPatientId;

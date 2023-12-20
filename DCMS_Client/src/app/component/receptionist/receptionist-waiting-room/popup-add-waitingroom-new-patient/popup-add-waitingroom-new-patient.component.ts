@@ -159,6 +159,8 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
   addPatient() {
     this.resetValidate();
     this.resetValidate1();
+    //console.log("check date: ", TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.dobNgb)));
+    //return;
     if (!this.patient1.patientName) {
       this.validatePatient.name = "Vui lòng nhập tên bệnh nhân!";
       this.isSubmitted = true;
@@ -242,6 +244,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
         date_of_birth: TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.dobNgb)),
       }
     }
+
     this.PATIENT_SERVICE.addPatient(this.patientBody).subscribe((data: any) => {
       this.toastr.success('Thêm mới bệnh nhân thành công!');
       this.currentPatientCreated = true;
@@ -268,6 +271,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
           this.showSuccessToast("Thêm phòng chờ thành công!!");
           let ref = document.getElementById('cancel-add-waiting-new');
           ref?.click();
+          localStorage.setItem("ob", `CheckRealTimeWaitingRoom@@@,${postInfo},${Number('1')}`);
           this.messageContent = `CheckRealTimeWaitingRoom@@@,${postInfo},${Number('1')}`;
           this.messageBody = {
             action: '',
@@ -281,7 +285,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
             this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
 
           }
-          this.updateWaitingRoomList();
+          //this.updateWaitingRoomList();
           // this.router.navigate(["phong-cho"]);
           //this.WaitingRoomService.updateData
           this.POST_WAITTINGROOM = {
