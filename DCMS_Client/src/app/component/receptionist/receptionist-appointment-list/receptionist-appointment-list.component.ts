@@ -349,8 +349,6 @@ export class ReceptionistAppointmentListComponent implements OnInit {
           }
 
         } as IEditAppointmentBody;
-
-
         this.appointmentService.deleteAppointment(dateTimestamp, appointment.appointment_id).subscribe(response => {
           this.showSuccessToast('Xóa lịch hẹn thành công!');
 
