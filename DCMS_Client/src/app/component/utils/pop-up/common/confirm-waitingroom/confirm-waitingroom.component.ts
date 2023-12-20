@@ -33,6 +33,7 @@ export class ConfirmWaitingroomComponent implements OnInit {
           //this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
           this.showSuccessToast('Chỉnh sửa hàng chờ thành công');
           //this.getWaitingRoomData();
+          localStorage.setItem("ob", `CheckRealTimeWaitingRoom@@@,${this.content.patient_id},${parseInt(this.content.status_value)}`);
           this.messageContent = `CheckRealTimeWaitingRoom@@@,${this.content.patient_id},${parseInt(this.content.status_value)}`;
           this.messageBody = {
             action: '',

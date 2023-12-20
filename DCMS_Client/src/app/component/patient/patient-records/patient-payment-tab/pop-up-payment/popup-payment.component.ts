@@ -91,7 +91,7 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
     }
     // Calculate the discount; ensure not to divide by zero
     if (intital == price) {
-      return 100;
+      return 0;
     }
     console.log("Oki", (price / intital) * 100);
     return (100 - ((price / intital) * 100)).toFixed(1);

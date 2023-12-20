@@ -207,9 +207,8 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           this.loading = false;
           this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
           this.showSuccessToast('Xóa hàng chờ thành công');
-          this.sendMessageSocket.sendMessageSocket("CheckRealTimeWaitingRoom@@@", `${wtr.patient_id}`, `${Number('4')}`);
-          //this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "minus", "wtr1");
-          //this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "minus", "wtr");
+          localStorage.setItem("ob",`CheckRealTimeWaitingRoom@@@,${wtr.patient_id},${Number('4')}`);
+          this.sendMessageSocket.sendMessageSocket("CheckRealTimeWaitingRoom@@@",`${wtr.patient_id}`, `${Number('4')}`);
           this.getWaitingRoomData();
         },
           (error) => {
@@ -331,6 +330,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
           this.showSuccessToast('Chỉnh sửa hàng chờ thành công');
           this.getWaitingRoomData();
+          localStorage.setItem("ob", `CheckRealTimeWaitingRoom@@@,${wtr.patient_id},${Number(wtr.status)}`);
           this.messageContent = `CheckRealTimeWaitingRoom@@@,${wtr.patient_id},${Number(wtr.status)}`;
           this.messageBody = {
             action: '',
@@ -451,6 +451,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
     const out = epoch+ " - "+wtr.produce_id+ " - "+wtr.produce_name+" - "+ wtr.patient_id+" - "+wtr.patient_name+" - "+
     wtr.reason+" - " + wtr.patient_created_date+" - "+ Number(wtr.status)+" - "+wtr.appointment_id+ " - "+wtr.appointment_epoch;
     localStorage.setItem("pawtr", JSON.stringify(a));
+    localStorage.setItem("ob", `CheckRealTimeWaitingRoom@@@,notification,${out}`);
     this.sendMessageSocket.sendMessageSocket("CheckRealTimeWaitingRoom@@@", "notification", `${out}`);
   }
 
