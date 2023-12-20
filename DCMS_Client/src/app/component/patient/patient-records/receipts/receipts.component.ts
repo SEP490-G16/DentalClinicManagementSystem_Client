@@ -51,7 +51,7 @@ export class ReceiptsComponent implements OnInit {
       this.patientService.getPatientById(this.patientId).subscribe((patient: any) => {
         console.log("Patient: ", patient);
         this.patientName = patient.patient_name;
-        // sessionStorage.setItem('patient', patient);
+        sessionStorage.setItem('patient', JSON.stringify(patient));
       })
     }
   }

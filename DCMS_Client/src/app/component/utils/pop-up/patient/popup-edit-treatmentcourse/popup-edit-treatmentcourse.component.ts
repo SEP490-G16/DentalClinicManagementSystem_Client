@@ -99,7 +99,7 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
             procedureName: currentO.mp_name,
             initPrice: currentO.mp_price,
             price: currentO.mp_price,
-            quantity: '1',
+            quantity: 1,
             laboId: '0',
             checked: false,
             isExpand: false,
@@ -121,7 +121,7 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
             procedureName: '',
             initPrice: '',
             price: '',
-            quantity: '1',
+            quantity: 1,
             laboId: '0',
             checked: true,
             isExpand: false
@@ -214,9 +214,9 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
                   material_usage_id: '',
                   medical_procedure_id: '',
                   treatment_course_id: '',
-                  quantity: '',
+                  quantity: 1,
                   price: '',
-                  total_paid: '',
+                  total_paid: 0,
                   description: ''
                 }
               }
@@ -233,8 +233,8 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
                 material_warehouse_id: item.material_warehouse_id,
                 treatment_course_id: item.treatment_course_id,
                 quantity: item.quantity,
-                price: '',
-                total_paid: '',
+                price: 0,
+                total_paid: 0,
                 description: it.materialName,
               })
               this.listMaterialUsage.push({
@@ -242,8 +242,8 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
                 material_warehouse_id: item.material_warehouse_id,
                 treatment_course_id: item.treatment_course_id,
                 quantity: item.quantity,
-                price: '',
-                total_paid: '',
+                price: 0,
+                total_paid: 0,
                 description: it.materialName,
               })
             }
@@ -282,16 +282,16 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
             treatment_course_id: '',
             quantity: it.quantity,
             price: it.price,
-            total_paid: '',
+            total_paid: 0,
             description: it.laboId + " " + it.initPrice
           }
           this.Post_Procedure_Material_Usage_New.push(materialUsage);
           materialUsage = {
             medical_procedure_id: '',
             treatment_course_id: '',
-            quantity: '',
-            price: '',
-            total_paid: '',
+            quantity: 1,
+            price: 0,
+            total_paid: 0,
             description: ''
           }
         }
@@ -401,7 +401,6 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
 
       console.log("Post thu thuat: ", this.Post_Procedure_Material_Usage_New);
       console.log("Put thu thuat: ", this.Post_Procedure_Material_Usage);
-      return;
     if (this.Post_Procedure_Material_Usage_New.length > 0) {
       this.Post_Procedure_Material_Usage_New.forEach((item: any) => {
         item.treatment_course_id = this.Edit_TreatmentCourse.treatment_course_id;
@@ -676,18 +675,18 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
           material_usage_id: item.material_usage_id == "" ? '' : item.material_usage_id,
           material_warehouse_id: item.material_warehouse_id,
           treatment_course_id: '',
-          quantity: '1',
-          price: '',
-          total_paid: '',
+          quantity: 1,
+          price: 0,
+          total_paid: 0,
           description: item.materialName,
         });
         this.listInsertNewMaterial.push({
           material_usage_id: item.material_usage_id == "" ? '' : item.material_usage_id,
           material_warehouse_id: item.material_warehouse_id,
           treatment_course_id: '',
-          quantity: '1',
-          price: '',
-          total_paid: '',
+          quantity: 1,
+          price: 0,
+          total_paid: 0,
           description: item.materialName,
         })
       }

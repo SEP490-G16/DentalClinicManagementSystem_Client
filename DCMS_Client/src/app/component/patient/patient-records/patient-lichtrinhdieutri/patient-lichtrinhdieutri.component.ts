@@ -91,30 +91,30 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
   }
   name: any
   ngOnInit(): void {
+    this.name = sessionStorage.getItem('patient');
+    if (this.name) {
+      this.name = JSON.parse(this.name);
+      this.patientName = this.name.patient_name;
+      sessionStorage.removeItem("patient");
+    } else {
+      this.patientService.getPatientById(this.id).subscribe((patient: any) => {
+        console.log("Call api Patient: ", patient);
+        this.patientName = patient.patient_name;
+        sessionStorage.setItem('patient', JSON.stringify(patient));
+      })
+    }
     let examination_reason = sessionStorage.getItem("examination_reason");
+    let ro = sessionStorage.getItem('role');
+    if (ro != null) {
+      this.roleId = ro.split(',');
+    }
 
     this.TreatmentCouseBody.lydo = examination_reason || "";
 
     sessionStorage.removeItem("examination_reason");
     this.id = this.route.snapshot.params['id'];
     this.getTreatmentCourse();
-    let ro = sessionStorage.getItem('role');
-    if (ro != null) {
-      this.roleId = ro.split(',');
-    }
 
-    this.name = sessionStorage.getItem('patient');
-    if (this.name) {
-      this.name = JSON.parse(this.name);
-      this.patientName = this.name.patient_name;
-      // sessionStorage.removeItem("patient");
-    } else {
-      this.patientService.getPatientById(this.id).subscribe((patient: any) => {
-        console.log("Call api Patient: ", patient);
-        this.patientName = patient.patient_name;
-        // sessionStorage.setItem('patient', patient);
-      })
-    }
     this.onGetXRayImage(this.id)
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh');
     const day = currentDateGMT7.date();
@@ -748,9 +748,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
           this.listProcedure = data.data;
           console.log("List procedure: ", this.listProcedure);
 
-          Course.isCompleted = Course.name && Course.provisional_diagnosis && Course.chief_complaint &&
-            Course.differential_diagnosis && Course.provisional_diagnosis &&
-            this.listProcedure.length > 0;
+          Course.isCompleted = Course.name && this.listProcedure.length > 0;
         })
     })
   }
