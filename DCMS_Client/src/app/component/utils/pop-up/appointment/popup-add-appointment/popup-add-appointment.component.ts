@@ -402,7 +402,7 @@ export class PopupAddAppointmentComponent implements OnInit {
           patient_created_date: this.AppointmentBody.appointment.patient_created_date,
           migrated: 'false'
         };
-        
+
         if (this.selectedDateCache === selectedDate) {
           const appointmentIndex = this.filteredAppointments.findIndex((a: any) => a.date === this.AppointmentBody.epoch);
           if (appointmentIndex !== -1) {
