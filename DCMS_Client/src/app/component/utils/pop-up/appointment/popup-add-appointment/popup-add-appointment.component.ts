@@ -339,7 +339,8 @@ export class PopupAddAppointmentComponent implements OnInit {
     if (storeList != null) {
       listAppointment = JSON.parse(storeList);
     }
-    this.filteredAppointments = listAppointment.filter((ap: any) => ap.date === this.dateToTimestamp(selectedDate));
+    // this.filteredAppointments = listAppointment.filter((ap: any) => ap.date === this.dateToTimestamp(selectedDate));
+
     this.filteredAppointments.forEach((appo: any) => {
       appo.appointments.forEach((deta: any) => {
         deta.details.forEach((res: any) => {

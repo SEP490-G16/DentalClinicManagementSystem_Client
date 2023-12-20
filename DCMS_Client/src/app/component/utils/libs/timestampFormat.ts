@@ -32,6 +32,18 @@ export class TimestampFormat {
     return formattedDate;
   }
 
+  static timestampToGMT7VNDate(timestamp: number): string {
+    const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ GMT+7
+
+    // Sử dụng moment.tz để chuyển đổi timestamp sang đối tượng ngày với múi giờ GMT+7
+    const date = moment.tz(timestamp * 1000, timeZone);
+
+    // Định dạng ngày theo mong muốn
+    const formattedDate = date.format('DD-MM-YYYY'); // Định dạng ngày giờ
+
+    return formattedDate;
+  }
+
   static timeAndDateToTimestamp(timeStr: string, dateStr: string): number {
     const format = 'YYYY-MM-DD HH:mm'; // Định dạng của chuỗi ngày và thời gian
     const timeZone = 'Asia/Ho_Chi_Minh';

@@ -34,7 +34,7 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
   @Input() selectedAppointment: any;
   @Input() dateString: any;
   @Input() timeString: any;
-  @Input() filteredAppointments: any;
+  @Input() filteredAppointments: any [] = [];
 
   @Input() datesDisabled: any;
 
@@ -168,12 +168,11 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
     }
     if (changes['dateString'] && this.dateString) {
       this.oldDate = this.dateString;
-      this.EDIT_APPOINTMENT_BODY.epoch = this.dateString;
       console.log("Old Date", this.oldDate);
       this.model = {
-        year: parseInt(this.dateString.split('-')[0]),
+        year: parseInt(this.dateString.split('-')[2]),
         month: parseInt(this.dateString.split('-')[1]),
-        day: parseInt(this.dateString.split('-')[2])
+        day: parseInt(this.dateString.split('-')[0])
       };
     }
     if (changes['timeString']) {
@@ -440,7 +439,6 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
         })
       })
     }
-
     this.APPOINTMENT_SERVICE.putAppointment(this.EDIT_APPOINTMENT_BODY, this.selectedAppointment.appointment_id).subscribe(response => {
       console.log("Cập nhật thành công");
       this.showSuccessToast('Sửa Lịch hẹn thành công!');

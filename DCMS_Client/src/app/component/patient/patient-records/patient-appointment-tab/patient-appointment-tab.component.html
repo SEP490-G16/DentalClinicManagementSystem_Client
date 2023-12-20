@@ -58,7 +58,7 @@
                 <ng-container *ngFor="let pA of patientAppointments">
                     <tr *ngFor="let detail of pA.details">
                       <ng-container *ngIf="detail.migrated == 'false'">
-                        <td>{{timestampToDate2(detail.time)}}</td>
+                        <td>{{timestampToTime(detail.time) }} {{timestampToDate(pA.date)}}</td>
                         <td>{{detail.doctor}}</td>
                         <td>{{detail.reason}}</td>
                         <td>{{detail.procedure_name}}</td>

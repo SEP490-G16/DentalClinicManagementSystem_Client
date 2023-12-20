@@ -52,7 +52,7 @@ export class PatientAppointmentTabComponent implements OnInit {
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
     this.currentDateTimestamp = this.dateToTimestamp2(currentDateGMT7);
     console.log("Hum nay: ", this.currentDateTimestamp);
-    this.endDateTimestamp = this.dateToTimestamp("2023-01-15 23:59:59");
+    this.endDateTimestamp = this.dateToTimestamp("2023-02-20 23:59:59");
     this.selectedAppointment = {} as ISelectedAppointment
   }
   ngOnInit(): void {
@@ -230,9 +230,10 @@ export class PatientAppointmentTabComponent implements OnInit {
   }
 
   timestampToGMT7StringWithDate(timestamp: number): string {
-    const dateTimeString = moment.tz(timestamp * 1000, 'Asia/Ho_Chi_Minh').format('YYYY-MM-DD HH:mm');
+    const dateTimeString = moment.tz(timestamp * 1000, 'Asia/Ho_Chi_Minh').format('HH:mm DD-MM-DD');
     return dateTimeString;
   }
+
 
   navigateHref(href: string) {
     this.commonService.navigateHref(href, this.id);
@@ -254,7 +255,7 @@ export class PatientAppointmentTabComponent implements OnInit {
 
   timestampToDate(timestamp: number): string {
     const date = moment.unix(timestamp);
-    const dateStr = date.format('YYYY-MM-DD');
+    const dateStr = date.format('DD-MM-YYYY');
     return dateStr;
   }
 

@@ -3,7 +3,7 @@ import { NgbDatepickerConfig, NgbDatepickerModule, NgbDateStruct, NgbModal } fro
 import { FormsModule } from '@angular/forms';
 import { ReceptionistAppointmentService } from "../../../service/ReceptionistService/receptionist-appointment.service";
 import { CognitoService } from "../../../service/cognito.service";
-import { DateDisabledItem, Detail, IEditAppointmentBody, ISelectedAppointment, RootObject } from "../../../model/IAppointment";
+import { Appointment, DateDisabledItem, Detail, IEditAppointmentBody, ISelectedAppointment, RootObject } from "../../../model/IAppointment";
 import { Router } from '@angular/router';
 import { ConvertJson } from "../../../service/Lib/ConvertJson";
 import { PopupAddAppointmentComponent } from '../../utils/pop-up/appointment/popup-add-appointment/popup-add-appointment.component';
@@ -156,7 +156,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
       this.appointmentList = ConvertJson.processApiResponse(data);
       localStorage.setItem("ListAppointment", JSON.stringify(this.appointmentList));
       this.filteredAppointments = this.appointmentList.filter(app => app.date === this.dateToTimestamp(selectedDate));
-      console.log("Appointment: " ,this.appointmentList);
+      console.log("Appointment: ", this.appointmentList);
       // this.filteredAppointments.forEach((appointmentParent: any) => {
       //   this.dateEpoch = this.timestampToDate(appointmentParent.date);
 
@@ -176,6 +176,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
       // });
 
       console.log("Filter Appointment: ", this.filteredAppointments);
+
       this.loading = false;
       //this.appointmentDateInvalid();
     },
@@ -312,8 +313,16 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     }
   }
 
+  openAddAppointmentModal() {
+    this.selectedDateCache = FormatNgbDate.formatNgbDateToString(this.model);
+    this.filteredAppointments = this.filteredAppointments;
+    console.log("Filtered Appointment truyen len: ", this.filteredAppointments);
+    this.datesDisabled = this.datesDisabled;
+  }
+
   onNewAppointmentAdded(newAppointment: any) {
     this.selectedDateCache = FormatNgbDate.formatNgbDateToString(this.model);
+    console.log("New APpointment list: ", newAppointment);
     this.filteredAppointments = newAppointment;
   }
 
@@ -555,12 +564,6 @@ export class ReceptionistAppointmentListComponent implements OnInit {
 
   navigateToPatientDetail(patientId: any) {
     this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', patientId]);
-  }
-
-  openAddAppointmentModal() {
-    this.selectedDateCache = FormatNgbDate.formatNgbDateToString(this.model);
-    this.filteredAppointments = this.filteredAppointments;
-    this.datesDisabled = this.datesDisabled;
   }
 
   timeToTimestamp(timeStr: string): number {
