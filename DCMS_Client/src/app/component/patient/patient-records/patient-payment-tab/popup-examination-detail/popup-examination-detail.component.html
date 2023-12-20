@@ -1,6 +1,6 @@
 <!-- Modal Header -->
 <div class="modal-header">
-  <h4 class="modal-title">{{MaterialUsage.mu_examination_id}}</h4>
+  <h4 class="modal-title"></h4>
   <button type="button" class="close" aria-label="Close" (click)="dismiss()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -73,11 +73,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>{{ MaterialUsage.mu_mpname }}</td>
-              <td>{{ MaterialUsage.mu_price | currency:'VND' }}</td>
-              <td>{{ MaterialUsage.mu_quantity }}</td>
+            <tr *ngFor="let mu of MaterialUsage; let i = index">
+              <td>{{i + 1}}</td>
+              <td>{{ mu.mu_mpname }}</td>
+              <td>{{ mu.mu_price | currency:'VND' }}</td>
+              <td>{{ mu.mu_quantity }}</td>
 <!--              <td>{{ MaterialUsage.mu_total | currency:'VND'}}</td>-->
 <!--              <td>{{ MaterialUsage.mu_total_paid | currency:'VND'}}</td>-->
 <!--              <td>{{ (MaterialUsage.mu_total - MaterialUsage.mu_total_paid) | currency:'VND'}}</td>-->
@@ -101,29 +101,30 @@
 <!--              </td>-->
                   <td colspan="2">
                     <i>
-                      {{ MaterialUsage.mu_total | currency:'VND' }} -
-                      <br><i>{{ MaterialUsage.mu_total | numberToWords }}</i>
+                      {{ total | currency:'VND' }} -
+                      <br><i>{{ total | numberToWords }}</i>
                     </i>
                   </td>
             </tr>
             <tr>
               <th colspan="2">Nợ trước/Tổng cộng (Debt/Total)</th>
               <td colspan="2">
-                {{ MaterialUsage.mu_total | currency:'VND'}} -
-                <br><i>{{ MaterialUsage.mu_total_paid | numberToWords }}</i>
+                {{ remaining | currency:'VND'}} -
+                <br><i>{{ remaining | numberToWords }}</i>
               </td>
             </tr>
             <tr>
               <th colspan="2">Thanh toán (Payment)</th>
               <td colspan="2">
-                {{ MaterialUsage.mu_total_paid | currency:'VND'}} -
-                <br><i>{{ MaterialUsage.mu_total_paid | numberToWords }}</i>
+                {{ totalPaid | currency:'VND'}} -
+                <br><i>{{ totalPaid| numberToWords }}</i>
               </td>
             </tr>
             <tr>
               <th colspan="2">Tổng nợ (Remain)</th>
               <td colspan="2">
-                {{ (MaterialUsage.mu_total - MaterialUsage.mu_total_paid) | currency:'VND'}}
+                {{ (total - totalPaid) | currency:'VND'}}
+                <br><i>{{ (total - totalPaid)| numberToWords }}</i>
               </td>
             </tr>
           </tbody>

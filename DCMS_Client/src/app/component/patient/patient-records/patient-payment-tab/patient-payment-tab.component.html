@@ -65,12 +65,11 @@
         <div class="payment-container">
           <div class="payment-header">
             <a class="schedule-title text-center" title="Xem thông tin thanh toán"
-            (click)="toggleDetails()">Tổng thanh toán </a>
+            (click)="examinationDetail()">Tổng thanh toán </a>
             <div class="payment-summary">
               <span class="total-amount">Tổng tiền: {{ totalPaid.totalPrice | currency:'VND'}}</span>
               <span class="paid-amount">Đã thanh toán: {{ totalPaid.totalPaid | currency:'VND'}}</span>
               <span class="remaining-amount">Còn lại: {{ totalPaid.remaining | currency:'VND'}}</span>
-              <span class="remaining-amount">Nợ cũ: {{ totalPaid.remaining | currency:'VND'}}</span>
               <ng-container *ngIf="totalPaid.remaining != 0">
                 <button class="payment-button" (click)="thanhtoan()">Thanh
                   toán</button>
@@ -79,6 +78,7 @@
                 <button class="payment-button" (click)="thanhtoan()">Xem
                   chi tiết</button>
               </ng-container>
+              <button class="payment-button" style="margin-left: 25px;" (click)="examinationDetail()">Chi tiết phiếu thu</button>
             </div>
           </div>
           <!-- <div class="payment-details" *ngIf="showDetails[report.tc_data.tc_treatment_course_id]"

@@ -169,14 +169,10 @@ export class PatientPaymentTabComponent implements OnInit {
   }
 
 
-  examinationDetail(materialUsage: any, treatmentCourse: any, patient: any) {
+  examinationDetail() {
     const modalRef = this.modalService.open(PopupExaminationDetailComponent, { size: 'xl' });
-    modalRef.componentInstance.TreatmentCourse = treatmentCourse;
-    console.log(treatmentCourse)
-    modalRef.componentInstance.Patient = patient;
-    console.log(patient)
-    modalRef.componentInstance.MaterialUsage = materialUsage;
-    console.log(materialUsage)
+    modalRef.componentInstance.MaterialUsage = this.Material_Usage_Report;
+    modalRef.componentInstance.Patient = this.PatientInfor;
     modalRef.result.then((result) => {
     }, (reason) => {
 
