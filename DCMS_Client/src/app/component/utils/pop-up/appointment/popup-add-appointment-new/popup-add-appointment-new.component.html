@@ -86,7 +86,7 @@
                                 <span class="input-group-text custom-input" id="basic-addon1">(+84)</span>
                               </div>
                               <input type="text" class="form-control" id="inputPhone" name="inputPhone"
-                                aria-label="phoneNumber" aria-describedby="basic-addon1">
+                                aria-label="phoneNumber" aria-describedby="basic-addon1" [(ngModel)]="patient1.sub_phone_number">
                             </div>
                             <div *ngIf="isSubmittedPatient" class="alert-danger-custom">
                               <p style="color:#FF0000FF;">
@@ -146,7 +146,7 @@
               <input type="text" class="form-control" [(ngModel)]="reason">
             </div>
                   <div class="form-group mt-2">
-              <label for="treatment">Loại điều trị</label>
+              <label for="treatment">Loại điều trị<span class="required">*</span></label>
               <select class="form-control" id="treatment" [(ngModel)]="procedure">
                 <option selected value="1">Phân loại điều trị</option>
                 <option *ngFor="let a of listGroupService" value={{a.medical_procedure_group_id}}>{{a.name}}</option>

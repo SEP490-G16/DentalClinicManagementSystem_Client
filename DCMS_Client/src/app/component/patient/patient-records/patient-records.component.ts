@@ -99,28 +99,35 @@ export class PatientRecordsComponent implements OnInit {
             this.loadPage(nextPage);
             nextPage++;
 
-            if(nextPage == 5) {
+            if (nextPage == 5) {
               break;
             }
           }
         }
       } else {
-        this.patientService.getPatientByName(Normalize.normalizeDiacritics(this.search.toLowerCase()), 1).subscribe(
+        const searchLowercased = this.search.toLowerCase();
+
+        // Loại bỏ khoảng trắng thừa ở đầu và cuối chuỗi
+        const trimmedSearch = searchLowercased.trim();
+
+        // Thay thế tất cả chuỗi khoảng trắng (bao gồm cả khoảng trắng kép trở lên) bằng dấu "-"
+        const normalizedSearch = trimmedSearch.replace(/\s+/g, '-');
+        console.log("Searc: ", normalizedSearch);
+        this.patientService.getPatientByName(Normalize.normalizeDiacritics(normalizedSearch), this.currentPage).subscribe(
           patients => {
             console.log("Patient: ", patients);
             this.searchPatientsList = patients.data.filter((sP: any) =>
-            Normalize.normalizeDiacritics(sP.patient_name.toLowerCase()).includes(Normalize.normalizeDiacritics(this.search.toLowerCase()))
-          );
+              Normalize.normalizeDiacritics(sP.patient_name.toLowerCase()).includes(Normalize.normalizeDiacritics(this.search.toLowerCase()))
+            );
             console.log("Ptient search: ", this.searchPatientsList);
             this.searchPatientsList.forEach((p: any) => {
               p.phone_number = this.normalizePhoneNumber(p.phone_number);
             })
 
-            // this.checkNextPage();
-
-            // if (this.searchPatientsList.length > 10) {
-            //   this.searchPatientsList.pop();
-            // }
+            this.checkNextPage();
+            if (this.searchPatientsList.length > 10) {
+              this.searchPatientsList.pop();
+            }
           },
           error => {
             ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test + "/patient/name/" + this.search + "/" + this.pagingSearch.paging, error)

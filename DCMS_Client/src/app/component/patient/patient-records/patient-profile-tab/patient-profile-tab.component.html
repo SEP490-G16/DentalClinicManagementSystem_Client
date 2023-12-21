@@ -120,9 +120,9 @@
                 </div>
               </div>
               <div class="row gx-3 mb-3">
-                <div class="col-md-6">
+                <div class="col-md-3">
                   <div class="form-group mb-3">
-                    <label class="small mb-1" for="inputPhone">Số điện thoại <span class="required">*</span></label>
+                    <label class="small mb-1" for="inputPhone">Số điện thoại Zalo <span class="required">*</span></label>
                     <div class="input-group mb-3">
                       <div class="input-group-prepend">
                         <span class="input-group-text custom-span" id="basic-addon1">(+84)</span>
@@ -136,6 +136,26 @@
                     <div *ngIf="isSubmitted" class="alert-danger-custom">
                       <p>
                         {{validatePatient.phone}}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group mb-3">
+                    <label class="small mb-1" for="inputPhone">Số điện thoại</label>
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text custom-span" id="basic-addon1">(+84)</span>
+                      </div>
+                      <input type="text" class="form-control" [disabled]="!isEditing"
+                        [(ngModel)]="patientDisplay.sub_phone_number" id="inputPhone" name="inputPhone"
+                        aria-label="phoneNumber" aria-describedby="basic-addon1">
+                    </div>
+                    <!--                    <input class="form-control" [(ngModel)]="patient.phone_number" id="inputPhone"-->
+                    <!--                      [disabled]="!isEditing" type="tel" placeholder="Số điện thoại">-->
+                    <div *ngIf="isSubmitted" class="alert-danger-custom">
+                      <p>
+                        {{validatePatient.sub_phone_number}}
                       </p>
                     </div>
                   </div>

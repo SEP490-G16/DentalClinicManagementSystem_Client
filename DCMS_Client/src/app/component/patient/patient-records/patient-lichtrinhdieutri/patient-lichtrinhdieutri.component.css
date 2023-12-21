@@ -38,6 +38,11 @@ a {
   padding: 10px 20px;
 }
 
+.content-wrapper {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
 .card-header {
   background-color: #664FC3;
   color: aliceblue;

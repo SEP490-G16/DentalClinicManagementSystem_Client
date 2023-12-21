@@ -162,7 +162,12 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
     receipt: [] as Paid_material_usage[]
   }
 
+  changePaymentAmount() {
+    console.log("Payment  amount: " ,this.paymentAmount);
+  }
+
   postPayment() {
+
     console.log("Material Usage Display: ", this.MaterialUsageDisplay)
     this.resetValidateAmount();
     if (!this.checkNumber(this.paymentAmount) || this.paymentAmount > this.total) {

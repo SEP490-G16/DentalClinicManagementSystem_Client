@@ -55,6 +55,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
     Email: '',
     Gender: 1,
     phone_Number: '',
+    sub_phone_number: '',
     Address: '',
     full_medical_History: '',
     dental_medical_History: '',
@@ -65,6 +66,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
     email: '',
     gender: '',
     phone_number: '',
+    sub_phone_number: '',
     address: '',
     full_medical_history: '',
     dental_medical_history: '',
@@ -78,7 +80,8 @@ export class PopupAddAppointmentNewComponent implements OnInit {
     address: '',
     dob: '',
     email: '',
-    zalo:''
+    zalo:'',
+    sub_phone_number: '',
   }
   // Set the minimum date to January 1, 1900
   minDate: NgbDateStruct = { year: 1900, month: 1, day: 1 };
@@ -444,6 +447,35 @@ export class PopupAddAppointmentNewComponent implements OnInit {
       }
     }
 
+    if (this.patient1.sub_phone_number.length > 1 && this.patient1.sub_phone_number.length === 9) {
+      this.patientBody = {
+        patient_id: null,
+        patient_name: this.patient1.patientName,
+        email: this.patient1.Email,
+        gender: this.patient1.Gender,
+        phone_number: '+84' + this.patient1.phone_Number,
+        sub_phone_number: '+84' + this.patient1.sub_phone_number,
+        address: this.patient1.Address,
+        full_medical_history: this.patient1.full_medical_History,
+        dental_medical_history: this.patient1.dental_medical_History,
+        date_of_birth: TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.dobNgb))
+      }
+    }
+    if (this.patient1.sub_phone_number.length > 1 && this.patient1.sub_phone_number.length === 10) {
+      this.patientBody = {
+        patient_id: null,
+        patient_name: this.patient1.patientName,
+        email: this.patient1.Email,
+        gender: this.patient1.Gender,
+        phone_number: '+84' + this.patient1.phone_Number.substring(1),
+        sub_phone_number: '+84' + this.patient1.sub_phone_number.substring(1),
+        address: this.patient1.Address,
+        full_medical_history: this.patient1.full_medical_History,
+        dental_medical_history: this.patient1.dental_medical_History,
+        date_of_birth: TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.dobNgb))
+      }
+    }
+
     this.PATIENT_SERVICE.addPatient(this.patientBody).subscribe((data: any) => {
       this.toastr.success('Thêm mới bệnh nhân thành công!');
       this.checkNewPatent = true;
@@ -451,6 +483,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
       this.AppointmentBody.appointment.patient_id = data.data.patient_id;
       this.AppointmentBody.appointment.patient_name = this.patientBody.patient_name;
       this.AppointmentBody.appointment.phone_number = this.normalizePhoneNumber(this.patientBody.phone_number);
+
       if (this.checkNewPatent == true) {
         this.AppointmentBody.appointment.patient_created_date = "1";
         this.checkNewPatent = false;
@@ -577,6 +610,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
       gender: '',
       phone: '',
       address: '',
+      sub_phone_number: '',
       dob: '',
       email: '',
       zalo:''
