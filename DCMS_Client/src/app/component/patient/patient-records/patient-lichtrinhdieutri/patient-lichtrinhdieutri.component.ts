@@ -91,6 +91,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
   }
   name: any
   ngOnInit(): void {
+    this.id = this.route.snapshot.params['id'];
     this.name = sessionStorage.getItem('patient');
     if (this.name) {
       this.name = JSON.parse(this.name);
@@ -112,7 +113,6 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     this.TreatmentCouseBody.lydo = examination_reason || "";
 
     sessionStorage.removeItem("examination_reason");
-    this.id = this.route.snapshot.params['id'];
     this.getTreatmentCourse();
 
     this.onGetXRayImage(this.id)
