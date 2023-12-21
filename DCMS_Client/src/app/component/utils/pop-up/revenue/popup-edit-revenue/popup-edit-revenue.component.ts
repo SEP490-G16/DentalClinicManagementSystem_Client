@@ -89,24 +89,13 @@ export class PopupEditRevenueComponent implements OnInit {
       return;
     }
     this.messageBody = {
-      expenses_id: this.EDIT_BILL_BODY.id,
+      expenses_id: this.EDIT_BILL_BODY.epoch,
       expenses: `{\\\"createBy\\\":\\\"${this.EDIT_BILL_BODY.createBy}\\\", \\\"createDate\\\":\\\"${this.dateToTimestamp(this.EDIT_BILL_BODY.createDate)}\\\", \\\"typeExpense\\\": \\\"${this.EDIT_BILL_BODY.typeExpense}\\\", \\\"totalAmount\\\":\\\"${this.EDIT_BILL_BODY.totalAmount}\\\", \\\"note\\\":\\\"${this.EDIT_BILL_BODY.note}\\\"}`
     };
-    this.paidMaterialUsageService.updatePaidMaterialUsage(bill.epoch, JSON.stringify(this.messageBody)).subscribe(
+    this.paidMaterialUsageService.updatePaidMaterialUsageNew(bill.id, JSON.stringify(this.messageBody)).subscribe(
       (data) => {
         this.showSuccessToast("Chỉnh sửa thành công");
         window.location.reload();
-        // this.listFilterDate.forEach((item:any) => {
-        //   item.records.forEach((it:any) => {
-        //     if(it.details.keyId == this.EDIT_BILL_BODY.id) {
-        //       it.details.createBy =  this.EDIT_BILL_BODY.createBy,
-        //       it.details.createDate =  this.EDIT_BILL_BODY.createDate,
-        //       it.details.typeExpense = this.EDIT_BILL_BODY.typeExpense,
-        //       it.details.totalAmount = this.EDIT_BILL_BODY.totalAmount,
-        //       it.details.note = this.EDIT_BILL_BODY.note
-        //     }
-        //   })
-        // })
       },
       (err) => {
         this.showErrorToast("Lỗi khi chỉnh sửa");

@@ -1,4 +1,4 @@
-import { IEditAppointmentBody, ISelectedAppointment, RootObject } from '../../../../../model/IAppointment';
+import { IEditAppointmentBody, IEditAppointmentBodyNew, ISelectedAppointment, RootObject } from '../../../../../model/IAppointment';
 import { Component, OnInit, OnChanges, Input, SimpleChanges } from '@angular/core';
 import { IAddAppointment } from 'src/app/model/IAppointment';
 import { PatientService } from 'src/app/service/PatientService/patient.service';
@@ -43,7 +43,7 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     count: 0,
   }
   isDatepickerOpened: boolean = false;
-  EDIT_APPOINTMENT_BODY: IEditAppointmentBody
+  EDIT_APPOINTMENT_BODY: IEditAppointmentBodyNew
 
   isPatientInfoEditable: boolean = false;
   listGroupService: any[] = [];
@@ -90,12 +90,14 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
         patient_name: '',
         phone_number: '',
         procedure_id: "1",
-        doctor: '',
+        procedure_name: '',
+        doctor_attr: '',
         reason: '',
-        status: 2,
-        time: 0
+        status_attr: 2,
+        time_attr: 0, 
+        is_new: true
       }
-    } as IEditAppointmentBody;
+    } as IEditAppointmentBodyNew;
     this.minDate = new Date();
 
     this.isDisabled = (
@@ -149,13 +151,12 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
           procedure_name: this.selectedAppointment.procedure_name,
           phone_number: this.selectedAppointment.phone_number,
           reason: this.selectedAppointment.reason,
-          doctor: this.selectedAppointment.doctor,
-          status: 2,
-          time: this.selectedAppointment.time,
-          patient_created_date: this.selectedAppointment.patient_created_date
+          doctor_attr: this.selectedAppointment.doctor,
+          status_attr: this.selectedAppointment.status,
+          time_attr: this.selectedAppointment.time,
+          is_new: this.selectedAppointment.patient_created_date == '1' ? true : false
         }
-      } as IEditAppointmentBody;
-      this.selectedDoctor = this.selectedAppointment.doctor;
+      } as IEditAppointmentBodyNew;
       this.patientInfor = this.EDIT_APPOINTMENT_BODY.appointment.patient_id + " - " + this.EDIT_APPOINTMENT_BODY.appointment.patient_name + " - " + this.EDIT_APPOINTMENT_BODY.appointment.phone_number;
     }
     if (changes['dateString'] && this.dateString) {
@@ -172,17 +173,6 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     if (changes['timeString']) {
       this.oldTime = this.timeString;
       this.timeString = this.oldTime;
-    }
-  }
-
-  selectedDoctor: any = null;
-  selectDoctor(doctor: any) {
-    if (doctor.doctorName == this.selectedDoctor) {
-      this.selectedDoctor = "";
-      this.EDIT_APPOINTMENT_BODY.appointment.doctor = "";
-    } else {
-      this.selectedDoctor = doctor.name;
-      this.EDIT_APPOINTMENT_BODY.appointment.doctor = doctor.name;
     }
   }
 
@@ -301,7 +291,13 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
 
 
   appointmentList: RootObject[] = [];
+  newAppointment = {
+    date: 0,
+    appointments: [] as newApp[]
+  }
 
+  unqueList: any[] = [];
+  listNewAppointment: any[] = [];
   onPutAppointment() {
     this.EDIT_APPOINTMENT_BODY.epoch = this.dateToTimestamp(this.dateString);
 
@@ -312,7 +308,7 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
 
     const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
     this.EDIT_APPOINTMENT_BODY.new_epoch = this.dateToTimestamp(selectedDate);
-    this.EDIT_APPOINTMENT_BODY.appointment.time = this.timeToTimestamp(this.timeString);
+    this.EDIT_APPOINTMENT_BODY.appointment.time_attr = this.timeToTimestamp(this.timeString);
 
     this.listGroupService.forEach(e => {
       if (e.medical_procedure_group_id == this.EDIT_APPOINTMENT_BODY.appointment.procedure_id) {
@@ -330,9 +326,62 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     const currentDate = moment().format('YYYY-MM-DD');
     let procedureNameSelected;
     if (this.EDIT_APPOINTMENT_BODY.appointment.procedure_id != "1") {
-      this.APPOINTMENT_SERVICE.getAppointmentList(this.dateToTimestamp(selectedDate + " 00:00:00"), this.dateToTimestamp(selectedDate + " 23:59:59")).subscribe(data => {
-        this.appointmentList = ConvertJson.processApiResponse(data);
-        this.listDate = this.appointmentList;
+      this.APPOINTMENT_SERVICE.getAppointmentListNew(1, this.dateToTimestamp(selectedDate)).subscribe((data) => {
+        var listResult = ConvertJson.processApiResponse(data);
+        console.log("check data:", data)
+        listResult.forEach((item: any) => {
+          this.newAppointment.date = this.dateToTimestamp(selectedDate);
+          if (!this.unqueList.includes(item.procedure_attr.M.id.S)) {
+            this.unqueList.push(item.procedure_attr.M.id.S);
+            let newA = {
+              procedure_id: item.procedure_attr.M.id.S,
+              count: 1,
+              details: [] as newDetail[]
+            }
+            let de = {
+              appointment_id: item.SK.S,
+              patient_id: item.patient_attr.M.id.S,
+              patient_name: item.patient_attr.M.name.S,
+              phone_number: item.patient_attr.M.phone_number.S,
+              procedure_id: item.procedure_attr.M.id.S,
+              procedure_name: item.procedure_attr.M.name.S,
+              reason: item.reason_attr.S,
+              doctor: item.doctor_attr.S,
+              time: item.time_attr.N,
+              patient_created_date: item.patient_attr.M.is_new == true ? '1' : '2',
+              status: item.status_attr.N,
+              attribute_name: '',
+              epoch: '',
+              migrated: item.migrated_attr.BOOL
+            }
+            newA.details.push(de);
+            this.newAppointment.appointments.push(newA);
+          } else {
+            this.newAppointment.appointments.forEach((a: any) => {
+              if (a.procedure_id == item.procedure_attr.M.id.S) {
+                a.count++;
+                let de = {
+                  appointment_id: item.SK.S,
+                  patient_id: item.patient_attr.M.id.S,
+                  patient_name: item.patient_attr.M.name.S,
+                  phone_number: item.patient_attr.M.phone_number.S,
+                  procedure_id: item.procedure_attr.M.id.S,
+                  procedure_name: item.procedure_attr.M.name.S,
+                  reason: item.reason_attr.S,
+                  doctor: item.doctor_attr.S,
+                  time: item.time_attr.N,
+                  patient_created_date: item.patient_attr.M.is_new == true ? '1' : '2',
+                  status: item.status_attr.N,
+                  attribute_name: '',
+                  epoch: '',
+                  migrated: item.migrated_attr.BOOL
+                }
+                a.details.push(de);
+              }
+            })
+          }
+        })
+        this.filteredAppointments.push(this.newAppointment);
         this.listDate.forEach((a: any) => {
           a.appointments.forEach((b: any) => {
             this.dateDis.date = a.date;
@@ -347,10 +396,12 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
           })
         })
       })
+
       this.datesDisabled.forEach((date: any) => {
-        this.listGroupService.forEach((it:any) => {
+        this.listGroupService.forEach((it: any) => {
           if (this.timestampToDate(date.date) == selectedDate && this.EDIT_APPOINTMENT_BODY.appointment.procedure_id == date.procedure && it.medical_procedure_group_id == this.EDIT_APPOINTMENT_BODY.appointment.procedure_id && it.name == 'Điều trị tủy răng') {
             if (date.count >= 4) {
+              alert("vô nha")
               procedureNameSelected = "Điều trị tủy răng";
               this.isCheckProcedure = false;
             }
@@ -427,7 +478,7 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     if (!checkPatient ) {
       return;
     }
-    this.APPOINTMENT_SERVICE.putAppointment(this.EDIT_APPOINTMENT_BODY, this.selectedAppointment.appointment_id).subscribe(response => {
+    this.APPOINTMENT_SERVICE.putAppointmentNew(this.EDIT_APPOINTMENT_BODY, this.selectedAppointment.appointment_id).subscribe(response => {
       this.showSuccessToast('Sửa Lịch hẹn thành công!');
       window.location.reload();
     }, error => {
@@ -548,4 +599,26 @@ interface TimekeepingRecord {
   epoch: string;
   type?: string;
   records: TimekeepingSubRecord[];
+}
+
+interface newApp {
+  procedure_id: string,
+  count: number,
+  details: newDetail[]
+}
+
+interface newDetail {
+  appointment_id: string,
+  patient_id: string,
+  phone_number: string,
+  procedure_id: string,
+  procedure_name: string,
+  reason: string,
+  doctor: string,
+  time: string,
+  patient_created_date: string,
+  status: string,
+  attribute_name: string,
+  epoch: string,
+  migrated: boolean
 }

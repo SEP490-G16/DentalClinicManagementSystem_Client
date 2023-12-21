@@ -14,11 +14,6 @@ export class PaidMaterialUsageService {
   constructor(private http:HttpClient) { }
 
   getListExpense(startTime:string, endTime:string):Observable<any> {
-    // let idToken = sessionStorage.getItem("id_Token");
-
-    // const headers = new HttpHeaders({
-    //   'Authorization': `${idToken}`
-    // });
     var tokenAcess = localStorage.getItem("securityAccess");
     var idToken;
     var token;
@@ -39,6 +34,26 @@ export class PaidMaterialUsageService {
     return this.http.get(`${this.url}/expenses/`+startTime+"/"+endTime, {headers : headers, responseType:'text'});
   }
 
+  getListExpenseNew(startTime:number, endTime:number):Observable<any> {
+    var tokenAcess = localStorage.getItem("securityAccess");
+    var idToken;
+    var token;
+    if (tokenAcess != null) {
+      console.log("check localStorage: ", tokenAcess);
+      idToken = tokenAcess.split('/');
+      console.log("Check tokenAcess: ",idToken[0]);
+      const now = new Date();
+      if (idToken[1] <= now.getMinutes().toString()) {
+        token = idToken[0];
+      }
+    }
+    console.log("Check tokenAcess 1: ",token);
+    const headers = new HttpHeaders({
+      'Authorization': `${token}`,
+    });
+    return this.http.get(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/expenses/`+startTime+"/"+endTime, {headers : headers, responseType:'text'});
+  }
+
   postExpense(expensesInput:any):Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
 
@@ -46,24 +61,17 @@ export class PaidMaterialUsageService {
       'Authorization': `${idToken}`,
       "Content-Type": "application/json; charset=utf8" 
     });
-    // var tokenAcess = localStorage.getItem("securityAccess");
-    // var idToken;
-    // var token;
-    // if (tokenAcess != null) {
-    //   console.log("check localStorage: ", tokenAcess);
-    //   idToken = tokenAcess.split('/');
-    //   console.log("Check tokenAcess: ",idToken[0]);
-    //   const now = new Date();
-    //   if (idToken[1] <= now.getMinutes().toString()) {
-    //     token = idToken[0];
-    //   }
-    // }
-    // console.log("Check tokenAcess 1: ",token);
-    // const headers = new HttpHeaders({
-    //   'Authorization': `${token}`,
-    //   "Content-Type": "application/json; charset=utf8" 
-    // });
     return this.http.post(`${this.url}/expenses`, expensesInput,{headers});
+  } 
+
+  postExpenseNew(expensesInput:any):Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
+
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      "Content-Type": "application/json; charset=utf8" 
+    });
+    return this.http.post(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/expenses`, expensesInput,{headers});
   } 
 
   updatePaidMaterialUsage(epoch:any, expensesInput:any):Observable<any>{
@@ -72,24 +80,16 @@ export class PaidMaterialUsageService {
       'Authorization': `${idToken}`,
       "Content-Type": "application/json; charset=utf8"
     });
-    // var tokenAcess = localStorage.getItem("securityAccess");
-    // var idToken;
-    // var token;
-    // if (tokenAcess != null) {
-    //   console.log("check localStorage: ", tokenAcess);
-    //   idToken = tokenAcess.split('/');
-    //   console.log("Check tokenAcess: ",idToken[0]);
-    //   const now = new Date();
-    //   if (idToken[1] <= now.getMinutes().toString()) {
-    //     token = idToken[0];
-    //   }
-    // }
-    // console.log("Check tokenAcess 1: ",token);
-    // const headers = new HttpHeaders({
-    //   'Authorization': `${token}`,
-    //   "Content-Type": "application/json; charset=utf8" 
-    // });
     return this.http.put(`${this.url}/expenses/${epoch}`,expensesInput,{headers});
+  }
+
+  updatePaidMaterialUsageNew(epoch:any, expensesInput:any):Observable<any>{
+    let idToken = sessionStorage.getItem("id_Token");
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      "Content-Type": "application/json; charset=utf8"
+    });
+    return this.http.put(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/expenses/${epoch}`,expensesInput,{headers});
   }
 
   deletePaidMaterialUsage(epoch:any,id:any):Observable<any>{
@@ -97,20 +97,15 @@ export class PaidMaterialUsageService {
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`,
     });
-    // var tokenAcess = localStorage.getItem("securityAccess");
-    // var idToken;
-    // var token;
-    // if (tokenAcess != null) {
-    //   idToken = tokenAcess.split('/');
-    //   const now = new Date();
-    //   if (idToken[1] <= now.getMinutes().toString()) {
-    //     token = idToken[0];
-    //   }
-    // }
-    // const headers = new HttpHeaders({
-    //   'Authorization': `${token}`,
-    // });
     return this.http.delete(`${this.url}/expenses/${epoch}/${id}`,{headers});
+  }
+
+  deletePaidMaterialUsageNew(id:any):Observable<any>{
+    let idToken = sessionStorage.getItem("id_Token");
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+    });
+    return this.http.delete(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/expenses/${id}`,{headers});
   }
 
 }

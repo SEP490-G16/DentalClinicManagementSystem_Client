@@ -1,6 +1,6 @@
 import { Component, OnInit, Renderer2, ViewChild, EventEmitter, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ReceptionistAppointmentService } from 'src/app/service/ReceptionistService/receptionist-appointment.service';
-import { Appointment, Detail, IAddAppointment, RootObject } from 'src/app/model/IAppointment';
+import { Appointment, Detail, IAddAppointment, IAddAppointmentNew, RootObject } from 'src/app/model/IAppointment';
 import { PatientService } from 'src/app/service/PatientService/patient.service';
 import * as moment from 'moment-timezone';
 //import { setTimeout } from 'timers';
@@ -66,7 +66,7 @@ export class PopupAddAppointmentComponent implements OnInit {
   @Input() filteredAppointments: any
   @Output() newItemEvent = new EventEmitter<any>();
   @Output() newAppointmentAdded = new EventEmitter<any>();
-  AppointmentBody: IAddAppointment;
+  AppointmentBody: IAddAppointmentNew;
   appointmentTime = "";
   model!: NgbDateStruct;
   datePickerJson = {};
@@ -119,14 +119,15 @@ export class PopupAddAppointmentComponent implements OnInit {
         patient_id: '',
         patient_name: '',
         phone_number: '',
-        patient_created_date: '',
-        procedure_id: "1",
+        procedure_id: '1',
         procedure_name: '',
-        doctor: '',
-        status: 2,
-        time: 0
+        reason: '',
+        doctor_attr: '',
+        status_attr: 2,
+        time_attr: 0,
+        is_new: true
       }
-    } as IAddAppointment;
+    } as IAddAppointmentNew;
 
     const now = new Date();
     this.mindate = new Date();
@@ -222,6 +223,14 @@ export class PopupAddAppointmentComponent implements OnInit {
     this.itemsSource.next([...this.itemsSource.value, newItem]);
   }
 
+  newAppointment = {
+    date: 0,
+    appointments: [] as newApp[]
+  }
+
+  unqueList: any[] = [];
+  listNewAppointment: any[] = [];
+
   onPostAppointment() {
     const selectedYear = this.model.year;
     const selectedMonth = this.model.month.toString().padStart(2, '0');
@@ -231,7 +240,7 @@ export class PopupAddAppointmentComponent implements OnInit {
     const now = new Date();
     const currDate = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
     this.AppointmentBody.epoch = this.dateToTimestamp(selectedDate);
-    this.AppointmentBody.appointment.time = this.timeToTimestamp(this.appointmentTime);
+    this.AppointmentBody.appointment.time_attr = this.timeToTimestamp(this.appointmentTime);
     this.listGroupService.forEach(e => {
       if (e.medical_procedure_group_id == this.procedure) {
         this.AppointmentBody.appointment.procedure_name = e.name;
@@ -263,10 +272,62 @@ export class PopupAddAppointmentComponent implements OnInit {
     let procedureNameSelected;
 
     if (this.procedure != "1") {
-      this.APPOINTMENT_SERVICE.getAppointmentList(this.dateToTimestamp(selectedDate + " 00:00:00"), this.dateToTimestamp(selectedDate + " 23:59:59")).subscribe(data => {
-        this.appointmentList = ConvertJson.processApiResponse(data);
-        this.listDate = this.appointmentList;
-        this.filteredAppointments = this.appointmentList;
+      this.APPOINTMENT_SERVICE.getAppointmentListNew(1, this.dateToTimestamp(selectedDate)).subscribe((data) => {
+        var listResult = ConvertJson.processApiResponse(data);
+        console.log("check data:", data)
+        listResult.forEach((item: any) => {
+          this.newAppointment.date = this.dateToTimestamp(selectedDate);
+          if (!this.unqueList.includes(item.procedure_attr.M.id.S)) {
+            this.unqueList.push(item.procedure_attr.M.id.S);
+            let newA = {
+              procedure_id: item.procedure_attr.M.id.S,
+              count: 1,
+              details: [] as newDetail[]
+            }
+            let de = {
+              appointment_id: item.SK.S,
+              patient_id: item.patient_attr.M.id.S,
+              patient_name: item.patient_attr.M.name.S,
+              phone_number: item.patient_attr.M.phone_number.S,
+              procedure_id: item.procedure_attr.M.id.S,
+              procedure_name: item.procedure_attr.M.name.S,
+              reason: item.reason_attr.S,
+              doctor: item.doctor_attr.S,
+              time: item.time_attr.N,
+              patient_created_date: item.patient_attr.M.is_new == true ? '1' : '2',
+              status: item.status_attr.N,
+              attribute_name: '',
+              epoch: '',
+              migrated: item.migrated_attr.BOOL
+            }
+            newA.details.push(de);
+            this.newAppointment.appointments.push(newA);
+          } else {
+            this.newAppointment.appointments.forEach((a: any) => {
+              if (a.procedure_id == item.procedure_attr.M.id.S) {
+                a.count++;
+                let de = {
+                  appointment_id: item.SK.S,
+                  patient_id: item.patient_attr.M.id.S,
+                  patient_name: item.patient_attr.M.name.S,
+                  phone_number: item.patient_attr.M.phone_number.S,
+                  procedure_id: item.procedure_attr.M.id.S,
+                  procedure_name: item.procedure_attr.M.name.S,
+                  reason: item.reason_attr.S,
+                  doctor: item.doctor_attr.S,
+                  time: item.time_attr.N,
+                  patient_created_date: item.patient_attr.M.is_new == true ? '1' : '2',
+                  status: item.status_attr.N,
+                  attribute_name: '',
+                  epoch: '',
+                  migrated: item.migrated_attr.BOOL
+                }
+                a.details.push(de);
+              }
+            })
+          }
+        })
+        this.filteredAppointments.push(this.newAppointment);
         this.listDate.forEach((a: any) => {
           a.appointments.forEach((b: any) => {
             this.dateDis.date = a.date;
@@ -327,12 +388,6 @@ export class PopupAddAppointmentComponent implements OnInit {
     this.AppointmentBody.appointment.patient_name = patientInfor[1];
     this.AppointmentBody.appointment.phone_number = patientInfor[2];
     var checkPatient = true;
-    // let listAppointment;
-    // const storeList = localStorage.getItem("ListAppointment");
-    // if (storeList != null) {
-    //   listAppointment = JSON.parse(storeList);
-    // }
-    //this.filteredAppointments = listAppointment.filter((ap: any) => ap.date === this.dateToTimestamp(selectedDate));
     this.filteredAppointments.forEach((appo: any) => {
       appo.appointments.forEach((deta: any) => {
         deta.details.forEach((res: any) => {
@@ -373,14 +428,14 @@ export class PopupAddAppointmentComponent implements OnInit {
       ListPatientStore.forEach((item: any) => {
         if (item.patientId == this.AppointmentBody.appointment.patient_id) {
           if (item.patientDescription != null && item.patientDescription.includes('@@isnew##')) {
-            this.AppointmentBody.appointment.patient_created_date = '1';
+            this.AppointmentBody.appointment.is_new = true;
           } else {
-            this.AppointmentBody.appointment.patient_created_date = '2';
+            this.AppointmentBody.appointment.is_new = false;
           }
         }
       })
     }
-    this.APPOINTMENT_SERVICE.postAppointment(this.AppointmentBody).subscribe(
+    this.APPOINTMENT_SERVICE.postAppointmentNew(this.AppointmentBody).subscribe(
       (response) => {
         if (selectedDate == this.startDate) {
           this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'app');
@@ -395,11 +450,11 @@ export class PopupAddAppointmentComponent implements OnInit {
           phone_number: (this.AppointmentBody.appointment.phone_number),
           procedure: (this.AppointmentBody.appointment.procedure_id),
           procedure_name: this.AppointmentBody.appointment.procedure_name,
-          doctor: this.AppointmentBody.appointment.doctor,
-          time: this.AppointmentBody.appointment.time,
+          doctor: this.AppointmentBody.appointment.doctor_attr,
+          time: this.AppointmentBody.appointment.time_attr,
           reason: this.AppointmentBody.appointment.reason,
-          status: this.AppointmentBody.appointment.status,
-          patient_created_date: this.AppointmentBody.appointment.patient_created_date,
+          status: this.AppointmentBody.appointment.status_attr,
+          patient_created_date: this.AppointmentBody.appointment.is_new,
           migrated: 'false'
         };
 
@@ -433,14 +488,15 @@ export class PopupAddAppointmentComponent implements OnInit {
             patient_id: '',
             patient_name: '',
             phone_number: '',
-            procedure_id: "1",
+            procedure_id: '1',
             procedure_name: '',
-            doctor: '',
             reason: '',
-            status: 2,
-            time: 0
+            doctor_attr: '',
+            status_attr: 2,
+            time_attr: 0,
+            is_new: true
           }
-        } as IAddAppointment;
+        } as IAddAppointmentNew;
         this.patientInfor = '';
         this.reason = '';
         const currentTimeGMT7 = moment.tz('Asia/Ho_Chi_Minh').format('HH:mm');
@@ -514,13 +570,15 @@ export class PopupAddAppointmentComponent implements OnInit {
         patient_id: '',
         patient_name: '',
         phone_number: '',
-        procedure_id: "1",
+        procedure_id: '1',
         procedure_name: '',
-        doctor: '',
-        status: 2,
-        time: 0
+        reason: '',
+        doctor_attr: '',
+        status_attr: 2,
+        time_attr: 0,
+        is_new: true
       }
-    } as IAddAppointment;
+    } as IAddAppointmentNew;
     this.isAddOld = false;
     this.isAdd = false;
   }
@@ -551,4 +609,26 @@ export class PopupAddAppointmentComponent implements OnInit {
     } else
       return phoneNumber;
   }
+}
+
+interface newApp {
+  procedure_id: string,
+  count: number,
+  details: newDetail[]
+}
+
+interface newDetail {
+  appointment_id: string,
+  patient_id: string,
+  phone_number: string,
+  procedure_id: string,
+  procedure_name: string,
+  reason: string,
+  doctor: string,
+  time: string,
+  patient_created_date: string,
+  status: string,
+  attribute_name: string,
+  epoch: string,
+  migrated: boolean
 }

@@ -38,6 +38,16 @@ export class ReceptionistTimekeepingService {
     return this.http.get(`${this.apiUrl}/timekeeping/${startTime}/${endTime}`, { headers });
   }
 
+  getTimekeepingNew(startTime: number, endTime: number): Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
+
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      'Accept': 'application/json',
+    });
+    return this.http.get(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/timekeeping/${startTime}/${endTime}`, { headers });
+  }
+
   postTimekeeping(PostTimekeeping: any): Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
     const headers = new HttpHeaders({
@@ -46,6 +56,16 @@ export class ReceptionistTimekeepingService {
     });
     const requestBody = JSON.stringify(PostTimekeeping);
     return this.http.post(`${this.apiUrl}/timekeeping `, requestBody, { headers });
+  }
+
+  postTimekeepingNew(PostTimekeeping: any): Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      "Content-Type": "application/json; charset=utf8"
+    });
+    const requestBody = JSON.stringify(PostTimekeeping);
+    return this.http.post(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/timekeeping`, requestBody, { headers });
   }
 
 

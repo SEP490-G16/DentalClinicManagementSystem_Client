@@ -1,4 +1,4 @@
-import { IEditAppointmentBody, RootObject } from './../../../model/IAppointment';
+import { IEditAppointmentBody, IEditAppointmentBodyNew, RootObject } from './../../../model/IAppointment';
 import { ConvertJson } from './../../../service/Lib/ConvertJson';
 import { IPatient } from './../../../model/IPatient';
 import { Component, OnInit, OnChanges, SimpleChanges, DoCheck, ViewChild, TemplateRef, HostListener } from '@angular/core';
@@ -22,7 +22,7 @@ import { ConfirmationModalComponent } from '../../utils/pop-up/common/confirm-mo
 export class ChangeAppointmentComponent implements OnInit {
   epoch_PathParam: number = 0;  // Lưu giá trị của epoch
   appointmentId_Pathparam: string = '';  // Lưu giá trị của appointmentId
-
+  EDIT_APPOINTMENT_BODY: IEditAppointmentBodyNew;
   appointment: any;
 
   appointmentDate: string = '';
@@ -52,18 +52,21 @@ export class ChangeAppointmentComponent implements OnInit {
     private modalService: NgbModal
   ) {
     this.EDIT_APPOINTMENT_BODY = {
-      epoch: 0,    //x
+      epoch: 0,
       new_epoch: 0,
       appointment: {
-        patient_id: '',  //x
-        patient_name: '', //x
-        phone_number: '', //x
-        procedure_id: "",  //x
-        doctor: '', //x
-        time: 0,  //x,
-        status: 1
+        patient_id: '',
+        patient_name: '',
+        phone_number: '',
+        procedure_id: "1",
+        procedure_name: '',
+        doctor_attr: '',
+        reason: '',
+        status_attr: 2,
+        time_attr: 0, 
+        is_new: true
       }
-    } as IEditAppointmentBody;
+    } as IEditAppointmentBodyNew;
 
     this.mindate = new Date();
     this.isDisabled = (
@@ -206,7 +209,6 @@ export class ChangeAppointmentComponent implements OnInit {
     return timeStr;
   }
 
-  EDIT_APPOINTMENT_BODY: IEditAppointmentBody
   onPutAppointment() {
     this.resetValidate();
     //Convert model to string
@@ -240,25 +242,25 @@ export class ChangeAppointmentComponent implements OnInit {
     }
 
     this.EDIT_APPOINTMENT_BODY = {
-      epoch: Number(this.epoch_PathParam),    //x
+      epoch: Number(this.epoch_PathParam),   
       new_epoch: this.dateToTimestamp(selectedDate),
       appointment: {
-        patient_id: this.appointment.patient_id,  //x
-        patient_name: this.appointment.patient_name, //x
-        phone_number: this.appointment.phone_number, //x
-        procedure_id: this.appointment.procedure_id,  //x
-        doctor: this.appointment.doctor, //x,
+        patient_id: this.appointment.patient_id,  
+        patient_name: this.appointment.patient_name, 
+        phone_number: this.appointment.phone_number,
+        procedure_id: this.appointment.procedure_id,  
+        doctor_attr: this.appointment.doctor,
         procedure_name: this.appointment.procedure_name,
         reason: this.appointment.reason,
-        time: this.timeAndDateToTimestamp(this.timeString, this.selectedDate),
-        status: 1, 
-        patient_created_date: this.appointment.patient_created_date,
+        time_attr: this.timeAndDateToTimestamp(this.timeString, this.selectedDate),
+        status_attr: 1, 
+        is_new: this.appointment.patient_created_date == '1' ? true: false,
       }
-    } as IEditAppointmentBody;
+    } as IEditAppointmentBodyNew;
     console.log("EDIT_Appointment: ", this.EDIT_APPOINTMENT_BODY);
     this.openConfirmationModal().then((result) => {
       if (result === 'confirm') {
-        this.appointmentService.putAppointment(this.EDIT_APPOINTMENT_BODY, this.appointmentId_Pathparam)
+        this.appointmentService.putAppointmentNew(this.EDIT_APPOINTMENT_BODY, this.appointmentId_Pathparam)
           .subscribe((res) => {
             this.showSuccessToast("Sửa lịch hẹn thành công");
             this.router.navigate([`benhnhan-zalo/sua-lich-hen-thanh-cong/${this.epoch_PathParam}%40/${this.appointmentId_Pathparam}`]);
@@ -285,7 +287,7 @@ export class ChangeAppointmentComponent implements OnInit {
     const modalRef = this.modalService.open(CancelAppointmentComponent);
     modalRef.result.then((result) => {
       if (result === 'confirmed') {
-        this.appointmentService.deleteAppointment(this.epoch_PathParam, this.appointmentId_Pathparam)
+        this.appointmentService.deleteAppointmentNew(this.appointmentId_Pathparam)
           .subscribe((res) => {
             this.router.navigate([`benhnhan-zalo/huy-lich-hen/${this.epoch_PathParam}/${this.appointmentId_Pathparam}`]);
             this.toastr.success(res.messgae, "Xóa lịch hẹn thành công")
@@ -307,32 +309,28 @@ export class ChangeAppointmentComponent implements OnInit {
   }
 
   dateToTimestamp(dateStr: string): number {
-    const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng của chuỗi ngày
-    const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
+    const format = 'YYYY-MM-DD HH:mm:ss'; 
+    const timeZone = 'Asia/Ho_Chi_Minh';
     const timestamp = moment.tz(dateStr, format, timeZone).valueOf();
     return timestamp / 1000;
   }
 
   timeAndDateToTimestamp(time: string, date: string): number {
-    // Assuming date is in 'YYYY-MM-DD' format and time is in 'HH:mm A' format
     const format = 'YYYY-MM-DD HH:mm A';
     const dateTimeString = `${date} ${time}`;
-
-    // Use moment-timezone to handle the conversion
     const timestamp = moment.tz(dateTimeString, format, 'Asia/Ho_Chi_Minh').unix();
-
     return timestamp;
   }
 
   showSuccessToast(message: string) {
     this.toastr.success(message, 'Thành công', {
-      timeOut: 3000, // Adjust the duration as needed
+      timeOut: 3000, 
     });
   }
 
   showErrorToast(message: string) {
     this.toastr.error(message, 'Lỗi', {
-      timeOut: 3000, // Adjust the duration as needed
+      timeOut: 3000, 
     });
   }
 }

@@ -216,17 +216,6 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
       const listWatingRoom = data;
       var count = 0;
       var count1 = 0;
-      //this.analyses.total_waiting_room = parseInt(data.length);
-      // listWatingRoom.forEach((item: any) => {
-      //   if (item.status == 2) {
-      //     count++;
-      //   }
-      //   if (item.status == 3) {
-      //     count1++;
-      //   }
-      // })
-      // this.analyses.total_patient_examinate = count;
-      // this.analyses.total_patient_examinated = count1;
       var count3 = 0;
       listWatingRoom.forEach((item: any) => {
         if (item.status == 1) {
@@ -246,19 +235,14 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
 
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
     this.startDate = currentDateGMT7;
-    this.appointmentService.getAppointmentList(this.dateToTimestamp(this.startDate + " 00:00:00"), this.dateToTimestamp(this.startDate + " 23:59:59")).subscribe((data) => {
+    this.appointmentService.getAppointmentListNew(1, this.dateToTimestamp(this.startDate)).subscribe((data) => {
       this.appointmentList = ConvertJson.processApiResponse(data);
+      console.log("check layout: ", this.appointmentList);
       this.analyses.total_appointment = 0;
-      this.appointmentList.forEach((item:any) => {
-        item.appointments.forEach((it:any) => {
-          if (item.date == this.dateToTimestamp(this.startDate)) {
-            it.details.forEach((a:any) => {
-              if (a.migrated == "false") {
-                this.analyses.total_appointment++;
-              }
-            })
-          }
-        })
+      this.appointmentList.forEach((item: any) => {
+        if (item.migrated_attr.BOOL == false) {
+          this.analyses.total_appointment++;
+        }
       })
     })
   }

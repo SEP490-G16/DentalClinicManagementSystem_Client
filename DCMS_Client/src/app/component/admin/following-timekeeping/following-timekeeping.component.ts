@@ -11,7 +11,7 @@ interface TimekeepingDetail {
   register_clock_in?: number;
   register_clock_out?: number;
   staff_name?: string;
-  role?:string;
+  role?: string;
 }
 interface TimekeepingSubRecord {
   subId: string;
@@ -38,7 +38,7 @@ export class FollowingTimekeepingComponent implements OnInit {
   toDate2!: NgbDate | null;
   totalWorkingDay: number = 0;
 
-  fromDate:string = "";
+  fromDate: string = "";
   toDate: string = "";
   constructor(private timekeepingService: TimeKeepingService,
     private calendar: NgbCalendar, public formatter: NgbDateParserFormatter,
@@ -53,8 +53,6 @@ export class FollowingTimekeepingComponent implements OnInit {
     const daysInMonth = new Date(current.getFullYear(), (current.getMonth() + 1), 0).getDate();
     this.totalDate = daysInMonth + '';
     this.totalShift = parseInt(this.toDate) * 2;
-
-    //console.log("Check dates",this.totalDate);
     const frDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + 1;
     const tDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + daysInMonth;
     this.setDefaultMonth();
@@ -75,9 +73,6 @@ export class FollowingTimekeepingComponent implements OnInit {
 
   fromDateFilter: string = '';
   toDateFilter: string = '';
-  date: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-  ngaylamviec: number[] = [2, 4, 6, 8, 10]
-  listNgaylamviec: any[] = []
   hienThi = {
     clock_in: '',
     clock_out: '',
@@ -91,12 +86,6 @@ export class FollowingTimekeepingComponent implements OnInit {
   }
   objectList: any[] = [];
   count: number = 0;
-  countChange() {
-    this.count = 1;
-  }
-  countChange2() {
-    this.count = 0;
-  }
 
   onDateSelection(date: NgbDate) {
     if (!this.fromDate2 && !this.toDate2) {
@@ -117,7 +106,6 @@ export class FollowingTimekeepingComponent implements OnInit {
     if (this.toDate2) {
       this.toDateFilter = `${this.toDate2.year}-${this.pad(this.toDate2.month)}-${this.pad(this.toDate2.day)}`;
     }
-    console.log("fromDateFilter and toDateFilter: ", this.fromDateFilter, this.toDateFilter);
   }
 
   pad(number: number) {
@@ -171,7 +159,8 @@ export class FollowingTimekeepingComponent implements OnInit {
     this.endTime = `${year}-${month.toString().padStart(2, '0')}-${endDate.getDate()} 23:59:59`;
 
     // Gọi API
-    this.getFollowingTimekeeping();
+    //this.getFollowingTimekeeping();
+    this.getFollowingTimekeepingNew();
   }
   setDefaultMonth() {
     const now = new Date();
@@ -217,21 +206,16 @@ export class FollowingTimekeepingComponent implements OnInit {
       const current = new Date();
       const daysInMonth = new Date(current.getFullYear(), (current.getMonth() + 1), 0).getDate();
       this.totalDate = daysInMonth + '';
-      console.log("Check dates",this.totalDate);
       const frDate = current.getFullYear() + "-" + (current.getMonth() + 1).toString().padStart(2, '0') + "-01";
       const tDate = current.getFullYear() + "-" + (current.getMonth() + 1).toString().padStart(2, '0') + "-" + daysInMonth.toString().padStart(2, '0');
       this.getDateinFromDatetoToDate(frDate, tDate);
       const startTime = this.dateToTimestamp(this.startTime);
-      console.log(startTime);
       const endTime = this.dateToTimestamp(this.endTime);
-      console.log(endTime)
       this.timekeepingService.getFollowingTimekeeping(startTime, endTime).subscribe(data => {
         this.followingTimekeepings = this.organizeData(data);
-        console.log("67", this.followingTimekeepings)
         this.followingTimekeepings.forEach((item: any) => {
           item.records.forEach((detail: any) => {
             const currentObject = detail;
-            console.log("checkObject", currentObject)
             if (!this.uniqueList.includes(currentObject.subId)) {
               this.uniqueList.push(currentObject.subId);
               let newtimeKeepingObject = {
@@ -241,7 +225,7 @@ export class FollowingTimekeepingComponent implements OnInit {
               }
               this.staffTimeKeeping.sub_id = currentObject.subId;
               this.staffTimeKeeping.staff_name = currentObject.details.staff_name;
-              this.staffTimeKeeping.role_name = currentObject.details.role == "1" ? "Admin" : currentObject.details.role == "2" ? 'Bác sĩ' : currentObject.details.role == "3" ? 'Lễ tân' : currentObject.details.role == "4" ? 'Điều dưỡng': 'Điều dưỡng trưởng';
+              this.staffTimeKeeping.role_name = currentObject.details.role == "1" ? "Admin" : currentObject.details.role == "2" ? 'Bác sĩ' : currentObject.details.role == "3" ? 'Lễ tân' : currentObject.details.role == "4" ? 'Điều dưỡng' : 'Điều dưỡng trưởng';
               if (currentObject.details.register_clock_in == 1) {
                 if (currentObject.details.clock_in != '' && currentObject.details.clock_out != '') {
                   this.staffTimeKeeping.total_working++;
@@ -285,7 +269,107 @@ export class FollowingTimekeepingComponent implements OnInit {
             }
           })
         })
-        console.log(this.listStaffTimeKeeping);
+      })
+    }
+    this.totalShift = parseInt(this.totalDate) * 2;
+  }
+
+  getFollowingTimekeepingNew() {
+    this.fromDate = '';
+    this.toDate = '';
+    const current = new Date();
+    const daysInMonth = new Date(current.getFullYear(), (current.getMonth() + 1), 0).getDate();
+    if (this.fromDateFilter != '' && this.toDateFilter != '') {
+      this.fromDate = this.fromDateFilter;
+      this.toDate = this.toDateFilter;
+      this.first = 0;
+    } else if (this.fromDateFilter != '' && this.toDateFilter == '') {
+      this.fromDate = this.fromDateFilter;
+      this.toDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + daysInMonth;
+      this.first = 0;
+    } else if (this.fromDateFilter == '' && this.toDateFilter != '') {
+      this.fromDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + 1;
+      this.toDate = this.toDateFilter;
+      this.first = 0;
+    } else {
+      this.fromDate = '';
+      this.toDate = '';
+      this.first = 1;
+    }
+
+    if (this.fromDate != '' && this.toDate != '') {
+      this.getDateinFromDatetoToDate(this.fromDate, this.toDate);
+      const startTime = this.dateToTimestamp(this.fromDate + ' 00:00:00');
+      const endTime = this.dateToTimestamp(this.toDate + ' 23:59:59');
+      this.timekeepingService.getFollowingTimekeeping(startTime, endTime).subscribe(data => {
+        this.followingTimekeepings = this.organizeData(data);
+      });
+    }
+    else {
+      const current = new Date();
+      const daysInMonth = new Date(current.getFullYear(), (current.getMonth() + 1), 0).getDate();
+      this.totalDate = daysInMonth + '';
+      const frDate = current.getFullYear() + "-" + (current.getMonth() + 1).toString().padStart(2, '0') + "-01";
+      const tDate = current.getFullYear() + "-" + (current.getMonth() + 1).toString().padStart(2, '0') + "-" + daysInMonth.toString().padStart(2, '0');
+      this.getDateinFromDatetoToDate(frDate, tDate);
+      const startTime = this.dateToTimestamp(this.startTime);
+      const endTime = this.dateToTimestamp(this.endTime);
+      this.timekeepingService.getFollowingTimekeepingNew(1000000000, 3000000000).subscribe(data => {
+        var listResult = data;
+        listResult.forEach((item: any) => {
+          const currentObject = item;
+          if (!this.uniqueList.includes(currentObject.SK.S.split('::')[1])) {
+            this.uniqueList.push(currentObject.SK.S.split('::')[1]);
+            let newtimeKeepingObject = {
+              epoch: currentObject.SK.S.split('::')[0],
+              clock_in: currentObject.timekeeping_attr.M.clock_in.N,
+              clock_out: currentObject.timekeeping_attr.M.clock_out.N,
+            }
+            this.staffTimeKeeping.sub_id = currentObject.SK.S.split('::')[1];
+            this.staffTimeKeeping.staff_name = currentObject.staff_attr.M.name.S;
+            this.staffTimeKeeping.role_name = currentObject.staff_attr.M.staff_role.S == "1" ? "Admin" : currentObject.staff_attr.M.staff_role.S == "2" ? 'Bác sĩ' : currentObject.staff_attr.M.staff_role.S == "3" ? 'Lễ tân' : currentObject.staff_attr.M.staff_role.S == "4" ? 'Điều dưỡng' : 'Điều dưỡng trưởng';
+            if (currentObject.timekeeping_attr.M.register_clock_in.N == 1) {
+              if (currentObject.timekeeping_attr.M.clock_in.N != '' && currentObject.timekeeping_attr.M.clock_out.N != '') {
+                this.staffTimeKeeping.total_working++;
+              }
+            }
+            if (currentObject.timekeeping_attr.M.register_clock_out.N == 2) {
+              if (currentObject.timekeeping_attr.M.clock_in.N != '' && currentObject.timekeeping_attr.M.clock_out.N != '') {
+                this.staffTimeKeeping.total_working++;
+              }
+            }
+            this.staffTimeKeeping.timeKeeping.push(newtimeKeepingObject);
+            this.listStaffTimeKeeping.push(this.staffTimeKeeping);
+            newtimeKeepingObject = {
+              epoch: '',
+              clock_in: '',
+              clock_out: '',
+            }
+            this.staffTimeKeeping = {
+              sub_id: '',
+              staff_name: '',
+              role_name: '',
+              total_working: 0,
+              timeKeeping: [] as timeKeepingObject[]
+            }
+          } else {
+            this.listStaffTimeKeeping.forEach((it: any) => {
+              if (it.sub_id == currentObject.SK.S.split('::')[1]) {
+                let newtimeKeepingObject = {
+                  epoch: currentObject.SK.S.split('::')[0],
+                  clock_in: currentObject.timekeeping_attr.M.clock_in.N,
+                  clock_out: currentObject.timekeeping_attr.M.clock_out.N,
+                }
+                it.timeKeeping.push(newtimeKeepingObject);
+                newtimeKeepingObject = {
+                  epoch: '',
+                  clock_in: '',
+                  clock_out: '',
+                }
+              }
+            })
+          }
+        })
       })
     }
     this.totalShift = parseInt(this.totalDate) * 2;

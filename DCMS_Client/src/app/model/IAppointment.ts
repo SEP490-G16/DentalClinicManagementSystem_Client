@@ -29,6 +29,25 @@ export interface IAddAppointment {
   epoch: number
   appointment: AppointmentObject
 }
+
+export interface IAddAppointmentNew {
+  epoch: number
+  appointment: AppointmentObjectNew
+}
+
+export interface AppointmentObjectNew {
+  patient_id: string
+  patient_name: string
+  phone_number: string
+  procedure_id: string,
+  procedure_name: string,
+  reason: string,
+  doctor_attr: string,
+  status_attr: number,
+  time_attr: number,
+  is_new: boolean
+}
+
 export interface AppointmentObject {
   patient_id: string
   patient_name: string
@@ -73,4 +92,23 @@ export interface EditAppointment {
   status: number,
   time: number,
   patient_created_date: string
+}
+
+export interface IEditAppointmentBodyNew {
+  epoch: number
+  new_epoch: number
+  appointment: EditAppointmentNew
+}
+
+export interface EditAppointmentNew {
+  patient_id: string
+  patient_name: string
+  phone_number: string
+  procedure_id: string,
+  procedure_name: string,
+  reason: string,
+  doctor_attr: string,
+  status_attr: number,
+  time_attr: number,
+  is_new: boolean
 }
