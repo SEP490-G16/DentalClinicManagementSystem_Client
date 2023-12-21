@@ -19,4 +19,14 @@ export class TimeKeepingService {
     });
     return this.http.get(`${this.url}/timekeeping/${startTime}/${endTime}`,{headers});
   }
+
+  getFollowingTimekeepingNew(startTime:any, endTime:any):Observable<any>{
+    let idToken = sessionStorage.getItem("id_Token");
+
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      'Content-Type':'application/json',
+    });
+    return this.http.get(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/timekeeping/${startTime}/${endTime}`,{headers});
+  }
 }

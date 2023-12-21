@@ -1,16 +1,16 @@
 export interface RequestBodyTimekeeping {
   epoch: number
   sub_id: string
-  role: string
+  staff_role: string
   register_clock_in?: number
   register_clock_out?: number
   staff_name: string
   staff_avt: string
   clock_in: number
   clock_out: number
-  timekeeper_name?: string
-  timekeeper_avt?: string
-  status:number
+  //timekeeper_name?: string
+  //timekeeper_avt?: string
+  status_attr:number
 }
 export interface TimekeepingDetail {
   clock_in?: string;

@@ -132,38 +132,28 @@ export class ReceptionistTimekeepingComponent implements OnInit {
   getTimekeeping() {
     console.log("Thứ 2: ", this.timestampToGMT7Date(this.startTime));
     console.log("Chủ nhật: ", this.timestampToGMT7Date(this.endTime));
-    this.timekeepingService.getTimekeeping(this.startTime, this.endTime)
+    this.timekeepingService.getTimekeepingNew(this.startTime, this.endTime)
       .subscribe(data => {
-        // this.timekeepingOnWeeks = ConvertJson.processApiResponse(data);
         this.timekeepingOnWeeks = data;
         console.log("Api: ", data);
-        this.timekeepingOnWeeks = this.organizeData(this.timekeepingOnWeeks);
-        console.log("TimekeepingOnWeeks: ", this.timekeepingOnWeeks);
         this.Staff.forEach(staff => {
           staff.weekTimekeeping = {};
-
           this.weekTimestamps.forEach(weekTimestamp => {
             staff.weekTimekeeping[weekTimestamp] = { clockIn: '', clockOut: '' };
-
             this.timekeepingOnWeeks.forEach((record: any) => {
-              if (record.records && record.records.length > 0) {
-                if (record.epoch === weekTimestamp.toString()) {
-                  let detail = record.records.find((r: any) => r.subId === staff.sub);
-                  if (detail && detail.details) {
-                    staff.register_clock_in = (detail.details.register_clock_in !== undefined && detail.details.register_clock_in !== "0") ? detail.details.register_clock_in : 0;
-                    staff.register_clock_out = (detail.details.register_clock_out !== undefined && detail.details.register_clock_out !== "0") ? detail.details.register_clock_out : 0;
+              if (record.SK.S.split('::')[0] == weekTimestamp.toString()) {
+                if (record.SK.S.split('::')[1] == staff.sub) {
+                  staff.register_clock_in = (record.timekeeping_attr.M.register_clock_in.N !== undefined && record.timekeeping_attr.M.register_clock_in.N !== "0") ? record.timekeeping_attr.M.register_clock_in.N : 0;
+                  staff.register_clock_out = (record.timekeeping_attr.M.register_clock_out.N !== undefined && record.timekeeping_attr.M.register_clock_out.N !== "0") ? record.timekeeping_attr.M.register_clock_out.N : 0;
+                  staff.weekTimekeeping[weekTimestamp].clockIn =
+                    (record.timekeeping_attr.M.clock_in.N !== undefined && record.timekeeping_attr.M.clock_in.N !== "0")
+                      ? this.timestampToGMT7String(record.timekeeping_attr.M.clock_in.N)
+                      : '';
 
-
-                    staff.weekTimekeeping[weekTimestamp].clockIn =
-                      (detail.details.clock_in !== undefined && detail.details.clock_in !== "0")
-                        ? this.timestampToGMT7String(detail.details.clock_in)
-                        : '';
-
-                    staff.weekTimekeeping[weekTimestamp].clockOut =
-                      (detail.details.clock_out !== undefined && detail.details.clock_out !== "0")
-                        ? this.timestampToGMT7String(detail.details.clock_out)
-                        : '';
-                  }
+                  staff.weekTimekeeping[weekTimestamp].clockOut =
+                    (record.timekeeping_attr.M.clock_out.N !== undefined && record.timekeeping_attr.M.clock_out.N !== "0")
+                      ? this.timestampToGMT7String(record.timekeeping_attr.M.clock_out.N)
+                      : '';
                 }
               }
             });
@@ -262,7 +252,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
 
 
   callClockinApi(staff: StaffTimekeeping, dateTimestamp:number) {
-    this.timekeepingService.postTimekeeping(this.Body)
+    this.timekeepingService.postTimekeepingNew(this.Body)
       .subscribe((res) => {
         this.toastr.success(res.message, "Chấm công đến thành công");
         //Update UI
@@ -319,10 +309,8 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     }
   }
 
-
-
   callClockoutApi(staff: StaffTimekeeping, dateTimestamp:number) {
-    this.timekeepingService.postTimekeeping(this.Body)
+    this.timekeepingService.postTimekeepingNew(this.Body)
       .subscribe((res) => {
         this.toastr.success(res.message, "Chấm công về thành công");
         console.log(this.Body);
@@ -340,16 +328,14 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     return {
       epoch: this.currentDateTimeStamp,
       sub_id: Staff.sub,
-      role: Staff.role,
+      staff_role: Staff.role,
       register_clock_in: Staff.register_clock_in,
       register_clock_out: Staff.register_clock_out,
       staff_name: Staff.name,
       staff_avt: Staff.staff_avt,
       clock_in: (Staff.weekTimekeeping[dateTimestamp].clockIn == "") ? this.currentTimeTimeStamp : this.timeAndDateToTimestamp(Staff.weekTimekeeping[dateTimestamp].clockIn, this.currentDateGMT7),
       clock_out: 0,
-      timekeeper_name: username ?? "",
-      timekeeper_avt: "",
-      status: 2
+      status_attr: 2
     }
   }
 
@@ -358,16 +344,16 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     return {
       epoch: this.currentDateTimeStamp,
       sub_id: Staff.sub,
-      role: Staff.role,
+      staff_role: Staff.role,
       register_clock_in: Staff.register_clock_in,
       register_clock_out: Staff.register_clock_out,
       staff_name: Staff.name,
       staff_avt: Staff.staff_avt,
       clock_in: this.timeAndDateToTimestamp(Staff.weekTimekeeping[dateTimestamp].clockIn, this.currentDateGMT7),
       clock_out: (Staff.weekTimekeeping[dateTimestamp].clockOut == "") ? this.currentTimeTimeStamp : this.timeAndDateToTimestamp(Staff.weekTimekeeping[dateTimestamp].clockOut, this.currentDateGMT7),
-      timekeeper_name: username ?? "",
-      timekeeper_avt: "",
-      status: 2
+      //timekeeper_name: username ?? "",
+      //timekeeper_avt: "",
+      status_attr: 2
     }
   }
 

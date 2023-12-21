@@ -45,7 +45,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   DELETE_APPOINTMENT_BODY: IEditAppointmentBody;
   selectedProcedure: string = '';
   searchText: string = '';
-  filteredAppointments: any;
+  filteredAppointments: any[] = [];
   appointmentList: RootObject[] = [];
   listGroupService: any[] = [];
   currentDate: any;
@@ -115,7 +115,8 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   ngOnInit(): void {
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
     this.currentDate = currentDateGMT7;
-    this.getAppointmentList();
+    //this.getAppointmentList();
+    this.getListAppointmentNew();
     this.getListGroupService();
   }
 
@@ -134,51 +135,97 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     )
   }
 
+  newAppointment = {
+    date: 0,
+    appointments: [] as newApp[]
+  }
+
+  unqueList: any[] = [];
+  listNewAppointment: any[] = [];
+  getListAppointmentNew() {
+    const selectedYear = this.model.year;
+    const selectedMonth = this.model.month.toString().padStart(2, '0');
+    const selectedDay = this.model.day.toString().padStart(2, '0');
+    const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
+    this.unqueList.splice(0, this.unqueList.length);
+    this.listNewAppointment.splice(0, this.listNewAppointment.length);
+    this.newAppointment = {
+      date: 0,
+      appointments: [] as newApp[]
+    };
+    this.appointmentService.getAppointmentListNew(1, this.dateToTimestamp(selectedDate)).subscribe((data) => {
+      var listResult = ConvertJson.processApiResponse(data);
+      console.log("check data:", data)
+      listResult.forEach((item: any) => {
+        this.newAppointment.date = this.dateToTimestamp(selectedDate);
+        if (!this.unqueList.includes(item.procedure_attr.M.id.S)) {
+          this.unqueList.push(item.procedure_attr.M.id.S);
+          let newA = {
+            procedure_id: item.procedure_attr.M.id.S,
+            count: 1,
+            details: [] as newDetail[]
+          }
+          let de = {
+            appointment_id: item.SK.S,
+            patient_id: item.patient_attr.M.id.S,
+            patient_name: item.patient_attr.M.name.S,
+            phone_number: item.patient_attr.M.phone_number.S,
+            procedure_id: item.procedure_attr.M.id.S,
+            procedure_name: item.procedure_attr.M.name.S,
+            reason: item.reason_attr.S,
+            doctor: item.doctor_attr.S,
+            time: item.time_attr.N,
+            patient_created_date: item.patient_attr.M.is_new == true ? '1' : '2',
+            status: item.status_attr.N,
+            attribute_name: '',
+            epoch: '',
+            migrated: item.migrated_attr.BOOL
+          }
+          newA.details.push(de);
+          this.newAppointment.appointments.push(newA);
+        } else {
+          this.newAppointment.appointments.forEach((a: any) => {
+            if (a.procedure_id == item.procedure_attr.M.id.S) {
+              a.count++;
+              let de = {
+                appointment_id: item.SK.S,
+                patient_id: item.patient_attr.M.id.S,
+                patient_name: item.patient_attr.M.name.S,
+                phone_number: item.patient_attr.M.phone_number.S,
+                procedure_id: item.procedure_attr.M.id.S,
+                procedure_name: item.procedure_attr.M.name.S,
+                reason: item.reason_attr.S,
+                doctor: item.doctor_attr.S,
+                time: item.time_attr.N,
+                patient_created_date: item.patient_attr.M.is_new == true ? '1' : '2',
+                status: item.status_attr.N,
+                attribute_name: '',
+                epoch: '',
+                migrated: item.migrated_attr.BOOL
+              }
+              a.details.push(de);
+            }
+          })
+        }
+      })
+      this.filteredAppointments.push(this.newAppointment);
+      console.log(this.filteredAppointments);
+    })
+  }
 
   getAppointmentList() {
     const selectedYear = this.model.year;
     const selectedMonth = this.model.month.toString().padStart(2, '0');
     const selectedDay = this.model.day.toString().padStart(2, '0');
     const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
-    var dateTime = this.currentDate + ' ' + "00:00:00";
-    //var startTime = this.dateToTimestamp(dateTime);
-    // const currentDate = new Date();
-    // const vnTimezoneOffset = 7 * 60;
-    // const vietnamTime = new Date(currentDate.getTime() + vnTimezoneOffset * 60 * 1000);
-    // const nextWeekDate = new Date(vietnamTime.getTime());
-    // nextWeekDate.setDate(vietnamTime.getDate() + 7);
-    // const dateFormatter = new Intl.DateTimeFormat('en', { year: 'numeric', month: '2-digit', day: '2-digit' });
-    // const formattedDate = dateFormatter.format(nextWeekDate);
-    // var temp = formattedDate.split('/');
-    // var endTime = temp[2] + '-' + temp[0] + '-' + temp[1] + ' 23:59:59';
-    // this.nextDate = temp[2] + '-' + temp[0] + '-' + temp[1];
     this.appointmentService.getAppointmentList(this.dateToTimestamp(selectedDate + ' ' + "00:00:00"), this.dateToTimestamp(selectedDate + ' ' + "23:59:59")).subscribe(data => {
       this.appointmentList = ConvertJson.processApiResponse(data);
       localStorage.setItem("ListAppointment", JSON.stringify(this.appointmentList));
       this.filteredAppointments = this.appointmentList.filter(app => app.date === this.dateToTimestamp(selectedDate));
       console.log("Appointment: ", this.appointmentList);
-      // this.filteredAppointments.forEach((appointmentParent: any) => {
-      //   this.dateEpoch = this.timestampToDate(appointmentParent.date);
-
-      //   const allDetails = appointmentParent.appointments
-      //     .map((appointment: any) => appointment.details)
-      //     .flat();
-
-      //   allDetails.sort((a: any, b: any) => {
-      //     const timeA = typeof a.time === "string" ? parseInt(a.time, 10) : a.time;
-      //     const timeB = typeof b.time === "string" ? parseInt(b.time, 10) : b.time;
-      //     return timeA - timeB;
-      //   });
-
-      //   for (let i = 0; i < appointmentParent.appointments.length; i++) {
-      //     appointmentParent.appointments[i].details = [allDetails[i]];
-      //   }
-      // });
-
       console.log("Filter Appointment: ", this.filteredAppointments);
 
       this.loading = false;
-      //this.appointmentDateInvalid();
     },
       error => {
         this.loading = false;
@@ -198,73 +245,9 @@ export class ReceptionistAppointmentListComponent implements OnInit {
 
   datesDisabled: any[] = [];
   listDate: any[] = [];
-  // appointmentDateInvalid() {
-  //   const selectedYear = this.model.year;
-  //   const selectedMonth = this.model.month.toString().padStart(2, '0');
-  //   const selectedDay = this.model.day.toString().padStart(2, '0');
-  //   const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
-  //   if (this.dateToTimestamp(this.nextDate) < this.dateToTimestamp(selectedDate) && this.dateToTimestamp(selectedDate) < this.dateToTimestamp(this.currentDate)) {
-  //     this.appointmentService.getAppointmentList(this.dateToTimestamp(selectedDate+" 00:00:00"), this.dateToTimestamp(selectedDate+" 23:59:59")).subscribe(data => {
-  //       this.appointmentList = ConvertJson.processApiResponse(data);
-  //       localStorage.setItem("ListAppointment", JSON.stringify(this.appointmentList));
-  //       this.filteredAppointments = this.appointmentList.filter(app => app.date === this.dateToTimestamp(selectedDate));
-  //       this.filteredAppointments.forEach((a: any) => {
-  //         this.dateEpoch = this.timestampToDate(a.date);
-  //         a.appointments.forEach((b: any) => {
-  //           b.details = b.details.sort((a: any, b: any) => a.time - b.time);
-  //         })
-  //       })
-  //       this.loading = false;
-  //     },
-  //       error => {
-  //         this.loading = false;
-  //         ResponseHandler.HANDLE_HTTP_STATUS(this.appointmentService.apiUrl + "/appointment/" + this.startDateTimestamp + "/" + this.endDateTimestamp, error);
-  //       })
-  //   } else {
-  //     this.listDate = this.appointmentList;
-  //     this.listDate.forEach((a: any) => {
-  //       a.appointments.forEach((b: any) => {
-  //         this.dateDis.date = a.date;
-  //         this.dateDis.procedure = b.procedure_id;
-  //         this.dateDis.count = b.count;
-  //         this.datesDisabled.push(this.dateDis);
-  //         this.dateDis = {
-  //           date: 0,
-  //           procedure: '',
-  //           count: 0,
-  //         }
-  //       })
-  //     })
-  //   }
-  // }
 
   filterAppointments() {
-    // const selectedYear = this.model.year;
-    // const selectedMonth = this.model.month.toString().padStart(2, '0');
-    // const selectedDay = this.model.day.toString().padStart(2, '0');
-    // const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
-    // if (this.dateToTimestamp(this.nextDate) > this.dateToTimestamp(selectedDate) && this.dateToTimestamp(selectedDate) > this.dateToTimestamp(this.currentDate)) {
-
-    // } else {
-    //   this.appointmentService.getAppointmentList(this.dateToTimestamp(selectedDate + " 00:00:00"), this.dateToTimestamp(selectedDate + " 23:59:59")).subscribe(data => {
-    //     this.appointmentList = ConvertJson.processApiResponse(data);
-    //     localStorage.setItem("ListAppointment", JSON.stringify(this.appointmentList));
-    //     this.filteredAppointments = this.appointmentList.filter(app => app.date === this.dateToTimestamp(selectedDate));
-    //     this.filteredAppointments.forEach((a: any) => {
-    //       this.dateEpoch = this.timestampToDate(a.date);
-    //       a.appointments.forEach((b: any) => {
-    //         b.details = b.details.sort((a: any, b: any) => a.time - b.time);
-    //       })
-    //     })
-    //     this.loading = false;
-    //   },
-    //     error => {
-    //       this.loading = false;
-    //       ResponseHandler.HANDLE_HTTP_STATUS(this.appointmentService.apiUrl + "/appointment/" + this.startDateTimestamp + "/" + this.endDateTimestamp, error);
-    //     })
-    // }
     if (this.selectedProcedure) {
-      //this.appointmentList = this.appointmentList.filter(app => app.date === this.dateToTimestamp(selectedDate));
       this.filteredAppointments = this.appointmentList
         .map((a: any) => {
           const filteredAppointments = a.appointments
@@ -280,7 +263,6 @@ export class ReceptionistAppointmentListComponent implements OnInit {
         })
       })
     } else {
-      //this.filteredAppointments = this.appointmentList.filter(app => app.date === this.dateToTimestamp(selectedDate));
       this.filteredAppointments = this.appointmentList;
       this.filteredAppointments.forEach((a: any) => {
         this.dateEpoch = this.timestampToDate(a.date);
@@ -358,7 +340,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
           }
 
         } as IEditAppointmentBody;
-        this.appointmentService.deleteAppointment(dateTimestamp, appointment.appointment_id).subscribe(response => {
+        this.appointmentService.deleteAppointmentNew(appointment.appointment_id).subscribe(response => {
           this.showSuccessToast('Xóa lịch hẹn thành công!');
 
           //Animation
@@ -383,10 +365,24 @@ export class ReceptionistAppointmentListComponent implements OnInit {
             this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'minus', 'app');
           }
         }, error => {
-          localStorage.setItem('ListAppointment', JSON.stringify(this.filteredAppointments));
-          this.showErrorToast("Lỗi khi cập nhật");
-          this.showErrorToast("Lỗi khi xóa");
-        });
+          const appointmentElement = document.getElementById('appointment-' + appointment.appointment_id);
+          if (appointmentElement) {
+            appointmentElement.classList.add('fade-and-slide-out');
+            setTimeout(() => {
+              this.filteredAppointments = this.filteredAppointments.map((app: any) => ({
+                ...app,
+                appointments: app.appointments.map((ap: any) => ({
+                  ...ap,
+                  details: ap.details.filter((detail: any) => detail.appointment_id !== appointment.appointment_id)
+                })).filter((ap: any) => ap.details.length > 0)
+              })).filter((app: any) => app.appointments.length > 0);
+            }, 500); // The timeout should match the animation duration
+          }
+          //localStorage.setItem('ListAppointment', JSON.stringify(this.filteredAppointments));
+          //this.showErrorToast("Lỗi khi cập nhật");
+          //this.showErrorToast("Lỗi khi xóa");
+        }
+        );
       }
     }, (reason) => {
 
@@ -550,13 +546,6 @@ export class ReceptionistAppointmentListComponent implements OnInit {
         ResponseHandler.HANDLE_HTTP_STATUS(this.receptionistWaitingRoom.apiUrl + "/waiting-room", error);
       }
     );
-
-    // },
-    // (error) => {
-    //   this.loading = false;
-    //   ResponseHandler.HANDLE_HTTP_STATUS(this.waitingRoomService.apiUrl + "/waiting-room", error);
-    // }
-    //);
     event.stopPropagation();
   }
 
@@ -638,4 +627,26 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     }
     this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', id])
   }
+}
+
+interface newApp {
+  procedure_id: string,
+  count: number,
+  details: newDetail[]
+}
+
+interface newDetail {
+  appointment_id: string,
+  patient_id: string,
+  phone_number: string,
+  procedure_id: string,
+  procedure_name: string,
+  reason: string,
+  doctor: string,
+  time: string,
+  patient_created_date: string,
+  status: string,
+  attribute_name: string,
+  epoch: string,
+  migrated: boolean
 }

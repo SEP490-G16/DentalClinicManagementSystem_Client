@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IEditAppointmentBody, RootObject } from 'src/app/model/IAppointment';
+import { IEditAppointmentBody, IEditAppointmentBodyNew, RootObject } from 'src/app/model/IAppointment';
 import { ConvertJson } from 'src/app/service/Lib/ConvertJson';
 import { ReceptionistAppointmentService } from 'src/app/service/ReceptionistService/receptionist-appointment.service';
 
@@ -12,7 +12,7 @@ import { ReceptionistAppointmentService } from 'src/app/service/ReceptionistServ
 export class ConfirmAppointmentComponent implements OnInit {
   epoch_PathParam: number = 0;  // Lưu giá trị của epoch
   appointmentId_Pathparam: string = '';  // Lưu giá trị của appointmentId
-  Confirm_Appointment_Body: IEditAppointmentBody = {} as IEditAppointmentBody
+  Confirm_Appointment_Body: IEditAppointmentBodyNew = {} as IEditAppointmentBodyNew
   appointment: any;
   isMigrated: boolean = true;
   isCheck: boolean = false;
@@ -62,15 +62,15 @@ export class ConfirmAppointmentComponent implements OnInit {
         procedure_id: appointmentChild.procedure_id,  //x
         procedure_name: appointmentChild.procedure_name,
         reason: appointmentChild.reason,
-        doctor: appointmentChild.doctor, //x
-        time: appointmentChild.time,
-        status: 2,
-        patient_created_date: appointmentChild.patient_created_date
+        doctor_attr: appointmentChild.doctor, //x
+        time_attr: appointmentChild.time,
+        status_attr: 2,
+        is_new: appointmentChild.patient_created_date == '1' ? true : false
       }
     }
     console.log("Confirm_Appointment_Body: ", this.Confirm_Appointment_Body)
     const status = 0;
-    this.appointmentService.putAppointment(this.Confirm_Appointment_Body, this.appointmentId_Pathparam)
+    this.appointmentService.putAppointmentNew(this.Confirm_Appointment_Body, this.appointmentId_Pathparam)
       .subscribe(
         (res) => {
           this.STATUS = true;
