@@ -328,7 +328,7 @@ export class PopupAddAppointmentComponent implements OnInit {
           }
         })
         this.filteredAppointments.push(this.newAppointment);
-        this.listDate.forEach((a: any) => {
+        this.filteredAppointments.forEach((a: any) => {
           a.appointments.forEach((b: any) => {
             this.dateDis.date = a.date;
             this.dateDis.procedure = b.procedure_id;

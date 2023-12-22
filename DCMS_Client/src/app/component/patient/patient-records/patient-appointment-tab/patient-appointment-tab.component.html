@@ -43,38 +43,51 @@
         </div>
       </div>
       <div class="table-container" style="margin-top: 10px;">
-        <table *ngIf="patientAppointments.length >0,else noDataMessage">
+        <table>
           <thead class="sticky-thead">
             <tr>
               <th>Thời gian</th>
               <th>Bác sĩ</th>
               <th>Lý do</th>
               <th>Phân loại điều trị</th>
+              <th>Trạng thái</th>
               <th>Option</th>
             </tr>
           </thead>
             <tbody>
               <ng-container>
                 <ng-container *ngFor="let pA of patientAppointments">
-                    <tr *ngFor="let detail of pA.details">
-                      <ng-container *ngIf="detail.migrated == 'false'">
-                        <td>{{timestampToTime(detail.time) }} {{timestampToDate(pA.date)}}</td>
+                  <ng-container *ngFor="let ap of pA.appointments">
+                    <tr *ngFor="let detail of ap.details">
+                      <ng-container *ngIf="detail.migrated == false">
+                        <td>{{timestampToTime(detail.time) }} {{timestampToDate(detail.epoch) | date: 'dd-MM-yyyy'}}</td>
                         <td>{{detail.doctor}}</td>
                         <td>{{detail.reason}}</td>
                         <td>{{detail.procedure_name}}</td>
+                        <td *ngIf="detail.status == 2 && checkDate(detail.epoch)">
+                          <b style="color: red;">Chưa Khám</b>
+                        </td>
+                        <td *ngIf="detail.status == 2 && !checkDate(detail.epoch)">
+                            <b>Trễ lịch hẹn</b>
+                        </td>
+                        <td *ngIf="detail.status == 1" class="direct-click">
+                          <b>Đã khám</b>
+                        </td>
+                        <td *ngIf="detail.status == 3" class="direct-click">
+                          <b style="color: green;">Đã đến</b>
+                        </td>
                         <td>
-                          <button class="btn btn-primary p-1 m-r-3" style="padding: 2px 3px; margin-right: 3px"
-                            title="Sửa lịch hẹn" data-bs-toggle="modal" data-bs-target="#editAppointmentModal"
-                            (click)="editAppointment(detail, pA.date)">
+                          <button class="btn btn-primary p-1 m-r-3" style="padding: 2px 3px; margin-right: 3px" title="Sửa lịch hẹn"
+                            data-bs-toggle="modal" data-bs-target="#editAppointmentModal" (click)="editAppointment(detail, detail.epoch)">
                             <i class="bi bi-pencil-square"></i></button>
                           <button class="btn btn-danger p-1" style="padding: 2px 5px" title="Xoá lịch hẹn"
-                            (click)="deleteAppointment(detail, pA.date)"> <i class="bi bi-trash"></i></button>
+                            (click)="deleteAppointment(detail, detail.epoch)"> <i class="bi bi-trash"></i></button>
                         </td>
                       </ng-container>
                     </tr>
-
                   </ng-container>
                 </ng-container>
+              </ng-container>
             </tbody>
         </table>
         <ng-template #noDataMessage style="width: 80%;">
