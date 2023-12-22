@@ -499,14 +499,14 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
     const currentDate = moment().format('YYYY-MM-DD');
     console.log("Heree", currentDate);
 
-    if (this.procedure != "1") {
-      this.datesDisabled.forEach((date: any) => {
-        if (this.timestampToDate(date.date) == selectedDate && this.procedure == date.procedure)
-          if (date.count >= 8) {
-            this.isCheckProcedure = false;
-          }
-      })
-    }
+    // if (this.procedure != "1") {
+    //   this.datesDisabled.forEach((date: any) => {
+    //     if (this.timestampToDate(date.date) == selectedDate && this.procedure == date.procedure)
+    //       if (date.count >= 8) {
+    //         this.isCheckProcedure = false;
+    //       }
+    //   })
+    // }
 
     if (selectedDate == '') {
       this.validateAppointment.appointmentDate = "Vui lòng chọn ngày khám!";

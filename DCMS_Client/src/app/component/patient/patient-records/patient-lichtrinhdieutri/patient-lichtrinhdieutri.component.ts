@@ -102,6 +102,8 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
         console.log("Call api Patient: ", patient);
         this.patientName = patient.patient_name;
         sessionStorage.setItem('patient', JSON.stringify(patient));
+      },err => {
+        this.toastr.error("Bệnh nhân có thể đã bị xóa và hiện không tồn tại trong hệ thống");
       })
     }
     let examination_reason = sessionStorage.getItem("examination_reason");
@@ -285,6 +287,25 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
         localStorage.setItem("ListLabo", JSON.stringify(this.Labos))
       })
   }
+
+  convertToFormattedDate(dateString: string): string {
+    if (!dateString || dateString === '0000-00-00 00:00:00' || dateString.toLowerCase() === 'null') {
+      return '';
+    }
+
+    const dateObject = new Date(dateString);
+
+    if (isNaN(dateObject.getTime())) {
+      return '';
+    }
+
+    const year = dateObject.getFullYear();
+    const month = dateObject.getMonth() + 1; // Tháng bắt đầu từ 0
+    const day = dateObject.getDate();
+
+    return `${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year}`;
+  }
+
 
   postTreatmentCourse() {
     this.resetValidateTreatmentCourse();
