@@ -79,14 +79,20 @@
                   <td>{{ mu.mu_mpname }}</td>
                   <td>{{ mu.mu_price | currency:'VND' }}</td>
                   <!-- {{ calculateDiscount(mu.mu_price, mu) }}  -->
-                  <td><input type="number" [(ngModel)]="mu.chietkhau" [min]="0" [max]="100"
-                      (ngModelChange)="updateTotalandRemaining(mu)"> %</td>
+                  <td class="chietkhau"><input type="number" [(ngModel)]="mu.chietkhau" [min]="0" [max]="100"
+                      (ngModelChange)="updateTotalandRemaining(mu)"> <span class="percentage-sign">%</span></td>
                   <td>{{ mu.mu_quantity }}</td>
                   <td>{{ ((mu.chietkhau)?(calculateChietKhau(mu.mu_price, mu.mu_quantity, mu.chietkhau)):(mu.mu_price *
                     mu.mu_quantity))| currency:'VND' }}</td>
                   <!-- <td>{{ ((mu.mu_total_paid)?mu.mu_total_paid: 0) | currency:'VND' }}</td>
                   <td [hidden]="remaining == 0">{{mu.mu_total - mu.mu_total_paid | currency:'VND'}}</td>
                   <td [hidden]="remaining == 0"></td> -->
+                  <td>
+                    <button class="cancel-payment-button" (click)="cancelPayment(mu)">
+                      <i class="bi bi-x-circle"></i>Hủy thanh toán
+                    </button>
+                  </td>
+
                 </tr>
               </ng-container>
             </ng-container>
@@ -97,7 +103,7 @@
               <!-- <td [hidden]="remaining == 0">{{ remaining | currency:'VND' }}</td> -->
               <td [hidden]="remaining == 0">
                 <div class="position-relative">
-                  <input style="border-radius: 5px" [(ngModel)]="paymentAmount" class="form-control" type="number"
+                  <input [(ngModel)]="paymentAmount" class="paymentAmount" type="number"
                     min="0" placeholder="Nhập số tiền thanh toán">
                   <div *ngIf="isSubmittedAmout"
                     [ngClass]="{'alert-danger-custom': true, 'active': validateAmount.soTien}">

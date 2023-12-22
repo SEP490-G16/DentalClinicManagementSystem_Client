@@ -30,4 +30,14 @@ export class ReceiptsService {
     const payment_type = JSON.stringify({"payment_type": paymentType, "status": "2"});
     return this.http.put(`${this.api_url}/receipt/${receiptId}`, payment_type,{ headers });
   }
+
+  deleteReceipt(id: any,): Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      "Content-Type": "application/json; charset=utf8"
+    });
+    return this.http.delete(`${this.api_url}/receipt/${id}`,{headers});
+  }
+
 }

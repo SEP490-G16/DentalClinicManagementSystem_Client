@@ -71,6 +71,9 @@ export class PatientPaymentTabComponent implements OnInit {
         console.log("Call api Patient: ", patient);
         this.patientName = patient.patient_name;
         sessionStorage.setItem('patient', JSON.stringify(patient));
+      },
+      err => {
+        this.toastr.error("Bệnh nhân có thể đã bị xóa và hiện không tồn tại trong hệ thống");
       })
     }
     const startDATE = 1698827581;

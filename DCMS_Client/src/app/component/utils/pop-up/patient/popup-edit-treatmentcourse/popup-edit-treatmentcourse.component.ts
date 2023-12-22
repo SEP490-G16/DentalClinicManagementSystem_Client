@@ -26,6 +26,7 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
   Patient_Id: any;
   showDropDown:boolean = false;
   Labos: any[] = [];
+  Edit_TreatmentCourse: any;
   //selectMedicine: string = '0';
   constructor(
     private treatmentCourseService:TreatmentCourseService,
@@ -48,14 +49,15 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
       differential_diagnosis: "",
       provisional_diagnosis: "",
       name: "",
+      prescription: []
     }
   }
   valdateSpecimens:any = {};
   isSubmittedSpecimens: boolean = false;
   validateMedicine:any = {}
-  Edit_TreatmentCourse: any;
   ngOnInit(): void {
     this.Patient_Id = this.route.snapshot.params['id'];
+    this.Edit_TreatmentCourse.patient_id = this.Patient_Id;
     this.getMedicalProcedureList();
     this.getMaterialList();
     this.getLabo();
@@ -154,7 +156,8 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
     this.recordsMedicine.splice(0, this.recordsMedicine.length);
     this.listMaterialUsage.splice(0, this.listMaterialUsage.length);
     //this.getMedicalProcedureList();
-    if (changes['TreatmentCourse'].currentValue != undefined ) {
+    if (changes['TreatmentCourse'].currentValue != undefined && this.TreatmentCourse) {
+      console.log("vao day")
       this.Edit_TreatmentCourse = {
         treatment_course_id: this.TreatmentCourse.treatment_course_id,
         patient_id: this.TreatmentCourse.patient_id,
@@ -166,8 +169,8 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
         name: this.TreatmentCourse.name,
         prescription: JSON.parse(this.TreatmentCourse.prescription)
       }
+      this.getListMaterialusage();
     }
-    this.getListMaterialusage();
     if (this.Edit_TreatmentCourse.prescription.length > 0) {
       this.showPrescriptionContent = true;
       this.Edit_TreatmentCourse.prescription.forEach((item:any) => {

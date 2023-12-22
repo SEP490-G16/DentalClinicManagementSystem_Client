@@ -14,7 +14,7 @@ import { ConfirmDeleteModalComponent } from '../../utils/pop-up/common/confirm-d
 import { Normalize } from 'src/app/service/Lib/Normalize';
 import { SendMessageSocket } from '../../shared/services/SendMessageSocket.service';
 import { Subscription } from 'rxjs';
-import { format } from 'date-fns';
+import { parse, format } from 'date-fns';
 
 @Component({
   selector: 'app-patient-records',
@@ -89,20 +89,10 @@ export class PatientRecordsComponent implements OnInit {
       }, 1000);
 
       if (/\d/.test(this.search)) {
-        this.searchPatientsList = this.originPatientList.filter(sP =>
-          format(new Date(sP.created_date), 'dd/MM/yyyy').includes(this.search)
-        );
-
+        console.log("Date: ", this.search);
+        this.applyDateFilter();
         if (this.searchPatientsList.length === 0) {
-          let nextPage = this.pagingSearch.paging + 1;
-          while (this.searchPatientsList.length === 0) {
-            this.loadPage(nextPage);
-            nextPage++;
-
-            if (nextPage == 5) {
-              break;
-            }
-          }
+          this.loadNextPages(this.pagingSearch.paging + 1);
         }
       } else {
         const searchLowercased = this.search.toLowerCase();
@@ -137,6 +127,38 @@ export class PatientRecordsComponent implements OnInit {
     } else {
       this.currentPage = 1;
       this.loadPage(this.currentPage);
+    }
+  }
+
+  applyDateFilter() {
+    console.log(this.searchPatientsList);
+    this.searchPatientsList = this.originPatientList.filter(sP => {
+      // Chuyển đổi chuỗi ngày tháng từ API thành đối tượng Date
+      const apiDate = parse(sP.created_date, 'yyyy-MM-dd HH:mm:ss', new Date());
+      // Định dạng lại đối tượng Date thành chuỗi 'dd/MM/yyyy'
+      const formattedDate = format(apiDate, 'dd/MM/yyyy');
+
+      // Phân tách this.search thành ngày, tháng và năm, nếu có
+      const searchParts = this.search.trim().split('/');
+      const searchDay = searchParts.length > 0 ? searchParts[0].padStart(2, '0') : '';
+      const searchMonth = searchParts.length > 1 ? searchParts[1].padStart(2, '0') : '';
+      const searchYear = searchParts.length > 2 ? searchParts[2] : '';
+
+      // So sánh chính xác ngày, tháng và năm
+      // Chỉ trả về true khi tất cả ba thành phần khớp với ngày tháng năm trong dữ liệu
+      return formattedDate === `${searchDay}/${searchMonth}/${searchYear}`;
+    });
+  }
+
+
+  async loadNextPages(startPage:number) {
+    for (let nextPage = startPage; nextPage <= 6; nextPage++) {
+      await this.loadPage(nextPage);
+      this.applyDateFilter();
+      if (this.searchPatientsList.length > 0 || nextPage === 6) {
+        this.currentPage = 1;
+        break;
+      }
     }
   }
 
@@ -188,7 +210,8 @@ export class PatientRecordsComponent implements OnInit {
     });
   }
 
-  detail(id: any) {
+  detail(id: any, patientDetail: any) {
+    sessionStorage.setItem("patient", JSON.stringify(patientDetail));
     this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', id])
   }
 

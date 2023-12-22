@@ -68,7 +68,7 @@
                             (click)="editAppointment(detail, pA.date)">
                             <i class="bi bi-pencil-square"></i></button>
                           <button class="btn btn-danger p-1" style="padding: 2px 5px" title="Xoá lịch hẹn"
-                            (click)="deleteAppointment(detail, pA.date)"> <i class="bi bi-trash"></i></button>
+                            (click)="deleteAppointment(detail, pA.date, detail.time)"> <i class="bi bi-trash"></i></button>
                         </td>
                       </ng-container>
                     </tr>

@@ -47,6 +47,7 @@
                 <th scope="col">Thanh toán (Payment)</th>
                 <!-- <th scope="col">Hình thức thanh toán</th> -->
                 <th scope="col">Xác nhận thanh toán</th>
+                <th>Thao tác</th>
               </tr>
             </thead>
             <tbody>
@@ -60,11 +61,12 @@
 <!--                <td (click)="openPopupDetail(rec.detail,rec.r_created_date,rec.r_payment_type,Patient)">-->
 <!--                  {{calculateTotalPayment(rec.detail) |-->
 <!--                  currency:'VND':'symbol':'1.0-0'}}</td>-->
+              <ng-container *ngIf="rec.r_status != 0">
                 <td>
                   {{rec.r_receipt_id}}
                 </td>
                 <td>
-                  {{rec.r_created_date | date: 'dd/MM/yyyy'}}
+                  {{convertToFormattedDate(rec.r_created_date)}}
                 </td>
                 <td>
                   {{calculateTotalPayment(rec.detail) | currency:'VND':'symbol':'1.0-0'}}
@@ -83,8 +85,9 @@
                         </button>
                       </div>
                     </div>
-
                   </td>
+                  <td><button class="btn btn-danger p-1" (click)="deleteReceipt(rec)"><i
+                    class="bi bi-trash"></i></button></td>
                 </ng-container>
                 <ng-container *ngIf="rec.r_status == 2">
                   <td>
@@ -94,6 +97,9 @@
                     <button class="btn button-timekeeping" title="Xác nhận thanh toán">Đã thu tiền</button>
                   </td> -->
                 </ng-container>
+              </ng-container>
+
+
               </tr>
             </tbody>
           </table>

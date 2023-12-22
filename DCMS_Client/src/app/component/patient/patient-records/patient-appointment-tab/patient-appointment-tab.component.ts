@@ -70,60 +70,13 @@ export class PatientAppointmentTabComponent implements OnInit {
       this.patientName = patient.patient_name;
       this.Patient = patient;
       sessionStorage.setItem('patient', JSON.stringify(patient));
-    })
+    },
+    err => {
+      this.toastr.error("Bệnh nhân có thể đã bị xóa và hiện không tồn tại trong hệ thống");
+    }
+    )
 
     this.getAppointmentList();
-  }
-
-  getAppointmentList() {
-    const selectedYear = 2023;
-    const selectedMonth = 12;
-    const selectedDay = 20;
-    const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
-    // var dateTime = this.currentDate + ' ' + "00:00:00";
-    //var startTime = this.dateToTimestamp(dateTime);
-    // const currentDate = new Date();
-    // const vnTimezoneOffset = 7 * 60;
-    // const vietnamTime = new Date(currentDate.getTime() + vnTimezoneOffset * 60 * 1000);
-    // const nextWeekDate = new Date(vietnamTime.getTime());
-    // nextWeekDate.setDate(vietnamTime.getDate() + 7);
-    // const dateFormatter = new Intl.DateTimeFormat('en', { year: 'numeric', month: '2-digit', day: '2-digit' });
-    // const formattedDate = dateFormatter.format(nextWeekDate);
-    // var temp = formattedDate.split('/');
-    // var endTime = temp[2] + '-' + temp[0] + '-' + temp[1] + ' 23:59:59';
-    // this.nextDate = temp[2] + '-' + temp[0] + '-' + temp[1];
-    this.APPOINTMENT_SERVICE.getAppointmentList(this.dateToTimestamp(selectedDate + ' ' + "00:00:00"), this.dateToTimestamp(selectedDate + ' ' + "23:59:59")).subscribe(data => {
-      this.appointmentList = ConvertJson.processApiResponse(data);
-      // localStorage.setItem("ListAppointment", JSON.stringify(this.appointmentList));
-      // this.patientAppointments = this.appointmentList.filter(app => app.date === this.dateToTimestamp(selectedDate));
-      // console.log("Appointment: ", this.appointmentList);
-      // this.filteredAppointments.forEach((appointmentParent: any) => {
-      //   this.dateEpoch = this.timestampToDate(appointmentParent.date);
-
-      //   const allDetails = appointmentParent.appointments
-      //     .map((appointment: any) => appointment.details)
-      //     .flat();
-
-      //   allDetails.sort((a: any, b: any) => {
-      //     const timeA = typeof a.time === "string" ? parseInt(a.time, 10) : a.time;
-      //     const timeB = typeof b.time === "string" ? parseInt(b.time, 10) : b.time;
-      //     return timeA - timeB;
-      //   });
-
-      //   for (let i = 0; i < appointmentParent.appointments.length; i++) {
-      //     appointmentParent.appointments[i].details = [allDetails[i]];
-      //   }
-      // });
-
-      //   console.log("Filter Appointment: ", this.filteredAppointments);
-
-      //   this.loading = false;
-      //   //this.appointmentDateInvalid();
-      // },
-      //   error => {
-      //     this.loading = false;
-      //     ResponseHandler.HANDLE_HTTP_STATUS(this.appointmentService.apiUrl + "/appointment/" + this.startDateTimestamp + "/" + this.endDateTimestamp, error);
-    })
   }
 
   // getAppointmentList() {
@@ -131,25 +84,85 @@ export class PatientAppointmentTabComponent implements OnInit {
   //   const selectedMonth = 12;
   //   const selectedDay = 20;
   //   const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
-
-  //   this.APPOINTMENT_SERVICE.getAppointmentList(this.dateToTimestamp(selectedDate + ' ' + "00:00:00"), this.dateToTimestamp("2024-01-30" + ' ' + "23:59:59")).subscribe(data => {
+  //   // var dateTime = this.currentDate + ' ' + "00:00:00";
+  //   //var startTime = this.dateToTimestamp(dateTime);
+  //   // const currentDate = new Date();
+  //   // const vnTimezoneOffset = 7 * 60;
+  //   // const vietnamTime = new Date(currentDate.getTime() + vnTimezoneOffset * 60 * 1000);
+  //   // const nextWeekDate = new Date(vietnamTime.getTime());
+  //   // nextWeekDate.setDate(vietnamTime.getDate() + 7);
+  //   // const dateFormatter = new Intl.DateTimeFormat('en', { year: 'numeric', month: '2-digit', day: '2-digit' });
+  //   // const formattedDate = dateFormatter.format(nextWeekDate);
+  //   // var temp = formattedDate.split('/');
+  //   // var endTime = temp[2] + '-' + temp[0] + '-' + temp[1] + ' 23:59:59';
+  //   // this.nextDate = temp[2] + '-' + temp[0] + '-' + temp[1];
+  //   this.APPOINTMENT_SERVICE.getAppointmentList(this.currentDateTimestamp, this.currentDateTimestamp).subscribe(data => {
   //     this.appointmentList = ConvertJson.processApiResponse(data);
-  //     console.log("Appointment: ", this.appointmentList);
+  //     // localStorage.setItem("ListAppointment", JSON.stringify(this.appointmentList));
+  //     // this.patientAppointments = this.appointmentList.filter(app => app.date === this.dateToTimestamp(selectedDate));
+  //     // console.log("Appointment: ", this.appointmentList);
+  //     // this.filteredAppointments.forEach((appointmentParent: any) => {
+  //     //   this.dateEpoch = this.timestampToDate(appointmentParent.date);
 
-  //     this.patientAppointments = this.appointmentList.flatMap((appointment: any) =>
-  //       appointment.appointments
-  //         .filter((app: any) => app.details.some((detail: any) => detail.patient_id === this.id))
-  //         .map((app: any) => ({
-  //           ...app,
-  //           date: appointment.date,
-  //           details: app.details.filter((detail: any) => detail.patient_id === this.id)
-  //         }))
-  //     );
+  //     //   const allDetails = appointmentParent.appointments
+  //     //     .map((appointment: any) => appointment.details)
+  //     //     .flat();
 
-  //     console.log("Filter Appointment: ", this.patientAppointments);
+  //     //   allDetails.sort((a: any, b: any) => {
+  //     //     const timeA = typeof a.time === "string" ? parseInt(a.time, 10) : a.time;
+  //     //     const timeB = typeof b.time === "string" ? parseInt(b.time, 10) : b.time;
+  //     //     return timeA - timeB;
+  //     //   });
 
+  //     //   for (let i = 0; i < appointmentParent.appointments.length; i++) {
+  //     //     appointmentParent.appointments[i].details = [allDetails[i]];
+  //     //   }
+  //     // });
+
+  //     //   console.log("Filter Appointment: ", this.filteredAppointments);
+
+  //     //   this.loading = false;
+  //     //   //this.appointmentDateInvalid();
+  //     // },
+  //     //   error => {
+  //     //     this.loading = false;
+  //     //     ResponseHandler.HANDLE_HTTP_STATUS(this.appointmentService.apiUrl + "/appointment/" + this.startDateTimestamp + "/" + this.endDateTimestamp, error);
+
+  //     // this.patientAppointments = this.appointmentList.flatMap((appointment: any) =>
+  //     //   appointment.appointments
+  //     //     .filter((app: any) => app.details.some((detail: any) => detail.patient_id === this.id))
+  //     //     .map((app: any) => ({
+  //     //       ...app,
+  //     //       date: appointment.date,
+  //     //       details: app.details.filter((detail: any) => detail.patient_id === this.id)
+  //     //     }))
+  //     // );
   //   })
   // }
+
+  getAppointmentList() {
+    this.APPOINTMENT_SERVICE.getAppointmentList(this.currentDateTimestamp, this.currentDateTimestamp).subscribe(data => {
+      this.appointmentList = ConvertJson.processApiResponse(data);
+      console.log("this.da", this.appointmentList);
+      this.patientAppointments = this.appointmentList.flatMap((appointment: any) =>
+        appointment.appointments
+          .filter((app: any) => app.details.some((detail: any) => detail.patient_id === this.id))
+          .map((app: any) => ({
+            ...app,
+            date: appointment.date,
+            details: app.details.filter((detail: any) => detail.patient_id === this.id)
+          }))
+      );
+
+      this.patientAppointments.sort((a: any, b: any) => b.date - a.date);
+
+      console.log("Filtered Patient Appointments:", this.patientAppointments);
+    },
+      error => {
+        ResponseHandler.HANDLE_HTTP_STATUS(this.APPOINTMENT_SERVICE.apiUrl + "/appointment/" + 1696925134 + "/" + this.endDateTimestamp, error);
+      }
+    );
+  }
 
 
 
@@ -183,7 +196,7 @@ export class PatientAppointmentTabComponent implements OnInit {
     modalRef.componentInstance.message = message;
     return modalRef.result;
   }
-  deleteAppointment(detail: any, dateTimestamp: any) {
+  deleteAppointment(detail: any, date:any, time:any) {
     // this.APPOINTMENT_SERVICE.deleteAppointment(dateTimestamp, detail.appointment_id).subscribe(response => {
     //   console.log("Xóa thành công");
     //   this.showSuccessToast('Xóa lịch hẹn thành công!');
@@ -193,16 +206,23 @@ export class PatientAppointmentTabComponent implements OnInit {
     //   this.showErrorToast("Lỗi khi xóa");
     // });
 
-    const formattedDate = this.datePipe.transform(this.timestampToDate(dateTimestamp), 'dd-MM-yyyy');
-    this.openConfirmationModal(`Bạn có chắc chắn muốn xoá lịch hẹn lúc ${this.timestampToTime(detail.time)} ${formattedDate} không?`).then((result) => {
+    this.openConfirmationModal(`Bạn có chắc chắn muốn xoá lịch hẹn lúc ${this.timestampToTime(detail.time)} - ${this.timestampToDate(date)} không?`).then((result) => {
       if (result) {
-        this.APPOINTMENT_SERVICE.deleteAppointment(dateTimestamp, detail.appointment_id)
+        this.APPOINTMENT_SERVICE.deleteAppointment(date, detail.appointment_id)
           .subscribe((res) => {
             this.toastr.success('Xóa lịch hẹn thành công!');
-            const index = this.patientAppointments.findIndex(item => item.appointment_id == detail.appointment_id);
-            if (index != -1) {
-              this.patientAppointments.splice(index, 1);
+            const appointmentIdToRemove = detail.appointment_id;
+            for (let i = 0; i < this.patientAppointments.length; i++) {
+              // Find the index of the detail with the matching appointment_id
+              const detailIndex = this.patientAppointments[i].details.findIndex((detail:any) => detail.appointment_id === appointmentIdToRemove);
+
+              // If found, remove the detail from the array
+              if (detailIndex !== -1) {
+                this.patientAppointments[i].details.splice(detailIndex, 1);
+                break; // Assuming you only need to remove the first occurrence found
+              }
             }
+
           },
             (error) => {
               this.showErrorToast("Lỗi khi cập nhật");

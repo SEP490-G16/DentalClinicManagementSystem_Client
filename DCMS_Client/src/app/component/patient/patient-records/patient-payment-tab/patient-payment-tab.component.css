@@ -277,10 +277,11 @@ button:active {
   padding-top: 10px;
 }
 
+/* display: grid;
+grid-template-columns: 1fr 1fr;;
+gap: 15px; */
+/*
 .payment-grid-wrapper {
-  /* display: grid;
-  grid-template-columns: 1fr 1fr;;
-  gap: 15px; */
   padding: 20px;
   width: 100%;
   overflow-y: auto;
@@ -305,23 +306,8 @@ button:active {
 
 .payment-grid-wrapper::-webkit-scrollbar-thumb:hover {
   background: #8c8a8a;
-}
+} */
 
-.no-appointment-message {
-  text-align: center;
-  /* Centers the text */
-  color: #6c757d;
-  /* Bootstrap's default secondary text color for a muted look */
-  margin-top: 2rem;
-  /* Adds some space at the top */
-  margin-bottom: 2rem;
-  /* Adds some space at the bottom */
-  font-size: 1rem;
-  /* Sets the font size */
-  font-style: italic;
-  /* Italicize the font to indicate a different status from regular content */
-  padding: 60px;
-}
 
 .payment-container {
   background-color: #f2eaf9;
@@ -426,6 +412,21 @@ button:active {
   color: #7a497a;
 }
 
+.no-appointment-message {
+  text-align: center;
+  /* Centers the text */
+  color: #6c757d;
+  /* Bootstrap's default secondary text color for a muted look */
+  margin-top: 2rem;
+  /* Adds some space at the top */
+  margin-bottom: 2rem;
+  /* Adds some space at the bottom */
+  font-size: 1rem;
+  /* Sets the font size */
+  font-style: italic;
+  /* Italicize the font to indicate a different status from regular content */
+  padding: 60px;
+}
 .amount-paid {
   color: #8a6283;
   font-weight: bold;

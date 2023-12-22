@@ -353,11 +353,7 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
     const selectedDay = this.model.day.toString().padStart(2, '0'); // Đảm bảo có 2 chữ số
 
     const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
-    console.log(selectedDate); // Đây là ngày dưới dạng "YYYY-MM-DD"
-
-    //console.log(this.oldDate, this.oldTime);
     this.EDIT_APPOINTMENT_BODY.new_epoch = this.dateToTimestamp(selectedDate);
-    //console.log(this.dateString, this.timeString);
     this.EDIT_APPOINTMENT_BODY.appointment.time = this.timeToTimestamp(this.timeString);
 
     this.listGroupService.forEach(e => {
@@ -365,7 +361,6 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
         this.EDIT_APPOINTMENT_BODY.appointment.procedure_name = e.name;
       }
     })
-    console.log(this.EDIT_APPOINTMENT_BODY);
     this.resetValidate();
     if (this.EDIT_APPOINTMENT_BODY.appointment.procedure_id == "1") {
       this.validateAppointment.procedure = "Vui lòng chọn loại điều trị!";
@@ -375,15 +370,46 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
     }
     const currentTime = new Date().toTimeString();
     const currentDate = moment().format('YYYY-MM-DD');
-
-    if (this.EDIT_APPOINTMENT_BODY.appointment.procedure_id != "1") {
-      this.datesDisabled.forEach((date: any) => {
-        if (this.timestampToDate(date.date) == selectedDate && this.EDIT_APPOINTMENT_BODY.appointment.procedure_id == date.procedure)
-          if (date.count >= 8) {
-            this.isCheckProcedure = false;
-          }
-      })
-    }
+    // let procedureNameSelected;
+    // if (this.EDIT_APPOINTMENT_BODY.appointment.procedure_id != "1") {
+    //   this.APPOINTMENT_SERVICE.getAppointmentList(this.dateToTimestamp(selectedDate + " 00:00:00"), this.dateToTimestamp(selectedDate + " 23:59:59")).subscribe(data => {
+    //     this.appointmentList = ConvertJson.processApiResponse(data);
+    //     this.listDate = this.appointmentList;
+    //     this.listDate.forEach((a: any) => {
+    //       a.appointments.forEach((b: any) => {
+    //         this.dateDis.date = a.date;
+    //         this.dateDis.procedure = b.procedure_id;
+    //         this.dateDis.count = b.count;
+    //         this.datesDisabled.push(this.dateDis);
+    //         this.dateDis = {
+    //           date: 0,
+    //           procedure: '',
+    //           count: 0,
+    //         }
+    //       })
+    //     })
+    //   })
+    //   this.datesDisabled.forEach((date: any) => {
+    //     this.listGroupService.forEach((it:any) => {
+    //       if (this.timestampToDate(date.date) == selectedDate && this.EDIT_APPOINTMENT_BODY.appointment.procedure_id == date.procedure && it.medical_procedure_group_id == this.EDIT_APPOINTMENT_BODY.appointment.procedure_id && it.name == 'Điều trị tủy răng') {
+    //         if (date.count >= 4) {
+    //           procedureNameSelected = "Điều trị tủy răng";
+    //           this.isCheckProcedure = false;
+    //         }
+    //       } else if (this.timestampToDate(date.date) == selectedDate && this.EDIT_APPOINTMENT_BODY.appointment.procedure_id == date.procedure && it.medical_procedure_group_id == this.EDIT_APPOINTMENT_BODY.appointment.procedure_id && it.name == 'Chỉnh răng') {
+    //         if (date.count >= 8) {
+    //           procedureNameSelected = "Chỉnh răng";
+    //           this.isCheckProcedure = false;
+    //         }
+    //       } else if (this.timestampToDate(date.date) == selectedDate && this.EDIT_APPOINTMENT_BODY.appointment.procedure_id == date.procedure && it.medical_procedure_group_id == this.EDIT_APPOINTMENT_BODY.appointment.procedure_id && it.name == 'Nhổ răng khôn') {
+    //         if (date.count >= 2) {
+    //           procedureNameSelected = "Nhổ răng khôn";
+    //           this.isCheckProcedure = false;
+    //         }
+    //       }
+    //     })
+    //   })
+    // }
 
     if (selectedDate == '') {
       this.validateAppointment.appointmentDate = "Vui lòng chọn ngày khám!";
@@ -420,27 +446,18 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
     this.EDIT_APPOINTMENT_BODY.appointment.patient_id = patientInfor[0];
     this.EDIT_APPOINTMENT_BODY.appointment.patient_name = patientInfor[1];
     this.EDIT_APPOINTMENT_BODY.appointment.phone_number = patientInfor[2];
+    var checkPatient = true;
     if (this.EDIT_APPOINTMENT_BODY.epoch !== this.EDIT_APPOINTMENT_BODY.new_epoch) {
-      this.APPOINTMENT_SERVICE.getAppointmentList(this.dateToTimestamp(selectedDate + " 00:00:00"), this.dateToTimestamp(selectedDate + " 23:59:59")).subscribe(data => {
-        this.appointmentList = ConvertJson.processApiResponse(data);
-        this.filteredAppointments.forEach((appo: any) => {
-          appo.appointments.forEach((deta: any) => {
-            deta.details.forEach((res: any) => {
-              if (appo.date == this.dateToTimestamp(selectedDate)) {
-                if (res.patient_id == this.EDIT_APPOINTMENT_BODY.appointment.patient_id) {
-                  this.validateAppointment.patientName = `Bệnh nhân đã có lịch hẹn trong ngày ${this.timestampToDate(appo.date)} !`;
-                  this.isSubmitted = true;
-                  this.loading = false;
-                  return;
-                }
-              }
-            })
-          })
-        })
-      })
+      let listAppointment;
+      const storeList = localStorage.getItem("ListAppointment");
+      if (storeList != null) {
+        listAppointment = JSON.parse(storeList);
+      }
+    }
+    if (!checkPatient ) {
+      return;
     }
     this.APPOINTMENT_SERVICE.putAppointment(this.EDIT_APPOINTMENT_BODY, this.selectedAppointment.appointment_id).subscribe(response => {
-      console.log("Cập nhật thành công");
       this.showSuccessToast('Sửa Lịch hẹn thành công!');
       window.location.reload();
     }, error => {
