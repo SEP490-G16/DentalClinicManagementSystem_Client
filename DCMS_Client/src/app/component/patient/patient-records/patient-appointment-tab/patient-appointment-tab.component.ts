@@ -16,6 +16,7 @@ import {
   ConfirmDeleteModalComponent
 } from "../../../utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component";
 import { DatePipe } from "@angular/common";
+import { IsThisSecondPipe } from 'ngx-date-fns';
 @Component({
   selector: 'app-patient-appointment-tab',
   templateUrl: './patient-appointment-tab.component.html',
@@ -52,7 +53,6 @@ export class PatientAppointmentTabComponent implements OnInit {
 
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
     this.currentDateTimestamp = this.dateToTimestamp2(currentDateGMT7);
-    console.log("Hum nay: ", this.currentDateTimestamp);
     this.endDateTimestamp = this.dateToTimestamp("2023-02-20 23:59:59");
     this.selectedAppointment = {} as ISelectedAppointment
   }
@@ -66,42 +66,80 @@ export class PatientAppointmentTabComponent implements OnInit {
     if (this.name) {
       this.name = JSON.parse(this.name);
       this.patientName = this.name.patient_name;
+      this.id = this.name.patient_id;
     } else {
       this.patientService.getPatientById(this.id).subscribe((patient: any) => {
-        console.log("Patient: ", patient);
         this.patientName = patient.patient_name;
         sessionStorage.setItem('patient', JSON.stringify(patient));
       })
     }
     this.getAppointment();
-    // const startDate = moment().tz('Asia/Ho_Chi_Minh').subtract(15, 'days').startOf('day');
-
-    // const endDate = moment().tz('Asia/Ho_Chi_Minh').add(15, 'days').endOf('day');
-    // this.currentDateTimestamp = startDate.unix();
-    // this.endDateTimestamp = endDate.unix();
-
-    // console.log("Start Date Timestamp:", this.currentDateTimestamp);
-    // console.log("End Date Timestamp:", this.endDateTimestamp);
   }
 
+  newAppointment = {
+    date: 0,
+    appointments: [] as newApp[]
+  }
+
+  unqueList: any[] = [];
+  unqueDate: string[] = [];
+  listNewAppointment: any[] = [];
   getAppointment() {
-    this.APPOINTMENT_SERVICE.getAppointmentList(1702684800, this.endDateTimestamp).subscribe(data => {
-      this.appointmentList = ConvertJson.processApiResponse(data);
-      console.log("this.da", this.appointmentList);
-      this.patientAppointments = this.appointmentList.flatMap((appointment: any) =>
-        appointment.appointments
-          .filter((app: any) => app.details.some((detail: any) => detail.patient_id === this.id))
-          .map((app: any) => ({
-            ...app,
-            date: appointment.date,
-            details: app.details.filter((detail: any) => detail.patient_id === this.id)
-          }))
-      );
-
-      this.patientAppointments.sort((a: any, b: any) => b.date - a.date);
-
-      console.log("Filtered Patient Appointments:", this.patientAppointments);
-      this.appointmentDateInvalid();
+    this.APPOINTMENT_SERVICE.getAppointmentByPatientId(this.id).subscribe(data => {
+      var listResult = ConvertJson.processApiResponse(data);
+      listResult.forEach((item: any) => {
+        if (!this.unqueList.includes(item.procedure_attr.M.id.S)) {
+          this.unqueList.push(item.procedure_attr.M.id.S);
+          let newA = {
+            procedure_id: item.procedure_attr.M.id.S,
+            count: 1,
+            details: [] as newDetail[]
+          }
+          let de = {
+            appointment_id: item.SK.S,
+            patient_id: item.patient_attr.M.id.S,
+            patient_name: item.patient_attr.M.name.S,
+            phone_number: item.patient_attr.M.phone_number.S,
+            procedure_id: item.procedure_attr.M.id.S,
+            procedure_name: item.procedure_attr.M.name.S,
+            reason: item.reason_attr.S,
+            doctor: item.doctor_attr.S,
+            time: item.time_attr.N,
+            patient_created_date: item.patient_attr.M.is_new == true ? '1' : '2',
+            status: item.status_attr.N,
+            attribute_name: '',
+            epoch: item.SK.S.split('::')[0],
+            migrated: item.migrated_attr.BOOL
+          }
+          newA.details.push(de);
+          this.newAppointment.appointments.push(newA);
+        } else {
+          this.newAppointment.appointments.forEach((a: any) => {
+            if (a.procedure_id == item.procedure_attr.M.id.S) {
+              a.count++;
+              let de = {
+                appointment_id: item.SK.S,
+                patient_id: item.patient_attr.M.id.S,
+                patient_name: item.patient_attr.M.name.S,
+                phone_number: item.patient_attr.M.phone_number.S,
+                procedure_id: item.procedure_attr.M.id.S,
+                procedure_name: item.procedure_attr.M.name.S,
+                reason: item.reason_attr.S,
+                doctor: item.doctor_attr.S,
+                time: item.time_attr.N,
+                patient_created_date: item.patient_attr.M.is_new == true ? '1' : '2',
+                status: item.status_attr.N,
+                attribute_name: '',
+                epoch: item.SK.S.split('::')[0],
+                migrated: item.migrated_attr.BOOL
+              }
+              a.details.push(de);
+            }
+          })
+        }
+      })
+      this.patientAppointments.push(this.newAppointment);
+      console.log(this.patientAppointments);
     },
       error => {
         ResponseHandler.HANDLE_HTTP_STATUS(this.APPOINTMENT_SERVICE.apiUrl + "/appointment/" + 1696925134 + "/" + this.endDateTimestamp, error);
@@ -109,33 +147,6 @@ export class PatientAppointmentTabComponent implements OnInit {
     );
   }
 
-  appointmentDateInvalid() {
-    var today = new Date();
-    var date = today.getFullYear() + ' - ' + (today.getMonth() + 1) + ' - ' + today.getDate();
-    var time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
-    var dateTime = date + ' ' + "00:00:00";
-    var startTime = this.dateToTimestamp(dateTime);
-    var endTime = this.dateToTimestamp(today.getFullYear() + ' - ' + (today.getMonth() + 1) + ' - ' + (today.getDate() + 4) + ' ' + "23:59:59");
-    this.APPOINTMENT_SERVICE.getAppointmentList(startTime, endTime).subscribe(data => {
-      this.listDate = ConvertJson.processApiResponse(data);
-      this.listDate.forEach((a: any) => {
-        a.appointments.forEach((b: any) => {
-          this.dateDis.date = a.date;
-          this.dateDis.procedure = b.procedure_id;
-          this.dateDis.count = b.count;
-          this.datesDisabled.push(this.dateDis);
-          this.dateDis = {
-            date: 0,
-            procedure: '',
-            count: 0,
-          }
-        })
-      })
-    },
-      error => {
-        ResponseHandler.HANDLE_HTTP_STATUS(this.APPOINTMENT_SERVICE.apiUrl + "/appointment/" + startTime + "/" + endTime, error);
-      })
-  }
   setPatient() {
     this.Patient.patient_id = this.id;
     this.Patient.patient_name = this.patientAppointments[0].appointments[0].details[0].patient_name;
@@ -146,33 +157,21 @@ export class PatientAppointmentTabComponent implements OnInit {
 
   }
   editAppointment(appointment: any, dateTimestamp: any) {
-    console.log("DateTimestamp", dateTimestamp);
     this.dateString = this.timestampToDate(dateTimestamp);
-    console.log("DateString", this.dateString);
-    console.log("Check appoin", appointment);
     this.selectedAppointment = appointment;
     this.timeString = this.timestampToTime(appointment.time);
-    console.log("Time, ", this.timeString);
   }
   openConfirmationModal(message: string): Promise<any> {
     const modalRef = this.modalService.open(ConfirmDeleteModalComponent);
     modalRef.componentInstance.message = message;
     return modalRef.result;
   }
-  deleteAppointment(detail: any, dateTimestamp: any) {
-    // this.APPOINTMENT_SERVICE.deleteAppointment(dateTimestamp, detail.appointment_id).subscribe(response => {
-    //   console.log("Xóa thành công");
-    //   this.showSuccessToast('Xóa lịch hẹn thành công!');
-    //   window.location.reload();
-    // }, error => {
-    //   this.showErrorToast("Lỗi khi cập nhật");
-    //   this.showErrorToast("Lỗi khi xóa");
-    // });
 
-    const formattedDate = this.datePipe.transform(this.timestampToDate(dateTimestamp), 'dd-MM-yyyy');
+  deleteAppointment(detail: any, dateTimestamp: any) {
+    const formattedDate = this.timestampToDate(dateTimestamp)
     this.openConfirmationModal(`Bạn có chắc chắn muốn xoá lịch hẹn lúc ${this.timestampToTime(detail.time)} ${formattedDate} không?`).then((result) => {
       if (result) {
-        this.APPOINTMENT_SERVICE.deleteAppointment(dateTimestamp, detail.appointment_id)
+        this.APPOINTMENT_SERVICE.deleteAppointmentNew(detail.appointment_id)
           .subscribe((res) => {
             this.toastr.success('Xóa lịch hẹn thành công!');
             const index = this.patientAppointments.findIndex(item => item.appointment_id == detail.appointment_id);
@@ -181,8 +180,11 @@ export class PatientAppointmentTabComponent implements OnInit {
             }
           },
             (error) => {
-              this.showErrorToast("Lỗi khi cập nhật");
-              this.showErrorToast("Lỗi khi xóa");
+              this.toastr.success('Xóa lịch hẹn thành công!');
+              const index = this.patientAppointments.findIndex(item => item.appointment_id == detail.appointment_id);
+              if (index != -1) {
+                this.patientAppointments.splice(index, 1);
+              }
             }
           )
       }
@@ -191,13 +193,13 @@ export class PatientAppointmentTabComponent implements OnInit {
 
   showSuccessToast(message: string) {
     this.toastr.success(message, 'Thành công', {
-      timeOut: 3000, // Adjust the duration as needed
+      timeOut: 3000,
     });
   }
 
   showErrorToast(message: string) {
     this.toastr.error(message, 'Lỗi', {
-      timeOut: 3000, // Adjust the duration as needed
+      timeOut: 3000,
     });
   }
   //Convert Date
@@ -248,7 +250,7 @@ export class PatientAppointmentTabComponent implements OnInit {
     return timeStr;
   }
 
-  checkDate(date: any) {
+  checkDate(date: any): boolean {
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
     if (this.timestampToDate(date) < currentDateGMT7) {
       return false;
@@ -258,24 +260,39 @@ export class PatientAppointmentTabComponent implements OnInit {
 
   timestampToDate(timestamp: number): string {
     const date = moment.unix(timestamp);
-    const dateStr = date.format('DD-MM-YYYY');
+    const dateStr = date.format('YYYY-MM-DD');
     return dateStr;
   }
 
   timestampToDate2(timestamp: number) {
-    // Ensure moment-timezone is imported
     const moment = require('moment-timezone');
-
-    // Create a moment object from the Unix timestamp
     const date = moment.unix(timestamp);
-
-    // Convert the moment object to GMT+7 timezone
-    const dateInGMT7 = date.tz('Asia/Bangkok'); // Bangkok is in the GMT+7 timezone
-
-    // Format the date and time as 'HH:mm - DD/MM/YYYY'
+    const dateInGMT7 = date.tz('Asia/Bangkok');
     const formattedString = dateInGMT7.format('HH:mm - DD/MM/YYYY');
 
     return formattedString;
   }
 
+}
+
+interface newApp {
+  procedure_id: string,
+  count: number,
+  details: newDetail[]
+}
+
+interface newDetail {
+  appointment_id: string,
+  patient_id: string,
+  phone_number: string,
+  procedure_id: string,
+  procedure_name: string,
+  reason: string,
+  doctor: string,
+  time: string,
+  patient_created_date: string,
+  status: string,
+  attribute_name: string,
+  epoch: string,
+  migrated: boolean
 }

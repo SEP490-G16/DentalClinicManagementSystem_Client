@@ -30,6 +30,14 @@ export class ReceptionistAppointmentService {
     return this.http.get(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/appointment/${startTime}/${endTime}`, { headers, responseType: 'text' });
   }
 
+  getAppointmentByPatientId(patientid:any): Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`
+    });
+    return this.http.get(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/appointment/patient/${patientid}`, { headers, responseType: 'text' });
+  }
+
   postAppointment(addAppointment: IAddAppointment): Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
 
