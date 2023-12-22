@@ -1,7 +1,7 @@
 import { Component, OnInit, Renderer2, EventEmitter, Output, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { IPostWaitingRoom } from 'src/app/model/IWaitingRoom';
+import { IPostWaitingRoom, IPostWaitingRoomNew } from 'src/app/model/IWaitingRoom';
 import { PatientService } from 'src/app/service/PatientService/patient.service';
 import { PopupAddPatientComponent } from 'src/app/component/utils/pop-up/patient/popup-add-patient/popup-add-patient.component';
 import * as moment from 'moment-timezone';
@@ -25,13 +25,12 @@ import { FormatNgbDate } from 'src/app/component/utils/libs/formatNgbDate';
 export class AddWaitingRoomComponent implements OnInit {
 
   @Input() filteredWaitingRoomData:any;
-  //@Output() newWaitingRoom = new EventEmitter<any>();
-  //@Output() newAppointmentAdded = new EventEmitter<any>();
+
   dobNgb!: NgbDateStruct
   patientList: any[] = [];
   patientInfor: any;
   isAdd: boolean = false;
-  POST_WAITTINGROOM: IPostWaitingRoom;
+  POST_WAITTINGROOM: IPostWaitingRoomNew;
   name_suggest: string = '';
   patient1: any = {
     patientName: '',
@@ -81,17 +80,17 @@ export class AddWaitingRoomComponent implements OnInit {
     config.maxDate = { year: currentYear, month: 12, day: 31 };
 
     this.POST_WAITTINGROOM = {
-      epoch: "",
+      epoch: '',
+      time_attr: '',
       produce_id: '',
       produce_name: '',
       patient_id: '',
       patient_name: '',
+      is_new: true,
       reason: '',
-      status: "1",
-      appointment_id: '',
-      appointment_epoch: '',
-      patient_created_date: '',
-    } as IPostWaitingRoom
+      status_attr:'',
+      foreign_sk: '',
+    } as IPostWaitingRoomNew
 
   }
   validateWatingRoom = {
@@ -140,11 +139,8 @@ export class AddWaitingRoomComponent implements OnInit {
           const orderB = statusOrder[b.status] ?? Number.MAX_VALUE;
           return orderA - orderB;
         });
-        //this.listPatientId = this.waitingRoomData.map((item: any) => item.patient_id);
-        //localStorage.setItem('listPatientId', JSON.stringify(this.listPatientId));
         this.filteredWaitingRoomData = [...this.waitingRoomData];
         console.log("Check realtime waiting: ", this.CheckRealTimeWaiting)
-        //this.waitingRoomService.updateData(this.CheckRealTimeWaiting);
         this.dataService.UpdateWaitingRoomTotal(3, this.CheckRealTimeWaiting.length);
         localStorage.setItem("ListPatientWaiting", JSON.stringify(this.CheckRealTimeWaiting));
       },
@@ -184,16 +180,16 @@ export class AddWaitingRoomComponent implements OnInit {
     let patientIn = this.patientInfor.split(' - ');
     this.POST_WAITTINGROOM.patient_id = patientIn[0];
     this.POST_WAITTINGROOM.patient_name = patientIn[1];
-    this.POST_WAITTINGROOM.status = "1";
-    this.POST_WAITTINGROOM.appointment_id = "";
-    this.POST_WAITTINGROOM.appointment_epoch = "";
+    this.POST_WAITTINGROOM.status_attr = "1";
     const storedPatientIdsString = localStorage.getItem('listPatientId');
     let storedPatientIds = [];
     if (storedPatientIdsString) {
       storedPatientIds = JSON.parse(storedPatientIdsString);
     }
     const currentDateTimeGMT7 = moment().tz('Asia/Ho_Chi_Minh');
+    this.POST_WAITTINGROOM.time_attr = Math.floor(currentDateTimeGMT7.valueOf() / 1000).toString();;
     this.POST_WAITTINGROOM.epoch = Math.floor(currentDateTimeGMT7.valueOf() / 1000).toString();
+    this.POST_WAITTINGROOM.foreign_sk = this.POST_WAITTINGROOM.epoch+"::"+this.POST_WAITTINGROOM.patient_id;
     this.resetValidate();
     if (this.patientInfor == '' || this.patientInfor == null) {
       this.validateWatingRoom.patientName = "Vui lòng chọn bệnh nhân!";
@@ -217,7 +213,7 @@ export class AddWaitingRoomComponent implements OnInit {
     const wrPatientId = sessionStorage.getItem("WaitingRoomPatientId");
 
     if (this.currentPatientCreated == true) {
-      this.POST_WAITTINGROOM.patient_created_date = '1';
+      this.POST_WAITTINGROOM.is_new = true;
       this.currentPatientCreated = false;
     } else {
       const storeLi = localStorage.getItem('listSearchPatient');
@@ -229,19 +225,22 @@ export class AddWaitingRoomComponent implements OnInit {
         ListPatientStore.forEach((item: any) => {
           if (item.patientId == this.POST_WAITTINGROOM.patient_id) {
             if (item.patientDescription != null && item.patientDescription.includes('@@isnew##')) {
-              this.POST_WAITTINGROOM.patient_created_date = '1';
+              this.POST_WAITTINGROOM.is_new = true;
             } else {
-              this.POST_WAITTINGROOM.patient_created_date = '2';
+              this.POST_WAITTINGROOM.is_new = false;
             }
           }
         })
       }
     }
+
+    var a = this.POST_WAITTINGROOM.is_new == true? '1' : '2';
     const postInfo = this.POST_WAITTINGROOM.epoch + ' - ' + this.POST_WAITTINGROOM.produce_id + ' - ' + this.POST_WAITTINGROOM.produce_name + ' - '
       + this.POST_WAITTINGROOM.patient_id + ' - ' + this.POST_WAITTINGROOM.patient_name + ' - ' + this.POST_WAITTINGROOM.reason + ' - '
-      + this.POST_WAITTINGROOM.status + ' - ' + this.POST_WAITTINGROOM.appointment_id + ' - ' + this.POST_WAITTINGROOM.appointment_epoch + ' - ' + this.POST_WAITTINGROOM.patient_created_date;
+      //+ this.POST_WAITTINGROOM.status + ' - ' + this.POST_WAITTINGROOM.appointment_id + ' - ' + this.POST_WAITTINGROOM.appointment_epoch + ' - ' + this.POST_WAITTINGROOM.patient_created_date;
+      + this.POST_WAITTINGROOM.status_attr + ' - ' + '' + ' - ' + '' + ' - ' + a;
       localStorage.setItem("ob", `CheckRealTimeWaitingRoom@@@,${postInfo},${Number('1')}`);
-      this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
+      this.WaitingRoomService.postWaitingRoomNew(this.POST_WAITTINGROOM)
       .subscribe((data) => {
         this.showSuccessToast("Thêm phòng chờ thành công!!");
         let ref = document.getElementById('cancel-add-waiting');
@@ -277,19 +276,7 @@ export class AddWaitingRoomComponent implements OnInit {
         //this.updateWaitingRoomList();
 
         //Còn không
-        //this.newWaitingRoom.emit(this.filteredWaitingRoomData);
-        this.POST_WAITTINGROOM = {
-          epoch: "",
-          produce_id: '',
-          produce_name: '',
-          patient_id: '',
-          patient_name: '',
-          reason: '',
-          status: "1",
-          appointment_id: '',
-          appointment_epoch: '',
-          patient_created_date: '',
-        } as IPostWaitingRoom
+        //this.newWaitingRoom.emit(this.filteredWaitingRoomData)
         this.patientInfor = '';
       },
         (err) => {
@@ -392,15 +379,15 @@ export class AddWaitingRoomComponent implements OnInit {
   }
 
   close() {
-    this.POST_WAITTINGROOM = {
-      epoch: "0",
-      produce_id: '',
-      produce_name: '',
-      patient_id: '',
-      patient_name: '',
-      reason: '',
-      status: "0"
-    } as IPostWaitingRoom
+    // this.POST_WAITTINGROOM = {
+    //   epoch: "0",
+    //   produce_id: '',
+    //   produce_name: '',
+    //   patient_id: '',
+    //   patient_name: '',
+    //   reason: '',
+    //   status: "0"
+    // } as IPostWaitingRoom
     this.isAddOld = false;
     this.isAdd = false;
   }

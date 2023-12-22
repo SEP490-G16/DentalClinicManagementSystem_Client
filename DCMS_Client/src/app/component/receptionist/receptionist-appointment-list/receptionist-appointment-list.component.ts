@@ -147,8 +147,8 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     const selectedMonth = this.model.month.toString().padStart(2, '0');
     const selectedDay = this.model.day.toString().padStart(2, '0');
     const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
-    this.unqueList.splice(0, this.unqueList.length);
-    this.listNewAppointment.splice(0, this.listNewAppointment.length);
+    this.unqueList = [];
+    this.filteredAppointments = [];
     this.newAppointment = {
       date: 0,
       appointments: [] as newApp[]
@@ -213,25 +213,25 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     })
   }
 
-  getAppointmentList() {
-    const selectedYear = this.model.year;
-    const selectedMonth = this.model.month.toString().padStart(2, '0');
-    const selectedDay = this.model.day.toString().padStart(2, '0');
-    const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
-    this.appointmentService.getAppointmentList(this.dateToTimestamp(selectedDate + ' ' + "00:00:00"), this.dateToTimestamp(selectedDate + ' ' + "23:59:59")).subscribe(data => {
-      this.appointmentList = ConvertJson.processApiResponse(data);
-      localStorage.setItem("ListAppointment", JSON.stringify(this.appointmentList));
-      this.filteredAppointments = this.appointmentList.filter(app => app.date === this.dateToTimestamp(selectedDate));
-      console.log("Appointment: ", this.appointmentList);
-      console.log("Filter Appointment: ", this.filteredAppointments);
+  // getAppointmentList() {
+  //   const selectedYear = this.model.year;
+  //   const selectedMonth = this.model.month.toString().padStart(2, '0');
+  //   const selectedDay = this.model.day.toString().padStart(2, '0');
+  //   const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
+  //   this.appointmentService.getAppointmentList(this.dateToTimestamp(selectedDate + ' ' + "00:00:00"), this.dateToTimestamp(selectedDate + ' ' + "23:59:59")).subscribe(data => {
+  //     this.appointmentList = ConvertJson.processApiResponse(data);
+  //     localStorage.setItem("ListAppointment", JSON.stringify(this.appointmentList));
+  //     this.filteredAppointments = this.appointmentList.filter(app => app.date === this.dateToTimestamp(selectedDate));
+  //     console.log("Appointment: ", this.appointmentList);
+  //     console.log("Filter Appointment: ", this.filteredAppointments);
 
-      this.loading = false;
-    },
-      error => {
-        this.loading = false;
-        ResponseHandler.HANDLE_HTTP_STATUS(this.appointmentService.apiUrl + "/appointment/" + this.startDateTimestamp + "/" + this.endDateTimestamp, error);
-      })
-  }
+  //     this.loading = false;
+  //   },
+  //     error => {
+  //       this.loading = false;
+  //       ResponseHandler.HANDLE_HTTP_STATUS(this.appointmentService.apiUrl + "/appointment/" + this.startDateTimestamp + "/" + this.endDateTimestamp, error);
+  //     })
+  // }
 
   toggleChat() {
     this.webSocketService.toggleChat();

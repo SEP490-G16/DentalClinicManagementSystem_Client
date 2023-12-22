@@ -1,4 +1,4 @@
-import { IPostWaitingRoom } from './../../model/IWaitingRoom';
+import { IPostWaitingRoom, IPostWaitingRoomNew, IPutWaitingRoomNew } from './../../model/IWaitingRoom';
 import { CognitoService } from '../cognito.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -46,7 +46,7 @@ export class ReceptionistWaitingRoomService {
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`
     });
-    return this.http.get(`${this.apiUrl}/waiting-room`, { headers });
+    return this.http.get(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/waiting-room`, { headers });
   }
 
   postWaitingRoom(PostWaitingRoom: IPostWaitingRoom): Observable<any> {
@@ -59,6 +59,17 @@ export class ReceptionistWaitingRoomService {
     return this.http.post(`${this.apiUrl}/waiting-room`, requestBody, { headers });
   }
 
+  postWaitingRoomNew(PostWaitingRoom: IPostWaitingRoomNew): Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      "Content-Type": "application/json; charset=utf8"
+    });
+    const requestBody = JSON.stringify(PostWaitingRoom);
+    return this.http.post(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/waiting-room`, requestBody, { headers });
+  }
+  
+
   putWaitingRoom(PutWaitingRoom: IPostWaitingRoom): Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
     const headers = new HttpHeaders({
@@ -69,6 +80,16 @@ export class ReceptionistWaitingRoomService {
     return this.http.put(`${this.apiUrl}/waiting-room/${PutWaitingRoom.epoch}`, requestBody, { headers });
   }
 
+  putWaitingRoomNew(SoftKey:any, PutWaitingRoom: IPutWaitingRoomNew): Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      "Content-Type": "application/json; charset=utf8"
+    });
+    const requestBody = JSON.stringify(PutWaitingRoom);
+    return this.http.put(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/waiting-room/${SoftKey}`, requestBody, { headers });
+  }
+
   deleteWaitingRooms(DeleteWaitingRoom: IPostWaitingRoom): Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
 
@@ -76,6 +97,15 @@ export class ReceptionistWaitingRoomService {
       'Authorization': `${idToken}`
     });
     return this.http.delete(`${this.apiUrl}/waiting-room/${DeleteWaitingRoom.epoch}`, { headers });
+  }
+
+  deleteWaitingRoomsNew(softkey:any): Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
+
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`
+    });
+    return this.http.delete(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/waiting-room/${softkey}`, { headers });
   }
 
   putNewPatientId(id: any): Observable<any> {

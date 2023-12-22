@@ -218,13 +218,13 @@ export class LayoutsComponent implements OnInit, AfterViewInit {
       var count1 = 0;
       var count3 = 0;
       listWatingRoom.forEach((item: any) => {
-        if (item.status == 1) {
+        if (item.item.status_attr.N == 1) {
           count3++;
         }
-        if (item.status == 2) {
+        if (item.status_attr.N == 2) {
           count++;
         }
-        if (item.status == 3) {
+        if (item.status_attr.N == 3) {
           count1++;
         }
       })

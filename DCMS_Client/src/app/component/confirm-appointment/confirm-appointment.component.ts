@@ -41,31 +41,25 @@ export class ConfirmAppointmentComponent implements OnInit {
     }
 
     if (this.isCheck == false) {
-      this.data = await this.appointmentService.getAppointmentByPatient(this.epoch_PathParam, this.epoch_PathParam);
+      this.data = await this.appointmentService.getAppointmentByPatientNew(this.appointmentId_Pathparam);
     }
 
-
-    // Kiểm tra xem data có giá trị không
-    const AppointmentParent = ConvertJson.processApiResponse(this.data);
-    console.log("appointmentParent: ", AppointmentParent);
-    const appointmentChild = this.findAppointmentById(this.data);
-    console.log("appointmentChild: ", appointmentChild);
-
-
+    const result = JSON.parse(this.data);
+    this.appointment = result;
     this.Confirm_Appointment_Body = {
       epoch: Number(this.epoch_PathParam),    //x
       new_epoch: Number(this.epoch_PathParam),
       appointment: {
-        patient_id: appointmentChild.patient_id,  //x
-        patient_name: appointmentChild.patient_name, //x
-        phone_number: appointmentChild.phone_number, //x
-        procedure_id: appointmentChild.procedure_id,  //x
-        procedure_name: appointmentChild.procedure_name,
-        reason: appointmentChild.reason,
-        doctor_attr: appointmentChild.doctor, //x
-        time_attr: appointmentChild.time,
+        patient_id: this.appointment.Item.patient_attr.M.id.S,  
+        patient_name: this.appointment.Item.patient_attr.M.name.S, 
+        phone_number: this.appointment.Item.patient_attr.M.phone_number.S,
+        procedure_id: this.appointment.Item.procedure_attr.M.id.S,  
+        doctor_attr: this.appointment.Item.doctor_attr.S,
+        procedure_name: this.appointment.Item.procedure_attr.M.name.S,
+        reason: this.appointment.Item.reason_attr.S,
+        time_attr:this.appointment.Item.time_attr.N,
         status_attr: 2,
-        is_new: appointmentChild.patient_created_date == '1' ? true : false
+        is_new: this.appointment.Item.is_new.BOOL,
       }
     }
     console.log("Confirm_Appointment_Body: ", this.Confirm_Appointment_Body)
@@ -79,30 +73,7 @@ export class ConfirmAppointmentComponent implements OnInit {
           this.STATUS = false;
         }
       );
-
     this.isMigrated = false;
     console.log(this.isMigrated);
-
-
-  }
-
-  findAppointmentById(appointments: any) {
-    console.log("Appointment find by Id: ", appointments);
-    const filteredAppointments = ConvertJson.processApiResponse(appointments);
-    console.log(filteredAppointments);
-    const rawData = filteredAppointments as RootObject[];
-    let result: any;
-    if (rawData && rawData.length > 0) {
-      for (const appointmentBlock of rawData) {
-        for (const detail of appointmentBlock.appointments.flatMap(a => a.details)) {
-          if (detail.appointment_id === this.appointmentId_Pathparam) {
-            result = detail;
-            break;
-          }
-        }
-        if (result) break;
-      }
-    }
-    return result;
   }
 }
