@@ -143,6 +143,7 @@ export class PatientExaminationManagementComponent implements OnInit {
 
 
   onPutStatus(wtr: any, epoch: number) {
+    wtr.animateChange = true;
     this.PUT_WAITINGROO = {
       epoch: epoch,
       produce_id: wtr.produce_id,
@@ -199,6 +200,7 @@ export class PatientExaminationManagementComponent implements OnInit {
           };
           this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
         }
+        setTimeout(() => wtr.animateChange = false, 2000);
         this.getWaitingRoomData(wtr)
       },
         (error) => {

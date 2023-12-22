@@ -45,7 +45,7 @@
           <input type="date" [(ngModel)]="endDate" class="date-input-custom" id="toDate" name="fromDate">
         </div>
       </div> -->
-    <div class="col-md-5">
+    <div class="col-md-6">
       <form class="row row-cols-sm-auto">
         <div class="col-12">
           <div class="dp-hidden position-absolute">
@@ -78,16 +78,17 @@
               type="button"></button>
           </div>
         </div>
+        <div class="col-12">
+          <button class="btn button-add" (click)="loadPage(currentPage)">Lọc
+          </button>
+        </div>
+        <div class="col-12">
+          <button class="btn button-add" style="margin-left: 8px;" title="không lọc" (click)="resetPage(currentPage)">
+            <i class="bi bi-arrow-clockwise"></i>
+          </button>
+        </div>
+
       </form>
-    </div>
-    <div class="col-md-1">
-      <button class="btn button-add" (click)="loadPage(currentPage)">Lọc
-      </button>
-    </div>
-    <div class="col-md-1">
-      <button class="btn button-add" style="margin-left: 8px;" title="không lọc" (click)="resetPage(currentPage)">
-        <i class="bi bi-arrow-clockwise"></i>
-      </button>
     </div>
   </div>
 
