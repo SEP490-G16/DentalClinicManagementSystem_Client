@@ -184,6 +184,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
   PUT_WAITINGROO: any;
   patient_Id: any = "";
   onPutStatus(wtr: any, epoch: number) {
+    wtr.animateChange = true;
     this.PUT_WAITINGROO = {
       epoch: epoch,
       produce_id: wtr.produce_id,
@@ -328,6 +329,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
 
           this.loading = false;
           this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
+          setTimeout(() => wtr.animateChange = false, 2000);
           this.showSuccessToast('Chỉnh sửa hàng chờ thành công');
           this.getWaitingRoomData();
           localStorage.setItem("ob", `CheckRealTimeWaitingRoom@@@,${wtr.patient_id},${Number(wtr.status)}`);
@@ -351,7 +353,6 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
         )
     }
   }
-
   applyAnimation(patientId: string, animationClass: string) {
     const patientElement = document.getElementById('patient-' + patientId);
     if (patientElement) {
