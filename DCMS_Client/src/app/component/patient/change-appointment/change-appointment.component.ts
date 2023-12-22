@@ -24,7 +24,8 @@ export class ChangeAppointmentComponent implements OnInit {
   appointmentId_Pathparam: string = '';  // Lưu giá trị của appointmentId
   EDIT_APPOINTMENT_BODY: IEditAppointmentBodyNew;
   appointment: any;
-
+  patient_name: any;
+  phone_number:any;
   appointmentDate: string = '';
 
   mindate: Date;
@@ -122,7 +123,9 @@ export class ChangeAppointmentComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchAPI();
+    //this.test();
   }
+
 
   isMigrated: boolean = true;
   async fetchAPI() {
@@ -134,60 +137,29 @@ export class ChangeAppointmentComponent implements OnInit {
         });
       }
 
-      const data = await this.appointmentService.getAppointmentByPatient(this.epoch_PathParam, this.epoch_PathParam);
+      const data = await this.appointmentService.getAppointmentByPatientNew(this.appointmentId_Pathparam);
 
-      // Kiểm tra xem data có giá trị không
-      const AppointmentParent = ConvertJson.processApiResponse(data);
-      console.log("appointmentParent: ", AppointmentParent);
-      const appointmentChild = this.findAppointmentById(data);
-
-      this.appointment = appointmentChild;
-      console.log("appointmentChild: ", appointmentChild);
-
-      if (appointmentChild.migrated === "true") {
-        this.epoch_PathParam = appointmentChild.epoch;
-        console.log("epoch_PathParam: ", this.epoch_PathParam);
-        this.appointmentId_Pathparam = appointmentChild.attribute_name;
-        console.log("appointmentId_Pathparam: ", this.appointmentId_Pathparam);
+      const result = JSON.parse(data)
+      this.appointment = result;
+      this.patient_name = result.Item.patient_attr.M.name.S;
+      this.phone_number = result.Item.patient_attr.M.phone_number.S
+      if (result.Item.migrated_attr.BOOL === "true") {
+        this.epoch_PathParam = result.Item.SK.S.split('::')[0];
+        this.appointmentId_Pathparam = result.Item.SK.S;
       } else {
-        this.appointmentDate = this.timestampToDate(AppointmentParent[0].date);
-        console.log("AppointmentParent:", this.appointmentDate);
-        this.selectedDate = this.timestampToDate(AppointmentParent[0].date);
-        console.log("selectedDate: ", this.selectedDate);
+        this.appointmentDate = this.timestampToDate(result.Item.SK.S.split('::')[0]);
+        this.selectedDate = this.timestampToDate(result.Item.SK.S.split('::')[0]);
         this.model = {
           year: parseInt(this.selectedDate.split('-')[0]),
           month: parseInt(this.selectedDate.split('-')[1]),
           day: parseInt(this.selectedDate.split('-')[2])
         };
 
-        this.timeString = this.timestampToGMT7HourString(appointmentChild.time);
-        console.log("timeString: ", this.timeString);
+        this.timeString = this.timestampToGMT7HourString(result.Item.time_attr.N);
         this.isMigrated = false;
-        console.log(this.isMigrated);
       }
     }
   }
-
-  findAppointmentById(appointments: any) {
-    console.log("Appointment find by Id: ", appointments);
-    const filteredAppointments = ConvertJson.processApiResponse(appointments);
-    console.log(filteredAppointments);
-    const rawData = filteredAppointments as RootObject[];
-    let result: any;
-    if (rawData && rawData.length > 0) {
-      for (const appointmentBlock of rawData) {
-        for (const detail of appointmentBlock.appointments.flatMap(a => a.details)) {
-          if (detail.appointment_id === this.appointmentId_Pathparam) {
-            result = detail;
-            break;
-          }
-        }
-        if (result) break;
-      }
-    }
-    return result;
-  }
-
 
   timestampToDate(timestamp: number): string {
     const date = moment.unix(timestamp);
@@ -245,16 +217,16 @@ export class ChangeAppointmentComponent implements OnInit {
       epoch: Number(this.epoch_PathParam),   
       new_epoch: this.dateToTimestamp(selectedDate),
       appointment: {
-        patient_id: this.appointment.patient_id,  
-        patient_name: this.appointment.patient_name, 
-        phone_number: this.appointment.phone_number,
-        procedure_id: this.appointment.procedure_id,  
-        doctor_attr: this.appointment.doctor,
-        procedure_name: this.appointment.procedure_name,
-        reason: this.appointment.reason,
+        patient_id: this.appointment.Item.patient_attr.M.id.S,  
+        patient_name: this.appointment.Item.patient_attr.M.name.S, 
+        phone_number: this.appointment.Item.patient_attr.M.phone_number.S,
+        procedure_id: this.appointment.Item.procedure_attr.M.id.S,  
+        doctor_attr: this.appointment.Item.doctor_attr,
+        procedure_name: this.appointment.Item.procedure_attr.M.name.S,
+        reason: this.appointment.Item.reason_attr.S,
         time_attr: this.timeAndDateToTimestamp(this.timeString, this.selectedDate),
-        status_attr: 1, 
-        is_new: this.appointment.patient_created_date == '1' ? true: false,
+        status_attr: 2, 
+        is_new: false,
       }
     } as IEditAppointmentBodyNew;
     console.log("EDIT_Appointment: ", this.EDIT_APPOINTMENT_BODY);

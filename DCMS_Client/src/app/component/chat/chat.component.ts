@@ -107,7 +107,13 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
           let postInfo;
           if (this.check[1] != undefined && this.check[1] != '') {
             postInfo = this.check[1].split(' - ');
-          } 
+          } else {
+            let ob = localStorage.getItem('ob');
+            if (ob != null) {
+              postInfo = ob.split(' - ');
+            }
+            localStorage.removeItem('ob');
+          }
           console.log("check add new patient: ", postInfo);
           this.POST_WAITTINGROOM.epoch = postInfo[0];
           this.POST_WAITTINGROOM.produce_id = postInfo[1];

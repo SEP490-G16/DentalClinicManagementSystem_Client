@@ -36,10 +36,10 @@
           <th>Lý do khám</th>
           <th>Loại điều trị</th>
           <th>Trạng thái</th>
-          <!-- <th></th> -->
-          <!-- <ng-container *ngIf="roleId.includes('3') || roleId.includes('1')"> -->
-          <th>Hành động</th>
-          <!-- </ng-container> -->
+          <th></th>
+          <ng-container *ngIf="roleId.includes('3') || roleId.includes('1')">
+            <th>Thanh toán</th>
+          </ng-container>
         </tr>
       </thead>
       <tbody>
@@ -101,10 +101,10 @@
                 </ng-container>
               </td>
             </ng-container>
-            <!-- <td (click)="stopClick($event)">
+            <td (click)="stopClick($event)">
               <button class="btn button-timekeeping" (click)="sendNotification(wtr.epoch, wtr)">
                 <i class="bi bi-bell"></i></button>
-            </td> -->
+            </td> 
             <ng-container
               *ngIf="roleId.includes('1') || roleId.includes('4') || roleId.includes('5') || roleId.includes('2')">
               <ng-container *ngIf="wtr.status == 1">

@@ -259,15 +259,11 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
         this.currentPatientCreated = false;
       }
 
-      const now = new Date();
-      const curr = (now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDay() + " " + now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds()).toString();
-      const patientInfor = this.POST_WAITTINGROOM.patient_id + " - " + this.POST_WAITTINGROOM.patient_name + " - " + this.patientBody.phone_number + " - " + this.patientBody.address + " - " + curr + " - " + "pa";
-
       const postInfo = this.POST_WAITTINGROOM.epoch + ' - ' + this.POST_WAITTINGROOM.produce_id + ' - ' + this.POST_WAITTINGROOM.produce_name + ' - '
         + this.POST_WAITTINGROOM.patient_id + ' - ' + this.POST_WAITTINGROOM.patient_name + ' - ' + this.POST_WAITTINGROOM.reason + ' - '
         + this.POST_WAITTINGROOM.status + ' - ' + this.POST_WAITTINGROOM.appointment_id + ' - ' + this.POST_WAITTINGROOM.appointment_epoch + ' - ' + this.POST_WAITTINGROOM.patient_created_date;
       this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
-        .subscribe((data) => {
+      .subscribe((data) => {
           this.showSuccessToast("Thêm phòng chờ thành công!!");
           let ref = document.getElementById('cancel-add-waiting-new');
           ref?.click();
@@ -285,9 +281,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
             this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
 
           }
-          //this.updateWaitingRoomList();
-          // this.router.navigate(["phong-cho"]);
-          //this.WaitingRoomService.updateData
+
           this.POST_WAITTINGROOM = {
             epoch: "",
             produce_id: '',

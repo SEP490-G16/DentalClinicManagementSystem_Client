@@ -28,7 +28,19 @@ export class ConfirmWaitingroomComponent implements OnInit {
 
   UpdateStatusPatient() {
     console.log("check content: ", this.content);
-    this.waitingRoomService.putWaitingRoom(this.content)
+    let a = {
+      time_attr: this.content.epoch,
+      produce_id: this.content.produce_id,
+      produce_name: this.content.produce_name,
+      patient_id: this.content.patient_id,
+      patient_name: this.content.patient_name,
+      is_new: this.content.patient_created_date == '1' ? true : false,
+      reason: this.content.reason,
+      status_attr: this.content.status_value,
+      foreign_sk: this.content.fk,
+    }
+
+    this.waitingRoomService.putWaitingRoomNew(this.content.sk, a)
         .subscribe(data => {
           //this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
           this.showSuccessToast('Chỉnh sửa hàng chờ thành công');

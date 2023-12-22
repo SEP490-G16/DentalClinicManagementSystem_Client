@@ -20,7 +20,7 @@ import { throwError } from 'rxjs';
 })
 export class PatientExaminationManagementComponent implements OnInit {
   //Display
-  exRooms: any;
+  exRooms: any[] = [];
   groupServices: any[] = [];
   filteredWaitingRoomData: any[] = [];
   currentDate: any;
@@ -99,8 +99,26 @@ export class PatientExaminationManagementComponent implements OnInit {
   getWaitingRoomData(exRoomDetail: any) {
     return this.waitingRoomService.getWaitingRooms()
       .subscribe(data => {
-        this.exRooms = data;
-
+        var ListResPonse = data;
+        ListResPonse.forEach((item:any) => {
+          var skey = item.SK.S;
+          let a = {
+            type: 'w',
+            epoch: item.time_attr.N, 
+            procedure_id: item.procedure_attr.M.id,
+            procedure_name: item.procedure_attr.M.name,
+            patient_id: skey.split('::')[1],
+            patient_name: item.patient_attr.M.name.S,
+            patient_created_date: item.patient_attr.M.is_new.BOOL == true ? '2' : '1',
+            reason: item.reason_attr.S,
+            status: item.status_attr.N,
+            appointment_id: '',
+            appointment_epoch: '', 
+            sk: skey,
+            fk: item.foreign_sk.S,
+          }
+          this.exRooms.push(a);
+        })
         this.exRooms.forEach((exRoom: any) => {
           exRoom.date = this.timestampToTime(exRoom.epoch);
         });
@@ -115,13 +133,6 @@ export class PatientExaminationManagementComponent implements OnInit {
         this.waitingRoomService.updateData(this.exRooms);
 
         this.exRooms = data.filter((waittingRoom: any) => waittingRoom.status == 2 || waittingRoom.status == 3);
-
-        // Thống kê trên navbar
-        // this.realTimeWaiting = [...this.exRooms].filter((waitingRoom:any) => waitingRoom.status == 2);
-        // this.realTimeExaminated = [...this.exRooms].filter((waitingRoom:any) => waitingRoom.status == 3);
-
-        //this.dataService.UpdateWaitingRoomTotal(3, data.length);
-
         // Cache
         this.listPatientId = this.exRooms.map((item: any) => item.patient_id);
         localStorage.setItem('listPatientId', JSON.stringify(this.listPatientId));
@@ -144,28 +155,19 @@ export class PatientExaminationManagementComponent implements OnInit {
 
   onPutStatus(wtr: any, epoch: number) {
     this.PUT_WAITINGROO = {
-      epoch: epoch,
+      time_attr: epoch,
       produce_id: wtr.produce_id,
       produce_name: wtr.produce_name,
       patient_id: wtr.patient_id,
       patient_name: wtr.patient_name,
+      is_new: wtr.patient_created_date == '1' ? true : false,
       reason: wtr.reason,
-      patient_created_date: wtr.patient_created_date,
-      status_value: Number(wtr.status),
-      appointment_id: wtr.appointment_id,
-      appointment_epoch: wtr.appointment_epoch,
+      status_attr: wtr.status,
+      foreign_sk: wtr.fk,
     }
-    this.waitingRoomService.putWaitingRoom(this.PUT_WAITINGROO)
+    this.waitingRoomService.putWaitingRoomNew(wtr.sk,this.PUT_WAITINGROO)
       .subscribe((res) => {
         if (this.PUT_WAITINGROO.status_value == "3") {
-          //this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "minus", "wtr1");
-          const checkTotal = localStorage.getItem('patient_examinated');
-          if (checkTotal != null) {
-            var check = JSON.parse(checkTotal);
-            check.total = check.total + 1;
-            localStorage.setItem("patient_examinated", JSON.stringify({ total: check.total, currentDate: check.currentDate }));
-          }
-          //this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "plus", "wtr2");
           if (wtr.patient_created_date == "1") {
             this.waitingRoomService.putNewPatientId(wtr.patient_id).subscribe((data) => {
             })
@@ -199,7 +201,7 @@ export class PatientExaminationManagementComponent implements OnInit {
           };
           this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
         }
-        this.getWaitingRoomData(wtr)
+        //this.getWaitingRoomData(wtr);
       },
         (error) => {
           ResponseHandler.HANDLE_HTTP_STATUS(this.waitingRoomService.apiUrl + "/waiting-room/" + this.PUT_WAITINGROO, error);

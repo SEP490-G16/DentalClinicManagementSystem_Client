@@ -28,7 +28,7 @@ import {ConfirmWaitingroomComponent} from "../../utils/pop-up/common/confirm-wai
   styleUrls: ['./receptionist-waiting-room.component.css']
 })
 export class ReceptionistWaitingRoomComponent implements OnInit {
-  waitingRoomData: any;
+  waitingRoomData: any[] = [];
   loading: boolean = false;
   procedure: string = '0';
   listGroupService: any[] = [];
@@ -46,7 +46,6 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
   public dataArray: any[] = [];
 
   constructor(private waitingRoomService: ReceptionistWaitingRoomService,
-    private appointmentService: ReceptionistAppointmentService,
     private cognitoService: CognitoService,
     private router: Router,
     private toastr: ToastrService, private webSocketService: WebsocketService,
@@ -131,7 +130,27 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
   getWaitingRoomData() {
     this.waitingRoomService.getWaitingRooms().subscribe(
       data => {
-        this.waitingRoomData = data;
+        var ListResPonse = data;
+        ListResPonse.forEach((item:any) => {
+          var skey = item.SK.S;
+          console.log(item.patient_attr.M.is_new.BOOL)
+          let a = {
+            type: 'w',
+            epoch: item.time_attr.N, 
+            produce_id: item.procedure_attr.M.id.S,
+            produce_name: item.procedure_attr.M.name.S,
+            patient_id: skey.split('::')[1],
+            patient_name: item.patient_attr.M.name.S,
+            patient_created_date: item.patient_attr.M.is_new.BOOL == true ? '1' : '2',
+            reason: item.reason_attr.S,
+            status: item.status_attr.N,
+            appointment_id: '',
+            appointment_epoch: '', 
+            sk: skey, 
+            fk: item.foreign_sk.S,
+          }
+          this.waitingRoomData.push(a);
+        })
         this.waitingRoomData.forEach((i: any) => {
           i.date = this.timestampToTime(i.epoch)
         });
@@ -185,30 +204,40 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
   patient_Id: any = "";
   onPutStatus(wtr: any, epoch: number) {
     this.PUT_WAITINGROO = {
-      epoch: epoch,
+      // epoch: epoch,
+      // produce_id: wtr.produce_id,
+      // produce_name: wtr.produce_name,
+      // patient_id: wtr.patient_id,
+      // patient_name: wtr.patient_name,
+      // reason: wtr.reason,
+      // patient_created_date: wtr.patient_created_date,
+      // status_value: Number(wtr.status),
+      // appointment_id: wtr.appointment_id,
+      // appointment_epoch: wtr.appointment_epoch,
+      time_attr: epoch,
       produce_id: wtr.produce_id,
       produce_name: wtr.produce_name,
       patient_id: wtr.patient_id,
       patient_name: wtr.patient_name,
+      is_new: wtr.patient_created_date == '1' ? true : false,
       reason: wtr.reason,
-      patient_created_date: wtr.patient_created_date,
-      status_value: Number(wtr.status),
-      appointment_id: wtr.appointment_id,
-      appointment_epoch: wtr.appointment_epoch,
+      status_attr: wtr.status,
+      foreign_sk: wtr.fk,
     }
     this.patient_Id = wtr.patient_id;
     this.loading = true;
-    if (this.PUT_WAITINGROO.status_value == 4) {
+    if (this.PUT_WAITINGROO.status_attr == '4') {
       this.listTemp = this.filteredWaitingRoomData;
       localStorage.setItem("ListPatientWaiting", JSON.stringify(this.filteredWaitingRoomData));
       localStorage.setItem('listPatientId', JSON.stringify(this.listTemp));
-      this.waitingRoomService.deleteWaitingRooms(this.PUT_WAITINGROO)
+      this.waitingRoomService.deleteWaitingRoomsNew(wtr.sk)
         .subscribe((data) => {
           this.loading = false;
           this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
           this.showSuccessToast('Xóa hàng chờ thành công');
           localStorage.setItem("ob",`CheckRealTimeWaitingRoom@@@,${wtr.patient_id},${Number('4')}`);
           this.sendMessageSocket.sendMessageSocket("CheckRealTimeWaitingRoom@@@",`${wtr.patient_id}`, `${Number('4')}`);
+
           this.getWaitingRoomData();
         },
           (error) => {
@@ -217,10 +246,9 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           }
         )
     } else {
-      this.waitingRoomService.putWaitingRoom(this.PUT_WAITINGROO)
+      this.waitingRoomService.putWaitingRoomNew(wtr.sk,this.PUT_WAITINGROO)
         .subscribe(data => {
-          if (this.PUT_WAITINGROO.status_value == "2") {
-            //this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "plus", "wtr1");
+          if (this.PUT_WAITINGROO.status_attr == "2") {
             const storeList = localStorage.getItem('ListPatientWaiting');
             let listWaiting;
             console.log("vô nha");
@@ -260,17 +288,13 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
             }
           }
 
-          if (this.PUT_WAITINGROO.status_value == "3") {
-            //this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "minus", "wtr1");
+          if (this.PUT_WAITINGROO.status_attr == "3") {
             const checkTotal = localStorage.getItem('patient_examinated');
             if (checkTotal != null) {
               var check = JSON.parse(checkTotal);
               check.total = check.total + 1;
               localStorage.setItem("patient_examinated", JSON.stringify({ total: check.total, currentDate: check.currentDate }));
             }
-            //this.sendMessageSocket.sendMessageSocket("UpdateAnalysesTotal@@@", "plus", "wtr2");
-
-            //Chuyển từ bệnh nhân mới sang cũ
             if (wtr.patient_created_date == "1") {
               this.waitingRoomService.putNewPatientId(wtr.patient_id).subscribe((data) => {
               })
@@ -459,7 +483,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
     }
 
     const out = epoch+ " - "+wtr.produce_id+ " - "+wtr.produce_name+" - "+ wtr.patient_id+" - "+wtr.patient_name+" - "+
-    wtr.reason+" - " + wtr.patient_created_date+" - "+ Number(wtr.status)+" - "+wtr.appointment_id+ " - "+wtr.appointment_epoch;
+    wtr.reason+" - " + wtr.patient_created_date+" - "+ Number(wtr.status)+" - "+wtr.appointment_id+ " - "+wtr.appointment_epoch +" - "+ wtr.fk + " - " +wtr.sk;
     localStorage.setItem("pawtr", JSON.stringify(a));
     localStorage.setItem("ob", `CheckRealTimeWaitingRoom@@@,notification,${out}`);
     this.sendMessageSocket.sendMessageSocket("CheckRealTimeWaitingRoom@@@", "notification", `${out}`);

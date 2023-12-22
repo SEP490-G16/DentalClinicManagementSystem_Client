@@ -93,6 +93,29 @@ export class ReceptionistAppointmentService {
     }
   }
 
+  async getAppointmentByPatientNew(soft_key:any): Promise<any> {
+    const idToken = sessionStorage.getItem("id_Token");
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      'Content-Type': 'application/json'
+    });
+    try {
+      return await this.http.get(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/appointment/${soft_key}`, { headers, responseType: 'text' }).toPromise();
+    } catch (error) {
+      console.error("Lỗi khi gọi API: ", error);
+      throw error;
+    }
+  }
+
+
+  test(soft_key:any):Observable<any> {
+    let idToken = sessionStorage.getItem("id_Token");
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+    });
+      return this.http.get(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/appointment/${soft_key}`, { headers});
+  }
+
   deleteAppointment(epoch:number, appointmentId: string):Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
     const headers = new HttpHeaders({
