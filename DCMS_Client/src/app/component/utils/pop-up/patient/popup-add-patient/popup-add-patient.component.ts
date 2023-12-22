@@ -24,6 +24,7 @@ export class PopupAddPatientComponent implements OnInit {
     Email: '',
     Gender: 1,
     phone_Number: '',
+    sub_phone_number: '',
     Address: '',
     full_medical_History: '',
     dental_medical_History: '',
@@ -34,6 +35,7 @@ export class PopupAddPatientComponent implements OnInit {
     gender: '',
     phone: '',
     address: '',
+    sub_phone_number: '',
     dob: '',
     email: ''
   }
@@ -59,6 +61,7 @@ export class PopupAddPatientComponent implements OnInit {
     patient_name: '',
     email: '',
     gender: "",
+    sub_phone_number: '',
     phone_number: '',
     address: '',
     full_medical_history: '',
@@ -91,6 +94,12 @@ export class PopupAddPatientComponent implements OnInit {
       this.validatePatient.gender = "Vui lòng chọn giới tính!";
       this.isSubmitted = true;
     }
+
+    if(this.patient1.sub_phone_number.length > 1 && !this.isVietnamesePhoneNumber(this.patient1.sub_phone_number)) {
+      this.validatePatient.phone = "Số điện thoại không hợp lệ!";
+      this.isSubmitted = true;
+    }
+
     if (!this.patient1.phone_Number) {
       this.validatePatient.phone = "Vui lòng nhập số zalo!";
       this.isSubmitted = true;
@@ -103,7 +112,7 @@ export class PopupAddPatientComponent implements OnInit {
       this.validatePatient.dob = "Vui lòng nhập ngày sinh!";
       this.isSubmitted = true;
     }
-    else if (this.isDob(FormatNgbDate.formatNgbDateToString(this.model))){
+    else if (this.isDob(FormatNgbDate.formatNgbDateToString(this.model))) {
       this.validatePatient.dob = "Vui lòng nhập ngày sinh đúng định dạng dd/MM/yyyy !";
       this.isSubmitted = true;
     }
@@ -121,6 +130,7 @@ export class PopupAddPatientComponent implements OnInit {
       email: this.patient1.Email,
       gender: this.patient1.Gender.toString(),
       phone_number: this.patient1.phone_Number,
+      sub_phone_number: this.patient1.sub_phone_number,
       address: this.patient1.Address,
       full_medical_history: this.patient1.full_medical_History,
       dental_medical_history: this.patient1.dental_medical_History,
@@ -152,6 +162,36 @@ export class PopupAddPatientComponent implements OnInit {
         date_of_birth: TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.model))
       }
     }
+
+    if (this.patient1.sub_phone_number.length > 1 && this.patient1.phone_Number.length === 9) {
+      this.patientBody = {
+        patient_id: null,
+        patient_name: this.patient1.patientName,
+        email: this.patient1.Email,
+        gender: this.patient1.Gender.toString(),
+        phone_number: '+84' + this.patient1.phone_Number,
+        sub_phone_number: this.patient1.sub_phone_number,
+        address: this.patient1.Address,
+        full_medical_history: this.patient1.full_medical_History,
+        dental_medical_history: this.patient1.dental_medical_History,
+        date_of_birth: TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.model))
+      }
+    }
+    if (this.patient1.sub_phone_number.length > 1 && this.patient1.phone_Number.length === 10) {
+      this.patientBody = {
+        patient_id: null,
+        patient_name: this.patient1.patientName,
+        email: this.patient1.Email,
+        gender: this.patient1.Gender.toString(),
+        phone_number: '+84' + this.patient1.phone_Number.substring(1),
+        sub_phone_number: this.patient1.sub_phone_number.substring(1),
+        address: this.patient1.Address,
+        full_medical_history: this.patient1.full_medical_History,
+        dental_medical_history: this.patient1.dental_medical_History,
+        date_of_birth: TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.model))
+      }
+    }
+
     console.log("Post: ", this.patientBody);
 
     //return;
@@ -191,6 +231,7 @@ export class PopupAddPatientComponent implements OnInit {
       phone: '',
       address: '',
       dob: '',
+      sub_phone_number: '',
       email: ''
     }
     this.isSubmitted = false;

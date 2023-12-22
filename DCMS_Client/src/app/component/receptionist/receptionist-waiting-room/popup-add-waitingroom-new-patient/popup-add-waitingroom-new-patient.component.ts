@@ -35,6 +35,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
     Gender: 1,
     phone_Number: '',
     Address: '',
+    sub_phone_number: '',
     full_medical_History: '',
     dental_medical_History: '',
     dob: ''
@@ -44,6 +45,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
     email: '',
     gender: '',
     phone_number: '',
+    sub_phone_number: '',
     address: '',
     full_medical_history: '',
     dental_medical_history: '',
@@ -54,6 +56,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
     name: '',
     gender: '',
     phone: '',
+    sub_phone_number: '',
     address: '',
     dob: '',
     email: '',
@@ -245,6 +248,35 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
       }
     }
 
+    if (this.patient1.sub_phone_number > 1 && this.patient1.sub_phone_number.length === 9) {
+      this.patientBody = {
+        patient_id: null,
+        patient_name: this.patient1.patientName,
+        email: this.patient1.Email,
+        gender: this.patient1.Gender,
+        phone_number: '+84' + this.patient1.phone_Number,
+        sub_phone_number: '+84' + this.patient1.sub_phone_number.substring(1),
+        address: this.patient1.Address,
+        full_medical_history: this.patient1.full_medical_History,
+        dental_medical_history: this.patient1.dental_medical_History,
+        date_of_birth: TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.dobNgb)),
+      }
+    }
+    if (this.patient1.sub_phone_number > 1 && this.patient1.sub_phone_number.length === 10) {
+      this.patientBody = {
+        patient_id: null,
+        patient_name: this.patient1.patientName,
+        email: this.patient1.Email,
+        gender: this.patient1.Gender,
+        phone_number: '+84' + this.patient1.phone_Number.substring(1),
+        sub_phone_number: '+84' + this.patient1.sub_phone_number.substring(1),
+        address: this.patient1.Address,
+        full_medical_history: this.patient1.full_medical_History,
+        dental_medical_history: this.patient1.dental_medical_History,
+        date_of_birth: TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.dobNgb)),
+      }
+    }
+
     this.PATIENT_SERVICE.addPatient(this.patientBody).subscribe((data: any) => {
       this.toastr.success('Thêm mới bệnh nhân thành công!');
       this.currentPatientCreated = true;
@@ -421,6 +453,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
       name: '',
       gender: '',
       phone: '',
+      sub_phone_number: '',
       address: '',
       dob: '',
       email: '',

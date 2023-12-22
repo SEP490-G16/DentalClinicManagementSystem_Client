@@ -79,9 +79,11 @@
                   <td>{{ mu.mu_mpname }}</td>
                   <td>{{ mu.mu_price | currency:'VND' }}</td>
                   <!-- {{ calculateDiscount(mu.mu_price, mu) }}  -->
-                  <td><input type="number" [(ngModel)]="mu.chietkhau" [min]="0" [max]="100" (ngModelChange)="updateTotalandRemaining(mu)"> %</td>
+                  <td><input type="number" [(ngModel)]="mu.chietkhau" [min]="0" [max]="100"
+                      (ngModelChange)="updateTotalandRemaining(mu)"> %</td>
                   <td>{{ mu.mu_quantity }}</td>
-                  <td>{{ ((mu.chietkhau)?(calculateChietKhau(mu.mu_price, mu.mu_quantity, mu.chietkhau)):(mu.mu_price * mu.mu_quantity))| currency:'VND' }}</td>
+                  <td>{{ ((mu.chietkhau)?(calculateChietKhau(mu.mu_price, mu.mu_quantity, mu.chietkhau)):(mu.mu_price *
+                    mu.mu_quantity))| currency:'VND' }}</td>
                   <!-- <td>{{ ((mu.mu_total_paid)?mu.mu_total_paid: 0) | currency:'VND' }}</td>
                   <td [hidden]="remaining == 0">{{mu.mu_total - mu.mu_total_paid | currency:'VND'}}</td>
                   <td [hidden]="remaining == 0"></td> -->
@@ -103,6 +105,14 @@
                       {{validateAmount.soTien}}
                     </p>
                   </div>
+                  <!-- <input style="border-radius: 5px" [(ngModel)]="paymentAmount" appCurrencyFormat class="form-control"
+                    type="text" min="0" placeholder="Nhập số tiền thanh toán" (ngModelChange)="changePaymentAmount()">
+                    <div *ngIf="isSubmittedAmout"
+                      [ngClass]="{'alert-danger-custom': true, 'active': validateAmount.soTien}">
+                      <p>
+                        {{validateAmount.soTien}}
+                      </p>
+                    </div> -->
                 </div>
               </td>
             </tr>

@@ -25,7 +25,7 @@ export class PatientAppointmentTabComponent implements OnInit {
   id: string = "";
   endDateTimestamp: number = 0;
   currentDateTimestamp: number = 0;
-  Patient: IPatient = {} as IPatient;
+  Patient: any;
   patientAppointments: any[] = [];
 
   dateString: any;
@@ -35,7 +35,7 @@ export class PatientAppointmentTabComponent implements OnInit {
   selectedAppointment: ISelectedAppointment;
   dateDis = { date: 0, procedure: '', count: 0, }
   model!: NgbDateStruct;
-  appointmentList: RootObject[] = [];
+  appointmentList: any[] = [];
   datesDisabled: any[] = [];
   listDate: any[] = [];
   roleId: string[] = [];
@@ -53,7 +53,7 @@ export class PatientAppointmentTabComponent implements OnInit {
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
     this.currentDateTimestamp = this.dateToTimestamp2(currentDateGMT7);
     console.log("Hum nay: ", this.currentDateTimestamp);
-    this.endDateTimestamp = this.dateToTimestamp("2023-02-20 23:59:59");
+    this.endDateTimestamp = this.dateToTimestamp("2023-12-23 23:59:59");
     this.selectedAppointment = {} as ISelectedAppointment
   }
   ngOnInit(): void {
@@ -63,88 +63,112 @@ export class PatientAppointmentTabComponent implements OnInit {
       this.roleId = ro.split(',');
     }
     this.name = sessionStorage.getItem('patient');
-    if (this.name) {
-      this.name = JSON.parse(this.name);
-      this.patientName = this.name.patient_name;
-    } else {
-      this.patientService.getPatientById(this.id).subscribe((patient: any) => {
-        console.log("Patient: ", patient);
-        this.patientName = patient.patient_name;
-        sessionStorage.setItem('patient', JSON.stringify(patient));
-      })
-    }
-    this.getAppointment();
-    // const startDate = moment().tz('Asia/Ho_Chi_Minh').subtract(15, 'days').startOf('day');
+    console.log("Name Patient: ", this.name)
 
-    // const endDate = moment().tz('Asia/Ho_Chi_Minh').add(15, 'days').endOf('day');
-    // this.currentDateTimestamp = startDate.unix();
-    // this.endDateTimestamp = endDate.unix();
+    this.patientService.getPatientById(this.id).subscribe((patient: any) => {
+      console.log("Patient: ", patient);
+      this.patientName = patient.patient_name;
+      this.Patient = patient;
+      sessionStorage.setItem('patient', JSON.stringify(patient));
+    })
 
-    // console.log("Start Date Timestamp:", this.currentDateTimestamp);
-    // console.log("End Date Timestamp:", this.endDateTimestamp);
+    this.getAppointmentList();
   }
 
-  getAppointment() {
-    this.APPOINTMENT_SERVICE.getAppointmentList(1702684800, this.endDateTimestamp).subscribe(data => {
+  getAppointmentList() {
+    const selectedYear = 2023;
+    const selectedMonth = 12;
+    const selectedDay = 20;
+    const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
+    // var dateTime = this.currentDate + ' ' + "00:00:00";
+    //var startTime = this.dateToTimestamp(dateTime);
+    // const currentDate = new Date();
+    // const vnTimezoneOffset = 7 * 60;
+    // const vietnamTime = new Date(currentDate.getTime() + vnTimezoneOffset * 60 * 1000);
+    // const nextWeekDate = new Date(vietnamTime.getTime());
+    // nextWeekDate.setDate(vietnamTime.getDate() + 7);
+    // const dateFormatter = new Intl.DateTimeFormat('en', { year: 'numeric', month: '2-digit', day: '2-digit' });
+    // const formattedDate = dateFormatter.format(nextWeekDate);
+    // var temp = formattedDate.split('/');
+    // var endTime = temp[2] + '-' + temp[0] + '-' + temp[1] + ' 23:59:59';
+    // this.nextDate = temp[2] + '-' + temp[0] + '-' + temp[1];
+    this.APPOINTMENT_SERVICE.getAppointmentList(this.dateToTimestamp(selectedDate + ' ' + "00:00:00"), this.dateToTimestamp(selectedDate + ' ' + "23:59:59")).subscribe(data => {
       this.appointmentList = ConvertJson.processApiResponse(data);
-      console.log("this.da", this.appointmentList);
-      this.patientAppointments = this.appointmentList.flatMap((appointment: any) =>
-        appointment.appointments
-          .filter((app: any) => app.details.some((detail: any) => detail.patient_id === this.id))
-          .map((app: any) => ({
-            ...app,
-            date: appointment.date,
-            details: app.details.filter((detail: any) => detail.patient_id === this.id)
-          }))
-      );
+      // localStorage.setItem("ListAppointment", JSON.stringify(this.appointmentList));
+      // this.patientAppointments = this.appointmentList.filter(app => app.date === this.dateToTimestamp(selectedDate));
+      // console.log("Appointment: ", this.appointmentList);
+      // this.filteredAppointments.forEach((appointmentParent: any) => {
+      //   this.dateEpoch = this.timestampToDate(appointmentParent.date);
 
-      this.patientAppointments.sort((a: any, b: any) => b.date - a.date);
+      //   const allDetails = appointmentParent.appointments
+      //     .map((appointment: any) => appointment.details)
+      //     .flat();
 
-      console.log("Filtered Patient Appointments:", this.patientAppointments);
-      this.appointmentDateInvalid();
-    },
-      error => {
-        ResponseHandler.HANDLE_HTTP_STATUS(this.APPOINTMENT_SERVICE.apiUrl + "/appointment/" + 1696925134 + "/" + this.endDateTimestamp, error);
-      }
-    );
+      //   allDetails.sort((a: any, b: any) => {
+      //     const timeA = typeof a.time === "string" ? parseInt(a.time, 10) : a.time;
+      //     const timeB = typeof b.time === "string" ? parseInt(b.time, 10) : b.time;
+      //     return timeA - timeB;
+      //   });
+
+      //   for (let i = 0; i < appointmentParent.appointments.length; i++) {
+      //     appointmentParent.appointments[i].details = [allDetails[i]];
+      //   }
+      // });
+
+      //   console.log("Filter Appointment: ", this.filteredAppointments);
+
+      //   this.loading = false;
+      //   //this.appointmentDateInvalid();
+      // },
+      //   error => {
+      //     this.loading = false;
+      //     ResponseHandler.HANDLE_HTTP_STATUS(this.appointmentService.apiUrl + "/appointment/" + this.startDateTimestamp + "/" + this.endDateTimestamp, error);
+    })
   }
 
-  appointmentDateInvalid() {
-    var today = new Date();
-    var date = today.getFullYear() + ' - ' + (today.getMonth() + 1) + ' - ' + today.getDate();
-    var time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
-    var dateTime = date + ' ' + "00:00:00";
-    var startTime = this.dateToTimestamp(dateTime);
-    var endTime = this.dateToTimestamp(today.getFullYear() + ' - ' + (today.getMonth() + 1) + ' - ' + (today.getDate() + 4) + ' ' + "23:59:59");
-    this.APPOINTMENT_SERVICE.getAppointmentList(startTime, endTime).subscribe(data => {
-      this.listDate = ConvertJson.processApiResponse(data);
-      this.listDate.forEach((a: any) => {
-        a.appointments.forEach((b: any) => {
-          this.dateDis.date = a.date;
-          this.dateDis.procedure = b.procedure_id;
-          this.dateDis.count = b.count;
-          this.datesDisabled.push(this.dateDis);
-          this.dateDis = {
-            date: 0,
-            procedure: '',
-            count: 0,
-          }
-        })
-      })
-    },
-      error => {
-        ResponseHandler.HANDLE_HTTP_STATUS(this.APPOINTMENT_SERVICE.apiUrl + "/appointment/" + startTime + "/" + endTime, error);
-      })
-  }
-  setPatient() {
-    this.Patient.patient_id = this.id;
-    this.Patient.patient_name = this.patientAppointments[0].appointments[0].details[0].patient_name;
-    this.Patient.phone_number = this.patientAppointments[0].appointments[0].details[0].phone_number;
-  }
+  // getAppointmentList() {
+  //   const selectedYear = 2023;
+  //   const selectedMonth = 12;
+  //   const selectedDay = 20;
+  //   const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
+
+  //   this.APPOINTMENT_SERVICE.getAppointmentList(this.dateToTimestamp(selectedDate + ' ' + "00:00:00"), this.dateToTimestamp("2024-01-30" + ' ' + "23:59:59")).subscribe(data => {
+  //     this.appointmentList = ConvertJson.processApiResponse(data);
+  //     console.log("Appointment: ", this.appointmentList);
+
+  //     this.patientAppointments = this.appointmentList.flatMap((appointment: any) =>
+  //       appointment.appointments
+  //         .filter((app: any) => app.details.some((detail: any) => detail.patient_id === this.id))
+  //         .map((app: any) => ({
+  //           ...app,
+  //           date: appointment.date,
+  //           details: app.details.filter((detail: any) => detail.patient_id === this.id)
+  //         }))
+  //     );
+
+  //     console.log("Filter Appointment: ", this.patientAppointments);
+
+  //   })
+  // }
+
+
 
   openEditModal(detail: any, dateTimestamp: any) {
 
   }
+
+  setPatient() {
+    console.log("asdsadsadadsa");
+    console.log("Patient set: ", this.Patient);
+    if (this.Patient == null) {
+      this.Patient.patient_id = this.id;
+      this.Patient.patient_name = this.patientAppointments[0].appointments[0].details[0].patient_name;
+      this.Patient.phone_number = this.patientAppointments[0].appointments[0].details[0].phone_number;
+    }
+
+  }
+
+
   editAppointment(appointment: any, dateTimestamp: any) {
     console.log("DateTimestamp", dateTimestamp);
     this.dateString = this.timestampToDate(dateTimestamp);
@@ -189,6 +213,8 @@ export class PatientAppointmentTabComponent implements OnInit {
     });
   }
 
+
+
   showSuccessToast(message: string) {
     this.toastr.success(message, 'Thành công', {
       timeOut: 3000, // Adjust the duration as needed
@@ -202,11 +228,12 @@ export class PatientAppointmentTabComponent implements OnInit {
   }
   //Convert Date
   dateToTimestamp(dateStr: string): number {
-    const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng của chuỗi ngày
+    const format = 'YYYY-MM-DD HH:mm'; // Định dạng của chuỗi ngày
     const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
-    const timestamp = moment.tz(dateStr, format, timeZone).valueOf();
+    const timestamp = moment.tz(dateStr, format, timeZone).valueOf() / 1000;
     return timestamp;
   }
+
   dateToTimestamp2(dateStr: string): number {
     const format = 'YYYY-MM-DD HH:mm:ss'; // Định dạng của chuỗi ngày
     const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ

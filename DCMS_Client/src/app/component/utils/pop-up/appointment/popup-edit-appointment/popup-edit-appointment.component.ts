@@ -18,6 +18,7 @@ import { ResponseHandler } from "../../../libs/ResponseHandler";
 import { CognitoService } from 'src/app/service/cognito.service';
 import { TimeKeepingService } from 'src/app/service/Follow-TimeKeepingService/time-keeping.service';
 import { ConvertJson } from 'src/app/service/Lib/ConvertJson';
+import { Normalize } from 'src/app/service/Lib/Normalize';
 @Component({
   selector: 'app-popup-edit-appointment',
   templateUrl: './popup-edit-appointment.component.html',
@@ -193,7 +194,14 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     clearTimeout(this.searchTimeout);
     this.searchTimeout = setTimeout(() => {
       this.EDIT_APPOINTMENT_BODY.appointment.patient_name = event.target.value;
-      this.PATIENT_SERVICE.getPatientByName(this.EDIT_APPOINTMENT_BODY.appointment.patient_name, 1).subscribe(data => {
+      const searchLowercased = event.target.value.toLowerCase();
+
+        // Loại bỏ khoảng trắng thừa ở đầu và cuối chuỗi
+        const trimmedSearch = searchLowercased.trim();
+
+        // Thay thế tất cả chuỗi khoảng trắng (bao gồm cả khoảng trắng kép trở lên) bằng dấu "-"
+        const normalizedSearch = trimmedSearch.replace(/\s+/g, '-');
+      this.PATIENT_SERVICE.getPatientByName(Normalize.normalizeDiacritics(normalizedSearch), 1).subscribe(data => {
         const transformedMaterialList = data.data.map((item: any) => {
           return {
             patientId: item.patient_id,

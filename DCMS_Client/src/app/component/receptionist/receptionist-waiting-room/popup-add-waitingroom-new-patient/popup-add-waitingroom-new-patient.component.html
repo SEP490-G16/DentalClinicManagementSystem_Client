@@ -78,7 +78,7 @@
                           <div class="input-group-prepend">
                             <span class="input-group-text custom-input" id="basic-addon1">(+84)</span>
                           </div>
-                          <input type="text" class="form-control" id="inputPhone"
+                          <input type="text" class="form-control" id="inputPhone" [(ngModel)]="patient1.sub_phone_number"
                                  name="inputPhone" aria-label="phoneNumber" aria-describedby="basic-addon1">
                         </div>
                         <div *ngIf="isSubmitted" class="alert-danger-custom">

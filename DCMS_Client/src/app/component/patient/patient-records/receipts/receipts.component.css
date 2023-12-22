@@ -38,3 +38,8 @@
   display: flex;
   justify-content: space-around;
 }
+
+.content-wrapper {
+  padding-left: 40px;
+  padding-right: 40px;
+}

@@ -38,6 +38,7 @@ export class PatientProfileTabComponent implements OnInit {
     patient_name: '',
     gender: 0,
     phone_number: '',
+    sub_phone_number: '',
     email: '',
     address: '',
     dental_medical_history: '',
@@ -50,6 +51,7 @@ export class PatientProfileTabComponent implements OnInit {
     name: '',
     gender: '',
     phone: '',
+    sub_phone_number: '',
     address: '',
     dob: '',
     email: '',
@@ -183,6 +185,10 @@ export class PatientProfileTabComponent implements OnInit {
         this.validatePatient.phone = "Số điện thoại không hợp lệ!";
         this.isSubmitted = true;
       }
+      if(this.patientDisplay.sub_phone_number > 1 && !this.isVietnamesePhoneNumber(this.patientDisplay.sub_phone_number)) {
+        this.validatePatient.sub_phone_number = "Số điện thoại không hợp lệ!";
+        this.isSubmitted = true;
+      }
       if (!this.patientDisplay.address) {
         this.validatePatient.address = "Vui lòng nhập địa chỉ!";
         this.isSubmitted = true;
@@ -198,11 +204,21 @@ export class PatientProfileTabComponent implements OnInit {
       if (this.patientDisplay.phone_number && this.patientDisplay.phone_number.length === 10) {
         phone = '+84' + this.patientDisplay.phone_number.substring(1);
       }
+
+      let sub_phone_number = '';
+      if (this.patientDisplay.sub_phone_number.length > 1 && this.patientDisplay.sub_phone_number.length === 9) {
+        sub_phone_number = '+84' + this.patientDisplay.sub_phone_number;
+      }
+      if (this.patientDisplay.sub_phone_number.length > 1 && this.patientDisplay.sub_phone_number.length === 10) {
+        sub_phone_number = '+84' + this.patientDisplay.sub_phone_number.substring(1);
+      }
+
       this.patientBody = {
         date_of_birth: TimestampFormat.timeAndDateToTimestamp("20:00",this.patientDisplay.date_of_birth),
         patient_name: this.patientDisplay.patient_name,
         gender: this.patientDisplay.gender,
         phone_number: phone,
+        sub_phone_number: sub_phone_number,
         email: this.patientDisplay.email,
         address: this.patientDisplay.address,
         dental_medical_history: this.patientDisplay.dental_medical_history || "",
@@ -243,6 +259,7 @@ export class PatientProfileTabComponent implements OnInit {
         this.imageURL = this.patientDisplay.profile_image;
       }
       this.patientDisplay.phone_number = this.normalizePhoneNumber(this.patientDisplay.phone_number);
+      this.patientDisplay.sub_phone_number = this.normalizePhoneNumber(this.patientDisplay.sub_phone_number);
       console.log("Patient temp: ", this.patientDisplay);
       sessionStorage.removeItem('patient');
       sessionStorage.setItem('patient', JSON.stringify(this.patientDisplay))
@@ -259,6 +276,7 @@ export class PatientProfileTabComponent implements OnInit {
       name: '',
       gender: '',
       phone: '',
+      sub_phone_number: '',
       address: '',
       dob: '',
       email: '',
