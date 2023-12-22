@@ -44,7 +44,7 @@
       </thead>
       <tbody>
         <tr title="Xem thông tin bệnh nhân {{ wtr.patient_name }}"
-          *ngFor="let wtr of filteredWaitingRoomData; let i = index" (click)="details(wtr.patient_id, wtr.reason)"
+          *ngFor="let wtr of filteredWaitingRoomData; let i = index" (click)="details(wtr.patient_id, wtr.reason, wtr)"
           style="cursor: pointer;" id="patient-{{ wtr.patient_id }}">
           <ng-container *ngIf="wtr.date != '' && wtr.date != undefined">
             <td>{{ i + 1 }}</td>

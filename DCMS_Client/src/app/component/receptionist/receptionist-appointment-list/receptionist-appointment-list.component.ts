@@ -632,10 +632,11 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     } else
       return phoneNumber;
   }
-  details(id: any, reason: any) {
+  details(id: any, reason: any, detail:any) {
     if (reason != '' || reason != null) {
       sessionStorage.setItem('examination_reason', reason);
     }
+    sessionStorage.setItem("patient", JSON.stringify(detail))
     this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', id])
   }
 }

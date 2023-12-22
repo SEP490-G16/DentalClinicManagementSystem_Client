@@ -391,10 +391,11 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
   stopClick(event: Event) {
     event.stopPropagation();
   }
-  details(id: any, reason:any) {
+  details(id: any, reason:any, wtr:any) {
     if (reason != '' || reason != null){
       sessionStorage.setItem('examination_reason', reason);
     }
+    sessionStorage.setItem('patient', JSON.stringify(wtr));
     this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', id])
   }
   signOut() {

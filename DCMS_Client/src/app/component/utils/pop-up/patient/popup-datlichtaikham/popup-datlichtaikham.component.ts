@@ -142,6 +142,7 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
     private route: ActivatedRoute,
     private renderer: Renderer2,
     private toastr: ToastrService,
+    private patientService: PatientService,
     private router: Router,
     private config: NgbDatepickerConfig,
     private calendar: NgbCalendar,
@@ -206,11 +207,11 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges): void {
-    // if (changes['Patient']) {
-    //   this.patientInfor = this.Patient.patient_id+" - "+this.Patient.patient_name+ " - "+this.Patient.phone_number;
-    // }
-    // if (this.datesDisabled && this.datesDisabled.length == 0) {
-    // }
+    if (changes['Patient']) {
+      this.patientInfor = this.Patient.patient_id+" - "+this.Patient.patient_name+ " - "+this.Patient.phone_number;
+    }
+    if (this.datesDisabled && this.datesDisabled.length == 0) {
+    }
     // if (changes['datesDisabled'] && this.datesDisabled && this.datesDisabled.length > 0) {
     //   this.datesDisabled = this.datesDisabled.map((timestamp: number) => {
     //     const date = new Date(timestamp * 1000); // Chuyển đổi timestamp sang date

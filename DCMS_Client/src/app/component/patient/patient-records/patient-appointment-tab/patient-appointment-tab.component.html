@@ -36,8 +36,8 @@
       </div>
       <div class="row" style="padding-top: 10px;">
         <div class="col-12">
-          <button class="btn button-timekeeping float-start" (click)="setPatient()" data-bs-toggle="modal"
-            data-bs-target="#myModal">
+          <button class="btn button-timekeeping float-start"  data-bs-toggle="modal"
+            data-bs-target="#myModal" (click)="setPatient()">
             <i class="bi bi-plus-circle-fill"></i>
             Đặt lịch tái khám</button>
         </div>
@@ -95,6 +95,7 @@
     </div>
   </div>
 </div>
-<app-popup-datlichtaikham [datesDisabled]="datesDisabled" [Patient]="Patient"></app-popup-datlichtaikham>
+
+<app-popup-datlichtaikham [Patient]="Patient"></app-popup-datlichtaikham>
 <app-popup-sualichtaikham [datesDisabled]="datesDisabled" [selectedAppointment]="selectedAppointment"
   [dateString]="dateString" [timeString]="timeString"></app-popup-sualichtaikham>

@@ -105,8 +105,8 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
 
 
   updateTotalandRemaining(MaterialUsage: any) {
-   this.total = this.oldTotal;
-   this.remaining = this.oldRemaining;
+   this.total = 0;
+   this.remaining = 0;
     this.MaterialUsage.forEach((parent: any) => {
       parent.mu_data.forEach((mu: any) => {
         if (mu.mu_material_usage_id == MaterialUsage.mu_material_usage_id) {
