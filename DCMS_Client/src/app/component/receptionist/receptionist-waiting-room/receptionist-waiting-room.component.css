@@ -200,6 +200,15 @@
   transform: translateY(-3px); /* Slightly raises the date block on hover */
   box-shadow: 0 10px 25px rgba(102, 126, 234, 0.8); /* Enhances shadow on hover for a lifting effect */
 }
+/* Keyframes for fade-in effect */
+@keyframes fadeInEffect {
+  0%, 100% { background-color: transparent; }
+  50% { background-color: #b1f5b1; }
+}
 
+/* Animation class */
+.fade-in-animation {
+  animation: fadeInEffect 1s;
+}
 
 

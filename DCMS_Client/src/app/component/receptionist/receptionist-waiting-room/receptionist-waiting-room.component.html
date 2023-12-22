@@ -16,8 +16,11 @@
     <div class="col-3">
       <p class="date">{{currentDate}}</p>
     </div>
-    <div class="col-3">
-      <select class="form-select input-custom" aria-label="Default select example" [(ngModel)]="procedure"
+    <div class="col-1">
+
+    </div>
+    <div class="col-2">
+      <select class="form-select input-custom float-end" aria-label="Default select example" [(ngModel)]="procedure"
         (change)="filterProcedure()">
         <option selected value="0">Loại điều trị</option>
         <option *ngFor="let a of listGroupService" value={{a.medical_procedure_group_id}}>{{a.name}}</option>
@@ -43,21 +46,21 @@
         </tr>
       </thead>
       <tbody>
-        <tr title="Xem thông tin bệnh nhân {{ wtr.patient_name }}"
+        <tr
           *ngFor="let wtr of filteredWaitingRoomData; let i = index" (click)="details(wtr.patient_id, wtr.reason, wtr)"
-          style="cursor: pointer;" id="patient-{{ wtr.patient_id }}">
+          style="cursor: pointer;" id="patient-{{ wtr.patient_id }}" [class.fade-in-animation]="wtr.animateChange">
           <ng-container *ngIf="wtr.date != '' && wtr.date != undefined">
             <td>{{ i + 1 }}</td>
-            <td>{{wtr.date}}</td>
-            <td>{{ wtr.patient_id }}</td>
-            <td style="text-decoration: underline;">{{ wtr.patient_name }}</td>
+            <td title="{{wtr.date}}">{{wtr.date}}</td>
+            <td title="{{ wtr.patient_id }}">{{ wtr.patient_id }}</td>
+            <td title="Xem thông tin bệnh nhân {{ wtr.patient_name }}" style="text-decoration: underline;">{{ wtr.patient_name }}</td>
             <td>{{wtr.patient_created_date == 1 ? "Mới" : wtr.patient_created_date == 2 ?
               "Cũ" : "Dữ liệu trước"}}</td>
             <td class="truncate" data-bs-toggle="tooltip" title="{{wtr.reason}}">{{wtr.reason }}
             </td>
-            <td>{{ wtr.produce_name }}</td>
+            <td title="{{ wtr.produce_name }}">{{ wtr.produce_name }}</td>
             <ng-container *ngIf="roleId.includes('3') || roleId.includes('1')">
-              <td (click)="stopClick($event)">
+              <td (click)="stopClick($event)" title="Trạng thái khám">
                 <select class="text-center status-selector" [(ngModel)]="wtr.status"
                   (change)="onPutStatus(wtr, wtr.epoch)" [ngStyle]="{'color': selectedColor}"
                   *ngIf="wtr.status == 1 || wtr.status == 2">
@@ -108,7 +111,7 @@
             <ng-container
               *ngIf="roleId.includes('1') || roleId.includes('4') || roleId.includes('5') || roleId.includes('2')">
               <ng-container *ngIf="wtr.status == 1">
-                <td (click)="stopClick($event)">
+                <td (click)="stopClick($event)" title="Mời bệnh nhân lên khám">
                   <button class="btn button-timekeeping" (click)="sendNotification(wtr.epoch, wtr)">
                     <i class="bi bi-bell"></i></button>
                 </td>
@@ -118,7 +121,7 @@
               </ng-container>
               <ng-container *ngIf="wtr.status == 3">
                 <ng-container *ngIf="roleId.includes('3') || roleId.includes('1')">
-                  <td>
+                  <td title="Thanh toán">
                     <button class="btn button-timekeeping" [disabled]="isButtonDisabled"
                       (click)="navigateHref('/benhnhan/danhsach/tab/thanhtoan/', wtr.patient_id, wtr)">
                       Thanh toán
