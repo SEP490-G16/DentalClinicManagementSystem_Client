@@ -91,6 +91,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
   }
   name: any
   ngOnInit(): void {
+    this.id = this.route.snapshot.params['id'];
     this.name = sessionStorage.getItem('patient');
     if (this.name) {
       this.name = JSON.parse(this.name);
@@ -101,7 +102,11 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
         console.log("Call api Patient: ", patient);
         this.patientName = patient.patient_name;
         sessionStorage.setItem('patient', JSON.stringify(patient));
-      })
+      },
+      err => {
+        this.toastr.error("Bệnh nhận đã bị xóa khỏi hệ thống", "Lấy thông tin bệnh nhân thất bại")
+      }
+      )
     }
     let examination_reason = sessionStorage.getItem("examination_reason");
     let ro = sessionStorage.getItem('role');
@@ -112,7 +117,6 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     this.TreatmentCouseBody.lydo = examination_reason || "";
 
     sessionStorage.removeItem("examination_reason");
-    this.id = this.route.snapshot.params['id'];
     this.getTreatmentCourse();
 
     this.onGetXRayImage(this.id)
@@ -136,6 +140,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     const currenttDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
     this.currentDateBody = currenttDateGMT7;
   }
+
   list: any[] = [];
   showDropDown: boolean = false;
   getMedicalProcedureList() {

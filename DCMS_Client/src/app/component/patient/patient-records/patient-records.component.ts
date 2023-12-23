@@ -203,7 +203,8 @@ export class PatientRecordsComponent implements OnInit {
     });
   }
 
-  detail(id: any) {
+  detail(id: any, patient:any) {
+    sessionStorage.setItem("patient", JSON.stringify(patient));
     this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', id])
   }
 

@@ -47,7 +47,6 @@ export class ReceiptsComponent implements OnInit {
     if (this.name) {
       this.name = JSON.parse(this.name);
       this.patientName = this.name.patient_name;
-      // sessionStorage.removeItem("patient");
     } else {
       this.patientService.getPatientById(this.patientId).subscribe((patient: any) => {
         console.log("Patient: ", patient);

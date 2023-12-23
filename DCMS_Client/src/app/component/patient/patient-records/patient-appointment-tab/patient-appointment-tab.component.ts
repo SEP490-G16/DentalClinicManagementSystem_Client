@@ -71,6 +71,9 @@ export class PatientAppointmentTabComponent implements OnInit {
       this.patientService.getPatientById(this.id).subscribe((patient: any) => {
         this.patientName = patient.patient_name;
         sessionStorage.setItem('patient', JSON.stringify(patient));
+      },
+      err => {
+        this.toastr.error("Bệnh nhận đã bị xóa khỏi hệ thống", "Lấy thông tin bệnh nhân thất bại")
       })
     }
     this.getAppointment();
