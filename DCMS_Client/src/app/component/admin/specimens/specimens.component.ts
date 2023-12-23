@@ -422,7 +422,10 @@ export class SpecimensComponent implements OnInit {
     });
   }
 
-  convertToFormattedDate(dateString: string): string {
+  convertToFormattedDate(dateString: any): string {
+    if(dateString == null) {
+      return ''
+    }
     const dateObject = new Date(dateString);
 
     if (isNaN(dateObject.getTime())) {

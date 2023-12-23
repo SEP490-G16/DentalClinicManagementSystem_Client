@@ -10,6 +10,7 @@ import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/T
 import { ActivatedRoute } from '@angular/router';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormatNgbDate } from '../../../libs/formatNgbDate';
+import { Normalize } from 'src/app/service/Lib/Normalize';
 
 @Component({
   selector: 'app-popup-add-specimens',
@@ -265,7 +266,10 @@ export class PopupAddSpecimensComponent implements OnInit {
   onsearch(event: any) {
     this.searchTimeout = setTimeout(() => {
       this.specimen.receiver = event.target.value;
-      this.patientSerivce.getPatientByName(this.specimen.receiver, 1).subscribe(data => {
+      let searchTermWithDiacritics = Normalize.normalizeDiacritics(event.target.value);
+      searchTermWithDiacritics = searchTermWithDiacritics.toLowerCase().trim();
+      searchTermWithDiacritics = searchTermWithDiacritics.replace(/\s+/g, '-');
+      this.patientSerivce.getPatientByName(searchTermWithDiacritics, 1).subscribe(data => {
         const transformedMaterialList = data.data.map((item: any) => {
           return {
             patientId: item.patient_id,

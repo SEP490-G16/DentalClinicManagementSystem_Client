@@ -40,6 +40,9 @@ export class FollowingTimekeepingComponent implements OnInit {
 
   fromDate: string = "";
   toDate: string = "";
+
+  frmDate:any;
+  edDate:any;
   constructor(private timekeepingService: TimeKeepingService,
     private calendar: NgbCalendar, public formatter: NgbDateParserFormatter,
     private router: Router,) { }
@@ -56,6 +59,9 @@ export class FollowingTimekeepingComponent implements OnInit {
     const frDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + 1;
     const tDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + daysInMonth;
     this.setDefaultMonth();
+
+    this.frmDate = frDate;
+    this.edDate = tDate;
     this.getDateinFromDatetoToDate(frDate, tDate);
     let ro = sessionStorage.getItem('role');
     if (ro != null) {
@@ -86,6 +92,10 @@ export class FollowingTimekeepingComponent implements OnInit {
   }
   objectList: any[] = [];
   count: number = 0;
+
+  reload() {
+    this.getDateinFromDatetoToDate(this.frmDate, this.edDate);
+  }
 
   onDateSelection(date: NgbDate) {
     if (!this.fromDate2 && !this.toDate2) {

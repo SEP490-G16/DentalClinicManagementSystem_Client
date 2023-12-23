@@ -95,7 +95,15 @@ export class PatientRecordsComponent implements OnInit {
           this.loadNextPages(this.pagingSearch.paging + 1);
         }
       } else {
-        this.patientService.getPatientByName(Normalize.normalizeDiacritics(this.search.toLowerCase()), 1).subscribe(
+        const searchLowercased = this.search.toLowerCase();
+
+        // Loại bỏ khoảng trắng thừa ở đầu và cuối chuỗi
+        const trimmedSearch = searchLowercased.trim();
+
+        // Thay thế tất cả chuỗi khoảng trắng (bao gồm cả khoảng trắng kép trở lên) bằng dấu "-"
+        const normalizedSearch = trimmedSearch.replace(/\s+/g, '-');
+        console.log("Searc: ", normalizedSearch);
+        this.patientService.getPatientByName(Normalize.normalizeDiacritics(normalizedSearch), 1).subscribe(
           patients => {
             console.log("Patient: ", patients);
             this.searchPatientsList = patients.data.filter((sP: any) =>

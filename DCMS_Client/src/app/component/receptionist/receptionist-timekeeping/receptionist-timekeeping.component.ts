@@ -277,17 +277,23 @@ export class ReceptionistTimekeepingComponent implements OnInit {
 
   onClockout(staff: StaffTimekeeping, dateTimestamp: number) {
 
-    const newClockoutValue = this.currentTimeGMT7;
-    const originalClockOut = staff.weekTimekeeping[dateTimestamp].clockOut;
+    const newClockoutValue = this.currentTimeGMT7.split(":")[0];
 
-    const clockInDateTime = staff.weekTimekeeping[dateTimestamp].clockIn ? new Date(`1970-01-01T${staff.weekTimekeeping[dateTimestamp].clockIn}:00Z`) : null;
-    const newClockOutDateTime = new Date(`1970-01-01T${newClockoutValue}:00Z`);
-    if (clockInDateTime && newClockOutDateTime <= clockInDateTime) {
+    // const clockInDateTime = staff.weekTimekeeping[dateTimestamp].clockIn ? new Date(`1970-01-01T${staff.weekTimekeeping[dateTimestamp].clockIn}:00Z`) : null;
+    // console.log("Clockin DATE Time: ",  staff.weekTimekeeping[dateTimestamp].clockIn, clockInDateTime);
+    // const newClockOutDateTime = new Date(`1970-01-01T${newClockoutValue}:00Z`);
+    // console.log("Clockout DATE Time: ",  staff.weekTimekeeping[dateTimestamp].clockOut, newClockOutDateTime);
+
+    const clockInDateTime = parseInt((staff.weekTimekeeping[dateTimestamp].clockIn).split(":")[0]);
+
+    const newClockOutDateTime = parseInt(newClockoutValue);
+    console.log("Clockout DATE Time: ",  staff.weekTimekeeping[dateTimestamp].clockOut, newClockOutDateTime);
+    if (clockInDateTime && newClockOutDateTime < clockInDateTime) {
       this.toastr.error("Thời gian chấm công về phải lớn hơn thời gian chấm công đến.");
-      staff.weekTimekeeping[dateTimestamp].clockOut = originalClockOut;
     } else {
-      this.Body = this.setClockoutBody(staff, dateTimestamp);
-      this.callClockoutApi(staff, dateTimestamp);
+      this.Body = this.setClockoutBody(staff, dateTimestamp, 1);
+      console.log("Body clockout: ", this.Body);
+      this.callClockoutApi(staff, dateTimestamp, 1);
     }
 
   }
@@ -297,19 +303,21 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     if (target) {
       const newClockoutValue = target.value;
       const originalClockOut = staff.weekTimekeeping[dateTimestamp].clockOut;
-
+      console.log("Original value: ", originalClockOut);
       const clockInDateTime = staff.weekTimekeeping[dateTimestamp].clockIn ? new Date(`1970-01-01T${staff.weekTimekeeping[dateTimestamp].clockIn}:00Z`) : null;
       const newClockOutDateTime = new Date(`1970-01-01T${newClockoutValue}:00Z`);
+      console.log("clockout: ", clockInDateTime)
+      console.log("new clockout: ",newClockOutDateTime)
 
       this.openConfirmationModal("Bạn có chắc chắn muốn thay đổi thời gian chấm công về không?").then((result) => {
         if (result === 'confirm') {
-          if (clockInDateTime && newClockOutDateTime <= clockInDateTime) {
+          if (clockInDateTime && newClockOutDateTime < clockInDateTime) {
             this.toastr.error("Thời gian chấm công về phải lớn hơn thời gian chấm công đến.");
             staff.weekTimekeeping[dateTimestamp].clockOut = originalClockOut;
           } else {
             staff.weekTimekeeping[dateTimestamp].clockOut = newClockoutValue;
-            this.Body = this.setClockoutBody(staff, dateTimestamp);
-            this.callClockoutApi(staff, dateTimestamp);
+            this.Body = this.setClockoutBody(staff, dateTimestamp, 2);
+            this.callClockoutApi(staff, dateTimestamp, 2);
           }
         } else {
           staff.weekTimekeeping[dateTimestamp].clockOut = originalClockOut;
@@ -318,14 +326,14 @@ export class ReceptionistTimekeepingComponent implements OnInit {
     }
   }
 
-  callClockoutApi(staff: StaffTimekeeping, dateTimestamp: number) {
+  callClockoutApi(staff: StaffTimekeeping, dateTimestamp: number, status:any) {
     console.log("Put Body: ", this.Body);
 
 
     const clockInDateTime = new Date(`1970-01-01T${staff.weekTimekeeping[dateTimestamp].clockIn}:00Z`);
     const clockOutDateTime = new Date(`1970-01-01T${staff.weekTimekeeping[dateTimestamp].clockOut}:00Z`);
 
-    if (clockOutDateTime <= clockInDateTime) {
+    if (clockOutDateTime < clockInDateTime) {
       this.toastr.error("Thời gian chấm công về phải lớn hơn thời gian chấm công đến.");
 
     } else {
@@ -333,7 +341,10 @@ export class ReceptionistTimekeepingComponent implements OnInit {
         .subscribe((res) => {
           this.toastr.success(res.message, "Chấm công về thành công");
 
-          if (staff.weekTimekeeping[dateTimestamp].clockOut == "") {
+          // if (staff.weekTimekeeping[dateTimestamp].clockOut == "") {
+            // staff.weekTimekeeping[dateTimestamp].clockOut = this.currentTimeGMT7;
+          // }
+          if (status == 1) {
             staff.weekTimekeeping[dateTimestamp].clockOut = this.currentTimeGMT7;
           }
         },
@@ -354,12 +365,12 @@ export class ReceptionistTimekeepingComponent implements OnInit {
       staff_name: Staff.name,
       staff_avt: Staff.staff_avt,
       clock_in: (Staff.weekTimekeeping[dateTimestamp].clockIn == "") ? this.currentTimeTimeStamp : this.timeAndDateToTimestamp(Staff.weekTimekeeping[dateTimestamp].clockIn, this.currentDateGMT7),
-      clock_out: (Staff.weekTimekeeping[dateTimestamp].clockOut == "") ? this.currentTimeTimeStamp : this.timeAndDateToTimestamp(Staff.weekTimekeeping[dateTimestamp].clockOut, this.currentDateGMT7),
+      clock_out: (new Date(`1970-01-01T${Staff.weekTimekeeping[dateTimestamp].clockIn}:00Z`) > new Date(`1970-01-01T${Staff.weekTimekeeping[dateTimestamp].clockOut}:00Z`)) ? 0 : ((Staff.weekTimekeeping[dateTimestamp].clockOut == "") ? this.currentTimeTimeStamp : this.timeAndDateToTimestamp(Staff.weekTimekeeping[dateTimestamp].clockOut, this.currentDateGMT7)),
       status_attr: 2
     }
   }
 
-  setClockoutBody(Staff: StaffTimekeeping, dateTimestamp: number): RequestBodyTimekeeping {
+  setClockoutBody(Staff: StaffTimekeeping, dateTimestamp: number, status: any): RequestBodyTimekeeping {
     const username = sessionStorage.getItem("username");
     return {
       epoch: this.currentDateTimeStamp,
@@ -370,7 +381,9 @@ export class ReceptionistTimekeepingComponent implements OnInit {
       staff_name: Staff.name,
       staff_avt: Staff.staff_avt,
       clock_in: this.timeAndDateToTimestamp(Staff.weekTimekeeping[dateTimestamp].clockIn, this.currentDateGMT7),
-      clock_out: (Staff.weekTimekeeping[dateTimestamp].clockOut == "") ? this.currentTimeTimeStamp : this.timeAndDateToTimestamp(Staff.weekTimekeeping[dateTimestamp].clockOut, this.currentDateGMT7),
+      clock_out: (status == 1) ? this.currentTimeTimeStamp : this.timeAndDateToTimestamp(Staff.weekTimekeeping[dateTimestamp].clockOut, this.currentDateGMT7),
+      // (Staff.weekTimekeeping[dateTimestamp].clockOut == "") ? this.currentTimeTimeStamp : this.timeAndDateToTimestamp(Staff.weekTimekeeping[dateTimestamp].clockOut, this.currentDateGMT7)
+
       //timekeeper_name: username ?? "",
       //timekeeper_avt: "",
       status_attr: 2
