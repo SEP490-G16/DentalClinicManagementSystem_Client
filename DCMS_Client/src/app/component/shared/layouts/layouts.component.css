@@ -71,7 +71,7 @@
   width: 100vw;
   min-height: 100%;
   font-family: Tahoma, sans-serif;
-  overflow-x: hidden;
+  /*overflow-x: hidden;*/
   color: var(--custom-color-dark);
   background-color: #f6f6f9;
   /* background-image: url('https://motionarray.imgix.net/preview-2081938-s0D5NLmWFnp4m5Tm-large.jpg?w=660&q=60&fit=max&auto=format'); */
