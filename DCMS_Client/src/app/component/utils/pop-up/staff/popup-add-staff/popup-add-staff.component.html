@@ -39,10 +39,11 @@
                   <div style="display: flex">
                     <div style="width: 100%">
                       <input class="form-control" placeholder="dd/mm/yyyy" name="dp" [(ngModel)]="dobNgb" ngbDatepicker
-                             #d="ngbDatepicker" />
+                        [minDate]="minDate" [maxDate]="maxDate" #d="ngbDatepicker" />
                     </div>
                     <div>
-                      <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
+                      <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()"
+                        type="button"></button>
                     </div>
                   </div>
                   <div *ngIf="isSubmitted" class="alert-danger-custom">
@@ -153,7 +154,7 @@
                   <label class="chuyen-nganh">Chuyên ngành</label>
                   <div class="checkbox-row col-md-4" *ngFor="let s of serviceGroups">
                     <input type="checkbox" [value]="s.medical_procedure_group_id" (change)="onCheckboxChange(s)"
-                           [(ngModel)]="s.checked">
+                      [(ngModel)]="s.checked">
                     <span class="checkbox-label"> {{ s.name }}</span>
                   </div>
                 </div>
@@ -236,7 +237,8 @@
         <!-- Modal footer -->
         <div class="modal-footer">
           <button type="button" class="btn btn-cancel" data-bs-dismiss="modal" (click)="closePopup()">Hủy</button>
-          <button type="button" class="btn button-timekeeping" (click)="addSTAFF()"><i class="bi bi-floppy2"></i> Lưu</button>
+          <button type="button" class="btn button-timekeeping" (click)="addSTAFF()"><i class="bi bi-floppy2"></i>
+            Lưu</button>
         </div>
       </div>
     </div>

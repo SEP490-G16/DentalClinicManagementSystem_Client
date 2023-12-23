@@ -76,7 +76,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     private modelService: NgbModal,
     private patientService: PatientService,
     private commonService: CommonService,
-    private materialService: MaterialService,
+    private materialUsageService: MaterialService,
     private LaboService: LaboService,
     private medicalSupplyService: MedicalSupplyService,
     private TreatmentCourseDetailService: TreatmentCourseDetailService,
@@ -798,7 +798,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     return modalRef.result;
   }
 
-  deleteTreatmentCourse(treatment_course_id: string) {
+  deleteTreatmentCourse(treatment_course_id: string, course: any) {
     this.openConfirmationModal('Bạn có muốn xóa đợt khám này không?').then((result) => {
       if (result === true) {
         this.treatmentCourseService.deleteTreatmentCourse(treatment_course_id)
@@ -808,6 +808,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
             if (index !== -1) {
               this.ITreatmentCourse.splice(index, 1);
             }
+            this.getListMaterialusageByTreatmentCourse(treatment_course_id);
             this.loading = false;
 
           },
@@ -820,6 +821,23 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     });
   }
 
+  getListMaterialusageByTreatmentCourse(treatment_course_id: any) {
+    let MaterialUsageList = [];
+    this.procedureMaterialService.getMaterialUsage_By_TreatmentCourse(treatment_course_id).subscribe((data) => {
+      MaterialUsageList = data.data;
+      if (MaterialUsageList.length > 0) {
+        MaterialUsageList.forEach((mu: any) => {
+          this.procedureMaterialService.deleteMaterialUsage(mu.material_usage_id)
+            .subscribe(res => {
+              this.toastr.success("Xóa thủ thuật thành công");
+            },
+              err => {
+                this.toastr.error("Xóa thủ thuật thất bại");
+              })
+        })
+      }
+    })
+  }
 
   deleteExamination(examination_id: string) {
     this.openConfirmationModal('Bạn có muốn xóa lần khám này không?').then((result) => {

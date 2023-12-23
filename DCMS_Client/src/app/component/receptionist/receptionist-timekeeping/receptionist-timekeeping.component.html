@@ -107,6 +107,7 @@
                 <input type="time" [ngModel]="staff.weekTimekeeping[dateTimestamp]?.clockIn" [class]="timeClockinColor"
                   [disabled]="!staff.weekTimekeeping[dateTimestamp]?.clockIn || roleId!= '1'"
                 (change)="handleClockInChange(staff, $event, dateTimestamp)">
+                <input type="time" >
               </td>
               <td>
                 <button class="button-timekeeping" (click)="onClockout(staff, $event, dateTimestamp)"
@@ -116,7 +117,7 @@
                 <input type="time" [ngModel]="staff.weekTimekeeping[dateTimestamp]?.clockOut"
                   [class]="timeClockoutColor"
                   [disabled]="!staff.weekTimekeeping[dateTimestamp]?.clockOut || roleId!= '1'"
-                  (ngModelChange)="handleClockOutChange(staff, $event, dateTimestamp)">
+                  (change)="handleClockOutChange(staff, $event, dateTimestamp)">
 
               </td>
             </ng-container>

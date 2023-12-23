@@ -9,7 +9,7 @@ import {
   MedicalProcedureGroupService
 } from "../../../../../service/MedicalProcedureService/medical-procedure-group.service";
 import { CognitoIdentityServiceProvider } from 'aws-sdk';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { FormatNgbDate } from '../../../libs/formatNgbDate';
 
 @Component({
@@ -18,7 +18,7 @@ import { FormatNgbDate } from '../../../libs/formatNgbDate';
   styleUrls: ['./popup-add-staff.component.css']
 })
 export class PopupAddStaffComponent implements OnInit {
-  dobNgb!:NgbDateStruct
+  dobNgb!: NgbDateStruct
   imageURL: string | ArrayBuffer = 'https://icon-library.com/images/staff-icon/staff-icon-15.jpg';
   roleUserSignIn: string = '';
   showPassword: boolean = true;
@@ -36,7 +36,7 @@ export class PopupAddStaffComponent implements OnInit {
     username: '',
     password: '',
     passwordRepate: '',
-    facility:''
+    facility: ''
   }
   isSubmitted: boolean = false;
   gender: string = "male";
@@ -50,13 +50,25 @@ export class PopupAddStaffComponent implements OnInit {
     private facilityService: FacilityService,
     private toastr: ToastrService,
     private router: Router,
-    private serviceGroup: MedicalProcedureGroupService
+    private serviceGroup: MedicalProcedureGroupService,
+    private config: NgbDatepickerConfig,
   ) {
     this.staff = {} as IStaff
   }
 
   ngOnInit(): void {
     this.getListFacility();
+  }
+
+  // Set the minimum date to January 1, 1900
+  minDate: NgbDateStruct = { year: 1900, month: 1, day: 1 };
+
+  // Set the maximum date to 30 years from the current year
+  maxDate: NgbDateStruct = this.calculateMaxDate();
+
+  calculateMaxDate(): NgbDateStruct {
+    const currentYear = new Date().getFullYear();
+    return { year: currentYear, month: 12, day: 31 };
   }
 
   getListFacility() {
@@ -108,11 +120,11 @@ export class PopupAddStaffComponent implements OnInit {
       this.vailidateStaff.password = "Vui lòng nhập mật khẩu!";
       this.isSubmitted = true;
     }
-    if (this.facility === '0'){
+    if (this.facility === '0') {
       this.vailidateStaff.facility = "Vui lòng chọn cơ sở";
       this.isSubmitted = true;
     }
-    if (this.role === '0'){
+    if (this.role === '0') {
       this.vailidateStaff.role = "Vui lòng chọn chức vụ";
       this.isSubmitted = true;
     }
@@ -181,7 +193,7 @@ export class PopupAddStaffComponent implements OnInit {
     //   }
     // });
   }
-  closePopup(){
+  closePopup() {
     this.resetValidate();
   }
   onFileSelected(event: any) {

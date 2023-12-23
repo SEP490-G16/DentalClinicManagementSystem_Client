@@ -35,7 +35,7 @@
       <tbody>
         <tr *ngFor="let staff of listStaffDisplay">
           <td class="truncate" data-bs-toggle="tooltip">{{staff.staffName}}</td>
-          <td style="padding: 20px 0px;">{{staff.dob | date:'dd-MM-yyyy'}}</td>
+          <td style="padding: 20px 0px;">{{(staff.dob != 'Invalid date')?(staff.dob | date:'dd-MM-yyyy'):""}}</td>
           <td style="padding: 20px 0px;">{{staff.gender}}</td>
           <td style="padding: 20px 0px;">{{staff.phoneNumber}}</td>
           <td style="padding: 20px 0px;">{{staff.email}}</td>

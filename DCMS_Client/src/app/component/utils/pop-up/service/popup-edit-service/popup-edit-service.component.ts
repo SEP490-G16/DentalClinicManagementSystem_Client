@@ -53,10 +53,10 @@ export class PopupEditServiceComponent implements OnChanges {
     return /^[1-9]\d*$/.test(number);
   }
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['medicalProcedureGroups']) {
+    if (changes['medicalProcedureGroups'] && this.medicalProcedureGroups) {
       this.medicalProcedureGroupList = this.filteredMgData;
     }
-    if (changes['serviceObject']) {
+    if (changes['serviceObject'] && this.serviceObject) {
       this.service.serviceName = this.serviceObject.mp_name;
       this.service.price = this.serviceObject.mp_price;
       this.service.serviceGroupName = this.serviceObject.mg_id;
