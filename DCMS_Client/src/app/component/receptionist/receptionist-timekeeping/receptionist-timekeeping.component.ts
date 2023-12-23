@@ -221,6 +221,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
   }
 
   handleClockInChange(staff: StaffTimekeeping, event: Event, dateTimestamp:number) {
+    console.log("Staff nhan vao: ", staff);
     const target = event.target as HTMLInputElement | null;
     if (target) {
       const newClockInValue = target.value;
@@ -234,7 +235,14 @@ export class ReceptionistTimekeepingComponent implements OnInit {
         .then((result) => {
           if (result === 'confirm') {
             if (clockOutDateTime && clockInDateTime >= clockOutDateTime) {
-              staff.weekTimekeeping[dateTimestamp].clockIn = originalClockIn;
+
+              //Update UI Staff Clockin
+              console.log("StaffFilter: ", this.StaffFilter);
+              this.StaffFilter.forEach((staffFilter:any) => {
+                  if(staffFilter.sub == staff.sub) {
+                    staffFilter.weekTimekeeping[dateTimestamp].clockIn = originalClockIn
+                  }
+              });
               this.cd.detectChanges();
               this.toastr.error("Thời gian chấm công đến phải nhỏ hơn thời gian chấm công về.");
             } else {
@@ -334,7 +342,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
       staff_name: Staff.name,
       staff_avt: Staff.staff_avt,
       clock_in: (Staff.weekTimekeeping[dateTimestamp].clockIn == "") ? this.currentTimeTimeStamp : this.timeAndDateToTimestamp(Staff.weekTimekeeping[dateTimestamp].clockIn, this.currentDateGMT7),
-      clock_out: 0,
+      clock_out: (Staff.weekTimekeeping[dateTimestamp].clockOut == "") ? this.currentTimeTimeStamp : this.timeAndDateToTimestamp(Staff.weekTimekeeping[dateTimestamp].clockOut, this.currentDateGMT7),
       status_attr: 2
     }
   }

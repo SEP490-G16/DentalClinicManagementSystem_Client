@@ -54,7 +54,7 @@ export class PopupEditStaffComponent implements OnInit {
   listDisplaySpe: string[] = [];
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['staffEdit']) {
+    if (changes['staffEdit'] && this.staffEdit) {
 
       this.staffId = this.staffEdit.staffId;
       this.staff.username = this.staffEdit.staffUserName;
