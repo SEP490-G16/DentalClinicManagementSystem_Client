@@ -119,15 +119,15 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
     console.log("oninit")
     this.getListGroupService();
     const id = this.route.snapshot.params['id'];
-    // this.PATIENT_SERVICE.getPatientById(id).subscribe((res) => {
-    //   this.responseO = res;
-    //   this.patientInfor = this.responseO.patient_id +" - "+this.responseO.patient_name+ " - "+this.responseO.phone_number;
-    // })
-    const patient = sessionStorage.getItem('patient');
-    if (patient != null){
-      var patients = JSON.parse(patient);
-      this.patientInfor = patients.patient_id +" - "+patients.patient_name+ " - "+patients.phone_number;
-    }
+    this.PATIENT_SERVICE.getPatientById(id).subscribe((res) => {
+      this.responseO = res;
+      this.patientInfor = this.responseO.patient_id +" - "+this.responseO.patient_name+ " - "+this.responseO.phone_number;
+    })
+    //const patient = sessionStorage.getItem('patient');
+    // if (patient != null){
+    //   var patients = JSON.parse(patient);
+    //   this.patientInfor = patients.patient_id +" - "+patients.patient_name+ " - "+patients.phone_number;
+    // }
     //this.selectDateToGetDoctor("2023-11-25");
   }
 

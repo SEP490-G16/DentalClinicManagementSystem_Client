@@ -95,7 +95,6 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     if (this.name) {
       this.name = JSON.parse(this.name);
       this.patientName = this.name.patient_name;
-      sessionStorage.removeItem("patient");
     } else {
       this.patientService.getPatientById(this.id).subscribe((patient: any) => {
         console.log("Call api Patient: ", patient);
@@ -108,13 +107,10 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     if (ro != null) {
       this.roleId = ro.split(',');
     }
-
     this.TreatmentCouseBody.lydo = examination_reason || "";
-
     sessionStorage.removeItem("examination_reason");
     this.id = this.route.snapshot.params['id'];
     this.getTreatmentCourse();
-
     this.onGetXRayImage(this.id)
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh');
     const day = currentDateGMT7.date();
@@ -228,7 +224,6 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
           this.Post_Procedure_Material_Usage.forEach((item: any) => {
             if (item.medical_procedure_id == it.procedureId) {
               item.price = it.price;
-              // item.description = `0 ${pro.initPrice}`
               item.quantity = 1;
             }
           })
@@ -289,13 +284,6 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
   postTreatmentCourse() {
     this.resetValidateTreatmentCourse();
     this.Post_TreatmentCourse.patient_id = this.id;
-    // if (!this.TreatmentCouseBody.name) {
-    //   this.validateTreatmentCouse.name = "Vui lòng nhập phương án điều trị!";
-    //   this.isSubmittedTreatmentCourse = true;
-    // }
-    // if (this.isSubmittedTreatmentCourse) {
-    //   return;
-    // }
     this.Post_TreatmentCourse.name = this.TreatmentCouseBody.name;
     this.Post_TreatmentCourse.chief_complaint = this.TreatmentCouseBody.lydo;
     this.Post_TreatmentCourse.differential_diagnosis = this.TreatmentCouseBody.nguyennhan;
@@ -774,7 +762,6 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     if (this.toggleStates[courseId] === undefined) {
       this.toggleStates[courseId] = false;
     }
-
     this.toggleStates[courseId] = !this.toggleStates[courseId];
     this.TreatmentCourseDetailService.getTreatmentCourseDetail(courseId).subscribe(
       data => {
@@ -810,7 +797,6 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
             }
             this.getListMaterialusageByTreatmentCourse(treatment_course_id);
             this.loading = false;
-
           },
             (error) => {
               //this.toastr.error(err.error.message, 'Xóa liệu trình thất bại');
@@ -851,7 +837,6 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
               this.examinations.splice(index, 1);
             }
             this.loading = false;
-
           },
             (error) => {
               //this.toastr.error(err.error.message, "Xóa lần khám thất bại!");

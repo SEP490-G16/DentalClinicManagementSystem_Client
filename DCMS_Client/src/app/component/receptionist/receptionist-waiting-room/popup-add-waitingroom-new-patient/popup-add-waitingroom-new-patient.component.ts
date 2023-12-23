@@ -1,5 +1,5 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
-import { IPostWaitingRoom } from "../../../../model/IWaitingRoom";
+import { IPostWaitingRoom, IPostWaitingRoomNew } from "../../../../model/IWaitingRoom";
 import { ReceptionistWaitingRoomService } from "../../../../service/ReceptionistService/receptionist-waitingroom.service";
 import { PatientService } from "../../../../service/PatientService/patient.service";
 import { ToastrService } from "ngx-toastr";
@@ -27,7 +27,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
   patientList: any[] = [];
   patientInfor: any;
   isAdd: boolean = false;
-  POST_WAITTINGROOM: IPostWaitingRoom;
+  POST_WAITTINGROOM: IPostWaitingRoomNew;
   name_suggest: string = '';
   patient1: any = {
     patientName: '',
@@ -78,17 +78,17 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
     config.maxDate = { year: currentYear, month: 12, day: 31 };
 
     this.POST_WAITTINGROOM = {
-      epoch: "",
+      epoch: '',
+      time_attr: '',
       produce_id: '',
       produce_name: '',
       patient_id: '',
       patient_name: '',
+      is_new: true,
       reason: '',
-      status: "1",
-      appointment_id: '',
-      appointment_epoch: '',
-      patient_created_date: '',
-    } as IPostWaitingRoom
+      status_attr: '',
+      foreign_sk: '',
+    } as IPostWaitingRoomNew
 
   }
   validateWatingRoom = {
@@ -251,19 +251,22 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
       this.patient1 = [];
       this.POST_WAITTINGROOM.patient_id = data.data.patient_id;
       this.POST_WAITTINGROOM.patient_name = this.patientBody.patient_name;
-      this.POST_WAITTINGROOM.status = "1";
-      this.POST_WAITTINGROOM.appointment_id = "";
-      this.POST_WAITTINGROOM.appointment_epoch = "";
+      this.POST_WAITTINGROOM.status_attr = "1";
+      //this.POST_WAITTINGROOM.appointment_id = "";
+      //this.POST_WAITTINGROOM.appointment_epoch = "";
       if (this.currentPatientCreated == true) {
-        this.POST_WAITTINGROOM.patient_created_date = '1';
+        this.POST_WAITTINGROOM.is_new = true;
         this.currentPatientCreated = false;
       }
-
+      const currentDateTimeGMT7 = moment().tz('Asia/Ho_Chi_Minh');
+      this.POST_WAITTINGROOM.time_attr = Math.floor(currentDateTimeGMT7.valueOf() / 1000).toString();
+      this.POST_WAITTINGROOM.epoch = Math.floor(currentDateTimeGMT7.valueOf() / 1000).toString();
+      this.POST_WAITTINGROOM.foreign_sk = this.POST_WAITTINGROOM.epoch + "::" + this.POST_WAITTINGROOM.patient_id;
       const postInfo = this.POST_WAITTINGROOM.epoch + ' - ' + this.POST_WAITTINGROOM.produce_id + ' - ' + this.POST_WAITTINGROOM.produce_name + ' - '
         + this.POST_WAITTINGROOM.patient_id + ' - ' + this.POST_WAITTINGROOM.patient_name + ' - ' + this.POST_WAITTINGROOM.reason + ' - '
-        + this.POST_WAITTINGROOM.status + ' - ' + this.POST_WAITTINGROOM.appointment_id + ' - ' + this.POST_WAITTINGROOM.appointment_epoch + ' - ' + this.POST_WAITTINGROOM.patient_created_date;
-      this.WaitingRoomService.postWaitingRoom(this.POST_WAITTINGROOM)
-      .subscribe((data) => {
+        + this.POST_WAITTINGROOM.status_attr + ' - ' + '' + ' - ' + '' + ' - ' + (this.POST_WAITTINGROOM.is_new == true ? '1' : '2');
+      this.WaitingRoomService.postWaitingRoomNew(this.POST_WAITTINGROOM)
+        .subscribe((data) => {
           this.showSuccessToast("Thêm phòng chờ thành công!!");
           let ref = document.getElementById('cancel-add-waiting-new');
           ref?.click();
@@ -283,17 +286,17 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
           }
 
           this.POST_WAITTINGROOM = {
-            epoch: "",
+            epoch: '',
+            time_attr: '',
             produce_id: '',
             produce_name: '',
             patient_id: '',
             patient_name: '',
+            is_new: true,
             reason: '',
-            status: "1",
-            appointment_id: '',
-            appointment_epoch: '',
-            patient_created_date: '',
-          } as IPostWaitingRoom
+            status_attr:'',
+            foreign_sk: '',
+          } as IPostWaitingRoomNew
           this.patientInfor = '';
         },
           (err) => {
@@ -389,14 +392,17 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
 
   close() {
     this.POST_WAITTINGROOM = {
-      epoch: "0",
+      epoch: '',
+      time_attr: '',
       produce_id: '',
       produce_name: '',
       patient_id: '',
       patient_name: '',
+      is_new: true,
       reason: '',
-      status: "0"
-    } as IPostWaitingRoom
+      status_attr:'',
+      foreign_sk: '',
+    } as IPostWaitingRoomNew
     this.isAddOld = false;
     this.isAdd = false;
   }

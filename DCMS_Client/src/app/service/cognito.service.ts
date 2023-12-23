@@ -188,6 +188,7 @@ export class CognitoService {
     return Auth.signIn(User.userCredential, User.password).then((userResult) => {
       console.log("User result:", userResult);
       this.cognitoUser.Username = userResult.username;
+      this.cognitoUser.name = userResult.attributes.name;
       this.cognitoUser.Email = userResult.attributes.email;
       this.cognitoUser.ClientId = userResult.pool.clientId;
       this.cognitoUser.idToken = userResult.signInUserSession.accessToken.jwtToken;
@@ -203,6 +204,7 @@ export class CognitoService {
       localStorage.setItem('lastLoginTime', new Date().toISOString());
       localStorage.setItem('role', this.cognitoUser.role);
       sessionStorage.setItem('role', this.cognitoUser.role);
+      sessionStorage.setItem('fullname', this.cognitoUser.name);
       sessionStorage.setItem('userGroups', JSON.stringify(groups));
       sessionStorage.setItem('id_Token', this.cognitoUser.idToken);
       sessionStorage.setItem('locale', this.cognitoUser.locale);

@@ -125,7 +125,6 @@ export class AddWaitingRoomComponent implements OnInit {
 
   waitingRoomData:any[] = [];
   CheckRealTimeWaiting:any[] = [];
-  //filteredWaitingRoomData:any[] = [];
   getWaitingRoomData() {
     this.WaitingRoomService.getWaitingRooms().subscribe(
       data => {
@@ -145,8 +144,6 @@ export class AddWaitingRoomComponent implements OnInit {
         localStorage.setItem("ListPatientWaiting", JSON.stringify(this.CheckRealTimeWaiting));
       },
       (error) => {
-        //this.loading = false;
-        //ResponseHandler.HANDLE_HTTP_STATUS(this.waitingRoomService.apiUrl + "/waiting-room", error);
       }
     );
   }
@@ -171,10 +168,6 @@ export class AddWaitingRoomComponent implements OnInit {
     if (storeList != null) {
       this.listGroupService = JSON.parse(storeList);
     }
-    // if (this.listGroupService.length > 0) {
-    //   this.POST_WAITTINGROOM.produce_id = this.listGroupService[0].medical_procedure_group_id;
-    //   this.POST_WAITTINGROOM.produce_name = this.listGroupService[0].name;
-    // }
   }
   onPostWaitingRoom() {
     let patientIn = this.patientInfor.split(' - ');
@@ -187,7 +180,7 @@ export class AddWaitingRoomComponent implements OnInit {
       storedPatientIds = JSON.parse(storedPatientIdsString);
     }
     const currentDateTimeGMT7 = moment().tz('Asia/Ho_Chi_Minh');
-    this.POST_WAITTINGROOM.time_attr = Math.floor(currentDateTimeGMT7.valueOf() / 1000).toString();;
+    this.POST_WAITTINGROOM.time_attr = Math.floor(currentDateTimeGMT7.valueOf() / 1000).toString();
     this.POST_WAITTINGROOM.epoch = Math.floor(currentDateTimeGMT7.valueOf() / 1000).toString();
     this.POST_WAITTINGROOM.foreign_sk = this.POST_WAITTINGROOM.epoch+"::"+this.POST_WAITTINGROOM.patient_id;
     this.resetValidate();
@@ -197,8 +190,6 @@ export class AddWaitingRoomComponent implements OnInit {
       return;
     }
     if (!this.POST_WAITTINGROOM.produce_id) {
-      // this.validateWatingRoom.procedure = "Vui lòng chọn loại điều trị!";
-      // this.isSubmitted = true;
       this.POST_WAITTINGROOM.produce_id = '';
       this.POST_WAITTINGROOM.produce_name = '';
     }
@@ -237,8 +228,7 @@ export class AddWaitingRoomComponent implements OnInit {
     var a = this.POST_WAITTINGROOM.is_new == true? '1' : '2';
     const postInfo = this.POST_WAITTINGROOM.epoch + ' - ' + this.POST_WAITTINGROOM.produce_id + ' - ' + this.POST_WAITTINGROOM.produce_name + ' - '
       + this.POST_WAITTINGROOM.patient_id + ' - ' + this.POST_WAITTINGROOM.patient_name + ' - ' + this.POST_WAITTINGROOM.reason + ' - '
-      //+ this.POST_WAITTINGROOM.status + ' - ' + this.POST_WAITTINGROOM.appointment_id + ' - ' + this.POST_WAITTINGROOM.appointment_epoch + ' - ' + this.POST_WAITTINGROOM.patient_created_date;
-      + this.POST_WAITTINGROOM.status_attr + ' - ' + '' + ' - ' + '' + ' - ' + a;
+      + this.POST_WAITTINGROOM.status_attr + ' - ' + ''+ ' - ' + '' + ' - ' + 2;
       localStorage.setItem("ob", `CheckRealTimeWaitingRoom@@@,${postInfo},${Number('1')}`);
       this.WaitingRoomService.postWaitingRoomNew(this.POST_WAITTINGROOM)
       .subscribe((data) => {
@@ -255,28 +245,8 @@ export class AddWaitingRoomComponent implements OnInit {
             action: "sendMessage",
             message: `{"sub-id": "${sessionStorage.getItem('sub-id')}", "sender": "${sessionStorage.getItem('username')}", "avt": "", "content": "${this.messageContent}"}`
           };
-          console.log(this.messageBody);
           this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
         }
-        // console.log("Here nha");
-        // const wt = {
-        //   type: 'w',
-        //   epoch: this.POST_WAITTINGROOM.epoch,
-        //   produce_id: this.POST_WAITTINGROOM.produce_id,
-        //   produce_name: this.POST_WAITTINGROOM.produce_name, patient_id: this.POST_WAITTINGROOM.patient_id, patient_name: this.POST_WAITTINGROOM.patient_name, patient_created_date: this.POST_WAITTINGROOM.patient_created_date, reason: "", status: "1", appointment_id: "", appointment_epoch: "" }
-        // console.log("check wt: ", this.filteredWaitingRoomData);
-        // this.filteredWaitingRoomData.push(wt);
-
-        //Nếu dùng Behavior Subject
-
-        //C1:
-        // this.WaitingRoomService.updateData(this.filteredWaitingRoomData);
-
-        //C2: Ok nhất nhưng phải call api, mà thôi kệ đi
-        //this.updateWaitingRoomList();
-
-        //Còn không
-        //this.newWaitingRoom.emit(this.filteredWaitingRoomData)
         this.patientInfor = '';
       },
         (err) => {
@@ -285,39 +255,33 @@ export class AddWaitingRoomComponent implements OnInit {
       );
   }
 
-  updateWaitingRoomList() {
-    this.WaitingRoomService.getWaitingRooms().subscribe(
-      data => {
-        console.log('Got new waiting room data:', data);
-        let waitingRoomData = data;
-        waitingRoomData.forEach((i: any) => {
-          i.date = this.timestampToTime(i.epoch)
-        });
-        const statusOrder: { [key: number]: number } = { 2: 1, 3: 2, 1: 3, 4: 4 };
-        waitingRoomData.sort((a: any, b: any) => {
-          const orderA = statusOrder[a.status] ?? Number.MAX_VALUE;
-          const orderB = statusOrder[b.status] ?? Number.MAX_VALUE;
-          return orderA - orderB;
-        });
-        this.WaitingRoomService.updateData(waitingRoomData);
+  // updateWaitingRoomList() {
+  //   this.WaitingRoomService.getWaitingRooms().subscribe(
+  //     data => {
+  //       console.log('Got new waiting room data:', data);
+  //       let waitingRoomData = data;
+  //       waitingRoomData.forEach((i: any) => {
+  //         i.date = this.timestampToTime(i.epoch)
+  //       });
+  //       const statusOrder: { [key: number]: number } = { 2: 1, 3: 2, 1: 3, 4: 4 };
+  //       waitingRoomData.sort((a: any, b: any) => {
+  //         const orderA = statusOrder[a.status] ?? Number.MAX_VALUE;
+  //         const orderB = statusOrder[b.status] ?? Number.MAX_VALUE;
+  //         return orderA - orderB;
+  //       });
+  //       this.WaitingRoomService.updateData(waitingRoomData);
 
-        //Cache
-        // var listPatientId = waitingRoomData.map((item: any) => item.patient_id);
-        // localStorage.setItem('listPatientId', JSON.stringify(listPatientId));
-        // localStorage.setItem("ListPatientWaiting", JSON.stringify(waitingRoomData));
+  //       var patientExamination = [...waitingRoomData];
+  //       patientExamination = patientExamination.filter((item) => item.status == '2');
 
-        //Realtime thống kê navbar
-        var patientExamination = [...waitingRoomData];
-        patientExamination = patientExamination.filter((item) => item.status == '2');
-
-        console.log("Check patient examination: ", patientExamination);
-        this.dataService.UpdateWaitingRoomTotal(3, patientExamination.length);
-      },
-      error => {
-        console.error('Failed to get waiting room data:', error);
-      }
-    );
-  }
+  //       console.log("Check patient examination: ", patientExamination);
+  //       this.dataService.UpdateWaitingRoomTotal(3, patientExamination.length);
+  //     },
+  //     error => {
+  //       console.error('Failed to get waiting room data:', error);
+  //     }
+  //   );
+  // }
 
   timestampToTime(timestamp: number): string {
     const time = moment.unix(timestamp);
