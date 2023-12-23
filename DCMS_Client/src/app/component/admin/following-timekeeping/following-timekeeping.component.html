@@ -113,26 +113,22 @@
     <table class="table table-bordered custom-table">
       <thead class="sticky-theadd">
         <tr class="text-center">
-          <th style="min-width: 120px">Tên nhân viên</th>
-          <th style="min-width: 80px"> Chức vụ</th>
-          <th style="min-width: 100px">Tổng số ca làm việc</th>
+          <th class="sticky-col-1" style="min-width: 120px">Tên nhân viên</th>
+          <th class="sticky-col-2" style="min-width: 100px">Tổng số ca</th>
           <th [colSpan]="totalDate+1"> Ngày</th>
         </tr>
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td class="sticky-col-1"></td>
+          <td class="sticky-col-2"></td>
           <td *ngFor="let day of listDayInMonth" style="min-width: 70px;">{{ day }}</td>
-          <td></td>
         </tr>
       </thead>
       <tbody class="text-center">
         <ng-container *ngIf="roleId.includes('1')">
           <ng-container *ngFor="let timekeeping of listStaffTimeKeeping">
             <tr>
-              <td>{{timekeeping.staff_name}}</td>
-              <td>{{timekeeping.role_name}}</td>
-              <td>{{timekeeping.total_working}} / {{totalShift}}</td>
+              <td class="sticky-col-1">{{timekeeping.staff_name}}</td>
+              <td class="sticky-col-2">{{timekeeping.total_working}} / {{totalShift}}</td>
               <td *ngFor="let day of listDayInMonth">
                 <ng-container *ngFor="let p of timekeeping.timeKeeping">
                   <div style="display: flex" *ngIf="isClockInDay(day,p.epoch)">
@@ -166,9 +162,8 @@
         <ng-container *ngIf="!roleId.includes('1')">
           <ng-container *ngFor="let timekeeping of listStaffTimeKeeping">
             <tr *ngIf="timekeeping.sub_id == ownSubId">
-              <td>{{timekeeping.staff_name}}</td>
-              <td>{{timekeeping.role_name}}</td>
-              <td>{{timekeeping.total_working}} / {{totalShift}}</td>
+              <td class="sticky-col-1">{{timekeeping.staff_name}}</td>
+              <td class="sticky-col-2">{{timekeeping.total_working}} / {{totalShift}}</td>
               <td *ngFor="let day of listDayInMonth">
                 <ng-container *ngFor="let p of timekeeping.timeKeeping">
                   <div style="display: flex" *ngIf="isClockInDay(day,p.epoch)">
