@@ -136,7 +136,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           console.log(item.patient_attr.M.is_new.BOOL)
           let a = {
             type: 'w',
-            epoch: item.time_attr.N, 
+            epoch: item.time_attr.N,
             produce_id: item.procedure_attr.M.id.S,
             produce_name: item.procedure_attr.M.name.S,
             patient_id: skey.split('::')[1],
@@ -145,8 +145,8 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
             reason: item.reason_attr.S,
             status: item.status_attr.N,
             appointment_id: '',
-            appointment_epoch: '', 
-            sk: skey, 
+            appointment_epoch: '',
+            sk: skey,
             fk: item.foreign_sk.S,
           }
           this.waitingRoomData.push(a);
@@ -203,6 +203,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
   PUT_WAITINGROO: any;
   patient_Id: any = "";
   onPutStatus(wtr: any, epoch: number) {
+    wtr.animateChange = true;
     this.PUT_WAITINGROO = {
       // epoch: epoch,
       // produce_id: wtr.produce_id,
@@ -352,6 +353,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
 
           this.loading = false;
           this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
+          setTimeout(() => wtr.animateChange = false, 2000);
           this.showSuccessToast('Chỉnh sửa hàng chờ thành công');
           this.getWaitingRoomData();
           localStorage.setItem("ob", `CheckRealTimeWaitingRoom@@@,${wtr.patient_id},${Number(wtr.status)}`);
