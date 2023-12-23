@@ -133,7 +133,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
   getTimekeeping() {
     console.log("Thứ 2: ", this.timestampToGMT7Date(this.startTime));
     console.log("Chủ nhật: ", this.timestampToGMT7Date(this.endTime));
-    this.timekeepingService.getTimekeepingNew(this.startTime, this.endTime)
+    this.timekeepingService.getTimekeepingNew(this.startTime, (this.endTime +1))
       .subscribe(data => {
         this.timekeepingOnWeeks = data;
         console.log("Api: ", data);

@@ -27,7 +27,8 @@ export class ReceptionistAppointmentService {
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`
     });
-    return this.http.get(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/appointment/${startTime}/${endTime}`, { headers, responseType: 'text' });
+    //return this.http.get(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/appointment/${startTime}/${endTime}`, { headers, responseType: 'text' });
+    return this.http.get(`${this.apiUrl}/appointment/${startTime}/${endTime}`, { headers, responseType: 'text' });
   }
 
   getAppointmentByPatientId(patientid:any): Observable<any> {
@@ -35,7 +36,7 @@ export class ReceptionistAppointmentService {
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`
     });
-    return this.http.get(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/appointment/patient/${patientid}`, { headers, responseType: 'text' });
+    return this.http.get(`${this.apiUrl}/appointment/patient/${patientid}`, { headers, responseType: 'text' });
   }
 
   postAppointment(addAppointment: IAddAppointment): Observable<any> {
@@ -59,7 +60,7 @@ export class ReceptionistAppointmentService {
     });
 
     const requestBody = JSON.stringify(addAppointment);
-    return this.http.post(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/appointment`, requestBody, { headers });
+    return this.http.post(`${this.apiUrl}/appointment`, requestBody, { headers });
   }
 
   putAppointment(appointment: IEditAppointmentBody, appointmentId: string): Observable<any> {
@@ -85,7 +86,7 @@ export class ReceptionistAppointmentService {
 
     const requestBody = JSON.stringify(appointment);
 
-    return this.http.put(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/appointment/${appointmentId}`, requestBody, { headers });
+    return this.http.put(`${this.apiUrl}/appointment/${appointmentId}`, requestBody, { headers });
   }
 
   async getAppointmentByPatient(startTime: number, endTime: number): Promise<any> {
@@ -108,20 +109,11 @@ export class ReceptionistAppointmentService {
       'Content-Type': 'application/json'
     });
     try {
-      return await this.http.get(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/appointment/${soft_key}`, { headers, responseType: 'text' }).toPromise();
+      return await this.http.get(`${this.apiUrl}/appointment/${soft_key}`, { headers, responseType: 'text' }).toPromise();
     } catch (error) {
       console.error("Lỗi khi gọi API: ", error);
       throw error;
     }
-  }
-
-
-  test(soft_key:any):Observable<any> {
-    let idToken = sessionStorage.getItem("id_Token");
-    const headers = new HttpHeaders({
-      'Authorization': `${idToken}`,
-    });
-      return this.http.get(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/appointment/${soft_key}`, { headers});
   }
 
   deleteAppointment(epoch:number, appointmentId: string):Observable<any> {
@@ -137,7 +129,7 @@ export class ReceptionistAppointmentService {
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`
     });
-      return this.http.delete(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/appointment/${soft_key}`, { headers });
+      return this.http.delete(`${this.apiUrl}/appointment/${soft_key}`, { headers });
   }
 
 }

@@ -314,7 +314,7 @@ export class FollowingTimekeepingComponent implements OnInit {
       this.getDateinFromDatetoToDate(frDate, tDate);
       const startTime = this.dateToTimestamp(this.startTime);
       const endTime = this.dateToTimestamp(this.endTime);
-      this.timekeepingService.getFollowingTimekeepingNew(1000000000, 3000000000).subscribe(data => {
+      this.timekeepingService.getFollowingTimekeepingNew(startTime, endTime +1).subscribe(data => {
         var listResult = data;
         listResult.forEach((item: any) => {
           const currentObject = item;

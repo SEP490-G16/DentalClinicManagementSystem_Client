@@ -81,8 +81,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     this.webSocketService.connect();
     var count = 0;
+    console.log("ChatComponent | before message | ", this.webSocketService.messageReceived);
     this.webSocketService.messageReceived.subscribe((message: any) => {
-      console.log("check msg: ", this.msg)
+      console.log("ChatComponent | after message | ", message);
       if (count == 0 && this.msg != message) {
         count++;
         this.msg = message == undefined ? '' : message;
@@ -190,7 +191,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 item.status = this.check[2];
                 if (item.status == "2") {
                   this.dataService.UpdateWaitingRoomTotal(0, 0);
-                  console.log("check log");
                   this.dataService.UpdatePatientExaminate(1, 0);
                 } else if (item.status == "3") {
                   this.dataService.UpdatePatientExaminate(0, 0);

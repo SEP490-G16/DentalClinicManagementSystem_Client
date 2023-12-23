@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject} from 'rxjs';
 import { io } from 'socket.io-client';
 @Injectable({
   providedIn: 'root'
@@ -16,6 +16,7 @@ export class WebsocketService {
     };
     this.socket.onmessage = (event)=>{
       console.log("Received message:",event.data);
+      console.log("WebsocketService | onmessage | ",event.data)
         this.checkEvent = event.data;
         this.messageReceived.next(event.data);
     };

@@ -27,6 +27,6 @@ export class TimeKeepingService {
       'Authorization': `${idToken}`,
       'Content-Type':'application/json',
     });
-    return this.http.get(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/timekeeping/${startTime}/${endTime}`,{headers});
+    return this.http.get(`${this.url}/timekeeping/${startTime}/${endTime}`,{headers});
   }
 }

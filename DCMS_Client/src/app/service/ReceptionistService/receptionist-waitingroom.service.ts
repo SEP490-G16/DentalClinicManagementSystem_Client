@@ -46,7 +46,7 @@ export class ReceptionistWaitingRoomService {
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`
     });
-    return this.http.get(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/waiting-room`, { headers });
+    return this.http.get(`${this.apiUrl}/waiting-room`, { headers });
   }
 
   postWaitingRoom(PostWaitingRoom: IPostWaitingRoom): Observable<any> {
@@ -66,7 +66,7 @@ export class ReceptionistWaitingRoomService {
       "Content-Type": "application/json; charset=utf8"
     });
     const requestBody = JSON.stringify(PostWaitingRoom);
-    return this.http.post(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/waiting-room`, requestBody, { headers });
+    return this.http.post(`${this.apiUrl}/waiting-room`, requestBody, { headers });
   }
   
 
@@ -87,7 +87,7 @@ export class ReceptionistWaitingRoomService {
       "Content-Type": "application/json; charset=utf8"
     });
     const requestBody = JSON.stringify(PutWaitingRoom);
-    return this.http.put(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/waiting-room/${SoftKey}`, requestBody, { headers });
+    return this.http.put(`${this.apiUrl}/waiting-room/${SoftKey}`, requestBody, { headers });
   }
 
   deleteWaitingRooms(DeleteWaitingRoom: IPostWaitingRoom): Observable<any> {
@@ -105,7 +105,7 @@ export class ReceptionistWaitingRoomService {
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`
     });
-    return this.http.delete(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/waiting-room/${softkey}`, { headers });
+    return this.http.delete(`${this.apiUrl}/waiting-room/${softkey}`, { headers });
   }
 
   putNewPatientId(id: any): Observable<any> {
