@@ -185,6 +185,7 @@ export class SpecimensComponent implements OnInit {
       sRoot.data.forEach((item: any) => {
         if (item.status != 1) {
         this.specimenObject.ms_id = item.medical_supply_id;
+        this.specimenObject.p_patient_name = item.p_patient_name;
         this.specimenObject.ms_name = item.name;
         this.specimenObject.ms_type = item.type;
         this.specimenObject.ms_quantity = item.quantity;

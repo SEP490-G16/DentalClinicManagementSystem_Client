@@ -458,30 +458,30 @@ export class PopupAddAppointmentComponent implements OnInit {
           migrated: 'false'
         };
 
-        if (this.selectedDateCache === selectedDate) {
-          const appointmentIndex = this.filteredAppointments.findIndex((a: any) => a.date === this.AppointmentBody.epoch);
-          if (appointmentIndex !== -1) {
-            this.filteredAppointments[appointmentIndex].appointments.push({
-              procedure: this.AppointmentBody.appointment.procedure_id,
-              count: 1,
-              details: [newDetail]
-            });
-          } else {
-            const newAppointment: any = {
-              procedure: this.AppointmentBody.appointment.procedure_id,
-              count: 1,
-              details: [newDetail]
-            };
-            this.filteredAppointments.push({
-              date: this.AppointmentBody.epoch,
-              appointments: [newAppointment]
-            });
-          }
-          this.newAppointmentAdded.emit(this.filteredAppointments);
-          this.procedure = '';
-          this.appointmentTime = '';
-          this.newItemEvent.emit(this.AppointmentBody);
-        }
+        // if (this.selectedDateCache === selectedDate) {
+        //   const appointmentIndex = this.filteredAppointments.findIndex((a: any) => a.date === this.AppointmentBody.epoch);
+        //   if (appointmentIndex !== -1) {
+        //     this.filteredAppointments[appointmentIndex].appointments.push({
+        //       procedure: this.AppointmentBody.appointment.procedure_id,
+        //       count: 1,
+        //       details: [newDetail]
+        //     });
+        //   } else {
+        //     const newAppointment: any = {
+        //       procedure: this.AppointmentBody.appointment.procedure_id,
+        //       count: 1,
+        //       details: [newDetail]
+        //     };
+        //     this.filteredAppointments.push({
+        //       date: this.AppointmentBody.epoch,
+        //       appointments: [newAppointment]
+        //     });
+        //   }
+        //   this.newAppointmentAdded.emit(this.filteredAppointments);
+        //   this.procedure = '';
+        //   this.appointmentTime = '';
+        //   //this.newItemEvent.emit(this.AppointmentBody);
+        // }
         this.AppointmentBody = {
           epoch: 0,
           appointment: {
@@ -502,6 +502,7 @@ export class PopupAddAppointmentComponent implements OnInit {
         const currentTimeGMT7 = moment.tz('Asia/Ho_Chi_Minh').format('HH:mm');
         this.appointmentTime = currentTimeGMT7;
         this.procedure = '1';
+        window.location.reload();
       },
       (error) => {
         ResponseHandler.HANDLE_HTTP_STATUS(this.APPOINTMENT_SERVICE.apiUrl + "/appointment", error);

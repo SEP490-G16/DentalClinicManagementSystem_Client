@@ -92,10 +92,12 @@
                   <ng-container *ngIf="wtr.status == 1">
                     <option value="1" class="status-option waiting">Đang chờ</option>
                     <option value="2" class="status-option in-progress">Đang khám</option>
+                    <option value="4" class="status-option in-progress">Xóa hàng chờ</option>
                   </ng-container>
                   <ng-container *ngIf="wtr.status == 2">
                     <option value="2" class="status-option in-progress">Đang khám</option>
                     <option value="3" class="status-option completed">Khám xong</option>
+                    <option value="4" class="status-option in-progress">Xóa hàng chờ</option>
                   </ng-container>
                 </select>
                 <ng-container *ngIf="wtr.status == 3">

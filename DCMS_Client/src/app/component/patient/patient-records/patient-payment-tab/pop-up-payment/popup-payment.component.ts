@@ -106,8 +106,8 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
 
 
   updateTotalandRemaining(MaterialUsage: any) {
-   this.total = this.oldTotal;
-   this.remaining = this.oldRemaining;
+   this.total = 0;
+   this.remaining = 0;
     this.MaterialUsage.forEach((parent: any) => {
       parent.mu_data.forEach((mu: any) => {
         if (mu.mu_material_usage_id == MaterialUsage.mu_material_usage_id) {
@@ -198,21 +198,6 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
       return;
     }
 
-    // this.MaterialUsageDisplay.forEach((item:any) => {
-    //   if (item.tempPaidAmount !=0 && item.tempPaidAmount != null && item.tempPaidAmount != undefined) {
-    //     this.resetValidateAmount();
-    //     if (!this.checkNumber(item.tempPaidAmount)){
-    //       this.validateAmount.soTien = "Vui lòng nhập lại số tiền!";
-    //       this.isSubmittedAmout = true;
-    //     }
-    //     if (this.isSubmittedAmout){
-    //       return;
-    //     }
-    //   }
-    // })
-
-
-    //total_paid = 0 thay cho null;
     this.MaterialUsage.forEach((parent: any) => {
       parent.mu_data.forEach((mu_data: any) => {
         const amountDue = mu_data.mu_total - mu_data.mu_total_paid;

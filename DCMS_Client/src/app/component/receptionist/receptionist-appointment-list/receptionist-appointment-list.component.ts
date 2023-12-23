@@ -209,6 +209,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
         }
       })
       this.filteredAppointments.push(this.newAppointment);
+      this.listNewAppointment = this.filteredAppointments;
       console.log(this.filteredAppointments);
     })
   }
@@ -228,7 +229,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
 
   filterAppointments() {
     if (this.selectedProcedure) {
-      this.filteredAppointments = this.appointmentList
+      this.filteredAppointments = this.listNewAppointment
         .map((a: any) => {
           const filteredAppointments = a.appointments
             .filter((appointment: any) => appointment.procedure_id === this.selectedProcedure);
@@ -243,7 +244,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
         })
       })
     } else {
-      this.filteredAppointments = this.appointmentList;
+      this.filteredAppointments = this.listNewAppointment;
       this.filteredAppointments.forEach((a: any) => {
         this.dateEpoch = this.timestampToDate(a.date);
         this.ePoch = a.date;
@@ -322,7 +323,6 @@ export class ReceptionistAppointmentListComponent implements OnInit {
         } as IEditAppointmentBody;
         this.appointmentService.deleteAppointmentNew(appointment.appointment_id).subscribe(response => {
           this.showSuccessToast('Xóa lịch hẹn thành công!');
-
           //Animation
           const appointmentElement = document.getElementById('appointment-' + appointment.appointment_id);
           if (appointmentElement) {
@@ -341,10 +341,16 @@ export class ReceptionistAppointmentListComponent implements OnInit {
           console.log("xóa lịch hẹn: ", this.startDate == this.timestampToDate(this.DELETE_APPOINTMENT_BODY.epoch))
           const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
           this.currentDate = currentDateGMT7;
-          if (this.currentDate == this.timestampToDate(this.DELETE_APPOINTMENT_BODY.epoch)) {
+          console.log(this.currentDate)
+          console.log(this.timestampToDate(appointment.appointment_id.split('::')[0]))
+          console.log(this.currentDate == this.timestampToDate(appointment.appointment_id.split('::')[0]))
+          if (this.currentDate == this.timestampToDate(appointment.appointment_id.split('::')[0])) {
             this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'minus', 'app');
           }
         }, error => {
+          if (this.currentDate == this.timestampToDate(appointment.appointment_id.split('::')[0])) {
+            this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'minus', 'app');
+          }
           const appointmentElement = document.getElementById('appointment-' + appointment.appointment_id);
           if (appointmentElement) {
             appointmentElement.classList.add('fade-and-slide-out');
@@ -371,16 +377,16 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   }
 
   Exchange = {
-    epoch: "",
-    produce_id: "0",
+    epoch: '',
+    time_attr: '',
+    produce_id: '',
     produce_name: '',
     patient_id: '',
     patient_name: '',
+    is_new: true,
     reason: '',
-    status: "1",
-    appointment_id: '',
-    appointment_epoch: '',
-    patient_created_date: '',
+    status_attr: '',
+    foreign_sk: '',
   }
 
   waitingRoomData: any;
@@ -412,38 +418,42 @@ export class ReceptionistAppointmentListComponent implements OnInit {
 
   ListPatientWaiting: any[] = []
   postExchangeAppointmentToWaitingRoom(epoch: any, appointmentSelected: any, event: Event) {
-
-    //Check xem bệnh nhân đã có trong phòng chờ chưa
-    const listWaiting = localStorage.getItem('ListPatientWaiting');
-    if (listWaiting != null) {
-      this.filteredWaitingRoomData = JSON.parse(listWaiting);
-    } else {
-      this.waitingRoomService.getWaitingRooms().subscribe(
-        data => {
-          this.waitingRoomData = data;
-          this.waitingRoomData.forEach((i: any) => {
-            i.date = this.timestampToTime(i.epoch)
-          });
-          const statusOrder: { [key: number]: number } = { 2: 1, 3: 2, 1: 3, 4: 4 };
-          this.waitingRoomData.sort((a: any, b: any) => {
-            const orderA = statusOrder[a.status] ?? Number.MAX_VALUE; // Fallback if status is not a valid key
-            const orderB = statusOrder[b.status] ?? Number.MAX_VALUE; // Fallback if status is not a valid key
-            return orderA - orderB;
-          });
-          this.listPatientId = this.waitingRoomData.map((item: any) => item.patient_id);
-          this.filteredWaitingRoomData = [...this.waitingRoomData];
-          localStorage.setItem("ListPatientWaiting", JSON.stringify(this.ListPatientWaiting));
+    this.waitingRoomService.getWaitingRooms().subscribe(
+      data => {
+        var ListResPonse = data;
+        ListResPonse.forEach((item:any) => {
+          var skey = item.SK.S;
+          console.log(item.patient_attr.M.is_new.BOOL)
+          let a = {
+            type: 'w',
+            epoch: item.time_attr.N, 
+            produce_id: item.procedure_attr.M.id.S,
+            produce_name: item.procedure_attr.M.name.S,
+            patient_id: skey.split('::')[1],
+            patient_name: item.patient_attr.M.name.S,
+            patient_created_date: item.patient_attr.M.is_new.BOOL == true ? '1' : '2',
+            reason: item.reason_attr.S,
+            status: item.status_attr.N,
+            appointment_id: '',
+            appointment_epoch: '', 
+            sk: skey, 
+            fk: item.foreign_sk.S,
+          }
+          this.waitingRoomData.push(a);
         })
-    }
-    this.filteredWaitingRoomData.forEach((data: any) => {
-      if (data.patient_id == appointmentSelected.patient_id) {
-        this.showErrorToast('Bệnh nhân đã có trong hàng chờ!');
-        return;
+      },
+      (error) => {
+        this.loading = false;
+        ResponseHandler.HANDLE_HTTP_STATUS(this.waitingRoomService.apiUrl + "/waiting-room", error);
       }
-    })
-    // End
-
-    //Chuyển bệnh nhân đến phòng chờ
+    );
+    // this.waitingRoomData.forEach((data: any) => {
+    //   if (data.patient_id == appointmentSelected.patient_id) {
+    //     this.showErrorToast('Bệnh nhân đã có trong hàng chờ!');
+    //     return;
+    //   }
+    // })
+  
     const currentDateTimeGMT7 = moment().tz('Asia/Ho_Chi_Minh');
     this.Exchange.epoch = Math.floor(currentDateTimeGMT7.valueOf() / 1000).toString();
     this.Exchange.patient_id = appointmentSelected.patient_id;
@@ -451,38 +461,37 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     this.Exchange.produce_id = appointmentSelected.procedure_id;
     this.Exchange.produce_name = appointmentSelected.procedure_name;
     this.Exchange.reason = appointmentSelected.reason;
-    this.Exchange.appointment_id = appointmentSelected.appointment_id;
-    this.Exchange.appointment_epoch = epoch;
-    this.Exchange.patient_created_date = appointmentSelected.patient_created_date;
-
-    this.receptionistWaitingRoom.postWaitingRoom(this.Exchange).subscribe(
+    this.Exchange.is_new = appointmentSelected.patient_created_date == '1' ? true : false;
+    this.Exchange.time_attr = Math.floor(currentDateTimeGMT7.valueOf() / 1000).toString();
+    this.Exchange.foreign_sk = this.Exchange.epoch+"::"+this.Exchange.patient_id;
+    this.Exchange.status_attr = '1';
+    this.receptionistWaitingRoom.postWaitingRoomNew(this.Exchange).subscribe(
       () => {
-
-        let update1 = {
-          epoch: parseInt(epoch),
-          new_epoch: parseInt(epoch),
-          patient_id: appointmentSelected.patient_id,
-          patient_name: appointmentSelected.patient_name,
-          phone_number: appointmentSelected.phone_number,
-          procedure_id: appointmentSelected.procedure_id,
-          procedure_name: appointmentSelected.procedure_name,
-          reason: appointmentSelected.reason,
-          doctor: appointmentSelected.doctor,
-          status: 3,
-          time: appointmentSelected.time,
-          patient_created_date: appointmentSelected.patient_created_date
-        }
-        if (this.ListPatientWaiting != null && this.ListPatientWaiting != undefined && this.ListPatientWaiting.length != 0) {
-          this.ListPatientWaiting.forEach((item: any) => {
-            if (item.epoch == update1.epoch) {
-              if (item.appointment.patient_id == update1.patient_id) {
-                item = update1;
-              }
-            }
-          })
-        } else {
-          this.ListPatientWaiting.push(update1);
-        }
+        // let update1 = {
+        //   epoch: parseInt(epoch),
+        //   new_epoch: parseInt(epoch),
+        //   patient_id: appointmentSelected.patient_id,
+        //   patient_name: appointmentSelected.patient_name,
+        //   phone_number: appointmentSelected.phone_number,
+        //   procedure_id: appointmentSelected.procedure_id,
+        //   procedure_name: appointmentSelected.procedure_name,
+        //   reason: appointmentSelected.reason,
+        //   doctor: appointmentSelected.doctor,
+        //   status: 3,
+        //   time: appointmentSelected.time,
+        //   patient_created_date: appointmentSelected.patient_created_date
+        // }
+        // if (this.ListPatientWaiting != null && this.ListPatientWaiting != undefined && this.ListPatientWaiting.length != 0) {
+        //   this.ListPatientWaiting.forEach((item: any) => {
+        //     if (item.epoch == update1.epoch) {
+        //       if (item.appointment.patient_id == update1.patient_id) {
+        //         item = update1;
+        //       }
+        //     }
+        //   })
+        // } else {
+        //   this.ListPatientWaiting.push(update1);
+        // }
 
         //Cập nhật lịch hẹn
         let PutAppointment = {
@@ -495,31 +504,17 @@ export class ReceptionistAppointmentListComponent implements OnInit {
             procedure_id: appointmentSelected.procedure_id,
             procedure_name: appointmentSelected.procedure_name,
             reason: appointmentSelected.reason,
-            doctor: appointmentSelected.doctor,
-            status: 3,
-            time: appointmentSelected.time,
-            patient_created_date: appointmentSelected.patient_created_date
+            doctor_attr: appointmentSelected.doctor,
+            status_attr: 3,
+            time_attr: appointmentSelected.time,
+            is_new: appointmentSelected.patient_created_date == 1 ? true : false
           }
         }
-        console.log("PutAppointment", PutAppointment)
-        this.appointmentService.putAppointment(PutAppointment, this.Exchange.appointment_id).subscribe((data) => {
+        this.appointmentService.putAppointmentNew(PutAppointment, appointmentSelected.appointment_id).subscribe((data) => {
           this.showSuccessToast(`Đã thêm bệnh nhân ${this.Exchange.patient_name} vào hàng đợi`);
-
           localStorage.setItem("ListPatientWaiting", JSON.stringify(this.ListPatientWaiting));
-          this.Exchange = {
-            epoch: "0",
-            produce_id: "0",
-            produce_name: '',
-            patient_id: '',
-            patient_name: '',
-            reason: '',
-            status: "1",
-            appointment_id: '',
-            appointment_epoch: '',
-            patient_created_date: '',
-          }
-          this.router.navigate(['phong-cho'])
-        })
+        }) 
+        this.router.navigate(['phong-cho'])
       },
       (error) => {
         this.loading = false;

@@ -132,6 +132,7 @@
       <thead class="sticky-thead">
         <tr>
           <th *ngIf="checkbox1" style="min-width: 80px;padding: 10px">Tên mẫu</th> <!--2-->
+          <th>Bệnh Nhân</th>
           <th *ngIf="checkbox2" style="min-width: 80px;padding: 10px">Labo</th> <!--6-->
           <th *ngIf="checkbox3" style="min-width: 85px;padding: 10px">Số lượng</th> <!--4-->
           <th *ngIf="checkbox4" style="min-width: 75px;padding: 10px">Đơn giá</th> <!--5-->
@@ -152,6 +153,7 @@
           <ng-container *ngIf="specimens.ms_status != 1">
             <td *ngIf="checkbox1" class="truncate" data-bs-toggle="tooltip" title="{{specimens.ms_name}}">
               {{specimens.ms_name}}</td> <!--2-->
+            <td>{{specimens.p_patient_name}}</td>
             <td *ngIf="checkbox2" style="min-width: 80px;padding: 10px">{{specimens.lb_name}}</td> <!--6-->
             <td *ngIf="checkbox3" style="min-width: 85px;padding: 10px">{{specimens.ms_quantity}}</td> <!--4-->
             <td *ngIf="checkbox4" style="min-width: 75px;padding: 10px">{{(specimens.ms_unit_price !== 0) ? (specimens.ms_unit_price |currency:'VND':'symbol':'1.0-0') : ""}}</td> <!--5-->

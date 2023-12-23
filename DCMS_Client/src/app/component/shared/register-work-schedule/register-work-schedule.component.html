@@ -49,9 +49,9 @@
               <td>
                 <ng-container *ngFor="let d of listDisplayClone">
                   <ng-container *ngIf="d.currentD == a">
-                    <ng-container *ngIf="d.isSang == true">
-                      {{d.staffName}} <br>
-                    </ng-container>
+                    <!-- <ng-container *ngIf="d.isSang == true"> -->
+                      {{d.staffNameSang}} <br>
+                    <!-- </ng-container> -->
                     <ng-container *ngIf="d.isSang == false">
 
                     </ng-container>
@@ -65,9 +65,9 @@
             <td *ngFor="let a of listDay">
               <ng-container *ngFor="let d of listDisplayClone">
                 <ng-container *ngIf="d.currentD == a">
-                  <ng-container *ngIf="d.isChieu == true">
-                    {{d.staffName}} <br>
-                  </ng-container>
+                  <!-- <ng-container *ngIf="d.isChieu == true"> -->
+                    {{d.staffNameChieu}} <br>
+                  <!-- </ng-container> -->
                   <ng-container *ngIf="d.isChieu == false">
 
                   </ng-container>

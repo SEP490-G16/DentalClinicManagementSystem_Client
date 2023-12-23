@@ -101,6 +101,7 @@ export class ReceptionistTimekeepingComponent implements OnInit {
             weekTimekeeping: {}
           };
           let isNotAdmin = true;
+          console.log("check staffname: ", StaffMember.Attributes)
           StaffMember.Attributes.forEach((attribute: any) => {
             switch (attribute.Name) {
               case 'sub':
