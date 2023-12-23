@@ -226,11 +226,11 @@ export class RegisterWorkScheduleComponent implements OnInit {
             this.regiObject.timekeeper_avt = it.timekeeper_attr.M.avt.S;
             this.regiObject.status = 1;
             if (it.timekeeping_attr.M.register_clock_in.N != 0) {
-              this.regiObject.staffNameSang += it.staff_attr.M.name.S + " ";
+              this.regiObject.staffNameSang += it.staff_attr.M.name.S + " " + " | ";
               this.regiObject.isSang = it.timekeeping_attr.M.register_clock_in.N == "1" ? true : false;
             }
             if (it.timekeeping_attr.M.register_clock_out.N != 0) {
-              this.regiObject.staffNameChieu += it.staff_attr.M.name.S + " ";
+              this.regiObject.staffNameChieu += it.staff_attr.M.name.S + " | ";
               this.regiObject.isChieu = it.timekeeping_attr.M.register_clock_out.N == "2" ? true : false;
             }
             this.listDisplayClone.push(this.regiObject);
@@ -240,24 +240,24 @@ export class RegisterWorkScheduleComponent implements OnInit {
               if (e.currentD == item) {
                 if (it.staff_attr.M.name.S != null && it.staff_attr.M.name.S != undefined) {
                   if (it.timekeeping_attr.M.register_clock_in.N != 0) {
-                    e.staffNameSang += it.staff_attr.M.name.S + " ";
+                    e.staffNameSang += it.staff_attr.M.name.S + " | ";
                     e.isSang = it.timekeeping_attr.M.register_clock_in.N == "1" ? true : false;
                   }
                   if (it.timekeeping_attr.M.register_clock_out.N != 0) {
-                    e.staffNameChieu += it.staff_attr.M.name.S + " ";
+                    e.staffNameChieu += it.staff_attr.M.name.S + " |  ";
                     e.isChieu = it.timekeeping_attr.M.register_clock_out.N == "2" ? true : false;
                   }
                 }
               }
             })
           }
-        } 
+        }
         // else {
         //   this.regiObject = {
         //     currentD: item,
         //     staffId: "",
         //     staffName: "",
-        //     staffNameSang: "", 
+        //     staffNameSang: "",
         //     staffNameChieu: "",
         //     register_clock_in: "",
         //     register_clock_out: "",
@@ -332,22 +332,29 @@ export class RegisterWorkScheduleComponent implements OnInit {
         RequestBody.register_clock_in = 0;
         RequestBody.register_clock_out = 0;
       }
+
       this.timekeepingService.postTimekeepingNew(RequestBody)
         .subscribe((res) => {
           count++;
           if (count == 7) {
             this.toastr.success(res.message, "Thêm lịch làm việc mới thành công")
           }
-          const index = this.listDisplayClone.findIndex(entry => entry.currentD === this.timestampToDateStr(RequestBody.epoch) && entry.staffId === RequestBody.sub_id);
-
+          const index = this.listDisplayClone.findIndex(entry => entry.currentD == this.timestampToDateStr(RequestBody.epoch) && entry.staffId === RequestBody.sub_id);
           if (index !== -1) {
-            this.listDisplayClone[index].staffName = RequestBody.staff_name;
+            if (RequestBody.register_clock_in == 1) {
+              this.listDisplayClone[index].staffNameSang += (" " + RequestBody.staff_name);
+            }
+            if (RequestBody.register_clock_out == 2) {
+              this.listDisplayClone[index].staffNameChieu += (" " + RequestBody.staff_name);
+            }
             this.listDisplayClone[index].isSang = RequestBody.register_clock_in === 1;
             this.listDisplayClone[index].isChieu = RequestBody.register_clock_out === 2;
           } else {
             this.listDisplayClone.push({
               currentD: RequestBody.epoch,
               staffName: RequestBody.staff_name,
+              staffNameSang: (RequestBody.register_clock_in === 1) ? RequestBody.staff_name : "",
+              staffNameChieu: (RequestBody.register_clock_in === 2) ? RequestBody.staff_name : "",
               isSang: RequestBody.register_clock_in === 1,
               isChieu: RequestBody.register_clock_out === 2,
             });

@@ -110,8 +110,8 @@
               </td>
               <td>
                 <button class="button-timekeeping" (click)="onClockout(staff, dateTimestamp)"
-                  [disabled]="staff.weekTimekeeping[dateTimestamp]?.clockOut && staff.weekTimekeeping[dateTimestamp]?.clockIn">
-                  {{ staff.weekTimekeeping[dateTimestamp]?.clockOut ? "Đã chấm": "Chưa chấm"}}
+                  [disabled]="!staff.weekTimekeeping[dateTimestamp]?.clockIn">
+                  {{ staff.weekTimekeeping[dateTimestamp]?.clockOut ? "Chấm lại": "Chưa chấm"}}
                 </button> <br />
                 <input type="time" [ngModel]="staff.weekTimekeeping[dateTimestamp]?.clockOut"
                   [class]="timeClockoutColor"
