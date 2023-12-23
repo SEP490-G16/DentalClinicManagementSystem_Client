@@ -9,6 +9,7 @@ import { PatientService } from "../../../../../service/PatientService/patient.se
 import * as moment from 'moment';
 import { FormatNgbDate } from '../../../libs/formatNgbDate';
 import { NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { Normalize } from 'src/app/service/Lib/Normalize';
 
 @Component({
   selector: 'app-popup-edit-specimens',
@@ -286,7 +287,10 @@ export class PopupEditSpecimensComponent implements OnInit {
   onsearch(event: any) {
     this.searchTimeout = setTimeout(() => {
       this.IPutSpecimens.p_patient_name = event.target.value;
-      this.patientService.getPatientByName(this.IPutSpecimens.p_patient_name, 1).subscribe(data => {
+      let searchTermWithDiacritics = Normalize.normalizeDiacritics(event.target.value);
+      searchTermWithDiacritics = searchTermWithDiacritics.toLowerCase().trim();
+      searchTermWithDiacritics = searchTermWithDiacritics.replace(/\s+/g, '-');
+      this.patientService.getPatientByName(searchTermWithDiacritics, 1).subscribe(data => {
         const transformedMaterialList = data.data.map((item: any) => {
           return {
             patientId: item.patient_id,

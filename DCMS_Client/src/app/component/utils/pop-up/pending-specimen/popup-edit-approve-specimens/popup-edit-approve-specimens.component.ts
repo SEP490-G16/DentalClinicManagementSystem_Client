@@ -7,6 +7,7 @@ import {ResponseHandler} from "../../../libs/ResponseHandler";
 import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/TreatmentCourse.service';
 import {NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
 import {FormatNgbDate} from "../../../libs/formatNgbDate";
+import { Normalize } from 'src/app/service/Lib/Normalize';
 
 @Component({
   selector: 'app-popup-edit-approve-specimens',
@@ -230,8 +231,10 @@ export class PopupEditApproveSpecimensComponent implements OnChanges  {
   onsearch(event:any) {
     console.log(event.target.value)
     this.specimen.patientName = event.target.value;
-
-    this.patientSerivce.getPatientByName(this.specimen.patientName, 1).subscribe(data => {
+    let searchTermWithDiacritics = Normalize.normalizeDiacritics(event.target.value);
+    searchTermWithDiacritics = searchTermWithDiacritics.toLowerCase().trim();
+    searchTermWithDiacritics = searchTermWithDiacritics.replace(/\s+/g, '-');
+    this.patientSerivce.getPatientByName(searchTermWithDiacritics, 1).subscribe(data => {
       const transformedMaterialList = data.data.map((item:any) => {
         return {
           patientId: item.patient_id,
