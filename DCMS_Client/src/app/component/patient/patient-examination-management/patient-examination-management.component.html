@@ -6,7 +6,10 @@
     <div class="col-6">
         <p class="date">{{currentDate}}</p>
     </div>
-    <div class="col-3">
+    <div class="col-1">
+
+    </div>
+    <div class="col-2">
       <select class="form-select input-custom" aria-label="Default select example" [(ngModel)]="procedureFilter"
         (ngModelChange)="filterProcedure()">
         <option selected value="0">Loại điều trị</option>
@@ -29,21 +32,21 @@
         </tr>
       </thead>
       <tbody>
-        <tr title="Xem thông tin bệnh nhân {{ wtr.patient_name }}"
+        <tr
           *ngFor="let wtr of filteredWaitingRoomData; let i = index" (click)="goTreatmentCoursePage(wtr.patient_id, wtr)"
-          style="cursor: pointer;">
+          style="cursor: pointer;" [class.fade-in-animation]="wtr.animateChange">
           <ng-container *ngIf="wtr.date != '' && wtr.date != undefined && (wtr.status == 3 || wtr.status == 2)">
             <td>{{ i + 1 }}</td>
-            <td>{{wtr.date}}</td>
-            <td>{{ wtr.patient_id }}</td>
-            <td style="text-decoration: underline;">{{ wtr.patient_name }}</td>
+            <td title="{{wtr.date}}">{{wtr.date}}</td>
+            <td title="{{ wtr.patient_id }}">{{ wtr.patient_id }}</td>
+            <td style="text-decoration: underline;" title="Xem thông tin bệnh nhân {{ wtr.patient_name }}">{{ wtr.patient_name }}</td>
             <td>{{wtr.patient_created_date == 1 ? "Mới" : wtr.patient_created_date == 2 ?
               "Cũ" : "Dữ liệu trước"}}</td>
             <td class="truncate" data-bs-toggle="tooltip" title="{{wtr.reason}}">{{wtr.reason }}
             </td>
-            <td >{{ wtr.produce_name }}</td>
+            <td title="{{ wtr.procedure_name }}">{{ wtr.procedure_name }}</td>
             <ng-container *ngIf="roleId.includes('1') || roleId.includes('2') || roleId.includes('4') || roleId.includes('5')">
-              <td (click)="stopClick($event)">
+              <td (click)="stopClick($event)" title="Trạng thái khám">
                 <select class="text-center status-selector" [(ngModel)]="wtr.status"
                   (change)="onPutStatus(wtr, wtr.epoch)" [ngStyle]="{'color': selectedColor}" *ngIf="wtr.status == 2">
                     <option value="2" class="status-option in-progress">Đang khám</option>

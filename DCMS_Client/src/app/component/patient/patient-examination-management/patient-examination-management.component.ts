@@ -104,16 +104,16 @@ export class PatientExaminationManagementComponent implements OnInit {
           var skey = item.SK.S;
           let a = {
             type: 'w',
-            epoch: item.time_attr.N, 
-            procedure_id: item.procedure_attr.M.id,
-            procedure_name: item.procedure_attr.M.name,
+            epoch: item.time_attr.N,
+            procedure_id: item.procedure_attr.M.id.S,
+            procedure_name: item.procedure_attr.M.name.S,
             patient_id: skey.split('::')[1],
             patient_name: item.patient_attr.M.name.S,
             patient_created_date: item.patient_attr.M.is_new.BOOL == true ? '2' : '1',
             reason: item.reason_attr.S,
             status: item.status_attr.N,
             appointment_id: '',
-            appointment_epoch: '', 
+            appointment_epoch: '',
             sk: skey,
             fk: item.foreign_sk.S,
           }
@@ -154,6 +154,7 @@ export class PatientExaminationManagementComponent implements OnInit {
 
 
   onPutStatus(wtr: any, epoch: number) {
+    wtr.animateChange = true;
     this.PUT_WAITINGROO = {
       time_attr: epoch,
       produce_id: wtr.produce_id,
@@ -201,6 +202,7 @@ export class PatientExaminationManagementComponent implements OnInit {
           };
           this.webSocketService.sendMessage(JSON.stringify(this.messageBody));
         }
+        setTimeout(() => wtr.animateChange = false, 2000);
         //this.getWaitingRoomData(wtr);
       },
         (error) => {
