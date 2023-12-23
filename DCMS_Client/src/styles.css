@@ -54,6 +54,7 @@ html,
 body {
   height: 100%;
   margin: 0;
+  overflow-y: auto;
 }
 
 body {
@@ -230,22 +231,21 @@ b {
   flex-direction: column;
   width: 100%;
   height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
+  /*overflow-y: auto;*/
+  /*overflow-x: hidden;*/
 
 }
-.sep-navigation ul::-webkit-scrollbar {
-  display: none; /* Ẩn thanh cuộn cho WebKit browsers */
-}
+/*.sep-navigation ul::-webkit-scrollbar {*/
+/*  display: none; !* Ẩn thanh cuộn cho WebKit browsers *!*/
+/*}*/
 
 .sep-navigation ul li {
   list-style: none;
-  /* position: relative;
+  position: relative;
   width: 100%;
   height: var(--slidebar-sep-navigation-ul-li);
   border-radius: 14px;
   border: 8px solid transparent;
-  */
   transition: 0.5s;
 }
 
@@ -787,6 +787,51 @@ ngb-timepicker .btn:hover {
   aside ul {
     min-height: 60vh;
   }
+  .sep-main .analyse {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Điều chỉnh để các item có thể linh hoạt về kích thước và số lượng cột */
+    gap: 1rem;
+  }
+
+  .sep-main .analyse>div {
+    margin-top: 0.5rem; /* Giảm khoảng cách trên để phù hợp hơn */
+    padding: 1rem; /* Điều chỉnh đệm */
+    /* Bạn có thể cần điều chỉnh box-shadow nếu nó làm vỡ layout */
+  }
+
+  .sep-main .analyse .status {
+    flex-direction: column; /* Chuyển các item thành hàng dọc */
+    align-items: center; /* Căn giữa các item */
+  }
+
+  .sep-main .analyse .progresss {
+    width: 70px; /* Giảm kích thước vòng tròn */
+    height: 70px;
+    margin-top: 0.5rem; /* Thêm khoảng cách trên */
+  }
+
+  .sep-main .analyse svg {
+    width: 70px; /* Giảm kích thước svg */
+    height: 70px;
+  }
+
+  .sep-main .analyse .progresss .percentage {
+    font-size: 1.5rem; /* Giảm kích thước font của phần trăm */
+  }
+
+  /* Điều chỉnh user list cho màn hình nhỏ hơn */
+  .sep-main .new-users .user-list {
+    flex-direction: column; /* Các user hiển thị theo cột thay vì hàng */
+    align-items: center; /* Căn giữa các user */
+  }
+
+  .sep-main .new-users .user-list .user img {
+    width: 4rem; /* Giảm kích thước hình ảnh người dùng */
+    height: 4rem;
+  }
+  .sep-main .info h3{
+    font-size: 11px !important;
+  }
 }
 
 
@@ -892,4 +937,12 @@ ngb-timepicker .btn:hover {
     flex: 0 0 100%;
     max-width: 100%;
   }
+}
+.input-custom {
+  width: 100%;
+  max-width: 300px;
+  padding: 10px 20px;
+  border: 1px solid #bebdbd !important;
+  border-radius: 10px;
+  box-sizing: border-box;
 }

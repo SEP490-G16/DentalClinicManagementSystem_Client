@@ -245,7 +245,11 @@ main .analyse h3 {
   margin-left: 0.8rem;
   font-size: .8rem;
 }
-
+@media screen and (min-resolution: 120dpi) { /* Thay đổi dựa trên tỷ lệ phân giải, có thể là 1.5dppx cho 150% zoom */
+  main .analyse h3 {
+    font-size: 0.6rem; /* Giảm kích thước font chữ */
+  }
+}
 main .analyse .progresss {
   position: relative;
   width: 92px;
