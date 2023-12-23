@@ -346,9 +346,11 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
   onsearchPatientInWaitingRoom(event: any) {
     clearTimeout(this.searchTimeout);
 
-    const searchTermWithDiacritics = Normalize.normalizeDiacritics(event.target.value);
+    let searchTermWithDiacritics = Normalize.normalizeDiacritics(event.target.value);
 
     this.searchTimeout = setTimeout(() => {
+      searchTermWithDiacritics = searchTermWithDiacritics.toLowerCase().trim();
+      searchTermWithDiacritics = searchTermWithDiacritics.replace(/\s+/g, '-');
       this.PATIENT_SERVICE.getPatientByName(searchTermWithDiacritics, 1).subscribe(data => {
         const transformedMaterialList = data.data.map((item: any) => {
           return {

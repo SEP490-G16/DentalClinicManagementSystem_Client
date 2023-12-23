@@ -52,11 +52,11 @@ export class PatientPaymentTabComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.Patient_Id = this.route.snapshot.params['id'];
     let role = sessionStorage.getItem('role');
     if (role != null) {
       this.RoleId = role.split(',');
     }
-    this.Patient_Id = this.route.snapshot.params['id'];
     let ro = sessionStorage.getItem('role');
     if (ro != null) {
       this.roleId = ro.split(',');
@@ -65,7 +65,6 @@ export class PatientPaymentTabComponent implements OnInit {
     if (this.name) {
       this.name = JSON.parse(this.name);
       this.patientName = this.name.patient_name;
-      // sessionStorage.removeItem("patient");
     } else {
       this.patientService.getPatientById(this.Patient_Id).subscribe((patient: any) => {
         console.log("Call api Patient: ", patient);

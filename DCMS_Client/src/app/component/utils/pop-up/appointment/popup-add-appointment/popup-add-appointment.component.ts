@@ -188,11 +188,14 @@ export class PopupAddAppointmentComponent implements OnInit {
   onsearch(event: any) {
     clearTimeout(this.searchTimeout);
     this.isSearching = true;
-    const searchTermWithDiacritics = Normalize.normalizeDiacritics(event.target.value);
+    let searchTermWithDiacritics = Normalize.normalizeDiacritics(event.target.value);
     if (this.isSearching) {
       this.notFoundMessage = 'Đang tìm kiếm...';
       this.searchTimeout = setTimeout(() => {
         this.AppointmentBody.appointment.patient_name = searchTermWithDiacritics;
+
+        searchTermWithDiacritics = searchTermWithDiacritics.toLowerCase().trim();
+        searchTermWithDiacritics = searchTermWithDiacritics.replace(/\s+/g, '-');
 
         this.PATIENT_SERVICE.getPatientByName(searchTermWithDiacritics, 1).subscribe(data => {
           const transformedMaterialList = data.data.map((item: any) => {
