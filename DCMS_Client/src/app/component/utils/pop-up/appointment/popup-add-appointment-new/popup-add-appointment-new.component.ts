@@ -517,8 +517,8 @@ export class PopupAddAppointmentNewComponent implements OnInit {
 
       const now = new Date();
       const curr = (now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDay() +" "+now.getHours()+":"+now.getMinutes()+":"+now.getSeconds()).toString();
-      const patientInfor = this.AppointmentBody.appointment.patient_id+ " - "+this.AppointmentBody.appointment.patient_name+" - "+this.AppointmentBody.appointment.phone_number+" - "+this.patientBody.address+" - "+ curr+" - "+"pa";
-      this.sendMessageSocket.sendMessageSocket('CheckRealTimeWaitingRoom@@@',`${patientInfor}`,`${Number('1')}`);
+      //const patientInfor = this.AppointmentBody.appointment.patient_id+ " - "+this.AppointmentBody.appointment.patient_name+" - "+this.AppointmentBody.appointment.phone_number+" - "+this.patientBody.address+" - "+ curr+" - "+"pa";
+      //this.sendMessageSocket.sendMessageSocket('CheckRealTimeWaitingRoom@@@',`${patientInfor}`,`${Number('1')}`);
       this.APPOINTMENT_SERVICE.postAppointmentNew(this.AppointmentBody).subscribe(
         (response) => {
           this.loading = false;
@@ -545,31 +545,31 @@ export class PopupAddAppointmentNewComponent implements OnInit {
 
           const now = new Date();
           const currDate = now.getFullYear() + "-"+(now.getMonth()+1)+"-"+now.getDate();
-          if (this.selectedDateCache == selectedDate) {
-            const appointmentIndex = this.filteredAppointments.findIndex((a: any) => a.date === this.AppointmentBody.epoch);
+          // if (this.selectedDateCache == selectedDate) {
+          //   const appointmentIndex = this.filteredAppointments.findIndex((a: any) => a.date === this.AppointmentBody.epoch);
 
-            if (appointmentIndex !== -1) {
-              this.filteredAppointments[appointmentIndex].appointments.push({
-                procedure: this.AppointmentBody.appointment.procedure_id,
-                count: 1,
-                details: [newDetail]
-              });
-            } else {
-              const newAppointment: any = {
-                procedure: (this.AppointmentBody.appointment.procedure_id),
-                count: 1,
-                details: [newDetail]
-              };
-              this.filteredAppointments.push({
-                date: this.AppointmentBody.epoch,
-                appointments: [newAppointment]
-              });
-            }
-            this.newAppointmentAdded.emit(this.filteredAppointments);
-            this.procedure = '';
-            this.appointmentTime = '';
-            this.newItemEvent.emit(this.AppointmentBody);
-          }
+          //   if (appointmentIndex !== -1) {
+          //     this.filteredAppointments[appointmentIndex].appointments.push({
+          //       procedure: this.AppointmentBody.appointment.procedure_id,
+          //       count: 1,
+          //       details: [newDetail]
+          //     });
+          //   } else {
+          //     const newAppointment: any = {
+          //       procedure: (this.AppointmentBody.appointment.procedure_id),
+          //       count: 1,
+          //       details: [newDetail]
+          //     };
+          //     this.filteredAppointments.push({
+          //       date: this.AppointmentBody.epoch,
+          //       appointments: [newAppointment]
+          //     });
+          //   }
+          //   this.newAppointmentAdded.emit(this.filteredAppointments);
+          //   this.procedure = '';
+          //   this.appointmentTime = '';
+          //   this.newItemEvent.emit(this.AppointmentBody);
+          // }
           this.AppointmentBody = {
             epoch: 0,
             appointment: {
@@ -589,7 +589,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
           const currentTimeGMT7 = moment.tz('Asia/Ho_Chi_Minh').format('HH:mm');
           this.appointmentTime = currentTimeGMT7;
           this.procedure = '1';
-          //window.location.reload();
+          window.location.reload();
         },
         (error) => {
           this.loading = false;

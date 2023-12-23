@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import {error} from "@angular/compiler-cli/src/transformers/util";
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { io } from 'socket.io-client';
 @Injectable({
   providedIn: 'root'
 })
 export class WebsocketService {
   messageReceived: Subject<string> = new Subject<string>();
   private socket: WebSocket | undefined;
-
+  checkEvent:any;
   constructor() { }
   connect():void{
     this.socket = new WebSocket("wss://x2boqaizqc.execute-api.ap-southeast-1.amazonaws.com/demo/");
@@ -16,8 +16,8 @@ export class WebsocketService {
     };
     this.socket.onmessage = (event)=>{
       console.log("Received message:",event.data);
-      this.messageReceived.next('');
-      this.messageReceived.next(event.data);
+        this.checkEvent = event.data;
+        this.messageReceived.next(event.data);
     };
     this.socket.onclose = (even)=>{
       console.log('WebSocket connection closed:',event);
@@ -32,6 +32,7 @@ export class WebsocketService {
   closeConnection():void{
     this.socket?.close();
   }
+
   chatVisible: boolean = false;
 
   toggleChat() {

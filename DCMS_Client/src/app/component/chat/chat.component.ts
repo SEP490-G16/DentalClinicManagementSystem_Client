@@ -91,11 +91,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         if (parsedMessage.content != undefined) {
             this.check = parsedMessage.content.split(',');
         } else {
-          console.log("vô nha");
           let ob = localStorage.getItem('ob');
           console.log("check ob đc truyền", ob)
           if (ob != null) {
-            
             this.check = ob.split(',');
             console.log("split check: ", this.check)
           }
@@ -187,7 +185,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                   this.filteredWaitingRoomData.splice(index, 1);
                   this.dataService.UpdateWaitingRoomTotal(0, 0);
                   this.dataService.UpdatePatientExaminate(0, 0);
-                  //this.waitingRoomService.updateData(this.filteredWaitingRoomData);
                 }
               } else {
                 item.status = this.check[2];
@@ -219,7 +216,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                   date: '',
                   patient_created_date: '',
                 }
-                //this.waitingRoomService.updateData(this.filteredWaitingRoomData);
                 noLoop = true;
                 return;
               }

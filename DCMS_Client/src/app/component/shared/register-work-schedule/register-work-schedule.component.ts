@@ -64,13 +64,10 @@ export class RegisterWorkScheduleComponent implements OnInit {
     this.currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
     this.currentTimeGMT7 = moment.tz('Asia/Ho_Chi_Minh').format('HH:mm');
     this.currentDateTimeStamp = TimestampFormat.dateToTimestamp(this.currentDateGMT7);
-    //console.log("Current Date Timestamp: ", this.currentDateTimeStamp);
     this.currentTimeTimeStamp = TimestampFormat.timeAndDateToTimestamp(this.currentTimeGMT7, this.currentDateGMT7);
-    //console.log("CurrentTimes: ", this.currentTimeTimeStamp);
     for (let i = 0; i < 7; i++) {
       this.weekTimestamps.push(moment.tz('Asia/Ho_Chi_Minh').startOf('week').add(i, 'days').unix());
     }
-    //console.log("WeekTimes: ", this.weekTimestamps);
     this.startTime = this.weekTimestamps[0];
     this.endTime = this.weekTimestamps[6];
 
@@ -89,7 +86,6 @@ export class RegisterWorkScheduleComponent implements OnInit {
     if (storedUserJsonString !== null) {
       var storedUserObject: User = JSON.parse(storedUserJsonString);
       this.UserObj = storedUserObject;
-      //console.log(this.UserObj);
     } else {
       this.UserObj = null;
     }
@@ -133,10 +129,12 @@ export class RegisterWorkScheduleComponent implements OnInit {
       const month = currentDate.getMonth() + 1;
       const year = currentDate.getFullYear();
       const formattedDate = `${day < 10 ? '0' + day : day}/${month < 10 ? '0' + month : month}/${year}`;
-      let registerObject = {
+      this.regiObject = {
         currentD: formattedDate,
         staffId: '',
         staffName: '',
+        staffNameSang: '',
+        staffNameChieu: '',
         register_clock_in: '',
         register_clock_out: '',
         clock_in: 0,
@@ -148,103 +146,134 @@ export class RegisterWorkScheduleComponent implements OnInit {
         isChieu: false
       }
       this.listDay.push(formattedDate);
-      this.listDayInMonth.push(registerObject);
+      this.listDayInMonth.push(this.regiObject);
       currentDate.setDate(currentDate.getDate() + 1);
     }
 
-    // this.timekeepingService.getTimekeeping(this.startTime, this.endTime)
-    //   .subscribe(data => {
-    //     this.registerOnWeeks = this.organizeData(data);
-    //     console.log("Register On weeks: ", this.registerOnWeeks);
-    //     this.getListEmployee();
-    //   }
-    //   )
-
-    this.timekeepingService.getTimekeepingNew(this.startTime, this.endTime)
+    this.timekeepingService.getTimekeepingNew(this.startTime, (this.endTime + 1))
       .subscribe(data => {
         this.registerOnWeeks = data;
-        //console.log("Register On weeks: ", this.registerOnWeeks);
         this.getListEmployee();
       }
       )
   }
 
   uniqueList: string[] = [];
+  regiObject = {
+    currentD: "",
+    staffId: "",
+    staffName: "",
+    staffNameSang: "",
+    staffNameChieu: "",
+    register_clock_in: "",
+    register_clock_out: "",
+    clock_in: 0,
+    clock_out: 0,
+    timekeeper_name: "",
+    timekeeper_avt: "",
+    status: 1,
+    isSang: false,
+    isChieu: false
+  }
   getListEmployee() {
     this.listDay.forEach((item: any) => {
       this.registerOnWeeks.forEach((it: any) => {
         let da = TimestampFormat.timestampToGMT7Date(it.SK.S.split('::')[0]);
-        //let da = TimestampFormat.timestampToGMT7Date(it.epoch);
         const ab = da.split('-');
         const check = ab[2] + "/" + ab[1] + "/" + ab[0];
         if (item == check) {
-          //it.records.forEach((i: any) => {
-            this.listDayInMonth.forEach((o: any) => {
-              console.log("check owner: ",it.SK.S.split('::')[1] == this.UserObj?.subId)
-              if (it.SK.S.split('::')[1] == this.UserObj?.subId) {
-                if (o.currentD == check) {
-                  o.register_clock_in = it.timekeeping_attr.M.register_clock_in.N;
-                  o.register_clock_out = it.timekeeping_attr.M.register_clock_out.N;
-                  o.clock_in = it.timekeeping_attr.M.clock_in.N;
-                  o.clock_out = it.timekeeping_attr.M.clock_out.N;
-                  o.timekeeper_name = it.timekeeper_attr.M.name.S;
-                  o.timekeeper_avt = it.timekeeper_attr.M.avt.S;
-                  o.status = 1;
-                  o.isSang = it.timekeeping_attr.M.register_clock_in.N == "1" ? true : false;
-                  o.isChieu = it.timekeeping_attr.M.register_clock_out.N == "2" ? true : false;
+          this.listDayInMonth.forEach((o: any) => {
+            if (it.SK.S.split('::')[1] == this.UserObj?.subId) {
+              if (o.currentD == check) {
+                o.register_clock_in = it.timekeeping_attr.M.register_clock_in.N;
+                o.register_clock_out = it.timekeeping_attr.M.register_clock_out.N;
+                o.clock_in = it.timekeeping_attr.M.clock_in.N;
+                o.clock_out = it.timekeeping_attr.M.clock_out.N;
+                o.timekeeper_name = it.timekeeper_attr.M.name.S;
+                o.timekeeper_avt = it.timekeeper_attr.M.avt.S;
+                o.status = 1;
+                o.isSang = it.timekeeping_attr.M.register_clock_in.N == "1" ? true : false;
+                o.isChieu = it.timekeeping_attr.M.register_clock_out.N == "2" ? true : false;
+              }
+            }
+          })
+          if (!this.uniqueList.includes(item)) {
+            this.uniqueList.push(item);
+            this.regiObject = {
+              currentD: "",
+              staffId: "",
+              staffName: "",
+              staffNameSang: "",
+              staffNameChieu: "",
+              register_clock_in: "",
+              register_clock_out: "",
+              clock_in: 0,
+              clock_out: 0,
+              timekeeper_name: "",
+              timekeeper_avt: "",
+              status: 1,
+              isSang: false,
+              isChieu: false
+            }
+            this.regiObject.currentD = item;
+            this.regiObject.staffId = it.SK.S.split('::')[1];
+            this.regiObject.staffName = it.staff_attr.M.name.S + " ";
+            this.regiObject.register_clock_in = it.timekeeping_attr.M.register_clock_in.N;
+            this.regiObject.register_clock_out = it.timekeeping_attr.M.register_clock_out.N;
+            this.regiObject.clock_in = 0;
+            this.regiObject.clock_out = 0;
+            this.regiObject.timekeeper_name = it.timekeeper_attr.M.name.S;
+            this.regiObject.timekeeper_avt = it.timekeeper_attr.M.avt.S;
+            this.regiObject.status = 1;
+            if (it.timekeeping_attr.M.register_clock_in.N != 0) {
+              this.regiObject.staffNameSang += it.staff_attr.M.name.S + " ";
+              this.regiObject.isSang = it.timekeeping_attr.M.register_clock_in.N == "1" ? true : false;
+            }
+            if (it.timekeeping_attr.M.register_clock_out.N != 0) {
+              this.regiObject.staffNameChieu += it.staff_attr.M.name.S + " ";
+              this.regiObject.isChieu = it.timekeeping_attr.M.register_clock_out.N == "2" ? true : false;
+            }
+            this.listDisplayClone.push(this.regiObject);
+          }
+          else {
+            this.listDisplayClone.forEach((e: any) => {
+              if (e.currentD == item) {
+                if (it.staff_attr.M.name.S != null && it.staff_attr.M.name.S != undefined) {
+                  if (it.timekeeping_attr.M.register_clock_in.N != 0) {
+                    e.staffNameSang += it.staff_attr.M.name.S + " ";
+                    e.isSang = it.timekeeping_attr.M.register_clock_in.N == "1" ? true : false;
+                  }
+                  if (it.timekeeping_attr.M.register_clock_out.N != 0) {
+                    e.staffNameChieu += it.staff_attr.M.name.S + " ";
+                    e.isChieu = it.timekeeping_attr.M.register_clock_out.N == "2" ? true : false;
+                  }
                 }
               }
             })
-            if (!this.uniqueList.includes(item)) {
-              this.uniqueList.push(item);
-              let registerObject = {
-                currentD: item,
-                staffId: it.SK.S.split('::')[1],
-                staffName: it.staff_attr.M.name.S + " ",
-                register_clock_in: it.timekeeping_attr.M.register_clock_in.N,
-                register_clock_out: it.timekeeping_attr.M.register_clock_out.N,
-                clock_in: it.timekeeping_attr.M.clock_in.N,
-                clock_out: it.timekeeping_attr.M.clock_out.N,
-                timekeeper_name: it.timekeeper_attr.M.name.S,
-                timekeeper_avt: it.timekeeper_attr.M.avt.S,
-                status: 1,
-                isSang: it.timekeeping_attr.M.register_clock_in.N == "1" ? true : false,
-                isChieu: it.timekeeping_attr.M.register_clock_out.N == "2" ? true : false
-              }
-              this.listDisplayClone.push(registerObject);
-            } 
-            else {
-              this.listDisplayClone.forEach((e: any) => {
-                if (e.currentD == item) {
-                  if (item.staff_attr.M.name.S != null && item.staff_attr.M.name.S != undefined) {
-                    e.staffName += item.staff_attr.M.name.S + " ";
-                  }
-                }
-              })
-            }
-          //})
-        } else {
-          let registerObject = {
-            currentD: item,
-            staffId: "",
-            staffName: "",
-            register_clock_in: "",
-            register_clock_out: "",
-            clock_in: "",
-            clock_out: "",
-            timekeeper_name: "",
-            timekeeper_avt: "",
-            status: 1,
-            isSang: false,
-            isChieu: false
           }
-          this.listDisplayClone.push(registerObject);
-        }
+        } 
+        // else {
+        //   this.regiObject = {
+        //     currentD: item,
+        //     staffId: "",
+        //     staffName: "",
+        //     staffNameSang: "", 
+        //     staffNameChieu: "",
+        //     register_clock_in: "",
+        //     register_clock_out: "",
+        //     clock_in: 0,
+        //     clock_out: "",
+        //     timekeeper_name: "",
+        //     timekeeper_avt: "",
+        //     status: 1,
+        //     isSang: false,
+        //     isChieu: false
+        //   }
+        //   this.listDisplayClone.push(this.regiObject);
+        // }
       })
+      console.log("check list clone: ", this.listDisplayClone);
     })
-
-    console.log("check list display", this.listDisplayClone)
-    console.log("check list day in month", this.listDayInMonth)
   }
 
 
@@ -253,7 +282,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
     const subId = sessionStorage.getItem('sub');
     const staff_name = sessionStorage.getItem('username');
     const role = sessionStorage.getItem('role');
-
+    const fullname = sessionStorage.getItem('fullname');
     if (subId == null) {
       return;
     }
@@ -266,6 +295,10 @@ export class RegisterWorkScheduleComponent implements OnInit {
       return
     }
 
+    else if (fullname == null) {
+      return;
+    }
+
     var count = 0;
     this.listDayInMonth.forEach((item: any) => {
       const ab = item.currentD.split('/');
@@ -273,7 +306,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
       let RequestBody = {
         epoch: TimestampFormat.dateToTimestamp(check),
         sub_id: this.UserObj?.subId,
-        staff_name: this.UserObj?.username,
+        staff_name: fullname,
         staff_avt: "",
         staff_role: role,
         register_clock_in: 0,
@@ -299,7 +332,6 @@ export class RegisterWorkScheduleComponent implements OnInit {
         RequestBody.register_clock_in = 0;
         RequestBody.register_clock_out = 0;
       }
-
       this.timekeepingService.postTimekeepingNew(RequestBody)
         .subscribe((res) => {
           count++;
@@ -328,79 +360,22 @@ export class RegisterWorkScheduleComponent implements OnInit {
         )
     })
   }
-    //Option Map
-    // getRegisterWorkSchedule() {
-    //   console.log("Thứ 2: ", TimestampFormat.timestampToGMT7Date(this.startTime));
-    //   console.log("Chủ nhật: ", TimestampFormat.timestampToGMT7Date(this.endTime));
-    //   this.timekeepingService.getTimekeeping(this.startTime, this.endTime)
-    //   .subscribe(data => {
-    //     this.registerOnWeeks = this.organizeData(data);
-    //     console.log("Api: ", data);
-    //     console.log("RegisterOnWeeks: ", this.registerOnWeeks);
+  organizeData(data: any[]): RegisterWorkSchedule[] {
+    return data.map((item) => {
+      const registerEntry: RegisterWorkSchedule = {
+        epoch: item.epoch?.N,
+        type: item.type?.S,
+        records: []
+      };
 
-    //     let recordsMap = new Map();
-    //     this.registerOnWeeks.forEach((registerWorkSchedule: any) => {
-    //       registerWorkSchedule.records.forEach((record: any) => {
-    //         if (!recordsMap.has(record.subId)) {
-    //           recordsMap.set(record.subId, []);
-    //         }
-    //         recordsMap.get(record.subId).push(record);
-    //       });
-    //     });
-
-    //     this.Staff.forEach(staff => {
-    //       staff.registerSchedules = {};
-    //       this.weekTimestamps.forEach(weekTimestamp => {
-    //         staff.registerSchedules[weekTimestamp] = { startTime: '', endTime: '' };
-
-    //         let Staff_RegisterWorkRecords = recordsMap.get(staff.subId);
-    //         if (Staff_RegisterWorkRecords) {
-    //           Staff_RegisterWorkRecords.forEach((record: any) => {
-    //             if (record.epoch === weekTimestamp.toString()) {
-    //               if (this.UserObj != null && record.subId === this.UserObj.subId) {
-    //                 this.UserObj.clock_in = record.clock_in;
-    //                 this.UserObj.clock_out = record.clock_out;
-    //               }
-    //               staff.clock_in = (record.clock_in !== undefined) ? record.clock_in : 0;
-    //               staff.clock_out = (record.clock_out !== undefined) ? record.clock_out : 0;
-    //               staff.registerSchedules[weekTimestamp].startTime =
-    //               (record.register_clock_in !== undefined && record.register_clock_in !== '0') ? record.register_clock_in : '';
-    //               staff.registerSchedules[weekTimestamp].endTime =
-    //               (record.register_clock_out !== undefined && record.register_clock_out !== '0')
-    //               ? record.register_clock_out
-    //               : '';
-    //               staff.epoch = record.epoch;
-
-    //             }
-    //           });
-    //         }
-    //       });
-    //     });
-    //     console.log("Staff Work Register: ", this.Staff);
-    //   },
-    //   (error) => {
-    //     ResponseHandler.HANDLE_HTTP_STATUS(this.timekeepingService.apiUrl + "/timekeeping/" + this.startTime + "/" + this.endTime, error);
-    //   }
-    //   )
-    // }
-
-    //Tổ chức mảng:
-    organizeData(data: any[]): RegisterWorkSchedule[] {
-      return data.map((item) => {
-        const registerEntry: RegisterWorkSchedule = {
-          epoch: item.epoch?.N,
-          type: item.type?.S,
-          records: []
-        };
-
-        Object.keys(item).forEach((key) => {
-          if (key !== 'type') {
-            registerEntry.records.push({
-              epoch: item.epoch?.N,
-              subId: key,
-              clock_in: item[key]?.M?.clock_in?.N,
-              clock_out: item[key]?.M?.clock_out?.N,
-              register_clock_in: item[key]?.M?.register_clock_in?.N,
+      Object.keys(item).forEach((key) => {
+        if (key !== 'type') {
+          registerEntry.records.push({
+            epoch: item.epoch?.N,
+            subId: key,
+            clock_in: item[key]?.M?.clock_in?.N,
+            clock_out: item[key]?.M?.clock_out?.N,
+            register_clock_in: item[key]?.M?.register_clock_in?.N,
             register_clock_out: item[key]?.M?.register_clock_out?.N,
             staff_name: item[key]?.M?.staff_name?.S,
           });
@@ -450,14 +425,14 @@ export class RegisterWorkScheduleComponent implements OnInit {
   ngAfterViewInit() {
     this.inputsMyDate = Array.from(
       document.querySelectorAll('.myDateChild')
-      ) as HTMLInputElement[];
-    }
-
+    ) as HTMLInputElement[];
   }
 
-  interface User {
-    role: string;
-    subId: string;
+}
+
+interface User {
+  role: string;
+  subId: string;
   username: string;
   locale: string;
   clock_in: number;

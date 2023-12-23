@@ -189,7 +189,10 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
     const patient = sessionStorage.getItem('patient');
     if (patient != null){
       var patients = JSON.parse(patient);
-      this.patientInfor = patients.patient_id +" - "+patients.patient_name+ " - "+patients.phone_number;
+      this.PATIENT_SERVICE.getPatientById(patients.patient_id ).subscribe((patient: any) => {
+        console.log("Call api Patient: ", patient);
+        this.patientInfor = patient.patient_id +" - "+patient.patient_name+ " - "+patient.phone_number;
+      })
     }
     this.getListGroupService();
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
