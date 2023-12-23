@@ -51,7 +51,7 @@ export class PaidMaterialUsageService {
     const headers = new HttpHeaders({
       'Authorization': `${token}`,
     });
-    return this.http.get(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/expenses/`+startTime+"/"+endTime, {headers : headers, responseType:'text'});
+    return this.http.get(`${this.url}/expenses/`+startTime+"/"+endTime, {headers : headers, responseType:'text'});
   }
 
   postExpense(expensesInput:any):Observable<any> {
@@ -71,7 +71,7 @@ export class PaidMaterialUsageService {
       'Authorization': `${idToken}`,
       "Content-Type": "application/json; charset=utf8" 
     });
-    return this.http.post(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/expenses`, expensesInput,{headers});
+    return this.http.post(`${this.url}/expenses`, expensesInput,{headers});
   } 
 
   updatePaidMaterialUsage(epoch:any, expensesInput:any):Observable<any>{
@@ -89,7 +89,7 @@ export class PaidMaterialUsageService {
       'Authorization': `${idToken}`,
       "Content-Type": "application/json; charset=utf8"
     });
-    return this.http.put(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/expenses/${epoch}`,expensesInput,{headers});
+    return this.http.put(`${this.url}/expenses/${epoch}`,expensesInput,{headers});
   }
 
   deletePaidMaterialUsage(epoch:any,id:any):Observable<any>{
@@ -105,7 +105,7 @@ export class PaidMaterialUsageService {
     const headers = new HttpHeaders({
       'Authorization': `${idToken}`,
     });
-    return this.http.delete(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/expenses/${id}`,{headers});
+    return this.http.delete(`${this.url}/expenses/${id}`,{headers});
   }
 
 }

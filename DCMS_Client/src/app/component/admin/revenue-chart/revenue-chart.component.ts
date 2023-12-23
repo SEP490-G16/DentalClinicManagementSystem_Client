@@ -86,7 +86,7 @@ export class RevenueChartComponent implements OnInit {
   }
 
   getExpenses() {
-    this.expensesService.getExpense(this.startTimestamp, this.endTimestamp)
+    this.expensesService.getExpense(this.startTimestamp, this.endTimestamp + 1)
       .subscribe((res) => {
         this.Expenses = res.data;
         console.log(this.Expenses);

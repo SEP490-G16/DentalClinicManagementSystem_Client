@@ -45,7 +45,7 @@ export class ReceptionistTimekeepingService {
       'Authorization': `${idToken}`,
       'Accept': 'application/json',
     });
-    return this.http.get(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/timekeeping/${startTime}/${endTime}`, { headers });
+    return this.http.get(`${this.apiUrl}/timekeeping/${startTime}/${endTime}`, { headers });
   }
 
   postTimekeeping(PostTimekeeping: any): Observable<any> {
@@ -65,7 +65,7 @@ export class ReceptionistTimekeepingService {
       "Content-Type": "application/json; charset=utf8"
     });
     const requestBody = JSON.stringify(PostTimekeeping);
-    return this.http.post(`https://twjwpq3ype.execute-api.ap-southeast-1.amazonaws.com/prod/timekeeping`, requestBody, { headers });
+    return this.http.post(`${this.apiUrl}/timekeeping`, requestBody, { headers });
   }
 
 
