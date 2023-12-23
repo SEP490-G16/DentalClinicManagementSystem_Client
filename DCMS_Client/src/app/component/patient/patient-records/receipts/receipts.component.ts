@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { PatientService } from 'src/app/service/PatientService/patient.service';
 import { PaidMaterialUsageService } from 'src/app/service/PatientService/patientPayment.service';
 import { ConfirmationModalComponent } from 'src/app/component/utils/pop-up/common/confirm-modal/confirm-modal.component';
+import { ConfirmDeleteModalComponent } from 'src/app/component/utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component';
 
 @Component({
   selector: 'app-receipts',
@@ -132,6 +133,41 @@ export class ReceiptsComponent implements OnInit {
         }
       });
 
+  }
+
+  convertToFormattedDate(dateString: string): string {
+    const dateObject = new Date(dateString);
+
+    if (isNaN(dateObject.getTime())) {
+      return '';
+    }
+
+    const year = dateObject.getFullYear();
+    const month = dateObject.getMonth() + 1; // Tháng bắt đầu từ 0
+    const day = dateObject.getDate();
+
+    return `${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year}`;
+  }
+
+  openDeleteModal(message: string): Promise<any> {
+    const modalRef = this.modalService.open(ConfirmDeleteModalComponent);
+    modalRef.componentInstance.message = message;
+    return modalRef.result;
+  }
+  deleteReceipt(Receipt:any) {
+    this.openDeleteModal(`Bạn có chắc chắn muốn xóa phiếu thu ${Receipt.r_receipt_id} không?`).then((result) => {
+      if (result === true) {
+          this.receiptsService.deleteReceipt(Receipt.r_receipt_id)
+          .subscribe((res) => {
+            this.toastr.success(`Xóa phiếu thu ${Receipt.r_receipt_id} thành công`, "Xóa phiếu thu");
+            window.location.reload();
+          },
+          (error) => {
+            this.toastr.error(`Xóa phiếu thu ${Receipt.r_receipt_id} thất bại`, "Xóa phiếu thu");
+          }
+          )
+      }
+    });
   }
 
   calculateTotalPayment(details: any[]): number {

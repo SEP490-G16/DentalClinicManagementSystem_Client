@@ -12,6 +12,7 @@ import { FacilityService } from 'src/app/service/FacilityService/facility.servic
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { MaterialUsageService } from 'src/app/service/MaterialUsage/MaterialUsageService.component';
+import { ConfirmDeleteModalComponent } from 'src/app/component/utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component';
 
 @Component({
   selector: 'app-popup-payment-tab',
@@ -160,6 +161,30 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
     patient_id: "",
     payment_type: null,
     receipt: [] as Paid_material_usage[]
+  }
+
+  openConfirmationModal(message: string): Promise<any> {
+    const modalRef = this.modalService.open(ConfirmDeleteModalComponent);
+    modalRef.componentInstance.message = message;
+    return modalRef.result;
+  }
+
+  cancelPayment(MaterialUsageDetail: any) {
+
+    this.openConfirmationModal(`Bạn có chắc chắn muốn hủy thanh toán dịch vụ ${MaterialUsageDetail.mu_mpname} không?`).then((result) => {
+      if (result === true) {
+          this.materialUsageService.deleteMaterialUsage(MaterialUsageDetail.mu_material_usage_id)
+          .subscribe((res) => {
+            this.toastr.success(`Hủy thanh toán dịch vụ ${MaterialUsageDetail.mu_mpname} thành công`, "Hủy thanh toán thành công");
+            window.location.reload();
+          },
+          (error) => {
+            this.toastr.error(`Hủy thanh toán dịch vụ ${MaterialUsageDetail.mu_mpname} thất bại`, "Hủy thanh toán thất bại");
+          }
+          )
+      }
+    });
+
   }
 
   postPayment() {

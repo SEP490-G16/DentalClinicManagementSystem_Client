@@ -67,6 +67,15 @@ export class MaterialUsageService {
     return this.http.put(`${this.url}/material-usage/${ID}`, requestBody, { headers });
   }
 
+  deleteMaterialUsage(id:any):Observable<any>{
+    let idToken = sessionStorage.getItem("id_Token");
+    const headers = new HttpHeaders({
+      'Authorization': `${idToken}`,
+      'Content-Type':'application/json'
+    });
+    return this.http.delete(`${this.url}/material-usage/${id}`,{headers});
+  }
+
   postProcedureMaterialUsage(ProcedureMaterialUsage: any): Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");
     const headers = new HttpHeaders({

@@ -22,6 +22,10 @@
   --custom-box-shadow: 0 2rem 3rem var(--custom-color-light);
 }
 
+.content-wrapper {
+  padding-left: 40px;
+  padding-right: 40px;
+}
 
 a {
   color: var(--custom-color-dark);

@@ -166,8 +166,8 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
         name: this.TreatmentCourse.name,
         prescription: JSON.parse(this.TreatmentCourse.prescription)
       }
+      this.getListMaterialusage();
     }
-    this.getListMaterialusage();
     if (this.Edit_TreatmentCourse.prescription.length > 0) {
       this.showPrescriptionContent = true;
       this.Edit_TreatmentCourse.prescription.forEach((item:any) => {

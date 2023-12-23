@@ -101,7 +101,7 @@
                   <div class="col-10">
                     <a title="Xem thông tin lần khám của đợt khám {{ course.name }}"
                       style="color: white;cursor: pointer; text-decoration: none; font-size: 15px; text-align: start;">
-                      <b style="color: white;">Ngày khám: {{course.created_date | date: 'dd/MM/yyyy'}} - Chẩn đoán:
+                      <b style="color: white;">Ngày khám: {{convertToFormattedDate(course.created_date)}} - Chẩn đoán:
                         {{course.provisional_diagnosis}} -
 
                           Điều trị {{course.name}} {{ course.isCompleted?"":"(Chưa hoàn thiện lần khám)"}}

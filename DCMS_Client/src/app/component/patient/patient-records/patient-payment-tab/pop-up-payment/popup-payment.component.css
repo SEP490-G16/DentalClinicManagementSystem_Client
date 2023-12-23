@@ -194,3 +194,103 @@ p {
 h4, i {
   margin: 5px 0;
 }
+
+
+input[type="number"] {
+  width: 100%; /* Chiều rộng tối đa trong thẻ td */
+  padding: 8px 12px; /* Padding thoải mái để nhập liệu */
+  font-size: 16px; /* Kích thước font phù hợp */
+  border: 1px solid #ccc; /* Đường viền màu xám nhẹ */
+  border-radius: 4px; /* Góc bo tròn nhẹ nhàng */
+  box-sizing: border-box; /* Đảm bảo kích thước bao gồm padding và border */
+  transition: border-color 0.3s ease-in-out; /* Hiệu ứng chuyển tiếp mượt mà */
+}
+
+input[type="number"]:hover,
+input[type="number"]:focus {
+  border-color: #007bff; /* Màu sắc nổi bật khi tương tác */
+}
+
+.chietkhau {
+  display: flex; /* Chuyển td thành một container flex */
+  align-items: center; /* Căn giữa các items theo chiều dọc */
+  justify-content: center; /* Căn trái các items */
+}
+
+input[type="number"] {
+  width: auto; /* Chiếm không gian cần thiết thay vì toàn bộ chiều rộng */
+  padding: 8px 12px; /* Padding như trước */
+  font-size: 16px; /* Kích thước font như trước */
+  border: 1px solid #ccc; /* Đường viền như trước */
+  border-radius: 4px; /* Góc bo tròn như trước */
+  margin-right: 4px; /* Thêm một chút khoảng cách giữa input và dấu phần trăm */
+}
+
+span.percentage-sign {
+  padding-left: 4px; /* Khoảng cách giữa dấu phần trăm và input */
+}
+
+.paymentAmount {
+  width: 100%; /* Chiều rộng tối đa để phù hợp với container */
+  padding: 10px 15px; /* Padding lớn hơn để dễ nhập */
+  font-size: 18px; /* Kích thước font lớn hơn để dễ đọc */
+  line-height: 1.5; /* Khoảng cách dòng phù hợp */
+  border: 2px solid #ced4da; /* Đường viền dày và rõ ràng hơn */
+  border-radius: 5px; /* Góc bo tròn như đã thiết lập */
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075); /* Bóng nội tại nhẹ để tăng chiều sâu */
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out; /* Hiệu ứng mượt mà khi tương tác */
+  margin-bottom: 10px; /* Khoảng cách với các phần tử bên dưới */
+}
+
+.paymentAmount:focus {
+  border-color: #66afe9; /* Màu viền khi tập trung */
+  outline: 0; /* Loại bỏ đường viền mặc định khi tập trung */
+  box-shadow: 0 0 5px rgba(102, 175, 233, .6); /* Bóng mờ xung quanh để tập trung */
+}
+
+/* Placeholder style */
+::placeholder {
+  color: #6c757d; /* Màu của placeholder */
+  opacity: 1; /* Đảm bảo placeholder dễ nhìn */
+}
+
+/* Style for webkit browsers */
+::-webkit-input-placeholder {
+  color: #6c757d;
+}
+
+/* Style for Mozilla Firefox */
+::-moz-placeholder {
+  color: #6c757d;
+  opacity: 1;
+}
+
+/* Style for Internet Explorer */
+:-ms-input-placeholder {
+  color: #6c757d;
+}
+
+.cancel-payment-button {
+  padding: 5px 10px; /* Kích thước padding đủ rộng để dễ nhấn */
+  color: #dc3545; /* Màu chữ đỏ để chỉ ra hành động hủy */
+  background-color: transparent; /* Màu nền trong suốt */
+  border: 2px solid #dc3545; /* Viền màu đỏ */
+  border-radius: 5px; /* Bo tròn góc */
+  cursor: pointer; /* Con trỏ biến thành dấu tay khi di chuyển lên nút */
+  transition: all 0.3s ease; /* Hiệu ứng chuyển đổi mượt mà */
+  display: inline-flex; /* Hiển thị nút và biểu tượng cạnh nhau */
+  align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+  justify-content: center; /* Căn giữa các phần tử theo chiều ngang */
+  text-decoration: none; /* Loại bỏ gạch chân của liên kết */
+}
+
+.cancel-payment-button:hover {
+  background-color: #dc3545; /* Màu nền khi di chuột qua hoặc focus */
+  color: white; /* Màu chữ trắng khi di chuột qua hoặc focus */
+  border-color: #dc3545; /* Viền màu đỏ giữ nguyên */
+  text-decoration: none; /* Loại bỏ gạch chân khi di chuột qua */
+}
+
+.cancel-payment-button i {
+  margin-right: 5px; /* Khoảng cách giữa biểu tượng và chữ */
+}
