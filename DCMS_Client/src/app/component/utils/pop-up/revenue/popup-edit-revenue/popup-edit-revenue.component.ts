@@ -31,6 +31,7 @@ export class PopupEditRevenueComponent implements OnInit {
     totalAmount:''
   }
   isSubmitted:boolean = false;
+  disable:boolean = false;
   constructor(private paidMaterialUsageService: PaidMaterialUsageService,
     private toastr: ToastrService) { }
 
@@ -92,12 +93,14 @@ export class PopupEditRevenueComponent implements OnInit {
       expenses_id: this.EDIT_BILL_BODY.epoch,
       expenses: `{\\\"createBy\\\":\\\"${this.EDIT_BILL_BODY.createBy}\\\", \\\"createDate\\\":\\\"${this.dateToTimestamp(this.EDIT_BILL_BODY.createDate)}\\\", \\\"typeExpense\\\": \\\"${this.EDIT_BILL_BODY.typeExpense}\\\", \\\"totalAmount\\\":\\\"${this.EDIT_BILL_BODY.totalAmount}\\\", \\\"note\\\":\\\"${this.EDIT_BILL_BODY.note}\\\"}`
     };
+    this.disable = true;
     this.paidMaterialUsageService.updatePaidMaterialUsageNew(bill.id, JSON.stringify(this.messageBody)).subscribe(
       (data) => {
         this.showSuccessToast("Chỉnh sửa thành công");
         window.location.reload();
       },
       (err) => {
+        this.disable=false;
         this.showErrorToast("Lỗi khi chỉnh sửa");
       }
     );

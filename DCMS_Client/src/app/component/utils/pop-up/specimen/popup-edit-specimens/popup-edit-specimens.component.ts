@@ -31,6 +31,7 @@ export class PopupEditSpecimensComponent implements OnInit {
   id: string = "";
   status: string = "0";
   total: number = 0;
+  disable:boolean = false;
   constructor(
     private toastr: ToastrService,
     private cognitoService: CognitoService,
@@ -243,18 +244,19 @@ export class PopupEditSpecimensComponent implements OnInit {
       labo_id: this.IPutSpecimens.lb_id,
       patient_id: this.IPutSpecimens.p_patient_id
     }
+    this.disable = true;
     this.SpecimensService.putSpecimens(this.id, this.putSpecimensBody)
       .subscribe((res) => {
         this.loading = false;
-        this.isCallApi = false;
-        const ref = document.getElementById("cancel-edit-specimen");
-        ref?.click();
+        // const ref = document.getElementById("cancel-edit-specimen");
+        // ref?.click();
         this.showSuccessToast('Chỉnh sửa mẫu vật thành công!');
         window.location.reload();
       },
         (error) => {
           this.loading = false;
-          this.isCallApi = false;
+          this.disable = false;
+          this.showErrorToast('Chỉnh sửa mẫu vật thất bại!');
           ResponseHandler.HANDLE_HTTP_STATUS(this.SpecimensService.apiUrl + "/medical-supply/" + this.id, error);
         }
       )

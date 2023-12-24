@@ -31,7 +31,7 @@ export class PopupAddReportExpenditureComponent implements OnInit {
     epoch: '',
     expenses: `{"createBy":"", "createDate":"", "typeExpense": "", "totalAmount":"", "note":""}`
   }
-
+  disable:boolean = false;
   constructor(private paidMaterialUsageService: PaidMaterialUsageService,
     private toastr: ToastrService) {
 
@@ -90,6 +90,7 @@ export class PopupAddReportExpenditureComponent implements OnInit {
       epoch: this.paidExpense.createDate,
       expenses: `{\\\"createBy\\\":\\\"${this.paidExpense.createBy}\\\", \\\"createDate\\\":\\\"${this.paidExpense.createDate}\\\", \\\"typeExpense\\\": \\\"${this.paidExpense.typeExpense}\\\", \\\"totalAmount\\\":\\\"${this.paidExpense.totalAmount}\\\", \\\"note\\\":\\\"${this.paidExpense.note}\\\"}`
     };
+    this.disable = true;
     this.paidMaterialUsageService.postExpenseNew(this.messageBody).subscribe(
       (data) => {
         this.showSuccessToast("Thêm mới thành công");
@@ -103,6 +104,7 @@ export class PopupAddReportExpenditureComponent implements OnInit {
         window.location.reload();
       },
       (err) => {
+        this.disable = false;
         this.showErrorToast("Lỗi khi thêm mới chi");
       }
     );

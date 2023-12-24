@@ -34,6 +34,7 @@ export class PopupAddFacilityComponent implements OnInit {
   }
   isSubmited:boolean= false;
   loading:boolean = false;
+  disable:boolean = false;
   constructor(private facilityService:FacilityService,
               private toastr: ToastrService) { }
 
@@ -93,7 +94,8 @@ export class PopupAddFacilityComponent implements OnInit {
         manager_name: this.facility.managerName
       }
     }
-    this.loading = true;
+    //this.loading = true;
+    this.disable = true;
     this.facilityService.addFacility(this.facilityBody).subscribe(data=>{
       this.toastr.success('Thêm mới cơ sở thành công !');
       /*let ref = document.getElementById('cancel-add-facility');
@@ -105,7 +107,8 @@ export class PopupAddFacilityComponent implements OnInit {
     },
       error => {
       this.loading = false;
-      //this.toastr.error('Thêm mới cơ sở thất bại !')
+      this.toastr.error('Thêm mới cơ sở thất bại !');
+      this.disable = false;
         ResponseHandler.HANDLE_HTTP_STATUS(this.facilityService.url+"/facility", error);
       }
     )

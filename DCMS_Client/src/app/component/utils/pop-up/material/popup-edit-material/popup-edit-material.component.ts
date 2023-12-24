@@ -41,6 +41,7 @@ export class PopupEditMaterialComponent implements OnChanges {
   }
   isSubmitted: boolean = false;
   //id:any;
+  disable:boolean = false;
   constructor(private materialSerivce: MaterialService,
     private matMaterialWarehouseService: MaterialWarehouseService,
     private toastr: ToastrService) {
@@ -101,6 +102,7 @@ export class PopupEditMaterialComponent implements OnChanges {
       warranty:  TimestampFormat.timeAndDateToTimestamp("20:00",FormatNgbDate.formatNgbDateToString(this.model))
     }
     //return;
+    this.disable = true;
     this.matMaterialWarehouseService.updateMaterialImportMaterial(this.item.mw_material_warehouse_id, this.materialBody).subscribe(data => {
       this.toastr.success('Cập nhật vật liệu thành công!');
       window.location.reload();
@@ -113,7 +115,8 @@ export class PopupEditMaterialComponent implements OnChanges {
       // }
     },
       error => {
-        //this.toastr.error('Cập nhật vật liệu thất bại!');
+        this.disable = false;
+        this.toastr.error('Cập nhật vật liệu thất bại!');
         ResponseHandler.HANDLE_HTTP_STATUS(this.matMaterialWarehouseService.url + "/material-warehouse/material_warehouse_id/" + this.item.mw_material_warehouse_id, error);
       }
     )

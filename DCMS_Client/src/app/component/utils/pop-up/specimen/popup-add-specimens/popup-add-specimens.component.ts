@@ -82,6 +82,7 @@ export class PopupAddSpecimensComponent implements OnInit {
   isSubmitted: boolean = false;
   loading: boolean = false;
   patientFind: any;
+  disable:boolean = false;
   constructor(private medicalSupplyService: MedicalSupplyService,
     private toastr: ToastrService,
     private patientSerivce: PatientService,
@@ -249,19 +250,19 @@ export class PopupAddSpecimensComponent implements OnInit {
       receiver: this.specimen.orderer,
 
     }
-    this.loading = true;
+    //this.loading = true;
+    this.disable = true;
     this.medicalSupplyService.addMedicalSupply(this.specimenBody).subscribe(data => {
       this.toastr.success('Thêm mới mẫu thành công !');
-      this.isCallApi = false;
-      let ref = document.getElementById('cancel-specimen');
-      ref?.click();
-      console.log(this.specimenBody);
+      // let ref = document.getElementById('cancel-specimen');
+      // ref?.click();
       window.location.reload();
-      this.loading = false;
+      //this.loading = false;
     },
       error => {
-      this.isCallApi = false;
-      this.loading = false;
+        this.loading = false;
+        this.disable = false;
+        this.toastr.error('Thêm mới mẫu thất bại!');
         ResponseHandler.HANDLE_HTTP_STATUS(this.medicalSupplyService.url + "/medical-supply", error);
       })
   }

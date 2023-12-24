@@ -28,6 +28,7 @@ export class PopupAddMaterialComponent implements OnInit {
     unit: ''
   }
   isSubmitted: boolean = false;
+  disable:boolean = false;
   constructor(private materialSerivce: MaterialService,
     private toastr: ToastrService) { }
 
@@ -53,6 +54,7 @@ export class PopupAddMaterialComponent implements OnInit {
       total: this.material.total
     }
     console.log(this.materialBody);
+    this.disable = true;
     this.materialSerivce.addMaterial(this.materialBody).subscribe(data => {
       this.toastr.success('Thêm mới vật liệu thành công!');
       //window.location.reload();
@@ -67,6 +69,7 @@ export class PopupAddMaterialComponent implements OnInit {
 
     },
       (error) => {
+      this.disable = false;
         this.toastr.error(error.error.message, 'Thêm mới vật liệu thất bại!');
         // ResponseHandler.HANDLE_HTTP_STATUS(this.materialSerivce.url+"/material", error.error.message);
       }
