@@ -329,7 +329,7 @@
           <div class="button-conf float-end">
 
             <button type="button" id="cancel" class="btn btn-cancel" data-bs-dismiss="modal" (click)="close()">Hủy</button>
-            <button type="button" class="btn button-add"
+            <button type="button" class="btn button-add" [disabled]="isCallApi"
               (click)="editTreatmentCourse()">Lưu</button>
           </div>
         </div>

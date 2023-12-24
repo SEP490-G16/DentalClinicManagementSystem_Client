@@ -96,7 +96,11 @@
                 <div class="float-end">
                   <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Huỷ</button>
                   <!-- <button type="button" class="btn btn-primary" (click)="onPostAppointment()" [disabled]="!isPatientInfoEditable">Xác nhận</button> -->
-                  <button type="button" class="btn button-timekeeping" (click)="onPutAppointment()"><i
+                  <button type="button" class="btn button-timekeeping"
+
+                  (click)="onPutAppointment()"
+                  [disabled]="isCallApi"
+                  ><i
                       class="bi bi-plus-circle"></i> Lưu</button>
                 </div>
               </div>

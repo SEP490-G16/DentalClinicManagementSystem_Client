@@ -74,7 +74,9 @@
                 <div class="float-end">
                   <button type="button" class="btn btn-cancel" data-bs-dismiss="modal" (click)="close()">Huỷ</button>
                   <!-- <button type="button" class="btn btn-primary" (click)="onPostAppointment()" [disabled]="!isPatientInfoEditable">Xác nhận</button> -->
-                  <button type="button" class="btn button-timekeeping" (click)="onPostAppointment()"><i
+                  <button type="button" class="btn button-timekeeping"
+                  [disabled]="isCallApi"
+                  (click)="onPostAppointment()"><i
                       class="bi bi-plus-circle"></i> Thêm mới</button>
                 </div>
               </div>

@@ -168,7 +168,7 @@
       <div class="modal-footer" style="display:flex;justify-content: space-around;">
         <div class="button-conf">
           <button type="button" class="btn btn-cancel" data-bs-dismiss="modal" id="cancel-add-waiting-new">Quay lại</button>
-          <button type="button" class="btn button-timekeeping" (click)="addPatient()" >
+          <button type="button" class="btn button-timekeeping" [disabled]="isCallApi" (click)="addPatient()" >
             <i class="bi bi-floppy2"></i> Lưu</button>
         </div>
       </div>

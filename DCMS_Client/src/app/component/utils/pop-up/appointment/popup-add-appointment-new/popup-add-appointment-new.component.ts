@@ -1,24 +1,24 @@
-import {Component, EventEmitter, Input, OnInit, Output, Renderer2, SimpleChanges} from '@angular/core';
-import {BehaviorSubject} from "rxjs";
-import {IAddAppointment, IAddAppointmentNew, RootObject} from "../../../../../model/IAppointment";
-import {NgbCalendar, NgbDate, NgbDatepickerConfig, NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
+import { Component, EventEmitter, Input, OnInit, Output, Renderer2, SimpleChanges } from '@angular/core';
+import { BehaviorSubject } from "rxjs";
+import { IAddAppointment, IAddAppointmentNew, RootObject } from "../../../../../model/IAppointment";
+import { NgbCalendar, NgbDate, NgbDatepickerConfig, NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import {
   ReceptionistAppointmentService
 } from "../../../../../service/ReceptionistService/receptionist-appointment.service";
-import {PatientService} from "../../../../../service/PatientService/patient.service";
-import {ToastrService} from "ngx-toastr";
-import {Router} from "@angular/router";
-import {CognitoService} from "../../../../../service/cognito.service";
-import {TimeKeepingService} from "../../../../../service/Follow-TimeKeepingService/time-keeping.service";
+import { PatientService } from "../../../../../service/PatientService/patient.service";
+import { ToastrService } from "ngx-toastr";
+import { Router } from "@angular/router";
+import { CognitoService } from "../../../../../service/cognito.service";
+import { TimeKeepingService } from "../../../../../service/Follow-TimeKeepingService/time-keeping.service";
 import {
   MedicalProcedureGroupService
 } from "../../../../../service/MedicalProcedureService/medical-procedure-group.service";
-import {SendMessageSocket} from "../../../../shared/services/SendMessageSocket.service";
+import { SendMessageSocket } from "../../../../shared/services/SendMessageSocket.service";
 import * as moment from "moment-timezone";
-import {ConvertJson} from "../../../../../service/Lib/ConvertJson";
-import {Normalize} from "../../../../../service/Lib/Normalize";
-import {ResponseHandler} from "../../../libs/ResponseHandler";
-import {FormatNgbDate} from "../../../libs/formatNgbDate";
+import { ConvertJson } from "../../../../../service/Lib/ConvertJson";
+import { Normalize } from "../../../../../service/Lib/Normalize";
+import { ResponseHandler } from "../../../libs/ResponseHandler";
+import { FormatNgbDate } from "../../../libs/formatNgbDate";
 import { TimestampFormat } from '../../../libs/timestampFormat';
 
 @Component({
@@ -27,14 +27,16 @@ import { TimestampFormat } from '../../../libs/timestampFormat';
   styleUrls: ['./popup-add-appointment-new.component.css']
 })
 export class PopupAddAppointmentNewComponent implements OnInit {
-  @Input()selectedDateCache:any;
+  @Input() selectedDateCache: any;
+  isCallApi: boolean = false;
+
   dobNgb!: NgbDateStruct
   private itemsSource = new BehaviorSubject<any[]>([]);
   items = this.itemsSource.asObservable();
   isCheckProcedure: boolean = true;
   reason: any;
-  bacsi:any;
-  isAddOld:boolean = false;
+  bacsi: any;
+  isAddOld: boolean = false;
   listGroupService: any[] = [];
   private intervalId: any;
   isCheck: boolean = false;
@@ -81,7 +83,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
     address: '',
     dob: '',
     email: '',
-    zalo:''
+    zalo: ''
   }
   // Set the minimum date to January 1, 1900
   minDate: NgbDateStruct = { year: 1900, month: 1, day: 1 };
@@ -121,11 +123,11 @@ export class PopupAddAppointmentNewComponent implements OnInit {
   mindate: Date;
   minTime: string;
   constructor(private APPOINTMENT_SERVICE: ReceptionistAppointmentService,
-              private PATIENT_SERVICE: PatientService,
-              private toastr: ToastrService,
-              private calendar: NgbCalendar,
-              private sendMessageSocket: SendMessageSocket,
-              private config: NgbDatepickerConfig,
+    private PATIENT_SERVICE: PatientService,
+    private toastr: ToastrService,
+    private calendar: NgbCalendar,
+    private sendMessageSocket: SendMessageSocket,
+    private config: NgbDatepickerConfig,
   ) {
 
     const currentYear = new Date().getFullYear();
@@ -273,24 +275,33 @@ export class PopupAddAppointmentNewComponent implements OnInit {
   unqueList: any[] = [];
   listNewAppointment: any[] = [];
   addPatient() {
+    this.isCallApi = true;
 
     this.resetValidatePatient();
     if (!this.patient1.patientName) {
       this.validatePatient.name = "Vui lòng nhập tên bệnh nhân!";
       this.isSubmittedPatient = true;
+      this.isCallApi = false;
+
     }
     var regex = /[0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\\-/]/;
-    if(regex.test(this.patient1.patientName)==true){
+    if (regex.test(this.patient1.patientName) == true) {
       this.validatePatient.name = "Tên không hợp lệ!";
       this.isSubmitted = true;
+      this.isCallApi = false;
+
     }
     if (!this.patient1.phone_Number) {
       this.validatePatient.zalo = "Vui lòng nhập số zalo!";
       this.isSubmittedPatient = true;
+      this.isCallApi = false;
+
     }
-    else if (!this.isVietnamesePhoneNumber(this.patient1.phone_Number)){
+    else if (!this.isVietnamesePhoneNumber(this.patient1.phone_Number)) {
       this.validatePatient.zalo = "Số zalo không hợp lệ!";
       this.isSubmittedPatient = true;
+      this.isCallApi = false;
+
     }
     if (!this.isVietnamesePhoneNumber(this.patient1.sub_phoneNumber) && this.patient1.sub_phoneNumber){
       this.validatePatient.phone = "Số điện thoạt không hợp lệ!";
@@ -299,15 +310,21 @@ export class PopupAddAppointmentNewComponent implements OnInit {
     if (!this.dobNgb || !this.dobNgb.year || !this.dobNgb.month || !this.dobNgb.day) {
       this.validatePatient.dob = "Vui lòng nhập ngày sinh!";
       this.isSubmitted = true;
+      this.isCallApi = false;
+
     }
-    else if (this.isDob(FormatNgbDate.formatNgbDateToString(this.dobNgb))){
+    else if (this.isDob(FormatNgbDate.formatNgbDateToString(this.dobNgb))) {
       this.validatePatient.dob = "Vui lòng nhập ngày sinh đúng định dạng dd/MM/yyyy !";
       this.isSubmitted = true;
+      this.isCallApi = false;
+
     }
 
     if (!this.patient1.Address) {
       this.validatePatient.address = "Vui lòng nhập địa chỉ!";
       this.isSubmittedPatient = true;
+      this.isCallApi = false;
+
     }
     //Check validate create new appointment
     const selectedYear = this.model.year;
@@ -329,6 +346,8 @@ export class PopupAddAppointmentNewComponent implements OnInit {
     if (this.AppointmentBody.appointment.procedure_id == "1") {
       this.validateAppointment.procedure = "Vui lòng chọn loại điều trị!";
       this.isSubmitted = true;
+      this.isCallApi = false;
+
       this.loading = false;
       return;
     }
@@ -440,15 +459,21 @@ export class PopupAddAppointmentNewComponent implements OnInit {
       this.validateAppointment.appointmentDate = "Vui lòng chọn ngày khám!";
       this.isSubmitted = true;
       this.loading = false;
+      this.isCallApi = false;
+
       return;
     } else if (selectedDate < currentDate) {
       this.validateAppointment.appointmentDate = "Vui lòng chọn ngày lớn hơn ngày hiện tại";
       this.isSubmitted = true;
       this.loading = false;
+      this.isCallApi = false;
+
       return;
     } else if (!this.isCheckProcedure) {
       if (!window.confirm(`Thủ thuật ${this.procedure} mà bạn chọn đã có đủ số lượng người trong trong ngày ${selectedDate}. Bạn có muốn tiếp tục?`)) {
         this.validateAppointment.appointmentDate = "Vui lòng chọn ngày khác";
+        this.isCallApi = false;
+
         return;
       }
     }
@@ -457,12 +482,16 @@ export class PopupAddAppointmentNewComponent implements OnInit {
       this.validateAppointment.appointmentTime = "Vui lòng chọn giờ khám!";
       this.isSubmitted = true;
       this.loading = false;
+      this.isCallApi = false;
+
       return;
     } else if (this.appointmentTime != '' && selectedDate <= currentDate) {
       if ((currentDate + " " + this.appointmentTime) < (currentDate + " " + currentTime)) {
         this.validateAppointment.appointmentTime = "Vui lòng chọn giờ khám lớn hơn!";
         this.isSubmitted = true;
         this.loading = false;
+        this.isCallApi = false;
+
         return;
       }
     }
@@ -480,7 +509,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
       address: this.patient1.Address,
       full_medical_history: this.patient1.full_medical_History,
       dental_medical_history: this.patient1.dental_medical_History,
-      date_of_birth:TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.dobNgb))
+      date_of_birth: TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.dobNgb))
     }
     if (this.patient1.phone_Number && this.patient1.phone_Number.length === 9) {
       this.patientBody = {
@@ -541,6 +570,8 @@ export class PopupAddAppointmentNewComponent implements OnInit {
     }
 
     this.PATIENT_SERVICE.addPatient(this.patientBody).subscribe((data: any) => {
+      this.isCallApi = false;
+
       this.toastr.success('Thêm mới bệnh nhân thành công!');
       this.checkNewPatent = true;
       this.patient1 = [];
@@ -553,12 +584,14 @@ export class PopupAddAppointmentNewComponent implements OnInit {
       }
 
       const now = new Date();
-      const curr = (now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDay() +" "+now.getHours()+":"+now.getMinutes()+":"+now.getSeconds()).toString();
+      const curr = (now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDay() + " " + now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds()).toString();
       //const patientInfor = this.AppointmentBody.appointment.patient_id+ " - "+this.AppointmentBody.appointment.patient_name+" - "+this.AppointmentBody.appointment.phone_number+" - "+this.patientBody.address+" - "+ curr+" - "+"pa";
       //this.sendMessageSocket.sendMessageSocket('CheckRealTimeWaitingRoom@@@',`${patientInfor}`,`${Number('1')}`);
     
       this.APPOINTMENT_SERVICE.postAppointmentNew(this.AppointmentBody).subscribe(
         (response) => {
+          this.isCallApi = false;
+
           this.loading = false;
           if (selectedDate == this.startDate) {
             this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'app');
@@ -578,11 +611,11 @@ export class PopupAddAppointmentNewComponent implements OnInit {
             status: this.AppointmentBody.appointment.status_attr,
             patient_created_date: this.AppointmentBody.appointment.is_new,
             migrated: 'false',
-            reason:this.AppointmentBody.appointment.reason
+            reason: this.AppointmentBody.appointment.reason
           };
 
           const now = new Date();
-          const currDate = now.getFullYear() + "-"+(now.getMonth()+1)+"-"+now.getDate();
+          const currDate = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
           // if (this.selectedDateCache == selectedDate) {
           //   const appointmentIndex = this.filteredAppointments.findIndex((a: any) => a.date === this.AppointmentBody.epoch);
 
@@ -630,11 +663,15 @@ export class PopupAddAppointmentNewComponent implements OnInit {
           window.location.reload();
         },
         (error) => {
+          this.isCallApi = false;
+
           this.loading = false;
           ResponseHandler.HANDLE_HTTP_STATUS(this.APPOINTMENT_SERVICE.apiUrl + "/appointment", error);
         }
       );
     }, error => {
+      this.isCallApi = false;
+
       ResponseHandler.HANDLE_HTTP_STATUS(this.PATIENT_SERVICE.test + "/patient", error);
     })
   }
@@ -657,7 +694,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
       return null; // hoặc bạn có thể handle lỗi tùy theo logic của ứng dụng
     }
   }
-  toggleAddOld(){
+  toggleAddOld() {
     this.isAddOld = true;
     this.isAdd = false;
   }
@@ -678,7 +715,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
       address: '',
       dob: '',
       email: '',
-      zalo:''
+      zalo: ''
     }
     this.isSubmittedPatient = false;
   }

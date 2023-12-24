@@ -29,12 +29,13 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
 
   loading: boolean = false;
   isCheckProcedure: boolean = true;
+  isCallApi: boolean = false;
 
   @Input() selectedAppointment: any;
   @Input() dateString: any;
   @Input() timeString: any;
   @Input() filteredAppointments: any;
-  @Input()selectedDateCache:any;
+  @Input() selectedDateCache: any;
   //@Input() datesDisabled: any;
   datesDisabled: any[] = [];
   listDate: any[] = [];
@@ -307,6 +308,8 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
   unqueList: any[] = [];
   listNewAppointment: any[] = [];
   onPutAppointment() {
+    this.isCallApi = true;
+
     this.EDIT_APPOINTMENT_BODY.epoch = this.dateToTimestamp(this.dateString);
 
     //Convert model to string
@@ -327,6 +330,8 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     if (this.EDIT_APPOINTMENT_BODY.appointment.procedure_id == "1") {
       this.validateAppointment.procedure = "Vui lòng chọn loại điều trị!";
       this.isSubmitted = true;
+      this.isCallApi = false;
+
       this.loading = false;
       return;
     }
@@ -431,16 +436,22 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     if (selectedDate == '') {
       this.validateAppointment.appointmentDate = "Vui lòng chọn ngày khám!";
       this.isSubmitted = true;
+      this.isCallApi = false;
+
       this.loading = false;
       return;
     } else if (selectedDate < currentDate) {
       this.validateAppointment.appointmentDate = "Vui lòng chọn ngày lớn hơn ngày hiện tại";
       this.isSubmitted = true;
+      this.isCallApi = false;
+
       this.loading = false;
       return;
     } else if (!this.isCheckProcedure) {
       if (!window.confirm("Thủ thuật mà bạn chọn đã có đủ 8 người trong trong ngày đó. Bạn có muốn tiếp tục?")) {
         this.validateAppointment.appointmentDate = "Vui lòng chọn ngày khác";
+        this.isCallApi = false;
+
         return;
       }
     }
@@ -448,12 +459,16 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     if (this.timeString == '') {
       this.validateAppointment.appointmentTime = "Vui lòng chọn giờ khám!";
       this.isSubmitted = true;
+      this.isCallApi = false;
+
       this.loading = false;
       return;
     } else if (this.timeString != '' && selectedDate <= currentDate) {
       if ((currentDate + " " + this.timeString) < (currentDate + " " + currentTime)) {
         this.validateAppointment.appointmentTime = "Vui lòng chọn giờ khám lớn hơn!";
         this.isSubmitted = true;
+        this.isCallApi = false;
+
         this.loading = false;
         return;
       }
@@ -470,12 +485,14 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
       if (storeList != null) {
         listAppointment = JSON.parse(storeList);
       }
-      this.filteredAppointments = listAppointment.filter((ap:any) => ap.date === this.dateToTimestamp(selectedDate));
+      this.filteredAppointments = listAppointment.filter((ap: any) => ap.date === this.dateToTimestamp(selectedDate));
       this.filteredAppointments.forEach((appo: any) => {
         appo.appointments.forEach((deta: any) => {
           deta.details.forEach((res: any) => {
             if (res.patient_id == this.EDIT_APPOINTMENT_BODY.appointment.patient_id) {
               this.validateAppointment.patientName = `Bệnh nhân đã lịch hẹn trong ngày ${selectedDate} !`;
+              this.isCallApi = false;
+
               checkPatient = false;
               return;
             }
@@ -483,11 +500,12 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
         })
       })
     }
-    if (!checkPatient ) {
+    if (!checkPatient) {
       return;
     }
     this.APPOINTMENT_SERVICE.putAppointmentNew(this.EDIT_APPOINTMENT_BODY, this.selectedAppointment.appointment_id).subscribe(response => {
       this.showSuccessToast('Sửa Lịch hẹn thành công!');
+      this.isCallApi = false;
       window.location.reload();
     }, error => {
       //this.showErrorToast("Lỗi khi cập nhật");

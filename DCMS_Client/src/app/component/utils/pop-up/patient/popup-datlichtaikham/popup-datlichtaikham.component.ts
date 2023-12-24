@@ -19,7 +19,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureService/medical-procedure-group.service';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs'
-import {ResponseHandler} from "../../../libs/ResponseHandler";
+import { ResponseHandler } from "../../../libs/ResponseHandler";
 import { CognitoService } from 'src/app/service/cognito.service';
 import { IPatient } from 'src/app/model/IPatient';
 import { TimeKeepingService } from 'src/app/service/Follow-TimeKeepingService/time-keeping.service';
@@ -38,7 +38,7 @@ import { SendMessageSocket } from 'src/app/component/shared/services/SendMessage
 export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
   phoneRegex = /^[0-9]{10}$|^[0-9]{4}\s[0-9]{3}\s[0-9]{3}$/;
 
-
+  isCallApi: boolean = false;
   private itemsSource = new BehaviorSubject<any[]>([]);
   items = this.itemsSource.asObservable();
   isCheckProcedure: boolean = true;
@@ -48,19 +48,19 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
   isCheck: boolean = false;
   //doctors: any[] = [];
   procedure: string = "1";
-  reason:string = "";
+  reason: string = "";
   isPatientInfoEditable: boolean = false;
 
   loading: boolean = false;
 
-  @Input() Patient:any;
+  @Input() Patient: any;
   @Input() datesDisabled: any;
   @Input() filteredAppointments: any
 
   @Output() newItemEvent = new EventEmitter<any>();
   AppointmentBody: IAddAppointmentNew;
   appointmentTime = "";
-  listFilter:any[] = [];
+  listFilter: any[] = [];
   model!: NgbDateStruct;
   datePickerJson = {};
   markDisabled: any;
@@ -163,7 +163,7 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges): void {
-   
+
   }
 
   startDate: any;
@@ -187,11 +187,11 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
 
     const id = this.route.snapshot.params['id'];
     const patient = sessionStorage.getItem('patient');
-    if (patient != null){
+    if (patient != null) {
       var patients = JSON.parse(patient);
-      this.PATIENT_SERVICE.getPatientById(patients.patient_id ).subscribe((patient: any) => {
+      this.PATIENT_SERVICE.getPatientById(patients.patient_id).subscribe((patient: any) => {
         console.log("Call api Patient: ", patient);
-        this.patientInfor = patient.patient_id +" - "+patient.patient_name+ " - "+patient.phone_number;
+        this.patientInfor = patient.patient_id + " - " + patient.patient_name + " - " + patient.phone_number;
       })
     }
     this.getListGroupService();
@@ -276,6 +276,8 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
     count: 0,
   }
   onPostAppointment() {
+    this.isCallApi = true;
+
     const selectedYear = this.model.year;
     const selectedMonth = this.model.month.toString().padStart(2, '0');
     const selectedDay = this.model.day.toString().padStart(2, '0');
@@ -294,6 +296,7 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
     this.resetValidate();
     if (this.patientInfor == '' || this.patientInfor == null) {
       this.validateAppointment.patientName = "Vui lòng chọn bệnh nhân!";
+      this.isCallApi = false;
       this.isSubmitted = true;
       this.loading = false;
       return;
@@ -301,6 +304,7 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
 
     if (this.AppointmentBody.appointment.procedure_id == "1") {
       this.validateAppointment.procedure = "Vui lòng chọn loại điều trị!";
+      this.isCallApi = false;
       this.isSubmitted = true;
       this.loading = false;
       return;
@@ -411,16 +415,19 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
 
     if (selectedDate == '') {
       this.validateAppointment.appointmentDate = "Vui lòng chọn ngày khám!";
+      this.isCallApi = false;
       this.isSubmitted = true;
       this.loading = false;
       return;
     } else if (selectedDate < currentDate) {
       this.validateAppointment.appointmentDate = "Vui lòng chọn ngày lớn hơn ngày hiện tại";
+      this.isCallApi = false;
       this.isSubmitted = true;
       this.loading = false;
       return;
     } else if (!this.isCheckProcedure) {
       if (!window.confirm(`Thủ thuật ${this.procedure} mà bạn chọn đã có đủ số lượng người trong trong ngày ${selectedDate}. Bạn có muốn tiếp tục?`)) {
+        this.isCallApi = false;
         this.validateAppointment.appointmentDate = "Vui lòng chọn ngày khác";
         return;
       }
@@ -436,6 +443,7 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
         deta.details.forEach((res: any) => {
           if (res.patient_id === this.AppointmentBody.appointment.patient_id) {
             this.validateAppointment.patientName = `Bệnh nhân đã đặt lịch hẹn trong ngày ${selectedDate} !`;
+            this.isCallApi = false;
             checkPatient = false;
             return;
           }
@@ -449,12 +457,14 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
 
     if (this.appointmentTime == '') {
       this.validateAppointment.appointmentTime = "Vui lòng chọn giờ khám!";
+      this.isCallApi = false;
       this.isSubmitted = true;
       this.loading = false;
       return;
     } else if (this.appointmentTime != '' && selectedDate <= currentDate) {
       if ((currentDate + " " + this.appointmentTime) < (currentDate + " " + currentTime)) {
         this.validateAppointment.appointmentTime = "Vui lòng chọn giờ khám lớn hơn!";
+        this.isCallApi = false;
         this.isSubmitted = true;
         this.loading = false;
         return;
@@ -483,6 +493,7 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
         if (selectedDate == this.startDate) {
           this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'app');
         }
+        this.isCallApi = false;
         this.showSuccessToast('Lịch hẹn đã được tạo thành công!');
         let ref = document.getElementById('cancel-appointment');
         ref?.click();
@@ -523,13 +534,14 @@ export class PopupDatlichtaikhamComponent implements OnInit, OnChanges {
         window.location.reload();
       },
       (error) => {
+        this.isCallApi = false;
         ResponseHandler.HANDLE_HTTP_STATUS(this.APPOINTMENT_SERVICE.apiUrl + "/appointment", error);
       }
     );
   }
 
   dateToTimestamp(dateStr: string): number {
-    const format = 'YYYY-MM-DD HH:mm'; 
+    const format = 'YYYY-MM-DD HH:mm';
     const timeZone = 'Asia/Ho_Chi_Minh'; // Múi giờ
     var timestamp = moment.tz(dateStr, format, timeZone).valueOf() / 1000;
     return timestamp;

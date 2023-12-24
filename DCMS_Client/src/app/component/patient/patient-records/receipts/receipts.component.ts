@@ -25,7 +25,6 @@ export class ReceiptsComponent implements OnInit {
   roleId: string[] = [];
   patientName:any;
   name:any
-
   paymentType: any = '';
   constructor(private commonService: CommonService,
     private receiptsService: ReceiptsService,

@@ -20,6 +20,7 @@ import { Normalize } from 'src/app/service/Lib/Normalize';
 export class PopupAddSpecimensComponent implements OnInit {
   @Input() approveSpecimensList: any;
   @Input() Patient_Id: any;
+  isCallApi:boolean = false;
   orderDateNgbModal!: NgbDateStruct;
   receiverDateNgbModal!: NgbDateStruct;
   usedDateNgbModal!: NgbDateStruct;
@@ -164,6 +165,7 @@ export class PopupAddSpecimensComponent implements OnInit {
 
   }
   addMedicalSupply() {
+    this.isCallApi = true;
 
     const orderDate = FormatNgbDate.formatNgbDateToString(this.orderDateNgbModal);
     const receivedDate = FormatNgbDate.formatNgbDateToString(this.receiverDateNgbModal);
@@ -205,11 +207,13 @@ export class PopupAddSpecimensComponent implements OnInit {
 
     if (!this.specimen.labo) {
       this.validateSpecimens.labo = 'Vui lòng chọn labo!';
+      this.isCallApi = false;
       this.isSubmitted = true;
     }
 
     if (this.specimen.quantity && !this.checkNumber(this.specimen.quantity)) {
       this.validateSpecimens.quantity = 'Vui lòng nhập lại số lượng!';
+      this.isCallApi = false;
       this.isSubmitted = true;
     }
     // if (this.specimen.price && !this.checkNumber(this.specimen.price)) {

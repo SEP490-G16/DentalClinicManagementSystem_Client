@@ -7,14 +7,14 @@ import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureSe
 import { ResponseHandler } from "../../../libs/ResponseHandler";
 import { MaterialUsageService } from 'src/app/service/MaterialUsage/MaterialUsageService.component';
 import { MaxPipe } from 'ngx-date-fns';
-import {NgbModal, NgbModalOptions} from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, NgbModalOptions } from "@ng-bootstrap/ng-bootstrap";
 import {
   ConfirmAddTreatmentcourseComponent
 } from "../../common/confirm-add-treatmentcourse/confirm-add-treatmentcourse.component";
 import {
   PopupGenMedicalPdfComponent
 } from "../popup-add-examination/popup-gen-medical-pdf/popup-gen-medical-pdf.component";
-import {Examination} from "../../../../../model/ITreatmentCourseDetail";
+import { Examination } from "../../../../../model/ITreatmentCourseDetail";
 import { PatientService } from 'src/app/service/PatientService/patient.service';
 import { MaterialService } from 'src/app/service/MaterialService/material.service';
 import { LaboService } from 'src/app/service/LaboService/Labo.service';
@@ -27,7 +27,7 @@ import * as moment from 'moment-timezone';
   styleUrls: ['./popup-add-treatmentcourse.component.css']
 })
 export class PopupAddTreatmentcourseComponent implements OnInit {
-
+  isCallApi: boolean = false;
   Patient_Id: string = "";
   selectedGroupId: string | null = null;
   ProcedureGroupList: any = [];
@@ -36,18 +36,18 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
   ProcedureDetailListFiltered: any[] = [];
   Post_TreatmentCourse: Partial<IBodyTreatmentCourse> = {};
   Post_Procedure_Material_Usage: any[] = []
-  showDropDown1:boolean=false;
+  showDropDown1: boolean = false;
   userName: any;
-  facility:any;
-  currentDate:any;
-  validateMaterial:any = {}
-  isSubmittedMaterial:boolean = false;
-  valdateSpecimens:any = {}
-  isSubmittedSpecimens:boolean = false;
+  facility: any;
+  currentDate: any;
+  validateMaterial: any = {}
+  isSubmittedMaterial: boolean = false;
+  valdateSpecimens: any = {}
+  isSubmittedSpecimens: boolean = false;
   validateMedicine = {
-    soLuong:''
+    soLuong: ''
   }
-  isSubmittedMedicines:boolean = false;
+  isSubmittedMedicines: boolean = false;
   TreatmentCouseBody = {
     name: '',
     lydo: '',
@@ -56,12 +56,12 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     thuoc: '',
     luuy: ''
   }
-  validateTreatmentCouse ={
-    name:''
+  validateTreatmentCouse = {
+    name: ''
   }
-  isSubmittedTreatmentCourse:boolean = false;
+  isSubmittedTreatmentCourse: boolean = false;
   groupProcedureO = {
-    groupId:'',
+    groupId: '',
     groupName: '',
     checked: true,
     procedure: [] as ProcedureOb[],
@@ -76,7 +76,7 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     private procedureMaterialService: MaterialUsageService,
     private toastr: ToastrService,
     private route: ActivatedRoute,
-    private modelService:NgbModal,
+    private modelService: NgbModal,
     private router: Router,
     private patientService: PatientService,
     private materialService: MaterialService,
@@ -191,12 +191,12 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
   }
 
   checkListImport: string[] = [];
-  checkProcedureUse(it:any) {
-    this.list.forEach((item:any) => {
-      item.procedure.forEach((pro:any) => {
+  checkProcedureUse(it: any) {
+    this.list.forEach((item: any) => {
+      item.procedure.forEach((pro: any) => {
         if (pro.procedureId == it.procedureId) {
           pro.checked = !it.checked;
-          this.Post_Procedure_Material_Usage.forEach((item:any) => {
+          this.Post_Procedure_Material_Usage.forEach((item: any) => {
             if (item.medical_procedure_id == it.procedureId) {
               item.price = it.price;
               item.quantity = 1;
@@ -227,24 +227,24 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     })
   }
 
-  changePrice(gro:any, event:any) {
-    this.Post_Procedure_Material_Usage.forEach((item:any) => {
+  changePrice(gro: any, event: any) {
+    this.Post_Procedure_Material_Usage.forEach((item: any) => {
       if (item.medical_procedure_id == gro.procedureId) {
         item.price = event.target.value;
       }
     })
   }
 
-  changeQuantity(gro:any, event:any) {
-    this.Post_Procedure_Material_Usage.forEach((item:any) => {
+  changeQuantity(gro: any, event: any) {
+    this.Post_Procedure_Material_Usage.forEach((item: any) => {
       if (item.medical_procedure_id == gro.procedureId) {
         item.quantity = event.target.value;
       }
     })
   }
 
-  changeLabo(gro:any) {
-    this.Post_Procedure_Material_Usage.forEach((item:any) => {
+  changeLabo(gro: any) {
+    this.Post_Procedure_Material_Usage.forEach((item: any) => {
       if (item.medical_procedure_id == gro.procedureId) {
         item.description = gro.laboId;
       }
@@ -275,11 +275,11 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
             if (!this.uniqueList.includes(currentNumber.m_material_id)) {
               this.uniqueList.push(currentNumber.m_material_id);
               this.wareHouseMaterial.material_warehouse_id = currentNumber.mw_material_warehouse_id,
-              this.wareHouseMaterial.materialId = currentNumber.m_material_id,
-              this.wareHouseMaterial.materialName = currentNumber.m_material_name,
-              this.wareHouseMaterial.quantity = currentNumber.mw_quantity_import,
-              this.wareHouseMaterial.unitPrice = currentNumber.mw_price,
-              this.results.push(this.wareHouseMaterial);
+                this.wareHouseMaterial.materialId = currentNumber.m_material_id,
+                this.wareHouseMaterial.materialName = currentNumber.m_material_name,
+                this.wareHouseMaterial.quantity = currentNumber.mw_quantity_import,
+                this.wareHouseMaterial.unitPrice = currentNumber.mw_price,
+                this.results.push(this.wareHouseMaterial);
               this.wareHouseMaterial = {
                 material_warehouse_id: '',
                 materialId: '',
@@ -291,13 +291,13 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
           }
         }
       }
-      const transformedMaterialList = this.results.map((item: any) =>{
-        return{
-          id:item.material_warehouse_id,
+      const transformedMaterialList = this.results.map((item: any) => {
+        return {
+          id: item.material_warehouse_id,
           materialName: item.materialName,
-          materialId:item.materialId,
-          quantity:item.quantity,
-          unitPrice:item.unitPrice
+          materialId: item.materialId,
+          quantity: item.quantity,
+          unitPrice: item.unitPrice
         }
       })
       this.results = transformedMaterialList;
@@ -305,10 +305,10 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
   }
 
   materialName: any;
-  listMaterialUsage:any[] = [];
+  listMaterialUsage: any[] = [];
   unique: string[] = [];
   updateTemporaryNameMaterial() {
-    this.results.forEach((item:any) => {
+    this.results.forEach((item: any) => {
       if (item.id == this.material_warehouse_id && !this.unique.includes(this.material_warehouse_id)) {
         this.unique.push(item.id);
         this.listMaterialUsage.push({
@@ -320,13 +320,13 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
           description: item.materialName,
         });
       }
-     }
+    }
     )
   }
 
-  deleteMaterialUsage(id:any) {
-    const index = this.listMaterialUsage.findIndex((item:any) => item.material_warehouse_id == id);
-    const index2 = this.unique.findIndex((item:any) => item === id);
+  deleteMaterialUsage(id: any) {
+    const index = this.listMaterialUsage.findIndex((item: any) => item.material_warehouse_id == id);
+    const index2 = this.unique.findIndex((item: any) => item === id);
     if (index != -1) {
       this.listMaterialUsage.splice(index, 1);
     }
@@ -347,12 +347,15 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
   treatmentCourseId: any;
   postTreatmentCourse() {
     this.resetValidateTreatmentCourse();
+    this.isCallApi = true;
+
     this.Post_TreatmentCourse.patient_id = this.Patient_Id;
-    if (!this.TreatmentCouseBody.name){
+    if (!this.TreatmentCouseBody.name) {
       this.validateTreatmentCouse.name = "Vui lòng nhập phương án điều trị!";
+      this.isCallApi = false;
       this.isSubmittedTreatmentCourse = true;
     }
-    if (this.isSubmittedTreatmentCourse){
+    if (this.isSubmittedTreatmentCourse) {
       return;
     }
     this.Post_TreatmentCourse.name = this.TreatmentCouseBody.name;
@@ -365,12 +368,13 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     this.listMaterialUsage.forEach((item: any, itemIndex: number) => {
       const key = `soLuong_${itemIndex}`;
       let soLuong = item.quantity;
-      if (!this.checkNumber(soLuong)){
+      if (!this.checkNumber(soLuong)) {
+        this.isCallApi = false;
         this.validateMaterial[key] = "Vui lòng nhập số lượng > 0!";
         this.isSubmittedMaterial = true;
       }
       else {
-        if (this.validateMaterial[key]){
+        if (this.validateMaterial[key]) {
           delete this.validateMaterial[key]
         }
       }
@@ -378,36 +382,38 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     // if (this.isSubmittedMaterial){
     //   return;
     // }
-    if (Object.keys(this.validateMaterial).length > 0){
+    if (Object.keys(this.validateMaterial).length > 0) {
       this.isSubmittedMaterial = true;
       return;
     }
     //this.resetValidateSpecimens();
     this.list.forEach((item: any, itemIndex: number) => {
-      item.procedure.forEach((it: any,procIndex: number) => {
-          const key = `soLuong_${itemIndex}_${procIndex}`;
-          let soLuong = it.quantity
-          if (!this.checkNumber(soLuong)){
-            this.valdateSpecimens[key] = "Vui lòng nhập số lượng > 0!";
-            this.isSubmittedSpecimens = true
+      item.procedure.forEach((it: any, procIndex: number) => {
+        const key = `soLuong_${itemIndex}_${procIndex}`;
+        let soLuong = it.quantity
+        if (!this.checkNumber(soLuong)) {
+          this.isCallApi = false;
+          this.valdateSpecimens[key] = "Vui lòng nhập số lượng > 0!";
+          this.isSubmittedSpecimens = true
+        }
+        else {
+          if (this.valdateSpecimens[key]) {
+            delete this.valdateSpecimens[key];
           }
-          else {
-            if (this.valdateSpecimens[key]) {
-              delete this.valdateSpecimens[key];
-            }
-          }
+        }
 
       })
     })
     // if (this.isSubmittedSpecimens){
     //   return;
     // }
-    if (Object.keys(this.valdateSpecimens).length > 0){
+    if (Object.keys(this.valdateSpecimens).length > 0) {
       this.isSubmittedSpecimens = true;
       return;
     }
     this.treatmentCourseService.postTreatmentCourse(this.Post_TreatmentCourse).
       subscribe((res) => {
+        this.isCallApi = false;
         this.toastr.success(res.message, "Thêm liệu trình thành công");
         if (this.Post_Procedure_Material_Usage.length > 0) {
           this.Post_Procedure_Material_Usage.forEach((item) => {
@@ -458,8 +464,8 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
             })
         }
         const modalRef = this.modelService.open(ConfirmAddTreatmentcourseComponent);
-        modalRef.result.then((res:any) =>{
-          switch (res){
+        modalRef.result.then((res: any) => {
+          switch (res) {
             case 'lich-hen':
               const ref = document.getElementById('cancel');
               ref?.click();
@@ -478,6 +484,7 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
 
       },
         (error) => {
+          this.isCallApi = false;
           ResponseHandler.HANDLE_HTTP_STATUS(this.treatmentCourseService.apiUrl + "/treatment-course", error);
         }
       )
@@ -487,12 +494,12 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     this.Post_TreatmentCourse = {}
     this.Post_Procedure_Material_Usage = []
   }
-  isExpand:boolean = false;
-  toggleExpand(check:any){
-    this.list.forEach((item:any) => {
-       if (item.groupId == check.groupId) {
+  isExpand: boolean = false;
+  toggleExpand(check: any) {
+    this.list.forEach((item: any) => {
+      if (item.groupId == check.groupId) {
         item.isExpand = !check.isExpand;
-       }
+      }
     })
   }
   goAppointment(): void {
@@ -584,11 +591,11 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     if (this.isAddMedicine) {
       this.recordsMedicine.push({
         id: this.selectMedicine,
-        ten:'',
-        soLuong:'',
+        ten: '',
+        soLuong: '',
         donvi: '',
-        lieuDung:'',
-        ghiChu:''
+        lieuDung: '',
+        ghiChu: ''
       })
     }
   }
@@ -601,17 +608,17 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     //this.isAddMedicine = false;
     this.recordsMedicine.splice(index, 1);
   }
-  Patient:any;
+  Patient: any;
   //examination: Examination = {} as Examination;
   getPatient() {
     this.patientService.getPatientById(this.Patient_Id)
-    .subscribe((res)=> {
-      this.Patient = res;
-    },
-    (err) => {
-      this.toastr.error(err.error.message, "Lỗi khi lấy thông tin bệnh nhân")
-    }
-    )
+      .subscribe((res) => {
+        this.Patient = res;
+      },
+        (err) => {
+          this.toastr.error(err.error.message, "Lỗi khi lấy thông tin bệnh nhân")
+        }
+      )
   }
 
   modalOption: NgbModalOptions = {
@@ -632,22 +639,22 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
     var timestamp = moment.tz(dateStr, format, timeZone).valueOf() / 1000;
     return timestamp;
   }
-  private checkNumber(number:any):boolean{
+  private checkNumber(number: any): boolean {
     return /^[1-9]\d*$/.test(number);
   }
-  private resetValidateMaterial(){
+  private resetValidateMaterial() {
     this.validateMaterial = {
       soLuong: ''
     }
     this.isSubmittedMaterial = false;
   }
-  private resetValidateSpecimens(){
+  private resetValidateSpecimens() {
     this.valdateSpecimens = {
       // soLuong: ''
     }
     this.isSubmittedSpecimens = false;
   }
-  resetValidateTreatmentCourse(){
+  resetValidateTreatmentCourse() {
     this.validateTreatmentCouse = {
       name: ''
     }

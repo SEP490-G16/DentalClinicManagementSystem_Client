@@ -29,6 +29,7 @@ import {
   styleUrls: ['./patient-lichtrinhdieutri.component.css']
 })
 export class PatientLichtrinhdieutriComponent implements OnInit {
+  isCallApi:boolean = false;
   loading: boolean = false;
   currentDate: any;
   id: string = "";
@@ -289,6 +290,8 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
 
   postTreatmentCourse() {
     this.resetValidateTreatmentCourse();
+    this.isCallApi = true;
+
     this.Post_TreatmentCourse.patient_id = this.id;
     this.Post_TreatmentCourse.name = this.TreatmentCouseBody.name;
     this.Post_TreatmentCourse.chief_complaint = this.TreatmentCouseBody.lydo;
@@ -338,6 +341,8 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     console.log("Post treatment: ", this, this.Post_TreatmentCourse);
     this.treatmentCourseService.postTreatmentCourse(this.Post_TreatmentCourse).
       subscribe((res) => {
+        this.isCallApi = false;
+
         this.toastr.success(res.message, "Thêm liệu trình thành công");
         if (this.Post_Procedure_Material_Usage.length > 0) {
 
@@ -397,6 +402,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
 
       },
         (error) => {
+          this.isCallApi = false;
           ResponseHandler.HANDLE_HTTP_STATUS(this.treatmentCourseService.apiUrl + "/treatment-course", error);
         }
       )

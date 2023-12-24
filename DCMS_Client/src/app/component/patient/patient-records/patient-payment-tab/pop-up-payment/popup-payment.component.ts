@@ -21,8 +21,9 @@ import { ConfirmDeleteModalComponent } from 'src/app/component/utils/pop-up/comm
 })
 export class PopupPaymentComponent implements OnInit, OnChanges {
   @Input() MaterialUsage!: any;
-  TreatmentCourse: any
   @Input() Patient: any
+  isCallApi: boolean = false;
+  TreatmentCourse: any
 
   MaterialUsageDisplay: MaterialUsage[] = []
   total: number = 0
@@ -106,8 +107,8 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
 
 
   updateTotalandRemaining(MaterialUsage: any) {
-   this.total = 0;
-   this.remaining = 0;
+    this.total = 0;
+    this.remaining = 0;
     this.MaterialUsage.forEach((parent: any) => {
       parent.mu_data.forEach((mu: any) => {
         if (mu.mu_material_usage_id == MaterialUsage.mu_material_usage_id) {
@@ -173,14 +174,14 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
 
     this.openConfirmationModal(`Bạn có chắc chắn muốn hủy thanh toán dịch vụ ${MaterialUsageDetail.mu_mpname} không?`).then((result) => {
       if (result === true) {
-          this.materialUsageService.deleteMaterialUsage(MaterialUsageDetail.mu_material_usage_id)
+        this.materialUsageService.deleteMaterialUsage(MaterialUsageDetail.mu_material_usage_id)
           .subscribe((res) => {
             this.toastr.success(`Hủy thanh toán dịch vụ ${MaterialUsageDetail.mu_mpname} thành công`, "Hủy thanh toán thành công");
             window.location.reload();
           },
-          (error) => {
-            this.toastr.error(`Hủy thanh toán dịch vụ ${MaterialUsageDetail.mu_mpname} thất bại`, "Hủy thanh toán thất bại");
-          }
+            (error) => {
+              this.toastr.error(`Hủy thanh toán dịch vụ ${MaterialUsageDetail.mu_mpname} thất bại`, "Hủy thanh toán thất bại");
+            }
           )
       }
     });
@@ -190,8 +191,11 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
   postPayment() {
     console.log("Material Usage Display: ", this.MaterialUsageDisplay)
     this.resetValidateAmount();
+    this.isCallApi = true;
+
     if (!this.checkNumber(this.paymentAmount) || this.paymentAmount > this.total) {
       this.validateAmount.soTien = "Vui lòng nhập lại số tiền!";
+      this.isCallApi = false;
       this.isSubmittedAmout = true;
     }
     if (this.isSubmittedAmout) {
@@ -243,11 +247,13 @@ export class PopupPaymentComponent implements OnInit, OnChanges {
     }
     this.paidMaterialUsageService.postPaidMaterialUsage(this.receipt)
       .subscribe((res: any) => {
+        this.isCallApi = false;
         this.toastr.success(res.message, "Thanh toán thành công!");
         // alert();
         window.location.reload();
       },
         (err) => {
+          this.isCallApi = false;
           this.toastr.error(err.error.message, "Thanh toán thất bại!")
         })
   }

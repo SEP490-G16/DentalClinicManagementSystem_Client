@@ -23,6 +23,7 @@ import { TimestampFormat } from 'src/app/component/utils/libs/timestampFormat';
   styleUrls: ['./popup-add-waitingroom-new-patient.component.css']
 })
 export class PopupAddWaitingroomNewPatientComponent implements OnInit {
+  isCallApi: boolean = false;
   dobNgb!: NgbDateStruct
   patientList: any[] = [];
   patientInfor: any;
@@ -159,25 +160,33 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
   }
 
   addPatient() {
+    this.isCallApi = true;
     this.resetValidate();
     this.resetValidate1();
     //console.log("check date: ", TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.dobNgb)));
     //return;
     if (!this.patient1.patientName) {
       this.validatePatient.name = "Vui lòng nhập tên bệnh nhân!";
+      this.isCallApi = false;
+
       this.isSubmitted = true;
     }
     var regex = /[0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\\-/]/;
     if (regex.test(this.patient1.patientName) == true) {
       this.validatePatient.name = "Tên không hợp lệ!";
+      this.isCallApi = false;
+
       this.isSubmitted = true;
     }
     if (!this.patient1.phone_Number) {
       this.validatePatient.zalo = "Vui lòng nhập số zalo!";
+      this.isCallApi = false;
+
       this.isSubmitted = true;
     }
     else if (!this.isVietnamesePhoneNumber(this.patient1.phone_Number)) {
       this.validatePatient.zalo = "Số zalo không hợp lệ!";
+      this.isCallApi = false;
       this.isSubmitted = true;
     }
     if (!this.isVietnamesePhoneNumber(this.patient1.sub_phoneNumber) && this.patient1.sub_phoneNumber) {
@@ -186,14 +195,17 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
     }
     if (!this.dobNgb || !this.dobNgb.year || !this.dobNgb.month || !this.dobNgb.day) {
       this.validatePatient.dob = "Vui lòng nhập ngày sinh!";
+      this.isCallApi = false;
       this.isSubmitted = true;
     }
     else if (!this.isDob(FormatNgbDate.formatNgbDateToVNString(this.dobNgb))) {
       this.validatePatient.dob = "Vui lòng nhập ngày sinh đúng định dạng dd/MM/yyyy !";
+      this.isCallApi = false;
       this.isSubmitted = true;
     }
     if (!this.patient1.Address) {
       this.validatePatient.address = "Vui lòng nhập địa chỉ!";
+      this.isCallApi = false;
       this.isSubmitted = true;
     }
 
@@ -278,6 +290,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
     }
 
     this.PATIENT_SERVICE.addPatient(this.patientBody).subscribe((data: any) => {
+      this.isCallApi = false;
       this.toastr.success('Thêm mới bệnh nhân thành công!');
       this.currentPatientCreated = true;
       this.patient1 = [];
@@ -299,6 +312,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
         + this.POST_WAITTINGROOM.status_attr + ' - ' + '' + ' - ' + '' + ' - ' + (this.POST_WAITTINGROOM.is_new == true ? '1' : '2');
       this.WaitingRoomService.postWaitingRoomNew(this.POST_WAITTINGROOM)
         .subscribe((data) => {
+          this.isCallApi = false;
           this.showSuccessToast("Thêm phòng chờ thành công!!");
           let ref = document.getElementById('cancel-add-waiting-new');
           ref?.click();
@@ -326,16 +340,18 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
             patient_name: '',
             is_new: true,
             reason: '',
-            status_attr:'',
+            status_attr: '',
             foreign_sk: '',
           } as IPostWaitingRoomNew
           this.patientInfor = '';
         },
           (err) => {
-            this.showErrorToast('Lỗi khi thêm phòng chờ');
+      this.isCallApi = false;
+      this.showErrorToast('Lỗi khi thêm phòng chờ');
           }
         );
     }, error => {
+      this.isCallApi = false;
       ResponseHandler.HANDLE_HTTP_STATUS(this.PATIENT_SERVICE.test + "/patient", error);
     })
   }
@@ -434,7 +450,7 @@ export class PopupAddWaitingroomNewPatientComponent implements OnInit {
       patient_name: '',
       is_new: true,
       reason: '',
-      status_attr:'',
+      status_attr: '',
       foreign_sk: '',
     } as IPostWaitingRoomNew
     this.isAddOld = false;

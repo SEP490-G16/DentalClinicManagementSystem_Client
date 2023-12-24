@@ -156,7 +156,7 @@
             <button type="button" id="cancel" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
           </div>
           <div class="sep-patient-popupadd-button">
-            <button type="button" class="btn button-timekeeping" id="addPatientSuccess" (click)="addPatient()"><i class="bi bi-floppy2"></i> Lưu</button>
+            <button type="button" class="btn button-timekeeping" id="addPatientSuccess" [disabled]="isCallApi" (click)="addPatient()"><i class="bi bi-floppy2"></i> Lưu</button>
           </div>
         </div>
       </div>
