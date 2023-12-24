@@ -97,13 +97,13 @@
                             <span class="input-group-text custom-input" id="basic-addon1">(+84)</span>
                           </div>
                           <input type="text" class="form-control" id="inputPhone"
-                            name="inputPhone" aria-label="phoneNumber" aria-describedby="basic-addon1">
+                            name="inputPhone" aria-label="phoneNumber" aria-describedby="basic-addon1" [(ngModel)]="patient1.sub_phoneNumber">
                         </div>
-<!--                        <div *ngIf="isSubmitted" class="alert-danger-custom">-->
-<!--                          <p>-->
-<!--                            {{validatePatient.phone}}-->
-<!--                          </p>-->
-<!--                        </div>-->
+                        <div *ngIf="isSubmitted" class="alert-danger-custom">
+                          <p>
+                            {{validatePatient.phone}}
+                          </p>
+                        </div>
                       </div>
                     </div>
                     <div class="col-md-6">

@@ -56,6 +56,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
     Email: '',
     Gender: 1,
     phone_Number: '',
+    sub_phoneNumber:'',
     Address: '',
     full_medical_History: '',
     dental_medical_History: '',
@@ -70,7 +71,8 @@ export class PopupAddAppointmentNewComponent implements OnInit {
     full_medical_history: '',
     dental_medical_history: '',
     date_of_birth: '',
-    description: ''
+    description: '',
+    sub_phone_number:''
   }
   validatePatient = {
     name: '',
@@ -290,6 +292,10 @@ export class PopupAddAppointmentNewComponent implements OnInit {
       this.validatePatient.zalo = "Số zalo không hợp lệ!";
       this.isSubmittedPatient = true;
     }
+    if (!this.isVietnamesePhoneNumber(this.patient1.sub_phoneNumber) && this.patient1.sub_phoneNumber){
+      this.validatePatient.phone = "Số điện thoạt không hợp lệ!";
+      this.isSubmittedPatient = true;
+    }
     if (!this.dobNgb || !this.dobNgb.year || !this.dobNgb.month || !this.dobNgb.day) {
       this.validatePatient.dob = "Vui lòng nhập ngày sinh!";
       this.isSubmitted = true;
@@ -483,6 +489,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
         email: this.patient1.Email,
         gender: this.patient1.Gender,
         phone_number: '+84' + this.patient1.phone_Number,
+        sub_phone_number: '',
         address: this.patient1.Address,
         full_medical_history: this.patient1.full_medical_History,
         dental_medical_history: this.patient1.dental_medical_History,
@@ -496,10 +503,40 @@ export class PopupAddAppointmentNewComponent implements OnInit {
         email: this.patient1.Email,
         gender: this.patient1.Gender,
         phone_number: '+84' + this.patient1.phone_Number.substring(1),
+        sub_phone_number: '',
         address: this.patient1.Address,
         full_medical_history: this.patient1.full_medical_History,
         dental_medical_history: this.patient1.dental_medical_History,
         date_of_birth: TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.dobNgb))
+      }
+
+      if (this.patient1.sub_phoneNumber.length === 9 && this.patient1.sub_phoneNumber && this.patient1.phone_Number && this.patient1.phone_Number.length === 9){
+        this.patientBody = {
+          patient_id: null,
+          patient_name: this.patient1.patientName,
+          email: this.patient1.Email,
+          gender: this.patient1.Gender,
+          phone_number: '+84' + this.patient1.phone_Number,
+          sub_phone_number: '+84' + this.patient1.sub_phoneNumber,
+          address: this.patient1.Address,
+          full_medical_history: this.patient1.full_medical_History,
+          dental_medical_history: this.patient1.dental_medical_History,
+          date_of_birth: TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.dobNgb))
+        }
+      }
+      if (this.patient1.sub_phoneNumber.length === 10 && this.patient1.sub_phoneNumber && this.patient1.phone_Number && this.patient1.phone_Number.length === 10){
+        this.patientBody = {
+          patient_id: null,
+          patient_name: this.patient1.patientName,
+          email: this.patient1.Email,
+          gender: this.patient1.Gender,
+          phone_number: '+84' + this.patient1.phone_Number.substring(1),
+          sub_phone_number: '+84' + this.patient1.sub_phoneNumber.substring(1),
+          address: this.patient1.Address,
+          full_medical_history: this.patient1.full_medical_History,
+          dental_medical_history: this.patient1.dental_medical_History,
+          date_of_birth: TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.dobNgb))
+        }
       }
     }
 
@@ -509,7 +546,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
       this.patient1 = [];
       this.AppointmentBody.appointment.patient_id = data.data.patient_id;
       this.AppointmentBody.appointment.patient_name = this.patientBody.patient_name;
-      this.AppointmentBody.appointment.phone_number = this.normalizePhoneNumber(this.patientBody.phone_number);
+      this.AppointmentBody.appointment.phone_number = this.patientBody.phone_number;
       if (this.checkNewPatent == true) {
         this.AppointmentBody.appointment.is_new = true;
         this.checkNewPatent = false;

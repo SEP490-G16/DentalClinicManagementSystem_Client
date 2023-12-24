@@ -64,7 +64,8 @@ export class PopupAddPatientComponent implements OnInit {
     full_medical_history: '',
     dental_medical_history: '',
     date_of_birth: '',
-    description: ''
+    description: '',
+    sub_phoneNumber:''
   }
   ngOnInit(): void {
   }
@@ -97,6 +98,10 @@ export class PopupAddPatientComponent implements OnInit {
     }
     else if (!this.isVietnamesePhoneNumber(this.patient1.phone_Number)) {
       this.validatePatient.phone = "Số zalo không hợp lệ!";
+      this.isSubmitted = true;
+    }
+    if (!this.isVietnamesePhoneNumber(this.patient1.sub_phoneNumber) && this.patient1.sub_phoneNumber){
+      this.validatePatient.phone = "Số điện thoại không hợp lệ!";
       this.isSubmitted = true;
     }
     if (!this.model || !this.model.year || !this.model.month || !this.model.day) {
@@ -133,6 +138,7 @@ export class PopupAddPatientComponent implements OnInit {
         email: this.patient1.Email,
         gender: this.patient1.Gender.toString(),
         phone_number: '+84' + this.patient1.phone_Number,
+        sub_phone_number:'',
         address: this.patient1.Address,
         full_medical_history: this.patient1.full_medical_History,
         dental_medical_history: this.patient1.dental_medical_History,
@@ -146,6 +152,35 @@ export class PopupAddPatientComponent implements OnInit {
         email: this.patient1.Email,
         gender: this.patient1.Gender.toString(),
         phone_number: '+84' + this.patient1.phone_Number.substring(1),
+        sub_phone_number:'',
+        address: this.patient1.Address,
+        full_medical_history: this.patient1.full_medical_History,
+        dental_medical_history: this.patient1.dental_medical_History,
+        date_of_birth: TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.model))
+      }
+    }
+    if (this.patient1.sub_phoneNumber.length === 9 && this.patient1.sub_phoneNumber && this.patient1.phone_Number && this.patient1.phone_Number.length === 9){
+      this.patientBody = {
+        patient_id: null,
+        patient_name: this.patient1.patientName,
+        email: this.patient1.Email,
+        gender: this.patient1.Gender,
+        phone_number: '+84' + this.patient1.phone_Number,
+        sub_phone_number: '+84' + this.patient1.sub_phoneNumber,
+        address: this.patient1.Address,
+        full_medical_history: this.patient1.full_medical_History,
+        dental_medical_history: this.patient1.dental_medical_History,
+        date_of_birth: TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.model))
+      }
+    }
+    if (this.patient1.sub_phoneNumber.length === 10 && this.patient1.sub_phoneNumber && this.patient1.phone_Number && this.patient1.phone_Number.length === 10){
+      this.patientBody = {
+        patient_id: null,
+        patient_name: this.patient1.patientName,
+        email: this.patient1.Email,
+        gender: this.patient1.Gender,
+        phone_number: '+84' + this.patient1.phone_Number.substring(1),
+        sub_phone_number: '+84' + this.patient1.sub_phoneNumber.substring(1),
         address: this.patient1.Address,
         full_medical_history: this.patient1.full_medical_History,
         dental_medical_history: this.patient1.dental_medical_History,
