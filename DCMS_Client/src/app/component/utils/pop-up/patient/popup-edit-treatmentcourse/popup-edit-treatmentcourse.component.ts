@@ -1,3 +1,4 @@
+import { TimestampFormat } from 'src/app/component/utils/libs/timestampFormat';
 import { Component, Input, OnInit, SimpleChanges, AfterViewInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { TreatmentCourseService } from 'src/app/service/TreatmentCourseService/TreatmentCourse.service';
@@ -54,9 +55,22 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
       name: "",
     }
   }
+  userName: any;
+  facility: any;
+  currentDate: any
   ngOnInit(): void {
     this.Patient_Id = this.route.snapshot.params['id'];
+    var user = sessionStorage.getItem('username');
+    if (user != null) {
+      this.userName = user;
+    }
 
+    var faci = sessionStorage.getItem('locale');
+    if (faci != null) {
+      this.facility = faci;
+    }
+    const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
+    this.currentDate = currentDateGMT7;
     this.getMedicalProcedureList();
     //this.getMaterialList();
     this.getLabo();
@@ -193,6 +207,7 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
 
   listCheckChange: any[] = [];
   listCheckChangeMaterial: any[] = [];
+  listCheckLaboExist:string[] = []
   getListMaterialusage() {
     this.materialUsageService.getMaterialUsage_By_TreatmentCourse(this.Edit_TreatmentCourse.treatment_course_id).subscribe((data) => {
       this.listData = data.data;
@@ -214,6 +229,10 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
                   price: item.price,
                   total_paid: item.total_paid,
                   description: item.description
+                }
+                if(item.description.split(" ")[0] != 0) {
+                  console.log("item.description.split[0]", item.description.split(" ")[0]);
+                  this.listCheckLaboExist.push(item.medical_procedure_id);
                 }
                 this.listCheckChange.push(materialUsage);
                 this.Post_Procedure_Material_Usage.push(materialUsage);
@@ -354,10 +373,19 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
     })
   }
 
+  LaboChanges: any[] = [];
+
   changeLabo(gro: any) {
     this.Post_Procedure_Material_Usage.forEach((item: any) => {
       if (item.medical_procedure_id == gro.procedureId) {
         item.description = `${gro.laboId} ${gro.initPrice}`;
+        let tengituy = {
+          procedureName: gro.procedureName,
+          price: gro.price,
+          quantity: gro.quantity,
+          laboId: gro.laboId
+        }
+        this.LaboChanges.push(tengituy);
       }
     })
 
@@ -367,6 +395,24 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
       }
     })
   }
+
+  isDisableLabo(gro:any):boolean {
+    // console.log("list labo exist: ", this.listCheckLaboExist);
+    let count = 0;
+    this.Post_Procedure_Material_Usage.forEach((item:any) => {
+    // console.log("Item procedure", item.medical_procedure_id);
+
+     if(this.listCheckLaboExist.includes(item.medical_procedure_id)) {
+      count++;
+     }
+    })
+    if(count != 0) {
+      console.log("Count", count);
+      return true;
+    }
+    return false;
+  }
+
   private checkNumber(number: any): boolean {
     return /^[1-9]\d*$/.test(number);
   }
@@ -376,23 +422,24 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
   listUpdateMaterial: any[] = [];
 
   editTreatmentCourse() {
-    this.isCallApi = true;
+    // this.isCallApi = true;
+    // let successCount = 0;
+    // let errorCount = 0;
     this.Edit_TreatmentCourse.prescription = this.recordsMedicine;
     this.Edit_TreatmentCourse.prescription = JSON.stringify(this.Edit_TreatmentCourse.prescription);
     this.treatmentCourseService.putTreatmentCourse(this.Edit_TreatmentCourse.treatment_course_id, this.Edit_TreatmentCourse)
       .subscribe((res) => {
-        this.isCallApi = false;
-
+        // successCount++;
         this.toastr.success(res.message, "Sửa Lịch trình điều trị");
+
         window.location.reload();
       },
         (error) => {
-          this.isCallApi = false;
+          // errorCount++;
           ResponseHandler.HANDLE_HTTP_STATUS(this.treatmentCourseService.apiUrl + "/treatment-course/" + this.TreatmentCourse.treatment_course_id, error);
         }
       )
 
-    this.isCallApi = false;
     console.log("Post thu thuat: ", this.Post_Procedure_Material_Usage_New);
     console.log("Put thu thuat: ", this.Post_Procedure_Material_Usage);
     if (this.Post_Procedure_Material_Usage_New.length > 0) {
@@ -400,13 +447,41 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
         item.treatment_course_id = this.Edit_TreatmentCourse.treatment_course_id;
         this.materialUsageService.postProcedureMaterialUsage(item)
           .subscribe((res) => {
+            // successCount++;
             this.toastr.success("Thêm Thủ thuật thành công");
-            window.location.reload();
+            // window.location.reload();
           }, (err) => {
+            // errorCount++;
             this.toastr.error(err.error.message, "Thêm Thủ thuật thất bại");
           })
       })
     }
+    if (this.Post_Procedure_Material_Usage_New.length > 0) {
+      this.Post_Procedure_Material_Usage_New.forEach((item: any) => {
+        item.procedure.forEach((it: any) => {
+          if (it.laboId != "0") {
+            let specmenObject = {
+              name: it.procedureName,
+              type: '',
+              received_date: '',
+              orderer: this.userName,
+              used_date: '',
+              quantity: it.quantity,
+              unit_price: it.price,
+              order_date: TimestampFormat.dateToTimestamp(this.currentDate),
+              patient_id: this.Patient_Id,
+              facility_id: this.facility,
+              labo_id: it.laboId,
+              treatment_course_id: this.Edit_TreatmentCourse.treatment_course_id
+            }
+            this.medicalSupplyService.addMedicalSupply(specmenObject).subscribe(data => {
+              this.toastr.success(data.message, 'Thêm mẫu vật sử dụng thành công');
+            })
+          }
+        })
+      })
+    }
+
     console.log("đã vào");
     if (this.Post_Procedure_Material_Usage.length > 0) {
       this.Post_Procedure_Material_Usage.forEach((item: any) => {
@@ -414,8 +489,10 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
           if (item.material_usage_id == it) {
             this.materialUsageService.putMaterialUsage(item.material_usage_id, item).subscribe((data) => {
               this.toastr.success("Sửa Thủ thuật thành công");
-              window.location.reload();
+              // successCount++;
+              // window.location.reload();
             }, (error) => {
+              // errorCount++;
               this.toastr.error(error.message, "Sửa thủ thuật thất bại");
             }
             )
@@ -423,6 +500,36 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
         })
       })
     }
+
+    if (this.LaboChanges.length > 0) {
+      this.LaboChanges.forEach((item: any) => {
+        // item.procedure.forEach((it: any) => {
+
+        let specmenObject = {
+          name: item.procedureName,
+          type: '',
+          received_date: '',
+          orderer: this.userName,
+          used_date: '',
+          quantity: item.quantity,
+          unit_price: item.price,
+          order_date: TimestampFormat.dateToTimestamp(this.currentDate),
+          patient_id: this.Patient_Id,
+          facility_id: this.facility,
+          labo_id: item.laboId,
+          treatment_course_id: this.Edit_TreatmentCourse.treatment_course_id
+        }
+        this.medicalSupplyService.addMedicalSupply(specmenObject).subscribe(data => {
+          this.toastr.success(data.message, 'Thêm mẫu vật sử dụng thành công');
+        })
+
+        // })
+      })
+    }
+
+    // if (successCount == 3 || errorCount == 3) {
+    //   this.isCallApi = false;
+    // }
     console.log("đã đến đây");
   }
 

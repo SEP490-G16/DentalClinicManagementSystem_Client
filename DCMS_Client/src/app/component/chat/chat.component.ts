@@ -95,7 +95,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
           }
           localStorage.removeItem('ob');
         }
-        
+
         if (this.check[0] == 'CheckRealTimeWaitingRoom@@@') {
           var shouldBreakFor = false;
           let postInfo;
@@ -145,7 +145,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
               if (this.checkPatient != notification.content.patient_id) {
                 this.checkPatient == notification.content.patient_id
                 this.waitingRoomService.updateAnalysesData(notification);
-              }  
+              }
             } else {
               var result = localStorage.getItem('pawtr');
               if (result != null) {
@@ -181,9 +181,13 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 const index = this.filteredWaitingRoomData.findIndex(it => it.patient_id == this.check[1]);
                 if (index != -1) {
                   console.log("delete patient wait");
+                  if (item.status == 1) {
+                    this.dataService.UpdateWaitingRoomTotal(0, 0);
+                  }
+                  if (item.status == 2) {
+                    this.dataService.UpdatePatientExaminate(0, 0);
+                  }
                   this.filteredWaitingRoomData.splice(index, 1);
-                  this.dataService.UpdateWaitingRoomTotal(0, 0);
-                  this.dataService.UpdatePatientExaminate(0, 0);
                 }
               } else {
                 if (item.status != this.check[2]) {
@@ -195,7 +199,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                     this.dataService.UpdatePatientExaminate(0, 0);
                     this.dataService.UpdatePatientExaminated(1, 0);
                   }
-                } 
+                }
               }
             } else {
               if (noLoop == false && this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_name != null
@@ -287,7 +291,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
           setTimeout(() => this.scrollToBottom(), 100);
         }
       }
-      count = 0; 
+      count = 0;
     })
   }
   ngAfterViewInit() {
