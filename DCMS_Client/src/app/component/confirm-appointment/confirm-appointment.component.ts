@@ -59,7 +59,7 @@ export class ConfirmAppointmentComponent implements OnInit {
         reason: this.appointment.Item.reason_attr.S,
         time_attr:this.appointment.Item.time_attr.N,
         status_attr: 2,
-        is_new: this.appointment.Item.is_new.BOOL,
+        is_new: this.appointment.Item.patient_attr.M.is_new.BOOL,
       }
     }
     console.log("Confirm_Appointment_Body: ", this.Confirm_Appointment_Body)

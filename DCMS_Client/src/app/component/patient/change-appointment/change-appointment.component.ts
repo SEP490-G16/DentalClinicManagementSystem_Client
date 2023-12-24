@@ -221,15 +221,14 @@ export class ChangeAppointmentComponent implements OnInit {
         patient_name: this.appointment.Item.patient_attr.M.name.S, 
         phone_number: this.appointment.Item.patient_attr.M.phone_number.S,
         procedure_id: this.appointment.Item.procedure_attr.M.id.S,  
-        doctor_attr: this.appointment.Item.doctor_attr,
+        doctor_attr: this.appointment.Item.doctor_attr.S,
         procedure_name: this.appointment.Item.procedure_attr.M.name.S,
         reason: this.appointment.Item.reason_attr.S,
         time_attr: this.timeAndDateToTimestamp(this.timeString, this.selectedDate),
         status_attr: 2, 
-        is_new: false,
+        is_new: this.appointment.Item.patient_attr.M.is_new.BOOL,
       }
     } as IEditAppointmentBodyNew;
-    console.log("EDIT_Appointment: ", this.EDIT_APPOINTMENT_BODY);
     this.openConfirmationModal().then((result) => {
       if (result === 'confirm') {
         this.appointmentService.putAppointmentNew(this.EDIT_APPOINTMENT_BODY, this.appointmentId_Pathparam)
