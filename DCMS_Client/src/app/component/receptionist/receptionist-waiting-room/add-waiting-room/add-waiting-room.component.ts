@@ -23,8 +23,8 @@ import { FormatNgbDate } from 'src/app/component/utils/libs/formatNgbDate';
   styleUrls: ['./add-waiting-room.component.css']
 })
 export class AddWaitingRoomComponent implements OnInit {
-  @Input() filteredWaitingRoomData:any;
-  isCallApi:boolean = false;
+  @Input() filteredWaitingRoomData: any;
+  isCallApi: boolean = false;
   dobNgb!: NgbDateStruct
   patientList: any[] = [];
   patientInfor: any;
@@ -87,7 +87,7 @@ export class AddWaitingRoomComponent implements OnInit {
       patient_name: '',
       is_new: true,
       reason: '',
-      status_attr:'',
+      status_attr: '',
       foreign_sk: '',
     } as IPostWaitingRoomNew
 
@@ -122,8 +122,8 @@ export class AddWaitingRoomComponent implements OnInit {
     })
   }
 
-  waitingRoomData:any[] = [];
-  CheckRealTimeWaiting:any[] = [];
+  waitingRoomData: any[] = [];
+  CheckRealTimeWaiting: any[] = [];
   getWaitingRoomData() {
     this.WaitingRoomService.getWaitingRooms().subscribe(
       data => {
@@ -182,7 +182,7 @@ export class AddWaitingRoomComponent implements OnInit {
     const currentDateTimeGMT7 = moment().tz('Asia/Ho_Chi_Minh');
     this.POST_WAITTINGROOM.time_attr = Math.floor(currentDateTimeGMT7.valueOf() / 1000).toString();
     this.POST_WAITTINGROOM.epoch = Math.floor(currentDateTimeGMT7.valueOf() / 1000).toString();
-    this.POST_WAITTINGROOM.foreign_sk = this.POST_WAITTINGROOM.epoch+"::"+this.POST_WAITTINGROOM.patient_id;
+    this.POST_WAITTINGROOM.foreign_sk = this.POST_WAITTINGROOM.epoch + "::" + this.POST_WAITTINGROOM.patient_id;
     this.resetValidate();
     if (this.patientInfor == '' || this.patientInfor == null) {
       this.validateWatingRoom.patientName = "Vui lòng chọn bệnh nhân!";
@@ -229,12 +229,12 @@ export class AddWaitingRoomComponent implements OnInit {
       }
     }
 
-    var a = this.POST_WAITTINGROOM.is_new == true? '1' : '2';
+    var a = this.POST_WAITTINGROOM.is_new == true ? '1' : '2';
     const postInfo = this.POST_WAITTINGROOM.epoch + ' - ' + this.POST_WAITTINGROOM.produce_id + ' - ' + this.POST_WAITTINGROOM.produce_name + ' - '
       + this.POST_WAITTINGROOM.patient_id + ' - ' + this.POST_WAITTINGROOM.patient_name + ' - ' + this.POST_WAITTINGROOM.reason + ' - '
-      + this.POST_WAITTINGROOM.status_attr + ' - ' + ''+ ' - ' + '' + ' - ' + 2;
-      localStorage.setItem("ob", `CheckRealTimeWaitingRoom@@@,${postInfo},${Number('1')}`);
-      this.WaitingRoomService.postWaitingRoomNew(this.POST_WAITTINGROOM)
+      + this.POST_WAITTINGROOM.status_attr + ' - ' + '' + ' - ' + '' + ' - ' + 2;
+    localStorage.setItem("ob", `CheckRealTimeWaitingRoom@@@,${postInfo},${Number('1')}`);
+    this.WaitingRoomService.postWaitingRoomNew(this.POST_WAITTINGROOM)
       .subscribe((data) => {
         this.isCallApi = false;
 
@@ -256,8 +256,7 @@ export class AddWaitingRoomComponent implements OnInit {
         this.patientInfor = '';
       },
         (err) => {
-        this.isCallApi = false;
-
+          this.isCallApi = false;
           this.showErrorToast('Lỗi khi thêm phòng chờ');
         }
       );

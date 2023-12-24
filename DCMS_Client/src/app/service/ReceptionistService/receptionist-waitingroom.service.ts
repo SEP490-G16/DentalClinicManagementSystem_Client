@@ -19,7 +19,7 @@ export class ReceptionistWaitingRoomService {
   }
 
   private Notification = new BehaviorSubject<any>({
-    status: '1', 
+    status: '1',
     content: {
       epoch: '',
       produce_id: '',
@@ -68,7 +68,7 @@ export class ReceptionistWaitingRoomService {
     const requestBody = JSON.stringify(PostWaitingRoom);
     return this.http.post(`${this.apiUrl}/waiting-room`, requestBody, { headers });
   }
-  
+
 
   putWaitingRoom(PutWaitingRoom: IPostWaitingRoom): Observable<any> {
     let idToken = sessionStorage.getItem("id_Token");

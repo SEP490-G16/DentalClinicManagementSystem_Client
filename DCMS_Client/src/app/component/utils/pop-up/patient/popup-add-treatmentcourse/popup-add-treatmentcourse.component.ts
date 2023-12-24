@@ -411,7 +411,8 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
       this.isSubmittedSpecimens = true;
       return;
     }
-    this.treatmentCourseService.postTreatmentCourse(this.Post_TreatmentCourse).
+    setTimeout(() => {
+      this.treatmentCourseService.postTreatmentCourse(this.Post_TreatmentCourse).
       subscribe((res) => {
         this.isCallApi = false;
         this.toastr.success(res.message, "Thêm liệu trình thành công");
@@ -488,6 +489,7 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
           ResponseHandler.HANDLE_HTTP_STATUS(this.treatmentCourseService.apiUrl + "/treatment-course", error);
         }
       )
+    }, 3000)
   }
 
   close() {

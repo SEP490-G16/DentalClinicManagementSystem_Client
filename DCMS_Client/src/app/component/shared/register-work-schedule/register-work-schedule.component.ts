@@ -226,7 +226,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
             this.regiObject.timekeeper_avt = it.timekeeper_attr.M.avt.S;
             this.regiObject.status = 1;
             if (it.timekeeping_attr.M.register_clock_in.N != 0) {
-              this.regiObject.staffNameSang += it.staff_attr.M.name.S + " " + " | ";
+              this.regiObject.staffNameSang += it.staff_attr.M.name.S + " | ";
               this.regiObject.isSang = it.timekeeping_attr.M.register_clock_in.N == "1" ? true : false;
             }
             if (it.timekeeping_attr.M.register_clock_out.N != 0) {
@@ -244,7 +244,7 @@ export class RegisterWorkScheduleComponent implements OnInit {
                     e.isSang = it.timekeeping_attr.M.register_clock_in.N == "1" ? true : false;
                   }
                   if (it.timekeeping_attr.M.register_clock_out.N != 0) {
-                    e.staffNameChieu += it.staff_attr.M.name.S + " |  ";
+                    e.staffNameChieu += it.staff_attr.M.name.S + " | ";
                     e.isChieu = it.timekeeping_attr.M.register_clock_out.N == "2" ? true : false;
                   }
                 }
@@ -332,33 +332,53 @@ export class RegisterWorkScheduleComponent implements OnInit {
         RequestBody.register_clock_in = 0;
         RequestBody.register_clock_out = 0;
       }
+      // const index = this.listDisplayClone.findIndex(entry => entry.currentD == this.timestampToDateStr(RequestBody.epoch));
+      // console.log("Request body: ", RequestBody);
+      // console.log("List display clone: ", this.listDisplayClone);
+      // if (index !== -1) {
 
+      //   if(this.listDisplayClone[index].staffNameSang) {
+      //     this.listDisplayClone[index].staffNameSang.split(" | ").forEach((staffClone: any) => {
+      //       if (staffClone == RequestBody.staff_name && RequestBody.register_clock_in == 1) {
+      //         this.listDisplayClone[index].staffNameSang.splice(index, 1);
+      //       } else {
+      //         this.listDisplayClone[index].staffNameSang += ((" | ") + RequestBody.staff_name);
+      //         this.listDisplayClone[index].isSang = RequestBody.register_clock_in === 1;
+      //       }
+      //     });
+      //   }
+
+      //   if(this.listDisplayClone[index].staffNameChieu) {
+      //     console.log("Oki da vao day: ", this.listDisplayClone[index].staffNameChieu);
+      //     this.listDisplayClone[index].staffNameChieu.split(" | ").forEach((staffClone: any) => {
+      //       if (staffClone == RequestBody.staff_name && RequestBody.register_clock_out == 2) {
+      //         this.listDisplayClone[index].staffNameChieu.splice(index, 1);
+      //       }
+      //       else {
+      //         this.listDisplayClone[index].staffNameChieu += (" | " + RequestBody.staff_name);
+      //         this.listDisplayClone[index].isChieu = RequestBody.register_clock_out === 2;
+      //       }
+      //     });
+      //   }
+
+      // } else {
+      //   this.listDisplayClone.push({
+      //     currentD: this.timestampToDateStr(RequestBody.epoch),
+      //     staffName: RequestBody.staff_name,
+      //     staffNameSang: (RequestBody.register_clock_in === 1) ? RequestBody.staff_name : "",
+      //     staffNameChieu: (RequestBody.register_clock_in === 2) ? RequestBody.staff_name : "",
+      //     isSang: RequestBody.register_clock_in === 1,
+      //     isChieu: RequestBody.register_clock_out === 2,
+      //   });
+      // }
+      // return;
       this.timekeepingService.postTimekeepingNew(RequestBody)
         .subscribe((res) => {
           count++;
           if (count == 7) {
             this.toastr.success(res.message, "Thêm lịch làm việc mới thành công")
           }
-          const index = this.listDisplayClone.findIndex(entry => entry.currentD == this.timestampToDateStr(RequestBody.epoch) && entry.staffId === RequestBody.sub_id);
-          if (index !== -1) {
-            if (RequestBody.register_clock_in == 1) {
-              this.listDisplayClone[index].staffNameSang += (" " + RequestBody.staff_name);
-            }
-            if (RequestBody.register_clock_out == 2) {
-              this.listDisplayClone[index].staffNameChieu += (" " + RequestBody.staff_name);
-            }
-            this.listDisplayClone[index].isSang = RequestBody.register_clock_in === 1;
-            this.listDisplayClone[index].isChieu = RequestBody.register_clock_out === 2;
-          } else {
-            this.listDisplayClone.push({
-              currentD: RequestBody.epoch,
-              staffName: RequestBody.staff_name,
-              staffNameSang: (RequestBody.register_clock_in === 1) ? RequestBody.staff_name : "",
-              staffNameChieu: (RequestBody.register_clock_in === 2) ? RequestBody.staff_name : "",
-              isSang: RequestBody.register_clock_in === 1,
-              isChieu: RequestBody.register_clock_out === 2,
-            });
-          }
+          window.location.reload();
           this.cd.detectChanges();
         },
           (err) => {

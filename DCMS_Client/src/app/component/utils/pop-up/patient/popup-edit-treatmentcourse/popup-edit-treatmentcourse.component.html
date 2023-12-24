@@ -159,7 +159,10 @@
                               </ng-container>
                               <ng-container *ngIf="gro.checked && pro.groupId == 'PG-03'">
                                 <td style="padding: 10px">
-                                  <select class="form-select p-2" id="patient" style="margin-left: 10px; border: 1px solid #664FC3; border-radius: 10px;" aria-label="Default select example" [(ngModel)]="gro.laboId" (ngModelChange)="changeLabo(gro)">
+                                  <select
+                                  [disabled]="isDisableLabo(gro)"
+                                  class="form-select p-2" id="patient" style="margin-left: 10px; border: 1px solid #664FC3; border-radius: 10px;" aria-label="Default select example"
+                                   [(ngModel)]="gro.laboId" (ngModelChange)="changeLabo(gro)">
                                     <option value="0">Chọn labo</option>
                                     <option *ngFor="let a of Labos" value={{a.labo_id}}>{{a.name}}</option>
                                   </select>
@@ -330,7 +333,7 @@
 
             <button type="button" id="cancel" class="btn btn-cancel" data-bs-dismiss="modal" (click)="close()">Hủy</button>
             <button type="button" class="btn button-add" [disabled]="isCallApi"
-              (click)="editTreatmentCourse()">Lưu</button>
+              (click)="editTreatmentCourse()">Sửa</button>
           </div>
         </div>
       </div>
