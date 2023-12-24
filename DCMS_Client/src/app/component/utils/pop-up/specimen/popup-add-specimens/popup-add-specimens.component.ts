@@ -20,6 +20,7 @@ import { Normalize } from 'src/app/service/Lib/Normalize';
 export class PopupAddSpecimensComponent implements OnInit {
   @Input() approveSpecimensList: any;
   @Input() Patient_Id: any;
+  isCallApi:boolean = false;
   orderDateNgbModal!: NgbDateStruct;
   receiverDateNgbModal!: NgbDateStruct;
   usedDateNgbModal!: NgbDateStruct;
@@ -163,6 +164,7 @@ export class PopupAddSpecimensComponent implements OnInit {
 
   }
   addMedicalSupply() {
+    this.isCallApi = true;
 
     const orderDate = FormatNgbDate.formatNgbDateToString(this.orderDateNgbModal);
     const receivedDate = FormatNgbDate.formatNgbDateToString(this.receiverDateNgbModal);
@@ -204,11 +206,13 @@ export class PopupAddSpecimensComponent implements OnInit {
 
     if (!this.specimen.labo) {
       this.validateSpecimens.labo = 'Vui lòng chọn labo!';
+      this.isCallApi = false;
       this.isSubmitted = true;
     }
 
     if (this.specimen.quantity && !this.checkNumber(this.specimen.quantity)) {
       this.validateSpecimens.quantity = 'Vui lòng nhập lại số lượng!';
+      this.isCallApi = false;
       this.isSubmitted = true;
     }
     // if (this.specimen.price && !this.checkNumber(this.specimen.price)) {
@@ -248,6 +252,7 @@ export class PopupAddSpecimensComponent implements OnInit {
     this.loading = true;
     this.medicalSupplyService.addMedicalSupply(this.specimenBody).subscribe(data => {
       this.toastr.success('Thêm mới mẫu thành công !');
+      this.isCallApi = false;
       let ref = document.getElementById('cancel-specimen');
       ref?.click();
       console.log(this.specimenBody);
@@ -255,7 +260,8 @@ export class PopupAddSpecimensComponent implements OnInit {
       this.loading = false;
     },
       error => {
-        this.loading = false;
+      this.isCallApi = false;
+      this.loading = false;
         ResponseHandler.HANDLE_HTTP_STATUS(this.medicalSupplyService.url + "/medical-supply", error);
       })
   }

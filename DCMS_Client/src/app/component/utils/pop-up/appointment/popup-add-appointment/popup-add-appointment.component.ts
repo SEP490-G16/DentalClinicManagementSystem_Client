@@ -160,7 +160,7 @@ export class PopupAddAppointmentComponent implements OnInit {
   appointmentList: RootObject[] = [];
   dateEpoch: string = "";
 
-  patientSessionStorage:any;
+  patientSessionStorage: any;
   ngOnInit(): void {
     this.getListGroupService();
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
@@ -233,8 +233,10 @@ export class PopupAddAppointmentComponent implements OnInit {
 
   unqueList: any[] = [];
   listNewAppointment: any[] = [];
-
+  isCallApi: boolean = false;
   onPostAppointment() {
+    this.isCallApi = true;
+
     const selectedYear = this.model.year;
     const selectedMonth = this.model.month.toString().padStart(2, '0');
     const selectedDay = this.model.day.toString().padStart(2, '0');
@@ -255,6 +257,7 @@ export class PopupAddAppointmentComponent implements OnInit {
     if (this.patientInfor == '' || this.patientInfor == null) {
       this.validateAppointment.patientName = "Vui lòng chọn bệnh nhân!";
       this.isSubmitted = true;
+      this.isCallApi = false;
       this.loading = false;
       return;
     }
@@ -262,6 +265,8 @@ export class PopupAddAppointmentComponent implements OnInit {
     if (this.AppointmentBody.appointment.procedure_id == "1") {
       this.validateAppointment.procedure = "Vui lòng chọn loại điều trị!";
       this.isSubmitted = true;
+      this.isCallApi = false;
+
       this.loading = false;
       return;
     }
@@ -372,16 +377,22 @@ export class PopupAddAppointmentComponent implements OnInit {
     if (selectedDate == '') {
       this.validateAppointment.appointmentDate = "Vui lòng chọn ngày khám!";
       this.isSubmitted = true;
+      this.isCallApi = false;
+
       this.loading = false;
       return;
     } else if (selectedDate < currentDate) {
       this.validateAppointment.appointmentDate = "Vui lòng chọn ngày lớn hơn ngày hiện tại";
       this.isSubmitted = true;
+      this.isCallApi = false;
+
       this.loading = false;
       return;
     } else if (!this.isCheckProcedure) {
       if (!window.confirm(`Thủ thuật ${this.procedure} mà bạn chọn đã có đủ số lượng người trong trong ngày ${selectedDate}. Bạn có muốn tiếp tục?`)) {
         this.validateAppointment.appointmentDate = "Vui lòng chọn ngày khác";
+        this.isCallApi = false;
+
         return;
       }
     }
@@ -396,6 +407,8 @@ export class PopupAddAppointmentComponent implements OnInit {
         deta.details.forEach((res: any) => {
           if (res.patient_id === this.AppointmentBody.appointment.patient_id) {
             this.validateAppointment.patientName = `Bệnh nhân đã đặt lịch hẹn trong ngày ${selectedDate} !`;
+            this.isCallApi = false;
+
             checkPatient = false;
             return;
           }
@@ -410,12 +423,16 @@ export class PopupAddAppointmentComponent implements OnInit {
     if (this.appointmentTime == '') {
       this.validateAppointment.appointmentTime = "Vui lòng chọn giờ khám!";
       this.isSubmitted = true;
+      this.isCallApi = false;
+
       this.loading = false;
       return;
     } else if (this.appointmentTime != '' && selectedDate <= currentDate) {
       if ((currentDate + " " + this.appointmentTime) < (currentDate + " " + currentTime)) {
         this.validateAppointment.appointmentTime = "Vui lòng chọn giờ khám lớn hơn!";
         this.isSubmitted = true;
+        this.isCallApi = false;
+
         this.loading = false;
         return;
       }
@@ -443,6 +460,8 @@ export class PopupAddAppointmentComponent implements OnInit {
         if (selectedDate == this.startDate) {
           this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'plus', 'app');
         }
+        this.isCallApi = false;
+
         this.showSuccessToast('Lịch hẹn đã được tạo thành công!');
         let ref = document.getElementById('cancel-appointment');
         ref?.click();
@@ -508,6 +527,7 @@ export class PopupAddAppointmentComponent implements OnInit {
         window.location.reload();
       },
       (error) => {
+        this.isCallApi = false;
         ResponseHandler.HANDLE_HTTP_STATUS(this.APPOINTMENT_SERVICE.apiUrl + "/appointment", error);
       }
     );

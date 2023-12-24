@@ -21,7 +21,7 @@ import * as moment from "moment-timezone";
 })
 export class PopupEditTreatmentcourseComponent implements OnInit {
   @Input() TreatmentCourse: any;
-
+  isCallApi: boolean = false;
   Post_Procedure_Material_Usage: any[] = []
   Patient_Id: any;
   showDropDown: boolean = false;
@@ -369,14 +369,18 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
   listUpdateMaterial: any[] = [];
 
   editTreatmentCourse() {
+    this.isCallApi = true;
     this.Edit_TreatmentCourse.prescription = this.recordsMedicine;
     this.Edit_TreatmentCourse.prescription = JSON.stringify(this.Edit_TreatmentCourse.prescription);
     this.treatmentCourseService.putTreatmentCourse(this.Edit_TreatmentCourse.treatment_course_id, this.Edit_TreatmentCourse)
       .subscribe((res) => {
+        this.isCallApi = false;
+
         this.toastr.success(res.message, "Sửa Lịch trình điều trị");
         window.location.reload();
       },
         (error) => {
+          this.isCallApi = false;
           ResponseHandler.HANDLE_HTTP_STATUS(this.treatmentCourseService.apiUrl + "/treatment-course/" + this.TreatmentCourse.treatment_course_id, error);
         }
       )
@@ -400,7 +404,7 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
     //   this.isSubmittedSpecimens = true;
     //   return;
     // }
-
+    this.isCallApi = false;
     console.log("Post thu thuat: ", this.Post_Procedure_Material_Usage_New);
     console.log("Put thu thuat: ", this.Post_Procedure_Material_Usage);
     if (this.Post_Procedure_Material_Usage_New.length > 0) {

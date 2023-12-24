@@ -441,7 +441,7 @@
       </div>
       <div class="button-action" style="padding: 0px 80px 30px; display: flex">
         <div class="button-conf">
-          <button type="button" class="btn button-add" (click)="postTreatmentCourse()"><i class="bi bi-floppy2"></i>
+          <button type="button" class="btn button-add" [disabled]="isCallApi" (click)="postTreatmentCourse()"><i class="bi bi-floppy2"></i>
             Lưu</button>
         </div>
         <div class="bottom-left">

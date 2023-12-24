@@ -180,7 +180,7 @@
         </div>
         <div class="button-conf float-end">
           <button type="button" class="btn btn-cancel" data-bs-dismiss="modal" id="cancel-add-waiting">Quay lại</button>
-          <button type="button" class="btn button-timekeeping" (click)="onPostWaitingRoom()">
+          <button type="button" class="btn button-timekeeping" [disabled]="isCallApi" (click)="onPostWaitingRoom()">
             <i class="bi bi-floppy2"></i> Lưu</button>
         </div>
       </div>

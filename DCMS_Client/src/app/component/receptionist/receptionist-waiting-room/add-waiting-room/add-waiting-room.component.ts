@@ -23,9 +23,8 @@ import { FormatNgbDate } from 'src/app/component/utils/libs/formatNgbDate';
   styleUrls: ['./add-waiting-room.component.css']
 })
 export class AddWaitingRoomComponent implements OnInit {
-
   @Input() filteredWaitingRoomData:any;
-
+  isCallApi:boolean = false;
   dobNgb!: NgbDateStruct
   patientList: any[] = [];
   patientInfor: any;
@@ -170,6 +169,7 @@ export class AddWaitingRoomComponent implements OnInit {
     }
   }
   onPostWaitingRoom() {
+    this.isCallApi = true;
     let patientIn = this.patientInfor.split(' - ');
     this.POST_WAITTINGROOM.patient_id = patientIn[0];
     this.POST_WAITTINGROOM.patient_name = patientIn[1];
@@ -187,6 +187,8 @@ export class AddWaitingRoomComponent implements OnInit {
     if (this.patientInfor == '' || this.patientInfor == null) {
       this.validateWatingRoom.patientName = "Vui lòng chọn bệnh nhân!";
       this.isSubmitted = true;
+      this.isCallApi = false;
+
       return;
     }
     if (!this.POST_WAITTINGROOM.produce_id) {
@@ -199,6 +201,8 @@ export class AddWaitingRoomComponent implements OnInit {
 
     if (storedPatientIds.includes(this.POST_WAITTINGROOM.patient_id)) {
       this.showErrorToast('Bệnh nhân đã tồn tại trong phòng chờ!');
+      this.isCallApi = false;
+
       return;
     }
     const wrPatientId = sessionStorage.getItem("WaitingRoomPatientId");
@@ -232,6 +236,8 @@ export class AddWaitingRoomComponent implements OnInit {
       localStorage.setItem("ob", `CheckRealTimeWaitingRoom@@@,${postInfo},${Number('1')}`);
       this.WaitingRoomService.postWaitingRoomNew(this.POST_WAITTINGROOM)
       .subscribe((data) => {
+        this.isCallApi = false;
+
         this.showSuccessToast("Thêm phòng chờ thành công!!");
         let ref = document.getElementById('cancel-add-waiting');
         ref?.click();
@@ -250,6 +256,8 @@ export class AddWaitingRoomComponent implements OnInit {
         this.patientInfor = '';
       },
         (err) => {
+        this.isCallApi = false;
+
           this.showErrorToast('Lỗi khi thêm phòng chờ');
         }
       );

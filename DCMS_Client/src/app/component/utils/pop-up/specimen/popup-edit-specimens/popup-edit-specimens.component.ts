@@ -20,12 +20,13 @@ export class PopupEditSpecimensComponent implements OnInit {
   @Input() Patient_Id: any
   @Input() PutSpecimen: any;
   @Input() AllLabos: any;
+  isCallApi: boolean = false;
   loading: boolean = false;
   IPutSpecimens: PutSpecimen;
-  orderDateNgbModal!:NgbDateStruct;
-  receiverDateNgbModal!:NgbDateStruct;
-  usedDateNgbModal!:NgbDateStruct;
-  warrantyDateNgbModal!:NgbDateStruct;
+  orderDateNgbModal!: NgbDateStruct;
+  receiverDateNgbModal!: NgbDateStruct;
+  usedDateNgbModal!: NgbDateStruct;
+  warrantyDateNgbModal!: NgbDateStruct;
   Labos: any;
   id: string = "";
   status: string = "0";
@@ -136,8 +137,8 @@ export class PopupEditSpecimensComponent implements OnInit {
     }
   }
 
-  calculateTotal(IPutSpecimens:any) {
-     this.total = parseInt(IPutSpecimens.ms_quantity) * parseInt(IPutSpecimens.ms_unit_price);
+  calculateTotal(IPutSpecimens: any) {
+    this.total = parseInt(IPutSpecimens.ms_quantity) * parseInt(IPutSpecimens.ms_unit_price);
   }
 
   dateToTimestamp(dateStr: string): number {
@@ -158,12 +159,15 @@ export class PopupEditSpecimensComponent implements OnInit {
     const usedDate = FormatNgbDate.formatNgbDateToString(this.usedDateNgbModal);
     const warranty = FormatNgbDate.formatNgbDateToString(this.warrantyDateNgbModal);
     this.resetValidate();
+    this.isCallApi = true;
     if (!this.IPutSpecimens.ms_name) {
       this.validatePutSpecimens.name = 'Vui lòng nhập tên mẫu!';
+      this.isCallApi = false;
       this.isSubmitted = true;
     }
     if (!orderDate || !this.formatDate(orderDate)) {
       this.validatePutSpecimens.orderDate = 'Vui lòng nhập ngày đặt!';
+      this.isCallApi = false;
       this.isSubmitted = true;
     }
     // if (receivedDate && !this.formatDate(receivedDate)) {
@@ -192,10 +196,12 @@ export class PopupEditSpecimensComponent implements OnInit {
     // }
     if (!this.IPutSpecimens.lb_id) {
       this.validatePutSpecimens.labo = 'Vui lòng chọn labo!';
+      this.isCallApi = false;
       this.isSubmitted = true;
     }
     if (this.IPutSpecimens.ms_quantity && !this.checkNumber(this.IPutSpecimens.ms_quantity)) {
       this.validatePutSpecimens.quantity = 'Vui lòng nhập lại số lượng!';
+      this.isCallApi = false;
       this.isSubmitted = true;
     }
     // if (this.IPutSpecimens.ms_unit_price && !this.checkNumber(this.IPutSpecimens.ms_unit_price)) {
@@ -204,6 +210,7 @@ export class PopupEditSpecimensComponent implements OnInit {
     // }
     if (!this.IPutSpecimens.p_patient_id) {
       this.validatePutSpecimens.patient = 'Vui lòng nhập tên bệnh nhân!';
+      this.isCallApi = false;
       this.isSubmitted = true;
     }
     if (this.isSubmitted) {
@@ -212,9 +219,9 @@ export class PopupEditSpecimensComponent implements OnInit {
     let orderDateParse = new Date(orderDate);
     let receivedDateParse = new Date(receivedDate);
     let usedDateParse = new Date(usedDate);
-    let orderDateTimestamp = (orderDateParse.getTime()/1000).toString();
-    let receivedDateTimestamp = (receivedDateParse.getTime()/1000).toString();
-    let userDateTimestamp = (usedDateParse.getTime()/1000).toString();
+    let orderDateTimestamp = (orderDateParse.getTime() / 1000).toString();
+    let receivedDateTimestamp = (receivedDateParse.getTime() / 1000).toString();
+    let userDateTimestamp = (usedDateParse.getTime() / 1000).toString();
     let faci = sessionStorage.getItem('locale');
     if (faci != null) {
       this.putSpecimensBody.facility_id = faci;
@@ -239,6 +246,7 @@ export class PopupEditSpecimensComponent implements OnInit {
     this.SpecimensService.putSpecimens(this.id, this.putSpecimensBody)
       .subscribe((res) => {
         this.loading = false;
+        this.isCallApi = false;
         const ref = document.getElementById("cancel-edit-specimen");
         ref?.click();
         this.showSuccessToast('Chỉnh sửa mẫu vật thành công!');
@@ -246,6 +254,7 @@ export class PopupEditSpecimensComponent implements OnInit {
       },
         (error) => {
           this.loading = false;
+          this.isCallApi = false;
           ResponseHandler.HANDLE_HTTP_STATUS(this.SpecimensService.apiUrl + "/medical-supply/" + this.id, error);
         }
       )

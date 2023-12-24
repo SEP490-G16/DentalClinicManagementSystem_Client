@@ -16,7 +16,7 @@ import * as moment from 'moment';
 export class PopupAddPatientComponent implements OnInit {
   @Input() searchPatientsList: any;
   @Output() newPatientAdded = new EventEmitter<any>();
-
+  isCallApi:boolean = false;
   dob: string = "";
   model!: NgbDateStruct;
   patient1: any = {
@@ -76,38 +76,47 @@ export class PopupAddPatientComponent implements OnInit {
   addPatient() {
     //console.log("check date: ",this.patientBody)
     //console.log("check date: ", TimestampFormat.dateToTimestamp(FormatNgbDate.formatNgbDateToString(this.model)));
+    this.isCallApi = true;
 
     var regex = /[0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\\-/]/;
     this.resetValidate();
     if (!this.patient1.patientName) {
+      this.isCallApi = false;
       this.validatePatient.name = "Vui lòng nhập tên bệnh nhân!";
       this.isSubmitted = true;
     }
     if (regex.test(this.patient1.patientName) == true) {
+      this.isCallApi = false;
       this.validatePatient.name = "Tên không hợp lệ!";
       this.isSubmitted = true;
     }
     if (!this.patient1.Gender) {
+      this.isCallApi = false;
       this.validatePatient.gender = "Vui lòng chọn giới tính!";
       this.isSubmitted = true;
     }
     if (!this.patient1.phone_Number) {
+      this.isCallApi = false;
       this.validatePatient.phone = "Vui lòng nhập số zalo!";
       this.isSubmitted = true;
     }
     else if (!this.isVietnamesePhoneNumber(this.patient1.phone_Number)) {
+      this.isCallApi = false;
       this.validatePatient.phone = "Số zalo không hợp lệ!";
       this.isSubmitted = true;
     }
     if (!this.model || !this.model.year || !this.model.month || !this.model.day) {
+      this.isCallApi = false;
       this.validatePatient.dob = "Vui lòng nhập ngày sinh!";
       this.isSubmitted = true;
     }
     else if (this.isDob(FormatNgbDate.formatNgbDateToString(this.model))){
+      this.isCallApi = false;
       this.validatePatient.dob = "Vui lòng nhập ngày sinh đúng định dạng dd/MM/yyyy !";
       this.isSubmitted = true;
     }
     if (!this.patient1.Address) {
+      this.isCallApi = false;
       this.validatePatient.address = "Vui lòng nhập địa chỉ!";
       this.isSubmitted = true;
     }
@@ -156,6 +165,7 @@ export class PopupAddPatientComponent implements OnInit {
 
     //return;
     this.patientService.addPatient(this.patientBody).subscribe((data: any) => {
+      this.isCallApi = false;
       this.toastr.success('Thêm mới bệnh nhân thành công!');
 
       let ref = document.getElementById('cancel');
@@ -181,6 +191,7 @@ export class PopupAddPatientComponent implements OnInit {
       console.log(this.searchPatientsList);
 
     }, error => {
+      this.isCallApi = false;
       ResponseHandler.HANDLE_HTTP_STATUS(this.patientService.test + "/patient", error);
     })
   }

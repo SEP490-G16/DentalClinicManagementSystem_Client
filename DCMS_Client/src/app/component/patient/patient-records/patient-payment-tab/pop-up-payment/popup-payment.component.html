@@ -133,7 +133,7 @@
 <div class="modal-footer">
   <button type="button" class="btn btn-cancel" (click)="close()">Đóng</button>
   <ng-container *ngIf="remaining != 0; else genPdf">
-    <button type="button" class="btn button-add" (click)="postPayment()">Thanh toán</button>
+    <button type="button" class="btn button-add" [disabled]="isCallApi" (click)="postPayment()">Thanh toán</button>
   </ng-container>
   <ng-template #genPdf>
     <button type="button" class="btn button-add" (click)="generateExDetailPdf()">In phiếu thu</button>

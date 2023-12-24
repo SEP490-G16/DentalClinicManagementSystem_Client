@@ -14,7 +14,7 @@ import {
   NgbDateStruct
 } from "@ng-bootstrap/ng-bootstrap";
 import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureService/medical-procedure-group.service';
-import {ResponseHandler} from "../../../libs/ResponseHandler";
+import { ResponseHandler } from "../../../libs/ResponseHandler";
 import { IPatient } from 'src/app/model/IPatient';
 import { CognitoService } from 'src/app/service/cognito.service';
 import { TimeKeepingService } from 'src/app/service/Follow-TimeKeepingService/time-keeping.service';
@@ -27,14 +27,14 @@ import { ActivatedRoute } from '@angular/router';
 })
 
 export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
-
+  isCallApi: boolean = false;
   loading: boolean = false;
   isCheckProcedure: boolean = true;
 
   @Input() selectedAppointment: any;
   @Input() dateString: any;
   @Input() timeString: any;
-  @Input() filteredAppointments: any [] = [];
+  @Input() filteredAppointments: any[] = [];
 
   @Input() datesDisabled: any;
 
@@ -121,7 +121,7 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
     const id = this.route.snapshot.params['id'];
     this.PATIENT_SERVICE.getPatientById(id).subscribe((res) => {
       this.responseO = res;
-      this.patientInfor = this.responseO.patient_id +" - "+this.responseO.patient_name+ " - "+this.responseO.phone_number;
+      this.patientInfor = this.responseO.patient_id + " - " + this.responseO.patient_name + " - " + this.responseO.phone_number;
     })
     //const patient = sessionStorage.getItem('patient');
     // if (patient != null){
@@ -160,7 +160,7 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
           doctor: this.selectedAppointment.doctor,
           status: 2,
           time: this.selectedAppointment.time,
-          reason:this.selectedAppointment.reason
+          reason: this.selectedAppointment.reason
         }
       } as IEditAppointmentBody;
       this.selectedDoctor = this.selectedAppointment.doctor;
@@ -345,6 +345,7 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
   appointmentList: RootObject[] = [];
 
   onPutAppointment() {
+    this.isCallApi = true;
     this.EDIT_APPOINTMENT_BODY.epoch = this.dateToTimestamp(this.dateString);
 
     //Convert model to string
@@ -369,6 +370,7 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
     this.resetValidate();
     if (this.EDIT_APPOINTMENT_BODY.appointment.procedure_id == "1") {
       this.validateAppointment.procedure = "Vui lòng chọn loại điều trị!";
+      this.isCallApi = false;
       this.isSubmitted = true;
       this.loading = false;
       return;
@@ -387,17 +389,20 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
 
     if (selectedDate == '') {
       this.validateAppointment.appointmentDate = "Vui lòng chọn ngày khám!";
+      this.isCallApi = false;
       this.isSubmitted = true;
       this.loading = false;
       return;
     } else if (selectedDate < currentDate) {
       this.validateAppointment.appointmentDate = "Vui lòng chọn ngày lớn hơn ngày hiện tại";
+      this.isCallApi = false;
       this.isSubmitted = true;
       this.loading = false;
       return;
     } else if (!this.isCheckProcedure) {
       if (!window.confirm("Thủ thuật mà bạn chọn đã có đủ 8 người trong trong ngày đó. Bạn có muốn tiếp tục?")) {
         this.validateAppointment.appointmentDate = "Vui lòng chọn ngày khác";
+        this.isCallApi = false;
         return;
       }
     }
@@ -405,12 +410,14 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
     if (this.timeString == '') {
       this.validateAppointment.appointmentTime = "Vui lòng chọn giờ khám!";
       this.isSubmitted = true;
+      this.isCallApi = false;
       this.loading = false;
       return;
     } else if (this.timeString != '' && selectedDate <= currentDate) {
       if ((currentDate + " " + this.timeString) < (currentDate + " " + currentTime)) {
         this.validateAppointment.appointmentTime = "Vui lòng chọn giờ khám lớn hơn!";
         this.isSubmitted = true;
+        this.isCallApi = false;
         this.loading = false;
         return;
       }
@@ -429,6 +436,7 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
               if (appo.date == this.dateToTimestamp(selectedDate)) {
                 if (res.patient_id == this.EDIT_APPOINTMENT_BODY.appointment.patient_id) {
                   this.validateAppointment.patientName = `Bệnh nhân đã có lịch hẹn trong ngày ${this.timestampToDate(appo.date)} !`;
+                  this.isCallApi = false;
                   this.isSubmitted = true;
                   this.loading = false;
                   return;
@@ -441,9 +449,11 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
     }
     this.APPOINTMENT_SERVICE.putAppointment(this.EDIT_APPOINTMENT_BODY, this.selectedAppointment.appointment_id).subscribe(response => {
       console.log("Cập nhật thành công");
+      this.isCallApi = false;
       this.showSuccessToast('Sửa Lịch hẹn thành công!');
       window.location.reload();
     }, error => {
+      this.isCallApi = false;
       //this.showErrorToast("Lỗi khi cập nhật");
       ResponseHandler.HANDLE_HTTP_STATUS(this.APPOINTMENT_SERVICE.apiUrl + "/appointment/" + this.selectedAppointment.appointment_id, error);
     });
