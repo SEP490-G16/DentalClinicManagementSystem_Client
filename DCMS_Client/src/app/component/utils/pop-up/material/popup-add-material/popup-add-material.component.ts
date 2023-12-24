@@ -66,7 +66,13 @@ export class PopupAddMaterialComponent implements OnInit {
 
       //
       this.materialAdded.emit(this.materialBody);
-
+      this.disable = false;
+      this.material = {
+        name: '',
+        description: '',
+        unit: '',
+        total: 0,
+      }
     },
       (error) => {
       this.disable = false;
@@ -75,7 +81,7 @@ export class PopupAddMaterialComponent implements OnInit {
       }
     )
   }
-  private resetValidate() {
+   resetValidate() {
     this.validateMaterial = {
       name: '',
       unit: ''

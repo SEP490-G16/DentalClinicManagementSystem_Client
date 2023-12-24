@@ -102,6 +102,7 @@ export class PopupEditLaboComponent implements OnInit, OnChanges {
         .subscribe(
           (res) => {
             this.showSuccessToast("Sửa Labo thành công");
+            this.disable = false;
             this.PutLabo = {
               labo_id: "",
               name: "",

@@ -28,7 +28,7 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
       day: parseInt(currentDateGMT7.split('-')[2])
     };
   }
-
+  disable:boolean = false;
   status: boolean = false;
   importBill = {
     createDate: '',
@@ -104,13 +104,16 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
       creator: this.importBill.creator,
       facility_id: this.importBillBody.facility_id
     }
+    this.disable = true;
     this.importMaterialService.updateImportBill(this.importMaterialBillId,this.importBillBody).subscribe(data=>{
         this.toastr.success('Cập nhật phiếu thành công!');
+        this.disable = false;
         this.status = true;
         window.location.reload();
       },
       error => {
         //this.toastr.error('Cập nhật phiếu thất bại !');
+        this.disable = false;
         ResponseHandler.HANDLE_HTTP_STATUS(this.importMaterialService.url + "/import-material/" + this.importMaterialBillId, error);
       }
     )
@@ -245,14 +248,17 @@ export class PopupEditBillImportMaterialComponent implements OnChanges {
         remaining: '0'
       }
       console.log("abc")
-      this.loading = true;
+      //this.loading = true;
+      this.disable = true;
       this.materialWarehouseService.updateMaterialImportMaterial(this.materialWareHouseId, this.importMaterialBody).subscribe(data => {
         this.toastr.success('Cập nhật thành công !');
+        this.disable = false;
         window.location.reload();
       },
         error => {
-          this.loading = false;
+          //this.loading = false;
           //this.toastr.error('Cập nhật thất bại !');
+          this.disable = false;
           ResponseHandler.HANDLE_HTTP_STATUS(this.materialWarehouseService.url + "/material-warehouse/material_warehouse_id/" + this.materialWareHouseId, error);
         }
       )

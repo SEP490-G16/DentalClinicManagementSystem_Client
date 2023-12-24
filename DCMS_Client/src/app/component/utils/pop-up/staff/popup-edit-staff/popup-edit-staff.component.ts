@@ -110,10 +110,11 @@ export class PopupEditStaffComponent implements OnInit {
     this.selectedServiceGroupIds.forEach((item: any) => {
       zoneinfo += item + ",";
     })
+    this.disable = true;
     this.cognitoService.putStaff(userName, roleId, zoneinfo).subscribe(
       (res) => {
-        this.disable = true;
         this.showSuccessToast("Cập nhật thông tin nhân viên thành công!");
+        this.disable = false;
         window.location.reload();
       },
       () => {
