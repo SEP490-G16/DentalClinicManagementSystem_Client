@@ -118,6 +118,9 @@ export class StaffComponent implements OnInit {
               if (attr.Name == 'zoneinfo') {
                 this.staff.zoneInfor = attr.Value;
               }
+              if (attr.Name == 'custom:locale') {
+                this.staff.locale = attr.Value;
+              }
             })
             this.listStaffDisplay.push(this.staff);
           }
@@ -126,7 +129,6 @@ export class StaffComponent implements OnInit {
       },
       )
     }
-
   getStaffName(id:any):any {
     if (id == "1") {
       return "Admin";
