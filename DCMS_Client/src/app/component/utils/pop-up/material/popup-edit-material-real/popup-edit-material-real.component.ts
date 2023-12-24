@@ -28,6 +28,7 @@ export class PopupEditMaterialRealComponent implements OnInit, OnChanges {
     name: '',
     unit: ''
   }
+  disable:boolean = false;
   isSubmitted: boolean = false;
   constructor(private materialSerivce: MaterialService,
     private toastr: ToastrService) { }
@@ -62,6 +63,7 @@ export class PopupEditMaterialRealComponent implements OnInit, OnChanges {
       unit: this.material.unit,
       total: this.material.total
     }
+    this.disable = true;
     this.materialSerivce.updateMaterial(this.materialEdit.material_id, this.materialBody).subscribe(data => {
       this.toastr.success('Chính sửa vật liệu thành công!');
       window.location.reload();
@@ -77,6 +79,7 @@ export class PopupEditMaterialRealComponent implements OnInit, OnChanges {
       // this.materialUpdated.emit(Body);
     },
       error => {
+        this.disable = false;
         this.toastr.error(error.error.message, 'Sửa vật liệu thất bại!');
         // ResponseHandler.HANDLE_HTTP_STATUS(this.materialSerivce.url + "/material", error);
       }

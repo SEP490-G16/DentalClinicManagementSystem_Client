@@ -12,7 +12,7 @@ import {ResponseHandler} from "../../../libs/ResponseHandler";
 export class PopupEditLaboComponent implements OnInit, OnChanges {
 
   @Input() LaboEdit: any;
-
+  disable:boolean = false;
   PutLabo:ILabos;
   loading: boolean = false;
   EditLaboErrors: {
@@ -96,7 +96,8 @@ export class PopupEditLaboComponent implements OnInit, OnChanges {
     //   this.showErrorToast("Vui lòng kiểm tra và điền đầy đủ thông tin cần thiết.");
     // } else {
       console.log(this.LaboEdit);
-      this.loading = true;
+      //this.loading = true;
+      this.disable = true;
       this.EditLaboService.putLabo(this.LaboEdit.labo_id, this.PutLabo)
         .subscribe(
           (res) => {
@@ -115,8 +116,9 @@ export class PopupEditLaboComponent implements OnInit, OnChanges {
             window.location.reload();
           },
           (error) => {
-            this.loading=false;
-            //this.showErrorToast("Sửa Labo thất bại");
+           // this.loading=false;
+            this.disable=false;
+            this.showErrorToast("Sửa Labo thất bại");
             ResponseHandler.HANDLE_HTTP_STATUS(this.EditLaboService.apiUrl+"/labo/"+this.LaboEdit.labo_id, error);
           }
         );

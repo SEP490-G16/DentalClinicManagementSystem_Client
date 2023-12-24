@@ -13,7 +13,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class PopupAddLaboComponent implements OnInit {
 
   Labo: IPostLabo;
-
+  disable:boolean = false;
   LaboErrors: {
     labo_name: string,
     address: string,
@@ -78,13 +78,11 @@ export class PopupAddLaboComponent implements OnInit {
     }
 
     // Tiến hành gửi dữ liệu nếu không có lỗi
-    this.loading = true;
-    console.log(this.loading)
-
+    //this.loading = true;
+    this.disable = true;
     this.PostLaboService.postLabo(this.Labo)
       .subscribe(
         (data) => {
-          console.log(this.Labo);
           this.showSuccessToast("Thêm mới Labo thành công");
           this.Labo = {
             name: "",
@@ -104,7 +102,8 @@ export class PopupAddLaboComponent implements OnInit {
         },
         (error) => {
           this.loading = false;
-          //this.showErrorToast("Lỗi khi thêm Labo");
+          this.disable = false;
+          this.showErrorToast("Lỗi khi thêm Labo");
           ResponseHandler.HANDLE_HTTP_STATUS(this.PostLaboService.apiUrl+"/labo", error);
         }
       );

@@ -87,7 +87,7 @@
         <div class="modal-footer">
           <button type="button" id="cancel-addMaterial" class="btn btn-cancel" (click)="resetValidate()" data-bs-dismiss="modal">Hủy</button>
 
-          <button type="button" (click)="AddNewExpense()" class="btn button-timekeeping"><i class="bi bi-floppy2"></i> Lưu</button>
+          <button type="button" [disabled]="disable" (click)="AddNewExpense()" class="btn button-timekeeping"><i class="bi bi-floppy2"></i> Lưu</button>
         </div>
 
       </div>

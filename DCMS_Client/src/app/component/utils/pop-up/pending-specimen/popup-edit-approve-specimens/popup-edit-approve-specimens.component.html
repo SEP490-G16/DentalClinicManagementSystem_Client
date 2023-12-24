@@ -217,8 +217,8 @@
 
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" id="cancel-approve" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
-          <button type="button" class="btn button-timekeeping" (click)="updateApproveSpecimens()"><i class="bi bi-floppy2"></i> Lưu</button>
+          <button type="button" [disabled]="disable" id="cancel-approve" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
+          <button type="button" [disabled]="disable" class="btn button-timekeeping" (click)="updateApproveSpecimens()"><i class="bi bi-floppy2"></i> Lưu</button>
         </div>
 
       </div>
