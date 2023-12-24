@@ -57,6 +57,7 @@ export class ServiceComponent implements OnInit {
       });
       this.filteredMgData = Array.from(mgIdMap.values());
       this.getMedicalProcedureChildren(this.filteredMgData[0].mg_id);
+      console.log(this.filteredMgData);
     },
       error => {
         ResponseHandler.HANDLE_HTTP_STATUS(this.medicalProcedureGroupService.url + "/medical-procedure-group-with-detail", error);

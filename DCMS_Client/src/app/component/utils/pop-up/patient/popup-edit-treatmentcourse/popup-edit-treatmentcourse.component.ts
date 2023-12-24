@@ -56,8 +56,9 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
   }
   ngOnInit(): void {
     this.Patient_Id = this.route.snapshot.params['id'];
+
     this.getMedicalProcedureList();
-    this.getMaterialList();
+    //this.getMaterialList();
     this.getLabo();
     this.getPatient();
   }
@@ -88,65 +89,71 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
 
   getMedicalProcedureList() {
     this.list.splice(0, this.list.length)
-    this.medicalProcedureGroupService.getMedicalProcedureGroupListandDetail().subscribe(data => {
-      this.ProcedureGroupList = data.data;
-      this.ProcedureGroupList.forEach((item: any) => {
-        const currentO = item;
-        if (!this.UniqueList.includes(currentO.mg_id)) {
-          this.UniqueList.push(currentO.mg_id);
-          let proObject = {
-            procedureId: currentO.mp_id,
-            procedureName: currentO.mp_name,
-            initPrice: currentO.mp_price,
-            price: currentO.mp_price,
-            quantity: 1,
-            laboId: '0',
-            checked: false,
-            isExpand: false,
-          };
-          this.groupProcedureO.groupId = currentO.mg_id;
-          this.groupProcedureO.groupName = currentO.mg_name;
-          this.groupProcedureO.checked = false;
-          this.groupProcedureO.procedure.push(proObject);
-          this.list.push(this.groupProcedureO);
-          this.groupProcedureO = {
-            groupId: '',
-            groupName: '',
-            checked: true,
-            procedure: [],
-            isExpand: false
-          }
-          proObject = {
-            procedureId: '',
-            procedureName: '',
-            initPrice: '',
-            price: '',
-            quantity: 1,
-            laboId: '0',
-            checked: true,
-            isExpand: false
-          };
-        } else {
-          this.list.forEach((item: any) => {
-            if (item.groupId == currentO.mg_id) {
-              let proObject = {
-                procedureId: currentO.mp_id,
-                procedureName: currentO.mp_name,
-                initPrice: currentO.mp_price,
-                price: currentO.mp_price,
-                laboId: '0',
-                checked: false,
-                isExpand: false,
-              };
-              item.procedure.push(proObject);
+    const listPro = localStorage.getItem('listProcedure');
+    if (listPro != null) {
+      this.list = JSON.parse(listPro);
+    } else {
+      this.medicalProcedureGroupService.getMedicalProcedureGroupListandDetail().subscribe(data => {
+        this.ProcedureGroupList = data.data;
+        this.ProcedureGroupList.forEach((item: any) => {
+          const currentO = item;
+          if (!this.UniqueList.includes(currentO.mg_id)) {
+            this.UniqueList.push(currentO.mg_id);
+            let proObject = {
+              procedureId: currentO.mp_id,
+              procedureName: currentO.mp_name,
+              initPrice: currentO.mp_price,
+              price: currentO.mp_price,
+              quantity: 1,
+              laboId: '0',
+              checked: false,
+              isExpand: false,
+            };
+            this.groupProcedureO.groupId = currentO.mg_id;
+            this.groupProcedureO.groupName = currentO.mg_name;
+            this.groupProcedureO.checked = false;
+            this.groupProcedureO.procedure.push(proObject);
+            this.list.push(this.groupProcedureO);
+            this.groupProcedureO = {
+              groupId: '',
+              groupName: '',
+              checked: true,
+              procedure: [],
+              isExpand: false
             }
-          })
-        }
-      })
-    },
-      (error) => {
-        ResponseHandler.HANDLE_HTTP_STATUS(this.medicalProcedureGroupService.url + "/medical-procedure-group-with-detail", error);
-      })
+            proObject = {
+              procedureId: '',
+              procedureName: '',
+              initPrice: '',
+              price: '',
+              quantity: 1,
+              laboId: '0',
+              checked: true,
+              isExpand: false
+            };
+          } else {
+            this.list.forEach((item: any) => {
+              if (item.groupId == currentO.mg_id) {
+                let proObject = {
+                  procedureId: currentO.mp_id,
+                  procedureName: currentO.mp_name,
+                  initPrice: currentO.mp_price,
+                  price: currentO.mp_price,
+                  laboId: '0',
+                  checked: false,
+                  isExpand: false,
+                };
+                item.procedure.push(proObject);
+              }
+            })
+          }
+        })
+      },
+        (error) => {
+          ResponseHandler.HANDLE_HTTP_STATUS(this.medicalProcedureGroupService.url + "/medical-procedure-group-with-detail", error);
+        })
+    }
+
   }
 
   chechChange: boolean = false;
@@ -384,26 +391,7 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
           ResponseHandler.HANDLE_HTTP_STATUS(this.treatmentCourseService.apiUrl + "/treatment-course/" + this.TreatmentCourse.treatment_course_id, error);
         }
       )
-    // this.list.forEach((item: any, itemIndex: number) => {
-    //   item.procedure.forEach((it: any, procIndex: number) => {
-    //     const key = `soLuong_${itemIndex}_${procIndex}`;
-    //     let soLuong = it.quantity
-    //     if (!this.checkNumber(soLuong)) {
-    //       this.valdateSpecimens[key] = "Nhập số lượng > 0!";
-    //       this.isSubmittedSpecimens = true;
-    //     }
-    //     else {
-    //       if (this.valdateSpecimens[key]) {
-    //         delete this.valdateSpecimens[key];
-    //       }
-    //     }
-    //
-    //   })
-    // })
-    // if (Object.keys(this.valdateSpecimens).length > 0) {
-    //   this.isSubmittedSpecimens = true;
-    //   return;
-    // }
+
     this.isCallApi = false;
     console.log("Post thu thuat: ", this.Post_Procedure_Material_Usage_New);
     console.log("Put thu thuat: ", this.Post_Procedure_Material_Usage);
@@ -435,62 +423,7 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
         })
       })
     }
-
-    // if (this.listInsertNewMaterial.length > 0) {
-    //   this.listMaterialUsage.forEach((item: any) => {
-    //     this.listInsertNewMaterial.forEach((it: any) => {
-    //       if (it.material_warehouse_id == item.material_warehouse_id) {
-    //         it.material_warehouse_id = item.material_warehouse_id;
-    //         it.treatment_course_id = this.Edit_TreatmentCourse.treatment_course_id;
-    //         it.examination_id = '';
-    //         it.quantity = item.quantity;
-    //         it.price = item.price;
-    //         it.total_paid = '';
-    //         it.description = item.materialName;
-    //       }
-    //     })
-    //   })
-    //
-    //   this.materialUsageService.postMaterialUsage(this.listInsertNewMaterial)
-    //     .subscribe((res) => {
-    //       this.toastr.success("Thêm vật liệu thành công");
-    //     }, (err) => {
-    //       this.toastr.error(err.error.message, "Thêm Thủ thuật thất bại");
-    //     })
-    // }
-
     console.log("đã đến đây");
-    // if (this.listMaterialUsage.length > 0) {
-    //   console.log("đã vô 1");
-    //   this.listMaterialUsage.forEach((item: any) => {
-    //     if (this.listInsertNewMaterial.length > 0) {
-    //       this.listInsertNewMaterial.forEach((it: any) => {
-    //         if (it.material_warehouse_id != item.material_warehouse_id) {
-    //           this.listUpdateMaterial.push(item);
-    //           return;
-    //         }
-    //       })
-    //     } else {
-    //       this.listUpdateMaterial = this.listMaterialUsage;
-    //     }
-    //   })
-    //
-    //   this.listUpdateMaterial.forEach((item: any) => {
-    //     this.listCheckChangeMaterial.forEach((it: any) => {
-    //       if (item.material_usage_id == it.material_usage_id) {
-    //         if (it.quantity != item.quantity) {
-    //           item.price = 1;
-    //           this.materialUsageService.putMaterialUsage(item.material_usage_id, item)
-    //             .subscribe((res) => {
-    //               return;
-    //             }, (err) => {
-    //               this.toastr.error(err.error.message, "Chỉnh sửa Thủ thuật thất bại");
-    //             })
-    //         }
-    //       }
-    //     })
-    //   })
-    // }
   }
 
   selectMedicine: string = '0';
@@ -600,14 +533,19 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
 
   Patient: any;
   getPatient() {
-    this.patientService.getPatientById(this.Patient_Id)
-      .subscribe((res) => {
-        this.Patient = res;
-      },
-        (err) => {
-          this.toastr.error(err.error.message, "Lỗi khi lấy thông tin bệnh nhân")
-        }
-      )
+    const patient = sessionStorage.getItem('patient');
+    if (patient != null) {
+      this.Patient = JSON.parse(patient);
+    } else {
+      this.patientService.getPatientById(this.Patient_Id)
+        .subscribe((res) => {
+          this.Patient = res;
+        },
+          (err) => {
+            this.toastr.error(err.error.message, "Lỗi khi lấy thông tin bệnh nhân")
+          }
+        )
+    }
   }
 
   openGeneratePdfModal() {
@@ -713,10 +651,6 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
 
   close() {
     this.selectMedicine = "0";
-    // console.log("List: ", this.list);
-    // this.list.forEach((item:any) => {
-    //   item.checked = false;
-    // })
   }
 }
 

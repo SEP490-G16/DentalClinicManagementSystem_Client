@@ -123,7 +123,7 @@ export class PopupAddAppointmentComponent implements OnInit {
         procedure_name: '',
         reason: '',
         doctor_attr: '',
-        status_attr: 2,
+        status_attr: 4,
         time_attr: 0,
         is_new: true
       }
@@ -514,7 +514,7 @@ export class PopupAddAppointmentComponent implements OnInit {
             procedure_name: '',
             reason: '',
             doctor_attr: '',
-            status_attr: 2,
+            status_attr: 4,
             time_attr: 0,
             is_new: true
           }
@@ -598,7 +598,7 @@ export class PopupAddAppointmentComponent implements OnInit {
         procedure_name: '',
         reason: '',
         doctor_attr: '',
-        status_attr: 2,
+        status_attr: 4,
         time_attr: 0,
         is_new: true
       }

@@ -156,7 +156,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
         procedure_name: '',
         reason: '',
         doctor_attr: '',
-        status_attr: 2,
+        status_attr: 4,
         time_attr: 0,
         is_new: true
       }
@@ -587,6 +587,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
       const curr = (now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDay() + " " + now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds()).toString();
       //const patientInfor = this.AppointmentBody.appointment.patient_id+ " - "+this.AppointmentBody.appointment.patient_name+" - "+this.AppointmentBody.appointment.phone_number+" - "+this.patientBody.address+" - "+ curr+" - "+"pa";
       //this.sendMessageSocket.sendMessageSocket('CheckRealTimeWaitingRoom@@@',`${patientInfor}`,`${Number('1')}`);
+    
       this.APPOINTMENT_SERVICE.postAppointmentNew(this.AppointmentBody).subscribe(
         (response) => {
           this.isCallApi = false;
@@ -650,7 +651,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
               procedure_name: '',
               reason: '',
               doctor_attr: '',
-              status_attr: 2,
+              status_attr: 4,
               time_attr: 0,
               is_new: true
             }
@@ -697,6 +698,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
     this.isAddOld = true;
     this.isAdd = false;
   }
+  
   normalizePhoneNumber(phoneNumber: string): string {
     if (phoneNumber.startsWith('(+84)')) {
       return '0' + phoneNumber.slice(5);
@@ -788,7 +790,7 @@ export class PopupAddAppointmentNewComponent implements OnInit {
         procedure_name: '',
         reason: '',
         doctor_attr: '',
-        status_attr: 2,
+        status_attr: 4,
         time_attr: 0,
         is_new: true
       }
