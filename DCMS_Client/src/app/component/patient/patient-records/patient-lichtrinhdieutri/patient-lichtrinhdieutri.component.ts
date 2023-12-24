@@ -121,7 +121,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
     const month = currentDateGMT7.month() + 1; // Tháng bắt đầu từ 0
     const year = currentDateGMT7.year();
     this.currentDate = day + "/" + month + "/" + year;
-    this.getPatient();
+    //this.getPatient();
     this.getMedicalProcedureList();
     this.getLabo();
     var user = sessionStorage.getItem('username');
@@ -207,6 +207,7 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
           })
         }
       })
+      localStorage.setItem("listProcedure", JSON.stringify(this.list));
     },
       (error) => {
         ResponseHandler.HANDLE_HTTP_STATUS(this.medicalProcedureGroupService.url + "/medical-procedure-group-with-detail", error);
@@ -755,7 +756,6 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
         .subscribe((data: any) => {
           this.listProcedure = data.data;
           console.log("List procedure: ", this.listProcedure);
-
           Course.isCompleted = Course.name && this.listProcedure.length > 0;
         })
     })

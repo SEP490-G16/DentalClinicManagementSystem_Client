@@ -87,10 +87,10 @@ export class PopupAddTreatmentcourseComponent implements OnInit {
 
   ngOnInit(): void {
     this.Patient_Id = this.route.snapshot.params['id'];
-    this.getPatient();
-    this.getMedicalProcedureList();
-    this.getMaterialList();
-    this.getLabo();
+    //this.getPatient();
+    //this.getMedicalProcedureList();
+    //this.getMaterialList();
+    //this.getLabo();
 
     var user = sessionStorage.getItem('username');
     if (user != null) {

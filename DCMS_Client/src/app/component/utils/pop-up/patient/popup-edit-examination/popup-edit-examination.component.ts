@@ -124,19 +124,19 @@ export class PopupEditExaminationComponent implements OnInit {
     if (id != null) {
       this.staff_id = id;
     }
-    this.getPatient();
-    this.getExaminationById();
-    this.getLabos();
-    this.getMaterialList();
-    this.getListStaff();
-    this.getMedicalProcedureList();
-    this.getMedicalandProcedure()
+    //this.getPatient();
+    //this.getExaminationById();
+    //this.getLabos();
+    //this.getMaterialList();
+    //this.getListStaff();
+    //this.getMedicalProcedureList();
+    ///this.getMedicalandProcedure()
     const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
     this.currentDate = currentDateGMT7;
-    this.tcService.getTreatmentCourse(this.patient_Id)
-      .subscribe((res) => {
-        this.listTreatmentCourse = res;
-      })
+    // this.tcService.getTreatmentCourse(this.patient_Id)
+    //   .subscribe((res) => {
+    //     this.listTreatmentCourse = res;
+    //   })
   }
 
   examininationSelect: any;

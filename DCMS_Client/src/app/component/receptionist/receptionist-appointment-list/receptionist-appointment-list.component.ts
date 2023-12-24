@@ -364,9 +364,6 @@ export class ReceptionistAppointmentListComponent implements OnInit {
               })).filter((app: any) => app.appointments.length > 0);
             }, 500); // The timeout should match the animation duration
           }
-          //localStorage.setItem('ListAppointment', JSON.stringify(this.filteredAppointments));
-          //this.showErrorToast("Lỗi khi cập nhật");
-          //this.showErrorToast("Lỗi khi xóa");
         }
         );
       }
