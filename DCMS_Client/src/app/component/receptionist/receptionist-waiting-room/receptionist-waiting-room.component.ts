@@ -19,8 +19,8 @@ import { TimestampFormat } from '../../utils/libs/timestampFormat';
 import {
   ConfirmDeleteModalComponent
 } from "../../utils/pop-up/common/confirm-delete-modal/confirm-delete-modal.component";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {ConfirmWaitingroomComponent} from "../../utils/pop-up/common/confirm-waitingroom/confirm-waitingroom.component";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { ConfirmWaitingroomComponent } from "../../utils/pop-up/common/confirm-waitingroom/confirm-waitingroom.component";
 
 @Component({
   selector: 'app-receptionist-waiting-room',
@@ -28,6 +28,7 @@ import {ConfirmWaitingroomComponent} from "../../utils/pop-up/common/confirm-wai
   styleUrls: ['./receptionist-waiting-room.component.css']
 })
 export class ReceptionistWaitingRoomComponent implements OnInit {
+  isCallApi: boolean = false;
   waitingRoomData: any[] = [];
   loading: boolean = false;
   procedure: string = '0';
@@ -131,7 +132,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
     this.waitingRoomService.getWaitingRooms().subscribe(
       data => {
         var ListResPonse = data;
-        ListResPonse.forEach((item:any) => {
+        ListResPonse.forEach((item: any) => {
           var skey = item.SK.S;
           console.log(item.patient_attr.M.is_new.BOOL)
           let a = {
@@ -226,8 +227,8 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           this.loading = false;
           this.waitingRoomData.sort((a: any, b: any) => a.epoch - b.epoch);
           this.showSuccessToast('Xóa hàng chờ thành công');
-          localStorage.setItem("ob",`CheckRealTimeWaitingRoom@@@,${wtr.patient_id},${Number('4')}`);
-          this.sendMessageSocket.sendMessageSocket("CheckRealTimeWaitingRoom@@@",`${wtr.patient_id}`, `${Number('4')}`);
+          localStorage.setItem("ob", `CheckRealTimeWaitingRoom@@@,${wtr.patient_id},${Number('4')}`);
+          this.sendMessageSocket.sendMessageSocket("CheckRealTimeWaitingRoom@@@", `${wtr.patient_id}`, `${Number('4')}`);
         },
           (error) => {
             this.loading = false;
@@ -235,7 +236,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
           }
         )
     } else {
-      this.waitingRoomService.putWaitingRoomNew(wtr.sk,this.PUT_WAITINGROO)
+      this.waitingRoomService.putWaitingRoomNew(wtr.sk, this.PUT_WAITINGROO)
         .subscribe(data => {
           if (this.PUT_WAITINGROO.status_attr == "2") {
             const storeList = localStorage.getItem('ListPatientWaiting');
@@ -370,8 +371,8 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
   stopClick(event: Event) {
     event.stopPropagation();
   }
-  details(id: any, reason:any) {
-    if (reason != '' || reason != null){
+  details(id: any, reason: any) {
+    if (reason != '' || reason != null) {
       sessionStorage.setItem('examination_reason', reason);
     }
     this.router.navigate(['/benhnhan/danhsach/tab/hosobenhnhan', id])
@@ -383,7 +384,7 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
   }
 
   isButtonDisabled = false;
- navigateHref(href: string, id: any, wtr: any) {
+  navigateHref(href: string, id: any, wtr: any) {
     // console.log("Waiting room: ", wtr);
     this.isButtonDisabled = true;
 
@@ -420,9 +421,16 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
   notificationSounds() {
     this.notificationSound.play().catch(error => console.error('Error playing sound:', error));
   }
-  sendNotification(epoch:any, wtr:any) {
+  sendNotification(epoch: any, wtr: any) {
+    if (this.isCallApi) {
+      // Nếu đã nhấn, không làm gì cả và trở ra
+      return;
+    }
+
+    this.isCallApi = true;
+
     this.notificationSounds();
-    console.log("check: ",epoch);
+    console.log("check: ", epoch);
     console.log("")
     let a = {
       epoch: epoch,
@@ -437,8 +445,12 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
       appointment_epoch: wtr.appointment_epoch,
     }
 
-    const out = epoch+ " - "+wtr.produce_id+ " - "+wtr.produce_name+" - "+ wtr.patient_id+" - "+wtr.patient_name+" - "+
-    wtr.reason+" - " + wtr.patient_created_date+" - "+ Number(wtr.status)+" - "+wtr.appointment_id+ " - "+wtr.appointment_epoch +" - "+ wtr.fk + " - " +wtr.sk;
+    setTimeout(() => {
+      this.isCallApi = false;
+    }, 3000);
+
+    const out = epoch + " - " + wtr.produce_id + " - " + wtr.produce_name + " - " + wtr.patient_id + " - " + wtr.patient_name + " - " +
+      wtr.reason + " - " + wtr.patient_created_date + " - " + Number(wtr.status) + " - " + wtr.appointment_id + " - " + wtr.appointment_epoch + " - " + wtr.fk + " - " + wtr.sk;
     localStorage.setItem("pawtr", JSON.stringify(a));
     localStorage.setItem("ob", `CheckRealTimeWaitingRoom@@@,notification,${out}`);
     this.sendMessageSocket.sendMessageSocket("CheckRealTimeWaitingRoom@@@", "notification", `${out}`);

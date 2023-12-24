@@ -110,7 +110,7 @@
               <ng-container *ngIf="wtr.status == 1">
                 <ng-container *ngIf="roleId.includes('1') || roleId.includes('4') || roleId.includes('5') || roleId.includes('2')">
                   <td (click)="stopClick($event)" title="Mời bệnh nhân {{ wtr.patient_name }} lên khám">
-                    <button class="btn button-timekeeping" (click)="sendNotification(wtr.epoch, wtr)">
+                    <button class="btn button-timekeeping" [disabled]="isCallApi" (click)="sendNotification(wtr.epoch, wtr)">
                       <i class="bi bi-bell"></i></button>
                   </td>
                 </ng-container>
