@@ -254,6 +254,7 @@ export class PopupAddSpecimensComponent implements OnInit {
     this.disable = true;
     this.medicalSupplyService.addMedicalSupply(this.specimenBody).subscribe(data => {
       this.toastr.success('Thêm mới mẫu thành công !');
+      this.disable = false;
       // let ref = document.getElementById('cancel-specimen');
       // ref?.click();
       window.location.reload();

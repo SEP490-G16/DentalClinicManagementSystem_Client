@@ -66,6 +66,7 @@ export class PopupEditMaterialRealComponent implements OnInit, OnChanges {
     this.disable = true;
     this.materialSerivce.updateMaterial(this.materialEdit.material_id, this.materialBody).subscribe(data => {
       this.toastr.success('Chính sửa vật liệu thành công!');
+      this.disable = false;
       window.location.reload();
       // let ref = document.getElementById('cancel-editMaterial');
       // ref?.click();
@@ -85,7 +86,7 @@ export class PopupEditMaterialRealComponent implements OnInit, OnChanges {
       }
     )
   }
-  private resetValidate() {
+   resetValidate() {
     this.validateMaterial = {
       name: '',
       unit: ''

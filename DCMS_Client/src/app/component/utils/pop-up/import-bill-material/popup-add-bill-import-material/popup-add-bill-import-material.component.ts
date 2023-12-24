@@ -18,7 +18,7 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
   hanSuDungNgbModal!:NgbDateStruct;
   options = ['Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 4', 'Option 4', 'Option 4', 'Option 4', 'Option 4', 'Option 4'];
   selectedOption: any;
-
+  disable:boolean = false;
   constructor(private importMaterialService: ImportMaterialService,
               private materialWarehouseService: MaterialWarehouseService,
               private materialService: MaterialService,
@@ -229,6 +229,7 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
     if (this.isSubmittedBill){
       return;
     }
+    this.disable = true;
     this.importMaterialService.addImportBill(this.importBillBody).subscribe(data => {
         this.toastr.success('Thêm mới phiếu thành công!');
         this.phieuLapId = data.data.import_material_id;
@@ -252,11 +253,12 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
         console.log(this.materials);
         this.loading = true;
         this.materialWarehouseService.ImportMaterial(this.materials).subscribe(data => {
-
+            this.disable = false;
             window.location.reload();
           },
           error => {
             this.loading = false;
+            this.disable = false;
             ResponseHandler.HANDLE_HTTP_STATUS("abc", error);
           }
         )
@@ -265,6 +267,7 @@ export class PopupAddBillImportMaterialComponent implements OnInit {
         //
         // this.toastr.error('Thêm mới phiếu thất bại !');
         this.loading = false;
+        this.disable = false;
         ResponseHandler.HANDLE_HTTP_STATUS(this.importMaterialService.url+"/import-material", error);
       }
     )

@@ -67,7 +67,7 @@
                       <th>Đơn giá</th>
                       <th>Thành tiền</th>
                       <th>Hạn sử dụng</th>
-                      <th>Chiết khấu</th>
+<!--                      <th>Chiết khấu</th>-->
                       <th class="text-center">Thao tác</th>
                     </tr>
                   </thead>
@@ -152,12 +152,12 @@
                             <p *ngIf="!isAdd">{{ record.hanSudung }}</p>
                           </div>
                         </td>
-                        <td>
-                          <input type="text" [(ngModel)]="record.chietKhau" *ngIf="isAdd"
-                            class="form-control value-staff">
-                          <!--<p *ngIf="!isAdd">10%</p>-->
-                          <p *ngIf="!isAdd">{{ record.chietKhau }}</p>
-                        </td>
+<!--                        <td>-->
+<!--                          <input type="text" [(ngModel)]="record.chietKhau" *ngIf="isAdd"-->
+<!--                            class="form-control value-staff">-->
+<!--                          &lt;!&ndash;<p *ngIf="!isAdd">10%</p>&ndash;&gt;-->
+<!--                          <p *ngIf="!isAdd">{{ record.chietKhau }}</p>-->
+<!--                        </td>-->
                         <td *ngIf="isAdd">
                           <div class="delete-cell">
 <!--                            <div>-->
@@ -224,7 +224,7 @@
       <!-- Modal footer -->
       <div class="modal-footer">
         <button [disabled]="!isAddBill" type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
-        <button [disabled]="!isAddBill" type="button" class="btn button-timekeeping" (click)="addImportMaterial()"><i class="bi bi-floppy2"></i> Lưu
+        <button [disabled]="!isAddBill || disable" type="button" class="btn button-timekeeping" (click)="addImportMaterial()"><i class="bi bi-floppy2"></i> Lưu
         </button>
       </div>
 

@@ -5,6 +5,8 @@ import { IStaff } from 'src/app/model/Staff';
 import { IsThisSecondPipe } from 'ngx-date-fns';
 import * as moment from 'moment-timezone';
 import { MedicalProcedureGroupService } from 'src/app/service/MedicalProcedureService/medical-procedure-group.service';
+import {ResponseHandler} from "../../../libs/ResponseHandler";
+import {FacilityService} from "../../../../../service/FacilityService/facility.service";
 
 @Component({
   selector: 'app-popup-edit-staff',
@@ -21,10 +23,12 @@ export class PopupEditStaffComponent implements OnInit {
   role: string = "0";
   disable:boolean = false;
   imageURL: string | ArrayBuffer = 'https://icon-library.com/images/staff-icon/staff-icon-15.jpg';
+  facilityList:any[]=[];
   constructor(
     private cognitoService: CognitoService,
     private serviceGroup: MedicalProcedureGroupService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private facilityService:FacilityService
   ) {
     this.staff = {
       username: "",
@@ -37,7 +41,8 @@ export class PopupEditStaffComponent implements OnInit {
       DOB: "",
       status: "1",
       image: "",
-      zoneinfo: ""
+      zoneinfo: "",
+      locale:""
     } as IStaff;
   }
   vailidateStaff = {
@@ -56,7 +61,7 @@ export class PopupEditStaffComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['staffEdit'] && this.staffEdit) {
-
+      this.getFacilityList();
       this.staffId = this.staffEdit.staffId;
       this.staff.username = this.staffEdit.staffUserName;
       this.staff.name = this.staffEdit.staffName;
@@ -68,9 +73,11 @@ export class PopupEditStaffComponent implements OnInit {
       this.staff.email = this.staffEdit.email;
       this.staff.zoneinfo = this.staffEdit.zoneInfor;
       this.staff.DOB = this.staffEdit.dob;
+      this.staff.locale = this.getFacilityName(this.staffEdit.locale);
       if (this.staffEdit.image != '') {
         this.imageURL = this.staffEdit.image;
       }
+      console.log("staff", this.staffEdit)
       this.onChangeRole(this.staff.role);
       if (this.staffEdit.zoneInfor != null) {
         const zone = this.staff.zoneinfo.split(',');
@@ -81,7 +88,20 @@ export class PopupEditStaffComponent implements OnInit {
       }
     }
   }
-
+  getFacilityList(){
+    this.facilityService.getFacilityList().subscribe(data=>{
+      this.facilityList = data.data;
+      console.log(this.facilityList)
+    },error => {
+      ResponseHandler.HANDLE_HTTP_STATUS(this.facilityService.url, error);
+    })
+  }
+  getFacilityName(id:string):any{
+    const facility = this.facilityList.find((s:any) => s.facility_id === id);
+    if (facility){
+      return facility.name;
+    }
+  }
   ngOnInit(): void {
   }
 
@@ -90,10 +110,11 @@ export class PopupEditStaffComponent implements OnInit {
     this.selectedServiceGroupIds.forEach((item: any) => {
       zoneinfo += item + ",";
     })
+    this.disable = true;
     this.cognitoService.putStaff(userName, roleId, zoneinfo).subscribe(
       (res) => {
-        this.disable = true;
         this.showSuccessToast("Cập nhật thông tin nhân viên thành công!");
+        this.disable = false;
         window.location.reload();
       },
       () => {

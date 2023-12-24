@@ -105,6 +105,7 @@ export class PopupEditMaterialComponent implements OnChanges {
     this.disable = true;
     this.matMaterialWarehouseService.updateMaterialImportMaterial(this.item.mw_material_warehouse_id, this.materialBody).subscribe(data => {
       this.toastr.success('Cập nhật vật liệu thành công!');
+      this.disable = false;
       window.location.reload();
       let ref = document.getElementById('cancel-editMaterial');
       //ref?.click();

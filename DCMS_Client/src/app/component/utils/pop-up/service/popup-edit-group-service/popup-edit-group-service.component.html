@@ -34,7 +34,7 @@
         <!-- Modal footer -->
         <div class="modal-footer">
           <button type="button" class="btn btn-cancel" data-bs-dismiss="modal" (click)="resetValidate()">Hủy</button>
-          <button type="button" id="cancel" class="btn button-timekeeping" (click)="updateServiceGroup()"><i class="bi bi-floppy2"></i> Lưu</button>
+          <button type="button" [disabled]="disable" id="cancel" class="btn button-timekeeping" (click)="updateServiceGroup()"><i class="bi bi-floppy2"></i> Lưu</button>
         </div>
 
       </div>

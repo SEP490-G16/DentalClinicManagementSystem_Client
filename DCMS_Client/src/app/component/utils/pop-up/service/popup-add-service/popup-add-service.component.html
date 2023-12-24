@@ -61,7 +61,7 @@
         <div class="modal-footer">
           <button type="button" id="cancel-addService" class="btn btn-cancel" data-bs-dismiss="modal"
             (click)="resetValidate()">Hủy</button>
-          <button type="button" class="btn button-timekeeping" (click)="addMedicalProcedure()"><i class="bi bi-floppy2"></i> Lưu</button>
+          <button type="button" [disabled]="disable" class="btn button-timekeeping" (click)="addMedicalProcedure()"><i class="bi bi-floppy2"></i> Lưu</button>
         </div>
 
       </div>

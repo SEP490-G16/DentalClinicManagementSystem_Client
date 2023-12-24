@@ -93,6 +93,7 @@ export class PopupAddLaboComponent implements OnInit {
             active: 1
           };
           //this.loading = false;
+          this.disable = false;
           let ref = document.getElementById('cancel-add-labo');
           ref?.click();
           window.location.reload();

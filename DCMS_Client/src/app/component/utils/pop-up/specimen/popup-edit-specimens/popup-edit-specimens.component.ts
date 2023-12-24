@@ -248,6 +248,7 @@ export class PopupEditSpecimensComponent implements OnInit {
     this.SpecimensService.putSpecimens(this.id, this.putSpecimensBody)
       .subscribe((res) => {
         this.loading = false;
+        this.disable = false;
         // const ref = document.getElementById("cancel-edit-specimen");
         // ref?.click();
         this.showSuccessToast('Chỉnh sửa mẫu vật thành công!');
