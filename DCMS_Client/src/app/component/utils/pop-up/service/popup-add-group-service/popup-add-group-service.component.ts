@@ -29,6 +29,7 @@ export class PopupAddGroupServiceComponent implements OnInit {
   validate={
     serviceGroupName:''
   }
+  disable:boolean = false;
   ngOnInit(): void {
   }
   addMedicalProcedureGroup(){
@@ -45,9 +46,11 @@ export class PopupAddGroupServiceComponent implements OnInit {
       name: this.serviceGroup.serviceGroupName,
       description: this.serviceGroup.description
     }
-    this.loading = true;
+    //this.loading = true;
+    this.disable = true;
     this.medicalProcedureGroupService.addMedicalProcedureGroup(this.serviceGroupBody).subscribe(data=>{
       this.toastr.success('Thêm mới thành công!')
+      this.disable = false;
       window.location.reload();
       /*let ref = document.getElementById('cancel-medical');
       ref?.click();
@@ -61,7 +64,8 @@ export class PopupAddGroupServiceComponent implements OnInit {
       }, 2000);*/
     },
       error => {
-      this.loading =false;
+      //this.loading =false;
+        this.disable = false;
       //this.toastr.error('Thêm mới thất bại!')
         ResponseHandler.HANDLE_HTTP_STATUS(this.medicalProcedureGroupService.url+"/medical-procedure-group", error);
       })

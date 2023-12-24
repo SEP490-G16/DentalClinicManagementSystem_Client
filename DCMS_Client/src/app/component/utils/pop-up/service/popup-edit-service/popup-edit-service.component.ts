@@ -43,6 +43,7 @@ export class PopupEditServiceComponent implements OnChanges {
   isSubmitted: boolean = false;
   medicalProcedureGroupList: any;
   loading: boolean = false;
+  disable:boolean = false;
   constructor(private medicalProcedureService: MedicalProcedureService,
     private medicalProcedureGroupService: MedicalProcedureGroupService,
     private toastr: ToastrService) { }
@@ -108,9 +109,11 @@ export class PopupEditServiceComponent implements OnChanges {
       price: this.service.price,
       medical_procedure_group_id: this.service.serviceGroupName
     }
-    this.loading = true;
+    //this.loading = true;
+    this.disable = true;
     this.medicalProcedureService.updateMedicalProcedure(this.id, this.serviceBody).subscribe(data => {
       this.toastr.success('Cập nhật thủ thuật thành công');
+      this.disable = false;
       // let ref = document.getElementById('cancel-service');
       // ref?.click();
       window.location.reload();
@@ -122,7 +125,8 @@ export class PopupEditServiceComponent implements OnChanges {
       // }
     },
       error => {
-        this.loading = false;
+        //this.loading = false;
+        this.disable = false;
         ResponseHandler.HANDLE_HTTP_STATUS(this.medicalProcedureService.url + "/medical-procedure/" + this.id, error);
       })
   }

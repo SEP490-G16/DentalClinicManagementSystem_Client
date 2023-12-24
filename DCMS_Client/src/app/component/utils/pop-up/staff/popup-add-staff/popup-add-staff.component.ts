@@ -166,10 +166,11 @@ export class PopupAddStaffComponent implements OnInit {
     if (this.isSubmitted) {
       return;
     }
+    this.disable = true;
     this.cognitoService.addStaff(this.staff)
       .then((response) => {
-        this.disable = true;
         this.showSuccessToast('Thêm nhân viên thành công')
+        this.disable = false;
         window.location.reload();
       })
       .catch((error) => {

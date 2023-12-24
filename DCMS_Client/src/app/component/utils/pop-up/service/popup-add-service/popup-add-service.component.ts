@@ -42,6 +42,7 @@ export class PopupAddServiceComponent implements OnChanges {
   medicalProcedureGroupList: any;
   isSubmitted: boolean = false;
   loading: boolean = false;
+  disable: boolean = false;
   constructor(private medicalProcedureService: MedicalProcedureService,
     private toastr: ToastrService,
     private medicalProcedureGroupService: MedicalProcedureGroupService) {
@@ -99,10 +100,12 @@ export class PopupAddServiceComponent implements OnChanges {
       price: this.service.price,
       medical_procedure_group_id: this.service.serviceGroupName
     }
-    this.loading = true;
+    //this.loading = true;
     this.updateServiceRes();
+    this.disable = true;
     this.medicalProcedureService.addMedicalProcedure(this.serviceBody).subscribe(data => {
       this.toastr.success('Thêm mới thành công !');
+      this.disable = false;
       /*let ref = document.getElementById('cancel-addService');
       ref?.click();
       this.loading = false;
@@ -112,7 +115,8 @@ export class PopupAddServiceComponent implements OnChanges {
 
     },
       error => {
-        this.loading = false;
+        //this.loading = false;
+        this.disable = false;
         //this.toastr.error('Thêm mới thất bại !');
         ResponseHandler.HANDLE_HTTP_STATUS(this.medicalProcedureService.url + "/medical-procedure", error);
       })

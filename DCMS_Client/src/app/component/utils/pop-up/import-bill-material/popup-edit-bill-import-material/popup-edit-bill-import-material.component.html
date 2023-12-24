@@ -68,7 +68,7 @@
                       <th>Đơn giá</th>
                       <th>Thành tiền</th>
                       <th>Hạn sử dụng</th>
-                      <th>Chiết khấu</th>
+<!--                      <th>Chiết khấu</th>-->
                       <th *ngIf="!isAdd" class="text-center">Thao tác</th>
                     </tr>
                   </thead>
@@ -145,10 +145,10 @@
                         </div>
                       </td>
                      <!-- <td *ngIf="!isAdd">{{m.discount}}</td>-->
-                      <td>
-                        <input type="text" [(ngModel)]="m.discount" class="form-control value-staff">
+<!--                      <td>-->
+<!--                        <input type="text" [(ngModel)]="m.discount" class="form-control value-staff">-->
 
-                        </td>
+<!--                        </td>-->
                         <td class="delete-cell">
                           <button class="delete-button"
                             (click)="deleteMaterialWareHouse(m.material_warehouse_Import_Id)">
@@ -171,7 +171,7 @@
       <!-- Modal footer -->
       <div class="modal-footer">
         <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn button-timekeeping" (click)="updateImportMaterial()"><i
+        <button type="button" [disabled]="disable" class="btn button-timekeeping" (click)="updateImportMaterial()"><i
             class="bi bi-floppy2"></i> Lưu</button>
       </div>
 

@@ -35,6 +35,7 @@ export class PopupEditGroupServiceComponent implements OnChanges {
     serviceGroupName:''
   }
   loading:boolean = false;
+  disable:boolean = false;
   ngOnInit(): void {
     /*this.serviceGroup={
       serviceGroupName: this.name,
@@ -56,10 +57,12 @@ export class PopupEditGroupServiceComponent implements OnChanges {
       name: this.serviceGroup.serviceGroupName,
       description: this.serviceGroup.description
     }
-    this.loading = true;
+    //this.loading = true;
+    this.disable = true;
      this.medicalProcedureGroupService.updateMedicalProcedureGroup(this.serviceGroupBody, this.id).subscribe(data=>{
        console.log(data);
        this.toastr.success('Cập nhật nhóm thủ thuật thành công!');
+       this.disable = false;
         /*let ref = document.getElementById('cancel');
          ref?.click();*/
         window.location.reload();
@@ -70,7 +73,7 @@ export class PopupEditGroupServiceComponent implements OnChanges {
          }*/
      },
        error => {
-
+         this.disable = false;
            //this.toastr.error('Cập nhật nhóm thủ thuật thất bại!');
          ResponseHandler.HANDLE_HTTP_STATUS(this.medicalProcedureGroupService.url+"/medical-procedure-group/"+this.id, error);
        })

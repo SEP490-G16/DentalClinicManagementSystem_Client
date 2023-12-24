@@ -338,6 +338,7 @@ export class PopupEditApproveSpecimensComponent implements OnChanges  {
     this.disable = true;
     this.medicalSupplyService.updateApproveSpecimens(this.id, this.specimenBody).subscribe(data=>{
       this.toastr.success('Cập nhật thành công !');
+      this.disable = false;
        /* let ref = document.getElementById('cancel-approve');
         ref?.click();*/
         window.location.reload();
