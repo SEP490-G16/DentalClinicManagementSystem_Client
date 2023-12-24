@@ -41,6 +41,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   isHovered = true;
   unreadMessagesCount = 0;
   msg: any;
+  checkPatient: any;
   constructor(private webSocketService: WebsocketService,
     private waitingRoomService: ReceptionistWaitingRoomService,
     private location: Location,
@@ -64,7 +65,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     total_patient: 0
   }
   check: any[] = [];
-  //CheckRealTimeWaiting: any[] = [];
   ngOnInit(): void {
     this.waitingRoomService.data$.subscribe((dataList) => {
       this.filteredWaitingRoomData = dataList;
@@ -81,22 +81,17 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     this.webSocketService.connect();
     var count = 0;
-    console.log("ChatComponent | before message | ", this.webSocketService.messageReceived);
     this.webSocketService.messageReceived.subscribe((message: any) => {
-      console.log("ChatComponent | after message | ", message);
       if (count == 0 && this.msg != message) {
         count++;
         this.msg = message == undefined ? '' : message;
         const parsedMessage = JSON.parse(message);
-        console.log("check content:", parsedMessage.content);
         if (parsedMessage.content != undefined) {
             this.check = parsedMessage.content.split(',');
         } else {
           let ob = localStorage.getItem('ob');
-          console.log("check ob đc truyền", ob)
           if (ob != null) {
             this.check = ob.split(',');
-            console.log("split check: ", this.check)
           }
           localStorage.removeItem('ob');
         }
@@ -113,7 +108,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             }
             localStorage.removeItem('ob');
           }
-          console.log("check add new patient: ", postInfo);
           this.POST_WAITTINGROOM.epoch = postInfo[0];
           this.POST_WAITTINGROOM.produce_id = postInfo[1];
           this.POST_WAITTINGROOM.produce_name = postInfo[2];
@@ -126,7 +120,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
           this.POST_WAITTINGROOM.patient_created_date = postInfo[9];
           this.POST_WAITTINGROOM.date = this.timestampToTime(postInfo[0]);
           if (this.POST_WAITTINGROOM.epoch == 'notification') {
-            console.log('Check notification');
             this.POST_WAITTINGROOM.epoch = '';
             var pa;
             if (this.check[2] != null && this.check[2] != undefined) {
@@ -148,9 +141,11 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                   sk: pa[11]
                 }
               }
-              console.log("check noti:", notification);
               localStorage.removeItem('pawtr');
-              this.waitingRoomService.updateAnalysesData(notification);
+              if (this.checkPatient != notification.content.patient_id) {
+                this.checkPatient == notification.content.patient_id
+                this.waitingRoomService.updateAnalysesData(notification);
+              }  
             } else {
               var result = localStorage.getItem('pawtr');
               if (result != null) {
@@ -170,9 +165,12 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                     appointment_epoch: pa.appointment_epoch,
                   }
                 }
-                console.log("check noti:", notification);
                 localStorage.removeItem('pawtr');
-                this.waitingRoomService.updateAnalysesData(notification);
+                if (this.checkPatient != notification.content.patient_id) {
+                  this.checkPatient == notification.content.patient_id
+                  this.waitingRoomService.updateAnalysesData(notification);
+                }
+                //this.waitingRoomService.updateAnalysesData(notification);
               }
             }
           }
@@ -188,59 +186,76 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                   this.dataService.UpdatePatientExaminate(0, 0);
                 }
               } else {
-                item.status = this.check[2];
-                if (item.status == "2") {
-                  this.dataService.UpdateWaitingRoomTotal(0, 0);
-                  this.dataService.UpdatePatientExaminate(1, 0);
-                } else if (item.status == "3") {
-                  this.dataService.UpdatePatientExaminate(0, 0);
-                  this.dataService.UpdatePatientExaminated(1, 0);
-                }
+                if (item.status != this.check[2]) {
+                  item.status = this.check[2];
+                  if (item.status == "2") {
+                    this.dataService.UpdateWaitingRoomTotal(0, 0);
+                    this.dataService.UpdatePatientExaminate(1, 0);
+                  } else if (item.status == "3") {
+                    this.dataService.UpdatePatientExaminate(0, 0);
+                    this.dataService.UpdatePatientExaminated(1, 0);
+                  }
+                } 
               }
             } else {
               if (noLoop == false && this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_name != null
                 && this.POST_WAITTINGROOM.patient_name != undefined) {
-                console.log("add patient1");
-                this.dataService.UpdateWaitingRoomTotal(1, 0);
-                this.filteredWaitingRoomData.push(this.POST_WAITTINGROOM);
-                this.POST_WAITTINGROOM = {
-                  epoch: '',
-                  produce_id: '',
-                  produce_name: '',
-                  patient_id: '',
-                  patient_name: '',
-                  reason: '',
-                  status: "1",
-                  appointment_id: '',
-                  appointment_epoch: '',
-                  date: '',
-                  patient_created_date: '',
+                var count = 0;
+                this.filteredWaitingRoomData.forEach((i:any) => {
+                  if (i.patient_id == this.POST_WAITTINGROOM.patient_id) {
+                    count++;
+                  }
+                })
+                if (count == 0) {
+                  this.dataService.UpdateWaitingRoomTotal(1, 0);
+                  this.filteredWaitingRoomData.push(this.POST_WAITTINGROOM);
+                  this.POST_WAITTINGROOM = {
+                    epoch: '',
+                    produce_id: '',
+                    produce_name: '',
+                    patient_id: '',
+                    patient_name: '',
+                    reason: '',
+                    status: "1",
+                    appointment_id: '',
+                    appointment_epoch: '',
+                    date: '',
+                    patient_created_date: '',
+                  }
+                  noLoop = true;
+                  return;
                 }
-                noLoop = true;
-                return;
               }
             }
           })
           if (noLoop == false && this.filteredWaitingRoomData.length == 0 && this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_name != null
             && this.POST_WAITTINGROOM.patient_name != undefined) {
             console.log("addpatient 2");
-            this.dataService.UpdateWaitingRoomTotal(1, 0);
-            this.filteredWaitingRoomData.push(this.POST_WAITTINGROOM);
-            this.POST_WAITTINGROOM = {
-              epoch: '',
-              produce_id: '',
-              produce_name: '',
-              patient_id: '',
-              patient_name: '',
-              reason: '',
-              status: "1",
-              appointment_id: '',
-              appointment_epoch: '',
-              date: '',
-              patient_created_date: '',
+            var count1 = 0;
+            this.filteredWaitingRoomData.forEach((i: any) => {
+              if (i.patient_id == this.POST_WAITTINGROOM.patient_id) {
+                count1++;
+              }
+            })
+            if (count1 == 0) {
+              this.dataService.UpdateWaitingRoomTotal(1, 0);
+              this.filteredWaitingRoomData.push(this.POST_WAITTINGROOM);
+              this.POST_WAITTINGROOM = {
+                epoch: '',
+                produce_id: '',
+                produce_name: '',
+                patient_id: '',
+                patient_name: '',
+                reason: '',
+                status: "1",
+                appointment_id: '',
+                appointment_epoch: '',
+                date: '',
+                patient_created_date: '',
+              }
+              noLoop = true;
+              return;
             }
-            noLoop = true;
-            return;
           }
           const statusOrder: { [key: number]: number } = { 2: 1, 1: 2, 3: 3, 4: 4 };
           //{ 2: 1, 3: 2, 1: 3, 4: 4 };
