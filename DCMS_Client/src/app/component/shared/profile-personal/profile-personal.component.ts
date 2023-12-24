@@ -7,6 +7,7 @@ import imageCompression from 'browser-image-compression';
 import * as moment from "moment-timezone";
 import { FormatNgbDate } from '../../utils/libs/formatNgbDate';
 import { NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
+import {TimestampFormat} from "../../utils/libs/timestampFormat";
 @Component({
   selector: 'app-profile-personal',
   templateUrl: './profile-personal.component.html',
@@ -68,7 +69,8 @@ export class ProfilePersonalComponent implements OnInit {
       const cognitoAttributes: any = attributes;
       this.staff.role = cognitoAttributes['custom:role'] || '';
       console.log(this.staff);
-      this.staff.DOB = this.timestampToDate(cognitoAttributes['custom:DOB']) || '';
+      this.staff.DOB = this.timestampToDate(parseInt(cognitoAttributes['custom:DOB'])) || '';
+      console.log("dob:",this.staff.DOB)
       this.model = {
         year: Number(this.staff.DOB.split("-")[0]),
         month: Number(this.staff.DOB.split("-")[1]),
@@ -137,6 +139,10 @@ export class ProfilePersonalComponent implements OnInit {
 
     for (const key in attributeMappings) {
       if (isKeyOfIStaff(key)) {
+        console.log("abc",this.staff[key],key)
+        if (key == 'DOB'){
+          this.staff[key] = TimestampFormat.dateToTimestamp(this.staff[key]).toString();
+        }
         const attributeValue = this.staff[key].toString();
         const attributeName = attributeMappings[key];
         if (attributeName) {

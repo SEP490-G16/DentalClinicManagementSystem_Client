@@ -57,6 +57,12 @@
                 </div>
               </div>
               <div class="form-group row mt-3">
+                <label class="col-3">Cơ sở <span class="required">*</span></label>
+                <div class="col-9">
+                  <input type="text" disabled [(ngModel)]="staff.locale" class="form-control" >
+                </div>
+              </div>
+              <div class="form-group row mt-3">
                 <label for="note" class="col-3">Ghi chú:</label>
                 <div class="col-9">
                   <textarea type="text" disabled [(ngModel)]="staff.description" class="form-control"></textarea>
@@ -168,7 +174,7 @@
         <!-- Modal footer -->
         <div class="modal-footer">
           <button type="button" [disabled]="disable" class="btn btn-cancel" data-bs-dismiss="modal">Hủy</button>
-          <button type="button" [disabled]="disable" class="btn button-timekeeping" data-bs-dismiss="modal"
+          <button type="button" [disabled]="disable" class="btn button-timekeeping"
             (click)="saveEditedStaff(staff.username, staff.role)"><i class="bi bi-floppy2"></i> Lưu</button>
         </div>
       </div>
