@@ -236,8 +236,8 @@
 
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-cancel" data-bs-dismiss="modal" (click)="closePopup()">Hủy</button>
-          <button type="button" class="btn button-timekeeping" (click)="addSTAFF()"><i class="bi bi-floppy2"></i>
+          <button type="button" [disabled]="disable" class="btn btn-cancel" data-bs-dismiss="modal" (click)="closePopup()">Hủy</button>
+          <button type="button" [disabled]="disable" class="btn button-timekeeping" (click)="addSTAFF()"><i class="bi bi-floppy2"></i>
             Lưu</button>
         </div>
       </div>

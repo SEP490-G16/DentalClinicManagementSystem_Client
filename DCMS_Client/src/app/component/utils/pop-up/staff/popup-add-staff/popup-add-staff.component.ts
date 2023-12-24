@@ -44,7 +44,7 @@ export class PopupAddStaffComponent implements OnInit {
   facility: string = "0";
   staff: IStaff;
   listFacility: any[] = [];
-
+  disable:boolean = false;
   constructor(
     private cognitoService: CognitoService,
     private facilityService: FacilityService,
@@ -168,6 +168,7 @@ export class PopupAddStaffComponent implements OnInit {
     }
     this.cognitoService.addStaff(this.staff)
       .then((response) => {
+        this.disable = true;
         this.showSuccessToast('Thêm nhân viên thành công')
         window.location.reload();
       })
@@ -177,6 +178,7 @@ export class PopupAddStaffComponent implements OnInit {
           Username: this.staff.username
         };
         // Xử lý khi có lỗi đăng ký
+        this.disable = false;
         this.showErrorToast('Thêm nhân viên thất bại')
       });
     const params = {

@@ -38,6 +38,7 @@ export class PopupEditFacilityComponent implements OnChanges {
   isSubmited:boolean= false;
   isChange:boolean = false;
   loading:boolean = false;
+  disable:boolean = false;
   constructor(private facilityService:FacilityService,
               private toastr: ToastrService) { }
 
@@ -132,7 +133,8 @@ export class PopupEditFacilityComponent implements OnChanges {
           manager_name:this.facilityInput.managerName
         }
       }
-    this.loading = true;
+    //this.loading = true;
+    this.disable = true;
     this.facilityService.updateFacility(this.id, this.facilityBody).subscribe(data=>{
       this.toastr.success('Cập nhật thành công !');
       let ref = document.getElementById('cancel-edit-facility');
@@ -148,7 +150,8 @@ export class PopupEditFacilityComponent implements OnChanges {
     },
       error => {
       this.loading = false;
-      //this.toastr.error('Cập nhật thất bại !');
+      this.disable = false;
+      this.toastr.error('Cập nhật thất bại !');
         ResponseHandler.HANDLE_HTTP_STATUS(this.facilityService.url+"/facility/"+this.id, error);
       }
     )

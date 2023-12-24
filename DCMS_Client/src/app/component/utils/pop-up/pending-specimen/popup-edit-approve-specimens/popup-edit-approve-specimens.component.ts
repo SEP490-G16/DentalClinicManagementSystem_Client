@@ -81,6 +81,7 @@ export class PopupEditApproveSpecimensComponent implements OnChanges  {
   patients:any[]=[];
   patientId:any;
   loading:boolean = false;
+  disable:boolean = false;
   constructor(private medicalSupplyService: MedicalSupplyService,
               private toastr: ToastrService,
               private laboService:LaboService,
@@ -333,7 +334,8 @@ export class PopupEditApproveSpecimensComponent implements OnChanges  {
       treatment_course_id: this.specimen.treatment_course_id,
       status:'1',
     }
-    this.loading = true;
+    //this.loading = true;
+    this.disable = true;
     this.medicalSupplyService.updateApproveSpecimens(this.id, this.specimenBody).subscribe(data=>{
       this.toastr.success('Cập nhật thành công !');
        /* let ref = document.getElementById('cancel-approve');
@@ -349,7 +351,8 @@ export class PopupEditApproveSpecimensComponent implements OnChanges  {
 
     },
       error => {
-      //this.toastr.error('Cập nhật thất bại !');
+        this.toastr.error('Cập nhật thất bại !');
+        this.disable = false;
         ResponseHandler.HANDLE_HTTP_STATUS(this.medicalSupplyService.url+"/medical-supply/"+this.id, error);
       }
       )

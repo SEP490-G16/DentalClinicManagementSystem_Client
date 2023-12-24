@@ -19,6 +19,7 @@ export class PopupEditStaffComponent implements OnInit {
   staff: IStaff;
   staffId: string = "";
   role: string = "0";
+  disable:boolean = false;
   imageURL: string | ArrayBuffer = 'https://icon-library.com/images/staff-icon/staff-icon-15.jpg';
   constructor(
     private cognitoService: CognitoService,
@@ -91,11 +92,13 @@ export class PopupEditStaffComponent implements OnInit {
     })
     this.cognitoService.putStaff(userName, roleId, zoneinfo).subscribe(
       (res) => {
+        this.disable = true;
         this.showSuccessToast("Cập nhật thông tin nhân viên thành công!");
         window.location.reload();
       },
       () => {
         this.showErrorToast("Cập nhật thông tin nhân viên thất bại!");
+        this.disable = false;
       }
     );
   }
