@@ -37,6 +37,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     appointment_epoch: '',
     date: '',
     patient_created_date: '',
+    fk:'', 
+    sk:'', 
   }
   isHovered = true;
   unreadMessagesCount = 0;
@@ -119,6 +121,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
           this.POST_WAITTINGROOM.appointment_epoch = postInfo[8];
           this.POST_WAITTINGROOM.patient_created_date = postInfo[9];
           this.POST_WAITTINGROOM.date = this.timestampToTime(postInfo[0]);
+          this.POST_WAITTINGROOM.fk = this.POST_WAITTINGROOM.epoch+"::"+this.POST_WAITTINGROOM.patient_id;
+          this.POST_WAITTINGROOM.sk = this.POST_WAITTINGROOM.epoch+"::"+this.POST_WAITTINGROOM.patient_id;
           if (this.POST_WAITTINGROOM.epoch == 'notification') {
             this.POST_WAITTINGROOM.epoch = '';
             var pa;
@@ -145,6 +149,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
               this.checkPatient == notification.content.patient_id
               this.waitingRoomService.updateAnalysesData(notification);
             } else {
+              console.log("vô đây nè");
               var result = localStorage.getItem('pawtr');
               if (result != null) {
                 pa = JSON.parse(result);
@@ -161,6 +166,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                     status_value: '2',
                     appointment_id: pa.appointment_id,
                     appointment_epoch: pa.appointment_epoch,
+                    fk: pa.fk,
+                    sk: pa.sk
                   }
                 }
                 localStorage.removeItem('pawtr');
@@ -177,11 +184,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
               if (this.check[2] == "4") {
                 const index = this.filteredWaitingRoomData.findIndex(it => it.patient_id == this.check[1]);
                 if (index != -1) {
-                  console.log("delete patient wait");
-                  if (item.status == 1) {
+                  if (item.status == "1") {
                     this.dataService.UpdateWaitingRoomTotal(0, 0);
                   }
-                  if (item.status == 2) {
+                  if (item.status == "2") {
                     this.dataService.UpdatePatientExaminate(0, 0);
                   }
                   this.filteredWaitingRoomData.splice(index, 1);
@@ -221,6 +227,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                     appointment_epoch: '',
                     date: '',
                     patient_created_date: '',
+                    fk: '', 
+                    sk:'',
                   }
                   noLoop = true;
                   return;
@@ -252,6 +260,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 appointment_epoch: '',
                 date: '',
                 patient_created_date: '',
+                fk:'', 
+                sk: ''
               }
               noLoop = true;
               return;

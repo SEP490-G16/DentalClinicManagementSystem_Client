@@ -443,6 +443,8 @@ export class ReceptionistWaitingRoomComponent implements OnInit {
       status_value: Number(wtr.status),
       appointment_id: wtr.appointment_id,
       appointment_epoch: wtr.appointment_epoch,
+      fk: wtr.fk, 
+      sk: wtr.sk,
     }
 
     setTimeout(() => {
