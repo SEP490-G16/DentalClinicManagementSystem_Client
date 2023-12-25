@@ -50,7 +50,7 @@
               <th>Bác sĩ</th>
               <th>Lý do</th>
               <th>Phân loại điều trị</th>
-              <th>Trạng thái</th>
+              <!-- <th>Trạng thái</th> -->
               <th>Option</th>
             </tr>
           </thead>
@@ -64,7 +64,7 @@
                         <td>{{detail.doctor}}</td>
                         <td>{{detail.reason}}</td>
                         <td>{{detail.procedure_name}}</td>
-                        <td *ngIf="detail.status == 2 && checkDate(detail.epoch)">
+                        <!-- <td *ngIf="detail.status == 2 && checkDate(detail.epoch)">
                           <b style="color: red;">Chưa Khám</b>
                         </td>
                         <td *ngIf="detail.status == 2 && !checkDate(detail.epoch)">
@@ -75,7 +75,7 @@
                         </td>
                         <td *ngIf="detail.status == 3" class="direct-click">
                           <b style="color: green;">Đã đến</b>
-                        </td>
+                        </td> -->
                         <td>
                           <button class="btn btn-primary p-1 m-r-3" style="padding: 2px 3px; margin-right: 3px" title="Sửa lịch hẹn"
                             data-bs-toggle="modal" data-bs-target="#editAppointmentModal" (click)="editAppointment(detail, detail.epoch)">

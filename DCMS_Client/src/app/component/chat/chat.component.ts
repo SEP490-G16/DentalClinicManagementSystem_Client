@@ -87,7 +87,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.msg = message == undefined ? '' : message;
         const parsedMessage = JSON.parse(message);
         if (parsedMessage.content != undefined) {
-            this.check = parsedMessage.content.split(',');
+          this.check = parsedMessage.content.split(',');
         } else {
           let ob = localStorage.getItem('ob');
           if (ob != null) {
@@ -142,10 +142,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 }
               }
               localStorage.removeItem('pawtr');
-              if (this.checkPatient != notification.content.patient_id) {
-                this.checkPatient == notification.content.patient_id
-                this.waitingRoomService.updateAnalysesData(notification);
-              }
+              this.checkPatient == notification.content.patient_id
+              this.waitingRoomService.updateAnalysesData(notification);
             } else {
               var result = localStorage.getItem('pawtr');
               if (result != null) {
@@ -166,17 +164,16 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                   }
                 }
                 localStorage.removeItem('pawtr');
-                if (this.checkPatient != notification.content.patient_id) {
-                  this.checkPatient == notification.content.patient_id
-                  this.waitingRoomService.updateAnalysesData(notification);
-                }
-                //this.waitingRoomService.updateAnalysesData(notification);
+                this.checkPatient == notification.content.patient_id
+                this.waitingRoomService.updateAnalysesData(notification);
               }
             }
           }
           var noLoop = false;
           this.filteredWaitingRoomData.forEach((item: any) => {
+            console.log('check patient id: ', this.check[1]);
             if (item.patient_id == this.check[1]) {
+              console.log("đã check paient");
               if (this.check[2] == "4") {
                 const index = this.filteredWaitingRoomData.findIndex(it => it.patient_id == this.check[1]);
                 if (index != -1) {
@@ -190,22 +187,21 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                   this.filteredWaitingRoomData.splice(index, 1);
                 }
               } else {
-                if (item.status != this.check[2]) {
-                  item.status = this.check[2];
-                  if (item.status == "2") {
-                    this.dataService.UpdateWaitingRoomTotal(0, 0);
-                    this.dataService.UpdatePatientExaminate(1, 0);
-                  } else if (item.status == "3") {
-                    this.dataService.UpdatePatientExaminate(0, 0);
-                    this.dataService.UpdatePatientExaminated(1, 0);
-                  }
+                item.status = this.check[2];
+                if (item.status == "2") {
+                  this.dataService.UpdateWaitingRoomTotal(0, 0);
+                  this.dataService.UpdatePatientExaminate(1, 0);
+                }
+                if (item.status == "3") {
+                  this.dataService.UpdatePatientExaminate(0, 0);
+                  this.dataService.UpdatePatientExaminated(1, 0);
                 }
               }
             } else {
               if (noLoop == false && this.POST_WAITTINGROOM.patient_id != "" && this.POST_WAITTINGROOM.patient_name != null
                 && this.POST_WAITTINGROOM.patient_name != undefined) {
                 var count = 0;
-                this.filteredWaitingRoomData.forEach((i:any) => {
+                this.filteredWaitingRoomData.forEach((i: any) => {
                   if (i.patient_id == this.POST_WAITTINGROOM.patient_id) {
                     count++;
                   }

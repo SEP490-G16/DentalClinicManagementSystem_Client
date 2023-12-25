@@ -57,7 +57,7 @@ export class ConfirmAppointmentComponent implements OnInit {
         doctor_attr: this.appointment.Item.doctor_attr.S,
         procedure_name: this.appointment.Item.procedure_attr.M.name.S,
         reason: this.appointment.Item.reason_attr.S,
-        time_attr:this.appointment.Item.time_attr.N,
+        time_attr: parseInt(this.appointment.Item.time_attr.N),
         status_attr: 2,
         is_new: this.appointment.Item.patient_attr.M.is_new.BOOL,
       }
