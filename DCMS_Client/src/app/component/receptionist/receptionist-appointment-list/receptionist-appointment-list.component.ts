@@ -347,6 +347,7 @@ export class ReceptionistAppointmentListComponent implements OnInit {
           if (this.currentDate == this.timestampToDate(appointment.appointment_id.split('::')[0])) {
             this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'minus', 'app');
           }
+          window.location.reload();
         }, error => {
           if (this.currentDate == this.timestampToDate(appointment.appointment_id.split('::')[0])) {
             this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'minus', 'app');

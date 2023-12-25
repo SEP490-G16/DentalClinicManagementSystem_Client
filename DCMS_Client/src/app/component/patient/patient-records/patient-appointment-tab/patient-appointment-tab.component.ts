@@ -177,6 +177,7 @@ export class PatientAppointmentTabComponent implements OnInit {
         this.APPOINTMENT_SERVICE.deleteAppointmentNew(detail.appointment_id)
           .subscribe((res) => {
             this.toastr.success('Xóa lịch hẹn thành công!');
+            window.location.reload();
             const index = this.patientAppointments.findIndex(item => item.appointment_id == detail.appointment_id);
             if (index != -1) {
               this.patientAppointments.splice(index, 1);

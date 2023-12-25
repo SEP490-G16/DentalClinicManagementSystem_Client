@@ -1,4 +1,4 @@
-import { IEditAppointmentBody, ISelectedAppointment, RootObject } from '../../../../../model/IAppointment';
+import { IEditAppointmentBody, IEditAppointmentBodyNew, ISelectedAppointment, RootObject } from '../../../../../model/IAppointment';
 import { Component, OnInit, OnChanges, Input, SimpleChanges } from '@angular/core';
 import { IAddAppointment } from 'src/app/model/IAppointment';
 import { PatientService } from 'src/app/service/PatientService/patient.service';
@@ -39,7 +39,7 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
   @Input() datesDisabled: any;
 
   isDatepickerOpened: boolean = false;
-  EDIT_APPOINTMENT_BODY: IEditAppointmentBody
+  EDIT_APPOINTMENT_BODY: IEditAppointmentBodyNew
   isPatientInfoEditable: boolean = false;
   listGroupService: any[] = [];
   model!: NgbDateStruct;
@@ -75,18 +75,21 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
     private medicaoProcedureGroupService: MedicalProcedureGroupService
   ) {
     this.EDIT_APPOINTMENT_BODY = {
-      epoch: 0,    //x
+      epoch: 0,
       new_epoch: 0,
       appointment: {
-        patient_id: '',  //x
-        patient_name: '', //x
-        phone_number: '', //x
-        procedure_id: "1",  //x
-        doctor: '',
-        status: 2, //x
-        time: 0  //x
+        patient_id: '',
+        patient_name: '',
+        phone_number: '',
+        procedure_id: "1",
+        procedure_name: '',
+        doctor_attr: '',
+        reason: '',
+        status_attr: 2,
+        time_attr: 0,
+        is_new: true
       }
-    } as IEditAppointmentBody;
+    } as IEditAppointmentBodyNew;
     this.minDate = new Date();
 
     this.isDisabled = (
@@ -157,13 +160,14 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
           procedure_id: this.selectedAppointment.procedure_id,
           procedure_name: this.selectedAppointment.procedure_name,
           phone_number: this.selectedAppointment.phone_number,
-          doctor: this.selectedAppointment.doctor,
-          status: 2,
-          time: this.selectedAppointment.time,
-          reason: this.selectedAppointment.reason
+          doctor_attr: this.selectedAppointment.doctor,
+          status_attr: 2,
+          time_attr: this.selectedAppointment.time,
+          reason: this.selectedAppointment.reason,
+          is_new: this.selectedAppointment.patient_created_date == '1' ? true : false
         }
-      } as IEditAppointmentBody;
-      this.selectedDoctor = this.selectedAppointment.doctor;
+      } as IEditAppointmentBodyNew;
+      //this.selectedDoctor = this.selectedAppointment.doctor;
       this.patientInfor = this.EDIT_APPOINTMENT_BODY.appointment.patient_id + " - " + this.EDIT_APPOINTMENT_BODY.appointment.patient_name + " - " + this.EDIT_APPOINTMENT_BODY.appointment.phone_number;
     }
     if (changes['dateString'] && this.dateString) {
@@ -189,12 +193,12 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
     }
   }
 
-  selectedDoctor: any = null;
-  selectDoctor(doctor: any) {
-    this.selectedDoctor = doctor;
-    console.log(this.EDIT_APPOINTMENT_BODY.appointment.doctor = doctor.name)
-    this.EDIT_APPOINTMENT_BODY.appointment.doctor = doctor.name;
-  }
+  // selectedDoctor: any = null;
+  // selectDoctor(doctor: any) {
+  //   this.selectedDoctor = doctor;
+  //   console.log(this.EDIT_APPOINTMENT_BODY.appointment.doctor = doctor.name)
+  //   this.EDIT_APPOINTMENT_BODY.appointment.doctor = doctor.name;
+  // }
 
   calculateMaxDate(): NgbDateStruct {
     const currentYear = new Date().getFullYear();
@@ -359,7 +363,7 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
     //console.log(this.oldDate, this.oldTime);
     this.EDIT_APPOINTMENT_BODY.new_epoch = this.dateToTimestamp(selectedDate);
     //console.log(this.dateString, this.timeString);
-    this.EDIT_APPOINTMENT_BODY.appointment.time = this.timeToTimestamp(this.timeString);
+    this.EDIT_APPOINTMENT_BODY.appointment.time_attr = this.timeToTimestamp(this.timeString);
 
     this.listGroupService.forEach(e => {
       if (e.medical_procedure_group_id == this.EDIT_APPOINTMENT_BODY.appointment.procedure_id) {
@@ -447,7 +451,7 @@ export class PopupSualichtaikhamComponent implements OnInit, OnChanges {
         })
       })
     }
-    this.APPOINTMENT_SERVICE.putAppointment(this.EDIT_APPOINTMENT_BODY, this.selectedAppointment.appointment_id).subscribe(response => {
+    this.APPOINTMENT_SERVICE.putAppointmentNew(this.EDIT_APPOINTMENT_BODY, this.selectedAppointment.appointment_id).subscribe(response => {
       console.log("Cập nhật thành công");
       this.isCallApi = false;
       this.showSuccessToast('Sửa Lịch hẹn thành công!');
