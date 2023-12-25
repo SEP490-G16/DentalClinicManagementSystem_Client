@@ -1,51 +1,22 @@
 <div class="sep-recent-orders">
   <div class="link-tab">
-    <ng-container *ngIf="roleId.includes('1') || roleId.includes('3') || roleId.includes('5') || roleId.includes('2') || roleId.includes('4')">
+    <ng-container
+      *ngIf="roleId.includes('1') || roleId.includes('3') || roleId.includes('5') || roleId.includes('2') || roleId.includes('4')">
       <div class="cham-cong">
         <a routerLink="/cham-cong" routerLinkActive="active-link" class="page-title">Chấm công</a>
       </div>
     </ng-container>
-    <div class="dang-ki-lam-viec" *ngIf="roleId.includes('1') || roleId.includes('3') || roleId.includes('5') || roleId.includes('2') || roleId.includes('4')">
+    <div class="dang-ki-lam-viec"
+      *ngIf="roleId.includes('1') || roleId.includes('3') || roleId.includes('5') || roleId.includes('2') || roleId.includes('4')">
       <a routerLink="/dang-ky-lich-lam-viec" routerLinkActive="active-link" class="page-title">Đăng kí lịch làm
         việc</a>
     </div>
-    <div class="theo-doi" *ngIf="roleId.includes('1') || roleId.includes('3') || roleId.includes('5') || roleId.includes('2') || roleId.includes('4')">
+    <div class="theo-doi"
+      *ngIf="roleId.includes('1') || roleId.includes('3') || roleId.includes('5') || roleId.includes('2') || roleId.includes('4')">
       <a routerLink="/theo-doi-cham-cong" routerLinkActive="active-link" class="page-title">Theo dõi
         chấm công</a>
     </div>
   </div>
-
-  <form class="row row-cols-sm-auto">
-    <div class="col-12">
-      <div class="dp-hidden position-absolute">
-        <div class="input-group">
-          <input name="datepicker" class="form-control" ngbDatepicker #datepicker="ngbDatepicker"
-            [autoClose]="'outside'" (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t"
-            outsideDays="hidden" [startDate]="fromDate!" tabindex="-1" />
-          <ng-template #t let-date let-focused="focused">
-            <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)"
-              [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date"
-              (mouseleave)="hoveredDate = null">
-              {{ date.day }}
-            </span>
-          </ng-template>
-        </div>
-      </div>
-      <div class="input-group">
-        <input #dpFromDate class="form-control" placeholder="Ngày bắt đầu" name="dpFromDate"
-          [value]="formatter.format(fromDate)" (input)="fromDate = validateInput(fromDate, dpFromDate.value)" />
-        <button class="btn btn-outline-secondary bi bi-calendar3" (click)="datepicker.toggle()" type="button"></button>
-      </div>
-    </div>
-    <span>--</span>
-    <div class="col-12">
-      <div class="input-group">
-        <input #dpToDate class="form-control" placeholder="Ngày kết thúc" name="dpToDate"
-          [value]="formatter.format(toDate)" (input)="toDate = validateInput(toDate, dpToDate.value)" />
-        <button class="btn btn-outline-secondary bi bi-calendar3" (click)="datepicker.toggle()" type="button"></button>
-      </div>
-    </div>
-  </form>
 
   <div class="timekeeping-container">
     <div class="row">
@@ -106,7 +77,7 @@
                 </button> <br />
                 <input type="time" [ngModel]="staff.weekTimekeeping[dateTimestamp]?.clockIn" [class]="timeClockinColor"
                   [disabled]="!staff.weekTimekeeping[dateTimestamp]?.clockIn || roleId!= '1'"
-                (change)="handleClockInChange(staff, $event, dateTimestamp)">
+                  (change)="handleClockInChange(staff, $event, dateTimestamp)">
               </td>
               <td>
                 <button class="button-timekeeping" (click)="onClockout(staff, dateTimestamp)"
