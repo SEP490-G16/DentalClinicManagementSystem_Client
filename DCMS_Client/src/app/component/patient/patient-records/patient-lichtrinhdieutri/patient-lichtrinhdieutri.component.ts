@@ -227,13 +227,13 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
       item.procedure.forEach((pro: any) => {
         if (pro.procedureId == it.procedureId) {
           pro.checked = !it.checked;
-
-          this.Post_Procedure_Material_Usage.forEach((item: any) => {
-            if (item.medical_procedure_id == it.procedureId) {
-              item.price = it.price;
-              item.quantity = 1;
+          pro.quantity = 1;
+          if (pro.checked == false) {
+            const index = this.Post_Procedure_Material_Usage.findIndex(item => item.medical_procedure_id == it.procedureId);
+            if (index != -1) {
+              this.Post_Procedure_Material_Usage.splice(index, 1);
             }
-          })
+          }  
         }
         if (pro.checked == true && !this.checkListImport.includes(it.procedureId)) {
           this.checkListImport.push(it.procedureId);
@@ -290,8 +290,8 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
 
   postTreatmentCourse() {
     this.resetValidateTreatmentCourse();
-    this.isCallApi = true;
-
+    console.log("Procedure Post: ", this.Post_Procedure_Material_Usage);
+    return;
     this.Post_TreatmentCourse.patient_id = this.id;
     this.Post_TreatmentCourse.name = this.TreatmentCouseBody.name;
     this.Post_TreatmentCourse.chief_complaint = this.TreatmentCouseBody.lydo;
@@ -348,7 +348,6 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
 
           this.Post_Procedure_Material_Usage.forEach((item) => {
             item.treatment_course_id = res.treatment_course_id;
-            // item.price = item.price * item.quantity
             this.procedureMaterialService.postProcedureMaterialUsage(item)
               .subscribe((res) => {
                 this.toastr.success("Thêm Thủ thuật thành công");
