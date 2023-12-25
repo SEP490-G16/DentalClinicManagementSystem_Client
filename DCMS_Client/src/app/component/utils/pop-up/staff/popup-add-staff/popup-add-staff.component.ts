@@ -208,11 +208,9 @@ export class PopupAddStaffComponent implements OnInit {
 
       reader.onload = (e: any) => {
         const base64Data = e.target.result;
-        alert("đã vô nha")
         this.resizeImage(base64Data, 150, 200)
           .then(resizedBase64 => {
             this.imageURL = resizedBase64;
-            alert(this.imageURL);
           })
           .catch(error => {
             console.error('Error resizing image:', error);
