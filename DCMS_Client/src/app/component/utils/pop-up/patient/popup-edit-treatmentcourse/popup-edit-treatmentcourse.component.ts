@@ -297,11 +297,6 @@ export class PopupEditTreatmentcourseComponent implements OnInit {
         if (pro.procedureId == it.procedureId) {
           pro.checked = !it.checked;
           pro.quantity = 1;
-          // this.Post_Procedure_Material_Usage.forEach((item: any) => {
-          //   if (item.medical_procedure_id == it.procedureId) {
-          //     item.price = it.price;
-          //   }
-          // })
           if (pro.checked == false) {
             const index = this.Post_Procedure_Material_Usage_New.findIndex(item => item.medical_procedure_id == it.procedureId);
             if (index != -1) {

@@ -290,8 +290,6 @@ export class PatientLichtrinhdieutriComponent implements OnInit {
 
   postTreatmentCourse() {
     this.resetValidateTreatmentCourse();
-    console.log("Procedure Post: ", this.Post_Procedure_Material_Usage);
-    return;
     this.Post_TreatmentCourse.patient_id = this.id;
     this.Post_TreatmentCourse.name = this.TreatmentCouseBody.name;
     this.Post_TreatmentCourse.chief_complaint = this.TreatmentCouseBody.lydo;
