@@ -277,12 +277,13 @@ export class PopupAddAppointmentComponent implements OnInit {
       this.listGroupService = JSON.parse(store);
     }
 
+    console.log("check list group: ", this.listGroupService);
+
     let procedureNameSelected;
 
     if (this.procedure != "1") {
       this.APPOINTMENT_SERVICE.getAppointmentListNew(1, this.dateToTimestamp(selectedDate)).subscribe((data) => {
         var listResult = ConvertJson.processApiResponse(data);
-        console.log("check data:", data)
         listResult.forEach((item: any) => {
           this.newAppointment.date = this.dateToTimestamp(selectedDate);
           if (!this.unqueList.includes(item.procedure_attr.M.id.S)) {
@@ -353,13 +354,12 @@ export class PopupAddAppointmentComponent implements OnInit {
 
       this.datesDisabled.forEach((date: any) => {
         this.listGroupService.forEach((it: any) => {
-          if (this.timestampToDate(date.date) == selectedDate && this.procedure == date.procedure && it.medical_procedure_group_id == this.procedure && it.name == 'Điều trị tủy răng') {
+          if (this.timestampToDate(date.date) == selectedDate && this.procedure == date.procedure && it.medical_procedure_group_id == this.procedure) {
             if (date.count >= 4) {
-              alert("vô nha")
               procedureNameSelected = "Điều trị tủy răng";
               this.isCheckProcedure = false;
             }
-          } else if (this.timestampToDate(date.date) == selectedDate && this.procedure == date.procedure && it.medical_procedure_group_id == this.procedure && it.name == 'Chỉnh răng') {
+          } else if (this.timestampToDate(date.date) == selectedDate && this.procedure == date.procedure && it.medical_procedure_group_id == this.procedure && it.name == 'Nắn chỉnh răng') {
             if (date.count >= 8) {
               procedureNameSelected = "Chỉnh răng";
               this.isCheckProcedure = false;
@@ -405,12 +405,13 @@ export class PopupAddAppointmentComponent implements OnInit {
     this.filteredAppointments.forEach((appo: any) => {
       appo.appointments.forEach((deta: any) => {
         deta.details.forEach((res: any) => {
-          if (res.patient_id === this.AppointmentBody.appointment.patient_id) {
-            this.validateAppointment.patientName = `Bệnh nhân đã đặt lịch hẹn trong ngày ${selectedDate} !`;
-            this.isCallApi = false;
-
-            checkPatient = false;
-            return;
+          if (res.migrated == false) {
+            if (res.patient_id === this.AppointmentBody.appointment.patient_id) {
+              this.validateAppointment.patientName = `Bệnh nhân đã đặt lịch hẹn trong ngày ${selectedDate} !`;
+              this.isCallApi = false;
+              checkPatient = false;
+              return;
+            }
           }
         })
       })
@@ -432,7 +433,6 @@ export class PopupAddAppointmentComponent implements OnInit {
         this.validateAppointment.appointmentTime = "Vui lòng chọn giờ khám lớn hơn!";
         this.isSubmitted = true;
         this.isCallApi = false;
-
         this.loading = false;
         return;
       }

@@ -341,7 +341,6 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
     if (this.EDIT_APPOINTMENT_BODY.appointment.procedure_id != "1") {
       this.APPOINTMENT_SERVICE.getAppointmentListNew(1, this.dateToTimestamp(selectedDate)).subscribe((data) => {
         var listResult = ConvertJson.processApiResponse(data);
-        console.log("check data:", data)
         listResult.forEach((item: any) => {
           this.newAppointment.date = this.dateToTimestamp(selectedDate);
           if (!this.unqueList.includes(item.procedure_attr.M.id.S)) {
@@ -412,15 +411,14 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
 
       this.datesDisabled.forEach((date: any) => {
         this.listGroupService.forEach((it: any) => {
-          if (this.timestampToDate(date.date) == selectedDate && this.EDIT_APPOINTMENT_BODY.appointment.procedure_id == date.procedure && it.medical_procedure_group_id == this.EDIT_APPOINTMENT_BODY.appointment.procedure_id && it.name == 'Điều trị tủy răng') {
-            if (date.count >= 4) {
-              alert("vô nha")
-              procedureNameSelected = "Điều trị tủy răng";
+          if (this.timestampToDate(date.date) == selectedDate && this.EDIT_APPOINTMENT_BODY.appointment.procedure_id == date.procedure && it.medical_procedure_group_id == this.EDIT_APPOINTMENT_BODY.appointment.procedure_id && it.name == 'Điều trị tủy') {
+            if (date.count >= 2) {
+              procedureNameSelected = "Điều trị tủy";
               this.isCheckProcedure = false;
             }
-          } else if (this.timestampToDate(date.date) == selectedDate && this.EDIT_APPOINTMENT_BODY.appointment.procedure_id == date.procedure && it.medical_procedure_group_id == this.EDIT_APPOINTMENT_BODY.appointment.procedure_id && it.name == 'Chỉnh răng') {
+          } else if (this.timestampToDate(date.date) == selectedDate && this.EDIT_APPOINTMENT_BODY.appointment.procedure_id == date.procedure && it.medical_procedure_group_id == this.EDIT_APPOINTMENT_BODY.appointment.procedure_id && it.name == 'Nắn chỉnh răng') {
             if (date.count >= 8) {
-              procedureNameSelected = "Chỉnh răng";
+              procedureNameSelected = "Nắn chỉnh răng";
               this.isCheckProcedure = false;
             }
           } else if (this.timestampToDate(date.date) == selectedDate && this.EDIT_APPOINTMENT_BODY.appointment.procedure_id == date.procedure && it.medical_procedure_group_id == this.EDIT_APPOINTMENT_BODY.appointment.procedure_id && it.name == 'Nhổ răng khôn') {
@@ -489,12 +487,13 @@ export class PopupEditAppointmentComponent implements OnInit, OnChanges {
       this.filteredAppointments.forEach((appo: any) => {
         appo.appointments.forEach((deta: any) => {
           deta.details.forEach((res: any) => {
-            if (res.patient_id == this.EDIT_APPOINTMENT_BODY.appointment.patient_id) {
-              this.validateAppointment.patientName = `Bệnh nhân đã lịch hẹn trong ngày ${selectedDate} !`;
-              this.isCallApi = false;
-
-              checkPatient = false;
-              return;
+            if (res.migrated == false) {
+              if (res.patient_id == this.EDIT_APPOINTMENT_BODY.appointment.patient_id) {
+                this.validateAppointment.patientName = `Bệnh nhân đã lịch hẹn trong ngày ${selectedDate} !`;
+                this.isCallApi = false;
+                checkPatient = false;
+                return;
+              }
             }
           })
         })

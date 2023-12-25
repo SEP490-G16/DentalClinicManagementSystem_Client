@@ -98,7 +98,10 @@
                   <b style="color: green;">Đã đến</b>
                 </td>
                 <td *ngIf="detail.status == 4">
-                  <b>Chưa xác nhận</b>
+                  <button class="btn btn-redirect"
+                    (click)="postExchangeAppointmentToWaitingRoom(a.date, detail ,$event)">
+                    Chưa xác nhận
+                  </button>
                 </td>
               </ng-container>
             </tr>

@@ -155,7 +155,6 @@ export class ReceptionistAppointmentListComponent implements OnInit {
     };
     this.appointmentService.getAppointmentListNew(1, this.dateToTimestamp(selectedDate)).subscribe((data) => {
       var listResult = ConvertJson.processApiResponse(data);
-      console.log("check data:", data)
       listResult.forEach((item: any) => {
         this.newAppointment.date = this.dateToTimestamp(selectedDate);
         if (!this.unqueList.includes(item.procedure_attr.M.id.S)) {
@@ -210,7 +209,6 @@ export class ReceptionistAppointmentListComponent implements OnInit {
       })
       this.filteredAppointments.push(this.newAppointment);
       this.listNewAppointment = this.filteredAppointments;
-      console.log(this.filteredAppointments);
     })
   }
 
@@ -279,13 +277,11 @@ export class ReceptionistAppointmentListComponent implements OnInit {
   openAddAppointmentModal() {
     this.selectedDateCache = FormatNgbDate.formatNgbDateToString(this.model);
     this.filteredAppointments = this.filteredAppointments;
-    console.log("Filtered Appointment truyen len: ", this.filteredAppointments);
     this.datesDisabled = this.datesDisabled;
   }
 
   onNewAppointmentAdded(newAppointment: any) {
     this.selectedDateCache = FormatNgbDate.formatNgbDateToString(this.model);
-    console.log("New APpointment list: ", newAppointment);
     this.filteredAppointments = newAppointment;
   }
 
@@ -337,13 +333,8 @@ export class ReceptionistAppointmentListComponent implements OnInit {
               })).filter((app: any) => app.appointments.length > 0);
             }, 500); // The timeout should match the animation duration
           }
-          console.log("Đã xóa: ", this.filteredAppointments);
-          console.log("xóa lịch hẹn: ", this.startDate == this.timestampToDate(this.DELETE_APPOINTMENT_BODY.epoch))
           const currentDateGMT7 = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD');
           this.currentDate = currentDateGMT7;
-          console.log(this.currentDate)
-          console.log(this.timestampToDate(appointment.appointment_id.split('::')[0]))
-          console.log(this.currentDate == this.timestampToDate(appointment.appointment_id.split('::')[0]))
           if (this.currentDate == this.timestampToDate(appointment.appointment_id.split('::')[0])) {
             this.sendMessageSocket.sendMessageSocket('UpdateAnalysesTotal@@@', 'minus', 'app');
           }
@@ -421,7 +412,6 @@ export class ReceptionistAppointmentListComponent implements OnInit {
         var ListResPonse = data;
         ListResPonse.forEach((item:any) => {
           var skey = item.SK.S;
-          console.log(item.patient_attr.M.is_new.BOOL)
           let a = {
             type: 'w',
             epoch: item.time_attr.N, 

@@ -363,7 +363,6 @@ export class PopupAddAppointmentNewComponent implements OnInit {
     if (this.procedure != "1") {
       this.APPOINTMENT_SERVICE.getAppointmentListNew(1, this.dateToTimestamp(selectedDate)).subscribe((data) => {
         var listResult = ConvertJson.processApiResponse(data);
-        console.log("check data:", data)
         listResult.forEach((item: any) => {
           this.newAppointment.date = this.dateToTimestamp(selectedDate);
           if (!this.unqueList.includes(item.procedure_attr.M.id.S)) {
@@ -434,13 +433,12 @@ export class PopupAddAppointmentNewComponent implements OnInit {
 
       this.datesDisabled.forEach((date: any) => {
         this.listGroupService.forEach((it: any) => {
-          if (this.timestampToDate(date.date) == selectedDate && this.procedure == date.procedure && it.medical_procedure_group_id == this.procedure && it.name == 'Điều trị tủy răng') {
+          if (this.timestampToDate(date.date) == selectedDate && this.procedure == date.procedure && it.medical_procedure_group_id == this.procedure && it.name == 'Điều trị tủy') {
             if (date.count >= 4) {
-              alert("vô nha")
-              procedureNameSelected = "Điều trị tủy răng";
+              procedureNameSelected = "Điều trị tủy";
               this.isCheckProcedure = false;
             }
-          } else if (this.timestampToDate(date.date) == selectedDate && this.procedure == date.procedure && it.medical_procedure_group_id == this.procedure && it.name == 'Chỉnh răng') {
+          } else if (this.timestampToDate(date.date) == selectedDate && this.procedure == date.procedure && it.medical_procedure_group_id == this.procedure && it.name == 'Nắn chỉnh răng') {
             if (date.count >= 8) {
               procedureNameSelected = "Chỉnh răng";
               this.isCheckProcedure = false;
